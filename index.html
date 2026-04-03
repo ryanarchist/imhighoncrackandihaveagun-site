@@ -14,9 +14,12 @@
       --shadow: 0 24px 70px rgba(0,0,0,0.45);
       --glow: rgba(120,255,230,0.18);
       --glow-strong: rgba(120,255,230,0.34);
+      --paper: #eadcc3;
+      --paper-ink: #2c2118;
     }
 
     * { box-sizing: border-box; }
+
     html, body {
       margin: 0;
       height: 100%;
@@ -34,6 +37,7 @@
     }
 
     a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
 
     .app {
       position: relative;
@@ -91,6 +95,7 @@
       letter-spacing: .12em;
       backdrop-filter: blur(10px);
       transition: opacity .3s ease;
+      text-align: center;
     }
 
     .reset {
@@ -111,7 +116,7 @@
     .pickup-scene {
       background:
         linear-gradient(180deg, rgba(0,0,0,.08), rgba(0,0,0,.32)),
-        url('ticket-collage.png') center center / cover no-repeat;
+        url('ticket-collage.png') center center / 680px auto repeat;
     }
 
     .pickup-overlay {
@@ -140,6 +145,7 @@
       border-radius: 24px;
       padding: 14px 18px;
       backdrop-filter: blur(8px);
+      max-width: min(92vw, 900px);
     }
 
     .pickup-copy .mini {
@@ -370,6 +376,7 @@
       padding: 12px 16px;
       text-align: center;
       backdrop-filter: blur(8px);
+      max-width: min(92vw, 900px);
     }
 
     .atm-ui-copy .mini {
@@ -596,9 +603,8 @@
 
     .cloud-core {
       position: relative;
-      width: min(900px, 94vw);
+      width: min(1200px, 96vw);
       height: min(900px, 94vh);
-      border-radius: 50%;
       display: grid;
       place-items: center;
     }
@@ -628,10 +634,11 @@
 
     .cloud-title {
       position: absolute;
-      top: 10%;
+      top: 7%;
       width: 100%;
       text-align: center;
       z-index: 5;
+      padding: 0 20px;
     }
 
     .cloud-title h2 {
@@ -641,29 +648,58 @@
       letter-spacing: .08em;
     }
 
-    .cloud-title p { margin: 10px 0 0; color: var(--muted); }
+    .cloud-title p {
+      margin: 10px 0 0;
+      color: var(--muted);
+    }
 
-    .thread {
+    .update-pill {
+      margin-top: 14px;
+      display: inline-block;
+      padding: 10px 14px;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 999px;
+      background: rgba(0,0,0,.28);
+      color: #c7b59f;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .14em;
+      max-width: min(92vw, 1000px);
+    }
+
+    .cover-thread {
       position: absolute;
-      width: 160px;
-      min-height: 56px;
-      padding: 12px 14px;
+      width: 180px;
+      padding: 10px;
       border-radius: 18px;
-      border: 1px solid rgba(255,255,255,.09);
-      background: rgba(10,10,10,.46);
+      border: 1px solid rgba(255,255,255,.1);
+      background: rgba(10,10,10,.42);
       backdrop-filter: blur(8px);
       box-shadow: 0 16px 35px rgba(0,0,0,.28);
       transition: transform .25s ease, background .25s ease, border-color .25s ease;
       z-index: 6;
+      cursor: pointer;
+      color: var(--text);
     }
 
-    .thread:hover {
+    .cover-thread:hover {
       transform: translateY(-4px) scale(1.03);
       background: rgba(22,22,22,.72);
       border-color: rgba(255,255,255,.18);
     }
 
-    .thread span {
+    .cover-thread img {
+      width: 100%;
+      aspect-ratio: .72 / 1;
+      object-fit: cover;
+      display: block;
+      border-radius: 12px;
+      margin-bottom: 10px;
+      box-shadow: 0 10px 28px rgba(0,0,0,.35);
+      background: #111;
+    }
+
+    .cover-thread span {
       display: block;
       color: var(--muted);
       font-size: 11px;
@@ -672,16 +708,182 @@
       margin-bottom: 6px;
     }
 
-    .thread b { font-size: 18px; }
+    .cover-thread b {
+      font-size: 16px;
+      line-height: 1.05;
+      display: block;
+    }
 
-    .t1 { top: 19%; left: 14%; }
-    .t2 { top: 20%; right: 13%; }
-    .t3 { top: 42%; left: 6%; }
-    .t4 { top: 44%; right: 5%; }
-    .t5 { bottom: 21%; left: 16%; }
-    .t6 { bottom: 19%; right: 16%; }
-    .t7 { bottom: 7%; left: 36%; }
-    .t8 { bottom: 7%; right: 36%; }
+    .t1 { top: 24%; left: 8%; }
+    .t2 { top: 20%; left: 31%; }
+    .t3 { top: 20%; right: 31%; }
+    .t4 { top: 24%; right: 8%; }
+
+    .book-viewer {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .35s ease;
+      z-index: 95;
+    }
+
+    .book-viewer.show { opacity: 1; pointer-events: auto; }
+
+    .book-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,.72);
+      backdrop-filter: blur(10px);
+    }
+
+    .book-shell {
+      position: absolute;
+      inset: 4vh 4vw;
+      border-radius: 28px;
+      background: linear-gradient(180deg, #18130f, #0f0c09 60%, #090807);
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow: 0 25px 80px rgba(0,0,0,.55);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .book-close, .open-book-btn, .book-controls button {
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      color: #fff;
+      border-radius: 999px;
+      padding: 10px 14px;
+      cursor: pointer;
+    }
+
+    .book-controls button:disabled {
+      opacity: .4;
+      cursor: default;
+    }
+
+    .book-close { align-self: flex-end; }
+
+    .book-stage {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      place-items: center;
+      position: relative;
+    }
+
+    .book-cover-panel, .book-pages {
+      width: min(1100px, 100%);
+      height: min(74vh, 100%);
+      transition: opacity .45s ease, transform .55s ease;
+    }
+
+    .book-cover-panel {
+      display: grid;
+      place-items: center;
+      gap: 16px;
+    }
+
+    .book-cover-panel img {
+      height: min(66vh, 100%);
+      width: auto;
+      max-width: 100%;
+      object-fit: contain;
+      border-radius: 18px;
+      box-shadow: 0 24px 60px rgba(0,0,0,.45);
+      background: #111;
+    }
+
+    .book-pages {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(.98);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .book-viewer.reading .book-cover-panel {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(.96);
+    }
+
+    .book-viewer.reading .book-pages {
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(1);
+    }
+
+    .page {
+      min-width: 0;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.06) 12%, rgba(255,255,255,.02)),
+        var(--paper);
+      color: var(--paper-ink);
+      border-radius: 16px;
+      box-shadow: inset 0 0 0 1px rgba(90,60,32,.12), 0 20px 40px rgba(0,0,0,.25);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(180deg, rgba(90,60,32,.03), rgba(90,60,32,.03) 1px, transparent 1px, transparent 30px);
+      opacity: .5;
+      pointer-events: none;
+    }
+
+    .page-inner {
+      position: relative;
+      padding: 28px 26px;
+      height: 100%;
+      overflow: auto;
+    }
+
+    .page-kicker {
+      font-size: 11px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: #7b5a39;
+      margin-bottom: 10px;
+    }
+
+    .page h3 {
+      margin: 0 0 16px;
+      font-size: 28px;
+      line-height: 1.02;
+      text-transform: uppercase;
+    }
+
+    .page-text {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 18px;
+      line-height: 1.62;
+      white-space: pre-wrap;
+    }
+
+    .book-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+    }
+
+    .book-status {
+      min-width: 120px;
+      text-align: center;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      font-size: 12px;
+    }
 
     @media (max-width: 820px) {
       .ground-ticket { width: 92vw; bottom: 10vh; }
@@ -690,15 +892,27 @@
       .dvd { width: min(300px, 52vw); }
       .case-inside { grid-template-columns: 1fr; }
       .case-copy { display: none; }
-      .thread { width: 138px; }
-      .t1 { top: 18%; left: 4%; }
-      .t2 { top: 18%; right: 4%; }
-      .t3 { top: 36%; left: 0%; }
-      .t4 { top: 36%; right: 0%; }
-      .t5 { bottom: 23%; left: 5%; }
-      .t6 { bottom: 23%; right: 5%; }
-      .t7 { bottom: 8%; left: 21%; }
-      .t8 { bottom: 8%; right: 21%; }
+
+      .cover-thread {
+        width: 142px;
+        padding: 8px;
+      }
+
+      .t1 { top: 22%; left: 2%; }
+      .t2 { top: 18%; left: 26%; }
+      .t3 { top: 18%; right: 26%; }
+      .t4 { top: 22%; right: 2%; }
+
+      .book-shell {
+        inset: 2vh 2vw;
+        padding: 14px;
+      }
+
+      .book-pages { grid-template-columns: 1fr; }
+      .page-left { display: none; }
+      .page h3 { font-size: 22px; }
+      .page-text { font-size: 17px; }
+      .update-pill { font-size: 11px; }
     }
   </style>
 </head>
@@ -706,6 +920,7 @@
   <div class="app">
     <div class="grain"></div>
     <div class="vignette"></div>
+
     <button class="reset" id="resetBtn">Restart</button>
 
     <section class="scene pickup-scene show" id="pickupScene">
@@ -770,19 +985,77 @@
       <div class="cloud-core">
         <div class="cloud-title">
           <h2>Choose a thread</h2>
-          <p>Each strand can open a different part of the project.</p>
+          <p>Click a cover to open it like a physical book.</p>
+          <div class="update-pill">
+            Site updating very, very soon — but you already know we run on drug dealer time around here.
+          </div>
         </div>
+
         <div class="smoke-layer"></div>
         <div class="smoke-layer two"></div>
         <div class="smoke-layer three"></div>
-        <a class="thread t1" href="#"><span>Thread 01</span><b>Trailer</b></a>
-        <a class="thread t2" href="#"><span>Thread 02</span><b>Book</b></a>
-        <a class="thread t3" href="#"><span>Thread 03</span><b>Documentary</b></a>
-        <a class="thread t4" href="#"><span>Thread 04</span><b>Archive</b></a>
-        <a class="thread t5" href="#"><span>Thread 05</span><b>Interviews</b></a>
-        <a class="thread t6" href="#"><span>Thread 06</span><b>Timeline</b></a>
-        <a class="thread t7" href="#"><span>Thread 07</span><b>About Ryan</b></a>
-        <a class="thread t8" href="#"><span>Thread 08</span><b>Contact</b></a>
+
+        <button class="cover-thread thread-book t1" data-book="trailer">
+          <img src="dvdcase.png" alt="Project trailer" />
+          <span>Project</span>
+          <b>Trailer</b>
+        </button>
+
+        <button class="cover-thread thread-book t2" data-book="july">
+          <img src="cover-july.png" alt="To Die in July" />
+          <span>Started 2021</span>
+          <b>To Die in July</b>
+        </button>
+
+        <button class="cover-thread thread-book t3" data-book="dopesick">
+          <img src="cover-dopesick.png" alt="Dopesick bonus chapter" />
+          <span>Bonus Chapter</span>
+          <b>Dopesick</b>
+        </button>
+
+        <button class="cover-thread thread-book t4" data-book="gods">
+          <img src="cover-gods.png" alt="The Last Hour of the Gods" />
+          <span>Draft</span>
+          <b>The Last Hour of the Gods</b>
+        </button>
+      </div>
+    </section>
+
+    <section class="book-viewer" id="bookViewer" aria-hidden="true">
+      <div class="book-backdrop" id="bookBackdrop"></div>
+      <div class="book-shell" id="bookShell">
+        <button class="book-close" id="bookClose">Close</button>
+
+        <div class="book-stage">
+          <div class="book-cover-panel" id="bookCoverPanel">
+            <img id="viewerCover" src="cover-july.png" alt="Book cover" />
+            <button class="open-book-btn" id="openBookBtn">Open book</button>
+          </div>
+
+          <div class="book-pages" id="bookPages">
+            <div class="page page-left">
+              <div class="page-inner">
+                <div class="page-kicker" id="pageKickerLeft">Thread</div>
+                <h3 id="pageTitleLeft">Title</h3>
+                <div class="page-text" id="pageTextLeft"></div>
+              </div>
+            </div>
+
+            <div class="page page-right">
+              <div class="page-inner">
+                <div class="page-kicker" id="pageKickerRight">Page</div>
+                <h3 id="pageTitleRight">Section</h3>
+                <div class="page-text" id="pageTextRight"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="book-controls">
+          <button id="prevPageBtn">Previous</button>
+          <div class="book-status" id="bookStatus">Page 1</div>
+          <button id="nextPageBtn">Next</button>
+        </div>
       </div>
     </section>
 
@@ -797,9 +1070,139 @@
     const dvdCase = document.getElementById('dvdCase');
     const resetBtn = document.getElementById('resetBtn');
     const hint = document.getElementById('hint');
-    const atmMachine = document.getElementById('atmMachine');
+
+    const bookViewer = document.getElementById('bookViewer');
+    const bookBackdrop = document.getElementById('bookBackdrop');
+    const bookClose = document.getElementById('bookClose');
+    const openBookBtn = document.getElementById('openBookBtn');
+    const prevPageBtn = document.getElementById('prevPageBtn');
+    const nextPageBtn = document.getElementById('nextPageBtn');
+    const viewerCover = document.getElementById('viewerCover');
+    const pageKickerLeft = document.getElementById('pageKickerLeft');
+    const pageTitleLeft = document.getElementById('pageTitleLeft');
+    const pageTextLeft = document.getElementById('pageTextLeft');
+    const pageKickerRight = document.getElementById('pageKickerRight');
+    const pageTitleRight = document.getElementById('pageTitleRight');
+    const pageTextRight = document.getElementById('pageTextRight');
+    const bookStatus = document.getElementById('bookStatus');
+
+    const books = {
+      trailer: {
+        type: 'link',
+        title: 'IM HIGH ON CRACK AND I HAVE A GUN',
+        kicker: 'Project trailer',
+        cover: 'dvdcase.png',
+        url: 'https://www.youtube.com/watch?v=sV8Xi7_nTPQ',
+        pages: [
+          `This thread opens the actual trailer.
+
+Click “Open book” and it will launch the YouTube trailer in a new tab.
+
+Later you can turn this into a full internal trailer section with stills, release notes, credits, and production notes.`,
+          `This project thread can also become the main hub for:
+- trailer drops
+- release updates
+- project notes
+- press links
+- timeline updates`
+        ]
+      },
+
+      july: {
+        type: 'text',
+        title: 'To Die in July',
+        kicker: 'Started 2021',
+        cover: 'cover-july.png',
+        pages: [
+          `Chapter 1
+
+He thought he would feel a lot different than he actually did. “This world should seem different after you make peace with leaving it.” James thought to himself as he reached for his crumbled pack of cigarettes.
+
+James Mason was in his late thirties. He was homeless for what seemed like an eternity when in actuality it has been about 6 years.`,
+          `A tall man with a slim lanky build, James is a two-tour Iraq War veteran whose life has collapsed into routine, drift, and despair.
+
+He had made the choice to end his life the night before, mixing Percocet, Xanax, and vodka — only to wake up still alive, confused by his own actions and unsure whether some part of him is still holding on.`,
+          `The draft follows him through the deadened rhythm of another day: loose cigarettes, cheap beer, the corner store, and the crushing after-feeling that comes from trying to numb pain and waking up with it still there.
+
+The whole thing already has the bones of a hard, stripped-down opening chapter.`,
+          `Key thread energy:
+
+- failed suicide attempt
+- veteran drift and homelessness
+- routines of despair
+- what it means to keep waking up when part of you wanted not to
+
+This is one of the strongest openings because the voice already feels lived in.`
+        ]
+      },
+
+      dopesick: {
+        type: 'link+text',
+        title: 'Dopesick Bonus Chapter',
+        kicker: '2018 extra chapter',
+        cover: 'cover-dopesick.png',
+        url: 'https://www.amazon.com/Dopesick-American-Addiction-Heroin-Profit/dp/1984338323/ref=sr_1_1?sr=8-1',
+        pages: [
+          `A Tale of Two Cities
+
+This is the bonus chapter that did not make it into Dopesick.
+
+It opens by comparing two places that look radically different on the surface — Belle Vernon, Pennsylvania and Warren, Ohio — and argues that when it comes to the opioid crisis, their structural similarities are impossible to ignore.`,
+          `The chapter works because it moves between memoir, observation, sociology, and drug-economy analysis.
+
+One side is a quieter middle-class town with parks, schools, and a surface-level sense of stability.
+The other is a harder-hit lower-income city shaped by deindustrialization, open-air drug trade, and visible collapse.`,
+          `But the point is that both are under siege.
+
+The chapter keeps returning to the same idea:
+you are not safe because you have more money,
+you are not immune because you are educated,
+and the opioid crisis touches people whether they choose to look at it or not.`,
+          `Click “Open book” here and it will also open the Amazon page for Dopesick in a new tab.
+
+Later this thread can become a full archive section with:
+- the full bonus chapter
+- publication history
+- press
+- reader reactions
+- first-book timeline`
+        ]
+      },
+
+      gods: {
+        type: 'text',
+        title: 'The Last Hour of the Gods',
+        kicker: 'Apocalyptic draft',
+        cover: 'cover-gods.png',
+        pages: [
+          `This draft opens with Chris waking in the aftermath of a virus-ravaged world.
+
+He is sick, reduced, and physically diminished, while the social order around him has entered collapse and transformation.
+
+The tone is intimate but tied to huge systemic change.`,
+          `What makes this one hit is the overlap between private ruin and world-historical rupture.
+
+The draft keeps returning to a core question:
+what happens when “normal” breaks apart and people are forced to confront what normal had really been hiding all along?`,
+          `The piece then expands into political, economic, and revolutionary territory:
+collapse of institutions,
+mass social upheaval,
+new systems of aid and defense,
+and the tension between hope and catastrophe.`,
+          `This thread already feels like:
+- plague novel
+- revolutionary transition fiction
+- post-collapse social theory in story form
+- intimate human drama inside systemic rupture
+
+It has serious scale.`
+        ]
+      }
+    };
 
     let state = 0;
+    let currentBook = null;
+    let pageIndex = 0;
 
     function resetAll() {
       state = 0;
@@ -808,6 +1211,7 @@
       atmScene.classList.remove('show', 'animate-insert', 'finish-insert', 'reveal-dvd', 'machine-hit');
       cloudScene.classList.remove('show');
       dvdCase.classList.remove('open');
+      closeBook();
       hint.textContent = 'Click the ticket to begin';
       hint.style.opacity = '1';
     }
@@ -839,6 +1243,7 @@
       state = 2;
       dvdCase.classList.add('open');
       hint.textContent = 'The smoke is splitting into threads';
+
       setTimeout(() => {
         atmScene.classList.remove('show');
         cloudScene.classList.add('show');
@@ -846,9 +1251,84 @@
       }, 1300);
     }
 
+    function openThread(key) {
+      currentBook = books[key];
+      pageIndex = 0;
+      viewerCover.src = currentBook.cover;
+      viewerCover.alt = currentBook.title;
+      bookViewer.classList.add('show');
+      bookViewer.classList.remove('reading');
+      renderPages();
+    }
+
+    function renderPages() {
+      if (!currentBook) return;
+
+      const pages = currentBook.pages || [];
+      const left = pages[pageIndex] || '';
+      const right = pages[pageIndex + 1] || '';
+
+      pageKickerLeft.textContent = currentBook.kicker;
+      pageTitleLeft.textContent = currentBook.title;
+      pageTextLeft.textContent = left;
+
+      pageKickerRight.textContent = `Page ${pageIndex + 2}`;
+      pageTitleRight.textContent = right ? currentBook.title : 'End';
+      pageTextRight.textContent = right || 'No more pages yet.';
+
+      bookStatus.textContent = `Page ${pageIndex + 1}`;
+      prevPageBtn.disabled = pageIndex === 0;
+      nextPageBtn.disabled = pageIndex + 2 >= pages.length;
+
+      openBookBtn.textContent = currentBook.type.includes('link') ? 'Open book / link' : 'Open book';
+    }
+
+    function startReading() {
+      if (!currentBook) return;
+
+      if (currentBook.type.includes('link') && currentBook.url) {
+        window.open(currentBook.url, '_blank', 'noopener,noreferrer');
+      }
+
+      bookViewer.classList.add('reading');
+      renderPages();
+    }
+
+    function closeBook() {
+      bookViewer.classList.remove('show', 'reading');
+      currentBook = null;
+      pageIndex = 0;
+    }
+
+    function nextPages() {
+      if (!currentBook) return;
+      if (pageIndex + 2 < currentBook.pages.length) {
+        pageIndex += 2;
+        renderPages();
+      }
+    }
+
+    function prevPages() {
+      if (!currentBook) return;
+      if (pageIndex - 2 >= 0) {
+        pageIndex -= 2;
+        renderPages();
+      }
+    }
+
     groundTicket.addEventListener('click', beginSequence);
     dvdCase.addEventListener('click', openCase);
     resetBtn.addEventListener('click', resetAll);
+
+    openBookBtn.addEventListener('click', startReading);
+    bookClose.addEventListener('click', closeBook);
+    bookBackdrop.addEventListener('click', closeBook);
+    nextPageBtn.addEventListener('click', nextPages);
+    prevPageBtn.addEventListener('click', prevPages);
+
+    document.querySelectorAll('.thread-book').forEach(btn => {
+      btn.addEventListener('click', () => openThread(btn.dataset.book));
+    });
 
     resetAll();
   </script>
