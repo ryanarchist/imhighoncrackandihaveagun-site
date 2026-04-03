@@ -8,47 +8,49 @@
   <style>
     :root {
       --bg: #060606;
-      --panel: #111;
-      --gold: #c18a3b;
-      --gold-dim: #7d5521;
-      --red: #a61a1a;
       --text: #f2eadf;
-      --muted: #b9aa96;
-      --line: rgba(255,255,255,0.08);
-      --shadow: 0 20px 60px rgba(0,0,0,0.45);
+      --muted: #c7b59f;
+      --line: rgba(255,255,255,0.09);
+      --shadow: 0 24px 70px rgba(0,0,0,0.45);
+      --glow: rgba(120,255,230,0.18);
+      --glow-strong: rgba(120,255,230,0.34);
     }
 
     * { box-sizing: border-box; }
     html, body {
       margin: 0;
       height: 100%;
-      background: radial-gradient(circle at top, #131313 0%, var(--bg) 55%, #020202 100%);
+      background: #000;
       color: var(--text);
       font-family: Arial, Helvetica, sans-serif;
       overflow: hidden;
     }
 
-    a { color: inherit; }
+    body {
+      background:
+        radial-gradient(circle at 20% 15%, rgba(255,160,80,.08), transparent 20%),
+        radial-gradient(circle at 80% 70%, rgba(255,120,80,.06), transparent 20%),
+        #050505;
+    }
+
+    a { color: inherit; text-decoration: none; }
 
     .app {
       position: relative;
       width: 100vw;
       height: 100vh;
       overflow: hidden;
-      background:
-        radial-gradient(circle at 20% 20%, rgba(255,140,0,0.08), transparent 18%),
-        radial-gradient(circle at 80% 70%, rgba(166,26,26,0.08), transparent 20%),
-        linear-gradient(180deg, rgba(255,255,255,0.02), transparent 30%);
     }
 
     .grain, .vignette {
-      pointer-events: none;
       position: absolute;
       inset: 0;
+      pointer-events: none;
+      z-index: 50;
     }
 
     .grain {
-      opacity: 0.08;
+      opacity: .06;
       background-image:
         linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
@@ -56,11 +58,69 @@
       mix-blend-mode: soft-light;
     }
 
-    .vignette {
-      box-shadow: inset 0 0 180px rgba(0,0,0,0.75);
+    .vignette { box-shadow: inset 0 0 180px rgba(0,0,0,.72); }
+
+    .scene {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .7s ease, transform .8s ease;
+      transform: scale(1.01);
     }
 
-    .stage {
+    .scene.show {
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(1);
+    }
+
+    .hint {
+      position: absolute;
+      left: 50%;
+      bottom: 22px;
+      transform: translateX(-50%);
+      z-index: 60;
+      background: rgba(0,0,0,.44);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 10px 15px;
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      backdrop-filter: blur(10px);
+      transition: opacity .3s ease;
+    }
+
+    .reset {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      z-index: 70;
+      border: 1px solid rgba(255,255,255,.1);
+      background: rgba(0,0,0,.42);
+      color: #fff;
+      border-radius: 999px;
+      padding: 10px 14px;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+    }
+
+    /* Scene 1 */
+    .pickup-scene {
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.08), rgba(0,0,0,.32)),
+        url('ticket-collage.png') center center / cover no-repeat;
+    }
+
+    .pickup-overlay {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 60%, transparent 0%, rgba(0,0,0,.12) 45%, rgba(0,0,0,.45) 100%);
+    }
+
+    .pickup-stage {
       position: absolute;
       inset: 0;
       display: grid;
@@ -68,293 +128,322 @@
       padding: 20px;
     }
 
-    .hint {
+    .pickup-copy {
       position: absolute;
-      bottom: 20px;
+      top: 28px;
       left: 50%;
       transform: translateX(-50%);
-      color: var(--muted);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      font-size: 12px;
-      background: rgba(0,0,0,0.35);
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      padding: 10px 14px;
-      backdrop-filter: blur(8px);
-      z-index: 40;
-      transition: opacity 0.35s ease;
-    }
-
-    .hidden {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .ticket-scene {
-      width: min(1180px, 96vw);
-      display: grid;
-      gap: 20px;
-      justify-items: center;
-      transition: opacity .6s ease, transform .8s ease;
-    }
-
-    .ticket-scene.fade {
-      opacity: 0;
-      transform: translateY(-20px) scale(.98);
-      pointer-events: none;
-    }
-
-    .headline {
       text-align: center;
-      text-transform: uppercase;
-      letter-spacing: .22em;
+      z-index: 4;
+      background: rgba(0,0,0,.34);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 24px;
+      padding: 14px 18px;
+      backdrop-filter: blur(8px);
+    }
+
+    .pickup-copy .mini {
       color: var(--muted);
       font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .18em;
+      margin-bottom: 5px;
     }
 
-    .ticket-wrap {
-      position: relative;
-      width: min(1100px, 94vw);
-      aspect-ratio: 2.05 / 1;
-      perspective: 1600px;
+    .pickup-copy h1 {
+      margin: 0;
+      font-size: clamp(20px, 3vw, 34px);
+      text-transform: uppercase;
+      letter-spacing: .06em;
     }
 
-    .ticket {
+    .ground-ticket {
       position: absolute;
-      inset: 0;
-      border-radius: 28px;
+      width: min(720px, 74vw);
+      aspect-ratio: 2.05 / 1;
+      bottom: 7vh;
+      left: 50%;
+      transform: translateX(-50%) rotate(-7deg);
+      border-radius: 24px;
       overflow: hidden;
-      box-shadow: var(--shadow);
+      box-shadow: 0 35px 100px rgba(0,0,0,.6);
       cursor: pointer;
-      transition: transform .35s ease, box-shadow .35s ease;
+      transition: transform .35s ease, box-shadow .35s ease, opacity .5s ease;
+      z-index: 5;
       background: #000;
     }
 
-    .ticket:hover {
-      transform: translateY(-4px) scale(1.01);
-      box-shadow: 0 28px 80px rgba(0,0,0,.6);
+    .ground-ticket:hover {
+      transform: translateX(-50%) rotate(-5deg) translateY(-8px) scale(1.02);
+      box-shadow: 0 45px 120px rgba(0,0,0,.7);
     }
 
-    .ticket img {
+    .ground-ticket img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
     }
 
-    .ticket-label {
-      position: absolute;
-      top: 16px;
-      left: 16px;
-      background: rgba(0,0,0,.5);
-      border: 1px solid rgba(255,255,255,.12);
-      border-radius: 999px;
-      padding: 10px 14px;
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: .12em;
-      z-index: 4;
-      backdrop-filter: blur(8px);
-    }
-
-    .atm-scene {
-      position: absolute;
-      inset: 0;
-      display: grid;
-      place-items: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .5s ease;
-    }
-
-    .atm-scene.show {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .atm {
-      width: min(900px, 94vw);
-      aspect-ratio: 1.15 / 1;
-      background:
-        linear-gradient(180deg, #1a1e25 0%, #12161b 58%, #0d1116 100%);
-      border: 1px solid rgba(255,255,255,.08);
-      border-radius: 26px;
-      position: relative;
-      box-shadow: 0 32px 90px rgba(0,0,0,.65), inset 0 1px 0 rgba(255,255,255,.05);
-      overflow: hidden;
-    }
-
-    .atm::before {
-      content: "";
-      position: absolute;
-      inset: 12px;
-      border-radius: 20px;
-      border: 1px solid rgba(255,255,255,.06);
-      pointer-events: none;
-    }
-
-    .atm-top {
-      position: absolute;
-      inset: 0 0 auto 0;
-      height: 20%;
-      background: linear-gradient(180deg, #27303a, #1a2027);
-      border-bottom: 1px solid rgba(255,255,255,.06);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 26px;
-    }
-
-    .brand {
-      font-weight: 800;
-      letter-spacing: .16em;
-      text-transform: uppercase;
-      color: #f3f7ff;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .brand-mark {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      border: 3px solid #f3f7ff;
-      display: grid;
-      place-items: center;
-      font-size: 12px;
-    }
-
-    .screen {
-      position: absolute;
-      top: 25%;
-      left: 9%;
-      width: 46%;
-      height: 27%;
-      background: linear-gradient(180deg, #0f2027, #152f39);
-      border: 8px solid #1e242b;
-      border-radius: 18px;
-      box-shadow: inset 0 0 40px rgba(77,215,255,.12);
-      padding: 18px;
-      overflow: hidden;
-    }
-
-    .screen::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: repeating-linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.03) 2px, transparent 2px, transparent 4px);
-      pointer-events: none;
-      opacity: .32;
-    }
-
-    .screen h2 {
-      margin: 0 0 8px;
-      font-size: clamp(18px, 2.6vw, 30px);
-      letter-spacing: .06em;
-      text-transform: uppercase;
-    }
-
-    .screen p {
-      margin: 0;
-      color: #c7d8df;
-      max-width: 85%;
-    }
-
-    .atm-buttons {
-      position: absolute;
-      top: 24%;
-      right: 8%;
-      width: 28%;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-    }
-
-    .atm-btn {
-      height: 48px;
-      border-radius: 12px;
-      background: linear-gradient(180deg, #272f38, #171d23);
-      border: 1px solid rgba(255,255,255,.08);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
-    }
-
-    .slot-panel {
+    .ground-ticket::after {
+      content: 'Click to pick up';
       position: absolute;
       left: 50%;
-      bottom: 22%;
+      bottom: 14px;
       transform: translateX(-50%);
-      width: min(560px, 76%);
-      height: 120px;
-      background: linear-gradient(180deg, #12161a, #0d1013);
-      border-radius: 18px;
-      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(0,0,0,.46);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 999px;
+      padding: 10px 12px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .16em;
+      color: #fff;
+      backdrop-filter: blur(7px);
+    }
+
+    .pickup-scene.animate-out .ground-ticket {
+      transform: translateX(-50%) translateY(-34vh) scale(.52) rotate(-1deg);
+      opacity: .15;
+    }
+
+    /* Scene 2 ATM */
+    .atm-scene {
       display: grid;
       place-items: center;
-      box-shadow: inset 0 10px 28px rgba(0,0,0,.4);
+      background:
+        radial-gradient(circle at center, rgba(0,0,0,.08), rgba(0,0,0,.4)),
+        #080808;
     }
 
-    .slot {
-      width: 70%;
-      height: 16px;
-      background: #040506;
-      border-radius: 999px;
-      border: 2px solid #2b3138;
-      position: relative;
-      overflow: hidden;
-      box-shadow: inset 0 3px 10px rgba(0,0,0,.7);
-    }
-
-    .slot::before {
-      content: "";
+    .atm-stage {
       position: absolute;
       inset: 0;
-      background: linear-gradient(90deg, transparent, rgba(255,180,80,.28), transparent);
-      animation: pulse 2.3s infinite ease-in-out;
+      display: grid;
+      place-items: center;
+      padding: 18px;
     }
 
-    @keyframes pulse {
-      0%,100% { transform: translateX(-120%); }
-      50% { transform: translateX(120%); }
-    }
-
-    .insert-ticket {
-      position: absolute;
-      width: min(680px, 68vw);
-      max-width: 72%;
-      aspect-ratio: 2.05 / 1;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -20%) scale(0.75);
-      border-radius: 22px;
+    .atm-machine {
+      position: relative;
+      width: min(980px, 94vw);
+      aspect-ratio: 0.92 / 1;
+      border-radius: 26px;
       overflow: hidden;
-      box-shadow: 0 25px 80px rgba(0,0,0,.6);
-      transition: transform 1.2s cubic-bezier(.2,.8,.2,1), opacity .7s ease;
+      box-shadow: var(--shadow);
+      background: #000;
+      animation: slowZoom 6s ease-in-out infinite alternate;
     }
 
-    .insert-ticket img {
+    @keyframes slowZoom {
+      from { transform: scale(1); }
+      to { transform: scale(1.02); }
+    }
+
+    .atm-machine img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      display: block;
     }
 
-    .atm-scene.animate .insert-ticket {
-      transform: translate(-50%, 110%) scale(0.4);
-      opacity: .2;
+    .atm-flicker,
+    .screen-glow,
+    .slot-glow,
+    .machine-sheen,
+    .screen-scan {
+      position: absolute;
+      pointer-events: none;
+    }
+
+    .atm-flicker {
+      inset: 0;
+      background: linear-gradient(180deg, rgba(255,255,255,.03), transparent 25%, transparent 75%, rgba(255,255,255,.03));
+      opacity: .22;
+      mix-blend-mode: screen;
+      animation: flicker 3.2s infinite ease-in-out;
+    }
+
+    @keyframes flicker {
+      0%, 100% { opacity: .12; }
+      15% { opacity: .18; }
+      35% { opacity: .08; }
+      55% { opacity: .22; }
+      70% { opacity: .1; }
+      85% { opacity: .19; }
+    }
+
+    .screen-glow {
+      left: 25.5%;
+      top: 42.5%;
+      width: 26%;
+      height: 17%;
+      transform: translate(-50%, -50%);
+      border-radius: 16px;
+      background:
+        radial-gradient(circle at center, var(--glow-strong), rgba(80,255,220,.08) 45%, transparent 75%);
+      filter: blur(12px);
+      mix-blend-mode: screen;
+      animation: screenPulse 2.6s infinite ease-in-out;
+      opacity: .7;
+    }
+
+    .screen-scan {
+      left: 12.7%;
+      top: 31.5%;
+      width: 26.2%;
+      height: 22%;
+      border-radius: 20px;
+      overflow: hidden;
+      opacity: .32;
+    }
+
+    .screen-scan::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.05) 2px, transparent 2px, transparent 5px);
+    }
+
+    .screen-scan::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 28%;
+      background: linear-gradient(180deg, rgba(255,255,255,.18), rgba(120,255,230,.05), transparent);
+      animation: scanMove 2.1s infinite ease-in-out;
+      filter: blur(4px);
+    }
+
+    @keyframes scanMove {
+      0% { top: -25%; }
+      100% { top: 100%; }
+    }
+
+    @keyframes screenPulse {
+      0%, 100% { opacity: .48; transform: translate(-50%, -50%) scale(1); }
+      50% { opacity: .85; transform: translate(-50%, -50%) scale(1.06); }
+    }
+
+    .slot-glow {
+      left: 56.8%;
+      top: 57.7%;
+      width: 8.8%;
+      height: 3.1%;
+      transform: translate(-50%, -50%);
+      border-radius: 999px;
+      background: linear-gradient(90deg, transparent, rgba(255,215,140,.7), transparent);
+      filter: blur(6px);
+      animation: slotPulse 1.6s infinite ease-in-out;
+      opacity: .75;
+    }
+
+    @keyframes slotPulse {
+      0%, 100% { opacity: .32; transform: translate(-50%, -50%) scaleX(.9); }
+      50% { opacity: .92; transform: translate(-50%, -50%) scaleX(1.12); }
+    }
+
+    .machine-sheen {
+      inset: -10%;
+      background: linear-gradient(115deg, transparent 28%, rgba(255,255,255,.06) 50%, transparent 68%);
+      transform: translateX(-45%);
+      animation: sheenMove 4.6s infinite ease-in-out;
+      mix-blend-mode: screen;
+      opacity: .35;
+    }
+
+    @keyframes sheenMove {
+      0%, 100% { transform: translateX(-48%); }
+      50% { transform: translateX(48%); }
+    }
+
+    .atm-ui-copy {
+      position: absolute;
+      left: 50%;
+      top: 4%;
+      transform: translateX(-50%);
+      z-index: 8;
+      background: rgba(0,0,0,.36);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 24px;
+      padding: 12px 16px;
+      text-align: center;
+      backdrop-filter: blur(8px);
+    }
+
+    .atm-ui-copy .mini {
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .16em;
+      margin-bottom: 4px;
+    }
+
+    .atm-ui-copy strong {
+      font-size: clamp(18px, 2.4vw, 28px);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .atm-ticket {
+      position: absolute;
+      width: min(420px, 44vw);
+      aspect-ratio: 2.05 / 1;
+      left: 50%;
+      bottom: 14%;
+      transform: translateX(-50%) rotate(-2deg);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,.56);
+      background: #000;
+      transition: transform 1.25s cubic-bezier(.18,.84,.2,1), opacity .8s ease, filter .6s ease;
+      z-index: 9;
+    }
+
+    .atm-ticket img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .atm-scene.animate-insert .atm-ticket {
+      transform: translateX(-50%) translateY(-13%) scale(.72) rotate(-1deg);
+      opacity: .98;
+      filter: drop-shadow(0 0 16px rgba(255,190,120,.24));
+    }
+
+    .atm-scene.finish-insert .atm-ticket {
+      transform: translateX(-50%) translateY(-28%) scale(.28) rotate(-1deg);
+      opacity: .06;
+      filter: blur(1px);
+    }
+
+    .atm-scene.machine-hit .atm-machine {
+      animation: machineShake .36s ease-in-out 1;
+    }
+
+    @keyframes machineShake {
+      0%,100% { transform: translateX(0) scale(1.015); }
+      20% { transform: translateX(-3px) rotate(-.2deg) scale(1.015); }
+      40% { transform: translateX(3px) rotate(.2deg) scale(1.015); }
+      60% { transform: translateX(-2px) rotate(-.1deg) scale(1.015); }
+      80% { transform: translateX(2px) rotate(.1deg) scale(1.015); }
     }
 
     .dvd {
       position: absolute;
       left: 50%;
-      bottom: 19%;
-      width: min(360px, 38vw);
+      bottom: 17%;
+      width: min(360px, 37vw);
       aspect-ratio: 0.72 / 1;
-      transform: translate(-50%, 180%) rotateX(55deg) scale(.82);
+      transform: translate(-50%, 220%) rotateX(55deg) scale(.82);
       transform-origin: center center;
       transition: transform 1s cubic-bezier(.2,.8,.2,1), opacity .4s ease;
       opacity: 0;
       perspective: 1600px;
+      z-index: 12;
     }
 
     .atm-scene.reveal-dvd .dvd {
@@ -394,9 +483,7 @@
       z-index: 4;
     }
 
-    .case.open .case-front {
-      transform: rotateY(-125deg);
-    }
+    .case.open .case-front { transform: rotateY(-125deg); }
 
     .case-inside {
       background:
@@ -439,10 +526,7 @@
       margin: 10px 0;
     }
 
-    .case-copy p {
-      color: #d6cec3;
-      margin: 0;
-    }
+    .case-copy p { color: #d6cec3; margin: 0; }
 
     .artifact-stage {
       position: relative;
@@ -471,9 +555,7 @@
       font-size: 13px;
     }
 
-    .artifact-note::before {
-      content: "Archive Access";
-    }
+    .artifact-note::before { content: 'Archive Access'; }
 
     .artifact-static {
       position: absolute;
@@ -503,19 +585,13 @@
       z-index: 5;
     }
 
+    /* Scene 3 */
     .cloud-scene {
-      position: absolute;
-      inset: 0;
       display: grid;
       place-items: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .8s ease;
-    }
-
-    .cloud-scene.show {
-      opacity: 1;
-      pointer-events: auto;
+      background:
+        radial-gradient(circle at center, rgba(255,255,255,.02), transparent 35%),
+        linear-gradient(180deg, #060606, #020202);
     }
 
     .cloud-core {
@@ -542,17 +618,8 @@
       animation: drift 10s ease-in-out infinite alternate;
     }
 
-    .smoke-layer.two {
-      inset: 18%;
-      opacity: .72;
-      animation-duration: 12s;
-    }
-
-    .smoke-layer.three {
-      inset: 24%;
-      opacity: .48;
-      animation-duration: 8s;
-    }
+    .smoke-layer.two { inset: 18%; opacity: .72; animation-duration: 12s; }
+    .smoke-layer.three { inset: 24%; opacity: .48; animation-duration: 8s; }
 
     @keyframes drift {
       from { transform: translate(-10px, -12px) scale(0.98); }
@@ -574,10 +641,7 @@
       letter-spacing: .08em;
     }
 
-    .cloud-title p {
-      margin: 10px 0 0;
-      color: var(--muted);
-    }
+    .cloud-title p { margin: 10px 0 0; color: var(--muted); }
 
     .thread {
       position: absolute;
@@ -587,8 +651,6 @@
       border-radius: 18px;
       border: 1px solid rgba(255,255,255,.09);
       background: rgba(10,10,10,.46);
-      color: var(--text);
-      text-decoration: none;
       backdrop-filter: blur(8px);
       box-shadow: 0 16px 35px rgba(0,0,0,.28);
       transition: transform .25s ease, background .25s ease, border-color .25s ease;
@@ -610,9 +672,7 @@
       margin-bottom: 6px;
     }
 
-    .thread b {
-      font-size: 18px;
-    }
+    .thread b { font-size: 18px; }
 
     .t1 { top: 19%; left: 14%; }
     .t2 { top: 20%; right: 13%; }
@@ -623,24 +683,10 @@
     .t7 { bottom: 7%; left: 36%; }
     .t8 { bottom: 7%; right: 36%; }
 
-    .reset {
-      position: absolute;
-      top: 18px;
-      right: 18px;
-      z-index: 60;
-      border: 1px solid rgba(255,255,255,.1);
-      background: rgba(0,0,0,.42);
-      color: #fff;
-      border-radius: 999px;
-      padding: 10px 14px;
-      cursor: pointer;
-      backdrop-filter: blur(8px);
-    }
-
     @media (max-width: 820px) {
-      .screen { left: 7%; width: 54%; }
-      .atm-buttons { right: 5%; width: 28%; gap: 10px; }
-      .slot-panel { bottom: 18%; }
+      .ground-ticket { width: 92vw; bottom: 10vh; }
+      .atm-machine { width: 96vw; }
+      .atm-ticket { width: 54vw; bottom: 12%; }
       .dvd { width: min(300px, 52vw); }
       .case-inside { grid-template-columns: 1fr; }
       .case-copy { display: none; }
@@ -660,53 +706,46 @@
   <div class="app">
     <div class="grain"></div>
     <div class="vignette"></div>
-
     <button class="reset" id="resetBtn">Restart</button>
 
-    <div class="stage">
-      <section class="ticket-scene" id="ticketScene">
-        <div class="headline">Insert the ticket to enter the archive</div>
-        <div class="ticket-wrap">
-          <div class="ticket-label">Click ticket</div>
-          <div class="ticket" id="ticketStart">
-            <img src="ticket.png" alt="Ticket artwork" />
-          </div>
+    <section class="scene pickup-scene show" id="pickupScene">
+      <div class="pickup-overlay"></div>
+      <div class="pickup-stage">
+        <div class="pickup-copy">
+          <div class="mini">Entry sequence</div>
+          <h1>Pick up the ticket</h1>
         </div>
-      </section>
+        <div class="ground-ticket" id="groundTicket">
+          <img src="ticket-single.png" alt="Ticket on the ground" />
+        </div>
+      </div>
+    </section>
 
-      <section class="atm-scene" id="atmScene">
-        <div class="atm">
-          <div class="atm-top">
-            <div class="brand"><div class="brand-mark">△</div> Commonwealth Cash</div>
-            <div class="mini-label">24 hour access</div>
+    <section class="scene atm-scene" id="atmScene">
+      <div class="atm-stage">
+        <div class="atm-machine" id="atmMachine">
+          <img src="atm-machine.png" alt="ATM machine" />
+          <div class="machine-sheen"></div>
+          <div class="atm-flicker"></div>
+          <div class="screen-glow"></div>
+          <div class="screen-scan"></div>
+          <div class="slot-glow"></div>
+
+          <div class="atm-ui-copy">
+            <div class="mini">Processing sequence</div>
+            <strong>Insert redemption</strong>
           </div>
 
-          <div class="screen">
-            <h2>Insert redemption</h2>
-            <p>One object in. One archive out. Follow the threads.</p>
+          <div class="atm-ticket" id="atmTicket">
+            <img src="ticket-single.png" alt="Ticket being inserted" />
           </div>
 
-          <div class="atm-buttons">
-            <div class="atm-btn"></div><div class="atm-btn"></div>
-            <div class="atm-btn"></div><div class="atm-btn"></div>
-            <div class="atm-btn"></div><div class="atm-btn"></div>
-          </div>
-
-          <div class="slot-panel">
-            <div class="slot"></div>
-          </div>
-
-          <div class="insert-ticket">
-            <img src="ticket.png" alt="Ticket entering ATM" />
-          </div>
-
-          <div class="dvd">
+          <div class="dvd" id="dvdWrap">
             <div class="case" id="dvdCase">
               <div class="case-front">
                 <img src="dvdcase.png" alt="DVD case cover" />
                 <div class="open-copy">Click case to open</div>
               </div>
-
               <div class="case-inside">
                 <div class="case-panel case-copy">
                   <div>
@@ -716,7 +755,6 @@
                   </div>
                   <div class="mini-label">Interactive project hub</div>
                 </div>
-
                 <div class="case-panel artifact-stage">
                   <div class="artifact-note"></div>
                   <div class="artifact-static"></div>
@@ -725,67 +763,75 @@
             </div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section class="cloud-scene" id="cloudScene">
-        <div class="cloud-core">
-          <div class="cloud-title">
-            <h2>Choose a thread</h2>
-            <p>Each strand can open a different part of the project.</p>
-          </div>
-
-          <div class="smoke-layer"></div>
-          <div class="smoke-layer two"></div>
-          <div class="smoke-layer three"></div>
-
-          <a class="thread t1" href="#"><span>Thread 01</span><b>Trailer</b></a>
-          <a class="thread t2" href="#"><span>Thread 02</span><b>Book</b></a>
-          <a class="thread t3" href="#"><span>Thread 03</span><b>Documentary</b></a>
-          <a class="thread t4" href="#"><span>Thread 04</span><b>Archive</b></a>
-          <a class="thread t5" href="#"><span>Thread 05</span><b>Interviews</b></a>
-          <a class="thread t6" href="#"><span>Thread 06</span><b>Timeline</b></a>
-          <a class="thread t7" href="#"><span>Thread 07</span><b>About Ryan</b></a>
-          <a class="thread t8" href="#"><span>Thread 08</span><b>Contact</b></a>
+    <section class="scene cloud-scene" id="cloudScene">
+      <div class="cloud-core">
+        <div class="cloud-title">
+          <h2>Choose a thread</h2>
+          <p>Each strand can open a different part of the project.</p>
         </div>
-      </section>
-    </div>
+        <div class="smoke-layer"></div>
+        <div class="smoke-layer two"></div>
+        <div class="smoke-layer three"></div>
+        <a class="thread t1" href="#"><span>Thread 01</span><b>Trailer</b></a>
+        <a class="thread t2" href="#"><span>Thread 02</span><b>Book</b></a>
+        <a class="thread t3" href="#"><span>Thread 03</span><b>Documentary</b></a>
+        <a class="thread t4" href="#"><span>Thread 04</span><b>Archive</b></a>
+        <a class="thread t5" href="#"><span>Thread 05</span><b>Interviews</b></a>
+        <a class="thread t6" href="#"><span>Thread 06</span><b>Timeline</b></a>
+        <a class="thread t7" href="#"><span>Thread 07</span><b>About Ryan</b></a>
+        <a class="thread t8" href="#"><span>Thread 08</span><b>Contact</b></a>
+      </div>
+    </section>
 
     <div class="hint" id="hint">Click the ticket to begin</div>
   </div>
 
   <script>
-    const ticketScene = document.getElementById('ticketScene');
+    const pickupScene = document.getElementById('pickupScene');
     const atmScene = document.getElementById('atmScene');
     const cloudScene = document.getElementById('cloudScene');
-    const ticketStart = document.getElementById('ticketStart');
+    const groundTicket = document.getElementById('groundTicket');
     const dvdCase = document.getElementById('dvdCase');
     const resetBtn = document.getElementById('resetBtn');
     const hint = document.getElementById('hint');
+    const atmMachine = document.getElementById('atmMachine');
 
     let state = 0;
 
     function resetAll() {
       state = 0;
-      ticketScene.classList.remove('fade');
-      atmScene.classList.remove('show', 'animate', 'reveal-dvd');
+      pickupScene.classList.add('show');
+      pickupScene.classList.remove('animate-out');
+      atmScene.classList.remove('show', 'animate-insert', 'finish-insert', 'reveal-dvd', 'machine-hit');
       cloudScene.classList.remove('show');
       dvdCase.classList.remove('open');
       hint.textContent = 'Click the ticket to begin';
-      hint.classList.remove('hidden');
+      hint.style.opacity = '1';
     }
 
-    function startSequence() {
+    function beginSequence() {
       if (state !== 0) return;
       state = 1;
-      ticketScene.classList.add('fade');
-      hint.textContent = 'The ticket is being processed';
+      pickupScene.classList.add('animate-out');
+      hint.textContent = 'Picking up the ticket';
 
-      setTimeout(() => atmScene.classList.add('show'), 350);
-      setTimeout(() => atmScene.classList.add('animate'), 900);
-      setTimeout(() => atmScene.classList.add('reveal-dvd'), 2050);
       setTimeout(() => {
+        pickupScene.classList.remove('show');
+        atmScene.classList.add('show');
+        hint.textContent = 'Inserting the ticket';
+      }, 850);
+
+      setTimeout(() => atmScene.classList.add('animate-insert'), 1250);
+      setTimeout(() => atmScene.classList.add('finish-insert'), 2250);
+      setTimeout(() => atmScene.classList.add('machine-hit'), 2350);
+      setTimeout(() => atmScene.classList.remove('machine-hit'), 2800);
+      setTimeout(() => {
+        atmScene.classList.add('reveal-dvd');
         hint.textContent = 'Click the case to open it';
-      }, 2800);
+      }, 3300);
     }
 
     function openCase() {
@@ -793,7 +839,6 @@
       state = 2;
       dvdCase.classList.add('open');
       hint.textContent = 'The smoke is splitting into threads';
-
       setTimeout(() => {
         atmScene.classList.remove('show');
         cloudScene.classList.add('show');
@@ -801,7 +846,7 @@
       }, 1300);
     }
 
-    ticketStart.addEventListener('click', startSequence);
+    groundTicket.addEventListener('click', beginSequence);
     dvdCase.addEventListener('click', openCase);
     resetBtn.addEventListener('click', resetAll);
 
