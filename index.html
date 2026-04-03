@@ -7,19 +7,17 @@
   <meta name="description" content="Official interactive site for the book/documentary project by Ryan Homanics." />
   <style>
     :root {
-      --bg: #060606;
       --text: #f2eadf;
       --muted: #c7b59f;
       --line: rgba(255,255,255,0.09);
       --shadow: 0 24px 70px rgba(0,0,0,0.45);
-      --glow: rgba(120,255,230,0.18);
       --glow-strong: rgba(120,255,230,0.34);
       --paper: #eadcc3;
       --paper-ink: #2c2118;
+      --panel: rgba(10,10,10,.56);
     }
 
     * { box-sizing: border-box; }
-
     html, body {
       margin: 0;
       height: 100%;
@@ -36,8 +34,8 @@
         #050505;
     }
 
+    a, button { font: inherit; }
     a { color: inherit; text-decoration: none; }
-    button { font: inherit; }
 
     .app {
       position: relative;
@@ -96,6 +94,7 @@
       backdrop-filter: blur(10px);
       transition: opacity .3s ease;
       text-align: center;
+      max-width: 92vw;
     }
 
     .reset {
@@ -253,11 +252,7 @@
       display: block;
     }
 
-    .atm-flicker,
-    .screen-glow,
-    .slot-glow,
-    .machine-sheen,
-    .screen-scan {
+    .atm-flicker, .screen-glow, .slot-glow, .machine-sheen, .screen-scan {
       position: absolute;
       pointer-events: none;
     }
@@ -286,8 +281,7 @@
       height: 17%;
       transform: translate(-50%, -50%);
       border-radius: 16px;
-      background:
-        radial-gradient(circle at center, var(--glow-strong), rgba(80,255,220,.08) 45%, transparent 75%);
+      background: radial-gradient(circle at center, var(--glow-strong), rgba(80,255,220,.08) 45%, transparent 75%);
       filter: blur(12px);
       mix-blend-mode: screen;
       animation: screenPulse 2.6s infinite ease-in-out;
@@ -439,11 +433,12 @@
       80% { transform: translateX(2px) rotate(.1deg) scale(1.015); }
     }
 
+    /* IMPORTANT ATM DVD POSITIONING */
     .dvd {
       position: absolute;
       left: 50%;
-      bottom: 17%;
-      width: min(360px, 37vw);
+      bottom: 6%;
+      width: min(280px, 28vw);
       aspect-ratio: 0.72 / 1;
       transform: translate(-50%, 220%) rotateX(55deg) scale(.82);
       transform-origin: center center;
@@ -454,7 +449,7 @@
     }
 
     .atm-scene.reveal-dvd .dvd {
-      transform: translate(-50%, 10%) rotateX(8deg) scale(1);
+      transform: translate(-50%, 0%) rotateX(8deg) scale(1);
       opacity: 1;
     }
 
@@ -597,35 +592,39 @@
       display: grid;
       place-items: center;
       background:
-        radial-gradient(circle at center, rgba(255,255,255,.02), transparent 35%),
+        radial-gradient(circle at center, rgba(255,255,255,.03), transparent 40%),
         linear-gradient(180deg, #060606, #020202);
     }
 
     .cloud-core {
       position: relative;
-      width: min(1200px, 96vw);
+      width: min(1300px, 96vw);
       height: min(900px, 94vh);
-      display: grid;
-      place-items: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding-top: 40px;
     }
 
     .smoke-layer {
       position: absolute;
-      inset: 12%;
+      inset: 18% 10% 10% 10%;
       border-radius: 50%;
-      filter: blur(10px);
+      filter: blur(16px);
       mix-blend-mode: screen;
       background:
-        radial-gradient(circle at 30% 34%, rgba(255,255,255,.16), transparent 16%),
-        radial-gradient(circle at 62% 38%, rgba(255,255,255,.12), transparent 18%),
-        radial-gradient(circle at 48% 52%, rgba(255,255,255,.14), transparent 24%),
+        radial-gradient(circle at 30% 34%, rgba(255,255,255,.14), transparent 16%),
+        radial-gradient(circle at 62% 38%, rgba(255,255,255,.1), transparent 18%),
+        radial-gradient(circle at 48% 52%, rgba(255,255,255,.12), transparent 24%),
         radial-gradient(circle at 58% 64%, rgba(255,210,170,.12), transparent 20%),
-        radial-gradient(circle at 34% 66%, rgba(180,180,180,.1), transparent 20%);
+        radial-gradient(circle at 34% 66%, rgba(180,180,180,.08), transparent 20%);
       animation: drift 10s ease-in-out infinite alternate;
+      pointer-events: none;
     }
 
-    .smoke-layer.two { inset: 18%; opacity: .72; animation-duration: 12s; }
-    .smoke-layer.three { inset: 24%; opacity: .48; animation-duration: 8s; }
+    .smoke-layer.two { inset: 24% 16% 16% 16%; opacity: .62; animation-duration: 12s; }
+    .smoke-layer.three { inset: 30% 22% 22% 22%; opacity: .38; animation-duration: 8s; }
 
     @keyframes drift {
       from { transform: translate(-10px, -12px) scale(0.98); }
@@ -633,12 +632,11 @@
     }
 
     .cloud-title {
-      position: absolute;
-      top: 7%;
-      width: 100%;
+      position: relative;
       text-align: center;
       z-index: 5;
       padding: 0 20px;
+      max-width: 1100px;
     }
 
     .cloud-title h2 {
@@ -649,14 +647,15 @@
     }
 
     .cloud-title p {
-      margin: 10px 0 0;
+      margin: 14px 0 0;
       color: var(--muted);
+      font-size: 18px;
     }
 
     .update-pill {
-      margin-top: 14px;
+      margin-top: 18px;
       display: inline-block;
-      padding: 10px 14px;
+      padding: 12px 18px;
       border: 1px solid rgba(255,255,255,.12);
       border-radius: 999px;
       background: rgba(0,0,0,.28);
@@ -667,24 +666,34 @@
       max-width: min(92vw, 1000px);
     }
 
+    .thread-grid {
+      position: relative;
+      z-index: 6;
+      width: min(1200px, 96vw);
+      margin-top: 48px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(180px, 220px));
+      justify-content: center;
+      gap: 34px;
+    }
+
     .cover-thread {
-      position: absolute;
-      width: 180px;
-      padding: 10px;
-      border-radius: 18px;
+      width: 100%;
+      padding: 12px;
+      border-radius: 22px;
       border: 1px solid rgba(255,255,255,.1);
-      background: rgba(10,10,10,.42);
+      background: rgba(10,10,10,.52);
       backdrop-filter: blur(8px);
       box-shadow: 0 16px 35px rgba(0,0,0,.28);
       transition: transform .25s ease, background .25s ease, border-color .25s ease;
-      z-index: 6;
       cursor: pointer;
       color: var(--text);
+      text-align: center;
     }
 
     .cover-thread:hover {
-      transform: translateY(-4px) scale(1.03);
-      background: rgba(22,22,22,.72);
+      transform: translateY(-6px) scale(1.03);
+      background: rgba(22,22,22,.82);
       border-color: rgba(255,255,255,.18);
     }
 
@@ -693,9 +702,9 @@
       aspect-ratio: .72 / 1;
       object-fit: cover;
       display: block;
-      border-radius: 12px;
-      margin-bottom: 10px;
-      box-shadow: 0 10px 28px rgba(0,0,0,.35);
+      border-radius: 14px;
+      margin-bottom: 12px;
+      box-shadow: 0 14px 30px rgba(0,0,0,.36);
       background: #111;
     }
 
@@ -705,19 +714,14 @@
       font-size: 11px;
       text-transform: uppercase;
       letter-spacing: .14em;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
 
     .cover-thread b {
-      font-size: 16px;
-      line-height: 1.05;
+      font-size: 18px;
+      line-height: 1.1;
       display: block;
     }
-
-    .t1 { top: 24%; left: 8%; }
-    .t2 { top: 20%; left: 31%; }
-    .t3 { top: 20%; right: 31%; }
-    .t4 { top: 24%; right: 8%; }
 
     .book-viewer {
       position: absolute;
@@ -733,7 +737,7 @@
     .book-backdrop {
       position: absolute;
       inset: 0;
-      background: rgba(0,0,0,.72);
+      background: rgba(0,0,0,.78);
       backdrop-filter: blur(10px);
     }
 
@@ -750,13 +754,15 @@
       gap: 16px;
     }
 
-    .book-close, .open-book-btn, .book-controls button {
+    .book-close, .open-book-btn, .book-controls button, .book-link-btn {
       border: 1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.05);
       color: #fff;
       border-radius: 999px;
       padding: 10px 14px;
       cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
     }
 
     .book-controls button:disabled {
@@ -784,16 +790,24 @@
       display: grid;
       place-items: center;
       gap: 16px;
+      align-content: center;
     }
 
     .book-cover-panel img {
-      height: min(66vh, 100%);
+      height: min(62vh, 100%);
       width: auto;
       max-width: 100%;
       object-fit: contain;
       border-radius: 18px;
       box-shadow: 0 24px 60px rgba(0,0,0,.45);
       background: #111;
+    }
+
+    .book-cover-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
     }
 
     .book-pages {
@@ -885,34 +899,69 @@
       font-size: 12px;
     }
 
-    @media (max-width: 820px) {
-      .ground-ticket { width: 92vw; bottom: 10vh; }
-      .atm-machine { width: 96vw; }
-      .atm-ticket { width: 54vw; bottom: 12%; }
-      .dvd { width: min(300px, 52vw); }
-      .case-inside { grid-template-columns: 1fr; }
-      .case-copy { display: none; }
+    @media (max-width: 1000px) {
+      .thread-grid {
+        grid-template-columns: repeat(2, minmax(180px, 220px));
+      }
+    }
 
-      .cover-thread {
-        width: 142px;
-        padding: 8px;
+    @media (max-width: 820px) {
+      .ground-ticket {
+        width: 92vw;
+        bottom: 10vh;
       }
 
-      .t1 { top: 22%; left: 2%; }
-      .t2 { top: 18%; left: 26%; }
-      .t3 { top: 18%; right: 26%; }
-      .t4 { top: 22%; right: 2%; }
+      .atm-machine {
+        width: 96vw;
+      }
+
+      .atm-ui-copy {
+        top: 2.5%;
+        max-width: 88vw;
+        padding: 10px 12px;
+      }
+
+      .atm-ui-copy strong {
+        font-size: 18px;
+      }
+
+      .atm-ticket {
+        width: 54vw;
+        bottom: 16%;
+      }
+
+      .dvd {
+        width: min(180px, 34vw);
+        bottom: 4%;
+      }
+
+      .case-inside {
+        grid-template-columns: 1fr;
+      }
+
+      .case-copy { display: none; }
+
+      .thread-grid {
+        grid-template-columns: repeat(2, minmax(140px, 180px));
+        gap: 18px;
+        margin-top: 28px;
+      }
 
       .book-shell {
         inset: 2vh 2vw;
         padding: 14px;
       }
 
-      .book-pages { grid-template-columns: 1fr; }
+      .book-pages {
+        grid-template-columns: 1fr;
+      }
+
       .page-left { display: none; }
+
       .page h3 { font-size: 22px; }
       .page-text { font-size: 17px; }
       .update-pill { font-size: 11px; }
+      .cloud-title p { font-size: 16px; }
     }
   </style>
 </head>
@@ -938,7 +987,7 @@
 
     <section class="scene atm-scene" id="atmScene">
       <div class="atm-stage">
-        <div class="atm-machine" id="atmMachine">
+        <div class="atm-machine">
           <img src="atm-machine.png" alt="ATM machine" />
           <div class="machine-sheen"></div>
           <div class="atm-flicker"></div>
@@ -995,41 +1044,46 @@
         <div class="smoke-layer two"></div>
         <div class="smoke-layer three"></div>
 
-        <button class="cover-thread thread-book t1" data-book="trailer">
-          <img src="dvdcase.png" alt="Project trailer" />
-          <span>Project</span>
-          <b>Trailer</b>
-        </button>
+        <div class="thread-grid">
+          <a class="cover-thread" href="https://www.youtube.com/watch?v=sV8Xi7_nTPQ" target="_blank" rel="noopener noreferrer">
+            <img src="dvdcase.png" alt="Project trailer" />
+            <span>Project</span>
+            <b>Trailer</b>
+          </a>
 
-        <button class="cover-thread thread-book t2" data-book="july">
-          <img src="cover-july.png" alt="To Die in July" />
-          <span>Started 2021</span>
-          <b>To Die in July</b>
-        </button>
+          <button class="cover-thread thread-book" data-book="july">
+            <img src="cover-july.png" alt="To Die in July" />
+            <span>Started 2021</span>
+            <b>To Die in July</b>
+          </button>
 
-        <button class="cover-thread thread-book t3" data-book="dopesick">
-          <img src="cover-dopesick.png" alt="Dopesick bonus chapter" />
-          <span>Bonus Chapter</span>
-          <b>Dopesick</b>
-        </button>
+          <button class="cover-thread thread-book" data-book="dopesick">
+            <img src="cover-dopesick.png" alt="Dopesick bonus chapter" />
+            <span>Bonus Chapter</span>
+            <b>Dopesick</b>
+          </button>
 
-        <button class="cover-thread thread-book t4" data-book="gods">
-          <img src="cover-gods.png" alt="The Last Hour of the Gods" />
-          <span>Draft</span>
-          <b>The Last Hour of the Gods</b>
-        </button>
+          <button class="cover-thread thread-book" data-book="gods">
+            <img src="cover-gods.png" alt="The Last Hour of the Gods" />
+            <span>Draft</span>
+            <b>The Last Hour of the Gods</b>
+          </button>
+        </div>
       </div>
     </section>
 
     <section class="book-viewer" id="bookViewer" aria-hidden="true">
       <div class="book-backdrop" id="bookBackdrop"></div>
-      <div class="book-shell" id="bookShell">
+      <div class="book-shell">
         <button class="book-close" id="bookClose">Close</button>
 
         <div class="book-stage">
-          <div class="book-cover-panel" id="bookCoverPanel">
+          <div class="book-cover-panel">
             <img id="viewerCover" src="cover-july.png" alt="Book cover" />
-            <button class="open-book-btn" id="openBookBtn">Open book</button>
+            <div class="book-cover-actions">
+              <button class="open-book-btn" id="openBookBtn">Open book</button>
+              <a class="book-link-btn" id="externalLinkBtn" href="#" target="_blank" rel="noopener noreferrer" style="display:none;">External link</a>
+            </div>
           </div>
 
           <div class="book-pages" id="bookPages">
@@ -1063,6 +1117,30 @@
   </div>
 
   <script>
+    function splitIntoPages(text, charsPerPage = 2200) {
+      const cleaned = text.replace(/\r/g, "").trim();
+      const chunks = [];
+      let remaining = cleaned;
+
+      while (remaining.length > charsPerPage) {
+        let slice = remaining.slice(0, charsPerPage);
+        let breakAt = Math.max(
+          slice.lastIndexOf("\n\n"),
+          slice.lastIndexOf(". "),
+          slice.lastIndexOf("? "),
+          slice.lastIndexOf("! ")
+        );
+
+        if (breakAt < charsPerPage * 0.55) breakAt = charsPerPage;
+
+        chunks.push(remaining.slice(0, breakAt).trim());
+        remaining = remaining.slice(breakAt).trim();
+      }
+
+      if (remaining.length) chunks.push(remaining);
+      return chunks;
+    }
+
     const pickupScene = document.getElementById('pickupScene');
     const atmScene = document.getElementById('atmScene');
     const cloudScene = document.getElementById('cloudScene');
@@ -1075,6 +1153,7 @@
     const bookBackdrop = document.getElementById('bookBackdrop');
     const bookClose = document.getElementById('bookClose');
     const openBookBtn = document.getElementById('openBookBtn');
+    const externalLinkBtn = document.getElementById('externalLinkBtn');
     const prevPageBtn = document.getElementById('prevPageBtn');
     const nextPageBtn = document.getElementById('nextPageBtn');
     const viewerCover = document.getElementById('viewerCover');
@@ -1087,118 +1166,144 @@
     const bookStatus = document.getElementById('bookStatus');
 
     const books = {
-      trailer: {
-        type: 'link',
-        title: 'IM HIGH ON CRACK AND I HAVE A GUN',
-        kicker: 'Project trailer',
-        cover: 'dvdcase.png',
-        url: 'https://www.youtube.com/watch?v=sV8Xi7_nTPQ',
-        pages: [
-          `This thread opens the actual trailer.
-
-Click “Open book” and it will launch the YouTube trailer in a new tab.
-
-Later you can turn this into a full internal trailer section with stills, release notes, credits, and production notes.`,
-          `This project thread can also become the main hub for:
-- trailer drops
-- release updates
-- project notes
-- press links
-- timeline updates`
-        ]
-      },
-
       july: {
-        type: 'text',
-        title: 'To Die in July',
-        kicker: 'Started 2021',
-        cover: 'cover-july.png',
-        pages: [
-          `Chapter 1
+        title: "To Die in July",
+        kicker: "Started 2021",
+        cover: "cover-july.png",
+        url: "",
+        raw: `To Die in July
 
-He thought he would feel a lot different than he actually did. “This world should seem different after you make peace with leaving it.” James thought to himself as he reached for his crumbled pack of cigarettes.
+Chapter 1
 
-James Mason was in his late thirties. He was homeless for what seemed like an eternity when in actuality it has been about 6 years.`,
-          `A tall man with a slim lanky build, James is a two-tour Iraq War veteran whose life has collapsed into routine, drift, and despair.
+He thought he would feel a lot different than he actually did. “This world should seem different after you make peace with leaving it.” James thought to himself as he reached for his crumbled pack of cigarettes. Fingering around for one of his last remaining smokes as he sat on the sidewalk outside of the convenience store he frequented.
 
-He had made the choice to end his life the night before, mixing Percocet, Xanax, and vodka — only to wake up still alive, confused by his own actions and unsure whether some part of him is still holding on.`,
-          `The draft follows him through the deadened rhythm of another day: loose cigarettes, cheap beer, the corner store, and the crushing after-feeling that comes from trying to numb pain and waking up with it still there.
+James Mason was in his late thirties. He was homeless for what seemed like an eternity when in actuality it has been about 6 years. A tall man with a slim lanky build. Skin tan and dry, the consistency of a worn leathery shoe from all the days spent out in the warm Ohio sun. His hair was not long but it definitely was not short either, just matted and tangled from days of dried sweat. An attempt at covering it with a dirty camouflage hat with a curved bill did no justice and only added to the overall look of despair that he wore so noticeably. A patchwork short “beard” reflected a need to shave or at least a trim.
 
-The whole thing already has the bones of a hard, stripped-down opening chapter.`,
-          `Key thread energy:
+Not a dumb man by any means, James was a 2-tour veteran of Operation Iraqi Freedom. Those days in the desert may have been brutal and traumatizing but life was simpler then. Someone told you what to do and you did it. Not like now where it was only James calling the shots and he just couldn’t get out of his own way.
 
-- failed suicide attempt
-- veteran drift and homelessness
-- routines of despair
-- what it means to keep waking up when part of you wanted not to
+A backpack carried everything in this world that he could call his. An extra pair of faded blue jeans that were too loose on him to look presentable and two back up semi tattered t-shirts composed his wardrobe. He was also currently wearing a pair of newer blue track pants that he had shoplifted from a nicer store in the mall. Although they bore a trademark ink stain from where he had pried off the anti-theft dye pack on the left thigh. He also had on a NASCAR tee although he could care less about the races. Finally, although it was 83 degrees out he had his thick green coat on. Causing more looks of disgust than sympathy from those who passed in and out of the corner store. The looks on their faces reflected a hope that he would not ask them for a dollar.
 
-This is one of the strongest openings because the voice already feels lived in.`
-        ]
+As he lit one of his last cigarettes he pondered what last night actually meant. His life had the ever so apparent tinge of one that was finished. There was no conceivable next chapter and the constant feeling of a life winding down ate at him constantly. He had a wife once, what felt like a lifetime ago. Amanda was her name and she was beautiful. Long brown hair with a full curvaceous figure but very much a gorgeous woman. He loved her then and he still loved her now but having any kind of relationship with her or their 8-year-old daughter seemed every bit the fantasy. It had been almost 4 months since he had seen her and even then, it was only the locking of eyes as she drove by probably on her way to work. She might as well be a stranger at this point. James was on his own.
+
+Last night was hard to process. He had made the choice to end his life. He was sure he was committed to carrying it out but now thinking back he was not so sure. The weather was nice enough in July at night where sleeping at his usual clearing in the woods was semi-comfortable. He laid on the old sleeping bag the night before ready to close his eyes one final time. He had ten Percocet and two Xanax for his last meal and a fifth of very cheap gas station vodka to wash it down. He loved drugs and drinking, he loved anything really that beat back the ever-persistent depression but was too poor to ever develop anything close to physical addiction. His tolerance was low, and this combination of downers should have allowed him to finally shed his earthly body. Eating the Percocet and snorting a large line of Xanax he forced down as much of the rail vodka as he could. He had laid there for a time, how long it was not clear. The pleasant haze that enveloped him did not allow for an accurate gauging of time. He slowly began to drift in and out of consciousness fully content with slipping out of this life that had somewhere gone so horribly wrong.
+
+Waking up the next morning was odd and surprising, or maybe it wasn’t. A part of James almost knew he would live to see another sunrise. Yet he took the steps to not wake up. Still very much under the influence he fumbled with the yellowed small plastic baggy that held his pills and he tried to make sense of what he saw. There were still 2 Percocet and a Xanax in the bag. He reached for the bottle of vodka and it was little more than half gone. “Why would I save anything unless I knew I would be alive to take them later” he pondered under the brightening sunlight. He was ready to die, he was at peace with taking his final sleep and yet here he was. Maybe he was not as ready as he thought he was. Maybe there was something deep inside that was still faintly holding on.
+
+Grappling with what had happened last night and this morning was a task. It was as if he was trying to decipher the actions of two completely different people. It was midday now and the work for today had to still be done. James was hungry and a little more depressed than usual. The kind of depression that follows a night of numbing yourself. The relief and good feelings that the drugs the night before had brought on needed to be paid back in the currency of misery. It was a thought that had always stuck with James since his time in the Infantry. Whatever good a drink or drug brings must at some point eventually be paid back in equally negative terms.
+
+The desire to get up off that sidewalk and try and function did not exist, but the routine of everyday life was by now so heavily engrained into James that his body carried out the task that his mind would not acknowledge needed doing. In his pocket were five crumpled one-dollar bills. “Money may not buy happiness, but it does buy life. Last night it almost bought death” James mumbled to himself accompanied with a smirk at what he thought was a very deep and astute thought from a man so totally broken.
+
+As he went to walk into the store his sluggish walk seemed to portray everything you needed to know about the man. Labored and out of rhythm his stride came across to the observer as a man completely incapable of normal daily functioning. Although the aftermath of intense drug use the night prior had more to play in that than any kind of physical handicap.
+
+“The shop” as the neighborhood affectionately called it, was a small gas station/convenience store all too common in lower income areas. The shelves were not quite bare, but they were not well stocked either. Three aisles of all the assortments needed to be a poor man’s one stop shop. “Mornin Fareed” Jim said with a weaker voice than usual.
+
+“Jim, yes, hi. It not morning though. Nearly five o clock.” He replied with a playful tone.
+
+Fareed and his wife Natalia have owned the store for the last ten plus years. A middle aged middle eastern couple who were incredibly kind and courteous to whoever came in the place of business, no matter how difficult some customers could be.
+
+James browsed over the drinks for a lengthy period of time even though he and Fareed both knew he would end up picking the same beverage he always does. He finally opened the foggy glass door to grab one tall twenty-four-ounce beer. He set it on the counter avoiding eye contact by pretending to check out the candy on the shelf. “How many loosey?” Fareed inquired, referring to the individual loose cigarettes James always bought. Only special occasions warranted buying a full pack. “Let me get four.” He responded while pulling out his old worn pack he kept from the last time he purchased a complete set.
+
+“Two fifty”
+
+“Here then let me get an oatmeal crème pie to make it an even three”
+
+“You have nice day, stay dry. Rain be on the way the paper says.” Fareed said while bagging James’s things and sliding an extra cigarette in while James glanced over at the newspapers.
+
+Walking back out into the brightness was jarring and James imagined that if he were rich he would probably put on an expensive pair of sunglasses right now. He would probably be walking to his high-end car to fill it up with gas. He would probably be on his way home from work to eat supper with his family. His wife would probably kiss him and ask him about his day. His daughter would probably come in for her hug and look forward to playing with daddy after dessert. He would probably watch the news and look forward to the weekend when he could play golf with a bunch of his friends who he had known since high school.
+
+That world did not exist for him though and no matter how bad he wished it did he knew it never would. It simply was not attainable in any stretch of the imagination. When you have been down so long you become less and less likely to be able to get back up. He began the nearly half an hour walk to the intersection where he has the most luck panhandling at. If his luck holds out and he has a decent day he should make enough money to unwind at his favorite bar at night. For now, though all he has is this walk and his mind to continue to pummel him with nagging thoughts of what could have been. Could have been dead last night. Could have had a life worth living. Could have a reason to live. Could have……….could have.`
       },
 
       dopesick: {
-        type: 'link+text',
-        title: 'Dopesick Bonus Chapter',
-        kicker: '2018 extra chapter',
-        cover: 'cover-dopesick.png',
-        url: 'https://www.amazon.com/Dopesick-American-Addiction-Heroin-Profit/dp/1984338323/ref=sr_1_1?sr=8-1',
-        pages: [
-          `A Tale of Two Cities
+        title: "Dopesick Bonus Chapter",
+        kicker: "2018 extra chapter",
+        cover: "cover-dopesick.png",
+        url: "https://www.amazon.com/Dopesick-American-Addiction-Heroin-Profit/dp/1984338323/ref=sr_1_1?sr=8-1",
+        raw: `A Tale of Two Cities
 
-This is the bonus chapter that did not make it into Dopesick.
+As Charles Dickens wrote in A Tale of Two Cities, “It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness” They say you write about what you know and one thing I know is about finding every possible resource available in a given area and using it to jam narcotics through my veins. Since a very young child I have always been critically observant of the world around me. I don’t profess to have many gifts but the talent to pick up on things, to notice, to critique has always been one of them. This gift ironically applies to everything outside of myself. I am able with startling accuracy to tell you about a place, a situation, even about yourself but am unable to turn that focus inward to constructively criticize myself. Many of you can relate at a certain level but my inability to do so was near fatal. Nevertheless, through my travels and experiences one thing has always stuck out at me. A realization that was always in the back of my mind when thinking and analyzing my experiences in the center of the opioid epidemic over the years. It was the striking similarities in two completely different environments in which I “existed.” They say drugs do not discriminate and this is true but power systems, class systems, and justice systems definitely do. The differences in the towns were clear as a glass of Caribbean islands ocean water. They exist in different states but it might as well be different countries in many ways. Two different communities under the siege of an opiate epidemic that has extended itself to all classes, races, and institutions of American society. They are so different yet when it comes to the scourge of drugs they might as well be identical twins. I will outline how the slow steady march to self-destruction that drugs bring doesn’t just apply to individuals but to communities as a whole using the two different towns that I did the most of my dirt in as an example. Belle Vernon, Pennsylvania and Warren, Ohio.
 
-It opens by comparing two places that look radically different on the surface — Belle Vernon, Pennsylvania and Warren, Ohio — and argues that when it comes to the opioid crisis, their structural similarities are impossible to ignore.`,
-          `The chapter works because it moves between memoir, observation, sociology, and drug-economy analysis.
+I will start with the sooner of the two. Belle Vernon is a quiet middle-class town in southwestern PA. More specifically Rostraver township which has an area of 32.9 square miles and a population of 11,634 as of the 2000 census. The racial demographic is that of 96.90 percent white with the next closest race being a 1.94 percent African American. The population density of Rostraver township, Belle Vernon PA is 361.5 people per square mile. 6.6 percent of its citizens live below the poverty line which comfortably beats the national average of 14.5 percent as of last year. A beautiful place, about 40 minutes south of its big, big brother Pittsburgh, it was hit hard when the steel mills left the area in the later 1970’s but rebounded strong much like Pittsburgh itself. It was a great place to grow up with very minimal crime and an all-around example of a community you would want to raise your children in. One could venture to say a prime example of an American middle-class town. Flanked on 2 sides with California University of PA (where I went to school) and Westmorland County Community College and fairly decent public and private schools in the area education for the youth is something to admire. Hockey, football, and baseball all enjoy tremendous community support. Hockey is where in my youth all of my free time went and I could not have asked for a better more productive and characteristically healthy childhood. Beautiful parks such as Cedar Creek park which is not just a nice looking public space but also regularly used to host a variety of youth sports every weekend. The houses are for the most part occupied and well taken care of. Small and large business profitably inhabits Belle Vernon and its surrounding areas. You can drive through the countryside in Rostraver and it is peaceful with an almost comforting aura that encompasses you as the windows are rolled down and in classic Belle Vernon youth fashion Taking Back Sunday plays from the car stereo as you sing along.
 
-One side is a quieter middle-class town with parks, schools, and a surface-level sense of stability.
-The other is a harder-hit lower-income city shaped by deindustrialization, open-air drug trade, and visible collapse.`,
-          `But the point is that both are under siege.
+Warren is a lower class American town. A city of 16.16 miles and a population of 46,832 as of the 2000 census. A city with a relatively high population density of 2,576 people per square mile. The 2000 US census lists the racial makeup of this city as 60.94 percent white with the next closest being a 36.20 percent African American population. It has two noteworthy economic parents. 50 minutes south of Cleveland and 20 minutes northwest of Youngstown it has never recovered from the decimation brought about with the collapse of the steel industry accounting in some part to the 19.4% of citizens living below the poverty line, well above the national average. Neighborhoodscout.com ranks cities and towns in a variety of areas using government and private statistics and ranks warren in safety on a 0-100 scale at an astonishing 7! It is statistically safer than a measly 7% of US cities. In a violent crime comparison between the state of Ohio as a whole and Warren, Warren is at 5.57 per 1000 residents while the average of the state of Ohio is just a 2.92 out of 1000 well below the national average of 3.8. Your mathematical chances of being a victim of a violent crime in Warren is a chilling 1 in 180. You could chalk it up to the bias of being from Pittsburgh but it is apparent cities like Cleveland and Youngstown have a much harder time supporting thriving and profitable surrounding towns.
 
-The chapter keeps returning to the same idea:
-you are not safe because you have more money,
-you are not immune because you are educated,
-and the opioid crisis touches people whether they choose to look at it or not.`,
-          `Click “Open book” here and it will also open the Amazon page for Dopesick in a new tab.
+Crime in Warren is astronomically high per capita to the national average largely in part to the exploding drug epidemic. Drug dealers from Detroit have moved into the area and are at odds with dealers from Warren to control the areas drug trade. The results are blatant and sometimes violent open-air drug markets and aggressive drug selling tactics, as one side tries to gain an economic edge on the other. Shootings are somewhat regular in fact within the past 4 months of me writing this I have had a gunshot victim on my front doorstep and a month later a shootout directly across the street. In today’s paper 2 people died in a gun battle on the Southside of the city.
 
-Later this thread can become a full archive section with:
-- the full bonus chapter
-- publication history
-- press
-- reader reactions
-- first-book timeline`
-        ]
+First responders at a steady drumbeat are called day after day over and over rushing to administer narcan to overdose victims all across the city and surrounding areas. It has a sense when you exist within it of a humanitarian crisis. People overdosing while driving and plowing through an intersection. State funded healthcare barely funding a couple day stay in detox when one can finally be admitted after a torturous wait on the inevitable waiting lists that pop up with so many seeking help. Those with bad insurance kicked out of treatment while still suffering from post-acute withdrawal syndrome leaving the likelihood of a very quick relapse only to repeat their agonizing cycle all over again. It steadily picks up intensity and steam as the surrounding community begins to spiral out of control.
+
+Yet to my eye the similarities in these two communities resemble one another a lot more than one might think after the first glance through the rabbit hole. Its not hard to see, just about as thin as a layer of ice on top of a glass of water that you have left in the freezer for only half an hour. One soft poke and you are privy to the reality underneath. Both places are under siege. You are not safe just because you have more money, you are not immune because you have a higher education. You are not quarantined from the problem because you are not addicted. You are not untouched just because you have not had to put a friend in the ground from it. It touches your life, should you choose to see it or not is up to you.
+
+Warren and Belle Vernon are polar opposites when it comes to the youth’s opportunities for extracurricular support yet there was never a shortage of seeing or being around narcotics as a teenager. Full time high school student, member of two hockey teams(one of which being a high level travel team), and a job at a local grocery store and yet my uninhibited exposure to drugs eventually allowed my curious nature to try them at age 16.
+
+In Belle Vernon to get drugs contacts you have made and people you know make acquiring drugs on 9 out of 10 days a simple text message. You arrange a meeting spot and since it is not an open air drug market you will set up a meeting place. Wal Mart being one of my most frequented. Families all around you, you hop in your dealers car in the parking lot and you are on your way. Belle Vernon being a somewhat economically better off area it is actually in some ways more convenient to get a hold of narcotics as a lot of dealers are mobile and have no problem delivering to wherever you may be. The profits are worth whatever the drive.
+
+In one instance in college I was selling opanas to support my own habit. I had a friend who was an hour away looking to purchase one single opana 40mg pill. I got them at 20 dollars a pill and my friend was dopesick and needed one very badly. I drove the hour to sell him one pill at 80 dollars and charged him 20 for gas. He had no problem paying, he was glad to. Within two and a half hours I was back home. 80 dollars profit and I had used my parents credit card for gas. Meaning with the sale of one pill I now had 4 for myself at a time when my habit was 5 to 6 Opanas a day. Oxymorphone(opana) is 2 and ½ times stronger than oxycontin meaning one opana 40 was stronger than the highest milligram oxycontin on the market and I was pounding them into my body at an alarming rate.
+
+Yet in Warren it is a different method but the same result. Easy access to all things narcotic. Since it is an open air market you do not even really need to know a dealer on a personal level, although the good ones you become very close with. Like any monetary business type relationship you hunt for the best supplier to your need, in this case heroin. A trip to, for the most part, to any gas station in downtown Warren and you will see what your looking for. Drug dealers loitering with the advertisements of the trade, rims, chains, nice clothes in an area not well known for having money. Eye contact is achieved by both players in this tragedy having the experience. You can talk to each other without saying a word. A head nod, an approach. So the conversation begins and within minutes you got heroin and a phone number. Don’t like his product? Next time it’s a different gas station, a different dealer. Its as simple as riding down the street waiting to see a large group of people hanging out off a side street, drive by and nod. Nobody is shy to approach the car. You are a consumer and just like any capitalistic entrepreneur any length to get your business is acceptable. The risk of selling to an undercover is just part of the game and the arrest of one leaves the market open for ten more to take his place.
+
+No experience has more greatly laid out the failure of the drug war in black and white than when my one drug dealer got locked up for minor possession and within 2 days I got calls from three of his friends and one of them knew where I lived and even showed up one day with a “tester” or free bag of dope. The supply is never an issue no matter the size of the bust no matter the extent of a drug raid they are never more than a minor glitch in the supply. Partly to US foreign and domestic policy drugs come in at an increasing rate, at a cheaper price and the only action taken that has clearly never worked is systematically targeting poor citizens for processing or possessing the drugs.
+
+All for today end transmission. Many grammatical errors review review review review`
       },
 
       gods: {
-        type: 'text',
-        title: 'The Last Hour of the Gods',
-        kicker: 'Apocalyptic draft',
-        cover: 'cover-gods.png',
-        pages: [
-          `This draft opens with Chris waking in the aftermath of a virus-ravaged world.
+        title: "The Last Hour of the Gods",
+        kicker: "Apocalyptic draft",
+        cover: "cover-gods.png",
+        url: "",
+        raw: `The sun crept through the curtains in small thin rays, illuminating the dust in the air as the particles danced in the scattered beams of light. The warm strands of light landed on the young but sunken and sickly face of Chris as he slept on his mattress on the floor. He fought the unpleasant rays by groggily turning to the opposite side in a last desperate attempt to salvage this last fleeting moment of rest. He did not last long because in tandem with the intrusive sunlight Melanie was awake and walking through the house. Her heavy footed steps on the old splintered pine floor was the final nail in the coffin of a full nights rest. Chris, admitting defeat, rolled back over and reached for the baggie of pre rolled cigarettes beside his mattress. After rustling around in the foggy, worn plastic bag for the lighter he emerged with a poorly rolled cigarette and a cheap gas station lighter that was down to its last few breaths of flame. The tobacco was so badly packed that he had to hold the cigarette vertical so as not to lose any more strands of tobacco than was already inevitable. The gently rolling flame came across the back of the cigarette and lit more paper than tobacco on the first pass but the return trip of the lighter did the trick. Chris inhaled deeply and slowly as he advanced to a sitting position on the old heavily stained mattress that had well outlived its normal lifespan. The soft orange glow pulsed in time with his strained attempt at inhaling the relief that nicotine would bring. Four devastating and uncertain months were spent sleeping on the lumpy aged sleeping mat as the Corona virus swept through the country. The destruction was especially prevalent where they lived in northern West Virginia. After initially fairing decently well against the virus eventually the small town, where Chris had lived his whole life, was caught in the crosshairs and eviscerated.
 
-He is sick, reduced, and physically diminished, while the social order around him has entered collapse and transformation.
+He inhaled a long drag and thought about a quote he had heard somewhere in the midst of everything and it fit so well. The words were ordered in succession in such a way that had encompassed totally the depth and enormous change that had swept the entire globe. The virus had ignited the planet and left behind a totally changed world. Issues that simmered in separate societal pots across all aspects of human life were slowly heating up in the latter part of the decade. The virus had burst into everyones lives suddenly at the start of the new decade and took all of those singular pots and combined them into one large pressure cooker. The slow steady simmer turned to a boil rather quickly. Life as people had known it was upended almost over night for a lot of the globe. Then the boil turned into a nuclear reaction and all at once it melted down. The societal explosion was fast and total and it blasted outward at incredible force rearranging everything. It all went in directions that could not be predicted, beyond the control of any person or any government. Chris mumbled the quote softly to himself as if to try and feel the impact of its every word. Lightly he breathed the words, “There are decades where nothing happens, and there are weeks where decades happen.”
 
-The tone is intimate but tied to huge systemic change.`,
-          `What makes this one hit is the overlap between private ruin and world-historical rupture.
+The ash on the end of the cigarette hung on somehow and would not survive intact for another hit. Chris, lost in thought, lifted the dwindling smoke to his lips and the ash gave way, floating softly and settling into his lap with an almost graceful landing. The simplest of things now carried the greatest of meanings. An odd satisfaction boiled within Chris as he looked down and smiled. Taking the ash between his thumb and pointer finger and rolling it back and forth with the most delicate pressure until finally it buckled and the ash disappeared to nothing but a gray smudge.
 
-The draft keeps returning to a core question:
-what happens when “normal” breaks apart and people are forced to confront what normal had really been hiding all along?`,
-          `The piece then expands into political, economic, and revolutionary territory:
-collapse of institutions,
-mass social upheaval,
-new systems of aid and defense,
-and the tension between hope and catastrophe.`,
-          `This thread already feels like:
-- plague novel
-- revolutionary transition fiction
-- post-collapse social theory in story form
-- intimate human drama inside systemic rupture
+A man of 28 the virus was not supposed to have hit him as hard as it did. The elderly and immuno-compromised is who needed to watch, not a healthy 28 year old man. That wasn’t the case though. At 6’2” he had broad stocky shoulders and powerful arms. He was a house of a man until two weeks of the sickness drained him like a parasite, sucking not just his energy but the life force itself with every weakened pulse of his heart. His weight had dropped from a muscular 200 pounds and had withered from fourteen days of not eating to a depressing 164. The color of his skin had changed. The golden tan skin of someone who spent hours a day at work in the sun gave way to a pale grayish tinge that upset him dearly to recognize.
 
-It has serious scale.`
-        ]
+Melanie stood in the entryway to the living room studying the back of Chris as he faced out the window. She frowned at the once strong and muscular back of an ox. Now the light highlighted the indents and valleys of a boney structure devoid of muscle mass. A once mountain of a man left stripped and bare. “Do you feel up to taking the trip to the hospital, they are bringing Shelly out of the coma today around 4.” Melanie said wincing at the delivery of her words, feeling guilty for having disturbed Chris’s train of thought. “I will crawl there if I have too, what time is the Peoples Spokesman giving the address to the nation?” He inquired even though he knew the answer. “9 o’clock, we will not be missing it, the entire country will be tuned in. I am sure we will be able to watch it at the hospital if we are till there.”
+
+“I still can’t believe this all happened this fast.” He added, staring blankly and giving no indication he heard a word Mel had said.
+
+“Our world was like a row of dominoes. The virus knocked the first one over and very quickly it brought them all smashing down. One long line of everything changing everything else”
+
+“They sent them stimulus checks, then the hospitals had to be nationalized. The government trying to make everyone go back to work to restart the economy in the midst of a runaway viral spread had to be one of the most unfathomably stupid decisions in modern history. One thing after another had to change and I think everyone realized that when the dust settled we were not just going to go back to how it was before.” Chris added snapping out of his trance with a strong sense of self satisfaction at the most complete compilation of thoughts he could muster in quite a few days.
+
+“Yes but how could the entire apparatus of the state capitulate that quickly and without a fight?” Melanie asked, relieved she could finally have a real conversation with her friend.
+
+“Without a fight? What do you call what happened in Kansas City or Philly?”
+
+“You know what I mean. It should have been a lot worse. An entire entrenched political class just kind of gave up.”
+
+“I wouldn’t say gave up as much as Id say overwhelmed and in utter shock. They just stood around as it just came tumbling down. Shit, speechless and dumbstruck they didn’t even understand what was happening. I think they realized that it would have been futile to try. You think with the implosion of the global economy everyone was just going to sit around and let them rebuild this whole thing in the same clearly broken way that it was before?”
+
+“I dunno it just didn’t go how I could ever have predicted or fathomed it would” Mel said with a shrug.
+
+Twiling her long brown hair between her fingers, a smile started to crease her attractive face. The small dust mask hid it from view but the rising of her full cheeks betrayed what was underneath.
+
+“Yea but we both know you're damn happy it did, look at you, can’t even hide it.”
+
+“Its scary Chris! Who knows how this all goes, what if what they are implementing doesn’t work?!”
+
+“C’mon you adorable little squirrel the worst part is over. Tonight we get to find out all the sweeping measures that are going to be implemented and the new world we are going to live in. It can’t be worse than the nightmare we came from so store some more acorns in those chubby cheeks and smile.”
+
+It was dangerous to get too caught up in your own thoughts. The reality you had once known was gone and replaced with the uncertainty and constant excitement of turbulent times. It was strange, normalcy means comfort and security. It means routine and peace. Normalcy also meant something else in the world pre-virus. Normalcy meant exploitation of the poor and weak. It meant injustice laid over the globe as a sheet covers a bed. Many lived in luxury and excess while children by the millions would die a slow and painful agonizing death by starvation. Twin epidemics of obesity and of starvation highlighted that we had the means, resources, and money to make sure nobody went without. Normalcy meant an entire class of ultra rich gorging themselves to new levels until no belt could loosen enough to contain it. They consumed and hoarded each mouthful, stuffing their cheeks to the bursting point with the hopes and dreams of the masses.
+
+Normalcy was chaos with make up on. Normalcy was hideous and disgusting but it was hidden with a bow. Those existing in it became so battered and bruised by the truth that eventually they became oblivious to it all together. Eventually all that registered to the people was the bright pink bow and the pretty make up, the ugly inconvenient and painful truth was subconsciously blocked from the collective psyche.
+
+It only seemed fitting that on the first encounter with turbulence normalcy cracks and chips. The turbulence shakes from a soft vibration to a bone rattling quake. Gradually and then all at once normalcy splits and disintegrates. Cracking and crumbling like a sloppy puddle of mud after baking in the hot summer sun. It falls away and all that’s left is the unsettling and ugly picture underneath. The cold hard truth, exposed, now staring back at us.
+
+Expectations tend to always lead to let downs. The mind of Chris had been preparing for a view of a physical world that matched the imaginative change in his own mind. Days spent lying on a scratchy blanket in puddles of his own musty sweat, hearing bits and pieces of news from Mel about the rapid chain of events whipping through society, had led him to picture what lay in store outside those same four walls.
+
+The first step out the door was a transforming experience. The bright sun glared alone high in the sky, no clouds to stifle its powerful rays, and a bright warmth consumed Chris. His eyes had been tuned to the dim shallow light of being stuck indoors for as long as he was and he was enveloped by a blinding brightness. His face contorted and not even a forcible squint was able to defend from the shock.
+
+After a short drive on winding country roads they finally were coming up on the town. It was your average mid-sized midwest American town. Small neighborhoods have way to a plethora of businesses. The houses seemed to be busting with activity. Families moving around briskly, many carrying various items. The air was charged with a sort of muffled excitement. Much like the heavy hanging mugginess of a humid day there was a blanket of energy that could be felt by all. An energy that rustled the trees and flowed through the alleyways and between the brick buildings.
+
+[Draft continues — paste the rest of your uploaded doc here if you want the complete remaining pages in the site.]`
       }
     };
+
+    Object.keys(books).forEach(key => {
+      books[key].pages = splitIntoPages(books[key].raw);
+    });
 
     let state = 0;
     let currentBook = null;
@@ -1258,6 +1363,15 @@ It has serious scale.`
       viewerCover.alt = currentBook.title;
       bookViewer.classList.add('show');
       bookViewer.classList.remove('reading');
+
+      if (currentBook.url) {
+        externalLinkBtn.style.display = 'inline-block';
+        externalLinkBtn.href = currentBook.url;
+      } else {
+        externalLinkBtn.style.display = 'none';
+        externalLinkBtn.href = '#';
+      }
+
       renderPages();
     }
 
@@ -1279,17 +1393,10 @@ It has serious scale.`
       bookStatus.textContent = `Page ${pageIndex + 1}`;
       prevPageBtn.disabled = pageIndex === 0;
       nextPageBtn.disabled = pageIndex + 2 >= pages.length;
-
-      openBookBtn.textContent = currentBook.type.includes('link') ? 'Open book / link' : 'Open book';
     }
 
     function startReading() {
       if (!currentBook) return;
-
-      if (currentBook.type.includes('link') && currentBook.url) {
-        window.open(currentBook.url, '_blank', 'noopener,noreferrer');
-      }
-
       bookViewer.classList.add('reading');
       renderPages();
     }
@@ -1298,6 +1405,8 @@ It has serious scale.`
       bookViewer.classList.remove('show', 'reading');
       currentBook = null;
       pageIndex = 0;
+      externalLinkBtn.style.display = 'none';
+      externalLinkBtn.href = '#';
     }
 
     function nextPages() {
