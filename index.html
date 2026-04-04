@@ -5,667 +5,810 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>I'm High on Crack and I Have a Gun</title>
   <style>
-    :root{
-      --bg:#050505;
-      --text:#f3eadf;
-      --muted:#c8b39a;
-      --line:rgba(255,255,255,.1);
-      --paper:#e9dcc4;
-      --ink:#2a2118;
-    }
-    *{box-sizing:border-box}
-    html,body{
-      margin:0;
-      height:100%;
-      background:#000;
-      color:var(--text);
-      font-family:Arial,Helvetica,sans-serif;
-    }
-    body{overflow:hidden}
-    button,a{font:inherit}
-    a{text-decoration:none;color:inherit}
-
-    .app{
-      position:relative;
-      width:100vw;
-      height:100vh;
-      overflow:hidden;
-      background:#000;
+    :root {
+      --bg: #040404;
+      --text: #f2eadf;
+      --muted: #c8b29a;
+      --line: rgba(255,255,255,.10);
+      --panel: rgba(0,0,0,.52);
+      --paper: #eadcc4;
+      --ink: #2b2118;
+      --shadow: 0 30px 90px rgba(0,0,0,.55);
+      --shadow-deep: 0 50px 140px rgba(0,0,0,.78);
+      --danger: #9c2d24;
+      --warm: #daac72;
     }
 
-    .grain,.vignette{
-      position:absolute;
-      inset:0;
-      pointer-events:none;
-      z-index:100;
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      height: 100%;
+      background: #000;
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
     }
-    .grain{
-      opacity:.05;
+    body { overflow: hidden; }
+
+    button, a { font: inherit; }
+    a { color: inherit; text-decoration: none; }
+
+    .app {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background: #000;
+    }
+
+    .grain, .vignette {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 200;
+    }
+    .grain {
+      opacity: .05;
       background-image:
         linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
-      background-size:4px 4px;
-      mix-blend-mode:soft-light;
+      background-size: 4px 4px;
+      mix-blend-mode: soft-light;
     }
-    .vignette{box-shadow:inset 0 0 220px rgba(0,0,0,.78)}
-
-    .scene{
-      position:absolute;
-      inset:0;
-      opacity:0;
-      pointer-events:none;
-      transition:opacity .9s ease;
-    }
-    .scene.show{
-      opacity:1;
-      pointer-events:auto;
+    .vignette {
+      box-shadow: inset 0 0 220px rgba(0,0,0,.78);
     }
 
-    .pill{
-      border:1px solid var(--line);
-      background:rgba(0,0,0,.45);
-      color:var(--muted);
-      backdrop-filter:blur(10px);
-      border-radius:999px;
-      padding:10px 14px;
-      letter-spacing:.14em;
-      text-transform:uppercase;
-      font-size:12px;
+    .scene {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s ease, transform 1s ease;
+      transform: scale(1.01);
+    }
+    .scene.show {
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(1);
     }
 
-    .reset{
-      position:absolute;
-      top:16px;
-      right:16px;
-      z-index:120;
-      cursor:pointer;
+    .pill {
+      border: 1px solid var(--line);
+      background: rgba(0,0,0,.48);
+      color: var(--muted);
+      border-radius: 999px;
+      padding: 10px 14px;
+      text-transform: uppercase;
+      letter-spacing: .14em;
+      font-size: 12px;
+      backdrop-filter: blur(10px);
     }
 
-    .hint{
-      position:absolute;
-      left:50%;
-      bottom:14px;
-      transform:translateX(-50%);
-      z-index:120;
-      max-width:92vw;
-      text-align:center;
+    .reset {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      z-index: 220;
+      cursor: pointer;
     }
 
-    /* OPENING */
-    .pickup-scene{
+    .audio-toggle {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      z-index: 220;
+      cursor: pointer;
+      color: #fff;
+    }
+
+    .hint {
+      position: absolute;
+      left: 50%;
+      bottom: 14px;
+      transform: translateX(-50%);
+      z-index: 220;
+      max-width: 92vw;
+      text-align: center;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* Opening scene */
+    .pickup-scene {
       background:
-        linear-gradient(180deg, rgba(0,0,0,.2), rgba(0,0,0,.58)),
+        linear-gradient(180deg, rgba(0,0,0,.16), rgba(0,0,0,.58)),
         url('ticket-collage.png') center center / 680px auto repeat,
         #050505;
     }
-    .bg-video-wrap{
-      position:absolute;
-      inset:0;
-      overflow:hidden;
+
+    .bg-video-wrap {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
     }
-    .bg-video{
-      position:absolute;
-      inset:0;
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      opacity:.78;
-      filter:brightness(.68) contrast(1.06) saturate(.9);
-      transform:scale(1.04);
+    .bg-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: .75;
+      filter: brightness(.62) contrast(1.04) saturate(.88);
+      transform: scale(1.04);
     }
-    .video-darkener{
-      position:absolute;
-      inset:0;
+    .video-darkener {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
       background:
-        linear-gradient(180deg, rgba(0,0,0,.42), rgba(0,0,0,.64)),
-        radial-gradient(circle at center, rgba(0,0,0,.08) 0%, rgba(0,0,0,.3) 55%, rgba(0,0,0,.65) 100%);
-      z-index:2;
+        linear-gradient(180deg, rgba(0,0,0,.42), rgba(0,0,0,.66)),
+        radial-gradient(circle at center, transparent 0%, rgba(0,0,0,.18) 48%, rgba(0,0,0,.62) 100%);
     }
 
-    .pickup-copy{
-      position:absolute;
-      top:24px;
-      left:50%;
-      transform:translateX(-50%);
-      z-index:10;
-      width:min(940px,92vw);
-      padding:16px 18px;
-      border-radius:24px;
-      border:1px solid var(--line);
-      background:rgba(0,0,0,.4);
-      backdrop-filter:blur(10px);
-      text-align:center;
+    .banner-wrap {
+      position: absolute;
+      top: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(1500px, 94vw);
+      z-index: 10;
+      pointer-events: none;
     }
-    .pickup-copy .mini{
-      color:var(--muted);
-      text-transform:uppercase;
-      letter-spacing:.18em;
-      font-size:11px;
-      margin-bottom:6px;
-    }
-    .pickup-copy h1{
-      margin:0;
-      font-size:clamp(22px,3.8vw,44px);
-      line-height:.96;
-      text-transform:uppercase;
-      letter-spacing:.08em;
+    .site-banner {
+      width: 100%;
+      display: block;
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,.06);
+      background: rgba(0,0,0,.30);
     }
 
-    .ground-ticket{
-      position:absolute;
-      left:50%;
-      bottom:8vh;
-      transform:translateX(-50%) rotate(-6deg);
-      width:min(760px,78vw);
-      aspect-ratio:2.05/1;
-      border-radius:26px;
-      overflow:hidden;
-      box-shadow:0 44px 120px rgba(0,0,0,.72);
-      z-index:12;
-      cursor:pointer;
-      transition:transform .7s ease,opacity 1s ease;
-      background:#000;
+    .ground-ticket {
+      position: absolute;
+      left: 50%;
+      bottom: 7vh;
+      transform: translateX(-50%) rotate(-6deg);
+      width: min(760px, 78vw);
+      aspect-ratio: 2.05 / 1;
+      border-radius: 24px;
+      overflow: hidden;
+      background: #000;
+      z-index: 12;
+      cursor: pointer;
+      box-shadow: var(--shadow-deep);
+      transition: transform .8s ease, opacity 1s ease, box-shadow .6s ease;
     }
-    .ground-ticket:hover{
-      transform:translateX(-50%) rotate(-4deg) translateY(-10px) scale(1.025);
+    .ground-ticket:hover {
+      transform: translateX(-50%) rotate(-4deg) translateY(-10px) scale(1.02);
+      box-shadow: 0 62px 160px rgba(0,0,0,.8);
     }
-    .ground-ticket img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
+    .ground-ticket img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
-    .ground-ticket::after{
-      content:"Click to pick up";
-      position:absolute;
-      left:50%;
-      bottom:14px;
-      transform:translateX(-50%);
-      border:1px solid rgba(255,255,255,.12);
-      background:rgba(0,0,0,.48);
-      border-radius:999px;
-      padding:10px 14px;
-      color:#fff;
-      font-size:11px;
-      text-transform:uppercase;
-      letter-spacing:.16em;
-      backdrop-filter:blur(8px);
+    .ground-ticket::after {
+      content: "Click to pick up";
+      position: absolute;
+      left: 50%;
+      bottom: 14px;
+      transform: translateX(-50%);
+      border-radius: 999px;
+      padding: 10px 14px;
+      background: rgba(0,0,0,.52);
+      border: 1px solid rgba(255,255,255,.12);
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: .15em;
+      font-size: 11px;
+      backdrop-filter: blur(8px);
     }
-    .pickup-scene.animate-out .ground-ticket{
-      transform:translateX(-50%) translateY(-34vh) scale(.48) rotate(-2deg);
-      opacity:.06;
+    .pickup-scene.animate-out .ground-ticket {
+      transform: translateX(-50%) translateY(-34vh) scale(.48) rotate(-2deg);
+      opacity: .04;
     }
 
     /* ATM */
-    .atm-scene{
-      display:grid;
-      place-items:center;
-      background:linear-gradient(180deg,#050505,#090909);
+    .atm-scene {
+      display: grid;
+      place-items: center;
+      background: linear-gradient(180deg, #040404, #090909);
     }
-    .atm-stage{
-      position:absolute;
-      inset:0;
-      display:grid;
-      place-items:center;
-      padding:18px;
+    .atm-stage {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 18px;
     }
-    .atm-machine{
-      position:relative;
-      width:min(1000px,94vw);
-      aspect-ratio:.92/1;
-      border-radius:28px;
-      overflow:hidden;
-      background:#000;
-      box-shadow:0 44px 120px rgba(0,0,0,.72);
+    .atm-machine {
+      position: relative;
+      width: min(1000px, 94vw);
+      aspect-ratio: .92 / 1;
+      border-radius: 28px;
+      overflow: hidden;
+      background: #000;
+      box-shadow: var(--shadow-deep);
+      animation: atmZoom 9s ease-in-out infinite alternate;
     }
-    .atm-machine img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
+    @keyframes atmZoom {
+      from { transform: scale(1); }
+      to { transform: scale(1.016); }
     }
-
-    .atm-copy{
-      position:absolute;
-      left:50%;
-      top:4%;
-      transform:translateX(-50%);
-      z-index:8;
-      width:min(900px,88vw);
-      padding:12px 16px;
-      border-radius:24px;
-      border:1px solid var(--line);
-      background:rgba(0,0,0,.38);
-      backdrop-filter:blur(10px);
-      text-align:center;
+    .atm-machine img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
-    .atm-copy .mini{
-      color:var(--muted);
-      text-transform:uppercase;
-      letter-spacing:.18em;
-      font-size:11px;
-      margin-bottom:4px;
-    }
-    .atm-copy strong{
-      font-size:clamp(18px,2.4vw,30px);
-      letter-spacing:.08em;
-      text-transform:uppercase;
+    .atm-overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.02), transparent 18%, transparent 82%, rgba(255,255,255,.02)),
+        radial-gradient(circle at 25% 42%, rgba(140,255,230,.10), transparent 12%),
+        radial-gradient(circle at 57% 58%, rgba(255,210,120,.10), transparent 7%);
+      pointer-events: none;
     }
 
-    .atm-ticket{
-      position:absolute;
-      left:50%;
-      bottom:14%;
-      transform:translateX(-50%) rotate(-2deg);
-      width:min(430px,44vw);
-      aspect-ratio:2.05/1;
-      border-radius:18px;
-      overflow:hidden;
-      background:#000;
-      z-index:9;
-      box-shadow:0 20px 60px rgba(0,0,0,.56);
-      transition:transform 1.7s cubic-bezier(.18,.84,.2,1),opacity 1s ease;
+    .atm-ticket {
+      position: absolute;
+      left: 50%;
+      bottom: 14%;
+      transform: translateX(-50%) rotate(-2deg);
+      width: min(430px, 44vw);
+      aspect-ratio: 2.05 / 1;
+      border-radius: 18px;
+      overflow: hidden;
+      background: #000;
+      z-index: 10;
+      box-shadow: 0 20px 60px rgba(0,0,0,.56);
+      transition: transform 1.9s cubic-bezier(.18,.84,.2,1), opacity 1s ease;
     }
-    .atm-ticket img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
+    .atm-ticket img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
-    .atm-scene.animate-insert .atm-ticket{
-      transform:translateX(-50%) translateY(-12%) scale(.72) rotate(-1deg);
-      opacity:.98;
+    .atm-scene.animate-insert .atm-ticket {
+      transform: translateX(-50%) translateY(-12%) scale(.72) rotate(-1deg);
+      opacity: .98;
     }
-    .atm-scene.finish-insert .atm-ticket{
-      transform:translateX(-50%) translateY(-28%) scale(.28) rotate(-1deg);
-      opacity:.05;
-    }
-
-    .dvd{
-      position:absolute;
-      left:50%;
-      bottom:4.5%;
-      width:min(360px,31vw);
-      aspect-ratio:.72/1;
-      transform:translate(-50%,230%) rotateX(55deg) scale(.82);
-      transform-origin:center center;
-      transition:transform 1.7s cubic-bezier(.2,.8,.2,1),opacity .9s ease;
-      opacity:0;
-      perspective:2200px;
-      z-index:12;
-    }
-    .atm-scene.reveal-dvd .dvd{
-      transform:translate(-50%,0%) rotateX(6deg) scale(1);
-      opacity:1;
+    .atm-scene.finish-insert .atm-ticket {
+      transform: translateX(-50%) translateY(-28%) scale(.28) rotate(-1deg);
+      opacity: .03;
     }
 
-    .case{
-      position:relative;
-      width:100%;
-      height:100%;
-      transform-style:preserve-3d;
-      cursor:pointer;
+    .dvd {
+      position: absolute;
+      left: 50%;
+      bottom: 4.5%;
+      width: min(380px, 32vw);
+      aspect-ratio: .72 / 1;
+      transform: translate(-50%, 230%) rotateX(55deg) scale(.82);
+      transform-origin: center center;
+      transition: transform 1.8s cubic-bezier(.2,.8,.2,1), opacity 1s ease;
+      opacity: 0;
+      perspective: 2200px;
+      z-index: 12;
     }
-    .case-front,.case-inside{
-      position:absolute;
-      inset:0;
-      border-radius:18px;
-      overflow:hidden;
-      border:1px solid rgba(255,255,255,.08);
-      box-shadow:0 24px 80px rgba(0,0,0,.55);
-      background:#000;
-      backface-visibility:hidden;
-    }
-    .case-front img,.case-inside img{
-      width:100%;
-      height:100%;
-      display:block;
-    }
-    .case-front img{object-fit:cover}
-    .case-inside img{
-      object-fit:contain;
-      object-position:center;
-      padding:10px;
-      background:#050505;
-    }
-    .case-front{
-      transform-origin:left center;
-      transition:transform 2.2s cubic-bezier(.18,.82,.18,1);
-      z-index:4;
-    }
-    .case.open .case-front{
-      transform:rotateY(-132deg);
+    .atm-scene.reveal-dvd .dvd {
+      transform: translate(-50%, 0%) rotateX(6deg) scale(1);
+      opacity: 1;
     }
 
-    .case-enter{
-      position:absolute;
-      left:50%;
-      bottom:10px;
-      transform:translateX(-50%);
-      z-index:7;
-      opacity:0;
-      pointer-events:none;
-      transition:opacity .9s ease .55s;
+    .case {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      cursor: pointer;
     }
-    .case.open .case-enter{
-      opacity:1;
-      pointer-events:auto;
+    .case-front, .case-inside {
+      position: absolute;
+      inset: 0;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow: var(--shadow);
+      background: #000;
+      backface-visibility: hidden;
     }
-
-    /* THREADS */
-    .cloud-scene{
-      display:grid;
-      place-items:start center;
-      overflow-y:auto;
-      overflow-x:hidden;
-      background:linear-gradient(180deg,#050505,#010101 70%);
+    .case-front img, .case-inside img {
+      width: 100%;
+      height: 100%;
+      display: block;
     }
-    .cloud-core{
-      position:relative;
-      width:min(1320px,96vw);
-      min-height:100vh;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:flex-start;
-      padding:40px 0 130px;
+    .case-front img {
+      object-fit: cover;
     }
-    .cloud-title{
-      position:relative;
-      z-index:5;
-      width:min(1100px,94vw);
-      padding:0 20px;
-      text-align:center;
+    .case-inside {
+      display: grid;
+      place-items: center;
+      padding: 10px;
+      background:
+        radial-gradient(circle at center, rgba(255,255,255,.03), transparent 38%),
+        linear-gradient(180deg, #070707, #020202);
     }
-    .cloud-title h2{
-      margin:0;
-      font-size:clamp(28px,4vw,58px);
-      letter-spacing:.08em;
-      text-transform:uppercase;
+    .case-inside img {
+      object-fit: contain;
+      object-position: center;
+      padding: 6px;
+      background: #050505;
+      border-radius: 14px;
     }
-    .cloud-title p{
-      margin:14px 0 0;
-      color:var(--muted);
-      font-size:18px;
+    .case-front {
+      transform-origin: left center;
+      transition: transform 2.2s cubic-bezier(.18,.82,.18,1);
+      z-index: 4;
     }
-    .update-pill{
-      margin-top:18px;
-      display:inline-block;
-      padding:12px 18px;
-      border:1px solid rgba(255,255,255,.12);
-      border-radius:999px;
-      background:rgba(0,0,0,.3);
-      color:#c7b59f;
-      font-size:12px;
-      text-transform:uppercase;
-      letter-spacing:.14em;
-      max-width:min(92vw,1000px);
+    .case.open .case-front {
+      transform: rotateY(-132deg);
     }
 
-    .thread-grid{
-      position:relative;
-      z-index:6;
-      width:min(1220px,96vw);
-      margin-top:46px;
-      display:grid;
-      grid-template-columns:repeat(4,minmax(190px,230px));
-      justify-content:center;
-      gap:32px;
+    .case-enter {
+      position: absolute;
+      left: 50%;
+      bottom: 10px;
+      transform: translateX(-50%);
+      z-index: 7;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .9s ease .55s;
     }
-    .cover-thread{
-      width:100%;
-      padding:12px;
-      border-radius:22px;
-      border:1px solid rgba(255,255,255,.1);
-      background:rgba(10,10,10,.56);
-      backdrop-filter:blur(8px);
-      box-shadow:0 16px 35px rgba(0,0,0,.28);
-      color:var(--text);
-      text-align:center;
-      cursor:pointer;
-      transition:transform .35s ease,background .35s ease,border-color .35s ease;
-    }
-    .cover-thread:hover{
-      transform:translateY(-8px) scale(1.03);
-      background:rgba(20,20,20,.84);
-      border-color:rgba(255,255,255,.18);
-    }
-    .cover-thread img{
-      width:100%;
-      aspect-ratio:.72/1;
-      object-fit:cover;
-      display:block;
-      border-radius:14px;
-      margin-bottom:12px;
-      background:#111;
-    }
-    .cover-thread span{
-      display:block;
-      color:var(--muted);
-      font-size:11px;
-      text-transform:uppercase;
-      letter-spacing:.14em;
-      margin-bottom:8px;
-    }
-    .cover-thread b{
-      display:block;
-      font-size:18px;
-      line-height:1.1;
+    .case.open .case-enter {
+      opacity: 1;
+      pointer-events: auto;
     }
 
-    /* VIEWERS */
-    .book-viewer,.video-viewer{
-      position:absolute;
-      inset:0;
-      opacity:0;
-      pointer-events:none;
-      transition:opacity .45s ease;
-      z-index:250;
-    }
-    .book-viewer.show,.video-viewer.show{
-      opacity:1;
-      pointer-events:auto;
-    }
-    .book-backdrop,.video-backdrop{
-      position:absolute;
-      inset:0;
-      background:rgba(0,0,0,.82);
-      backdrop-filter:blur(12px);
+    /* Threads */
+    .cloud-scene {
+      display: grid;
+      place-items: start center;
+      overflow-y: auto;
+      overflow-x: hidden;
+      background: linear-gradient(180deg, #050505, #000 72%);
     }
 
-    .book-shell,.video-shell{
-      position:absolute;
-      inset:4vh 4vw;
-      border-radius:28px;
-      background:linear-gradient(180deg,#17110d,#0d0a08 62%,#080707);
-      border:1px solid rgba(255,255,255,.08);
-      box-shadow:0 44px 120px rgba(0,0,0,.72);
-      padding:20px;
-      display:flex;
-      flex-direction:column;
-      gap:16px;
+    .threads-video-wrap {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+    .threads-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: .42;
+      filter: brightness(.42) contrast(1.03) saturate(.85);
+      transform: scale(1.06);
+    }
+    .threads-darkener {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.44), rgba(0,0,0,.70)),
+        radial-gradient(circle at center, rgba(0,0,0,.08) 0%, rgba(0,0,0,.24) 50%, rgba(0,0,0,.60) 100%);
+      z-index: 1;
     }
 
-    .book-close,.video-close,.open-book-btn,.book-link-btn,.book-controls button{
-      border:1px solid rgba(255,255,255,.12);
-      background:rgba(255,255,255,.05);
-      color:#fff;
-      border-radius:999px;
-      padding:10px 14px;
-      cursor:pointer;
-      text-decoration:none;
-      display:inline-block;
-    }
-    .book-close,.video-close{align-self:flex-end}
-
-    .book-stage{
-      flex:1;
-      min-height:0;
-      display:grid;
-      place-items:center;
-      position:relative;
-    }
-    .book-cover-panel,.book-pages{
-      width:min(1120px,100%);
-      height:min(74vh,100%);
-      transition:opacity .55s ease,transform .55s ease;
-    }
-    .book-cover-panel{
-      display:grid;
-      place-items:center;
-      gap:16px;
-      align-content:center;
-    }
-    .book-cover-panel img{
-      height:min(62vh,100%);
-      width:auto;
-      max-width:100%;
-      object-fit:contain;
-      border-radius:18px;
-      background:#111;
-    }
-    .book-cover-actions{
-      display:flex;
-      gap:12px;
-      flex-wrap:wrap;
-      justify-content:center;
-    }
-    .book-pages{
-      position:absolute;
-      inset:0;
-      opacity:0;
-      pointer-events:none;
-      transform:scale(.98);
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:12px;
-    }
-    .book-viewer.reading .book-cover-panel{
-      opacity:0;
-      pointer-events:none;
-      transform:scale(.96);
-    }
-    .book-viewer.reading .book-pages{
-      opacity:1;
-      pointer-events:auto;
-      transform:scale(1);
+    .cloud-core {
+      position: relative;
+      z-index: 5;
+      width: min(1320px, 96vw);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 42px 0 130px;
     }
 
-    .page{
-      min-width:0;
+    .threads-title {
+      width: min(1100px, 94vw);
+      text-align: center;
+      position: relative;
+      z-index: 6;
+    }
+    .threads-title h2 {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 58px);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+    .threads-title p {
+      margin: 14px 0 0;
+      font-size: 17px;
+      color: var(--muted);
+    }
+    .update-pill {
+      margin-top: 18px;
+      display: inline-block;
+      padding: 12px 18px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.32);
+      border: 1px solid rgba(255,255,255,.12);
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .14em;
+      font-size: 12px;
+    }
+
+    .thread-board {
+      position: relative;
+      width: min(1220px, 96vw);
+      height: 760px;
+      margin-top: 26px;
+      z-index: 8;
+    }
+
+    .thread-knot {
+      position: absolute;
+      left: 50%;
+      top: 8%;
+      transform: translateX(-50%);
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #fff 0%, #dcb98c 35%, #6b402a 100%);
+      box-shadow: 0 0 12px rgba(255,255,255,.16), 0 0 30px rgba(213,167,103,.18);
+      z-index: 9;
+    }
+
+    .yarn-layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 7;
+      overflow: visible;
+    }
+    .yarn {
+      fill: none;
+      stroke: rgba(180,140,110,.86);
+      stroke-width: 3;
+      stroke-linecap: round;
+      filter: drop-shadow(0 0 4px rgba(0,0,0,.5));
+    }
+    .yarn-shadow {
+      fill: none;
+      stroke: rgba(0,0,0,.48);
+      stroke-width: 6;
+      stroke-linecap: round;
+    }
+
+    .thread-node {
+      position: absolute;
+      width: 220px;
+      padding: 12px;
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(10,10,10,.62);
+      backdrop-filter: blur(9px);
+      box-shadow: 0 18px 42px rgba(0,0,0,.34);
+      color: var(--text);
+      text-align: center;
+      cursor: pointer;
+      transition: transform .35s ease, background .35s ease, border-color .35s ease, box-shadow .35s ease;
+      transform: translate3d(0,0,0);
+      touch-action: none;
+      z-index: 10;
+    }
+    .thread-node:hover {
+      transform: translateY(-8px) scale(1.03);
+      background: rgba(20,20,20,.88);
+      border-color: rgba(255,255,255,.18);
+      box-shadow: 0 28px 62px rgba(0,0,0,.45);
+    }
+    .thread-node.dragging {
+      transition: none;
+      box-shadow: 0 40px 80px rgba(0,0,0,.58);
+    }
+    .thread-node img {
+      width: 100%;
+      aspect-ratio: .72 / 1;
+      object-fit: cover;
+      display: block;
+      border-radius: 14px;
+      margin-bottom: 12px;
+      background: #111;
+    }
+    .thread-node .mini {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .14em;
+      margin-bottom: 8px;
+    }
+    .thread-node b {
+      display: block;
+      font-size: 18px;
+      line-height: 1.1;
+    }
+    .thread-node.important {
+      border-color: rgba(218,172,114,.30);
+      box-shadow: 0 20px 56px rgba(125,78,32,.20), 0 18px 42px rgba(0,0,0,.34);
+    }
+
+    /* positions */
+    #node-trailer1 { left: 5%; top: 24%; }
+    #node-trailer2 { left: 27%; top: 14%; }
+    #node-sample   { left: 50%; top: 32%; transform: translateX(-50%); }
+    #node-july     { right: 27%; top: 14%; }
+    #node-dopesick { right: 5%; top: 24%; }
+    #node-gods     { left: 50%; bottom: 4%; transform: translateX(-50%); }
+
+    /* viewers */
+    .book-viewer, .video-viewer {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .45s ease;
+      z-index: 260;
+    }
+    .book-viewer.show, .video-viewer.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .book-backdrop, .video-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,.84);
+      backdrop-filter: blur(12px);
+    }
+
+    .book-shell, .video-shell {
+      position: absolute;
+      inset: 4vh 4vw;
+      border-radius: 28px;
+      background: linear-gradient(180deg, #17110d, #0d0a08 62%, #080707);
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow: var(--shadow-deep);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .book-close, .video-close, .open-book-btn, .book-link-btn, .book-controls button {
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      color: #fff;
+      border-radius: 999px;
+      padding: 10px 14px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .book-close, .video-close {
+      align-self: flex-end;
+    }
+
+    .book-stage {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      place-items: center;
+      position: relative;
+    }
+
+    .book-cover-panel, .book-pages {
+      width: min(1120px, 100%);
+      height: min(74vh, 100%);
+      transition: opacity .55s ease, transform .55s ease;
+    }
+    .book-cover-panel {
+      display: grid;
+      place-items: center;
+      gap: 16px;
+      align-content: center;
+    }
+    .book-cover-panel img {
+      height: min(62vh, 100%);
+      width: auto;
+      max-width: 100%;
+      object-fit: contain;
+      border-radius: 18px;
+      background: #111;
+      box-shadow: var(--shadow);
+    }
+    .book-cover-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .book-pages {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(.98);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .book-viewer.reading .book-cover-panel {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(.96);
+    }
+    .book-viewer.reading .book-pages {
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(1);
+    }
+
+    .page {
+      min-width: 0;
+      position: relative;
+      overflow: hidden;
+      border-radius: 16px;
       background:
         linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.06) 12%, rgba(255,255,255,.02)),
         var(--paper);
-      color:var(--ink);
-      border-radius:16px;
-      position:relative;
-      overflow:hidden;
+      color: var(--ink);
+      box-shadow: inset 0 0 0 1px rgba(90,60,32,.12), 0 20px 40px rgba(0,0,0,.25);
     }
-    .page::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:repeating-linear-gradient(180deg, rgba(90,60,32,.03), rgba(90,60,32,.03) 1px, transparent 1px, transparent 30px);
-      opacity:.5;
-      pointer-events:none;
+    .page::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(180deg, rgba(90,60,32,.03), rgba(90,60,32,.03) 1px, transparent 1px, transparent 30px);
+      opacity: .5;
+      pointer-events: none;
     }
-    .page-inner{
-      position:relative;
-      padding:28px 26px;
-      height:100%;
-      overflow:auto;
+    .page-inner {
+      position: relative;
+      padding: 28px 26px;
+      height: 100%;
+      overflow: auto;
     }
-    .page-kicker{
-      font-size:11px;
-      letter-spacing:.18em;
-      text-transform:uppercase;
-      color:#7b5a39;
-      margin-bottom:10px;
+    .page-kicker {
+      font-size: 11px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: #7b5a39;
+      margin-bottom: 10px;
     }
-    .page h3{
-      margin:0 0 16px;
-      font-size:28px;
-      line-height:1.02;
-      text-transform:uppercase;
+    .page h3 {
+      margin: 0 0 16px;
+      font-size: 28px;
+      line-height: 1.02;
+      text-transform: uppercase;
     }
-    .page-text{
-      font-family:Georgia,"Times New Roman",serif;
-      font-size:18px;
-      line-height:1.62;
-      white-space:pre-wrap;
-    }
-    .book-controls{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:14px;
-    }
-    .book-status{
-      min-width:120px;
-      text-align:center;
-      color:var(--muted);
-      text-transform:uppercase;
-      letter-spacing:.12em;
-      font-size:12px;
+    .page-text {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 18px;
+      line-height: 1.62;
+      white-space: pre-wrap;
     }
 
-    .video-frame-wrap{
-      flex:1;
-      min-height:0;
-      display:grid;
-      place-items:center;
+    .book-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
     }
-    .video-frame{
-      width:min(1220px,100%);
-      aspect-ratio:16/9;
-      border-radius:20px;
-      overflow:hidden;
-      background:#000;
-    }
-    .video-frame iframe{
-      width:100%;
-      height:100%;
-      border:0;
-      display:block;
+    .book-status {
+      min-width: 120px;
+      text-align: center;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      font-size: 12px;
     }
 
-    @media (max-width:1020px){
-      .thread-grid{grid-template-columns:repeat(2,minmax(180px,220px))}
+    .video-frame-wrap {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      place-items: center;
+    }
+    .video-frame {
+      width: min(1220px, 100%);
+      aspect-ratio: 16 / 9;
+      border-radius: 20px;
+      overflow: hidden;
+      background: #000;
+      box-shadow: var(--shadow);
+    }
+    .video-frame iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
     }
 
-    @media (max-width:820px){
-      .pickup-copy{width:92vw; top:18px}
-      .ground-ticket{width:92vw; bottom:10vh}
-      .atm-machine{width:96vw}
-      .atm-copy{top:2.4%; width:88vw; padding:10px 12px}
-      .atm-copy strong{font-size:18px}
-      .atm-ticket{width:54vw; bottom:16%}
-      .dvd{width:min(280px,56vw); bottom:1.8%}
+    @media (max-width: 1100px) {
+      .thread-board {
+        height: 1060px;
+      }
+      #node-trailer1 { left: 5%; top: 14%; }
+      #node-trailer2 { right: 5%; left: auto; top: 14%; }
+      #node-sample   { left: 50%; top: 34%; transform: translateX(-50%); }
+      #node-july     { left: 5%; right: auto; top: 56%; }
+      #node-dopesick { right: 5%; top: 56%; }
+      #node-gods     { left: 50%; bottom: 4%; transform: translateX(-50%); }
+    }
 
-      .cloud-core{min-height:auto; padding:26px 0 150px}
-      .thread-grid{
-        grid-template-columns:1fr;
-        width:min(340px,92vw);
-        gap:18px;
-        margin-top:28px;
+    @media (max-width: 820px) {
+      .banner-wrap {
+        top: 10px;
+        width: 96vw;
+      }
+      .ground-ticket {
+        width: 92vw;
+        bottom: 9vh;
+      }
+      .atm-machine {
+        width: 96vw;
+      }
+      .atm-ticket {
+        width: 54vw;
+        bottom: 16%;
+      }
+      .dvd {
+        width: min(300px, 60vw);
+        bottom: 2%;
       }
 
-      .book-shell,.video-shell{
-        inset:2vh 2vw;
-        padding:14px;
+      .cloud-core {
+        min-height: auto;
+        padding: 22px 0 150px;
       }
-      .book-pages{grid-template-columns:1fr}
-      .page-left{display:none}
-      .page h3{font-size:22px}
-      .page-text{font-size:17px}
-      .cloud-title p{font-size:16px}
-      .update-pill{font-size:11px}
-      .hint{bottom:10px; font-size:11px}
+      .thread-board {
+        width: min(360px, 94vw);
+        height: 1720px;
+      }
+      .thread-knot {
+        top: 2.5%;
+      }
+      .thread-node {
+        width: 100%;
+        left: 0 !important;
+        right: auto !important;
+        transform: none !important;
+      }
+      #node-trailer1 { top: 9%; }
+      #node-trailer2 { top: 25%; }
+      #node-sample   { top: 41%; }
+      #node-july     { top: 57%; }
+      #node-dopesick { top: 73%; }
+      #node-gods     { top: 89%; bottom: auto; }
+
+      .book-shell, .video-shell {
+        inset: 2vh 2vw;
+        padding: 14px;
+      }
+      .book-pages {
+        grid-template-columns: 1fr;
+      }
+      .page-left {
+        display: none;
+      }
+      .page h3 {
+        font-size: 22px;
+      }
+      .page-text {
+        font-size: 17px;
+      }
     }
   </style>
 </head>
 <body>
   <div class="app">
+    <audio id="podcastAudio" src="PODCAST.m4a" preload="auto" loop></audio>
+
+    <button class="audio-toggle pill" id="audioToggle">Podcast: Off</button>
     <button class="reset pill" id="resetBtn">Restart</button>
 
     <section class="scene pickup-scene show" id="pickupScene">
@@ -676,9 +819,8 @@
         <div class="video-darkener"></div>
       </div>
 
-      <div class="pickup-copy">
-        <div class="mini">Entry sequence</div>
-        <h1>Pick up the ticket</h1>
+      <div class="banner-wrap">
+        <img class="site-banner" src="site-banner.png" alt="Site banner">
       </div>
 
       <div class="ground-ticket" id="groundTicket">
@@ -690,11 +832,7 @@
       <div class="atm-stage">
         <div class="atm-machine">
           <img src="atm-machine.png" alt="ATM machine">
-
-          <div class="atm-copy">
-            <div class="mini">Processing sequence</div>
-            <strong>Insert redemption</strong>
-          </div>
+          <div class="atm-overlay"></div>
 
           <div class="atm-ticket" id="atmTicket">
             <img src="ticket-single.png" alt="Ticket being inserted">
@@ -716,35 +854,58 @@
     </section>
 
     <section class="scene cloud-scene" id="cloudScene">
+      <div class="threads-video-wrap">
+        <video class="threads-video" id="threadsVideo" autoplay muted loop playsinline preload="auto" poster="counter-book.png">
+          <source src="counter-book.mp4" type="video/mp4">
+        </video>
+        <div class="threads-darkener"></div>
+      </div>
+
       <div class="cloud-core">
-        <div class="cloud-title">
-          <h2>Choose a thread</h2>
-          <p>Click a cover to open it like a physical book.</p>
+        <div class="threads-title">
+          <h2>Pull a thread</h2>
+          <p>Every entry hangs off the same knot. Tug one.</p>
           <div class="update-pill">Site updating very, very soon — but you already know we run on drug dealer time around here.</div>
         </div>
 
-        <div class="thread-grid">
-          <button class="cover-thread" id="trailerBtn">
+        <div class="thread-board" id="threadBoard">
+          <div class="thread-knot" id="threadKnot"></div>
+
+          <svg class="yarn-layer" id="yarnLayer" viewBox="0 0 1220 760" preserveAspectRatio="none"></svg>
+
+          <button class="thread-node" id="node-trailer1" data-video="https://www.youtube.com/embed/sV8Xi7_nTPQ?si=-zm64U6yl1cdU7Xi">
             <img src="dvdcase.png" alt="Project trailer">
-            <span>Project</span>
-            <b>Trailer</b>
+            <span class="mini">Main trailer</span>
+            <b>Project trailer</b>
           </button>
 
-          <button class="cover-thread thread-book" data-book="july">
+          <button class="thread-node" id="node-trailer2" data-video="https://www.youtube.com/embed/PZNJUtX1Tss?si=jK3p3yNLHW-dGs4Q">
+            <img src="dvdcase.png" alt="Deep dive trailer">
+            <span class="mini">Deep dive</span>
+            <b>Second trailer</b>
+          </button>
+
+          <button class="thread-node important" id="node-sample" data-book="sample">
+            <img src="counter-book.png" alt="Sample chapter on counter">
+            <span class="mini">Cold cop this sample</span>
+            <b>Sample chapter</b>
+          </button>
+
+          <button class="thread-node" id="node-july" data-book="july">
             <img src="cover-july.png" alt="To Die in July">
-            <span>Started 2021</span>
+            <span class="mini">Started 2021</span>
             <b>To Die in July</b>
           </button>
 
-          <button class="cover-thread thread-book" data-book="dopesick">
+          <button class="thread-node" id="node-dopesick" data-book="dopesick">
             <img src="cover-dopesick.png" alt="Dopesick bonus chapter">
-            <span>Bonus Chapter</span>
+            <span class="mini">Bonus chapter</span>
             <b>Dopesick</b>
           </button>
 
-          <button class="cover-thread thread-book" data-book="gods">
+          <button class="thread-node" id="node-gods" data-book="gods">
             <img src="cover-gods.png" alt="The Last Hour of the Gods">
-            <span>Draft</span>
+            <span class="mini">Draft</span>
             <b>The Last Hour of the Gods</b>
           </button>
         </div>
@@ -761,7 +922,7 @@
             <img id="viewerCover" src="cover-july.png" alt="Book cover">
             <div class="book-cover-actions">
               <button class="open-book-btn" id="openBookBtn">Open book</button>
-              <a class="book-link-btn" id="externalLinkBtn" href="#" target="_blank" style="display:none;">External link</a>
+              <a class="book-link-btn hidden" id="externalLinkBtn" href="#" target="_blank" rel="noopener noreferrer">External link</a>
             </div>
           </div>
 
@@ -773,7 +934,6 @@
                 <div class="page-text" id="pageTextLeft"></div>
               </div>
             </div>
-
             <div class="page page-right">
               <div class="page-inner">
                 <div class="page-kicker" id="pageKickerRight">Page</div>
@@ -798,11 +958,8 @@
         <button class="video-close" id="videoClose">Close</button>
         <div class="video-frame-wrap">
           <div class="video-frame">
-            <iframe
-              id="trailerFrame"
-              width="560"
-              height="315"
-              src=""
+            <iframe id="trailerFrame"
+              width="560" height="315" src=""
               title="YouTube video player"
               frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -814,21 +971,19 @@
     </section>
 
     <div class="hint pill" id="hint">Click the ticket to begin</div>
-
     <div class="grain"></div>
     <div class="vignette"></div>
   </div>
 
   <script>
-    function splitIntoPages(text, charsPerPage = 1800) {
+    function splitIntoPages(text, charsPerPage = 2200) {
       const cleaned = text.replace(/\r/g, "").trim();
       const chunks = [];
       let remaining = cleaned;
-
       while (remaining.length > charsPerPage) {
         let slice = remaining.slice(0, charsPerPage);
         let breakAt = Math.max(
-          slice.lastIndexOf("\\n\\n"),
+          slice.lastIndexOf("\n\n"),
           slice.lastIndexOf(". "),
           slice.lastIndexOf("? "),
           slice.lastIndexOf("! ")
@@ -842,6 +997,87 @@
     }
 
     const books = {
+      sample: {
+        title: "Dopesick 2 — Sample Chapter",
+        kicker: "Uploaded chapter sample",
+        cover: "counter-book.png",
+        url: "",
+        raw: `dOPESICK 2
+                   The new socioeconomic reality of  tranq, fetty, the cocaine comeback , and a   4-year bender
+
+
+DISACLAIMER/WARNING
+The following two chapters are extremely descriptive and triggering to newly sober and detoxing individuals. They were written in  their entirety without edit, spellcheck, corrections to readibilty or anything of that nature. They are intended to shed light on the visceral, miserable, and chaotic life of someone in the throwes of active addiction to not 1 but 3 simultanous drugs over a period of time and a grand total of 5 dependent to the core addictions by the time a simple mistake turned into an extinction level event in the life of a person who has the survival mechanism of their brain hijacked by a poison and that poision is what the monkey part of our brain tells us must be present in high quantities inside the blood to make it another day, alive. The transition from the broken man sprayng duster in the grooves of his keyboard in the hopes of a small nugget of white gold rushes forth, yet it never does. When the drugs stop working and the only thing you had left in life no longer satisfies any longings for comfort and stability that’s a hole that no perceived drug induced relief can dent, it is then when you understand the depths a word like loneliness can truly sink to                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+sPun uP down and WaY tf aROunD
+August 1, 2024
+thirty seconds ago I exhaled and from my lungs poured out the thick billowing cloud of a nuclear sized hit of crack cocaine. My vision tightens and the outside of my head seems to start to swirll in a way that is very pleasant to me. I have what feels like pressure as if someone is pushing their thumb in the back bottom right of my skull. My neck and shoulder muscles release the unbreakable tension for a few brief moments  offering a miniscule respite from the constant pressure, that resembles a ratchet strap being tightened to max capacity, that they have felt for the last 5 month segment of this 4 year long constant full speed ahead balls to the walls, deathwish,                                   relapse. Hold one as I load another pipe. 
+	I release the poision cloud from my lungs as my hearing noticeably fades from my reality and leaves behind countless bits of debris and residue in my windpipe and lungs. I reach for a staple of my diet this past half a year, a freeze pop, and sit back and think about the implications of writing these words tonight. These words in this document are different than the  handwritten goodbye note to my friends and family when I felt my body giving up back in February or the other one in June that attempted to explain why I couldn’t stop or even try to. The letters here differ from the tear stained notebook pages back in March of last year wishing everyone well as I realized that I was stuck and would have to face detoxing from the “Tranq” part of Tranq dope and feeling for the first time brain jolts and seizure pump fakes that left me accepting my imminent death but wishing with my entire being that I could stay here. Gimmie a minute I gotta pack another cocaina pearl and take my probably 10,000th milligram of ol gabbie penty today.
+	My 8 year old angel of a black cat  Dr. Amelia Shepherd MD has now hopped up on my desk and is nuzzling her head into mine as her big chubby orange brother Chaz Michael Michaels sprawls out on the floor next to one of my bookshelves. I can with absolute complete certainty that if I have not had the love and affection of these cats the past 4 years I would 1000% not be alive today even though its pretty much a coin toss if I will be able to make it to tomorrow. They were little kitties with me when I, stone sober, wrote Dopesick: The American Addiction to Heroin and Profit. Now they still play, and fight, and wrestle, and meow, and fetch bottle caps as I sit here and destroy myself attempting to start work on the sequel that I am not sure I will live to see through to publication.  I squint with one eye open trying to focus on the screen because the neurotins have now risen to their height to team up with the 100 mg of methadone that I roughly take in a day to get myself to a point of numb enough to calm the giant black pit that exists within my being.  Take a bathroom break or something I gotta mix up the cocktail of crack, gabapentins                                            , and methadone that have taken the torch in my life from Tranq Dope.
+I made the decision to type this as…….hold on ya already know what it is I gotta scrape the thick gunk like resin from my pipe with a repurposed pick from a dentists office so I can smoke it in a few hits at the very end of this particular session, ill be back in a sec. 
+Okay as I was saying I made the decision to write this unedited in the state that I have been basically every night for roughly 4 years the only difference is the selection of drugs.	I wanted to have something of substance and slight depth to be able to look back and remember the pain and adddddddddddddddddddddddddddddddd .  Sorry 2 central nervous system respiratory depressants have me nodding ridiculously hard. I was saying I wanted to remember the pain, despair, constant stress, fear, sloppiness, and ever present sadness that surrounds my entire soul even though I somehow have been able to put on a full life mask to give the appearance of doing ok. I am not saying it in some kind of bragging or glorifying way but I am way to good of an addict. I seem to somehow pull out solutions in the 4th quarter to complex and constant problems and situations that come with active addiction that require hundreds of dollars and multiple levels of human connections that are needed to get sorted out for the day. 
+	I hope the me in the future is finally the complete and happy person that the me sitting in this chair with 20 pounds less body and sunken defeated blue eyes and a tattered and shredded will to stay aalive wake up and have to go through another day wishes he could be. I want to see the contrast between this me and a me that is present. Especially on this crack leg of the combat tour as drug war veteran I am wounded. My mind is not sharp I am starting to mix up words. I am forgetful of even the most recent things. I am scatterbrained as this chapter shows and you, the reader, have noticed quite early during your trip down my boarded up and crumbling street. Hold on I need a big hit for this next paragraph, I am sdeeing double at this point to beAAAAAA honest.
+	I started this jourmey 4ish years ago with one of the most kind, caring, rgoughtful, funny. Brave,  observasnt, (I am having such a hard time thinking of specific words that I know I want to say and  that’s not fair to her). I am pausing this for now because she was to immaculate of a person to be described by me in this state. I am going to get on here and describe who I knew her to be when I am as close to sober as I get anymore. That’s the only paragraph I am writing like that in this chapter then I am finishing this at the end of the day in my normal state that has escalated to the level that has my piss smelling of actual cocaine at times. I reaElly do hope I get to get better and finish this  book because the chapters and ideas I have have not been really explored that well if at all out there.  Night all welcome to Dopesick 2.
+
+This is 2 days after the previous words in the late afternoon before dark and I had the day off and am absolutely knocked. tHIS reoad started fetty heroin and we rode that till the wheels were nothing but nubs then tranq dope came and obliterated us she went for help and I held on by my fingernails. Me and her drove across the country on a long sad breakup trip where I tried detoxing and then we said our goodbyes and I was dopesick. Then methadone and a brief period of started to try and stand while abusing methadone and Seroquel and muscle relaxers .Then I slid right back to dips. Fetty and even worse, tranq became my therapist, my friend, my light, and my dark. I got with my current fiancé we bought a house. I tried righting the ship but cocaine made an appearance again and again and again. I somehow still kept it together to the point where nobody knew. So much effort every day went into using but still keeping everything I needed to fulfilled. Then I got a call this beautiful soul died and I knew I needed to dull the nuclear bomb of feeling that was facing that situation. I sleepwalked thru living an appearance of a normal life until I did what I knew I should never ever do. I took the panties of the bitch I knew would pick me up higher than the sky and faceplant me square in the dirt. Work, hard, bap, crack. The drug that ravaged communities and entire cities in the 80s and  early 90s is still around and its ruining lives and futures just as much as it has ever been. Teamin up with the heroin epidemic to offer a 1,2 punch knocking out the dreams, relationshios, futures, and sanity of many people the world over. I squint to see the computer screen because I besides inhaling roughly 5 times the amount of cocaine that a body can “safely” process in a 24 hour period I am also rocketing neurotins into my body every half hour using the staggering method because myself and fellow addicts have worked out scientifically, based on the bioavalibilty and release time of gabapentin, the way to get the maximum amount of cranked possible. The next 6 months straight, every day, every hour with very rare exceptions, every thought and action, were all consumed in the tornado that is crack cocaine. Having to support a full blown massive addiction to 3 different drugs every single day requires so much energy and effort and parts of yourself that you are reduced to a hollow, dried, thin, cracking, outline of a person. Hold up reader, I need to go grab more hard at the moment and if I wait any longer driving will be absolutely out of the question. Be back shortly. 
+	Ok it, s about 6 hours, 2 grams of crack, 60 mg of methandone 2700mg on gabapentin later.  Do you wanna know pretty much every night for roughly the past 6 months have gone?  Hopefully not too many of you have said to yourself “what is this laughably Kerouac and Hemingway inspired drug addicted close one eye to type attempt at depicting substance abuse. If you are this far stick with me the rest of the book is not as scatterbrained and jumpy as this. So if the rest of the book ends up being written bite that pillow and get through this because the rest will be worth it. But if I die and don’t get clean to write the rest of these pages I am sorry reader to let you down  but trust me in the life I have led sadly you are definitely not alone. Anyways sorry where was i? Oh yea, so my nights. Excuse my pathetic attempt to write brilliantly vivid and graphic I am sure I will fail spectacularly. Also the pressure that moves all around my body is wild I don’t know I its pleasurable and given by the drugs or a very serious medical problem. If its medical well, uh oh I wasn’t able to get of the train and beat the odds again this time. The house always wins, eventually you can’t 666666666666666666666666666666666666666666666666666666666666keep pushing your luck.
+	I usually return home and kick off a tattered Carrhart boot or shoe outside so as not to  irk my angel of a fiancé. I glance over at the windows I wrapped and the siding I hung last summer. My hand grabs the handle of the storm door that me and myself installed. I look up the stairs and smile as my princess, my angel, my lil girl Amelia.
+her observation post and stretches a big stretch and cant get down the stairs fast enough to rub up against my legs. I glance left to the couch as the other black king of the house looks up at me with his tongue sticking out and makes known his jealousy that I have stolen the total attention of his adoring mother. Then my head looks straight at the Mayor of the home, the glue that holds us all together, the object of everyones unending affection. Shaped of a busted tube of cinnamon roll dough or an over yeasted loaf of Italian vread it is Chaz Michael Michaels, my beautiful 8 year old baby boy. This all star fetches bottle caps, he catches them like you are throwing baseball to your same aged son in the backyard after the big t ball game where he dropped a fly ball he should have had. Speaking of our big roon done I need to roll open my drawer to my left and put the resin lined pipe up to my over tensed lips but the scene is one of such beauty that I try to consciously take a step back and take a moment every time it happens and cherish the beauty and pure goodness that we have an ever diminishing amount of in our lives. Ol Roons head is ever so gently placed upon the top of  my left hand as I type these exact words your eyes are following right at this moment in time. His head, so soft and light give the impression that its floating as his closed eyes and loose pudgy body lays relaxed and sprawled across my desk. I sit back and look at his chest as it rises and falls in satisfaction. Amelia purrs peacefully in my lap, shape resembling a wobbly circle, chest mirroring her brother in its elevation and depression. I take in the moment and cherish the fact that this is imprinted into the universe and will “exist” in someway forever and nobody can ever take that away. Actually think about that for a second, try and think about it in a way you wouldn’t normally, see if you are even able.
+	Ok big tubby got up when I coughed a wad of spit that resembled expired vanilla pudding and was dotted with miniature spoofed oreo pieces. A specific speck that took a journey from the ground in south America up the ever heating earth to this Pittsburgh pipe. It skillfully spun through the flames that burst out the tip of a nearly empty Bic lighter. It zig zagged around a smashed copper chore boy pad also evading the heated and now syrupy and sticky resin of pure cocaine base that lines the clear glass walls of this “glass pen”. An insult to the word writing as it consists of  a rubber top holding a stick filled with the hypothetical idea of ink, jammed into a rubber bottom that loses the battle of standing upright when tasked with letting the stick pour out a letter. This speck hit the back top of my throat inspiring the waves of motion gabapentin offers to my brain to move to that spot and make it go numb and then proceed to dance around my neck and shoulders that have been well over tensed for months now. I have been unable to cough for real for quite sometime now, inevitably allowing much debris and substance to get into my airway and regrettably im sure down into my lungs. As my best friend said, “your lungs probably look like that pipe”.  I took one of the half breaths crack allows and force air up as hard as I could attempting to vacate the area back there that was able to collect another load from down the esophagus and windpipe and stacked it for hopeful evacuation. The speck gets blind sided by the phlem im actually able to produce and gets carried along for the journey out of my mouth at high speed and comes to a stop on an empty camel cigarette pack like a car being crash tested into a wall does. You guys should see this its so concerning all I can do is laugh. I just did a big stretch that Amelia and Salem would be proud of and I am about to pop a few gabbys and crush this nuke of a hit one second. 
+	Actually to help your lil imaginations picture the scene better ill tell you u how it goes, As Chaz walks back and forth on the desk looking for a suitable place to do one of his infamous “plops” and get comfy to watch dad throw away this gift of a  life he was given back in 1989 by two of the most perfect parents this world has ever produced. I let you read my moms words and learn about their perfection last book so I wont do it again. Chaz aborted his plop and decided to place himself infront of the keyboard so I have to go over him to type and is blasting me with meows that indicate he is ready to go downstairs to cuddle in bed. Oh my god you have to see what he decided to do. The plop and snuggle position he took is fucking incredible I have to get a picture of us  that must be put in this book for yall to see. The mayor has spoken im sorry everyone, he demands we go down to end the ridiculous consumption of narcotics for the night as the battle between central nervous system depressants go to war against the central nervous system stimulant that is ol crunchy, crack cocaine. That battle probably has something to do with the nonstop shake of my hands.  Even with the amount of crack I smoke eventually late enough at night I start taking a huge hit and it makes me really tired. Weird. Anyway im gunna stumble down the stairs and get my 2 hours of sleep before I gotta wake up to shingle a roof or something of that nature.  
+Im sure there are a handful of you all out there who would hope my breathing isn’t slowed enough to finally end my daily soul sucking grind to survive another day putting all my effort into evading the awful feelings that await when this curtain of chemicals finally falls. Yea, im sure some of you even still wish I wake tomorrow, but me….im not so sure I do anymore. Gnight all. I love u all, Blaise, these cats, my family….ok shit that last part started feeling like this was turning into the 4th goodbye letter I have written just during this recent stage of the 4 year bender. I will be up in the morning and will keep typing  this book yall, I couldn’t be that lucky this aint the powerball (you just wait for that story;) “Alright children lets go
+	I have been awake for half an hour and its about as sober and clear headed I can be so I want to drop you something real quick in this shotgun spread of a mishmashed congregation of ideas.  People who don’t understand the pull of addiction and how we can do this to ourselves time and time again until we are able to stop or die. 
+The answer lies in what it actually feels like to get high in the way you wanna get  high, heroin or crack, crank or huffin paint the desire is the same. Do you remember what it felt like the first time you were in love? The butterflies and the swooning. The obsessing and wondering what they were doing. Re reading your texts together and organizing your day in a way that may let you see them for even a fleeting moment. That feeling of nothing else matters but their embrace anything less is torture. Do you remember those feelings, either in 9th grade or when you found your soulmate at 40? Well waiting for the high is kind of like that. Then when you finally get your gold into yourself it feels like you have finally met up with your true love and they wrap you in a warm blanket of a calm stillness, if only for a second but it is worth it. Then its gone and you will do anything to claw your way back to it again, only  for us it never returns, All we are lucky to get is a deserving imposter sometimes but they are always just placeholders as we remember our great white buffalo.
+Im back and typing over Amelia as she places herself between the keyboard and me and gently pushes her head against mine over and over. I sit here with my entire neck and shoulder muscles tight as a mother fuck. A bitch to turn my head to be honest. Heavy on the crack today but light on opiates and gabs. Enough gabs though for my head to be swirling with a sort of pulsing type of force that moves through my body whenever I acknowledge or focus on it. I am not sure what it is but it feels strangely present and alarming mildly at the same time.
+	There is a freight train coming very soon with its black smoke pumping as it chugs right at me. Wow that was weird, I have shuffle of acoustic songs on youtube and a few seconds after finishing the last freight train sentence a song I have never heard before started with the words “I can hear my train comin, it’s a lonely ride” . Wow, sorry I am back that song was some powerful shit. For 4 years I had a shell of reinforcement against having any feeling really,  A shell that grew and grew and saved me from the painful and unpleasant and piercing negative things that we feel in life. But now for one of the first times in 4 years that shell has had its tough and rigid exterior cracked and shattered off  and I was smashed with a little taste of what feelings actually are going to feel like. They are going to be sliding through me like spears and swords. The interesting thing is I was settling in to write about a very interesting topic. I needed to take a breath and center myself because that was one hell of a powerful  song. 
+Okay, I am about to wtrite about every drug users worst nightmare, The time, which for me is coming close, I can feel it in every dose, and hit, and ingestion, The time when the drugs don’t work anymore. My tolerance for crack is massive after continuous use for months. I have to load absolute blasting  caps to even real get anything eventually any hit that wont kill a person will result in no result. Gabs are quite pleasant but the tolerance to them rise unbelievably fast I moved up the thousands of milligrams undeniably quicker than any drug I have ever done or taken. The methadone dose I do is ofcourse disgustingly high and it no longer gives me a warm shielding blanket for more than a day anymore. It also gets into your bones and the withdrawal from it is something I will not go through. If I die or scratch myself out post theser words somewhere and let the world do whatever they want with it or if they just let it lay peacefully out in the ether. Let someone else who has the ability I would adore finish this project. It would have been or is going to be a work that may be hated or loved it does not matter, what matters is that is moves and stirs something inside of you that would not have moved before if the words didn’t lay themselves upon a little dark, small, unobservable part your brain.
+	This pathetic excuse for written word has to close now because I am sure the me that has it  together will be embarrassed as fuck about everything here so I will try to not heap another awful thing he is going to have to face and feel. I am sure he has enough going on but good luck Ry reading this hopefully you don’t gotta give way to me ever again because I am a fucking animal. I am a straight heatseeking missile of an addict that is going to smash through everything if I have to when the drugs need to come to me. I retreat to a machine that’s code is unhackable and when I have the wheel some massive force that can shove immoveable objects off that cliff because nobody else is driving when its decided that I will say and do anything to not end up:
+					Dopesick
+
+Man, im fucked no matter how this shakes out, good luck you piece of shit.
+
+August 20th    
+Aint dead yet, you dipshits
+		Fuck yall I am still fuckin going but its unavoidable end is locked in laser precision position. When I am using at full tilt I will go and go until something, or some set of circumstances actually can physically stop me and we are at that point. I am regurgitating significant amounts of blood when I burp and it is alarming that I can feel my esophagus area damaged probably a hole in it. I am letting it okay out as it may. I don’t have the ability to go through whatever awful chain of events going to the hospital may bring. The amount of pain that route would entail would mean detoxing from methadone that has seeped into my fucking bones. The hell that gabapentin withdrawal brings with it and the dopamine obliteration that I have to turn and face is a mountain I no longer have the will to get bashed against the rocks by again. Even if I got out the other side of the physical sicknesses and bodily horrors there is still the return of actually feeling things again. I wish I could put into words here the nauseating peaks and dead, sun cracked, dry valleys of being numb for years totally dead to all feelings and then getting absolutely mollywomped by them the moment they return. The shock that trembles through you because you didn’t know it was even possible to feel such a true, crystal pure, raw scaredness eclipsing any fear you have felt a only couple times in your life and staying upon the level of any you will end up feeling for the remainder of it.  The sensation you get through your body as you realize you have no choice but to face and feel the rush of the wave of feelings as they wash over your damaged and battle scarred body completely envelops you. Right at this moment my left ear is ringing and my heart is palpitating at the remembrance of what that is like from multiple times I have had to spar with it before. I am sure the softball sized rock and the pez dispensers worth of neurotin washed down with 100ish mg of methadone could also play a part in the ringing of the ears and the numb tightness of the right of my throat and the blurring of my vision and the shaking of my hands and the paleness of my skin and the tingling from my writs to my bicep and the tightness of my jaw, and the connection from the jaw straight to the right temple that beats with the throbs, but what do I know I am no doctor. 
+The departure of the body slender but full in the places many females could only wish for, the soft disarming and friendly voice, the accepting and inviting shining eyes, the smile that has made friends repeatedly in such a short time that became stuff of legend, in a  aaaaaaaaaaaaaaa  the combination of still unwritten traits here has had me looking at the ground smiling for the past few minutes as I thought of a few of them is such an injustice and tragedy that when the drugs no longer work or the unoccupied receptors in my brain finally allow feelings involving the loss of this beauty to force my inevitable reception of them is such a monumental apocalypse I am not sure what will happen in those moments but I know that it will be one of the defining moments of my life, however short or long it limps along into the future for.     Do yall realize how long of a run on sentence I just typed. Yea, that’s how fucked up I must get to try and deflect the constant incoming artillery barrage of the reminders that this unprocessed or delt with trauma is always lurking and waiting. That’s a story for another time though if I can live to tell it sober, that’s how she deserves it to be told. So, keep turning the pages people if there are any after these remaining few paragraphs.  
+	If the end of this road results in my death, as the signs appear to all be about to align with, you people missed some powerful ammo I had stored that would have blown yinz’s dicks off.  I hand wrote 3 separate good bye letters as I felt the reaper passing the pipe to me. I have snapchat saved videos that I never sent of what I wish I would have said earlier to those important in my life. I took pictures of my surroundings during the worst of this once I knew I needed to write this book. I got my crack dealer to agree to give me an interview for this book so that so many readers get to peer inside the mind and rationale of one who turns to moving narcotics to get through this capitalist abomination of a society. That’s a few of the things iv somehow had the awareness to do or recover with my never ending bamboo stick beaten to mush brain. I cant even imagine the shit I am going to pack into these pages when this torture victim mind is somehow finally calm and clear. 
+	If there is a stack of words filling a healthy stack of pages you better put your fucking helmet on, button your awkward fitting flak jacket, pull down the steel hatch above you and use more effort than you hoped it would take to secure the latch, because ya about to get shelled in a way you have not been before. That’s a promise now leave me alone you limp dicked loser I got more poison to feloniously assault my edge teetering body with until its too high to function. Lets see if im there yet.
+
+Fuck, fuck, kill.
+ For some to live or die is by the pill.
+			
+Guess im a poet too\`   
+
+ hell ya, Fuck you!
+ 
+Keep turnin the pages, 
+embarrassing how hard that’s been for you to do.
+
+The fact its poetry im whippin,
+Means in the next 10 seconds the glass curse, ill be rippin.
+
+Follow this path, even as these pages say not to do    
+TO ASH THEN IS PROMISED YOU
+
+Yep, not too high to function yet,
+sticking my head in the bear trap already set.
+
+Chapter 2	
+                                  In honor of dopesick 2: I guess its legal trouble x2
+Well I did it again yall. Right now its 715 in the morning I have been just hitting boulder after boulder on a regular basis for the past 24 hours. Every 30 minutes without fail even as I stood with legs spread and my hands up against the vehicle. The gabbies and mdoney hit me like a baseball bat but it meets the resistance of the crunchy. The crack pushes back causing me to violently snap out of the very thin space of existence where you are not asleep. Oh damn, see I was just in it there. That fine line where you are not quite asleep but you are not awake. Einstein said it is where true genius comes from. Lets see if he was right as I describe to you how today, the day I was all set up to quit went. Its wild I drifted into that dream like state and saw the finishing of the sentence before and when I looked at the page the snap back to full consciousness revealed the betrayal of my minds job to stay synced with universally experienced reality. If one slips too far out of sync for too long they very well could stay a version of that forever too one degree or another. 
+	I was not able to stay up long enough to continue writing I was found sitting in a chair knocked out with my eyes open. My fiancé thought she had found me dead. Only when she had yelled my name did I apparently calmly turn my head and say simply, “im up”. That important detail about my consciousness status amongst the people of the world did not do much to assuage her grief and shock. She had just learned yesterday the actual extent and also length of my drug use. Left with feelings of having our trust betrayed and the self-deprecation at her own naivety that greet the significant others of most using addicts. It is not her fault thought, she need not feel so upset at missing it for as long as she did. Like I have said before I am too good of an addict, and I will not be stopped by any force…………except maybe the police force again? Lets find out shall we?
+	I came up to the bridge indicating my imminent arrival pushing my fiances car upto around 70 in a 45. I am returning for the second time in just as many hours to acquire some for a friend as well as pack another gram into my crack coffers also. This location, this guy bared witness to a very high local police presence but for a low-income area that is not very common. If you saw police at the frequency and with the same uncalled for level of suspicion they cast in high income areas as you do in the low, the rich would be panicking and all of us would not be able to escape the amount of times in a day we heard somewhere the injustice of occupation they are facing on a regular basis. The horror of living under the yoke of an armed and hostile occupying force. Then they will shuffle to the polls to vote for candidates who project and support occupations and armed offensive action against the people of other countries but that’s not a topic we will unpack in the scope of this book. We are trying to unload the facts of my unfortunate series of events.\\
+	At this point in the cocaine assisted story I have just crossed the bridge and all that stands between me and possessing what I desire is a long straight away. This straight away is where me and friends or me and myself cannot wait to get to coming the other way because it is where we always put the flame to the newly packed first matte white stone siting at the tip of a glass stick. This adventure however saw me loading my pipe for a hit the opposite way, I will be igniting booster and blasting skyward on my way to acquire narcs not after thanks to my trip a few hours prior.
+I squeeze the sides of my little silicone tire that unlocks the only thing currently in this life that my body is able to feel anything other than misery for. A pebble sits by its lonely, an opaque white that for me seems to be floating on top of the gloss black surface of the mini silicone tire it rests inside. As my knee hold the steering wheel straight I maneuver the cocaina pearl onto its new resting place atop the copper mesh inviting bed that will be this stones final resting place.  My next action is a smooth well-rehearsed upending of my glass staff from hell. With the stone marking the all seeing eye of this tragic pyramid it is now time for a set of motions fine tuned to a degree that would see me taking snaps in the nfl if this level of precision was used for that arena in another life. Tapping in the most gently way the tip of my flame grazes the rock as my other hand starts to bring down the pipe slowly spinning it ever so gently in the process. Milky white smoke packs the glass runway as it continues on its path into my debris filled lungs. As the pipe comes to a halt in the horizontal position the lighter feathers its fire back and forth forcing the once rigid and solid ball to assume its transition into a oozing and shiny sludge becoming smaller and smaller with each passing moment until its transformation into a tourist of my airways and bloodstream allows it the chance to fulfill its destiny as the superhero it was always meant to be when it unleashes its true calling inside the battered and assaulted pleasure center of my brain. Smashing at the speed of light into the dopamine receptors building in number each passing second that I am able to hold my breath and trap it all long enough for enough of it to complete the cycle. The only way these receptors get filled anymore is with this chemical, my body long ago abandoning its millions of years tried and true process of producing  dopamine naturally because it is now used to the crack cocaine making itself at home on the part of my  brain that allows me to feel anything decent. The anticipation builds as my knee can switch with my hand back on the steering wheel. All that separates me from the only desire and objective I have in life anymore is a sweet release which comes in the form of only an exhale at this point. It does not matter if the universe itself conspired against me to prevent this acquisition once it is trapped behind my lips and in my lungs I am unable to be harmed, for a brief instant I am the god of my world. I decide when bliss will fall upon me. I am so powerful that I can make the strongest and best feeling my brain is capable of interpreting and experiencing, limited only by its evolutionary journey thru time itself to this moment. All of that is mine and its as simple for me as breathing. With that I breathe the fuck out. 
+Just typing that has triggered me to the point I need to free my right arm from under Chaz’s adorable detention, the only thing really that could make me begrudglingly do so, in order to load one of those right now. It will atleast allow me the closest I can become to the description I am about to place before you. A series of words that I beg you if you are in any way less than a year clean or in danger of giving in to some pressure and using yourself I implore you to please skip this next part. Addiction is a mother fucker and once in its grip your decisions are no longer yours but if you are clean for any period longer than an hour right now and wish to stay that way, skip this part. Its your call at this point, your chance to stop the predicted and predetermined denuncuiations upon me that you will seek to place, in order to free yourself the weight of being the reason you started again, the blame upon me. I have done that, dfirecting my rage at every and anyone for my actions to offload the crushing weight I have placed upon my back. It does not work though at the conclusion of that falling of dominoes the guilt remains until responsibility is accepted. I am the reason circumstances ended up placing these keys at my fingers and in a few moments the pipe to my lips. I can take no other path in the next few moments than the sun can instead decide to cast darkness. I am running the process up until the exhale and picking the next paragraph up the moment my consciousness can perceive some command to order my fingers. I am warning you bail the fuck out now if you are in any decent risk of trading places and ending up where I am today. I promise that no matter what allure the next handful of sentences may bring, an infinite number more can and will make up the description of the yang to its ying.
+My breath is held right now as I tell myself to finish typing this sentence and you may release. I did not make it, with bursting lungs they gave way and let it out around the word typing. Counter pressure in my head has been building and with the smokes release it seems to decide to challenge gravity itself. It sounds the steam whistle and rings the bell kicking off the next handful of seconds that I would sacrifice years of hard work just to feel for seconds. An antithesis to reality as it has been known for the entirety of my sentence in this flesh vehicle for the mind. My hearing is decreased by about 50 percent and to swallow is a task. A flood of peace fills me, happy pumps through me. I become conscious that my jaw is clenched insanely tight as if I am holding on during the freefall of a roller coaster at Kennywood. My head still has a nice tingle almost like a buzzing of positivity. The shadow of that feeling in your stomach you get when something huge that you didn’t expect happens that changes your course from normal to YES! When you were little and for Christmas you got that gaming console that you resolved would not be under your tree or when you see the notification that picture mail awaits from the girl you never thought in any lifetime could give you the time of day and the next second your phone sprawls before you and her massive, soft, smooth, perfectly proportioned breasts invoke a feeling of such happy disbelief at your good luck it takes seconds for you to realize you are actually seeing what you never thought you could ever be so blessed to see. Your stomach in those moments is what I am talking about pretty much. Now imagine you have somehow invoked in the crush, the one you are recalling right now , to actually hang out with your awkward teenage self. She drives her parents car to your house and you find her in your bed. Every piece of clothing is shed individually until only one piece remains. Let your own imagination dictate which piece it is, everyone with a dick not made out of glass knows the article of fabric. Now the second it slides down revealing the unimaginably unattainable space of beauty laid bare that’s the feeling im trying to lasso you into understanding, you may even have a little tingle going on right now. Let your mind wrap around and absorb that for that is how I can best think to make you relate. Girls, I am sorry I cannot relate to the inverse of that description to adequately make you feel it that way so just think of something comparable like shopping or arguing, or sitting downstairs on a computer saying you are hungry asking me what I want to eat today after I already said I will eat whatever you want just name it and your reply is well I dunno, what do you want? Somethin that shakes your pelvic bone on a level of joy like any of those, FUCK I WILL EAT ANYTHING I DON’T CAREEEEE. A little humor people don’t come with scissors snipping at my two reasons I could ever even feel the play station of pussys, we all only get one and you all know who it is.
+   It is that feeling though that begs to be unlocked. It loves being chased, pursued, desired. It is elusive and cunning and cruel. It is always just behind the curtain, just behind the foggy window. It waits on the top shelf that even your fingertips come close too but cannot touch even as you extend every muscle you thought possible. Your mind recalls that feeling but cant quite grasp it, just that it was rare and for that you will trade it all. Last of your money on red spin that wheel, every single time. But all it ever leaves you with is the emptiness of the letdown felt as you agree with the ones before who have told you once that bell gets rung enjoy that like you will never have it like that again, because you wont. No matter how good, how many presents you open, what article of clothing you remove, however many more times you have the honor of removing it, it will never be like that first perfect time. Sitting with that is a loneliness few alive have felt, but many, many have known. R.I.P. to our fallen comrades. These two chapters are for the depths of hell, the remaining words are for you.                                                                                                                                                                                                                                                                                                       
+
+(Yes, I know I have not purchased the crunchy or been pulled over from this story. Shut the fuck up and turn the page, quit complaining about everything. I am going to go now and pretend I am dead set on Chinese food and if she says ummm nah the rest of this book will be written by my toe as I swing from my ceiling wearing my capitalist necktie)
+
+				Chapter 3:
+			Transition from numb to scum to gold alBUM
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            `
+      },
       july: {
         title: "To Die in July",
         kicker: "Started 2021",
@@ -857,9 +1093,7 @@ Not a dumb man by any means, James was a 2-tour veteran of Operation Iraqi Freed
 
 Last night was hard to process. He had made the choice to end his life. He was sure he was committed to carrying it out but now thinking back he was not so sure.
 
-Waking up the next morning was odd and surprising, or maybe it wasn’t. A part of James almost knew he would live to see another sunrise.
-
-The desire to get up off that sidewalk and try and function did not exist, but the routine of everyday life was by now so heavily engrained into James that his body carried out the task that his mind would not acknowledge needed doing.`
+Waking up the next morning was odd and surprising, or maybe it wasn’t. A part of James almost knew he would live to see another sunrise.`
       },
       dopesick: {
         title: "Dopesick Bonus Chapter",
@@ -876,9 +1110,7 @@ Both places are under siege. You are not safe just because you have more money, 
 
 In Belle Vernon to get drugs contacts you have made and people you know make acquiring drugs on 9 out of 10 days a simple text message.
 
-In Warren it is a different method but the same result. Easy access to all things narcotic.
-
-No experience has more greatly laid out the failure of the drug war in black and white than when my one drug dealer got locked up for minor possession and within 2 days I got calls from three of his friends.`
+In Warren it is a different method but the same result. Easy access to all things narcotic.`
       },
       gods: {
         title: "The Last Hour of the Gods",
@@ -893,17 +1125,17 @@ The virus had ignited the planet and left behind a totally changed world.
 
 Normalcy meant peace but normalcy also meant death and tragedy. Normal was the problem.
 
-Only through turbulent times can the veil of injustice be torn away.
-
-At the checkpoint, the People’s Defense Forces explain that checkpoints, food distribution, medicine, and new institutions are being improvised in real time.
-
-The drive into town becomes a study in transition: hotels turned into emergency housing, distribution lines replacing commerce, new patrols, speeches, logistics, hospitals, and the eerie feeling that history is not something being read about anymore but something being walked into.`
+Only through turbulent times can the veil of injustice be torn away.`
       }
     };
 
     Object.keys(books).forEach(key => books[key].pages = splitIntoPages(books[key].raw));
 
     const bgVideo = document.getElementById('bgVideo');
+    const threadsVideo = document.getElementById('threadsVideo');
+    const podcastAudio = document.getElementById('podcastAudio');
+    const audioToggle = document.getElementById('audioToggle');
+
     const pickupScene = document.getElementById('pickupScene');
     const atmScene = document.getElementById('atmScene');
     const cloudScene = document.getElementById('cloudScene');
@@ -913,7 +1145,6 @@ The drive into town becomes a study in transition: hotels turned into emergency 
     const resetBtn = document.getElementById('resetBtn');
     const hint = document.getElementById('hint');
 
-    const trailerBtn = document.getElementById('trailerBtn');
     const videoViewer = document.getElementById('videoViewer');
     const videoBackdrop = document.getElementById('videoBackdrop');
     const videoClose = document.getElementById('videoClose');
@@ -935,21 +1166,60 @@ The drive into town becomes a study in transition: hotels turned into emergency 
     const pageTextRight = document.getElementById('pageTextRight');
     const bookStatus = document.getElementById('bookStatus');
 
+    const threadBoard = document.getElementById('threadBoard');
+    const threadKnot = document.getElementById('threadKnot');
+    const yarnLayer = document.getElementById('yarnLayer');
+    const threadNodes = Array.from(document.querySelectorAll('.thread-node'));
+
     let state = 0;
     let currentBook = null;
     let pageIndex = 0;
+    let audioOn = false;
+
+    function setAudioButton() {
+      audioToggle.textContent = audioOn ? 'Podcast: On' : 'Podcast: Off';
+    }
+
+    async function tryStartAudio() {
+      try {
+        podcastAudio.volume = 0.85;
+        await podcastAudio.play();
+        audioOn = true;
+      } catch (e) {
+        audioOn = false;
+      }
+      setAudioButton();
+    }
+
+    function toggleAudio() {
+      if (audioOn) {
+        podcastAudio.pause();
+        audioOn = false;
+      } else {
+        podcastAudio.play().then(() => {
+          audioOn = true;
+          setAudioButton();
+        }).catch(() => {
+          audioOn = false;
+          setAudioButton();
+        });
+      }
+      setAudioButton();
+    }
 
     function resetAll() {
       state = 0;
       pickupScene.classList.add('show');
       pickupScene.classList.remove('animate-out');
-      atmScene.classList.remove('show','animate-insert','finish-insert','reveal-dvd');
+      atmScene.classList.remove('show', 'animate-insert', 'finish-insert', 'reveal-dvd');
       cloudScene.classList.remove('show');
       dvdCase.classList.remove('open');
       closeBook();
       closeVideo();
       hint.textContent = 'Click the ticket to begin';
       try { bgVideo.play(); } catch (e) {}
+      try { threadsVideo.play(); } catch (e) {}
+      drawYarn();
     }
 
     function beginSequence() {
@@ -982,7 +1252,8 @@ The drive into town becomes a study in transition: hotels turned into emergency 
     function showThreads() {
       atmScene.classList.remove('show');
       cloudScene.classList.add('show');
-      hint.textContent = 'Choose a thread';
+      hint.textContent = 'Pull a thread';
+      drawYarn();
     }
 
     function openThread(key) {
@@ -994,12 +1265,13 @@ The drive into town becomes a study in transition: hotels turned into emergency 
       bookViewer.classList.remove('reading');
 
       if (currentBook.url) {
-        externalLinkBtn.style.display = 'inline-block';
+        externalLinkBtn.classList.remove('hidden');
         externalLinkBtn.href = currentBook.url;
       } else {
-        externalLinkBtn.style.display = 'none';
+        externalLinkBtn.classList.add('hidden');
         externalLinkBtn.href = '#';
       }
+
       renderPages();
     }
 
@@ -1029,10 +1301,10 @@ The drive into town becomes a study in transition: hotels turned into emergency 
     }
 
     function closeBook() {
-      bookViewer.classList.remove('show','reading');
+      bookViewer.classList.remove('show', 'reading');
       currentBook = null;
       pageIndex = 0;
-      externalLinkBtn.style.display = 'none';
+      externalLinkBtn.classList.add('hidden');
       externalLinkBtn.href = '#';
     }
 
@@ -1052,26 +1324,104 @@ The drive into town becomes a study in transition: hotels turned into emergency 
       }
     }
 
-    function openVideo() {
-      trailerFrame.src = "https://www.youtube.com/embed/sV8Xi7_nTPQ?si=-zm64U6yl1cdU7Xi";
+    function openVideo(url) {
+      trailerFrame.src = url;
       videoViewer.classList.add('show');
     }
 
     function closeVideo() {
       videoViewer.classList.remove('show');
-      trailerFrame.src = "";
+      trailerFrame.src = '';
     }
 
-    bgVideo.addEventListener('error', () => {
-      bgVideo.style.display = 'none';
-    });
+    function drawYarn() {
+      const boardRect = threadBoard.getBoundingClientRect();
+      const knotRect = threadKnot.getBoundingClientRect();
+      const x1 = knotRect.left - boardRect.left + knotRect.width / 2;
+      const y1 = knotRect.top - boardRect.top + knotRect.height / 2;
 
-    groundTicket.addEventListener('click', beginSequence);
+      yarnLayer.setAttribute('viewBox', `0 0 ${boardRect.width} ${boardRect.height}`);
+      yarnLayer.innerHTML = '';
+
+      threadNodes.forEach(node => {
+        const r = node.getBoundingClientRect();
+        const x2 = r.left - boardRect.left + r.width / 2;
+        const y2 = r.top - boardRect.top + 8;
+        const midY = y1 + (y2 - y1) * 0.5;
+        const curve = Math.abs(x2 - x1) * 0.14 + 30;
+
+        const path = `M ${x1} ${y1} C ${x1} ${midY}, ${x2} ${midY - curve}, ${x2} ${y2}`;
+
+        const shadow = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        shadow.setAttribute('class', 'yarn-shadow');
+        shadow.setAttribute('d', path);
+
+        const yarn = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        yarn.setAttribute('class', 'yarn');
+        yarn.setAttribute('d', path);
+
+        yarnLayer.appendChild(shadow);
+        yarnLayer.appendChild(yarn);
+      });
+    }
+
+    function wireDraggableThread(node) {
+      let startX = 0, startY = 0, moved = false, pointerId = null;
+      let origTransform = '';
+
+      node.addEventListener('pointerdown', (e) => {
+        pointerId = e.pointerId;
+        startX = e.clientX;
+        startY = e.clientY;
+        moved = false;
+        origTransform = getComputedStyle(node).transform === 'none' ? '' : getComputedStyle(node).transform;
+        node.classList.add('dragging');
+        node.setPointerCapture(pointerId);
+      });
+
+      node.addEventListener('pointermove', (e) => {
+        if (pointerId === null || e.pointerId !== pointerId) return;
+        const dx = Math.max(-22, Math.min(22, e.clientX - startX));
+        const dy = Math.max(-10, Math.min(34, e.clientY - startY));
+        if (Math.abs(dx) > 4 || Math.abs(dy) > 4) moved = true;
+        node.style.transform = `translate(${dx}px, ${dy}px)`;
+        drawYarn();
+      });
+
+      node.addEventListener('pointerup', (e) => {
+        if (pointerId === null || e.pointerId !== pointerId) return;
+        node.releasePointerCapture(pointerId);
+        pointerId = null;
+        node.classList.remove('dragging');
+        node.style.transform = '';
+        drawYarn();
+
+        if (!moved) {
+          if (node.dataset.video) openVideo(node.dataset.video);
+          if (node.dataset.book) openThread(node.dataset.book);
+        }
+      });
+
+      node.addEventListener('pointercancel', () => {
+        node.classList.remove('dragging');
+        node.style.transform = '';
+        pointerId = null;
+        drawYarn();
+      });
+    }
+
+    bgVideo.addEventListener('error', () => bgVideo.style.display = 'none');
+    threadsVideo.addEventListener('error', () => threadsVideo.style.display = 'none');
+
+    audioToggle.addEventListener('click', toggleAudio);
+    groundTicket.addEventListener('click', () => {
+      beginSequence();
+      if (!audioOn) tryStartAudio();
+    });
     dvdCase.addEventListener('click', openCase);
     enterThreadsBtn.addEventListener('click', showThreads);
     resetBtn.addEventListener('click', resetAll);
 
-    trailerBtn.addEventListener('click', openVideo);
     videoClose.addEventListener('click', closeVideo);
     videoBackdrop.addEventListener('click', closeVideo);
 
@@ -1081,8 +1431,14 @@ The drive into town becomes a study in transition: hotels turned into emergency 
     nextPageBtn.addEventListener('click', nextPages);
     prevPageBtn.addEventListener('click', prevPages);
 
-    document.querySelectorAll('.thread-book').forEach(btn => {
-      btn.addEventListener('click', () => openThread(btn.dataset.book));
+    threadNodes.forEach(wireDraggableThread);
+    window.addEventListener('resize', drawYarn);
+
+    document.addEventListener('DOMContentLoaded', () => {
+      drawYarn();
+      tryStartAudio();
+      try { bgVideo.play(); } catch (e) {}
+      try { threadsVideo.play(); } catch (e) {}
     });
 
     resetAll();
