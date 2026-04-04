@@ -6,926 +6,985 @@
   <title>I’m High on Crack and I Have a Gun</title>
   <meta name="description" content="Official interactive site for the book/documentary project by Ryan Homanics." />
   <style>
-    :root {
-      --text: #f2eadf;
-      --muted: #c7b59f;
-      --line: rgba(255,255,255,0.09);
-      --shadow: 0 24px 70px rgba(0,0,0,0.45);
-      --glow-strong: rgba(120,255,230,0.34);
-      --paper: #eadcc3;
-      --paper-ink: #2c2118;
+    :root{
+      --bg:#040404;
+      --panel:rgba(10,10,10,.62);
+      --panel-2:rgba(18,14,12,.72);
+      --line:rgba(255,255,255,.10);
+      --text:#f2eadf;
+      --muted:#c8b49b;
+      --accent:#d6a36b;
+      --danger:#8c2f2f;
+      --paper:#e7d8bf;
+      --ink:#2a2017;
+      --shadow:0 24px 80px rgba(0,0,0,.52);
+      --shadow-deep:0 40px 120px rgba(0,0,0,.66);
     }
 
-    * { box-sizing: border-box; }
-    html, body {
-      margin: 0;
-      min-height: 100%;
-      background: #000;
-      color: var(--text);
-      font-family: Arial, Helvetica, sans-serif;
+    *{box-sizing:border-box}
+
+    html,body{
+      margin:0;
+      min-height:100%;
+      background:#000;
+      color:var(--text);
+      font-family:Arial, Helvetica, sans-serif;
     }
 
-    body {
+    body{
+      overflow:hidden;
       background:
-        radial-gradient(circle at 20% 15%, rgba(255,160,80,.08), transparent 20%),
-        radial-gradient(circle at 80% 70%, rgba(255,120,80,.06), transparent 20%),
+        radial-gradient(circle at 20% 10%, rgba(150,40,25,.10), transparent 22%),
+        radial-gradient(circle at 80% 80%, rgba(255,170,80,.05), transparent 18%),
         #050505;
-      overflow: hidden;
     }
 
-    a, button { font: inherit; }
-    a { color: inherit; text-decoration: none; }
+    a,button{font:inherit}
+    a{text-decoration:none;color:inherit}
 
-    .app {
-      position: relative;
-      width: 100vw;
-      height: 100vh;
-      overflow: hidden;
+    .app{
+      position:relative;
+      width:100vw;
+      height:100vh;
+      overflow:hidden;
+      background:#000;
     }
 
-    .grain, .vignette {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      z-index: 50;
+    .grain,.vignette{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      z-index:200;
     }
 
-    .grain {
-      opacity: .06;
+    .grain{
+      opacity:.05;
       background-image:
         linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
-      background-size: 4px 4px;
-      mix-blend-mode: soft-light;
+      background-size:4px 4px;
+      mix-blend-mode:soft-light;
     }
 
-    .vignette { box-shadow: inset 0 0 180px rgba(0,0,0,.72); }
-
-    .scene {
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .7s ease, transform .8s ease;
-      transform: scale(1.01);
+    .vignette{
+      box-shadow:inset 0 0 220px rgba(0,0,0,.78);
     }
 
-    .scene.show {
-      opacity: 1;
-      pointer-events: auto;
-      transform: scale(1);
+    .scene{
+      position:absolute;
+      inset:0;
+      opacity:0;
+      pointer-events:none;
+      transition:opacity 1.1s ease, transform 1.1s ease;
+      transform:scale(1.02);
     }
 
-    .hint {
-      position: absolute;
-      left: 50%;
-      bottom: 22px;
-      transform: translateX(-50%);
-      z-index: 60;
-      background: rgba(0,0,0,.44);
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      padding: 10px 15px;
-      color: var(--muted);
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: .12em;
-      backdrop-filter: blur(10px);
-      transition: opacity .3s ease;
-      text-align: center;
-      max-width: 92vw;
+    .scene.show{
+      opacity:1;
+      pointer-events:auto;
+      transform:scale(1);
     }
 
-    .reset {
-      position: absolute;
-      top: 18px;
-      right: 18px;
-      z-index: 70;
-      border: 1px solid rgba(255,255,255,.1);
-      background: rgba(0,0,0,.42);
-      color: #fff;
-      border-radius: 999px;
-      padding: 10px 14px;
-      cursor: pointer;
-      backdrop-filter: blur(8px);
+    .pill{
+      border:1px solid var(--line);
+      background:rgba(0,0,0,.44);
+      backdrop-filter:blur(10px);
+      border-radius:999px;
+      padding:10px 14px;
+      color:var(--muted);
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      font-size:12px;
     }
 
-    /* Scene 1 */
-    .pickup-scene {
+    .hint{
+      position:absolute;
+      left:50%;
+      bottom:16px;
+      transform:translateX(-50%);
+      z-index:210;
+      max-width:92vw;
+      text-align:center;
+    }
+
+    .reset{
+      position:absolute;
+      top:16px;
+      right:16px;
+      z-index:210;
+      cursor:pointer;
+    }
+
+    /* OPENING SCENE */
+    .pickup-scene{
       background:
-        linear-gradient(180deg, rgba(0,0,0,.08), rgba(0,0,0,.32)),
-        url('ticket-collage.png') center center / 680px auto repeat;
+        linear-gradient(180deg, rgba(0,0,0,.12), rgba(0,0,0,.50)),
+        url('ticket-collage.png') center center / 680px auto repeat,
+        #060606;
     }
 
-    .pickup-overlay {
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at 50% 60%, transparent 0%, rgba(0,0,0,.12) 45%, rgba(0,0,0,.45) 100%);
+    .bg-video-wrap{
+      position:absolute;
+      inset:0;
+      overflow:hidden;
     }
 
-    .pickup-stage {
-      position: absolute;
-      inset: 0;
-      display: grid;
-      place-items: center;
-      padding: 20px;
+    .bg-video{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      opacity:.78;
+      filter:saturate(.9) contrast(1.05) brightness(.72);
+      transform:scale(1.04);
     }
 
-    .pickup-copy {
-      position: absolute;
-      top: 28px;
-      left: 50%;
-      transform: translateX(-50%);
-      text-align: center;
-      z-index: 4;
-      background: rgba(0,0,0,.34);
-      border: 1px solid rgba(255,255,255,.08);
-      border-radius: 24px;
-      padding: 14px 18px;
-      backdrop-filter: blur(8px);
-      max-width: min(92vw, 900px);
-    }
-
-    .pickup-copy .mini {
-      color: var(--muted);
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: .18em;
-      margin-bottom: 5px;
-    }
-
-    .pickup-copy h1 {
-      margin: 0;
-      font-size: clamp(20px, 3vw, 34px);
-      text-transform: uppercase;
-      letter-spacing: .06em;
-    }
-
-    .ground-ticket {
-      position: absolute;
-      width: min(720px, 74vw);
-      aspect-ratio: 2.05 / 1;
-      bottom: 7vh;
-      left: 50%;
-      transform: translateX(-50%) rotate(-7deg);
-      border-radius: 24px;
-      overflow: hidden;
-      box-shadow: 0 35px 100px rgba(0,0,0,.6);
-      cursor: pointer;
-      transition: transform .35s ease, box-shadow .35s ease, opacity .5s ease;
-      z-index: 5;
-      background: #000;
-    }
-
-    .ground-ticket:hover {
-      transform: translateX(-50%) rotate(-5deg) translateY(-8px) scale(1.02);
-      box-shadow: 0 45px 120px rgba(0,0,0,.7);
-    }
-
-    .ground-ticket img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .ground-ticket::after {
-      content: 'Click to pick up';
-      position: absolute;
-      left: 50%;
-      bottom: 14px;
-      transform: translateX(-50%);
-      background: rgba(0,0,0,.46);
-      border: 1px solid rgba(255,255,255,.1);
-      border-radius: 999px;
-      padding: 10px 12px;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: .16em;
-      color: #fff;
-      backdrop-filter: blur(7px);
-    }
-
-    .pickup-scene.animate-out .ground-ticket {
-      transform: translateX(-50%) translateY(-34vh) scale(.52) rotate(-1deg);
-      opacity: .15;
-    }
-
-    /* Scene 2 ATM */
-    .atm-scene {
-      display: grid;
-      place-items: center;
+    .video-darkener{
+      position:absolute;
+      inset:0;
       background:
-        radial-gradient(circle at center, rgba(0,0,0,.08), rgba(0,0,0,.4)),
-        #080808;
+        linear-gradient(180deg, rgba(0,0,0,.42), rgba(0,0,0,.58)),
+        radial-gradient(circle at center, transparent 0%, rgba(0,0,0,.22) 46%, rgba(0,0,0,.60) 100%);
+      z-index:2;
     }
 
-    .atm-stage {
-      position: absolute;
-      inset: 0;
-      display: grid;
-      place-items: center;
-      padding: 18px;
+    .pickup-copy{
+      position:absolute;
+      top:26px;
+      left:50%;
+      transform:translateX(-50%);
+      z-index:6;
+      max-width:min(94vw, 980px);
+      padding:16px 20px;
+      border:1px solid var(--line);
+      background:rgba(0,0,0,.40);
+      backdrop-filter:blur(10px);
+      border-radius:26px;
+      text-align:center;
     }
 
-    .atm-machine {
-      position: relative;
-      width: min(980px, 94vw);
-      aspect-ratio: 0.92 / 1;
-      border-radius: 26px;
-      overflow: hidden;
-      box-shadow: var(--shadow);
-      background: #000;
-      animation: slowZoom 6s ease-in-out infinite alternate;
+    .pickup-copy .mini{
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:.20em;
+      font-size:11px;
+      margin-bottom:6px;
     }
 
-    @keyframes slowZoom {
-      from { transform: scale(1); }
-      to { transform: scale(1.02); }
+    .pickup-copy h1{
+      margin:0;
+      font-size:clamp(22px, 3.8vw, 44px);
+      line-height:.96;
+      letter-spacing:.08em;
+      text-transform:uppercase;
     }
 
-    .atm-machine img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
+    .pickup-copy p{
+      margin:12px 0 0;
+      color:#d7c9b7;
+      font-size:15px;
     }
 
-    .atm-flicker, .screen-glow, .slot-glow, .machine-sheen, .screen-scan {
-      position: absolute;
-      pointer-events: none;
+    .ground-ticket{
+      position:absolute;
+      left:50%;
+      bottom:8vh;
+      transform:translateX(-50%) rotate(-6deg);
+      width:min(760px, 78vw);
+      aspect-ratio:2.05 / 1;
+      border-radius:26px;
+      overflow:hidden;
+      box-shadow:var(--shadow-deep);
+      z-index:8;
+      cursor:pointer;
+      transition:transform .6s ease, box-shadow .6s ease, opacity 1s ease;
+      background:#000;
     }
 
-    .atm-flicker {
-      inset: 0;
-      background: linear-gradient(180deg, rgba(255,255,255,.03), transparent 25%, transparent 75%, rgba(255,255,255,.03));
-      opacity: .22;
-      mix-blend-mode: screen;
-      animation: flicker 3.2s infinite ease-in-out;
+    .ground-ticket:hover{
+      transform:translateX(-50%) rotate(-4deg) translateY(-10px) scale(1.025);
+      box-shadow:0 52px 150px rgba(0,0,0,.75);
     }
 
-    @keyframes flicker {
-      0%, 100% { opacity: .12; }
-      15% { opacity: .18; }
-      35% { opacity: .08; }
-      55% { opacity: .22; }
-      70% { opacity: .1; }
-      85% { opacity: .19; }
+    .ground-ticket img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
     }
 
-    .screen-glow {
-      left: 25.5%;
-      top: 42.5%;
-      width: 26%;
-      height: 17%;
-      transform: translate(-50%, -50%);
-      border-radius: 16px;
-      background: radial-gradient(circle at center, var(--glow-strong), rgba(80,255,220,.08) 45%, transparent 75%);
-      filter: blur(12px);
-      mix-blend-mode: screen;
-      animation: screenPulse 2.6s infinite ease-in-out;
-      opacity: .7;
+    .ground-ticket::after{
+      content:"Click to pick up";
+      position:absolute;
+      left:50%;
+      bottom:14px;
+      transform:translateX(-50%);
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(0,0,0,.48);
+      backdrop-filter:blur(8px);
+      border-radius:999px;
+      padding:10px 14px;
+      color:#fff;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.16em;
     }
 
-    .screen-scan {
-      left: 12.7%;
-      top: 31.5%;
-      width: 26.2%;
-      height: 22%;
-      border-radius: 20px;
-      overflow: hidden;
-      opacity: .32;
+    .pickup-scene.animate-out .ground-ticket{
+      transform:translateX(-50%) translateY(-34vh) scale(.48) rotate(-2deg);
+      opacity:.08;
     }
 
-    .screen-scan::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: repeating-linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.05) 2px, transparent 2px, transparent 5px);
+    /* ATM SCENE */
+    .atm-scene{
+      display:grid;
+      place-items:center;
+      background:
+        radial-gradient(circle at center, rgba(255,255,255,.03), transparent 22%),
+        linear-gradient(180deg, #050505, #090909);
     }
 
-    .screen-scan::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      right: 0;
-      height: 28%;
-      background: linear-gradient(180deg, rgba(255,255,255,.18), rgba(120,255,230,.05), transparent);
-      animation: scanMove 2.1s infinite ease-in-out;
-      filter: blur(4px);
+    .atm-stage{
+      position:absolute;
+      inset:0;
+      display:grid;
+      place-items:center;
+      padding:18px;
     }
 
-    @keyframes scanMove {
-      0% { top: -25%; }
-      100% { top: 100%; }
+    .atm-machine{
+      position:relative;
+      width:min(1000px, 94vw);
+      aspect-ratio:.92 / 1;
+      border-radius:28px;
+      overflow:hidden;
+      background:#000;
+      box-shadow:var(--shadow-deep);
+      animation:atmSlowZoom 8s ease-in-out infinite alternate;
     }
 
-    @keyframes screenPulse {
-      0%, 100% { opacity: .48; transform: translate(-50%, -50%) scale(1); }
-      50% { opacity: .85; transform: translate(-50%, -50%) scale(1.06); }
+    @keyframes atmSlowZoom{
+      from{transform:scale(1)}
+      to{transform:scale(1.018)}
     }
 
-    .slot-glow {
-      left: 56.8%;
-      top: 57.7%;
-      width: 8.8%;
-      height: 3.1%;
-      transform: translate(-50%, -50%);
-      border-radius: 999px;
-      background: linear-gradient(90deg, transparent, rgba(255,215,140,.7), transparent);
-      filter: blur(6px);
-      animation: slotPulse 1.6s infinite ease-in-out;
-      opacity: .75;
+    .atm-machine img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
     }
 
-    @keyframes slotPulse {
-      0%, 100% { opacity: .32; transform: translate(-50%, -50%) scaleX(.9); }
-      50% { opacity: .92; transform: translate(-50%, -50%) scaleX(1.12); }
+    .atm-sheen,
+    .screen-glow,
+    .screen-scan,
+    .slot-glow,
+    .atm-flicker{
+      position:absolute;
+      pointer-events:none;
     }
 
-    .machine-sheen {
-      inset: -10%;
-      background: linear-gradient(115deg, transparent 28%, rgba(255,255,255,.06) 50%, transparent 68%);
-      transform: translateX(-45%);
-      animation: sheenMove 4.6s infinite ease-in-out;
-      mix-blend-mode: screen;
-      opacity: .35;
+    .atm-sheen{
+      inset:-10%;
+      background:linear-gradient(112deg, transparent 28%, rgba(255,255,255,.05) 50%, transparent 70%);
+      animation:sheenMove 5.6s ease-in-out infinite;
+      mix-blend-mode:screen;
+      opacity:.35;
     }
 
-    @keyframes sheenMove {
-      0%, 100% { transform: translateX(-48%); }
-      50% { transform: translateX(48%); }
+    @keyframes sheenMove{
+      0%,100%{transform:translateX(-46%)}
+      50%{transform:translateX(48%)}
     }
 
-    .atm-ui-copy {
-      position: absolute;
-      left: 50%;
-      top: 4%;
-      transform: translateX(-50%);
-      z-index: 8;
-      background: rgba(0,0,0,.36);
-      border: 1px solid rgba(255,255,255,.08);
-      border-radius: 24px;
-      padding: 12px 16px;
-      text-align: center;
-      backdrop-filter: blur(8px);
-      max-width: min(92vw, 900px);
+    .atm-flicker{
+      inset:0;
+      background:linear-gradient(180deg, rgba(255,255,255,.03), transparent 20%, transparent 80%, rgba(255,255,255,.02));
+      opacity:.18;
+      mix-blend-mode:screen;
+      animation:flicker 3.4s infinite;
     }
 
-    .atm-ui-copy .mini {
-      font-size: 11px;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: .16em;
-      margin-bottom: 4px;
+    @keyframes flicker{
+      0%,100%{opacity:.10}
+      35%{opacity:.18}
+      60%{opacity:.08}
+      80%{opacity:.17}
     }
 
-    .atm-ui-copy strong {
-      font-size: clamp(18px, 2.4vw, 28px);
-      text-transform: uppercase;
-      letter-spacing: .08em;
+    .screen-glow{
+      left:25.4%;
+      top:42.4%;
+      width:26%;
+      height:17%;
+      transform:translate(-50%, -50%);
+      border-radius:18px;
+      background:radial-gradient(circle at center, rgba(120,255,230,.28), rgba(80,255,220,.08) 44%, transparent 75%);
+      filter:blur(12px);
+      mix-blend-mode:screen;
+      animation:screenPulse 3s ease-in-out infinite;
     }
 
-    .atm-ticket {
-      position: absolute;
-      width: min(420px, 44vw);
-      aspect-ratio: 2.05 / 1;
-      left: 50%;
-      bottom: 14%;
-      transform: translateX(-50%) rotate(-2deg);
-      border-radius: 18px;
-      overflow: hidden;
-      box-shadow: 0 20px 60px rgba(0,0,0,.56);
-      background: #000;
-      transition: transform 1.25s cubic-bezier(.18,.84,.2,1), opacity .8s ease, filter .6s ease;
-      z-index: 9;
+    @keyframes screenPulse{
+      0%,100%{opacity:.48; transform:translate(-50%, -50%) scale(1)}
+      50%{opacity:.84; transform:translate(-50%, -50%) scale(1.06)}
     }
 
-    .atm-ticket img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
+    .screen-scan{
+      left:12.7%;
+      top:31.6%;
+      width:26.2%;
+      height:22%;
+      border-radius:20px;
+      overflow:hidden;
+      opacity:.28;
     }
 
-    .atm-scene.animate-insert .atm-ticket {
-      transform: translateX(-50%) translateY(-13%) scale(.72) rotate(-1deg);
-      opacity: .98;
-      filter: drop-shadow(0 0 16px rgba(255,190,120,.24));
+    .screen-scan::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:repeating-linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.05) 2px, transparent 2px, transparent 6px);
     }
 
-    .atm-scene.finish-insert .atm-ticket {
-      transform: translateX(-50%) translateY(-28%) scale(.28) rotate(-1deg);
-      opacity: .06;
-      filter: blur(1px);
+    .screen-scan::after{
+      content:"";
+      position:absolute;
+      left:0;
+      right:0;
+      height:28%;
+      background:linear-gradient(180deg, rgba(255,255,255,.16), rgba(120,255,230,.04), transparent);
+      filter:blur(4px);
+      animation:scanMove 2.5s ease-in-out infinite;
     }
 
-    .atm-scene.machine-hit .atm-machine {
-      animation: machineShake .36s ease-in-out 1;
+    @keyframes scanMove{
+      0%{top:-25%}
+      100%{top:100%}
     }
 
-    @keyframes machineShake {
-      0%,100% { transform: translateX(0) scale(1.015); }
-      20% { transform: translateX(-3px) rotate(-.2deg) scale(1.015); }
-      40% { transform: translateX(3px) rotate(.2deg) scale(1.015); }
-      60% { transform: translateX(-2px) rotate(-.1deg) scale(1.015); }
-      80% { transform: translateX(2px) rotate(.1deg) scale(1.015); }
+    .slot-glow{
+      left:56.8%;
+      top:57.8%;
+      width:9%;
+      height:3%;
+      transform:translate(-50%, -50%);
+      border-radius:999px;
+      background:linear-gradient(90deg, transparent, rgba(255,215,140,.75), transparent);
+      filter:blur(7px);
+      animation:slotPulse 1.8s ease-in-out infinite;
     }
 
-    /* keep ATM text/background visible */
-    .dvd {
-      position: absolute;
-      left: 50%;
-      bottom: 5%;
-      width: min(260px, 27vw);
-      aspect-ratio: 0.72 / 1;
-      transform: translate(-50%, 220%) rotateX(55deg) scale(.82);
-      transform-origin: center center;
-      transition: transform 1s cubic-bezier(.2,.8,.2,1), opacity .4s ease;
-      opacity: 0;
-      perspective: 1600px;
-      z-index: 12;
+    @keyframes slotPulse{
+      0%,100%{opacity:.34; transform:translate(-50%, -50%) scaleX(.92)}
+      50%{opacity:.9; transform:translate(-50%, -50%) scaleX(1.12)}
     }
 
-    .atm-scene.reveal-dvd .dvd {
-      transform: translate(-50%, 0%) rotateX(8deg) scale(1);
-      opacity: 1;
+    .atm-copy{
+      position:absolute;
+      left:50%;
+      top:4%;
+      transform:translateX(-50%);
+      z-index:8;
+      max-width:min(92vw, 920px);
+      padding:12px 16px;
+      border:1px solid var(--line);
+      background:rgba(0,0,0,.38);
+      backdrop-filter:blur(10px);
+      border-radius:24px;
+      text-align:center;
     }
 
-    .case {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      transform-style: preserve-3d;
-      cursor: pointer;
+    .atm-copy .mini{
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:.18em;
+      font-size:11px;
+      margin-bottom:4px;
     }
 
-    .case-front, .case-inside {
-      position: absolute;
-      inset: 0;
-      border-radius: 18px;
-      overflow: hidden;
-      box-shadow: var(--shadow);
-      backface-visibility: hidden;
-      border: 1px solid rgba(255,255,255,.08);
-      background: #000;
+    .atm-copy strong{
+      font-size:clamp(18px, 2.5vw, 30px);
+      text-transform:uppercase;
+      letter-spacing:.08em;
+    }
+
+    .atm-ticket{
+      position:absolute;
+      left:50%;
+      bottom:14%;
+      transform:translateX(-50%) rotate(-2deg);
+      width:min(430px, 44vw);
+      aspect-ratio:2.05 / 1;
+      border-radius:18px;
+      overflow:hidden;
+      background:#000;
+      z-index:9;
+      box-shadow:0 20px 60px rgba(0,0,0,.56);
+      transition:transform 1.7s cubic-bezier(.18,.84,.2,1), opacity 1s ease, filter .8s ease;
+    }
+
+    .atm-ticket img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .atm-scene.animate-insert .atm-ticket{
+      transform:translateX(-50%) translateY(-12%) scale(.72) rotate(-1deg);
+      opacity:.98;
+      filter:drop-shadow(0 0 16px rgba(255,190,120,.25));
+    }
+
+    .atm-scene.finish-insert .atm-ticket{
+      transform:translateX(-50%) translateY(-28%) scale(.28) rotate(-1deg);
+      opacity:.05;
+      filter:blur(1px);
+    }
+
+    .atm-scene.machine-hit .atm-machine{
+      animation:machineShake .45s ease-in-out 1;
+    }
+
+    @keyframes machineShake{
+      0%,100%{transform:translateX(0) scale(1.01)}
+      20%{transform:translateX(-4px) rotate(-.2deg) scale(1.01)}
+      40%{transform:translateX(4px) rotate(.2deg) scale(1.01)}
+      60%{transform:translateX(-3px) rotate(-.1deg) scale(1.01)}
+      80%{transform:translateX(3px) rotate(.1deg) scale(1.01)}
+    }
+
+    .dvd{
+      position:absolute;
+      left:50%;
+      bottom:4.5%;
+      width:min(340px, 30vw);
+      aspect-ratio:.72 / 1;
+      transform:translate(-50%, 230%) rotateX(55deg) scale(.82);
+      transform-origin:center center;
+      transition:transform 1.5s cubic-bezier(.2,.8,.2,1), opacity .9s ease;
+      opacity:0;
+      perspective:2200px;
+      z-index:12;
+    }
+
+    .atm-scene.reveal-dvd .dvd{
+      transform:translate(-50%, 0%) rotateX(6deg) scale(1);
+      opacity:1;
+    }
+
+    .case{
+      position:relative;
+      width:100%;
+      height:100%;
+      transform-style:preserve-3d;
+      cursor:pointer;
+    }
+
+    .case-front,
+    .case-inside{
+      position:absolute;
+      inset:0;
+      border-radius:18px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.08);
+      box-shadow:var(--shadow);
+      backface-visibility:hidden;
+      background:#000;
     }
 
     .case-front img,
-    .case-inside img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
+    .case-inside img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
     }
 
-    .case-front {
-      transform-origin: left center;
-      transition: transform 1s cubic-bezier(.22,.8,.2,1);
-      z-index: 4;
+    .case-front{
+      transform-origin:left center;
+      transition:transform 1.8s cubic-bezier(.18,.82,.18,1);
+      z-index:4;
     }
 
-    .case.open .case-front { transform: rotateY(-125deg); }
-
-    .case-inside {
-      background: #000;
+    .case.open .case-front{
+      transform:rotateY(-132deg);
     }
 
-    /* Scene 3 */
-    .cloud-scene {
-      display: grid;
-      place-items: start center;
+    .case-inside{
+      display:grid;
+      place-items:center;
+      padding:8px;
+      background:
+        radial-gradient(circle at center, rgba(255,255,255,.02), transparent 34%),
+        linear-gradient(180deg, #090909, #030303);
+    }
+
+    .case-inside img{
+      object-fit:contain;
+      object-position:center;
+      border-radius:14px;
+      filter:contrast(1.02) saturate(.98) brightness(.95);
+      transform:scale(.98);
+    }
+
+    .case-enter{
+      position:absolute;
+      left:50%;
+      bottom:10px;
+      transform:translateX(-50%);
+      z-index:7;
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .8s ease .35s, transform .8s ease .35s;
+    }
+
+    .case.open .case-enter{
+      opacity:1;
+      pointer-events:auto;
+      transform:translateX(-50%) translateY(0);
+    }
+
+    /* THREADS */
+    .cloud-scene{
+      display:grid;
+      place-items:start center;
+      overflow-y:auto;
+      overflow-x:hidden;
       background:
         radial-gradient(circle at center, rgba(255,255,255,.03), transparent 40%),
-        linear-gradient(180deg, #060606, #020202);
-      overflow-y: auto;
-      overflow-x: hidden;
+        linear-gradient(180deg, #050505, #010101 70%);
     }
 
-    .cloud-core {
-      position: relative;
-      width: min(1300px, 96vw);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      padding: 40px 0 120px;
+    .cloud-core{
+      position:relative;
+      width:min(1320px, 96vw);
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:flex-start;
+      padding:40px 0 130px;
     }
 
-    .smoke-layer {
-      position: absolute;
-      inset: 18% 10% 10% 10%;
-      border-radius: 50%;
-      filter: blur(16px);
-      mix-blend-mode: screen;
+    .smoke-layer{
+      position:absolute;
+      inset:16% 10% 10% 10%;
+      border-radius:50%;
+      filter:blur(18px);
+      mix-blend-mode:screen;
       background:
         radial-gradient(circle at 30% 34%, rgba(255,255,255,.14), transparent 16%),
-        radial-gradient(circle at 62% 38%, rgba(255,255,255,.1), transparent 18%),
+        radial-gradient(circle at 62% 38%, rgba(255,255,255,.10), transparent 18%),
         radial-gradient(circle at 48% 52%, rgba(255,255,255,.12), transparent 24%),
         radial-gradient(circle at 58% 64%, rgba(255,210,170,.12), transparent 20%),
         radial-gradient(circle at 34% 66%, rgba(180,180,180,.08), transparent 20%);
-      animation: drift 10s ease-in-out infinite alternate;
-      pointer-events: none;
+      animation:drift 11s ease-in-out infinite alternate;
+      pointer-events:none;
     }
 
-    .smoke-layer.two { inset: 24% 16% 16% 16%; opacity: .62; animation-duration: 12s; }
-    .smoke-layer.three { inset: 30% 22% 22% 22%; opacity: .38; animation-duration: 8s; }
+    .smoke-layer.two{inset:23% 16% 16% 16%; opacity:.58; animation-duration:13s}
+    .smoke-layer.three{inset:30% 22% 22% 22%; opacity:.34; animation-duration:9s}
 
-    @keyframes drift {
-      from { transform: translate(-10px, -12px) scale(0.98); }
-      to { transform: translate(12px, 16px) scale(1.04); }
+    @keyframes drift{
+      from{transform:translate(-10px,-12px) scale(.98)}
+      to{transform:translate(12px,16px) scale(1.04)}
     }
 
-    .cloud-title {
-      position: relative;
-      text-align: center;
-      z-index: 5;
-      padding: 0 20px;
-      max-width: 1100px;
+    .cloud-title{
+      position:relative;
+      z-index:5;
+      max-width:1100px;
+      padding:0 20px;
+      text-align:center;
     }
 
-    .cloud-title h2 {
-      margin: 0;
-      font-size: clamp(28px, 4vw, 56px);
-      text-transform: uppercase;
-      letter-spacing: .08em;
+    .cloud-title h2{
+      margin:0;
+      font-size:clamp(28px, 4vw, 58px);
+      letter-spacing:.08em;
+      text-transform:uppercase;
     }
 
-    .cloud-title p {
-      margin: 14px 0 0;
-      color: var(--muted);
-      font-size: 18px;
+    .cloud-title p{
+      margin:14px 0 0;
+      color:var(--muted);
+      font-size:18px;
     }
 
-    .update-pill {
-      margin-top: 18px;
-      display: inline-block;
-      padding: 12px 18px;
-      border: 1px solid rgba(255,255,255,.12);
-      border-radius: 999px;
-      background: rgba(0,0,0,.28);
-      color: #c7b59f;
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: .14em;
-      max-width: min(92vw, 1000px);
+    .update-pill{
+      margin-top:18px;
+      display:inline-block;
+      padding:12px 18px;
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:999px;
+      background:rgba(0,0,0,.30);
+      color:#c7b59f;
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      max-width:min(92vw, 1000px);
     }
 
-    .thread-grid {
-      position: relative;
-      z-index: 6;
-      width: min(1200px, 96vw);
-      margin-top: 48px;
-      display: grid;
-      grid-template-columns: repeat(4, minmax(180px, 220px));
-      justify-content: center;
-      gap: 34px;
+    .thread-grid{
+      position:relative;
+      z-index:6;
+      width:min(1220px, 96vw);
+      margin-top:46px;
+      display:grid;
+      grid-template-columns:repeat(4, minmax(190px, 230px));
+      justify-content:center;
+      gap:32px;
     }
 
-    .cover-thread {
-      width: 100%;
-      padding: 12px;
-      border-radius: 22px;
-      border: 1px solid rgba(255,255,255,.1);
-      background: rgba(10,10,10,.52);
-      backdrop-filter: blur(8px);
-      box-shadow: 0 16px 35px rgba(0,0,0,.28);
-      transition: transform .25s ease, background .25s ease, border-color .25s ease;
-      cursor: pointer;
-      color: var(--text);
-      text-align: center;
+    .cover-thread{
+      width:100%;
+      padding:12px;
+      border-radius:22px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(10,10,10,.56);
+      backdrop-filter:blur(8px);
+      box-shadow:0 16px 35px rgba(0,0,0,.28);
+      cursor:pointer;
+      text-align:center;
+      color:var(--text);
+      transition:transform .35s ease, background .35s ease, border-color .35s ease, box-shadow .35s ease;
     }
 
-    .cover-thread:hover {
-      transform: translateY(-6px) scale(1.03);
-      background: rgba(22,22,22,.82);
-      border-color: rgba(255,255,255,.18);
+    .cover-thread:hover{
+      transform:translateY(-8px) scale(1.03);
+      background:rgba(20,20,20,.84);
+      border-color:rgba(255,255,255,.18);
+      box-shadow:0 28px 55px rgba(0,0,0,.42);
     }
 
-    .cover-thread img {
-      width: 100%;
-      aspect-ratio: .72 / 1;
-      object-fit: cover;
-      display: block;
-      border-radius: 14px;
-      margin-bottom: 12px;
-      box-shadow: 0 14px 30px rgba(0,0,0,.36);
-      background: #111;
+    .cover-thread img{
+      width:100%;
+      aspect-ratio:.72 / 1;
+      object-fit:cover;
+      display:block;
+      border-radius:14px;
+      margin-bottom:12px;
+      box-shadow:0 14px 30px rgba(0,0,0,.36);
+      background:#111;
     }
 
-    .cover-thread span {
-      display: block;
-      color: var(--muted);
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: .14em;
-      margin-bottom: 8px;
+    .cover-thread span{
+      display:block;
+      color:var(--muted);
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      margin-bottom:8px;
     }
 
-    .cover-thread b {
-      font-size: 18px;
-      line-height: 1.1;
-      display: block;
+    .cover-thread b{
+      display:block;
+      font-size:18px;
+      line-height:1.1;
     }
 
-    /* Book viewer */
+    /* VIEWERS */
     .book-viewer,
-    .video-viewer {
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .35s ease;
-      z-index: 95;
+    .video-viewer{
+      position:absolute;
+      inset:0;
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .45s ease;
+      z-index:250;
     }
 
     .book-viewer.show,
-    .video-viewer.show {
-      opacity: 1;
-      pointer-events: auto;
+    .video-viewer.show{
+      opacity:1;
+      pointer-events:auto;
     }
 
     .book-backdrop,
-    .video-backdrop {
-      position: absolute;
-      inset: 0;
-      background: rgba(0,0,0,.78);
-      backdrop-filter: blur(10px);
+    .video-backdrop{
+      position:absolute;
+      inset:0;
+      background:rgba(0,0,0,.82);
+      backdrop-filter:blur(12px);
     }
 
     .book-shell,
-    .video-shell {
-      position: absolute;
-      inset: 4vh 4vw;
-      border-radius: 28px;
-      background: linear-gradient(180deg, #18130f, #0f0c09 60%, #090807);
-      border: 1px solid rgba(255,255,255,.08);
-      box-shadow: 0 25px 80px rgba(0,0,0,.55);
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .book-close, .open-book-btn, .book-controls button, .book-link-btn, .video-close {
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.05);
-      color: #fff;
-      border-radius: 999px;
-      padding: 10px 14px;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-block;
-    }
-
-    .book-controls button:disabled {
-      opacity: .4;
-      cursor: default;
+    .video-shell{
+      position:absolute;
+      inset:4vh 4vw;
+      border-radius:28px;
+      background:linear-gradient(180deg, #17110d, #0d0a08 62%, #080707);
+      border:1px solid rgba(255,255,255,.08);
+      box-shadow:var(--shadow-deep);
+      padding:20px;
+      display:flex;
+      flex-direction:column;
+      gap:16px;
     }
 
     .book-close,
-    .video-close { align-self: flex-end; }
-
-    .book-stage {
-      flex: 1;
-      min-height: 0;
-      display: grid;
-      place-items: center;
-      position: relative;
+    .video-close,
+    .open-book-btn,
+    .book-link-btn,
+    .book-controls button{
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.05);
+      color:#fff;
+      border-radius:999px;
+      padding:10px 14px;
+      cursor:pointer;
+      text-decoration:none;
+      display:inline-block;
     }
 
-    .book-cover-panel, .book-pages {
-      width: min(1100px, 100%);
-      height: min(74vh, 100%);
-      transition: opacity .45s ease, transform .55s ease;
+    .book-close,.video-close{align-self:flex-end}
+
+    .book-stage{
+      flex:1;
+      min-height:0;
+      display:grid;
+      place-items:center;
+      position:relative;
     }
 
-    .book-cover-panel {
-      display: grid;
-      place-items: center;
-      gap: 16px;
-      align-content: center;
+    .book-cover-panel,
+    .book-pages{
+      width:min(1120px, 100%);
+      height:min(74vh, 100%);
+      transition:opacity .55s ease, transform .55s ease;
     }
 
-    .book-cover-panel img {
-      height: min(62vh, 100%);
-      width: auto;
-      max-width: 100%;
-      object-fit: contain;
-      border-radius: 18px;
-      box-shadow: 0 24px 60px rgba(0,0,0,.45);
-      background: #111;
+    .book-cover-panel{
+      display:grid;
+      place-items:center;
+      gap:16px;
+      align-content:center;
     }
 
-    .book-cover-actions {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      justify-content: center;
+    .book-cover-panel img{
+      height:min(62vh, 100%);
+      width:auto;
+      max-width:100%;
+      object-fit:contain;
+      border-radius:18px;
+      box-shadow:0 24px 60px rgba(0,0,0,.45);
+      background:#111;
     }
 
-    .book-pages {
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      pointer-events: none;
-      transform: scale(.98);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
+    .book-cover-actions{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      justify-content:center;
     }
 
-    .book-viewer.reading .book-cover-panel {
-      opacity: 0;
-      pointer-events: none;
-      transform: scale(.96);
+    .book-pages{
+      position:absolute;
+      inset:0;
+      opacity:0;
+      pointer-events:none;
+      transform:scale(.98);
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
     }
 
-    .book-viewer.reading .book-pages {
-      opacity: 1;
-      pointer-events: auto;
-      transform: scale(1);
+    .book-viewer.reading .book-cover-panel{
+      opacity:0;
+      pointer-events:none;
+      transform:scale(.96);
     }
 
-    .page {
-      min-width: 0;
+    .book-viewer.reading .book-pages{
+      opacity:1;
+      pointer-events:auto;
+      transform:scale(1);
+    }
+
+    .page{
+      min-width:0;
       background:
         linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.06) 12%, rgba(255,255,255,.02)),
         var(--paper);
-      color: var(--paper-ink);
-      border-radius: 16px;
-      box-shadow: inset 0 0 0 1px rgba(90,60,32,.12), 0 20px 40px rgba(0,0,0,.25);
-      position: relative;
-      overflow: hidden;
+      color:var(--ink);
+      border-radius:16px;
+      box-shadow:inset 0 0 0 1px rgba(90,60,32,.12), 0 20px 40px rgba(0,0,0,.25);
+      position:relative;
+      overflow:hidden;
     }
 
-    .page::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: repeating-linear-gradient(180deg, rgba(90,60,32,.03), rgba(90,60,32,.03) 1px, transparent 1px, transparent 30px);
-      opacity: .5;
-      pointer-events: none;
+    .page::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:repeating-linear-gradient(180deg, rgba(90,60,32,.03), rgba(90,60,32,.03) 1px, transparent 1px, transparent 30px);
+      opacity:.5;
+      pointer-events:none;
     }
 
-    .page-inner {
-      position: relative;
-      padding: 28px 26px;
-      height: 100%;
-      overflow: auto;
+    .page-inner{
+      position:relative;
+      padding:28px 26px;
+      height:100%;
+      overflow:auto;
     }
 
-    .page-kicker {
-      font-size: 11px;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: #7b5a39;
-      margin-bottom: 10px;
+    .page-kicker{
+      font-size:11px;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      color:#7b5a39;
+      margin-bottom:10px;
     }
 
-    .page h3 {
-      margin: 0 0 16px;
-      font-size: 28px;
-      line-height: 1.02;
-      text-transform: uppercase;
+    .page h3{
+      margin:0 0 16px;
+      font-size:28px;
+      line-height:1.02;
+      text-transform:uppercase;
     }
 
-    .page-text {
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 18px;
-      line-height: 1.62;
-      white-space: pre-wrap;
+    .page-text{
+      font-family:Georgia, "Times New Roman", serif;
+      font-size:18px;
+      line-height:1.62;
+      white-space:pre-wrap;
     }
 
-    .book-controls {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 14px;
+    .book-controls{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:14px;
     }
 
-    .book-status {
-      min-width: 120px;
-      text-align: center;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: .12em;
-      font-size: 12px;
+    .book-status{
+      min-width:120px;
+      text-align:center;
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      font-size:12px;
     }
 
-    /* Video viewer */
-    .video-frame-wrap {
-      flex: 1;
-      min-height: 0;
-      display: grid;
-      place-items: center;
+    .book-controls button:disabled{
+      opacity:.4;
+      cursor:default;
     }
 
-    .video-frame {
-      width: min(1200px, 100%);
-      aspect-ratio: 16 / 9;
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 24px 60px rgba(0,0,0,.45);
-      background: #000;
+    .video-frame-wrap{
+      flex:1;
+      min-height:0;
+      display:grid;
+      place-items:center;
     }
 
-    .video-frame iframe {
-      width: 100%;
-      height: 100%;
-      border: 0;
-      display: block;
+    .video-frame{
+      width:min(1220px, 100%);
+      aspect-ratio:16 / 9;
+      border-radius:20px;
+      overflow:hidden;
+      background:#000;
+      box-shadow:0 24px 60px rgba(0,0,0,.45);
     }
 
-    @media (max-width: 1000px) {
-      .thread-grid {
-        grid-template-columns: repeat(2, minmax(180px, 220px));
+    .video-frame iframe{
+      width:100%;
+      height:100%;
+      border:0;
+      display:block;
+    }
+
+    @media (max-width: 1020px){
+      .thread-grid{
+        grid-template-columns:repeat(2, minmax(180px, 220px));
       }
     }
 
-    @media (max-width: 820px) {
-      body { overflow: hidden; }
-
-      .ground-ticket {
-        width: 92vw;
-        bottom: 10vh;
+    @media (max-width: 820px){
+      .ground-ticket{
+        width:92vw;
+        bottom:10vh;
       }
 
-      .atm-machine {
-        width: 96vw;
+      .pickup-copy{
+        width:92vw;
+        top:18px;
       }
 
-      .atm-ui-copy {
-        top: 2.5%;
-        max-width: 88vw;
-        padding: 10px 12px;
+      .bg-video{
+        object-position:center center;
       }
 
-      .atm-ui-copy strong {
-        font-size: 18px;
+      .atm-machine{
+        width:96vw;
       }
 
-      .atm-ticket {
-        width: 54vw;
-        bottom: 16%;
+      .atm-copy{
+        top:2.4%;
+        max-width:88vw;
+        padding:10px 12px;
       }
 
-      .dvd {
-        width: min(170px, 34vw);
-        bottom: 3%;
+      .atm-copy strong{
+        font-size:18px;
       }
 
-      .case-inside img {
-        object-position: center;
+      .atm-ticket{
+        width:54vw;
+        bottom:16%;
       }
 
-      .cloud-scene {
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
+      .dvd{
+        width:min(220px, 44vw);
+        bottom:2.5%;
       }
 
-      .cloud-core {
-        min-height: auto;
-        padding: 28px 0 160px;
+      .cloud-core{
+        min-height:auto;
+        padding:26px 0 150px;
       }
 
-      .thread-grid {
-        grid-template-columns: 1fr;
-        width: min(340px, 92vw);
-        gap: 18px;
-        margin-top: 28px;
-      }
-
-      .cover-thread {
-        width: 100%;
+      .thread-grid{
+        grid-template-columns:1fr;
+        width:min(340px, 92vw);
+        gap:18px;
+        margin-top:28px;
       }
 
       .book-shell,
-      .video-shell {
-        inset: 2vh 2vw;
-        padding: 14px;
+      .video-shell{
+        inset:2vh 2vw;
+        padding:14px;
       }
 
-      .book-pages {
-        grid-template-columns: 1fr;
+      .book-pages{
+        grid-template-columns:1fr;
       }
 
-      .page-left { display: none; }
-
-      .page h3 { font-size: 22px; }
-      .page-text { font-size: 17px; }
-      .update-pill { font-size: 11px; }
-      .cloud-title p { font-size: 16px; }
-
-      .video-frame {
-        width: 100%;
-        aspect-ratio: 16 / 9;
+      .page-left{
+        display:none;
       }
 
-      .hint {
-        bottom: 12px;
-        font-size: 11px;
+      .page h3{font-size:22px}
+      .page-text{font-size:17px}
+      .cloud-title p{font-size:16px}
+      .update-pill{font-size:11px}
+      .hint{bottom:10px; font-size:11px}
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .bg-video{display:none}
+      .scene,
+      .ground-ticket,
+      .atm-ticket,
+      .dvd,
+      .case-front{
+        transition:none !important;
+        animation:none !important;
       }
     }
   </style>
@@ -935,18 +994,33 @@
     <div class="grain"></div>
     <div class="vignette"></div>
 
-    <button class="reset" id="resetBtn">Restart</button>
+    <button class="reset pill" id="resetBtn">Restart</button>
 
     <section class="scene pickup-scene show" id="pickupScene">
-      <div class="pickup-overlay"></div>
-      <div class="pickup-stage">
-        <div class="pickup-copy">
-          <div class="mini">Entry sequence</div>
-          <h1>Pick up the ticket</h1>
-        </div>
-        <div class="ground-ticket" id="groundTicket">
-          <img src="ticket-single.png" alt="Ticket on the ground" />
-        </div>
+      <div class="bg-video-wrap">
+        <video
+          class="bg-video"
+          id="bgVideo"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="auto"
+          poster="ticket-collage.png"
+        >
+          <source src="background-video.mp4" type="video/mp4" />
+        </video>
+        <div class="video-darkener"></div>
+      </div>
+
+      <div class="pickup-copy">
+        <div class="mini">Entry sequence</div>
+        <h1>Pick up the ticket</h1>
+        <p>The loop starts immediately. The ticket stays sharp over the darkened video.</p>
+      </div>
+
+      <div class="ground-ticket" id="groundTicket">
+        <img src="ticket-single.png" alt="Ticket on the ground" />
       </div>
     </section>
 
@@ -954,13 +1028,13 @@
       <div class="atm-stage">
         <div class="atm-machine">
           <img src="atm-machine.png" alt="ATM machine" />
-          <div class="machine-sheen"></div>
+          <div class="atm-sheen"></div>
           <div class="atm-flicker"></div>
           <div class="screen-glow"></div>
           <div class="screen-scan"></div>
           <div class="slot-glow"></div>
 
-          <div class="atm-ui-copy">
+          <div class="atm-copy">
             <div class="mini">Processing sequence</div>
             <strong>Insert redemption</strong>
           </div>
@@ -973,11 +1047,11 @@
             <div class="case" id="dvdCase">
               <div class="case-front">
                 <img src="dvdcase.png" alt="DVD case cover" />
-                <div class="open-copy">Click case to open</div>
               </div>
               <div class="case-inside">
                 <img src="case-open-inside.png" alt="Opened DVD case interior" />
               </div>
+              <button class="case-enter pill" id="enterThreadsBtn">Enter archive</button>
             </div>
           </div>
         </div>
@@ -1089,7 +1163,7 @@
       </div>
     </section>
 
-    <div class="hint" id="hint">Click the ticket to begin</div>
+    <div class="hint pill" id="hint">Click the ticket to begin</div>
   </div>
 
   <script>
@@ -1101,14 +1175,12 @@
       while (remaining.length > charsPerPage) {
         let slice = remaining.slice(0, charsPerPage);
         let breakAt = Math.max(
-          slice.lastIndexOf("\\n\\n"),
+          slice.lastIndexOf("\n\n"),
           slice.lastIndexOf(". "),
           slice.lastIndexOf("? "),
           slice.lastIndexOf("! ")
         );
-
         if (breakAt < charsPerPage * 0.55) breakAt = charsPerPage;
-
         chunks.push(remaining.slice(0, breakAt).trim());
         remaining = remaining.slice(breakAt).trim();
       }
@@ -1116,36 +1188,6 @@
       if (remaining.length) chunks.push(remaining);
       return chunks;
     }
-
-    const pickupScene = document.getElementById('pickupScene');
-    const atmScene = document.getElementById('atmScene');
-    const cloudScene = document.getElementById('cloudScene');
-    const groundTicket = document.getElementById('groundTicket');
-    const dvdCase = document.getElementById('dvdCase');
-    const resetBtn = document.getElementById('resetBtn');
-    const hint = document.getElementById('hint');
-
-    const trailerBtn = document.getElementById('trailerBtn');
-    const videoViewer = document.getElementById('videoViewer');
-    const videoBackdrop = document.getElementById('videoBackdrop');
-    const videoClose = document.getElementById('videoClose');
-    const trailerFrame = document.getElementById('trailerFrame');
-
-    const bookViewer = document.getElementById('bookViewer');
-    const bookBackdrop = document.getElementById('bookBackdrop');
-    const bookClose = document.getElementById('bookClose');
-    const openBookBtn = document.getElementById('openBookBtn');
-    const externalLinkBtn = document.getElementById('externalLinkBtn');
-    const prevPageBtn = document.getElementById('prevPageBtn');
-    const nextPageBtn = document.getElementById('nextPageBtn');
-    const viewerCover = document.getElementById('viewerCover');
-    const pageKickerLeft = document.getElementById('pageKickerLeft');
-    const pageTitleLeft = document.getElementById('pageTitleLeft');
-    const pageTextLeft = document.getElementById('pageTextLeft');
-    const pageKickerRight = document.getElementById('pageKickerRight');
-    const pageTitleRight = document.getElementById('pageTitleRight');
-    const pageTextRight = document.getElementById('pageTextRight');
-    const bookStatus = document.getElementById('bookStatus');
 
     const books = {
       july: {
@@ -1235,7 +1277,7 @@ All for today end transmission. Many grammatical errors review review review rev
         url: "",
         raw: `The sun crept through the curtains in small thin rays, illuminating the dust in the air as the particles danced in the scattered beams of light. The warm strands of light landed on the young but sunken and sickly face of Chris as he slept on his mattress on the floor. He fought the unpleasant rays by groggily turning to the opposite side in a last desperate attempt to salvage this last fleeting moment of rest. He did not last long because in tandem with the intrusive sunlight Melanie was awake and walking through the house. Her heavy footed steps on the old splintered pine floor was the final nail in the coffin of a full nights rest. Chris, admitting defeat, rolled back over and reached for the baggie of pre rolled cigarettes beside his mattress. After rustling around in the foggy, worn plastic bag for the lighter he emerged with a poorly rolled cigarette and a cheap gas station lighter that was down to its last few breaths of flame. The tobacco was so badly packed that he had to hold the cigarette vertical so as not to lose any more strands of tobacco than was already inevitable. The gently rolling flame came across the back of the cigarette and lit more paper than tobacco on the first pass but the return trip of the lighter did the trick. Chris inhaled deeply and slowly as he advanced to a sitting position on the old heavily stained mattress that had well outlived its normal lifespan. The soft orange glow pulsed in time with his strained attempt at inhaling the relief that nicotine would bring. Four devastating and uncertain months were spent sleeping on the lumpy aged sleeping mat as the Corona virus swept through the country. The destruction was especially prevalent where they lived in northern West Virginia. After initially fairing decently well against the virus eventually the small town, where Chris had lived his whole life, was caught in the crosshairs and eviscerated.
 
-He inhaled a long drag and thought about a quote he had heard somewhere in the midst of everything and it fit so well. The words were ordered in succession in such a way that had encompassed totally the depth and enormous change that had swept the entire globe. The virus had ignited the planet and left behind a totally changed world. Issues that simmered in separate societal pots across all aspects of human life were slowly heating up in the latter part of the decade. The virus had burst into everyones lives suddenly at the start of the new decade and took all of those singular pots and combined them into one large pressure cooker. The slow steady simmer turned to a boil rather quickly. Life as people had known it was upended almost over night for a lot of the globe. Then the boil turned into a nuclear reaction and all at once it melted down. The societal explosion was fast and total and it blasted outward at incredible force rearranging everything. It all went in directions that could not be predicted, beyond the control of any person or any government. Chris mumbled the quote softly to himself as if to try and feel the impact of its every word. Lightly he breathed the words, “There are decades where nothing happens, and there are weeks where decades happen.”
+He inhaled a long drag and thought about a quote he had heard somewhere in the midst of everything and it fit so well. The words were ordered in succession in such a way that had encompassed totally the depth and enormous change that had swept the entire globe. The virus had ignited the planet and left behind a totally changed world. Issues that simmered in separate societal pots across all aspects of human life were slowly heating up in the latter part of the decade. The virus had burst into everyones lives suddenly at the start of the new decade and took all of those singular pots and combined them into one large pressure cooker. The slow steady simmer turned to a boil rather quickly. Life as people had known it was upended almost over night for a lot of the globe. Then the boil turned into a nuclear reaction and all at once it melted down. The societal explosion was fast and total and it blasted outward at incredible force rearranging everything. It all went in directions that could not be predicted, beyond the control of any person or any government. Chris mumbled the quote softly to himself as if to try and feel the impact of its every word. Lightly he breathed the words, “There are decades where nothing happens, and there are weeks where decades happen.” He did not know where he had heard it but he did remember the moment when the quote came rushing back into his conscious mind. A week ago when he looked into his computer screen, transfixed on the events taking place before the worlds eyes, those beautifully prophetic words summed up marvelously all that was taking place.
 
 The ash on the end of the cigarette hung on somehow and would not survive intact for another hit. Chris, lost in thought, lifted the dwindling smoke to his lips and the ash gave way, floating softly and settling into his lap with an almost graceful landing. The simplest of things now carried the greatest of meanings. An odd satisfaction boiled within Chris as he looked down and smiled. Taking the ash between his thumb and pointer finger and rolling it back and forth with the most delicate pressure until finally it buckled and the ash disappeared to nothing but a gray smudge.
 
@@ -1259,31 +1301,154 @@ Melanie stood in the entryway to the living room studying the back of Chris as h
 
 “I dunno it just didn’t go how I could ever have predicted or fathomed it would” Mel said with a shrug.
 
-Twiling her long brown hair between her fingers, a smile started to crease her attractive face. The small dust mask hid it from view but the rising of her full cheeks betrayed what was underneath.
+Twirling her long brown hair between her fingers, a smile started to crease her attractive face. The small dust mask hid it from view but the rising of her full cheeks betrayed what was underneath.
 
 “Yea but we both know you're damn happy it did, look at you, can’t even hide it.”
 
 “Its scary Chris! Who knows how this all goes, what if what they are implementing doesn’t work?!”
 
-“C’mon you adorable little squirrel the worst part is over. Tonight we get to find out all the sweeping measures that are going to be implemented and the new world we are going to live in. It can’t be worse than the nightmare we came from so store some more acorns in those chubby cheeks and smile.”
+“C’mon you adorable little squirrel the worst part is over. Tonight we get to find out all the sweeping measures that are going to be implemented and the new world we are going to live in. It can’t be worse than the nightmare we came from so store some more acorns in those chubby cheeks and smile. Take that stupid dust mask off it doesn’t even work. Besides I am not contagious anymore.” Chris said finishing the last sentence off in sing-song manner.
 
-It was dangerous to get too caught up in your own thoughts. The reality you had once known was gone and replaced with the uncertainty and constant excitement of turbulent times. It was strange, normalcy means comfort and security. It means routine and peace. Normalcy also meant something else in the world pre-virus. Normalcy meant exploitation of the poor and weak. It meant injustice laid over the globe as a sheet covers a bed. Many lived in luxury and excess while children by the millions would die a slow and painful agonizing death by starvation. Twin epidemics of obesity and of starvation highlighted that we had the means, resources, and money to make sure nobody went without. Normalcy meant an entire class of ultra rich gorging themselves to new levels until no belt could loosen enough to contain it. They consumed and hoarded each mouthful, stuffing their cheeks to the bursting point with the hopes and dreams of the masses.
+“Ugh yea you could use a few acorns or any food for that matter to slap some muscle back on them bones you are hauling around.” She retorted flinging her mask at him. “Now get washed up as best you can we get to finally leave this house for the first time in months how are you not jumping up and down with joy?!”
 
-Normalcy was chaos with make up on. Normalcy was hideous and disgusting but it was hidden with a bow. Those existing in it became so battered and bruised by the truth that eventually they became oblivious to it all together. Eventually all that registered to the people was the bright pink bow and the pretty make up, the ugly inconvenient and painful truth was subconsciously blocked from the collective psyche.
+Chris replied, “look at my shell of a self does it look like I can do any kind of jumping?’
 
-It only seemed fitting that on the first encounter with turbulence normalcy cracks and chips. The turbulence shakes from a soft vibration to a bone rattling quake. Gradually and then all at once normalcy splits and disintegrates. Cracking and crumbling like a sloppy puddle of mud after baking in the hot summer sun. It falls away and all that’s left is the unsettling and ugly picture underneath. The cold hard truth, exposed, now staring back at us.
+“I dunno you probably faked it this whole time. When men get sick the sky is falling!” Melanie got the words out but she remembered painfully the nights when Chris lay on the mattress gasping for air, turning a pale bluish color. Unable to be transported, because of the riots, to the overflowing hospital where they would not be able to take him anyway. That cold lonely feeling of complete and total helplessness still resonated in her mind. The feeling that only happens a few times in ones life. The feeling of being an island, totally alone with no hope of being found, lost inside the prison of your own mind. The terror and the fear had left their scars within her psyche and they were never far enough away that her thoughts did not eventually end up bumping into them. Every train of thought eventually chugged right into swaths of panic, or helplessness. Sometimes consuming her so as to leave her curled up on the floor squeezing her petite frame with her own arms wrapped tightly as she could.
 
-Expectations tend to always lead to let downs. The mind of Chris had been preparing for a view of a physical world that matched the imaginative change in his own mind. Days spent lying on a scratchy blanket in puddles of his own musty sweat, hearing bits and pieces of news from Mel about the rapid chain of events whipping through society, had led him to picture what lay in store outside those same four walls.
+Chris saw her start to get lost in her own thoughts and knew what that meant so he tried snapping her out of it. “Can we get ice cream or something! Something we have not had in a long time please!” This had the desired effect and Melanie’s smirk was followed by a wave of the hand. “Sure we can you giant child. Now get yourself together, my sister and your fiancé is being woken from her induced coma to a world that is not like the world she went under in. For the life of me I don’t even know where we are going to start in explaining of all of this to her.”
 
-The first step out the door was a transforming experience. The bright sun glared alone high in the sky, no clouds to stifle its powerful rays, and a bright warmth consumed Chris. His eyes had been tuned to the dim shallow light of being stuck indoors for as long as he was and he was enveloped by a blinding brightness. His face contorted and not even a forcible squint was able to defend from the shock.
+“We are going to give her the condensed point by point break down of what happened. It's going to blow her mind but I feel like if anyone will be pleasantly optimistic it will be Shelly.” Chris said as if he had already rehearsed the answer to this question in his head multiple times.
 
-After a short drive on winding country roads they finally were coming up on the town. It was your average mid-sized midwest American town. Small neighborhoods have way to a plethora of businesses. The houses seemed to be busting with activity. Families moving around briskly, many carrying various items. The air was charged with a sort of muffled excitement. Much like the heavy hanging mugginess of a humid day there was a blanket of energy that could be felt by all. An energy that rustled the trees and flowed through the alleyways and between the brick buildings.`
+“Or her personality may be changed, you know like you see on tv or in the movies. She may be a totally opposite personality a lil shell demon.” Mel said as a joke but its delivery had a serious tone about it and it evoked a stern glance from Chris.
+
+“Halarious.” He stated matter of factly. “Lets pack the bug out bags and get ready to finally venture out into whatever is going on out there.” He added growing more serious by the minute.
+
+“Not before we wash up and get shovel some food into that poor excuse for a body you are carrying around.” She insisted with a caring tone that Chris had grown to appreciate more than he could ever convey.
+
+During the nights when the sunrise felt as if it would never come she had watched over Chris powerless to do anything but talk. They both knew the seriousness of what was happening and how hopeless they were to fix any of it. The sobering realization that comes with illusions being shattered leaves a lasting imprint. The shift in the mind when one realizes that this life, this body, this reality, all of it is not catered to you. It is not all here to center around your experience.
+
+She started to walk around, a slow thumping succession of steps, pacing back and forth mumbling half to herself and half in his direction. “ Everything was fine, then suddenly everything wasn’t fine, but it was still fine at the same time. We carried on with our lives, we put masks on and some of us still went to work, some of us had to receive unemployment. It was a drastic change but life was still in the realm of normalcy. Then everyone, including the government couldn’t sit still, couldn’t let this thing burn itself out. So they started opening stuff back up because the economy was on life support. Greatest economic powerhouse in the world was hooked up to tubes, nothing was being produced and nothing was moving. Nobody was driving so the price of oil fell off a cliff and started taking everything else down with it. So the bed ridden economy, laying in a vegetative state needed a blast of something to wake it up. So they just turned the money machines on.” She was speaking a lot with her hands and had a nervous twitchy type of energy that seemed to radiate out as she spoke. “Brrrrrrrr, Brrrrrrrrr” as she turned to Chris mimicking the sound of a money machine. “They just turned it on and let it fly, billions and billions up into trillions and trillions. They had to stop printing the bills be cause the sheer amount would take too long to actually make. So the BRRRRRR turned into *ding* *ding* and billions and billions started appearing in computer accounts, only existing online. Poof out of thin air they found all this money to bailout corporations and private entities and banks yet they never clicked the money button for our healthcare, they never smashed the button that eliminated our debt, they never moved non existent cyber money into the accounts that made sure the people could pay their bills. Their money machines were printing the seeds that sowed the destruction of their entire ruling structure.” Her mumbles had turned into a full on rant against the world around her. Chris had tried butting in and cutting her off before she got too carried away. He spoke very quickly as if he was trying to condense and recite some prewritten script in half the time. “We know, we know and then when that didn’t work they sent everyone back to work and dismissed the notion that a virus could halt this mighty machine. They assumed something like a virus would bow to political pressure and that if they cherry picked the facts and painted a rosy picture the virus would only exist within those parameters. But again it is a VIRUS and it follows the laws of fuckin science, it cares not for whatever weird religious ideas they tried to box the virus into. All that God will protect the faithful and everything happens for a reason, those people got humbled really quick and the second wave brought everything to an apocalyptic standstill. We know the story Mel ok can we talk about something else?”
+
+“Oh sorry I didn’t mean to highlight the fact that right under our feet everything we knew and loved, every sense of normalcy and comfort fell off a cliff and together we all tumbled and flailed through the air. Falling like in a dream where you can sense the impact coming, closer and closer the ground gets yet we never seem to make contact. Knowing that when we do it will suddenly jar us awake! Who knows what it all looks like when we finally go SPLAT!” She said in a sarcastic and mocking tone that came out stronger than she had intended it too.
+
+2
+
+It was dangerous to get too caught up in your own thoughts. The reality you had once known was gone and replaced with the uncertainty and constant excitement of turbulent times. It was strange, normalcy means comfort and security. It means routine and peace. Normalcy also meant something else in the world pre-virus. Normalcy meant exploitation of the poor and weak. It meant injustice laid over the globe as a sheet covers a bed. Many lived in luxury and excess while children by the millions would die a slow and painful agonizing death by starvation. Twin epidemics of obesity and of starvation highlighted that we had the means, resources, and money to make sure nobody went without. Normalcy meant an entire class of ultra rich gorging themselves to new levels until no belt could loosen enough to contain it. They consumed and hoarded each mouthful, stuffing their cheeks to the bursting point with the hopes and dreams of the masses. The excess spilling down over the chin dripping amongst the poor as they fought for a tiny mist, a droplet to satisfy their basic needs. Normalcy meant thousands dying without health insurance because collectively it was too expensive while the people at the heads of the health insurance industry had houses and guest houses for those who worked in their houses. They took trips to their beach houses in their planes. They exited their planes and entered into their own helicopters. They scoffed at the homeless men on the sidewalks and looked upon them with disgust. Seeing a human who didn’t apply themselves with the same drive and determination to get to where they were. Their cars paid for with theft from the working class. Every Mercedes symbol glistened with the twinkle stolen from the eyes of a poor person who perished because their medical procedure was not covered to protect a profit margin. Normalcy meant peace but normalcy also meant death and tragedy. Normal was the problem. Normal society meant plugging the leaks with band-aids and duct tape. Every injustice existed independently from the other yet they were all connected. Normalcy was chaos with make up on. Normalcy was hideous and disgusting but it was hidden with a bow. Those existing in it became so battered and bruised by the truth that eventually they became oblivious to it all together. Eventually all that registered to the people was the bright pink bow and the pretty make up, the ugly inconvenient and painful truth was subconsciously blocked from the collective psyche.
+
+It only seemed fitting that on the first encounter with turbulence normalcy cracks and chips. The turbulence shakes from a soft vibration to a bone rattling quake. Gradually and then all at once normalcy splits and disintegrates. Cracking and crumbling like a sloppy puddle of mud and hour after baking in the hot summer sun. It falls away and all that’s left is the unsettling and ugly picture underneath. The cold hard truth, exposed, now staring back at us. The most horrifying revelation is that what we are seeing is not new. No, it has existed all along and we are reminded that we knew it was there and it is us that decided to ignore it, hoping if we couldn’t see it then we didn’t have to acknowledge its presence. The erosion of the normal by the turbulent meant some liberating things. Only through turbulent times can the veil of injustice be torn away. The wounds, naked and exposed, fester and ooze and the confrontation to address them can no longer be willingly ignored. The cuts and lacerations must be stared down. Only in those turbulent times can the wounds that have always existed face the prospect of finally being healed. During those times we symbolically watch two freight trains on a collision course barrel down the tracks whistling headlong at one another. The forces of the old world, guardians of normalcy, beneficiaries of the misery of the masses, load shovels of coal into the lazy chugging engine. Thick black smoke propels the locomotive as its momentum seeks the obliteration of the train of turbulence. The daring and revolutionary steam engine of turbulence is not just ready to absorb the impact but also to divert the kinetic energy in a way that the reaction produces a surge of change. Metaphorically splitting the atom and igniting a chain reaction that not just changes but transforms. When the dust finally settles and the smoke clears, a collective gasp from a universal breath being held can be felt as all eyes wait to see what is left behind. It is at this point in the world Chris and Mel find themselves, transfixed on the rising tide. The emotions of optimistic hope and depressive dread occupy the same space and time. The procession of progression and the unavoidable ambush of the last battalions of conservative thought still must meet upon the final decisive battlefield. The fate of the human species and the aura of life itself resonate in the hearts of those who by pure chance find themselves locked in this moment participating in a crossroads of human history.
+
+Thoughts within this ballpark swirl in the minds of Chris and Mel as they pack their bags. The emotions are felt but they utter not a word. Their silence is not uncomfortable but rather a tandem understanding and appreciation of their personal relationship and their unfamiliarly new place in this spinning world. The words previous have twisted and turned and taken the form of a plethora of emotions. They felt them and found in the other a camaraderie born of unspoken acknowledgement of these shared feelings. The beauty of not needing to talk while still understanding another soul is a welcome feeling that only exists within the closest of human bonds. The safety to be able to let your mind wander comes from the sense of subconscious security that is felt when being around someone who has gained the others total trust. Mentally preparing for whatever awaits outside they prepare to step out into the literal and figurative “other side of life”
+
+3
+
+Expectations tend to always lead to let downs. The mind of Chris had been preparing for a view of a physical world that matched the imaginative change in his own mind. Days spent lying on a scratchy blanket in puddles of his own musty sweat, hearing bits and pieces of news from Mel about the rapid chain of events whipping through society, had led him to picture what lay in store outside those same four walls. His thoughts for days had shaped in his mind what lay in store. It had gone very quickly from an ordered (albeit frustrating) society teetering on the edge of financial and social ruin to a sudden and dramatic plunge off the metaphorical cliff. Institutions and ways of life that had loomed over him for his entire life seemed too suddenly and incredibly evaporate and the vacuum that was left paled in comparison to the void inside his head. He could not fathom what was happening and what would take its place.
+
+He expected to see pillars of smoke on the horizon, cars turned upside down with long tongues of flame licking skyward. His mind cautioned packs of roaming dogs and disordered bands of marauding criminals. Scenes of old apocalyptic movies filled the empty spaces in his mind of what reality now would be.
+
+The first step out the door was a transforming experience. The bright sun glared alone high in the sky, no clouds to stifle its powerful rays, and a bright warmth consumed Chris. His eyes had been tuned to the dim shallow light of being stuck indoors for as long as he was and he was enveloped by a blinding brightness. His face contorted and not even a forcible squint was able to defend from the shock. Mel only a step behind bumped into Chris as she was taken by surprise that his foray into the world came to a halt after a measly step. She instinctively allowed him to sink into her caring arms and absorbed him in a way that seemed to Chris immeasurably comforting. She seemed to take from him the fear and uncertainty and let it dissipate through her bodily embrace just as a drop of red ink in a tub of water spreads lightly outward. Each ripple softening the original harsh crimson drop until it has become merely a weak rose tinted pool. “Ay big fella how’s that for some sun you pasty skeleton?” Mel chirped clumsily. Chris did not answer but he regained his composure. Eyes still squinted to the point of being completely shut, a smile graced his lips. The sunlight seemed to charge him like a phone battery going from dead to full in seconds. The rays of light had made their 93 million mile journey and were now battering into Chris as elation pulsed through his body. He felt connected suddenly, receiving the gift the sun was so graciously giving him. It felt like the energy itself was meant for him. Rejuvenating and refreshing the energy was the essence of life itself, hurdling through space and time looking for him. Seconds felt like hours as Mel planted a friendly tap on his thigh. “C’mon weirdo we should get it pushing. You need sunglasses?”
+
+“No, ill be fine, this sun is fuckin incredible am I right?!” He responded.
+
+“I was not aware that A lil bridge dwelling hermit vampire like yourself was very fond of the sun.”
+
+“The hell is a her-mit vam-pire?” Chris retorted with emphasis on the syllables.
+
+With a sweeping motion she waived off his question.
+
+“If ‘hermit vampire’ is where your shit talk is at do we even want to see what driving is gunna be like?”
+
+His retaliatory jab was met with a slender middle finger from Mel. His eyes began adjusting to the light and he shot her a lightly sarcastic thumbs up. The two small steps of old cracked concrete transitioned to a newer strip of walkway that led out to the street, flanked on both sides by grass that had not been kept up on for quite some time. The small two story house that the pair had been hunkered down in was at the end of a culdesac. They had been able to leave early on during the pandemic and were even quite active when the government tried to ease stay at home orders. It wasn’t until the second wave of the pandemic that the shockwave was felt by everyone. Crippling in its fearsome return the second wave brought with it a skull jarring, crushing blow to a society that had been teetering on the edge of disaster for far too long. Standing on the brink for so long society creaked then shattered all at once, the financial institutions spiraled downward, the supply chain collapsed as the currency went into free fall. The state ditched all beneficial services and restricted to only the essential actions needed to attempt to preserve its power. Everything screeched to a halt as collectively the country held its breath. The past few weeks had kept most people locked in place, not just by authoritative measures taken by a state in the death throws of its existence but also out of fear of an ever shrinking world that had a noose of disaster pulling tighter and tighter with every passing day.
+
+About twenty yards to the right was the Miller’s house but they had been gone since before the attempted military lockdown put its grip on the town. Obvious signs of neglect betrayed the fact that it was now a vacant home. The air outside seemed to be charged with an indescribable feeling. It hung low like a humid blanket of uniqueness. Not tangible enough to be described with words but powerful enough to start pumping the pulse of Chris and Mel. The elusiveness of being able to convey what exactly the platter of emotions stirring inside them was resulted in shared silence. They stood next to their car not speaking. Words at this moment may not have been possible, or they may not have been needed. It was as if their departure from their house had made their world suddenly real. Real in a way that can only be felt a few times in ones life. The feeling of being more alive than they have ever been. The events that had been unfolding in the world had seemed so distant before. It was as if the walls had insulated them from actually facing the upending of the only reality they had ever known. It was exciting, scary, and dramatic as they had followed along with the never ending stream of news but it wasn’t real. It was like reading about an unfathomable event that had taken place in the newspaper. Quite stimulating to talk about and even enjoyable to let the imagination run wild as to what it would be like to be a part of something so incredible but not actually having any real connection to it. The events, the tragedy, the triumph it was all happening to someone else. The house protected the feeling that all that was happening was nothing more than a daydream run wild. Stepping out into the world suddenly removed all of those feelings like the swift pull of a rug out from under their feet. The air seemed to be sucked from the lungs and with the next gulp of air their lungs were charged with change. The shock was like getting zapped with static electricity. In the blink of an eye and the inhale of a breath it became overwhelmingly apparent that this was real. Real, like getting punched in the face and there is that split second where your mind is in limbo and you struggle to grasp if what you think happened really did happen. Followed immediately with the light panic of taking the trauma and making sure you are still in control of your body or if some damage has been done. This is what Mel and Chris felt all at once, suddenly plunged onto center stage as the main characters of the dramatic play that is the new “real”.
+
+The drifting eyes find the others after a few long seconds and a mutual understanding exists in Melanie's soft blue eyes mirrored back by Chris’s deep hazel set. A small smirk is all that he was able to muster as he struggled to keep his composure under the rush of sobering realization. “This is fucking insane. Like dude can you believe this shit? Seriously we are living in a chapter of a history book. We are living in shit that is going to shape the world forever”. Mel said, finally breaking the silence. “Yeah, its like being on the most extreme roller coaster and I’m so mixed up, I dunno if I am really excited for all these drops and loops or if I wanna get off before it crashes and leaves me mangled under a heap of tangled metal.” Chris’s response was met with an affirming point of Mel’s finger. Wagging up and down conveying her approval at the spot on take he had gave.
+
+They sat down in the baking hot car as Chris blurted out from the passenger seat, “holy shit girl windows down god damn!”
+
+“Obviously dickhead gimme a second.” She turned the car on and immediately let down all four windows as the breeze of cool air rushed in. At that moment the radio blasted to life left at the uncomfortably loud level it was left at the last time the car was used by Mel rushing home supplies. The calm friendly voice of a woman reading over an announcement danced from the speakers. “THIS IS A STATEMENT FROM THE PEOPLES TRANSITIONAL GOVERNMENT FOR ANYONE AND EVERYONE. WE ARE YOU AND YOU ARE US. THE PAST FEW MONTHS HAVE BEEN SOME OF THE MOST TERRIFYING TIMES OF OUR LIVES. WE THE PEOPLE HAVE ENDURED THE RAVAGES OF THIS MERCILESS VIRUS. WE HAVE SUFFERED UNDER THE YOKE OF STATE OPPRESSION THAT TRIED TO SACRIFICE ITS OWN CITIZENS TO PROTECT THE WEALTH OF THE FEW. WE HAVE BURIED FRIENDS AND FAMILY. BUT REJOICE BROTHERS AND SISTERS FOR WE HAVE ALSO BURIED THE WORLD OF OLD AS WELL. WE STAND ON THE TURNING POINT OF HISTORY AND FOR THE FIRST TIME THOSE AT THE WHEEL ARE THE PEOPLE THEMSELVES. WE HAVE THROWN INTO THE FLAMES THE OLD WORLD THAT HAS SOUGHT TO KEEP US SUBSERVIENT AND CONTROLLED FOR THE WEALTH AND POWER OF THE FEW. WE THE PEOPLE WERE AWOKEN TO OUR TRUE POWER. AS ONE PEOPLE, ONE VOICE WE HAVE WRESTLED CONTROL OF OUR DESTINY FROM THE HANDS OF THOSE THAT WOULD SEE US ALL FALL TO PROTECT THEMSELVES. WE HAVE SMASHED THE APPARATUS THAT HAS FOR CENTURIES EXPLOITED, INVADED, COLONIZED, RAPED, MURDERED, AND STOLEN FROM THE PEOPLE. WE HAVE THE OPPORTUNITY FROM THE ASH OF THAT WORLD TO BUILD ONE ANEW. A WORLD OF SCIENTIFIC PRECISION DEDICATED TO THE ABSOLUTE CORE OF IMPROVING THE LIVES OF EVERY SINGLE HUMAN BEING ON THIS PLANET. UNLOCKING HUMANITIES TRUE POTENTIAL TO NOT JUST SURVIVE BUT THRIVE. A WORLD AFTER SCARCITY AND WANT. A WORLD FREE FROM EXPLOITATION AND STRUGGLE. IT IS NOT JUST POSSIBLE IT IS UNSTOPPABLE! TONIGHT AT 9 O CLOCK ON EVERY RADIO STATION, EVERY TV CHANNEL, EVERY FORM OF MEDIA WE WILL BE PRESENTING THE FRAMEWORK OF THE PATH FORWARD. JOIN US AS WE BREAK DOWN EACH AND EVERY ASPECT OF HOW SOCIETY WILL OPERATE GOING FORWARD. THIS RADICAL AND REVOLUTIONARY CHANGE HAS THE ABILITY TO OPEN THE FLOODGATES AND ALLOW HUMANITY TO FLOURISH. TRUE LOVE FOR OUR FELLOW HUMANS WILL BE THE LIGHT THAT GUIDES US INTO A FUTURE THAT IS BUILT FOR OUR CHILDREN AND GRANDCHILDREN SO THEY WILL NEVER KNOW THE PAIN AND STRUGGLE WE HAVE BEEN THROUGH. JOIN US AS WE LAY OUT THE ROADMAP THAT WILL BRING ABOUT THE PROSPERITY OF THE HUMAN SPECIES INSTEAD OF POVERTY FOR ALL SO THAT THE FEW MAY LIVE IN LUXURY. 9 O CLOCK TONIGHT WE LEAP INTO THE FUTURE TOGETHER! VIVA LA REVOLUCION!
+
+A brief pause was followed by “THIS IS A STATEMENT…” as the message continued its loop. Chris glanced to his left to see the glossy eyes of an emotional Melanie and reached over and embraced her. Using the arrow button on the steering wheel to change the radio station the announcement bellowed its message on every channel. After a half dozen different stations they finally stumbled into a different message that was already well into its transmission. The same woman's voice portrayed a message given in an excited and hurried tone. “AND THOSE BELONGING TO THE PEOPLES DEFENSE FORCES, WEARING THE SIGNATURE RED ARMBANDS, ARE ALREADY COORDINATING WITH EACH OTHER. DECENTRALIZED GROUPS THAT HAVE ACTED INDEPENDENTLY OF EACH OTHER ARE WORKING TOWARD THE SAME GOALS. WE CURRENTLY HAVE A FEW ANNOUNCEMENTS THAT MUST BE MADE KNOWN SEEING AS THE SITUATION IS INCREDIBLY FLUID AND CONSTANTLY CHANGING BUT DO NOT FEAR BROTHERS AND SISTERS IT IS CHANGING FOR THE GOOD. CURRENTLY PEOPLES DEFENSE FORCES HAVE OCCUPIED AND EXPROPRIATED THE WAREHOUSES FOR ALL MAJOR FOOD DISTRIBUTORS. THE AMAZON WAREHOUSES AND THE WALMART WAREHOUSES IN MOST MAJOR CITIES ARE THE DESIGNATED DISTRIBUTION POINTS CURRENTLY. CHECK YOUR LOCAL PEOPLES DEFENSE FORCES WEBSITES FOR SPECIFICS IN YOUR AREA BUT WHAT WE CAN TELL YOU BROADLY IS THIS. IF YOU ARE IN NEED OF FOOD, CLOTHING, OR MEDICINE YOU WILL BE PROVIDED WITH WHAT YOU AND YOUR FAMILY NEED. THE STOCKPILES OF THESE ITEMS ARE MORE THAN ENOUGH TO PROVIDE EVERYONES NEEDS. THE CURRENT ISSUES ARE TRANSPORTATION AND LOGISTICS FOR DIFFERENT ITEMS IN DIFFERENT AREAS AND WE ARE STARTING TO DEVELOP A SYSTEM OF DISTRIBUTION THAT USES THE INFRASTRUCTURE OF THESE NOW PEOPLES OWNED CORPORATIONS AND ARE ASKING FOR VOLUNTEERS FROM ANYONE WITH ANY EXPERIENCE IN THESE AREAS TO HELP US MAKE THE MOST EFFICIENT AND BENEFICIAL SYSTEM WE CAN. FOR NOW EVERY MAJOR CITY CAN PROVIDE FOR ITS PEOPLE. AND WITH EVERY HOUR MORE AND MORE SMALLER CITIES AND TOWNS ARE BEING ADDED TO THE LIST OF DISTRIBUTION POINTS. THE PEOPLE ARE COMING TOGETHER AND ACHIEVING SOMETHING BEAUTIFUL! TAKE YOUR FAMILY TO YOUR LOCALLY DESIGNATED DISTRIBUTION POINT AND THE PEOPLES DEFENSE FORCES WILL SEE TO IT THAT YOU HAVE FOOD, CLOTHING AND MEDICINE AS WE CONTINUE THE TASK OF REBUILDING SOCIETY FROM THE GROUND UP. TUNE IN TONIGHT AT 9 O CLOCK FOR DETAILED INFORMATION REGARDING ALL OF THESE ISSUES AND MORE INCLUDING AN INCREDIBLE ANNOUNCEMENT ABOUT THE PEOPLES SEIZURE OF GILRAM PHARMACEUTICALS. THEIR NEWLY DEVELOPED TREATMENT FOR THE VIRUS WAS ORIGINALLY GOING TO COST IN THE THOUSANDS EVEN WITH INSURANCE. THAT WILL NO LONGER BE THE CASE. WE THE PEOPLE WILL MAKE IT THE UTMOST PRIORITY TO MAKE SURE EVERY SINGLE PERSON HAS ACCESS TO THIS CURE NO MATTER WHAT. WE HAVE THE TECHNOLOGY, WE HAVE THE SUPPLY, WE HAVE THE CAPABILITY. THE ONLY THING THAT STOPPED THIS FROM HAPPENING BEFORE WAS PURE CAPITALIST GREED. THOSE DAYS ARE OVER FRIENDS. LET US CRY FROM THE ROOFTOPS EVERYTHING FOR EVERYONE! 9 O CLOCK TONIGHT PEOPLE TUNE IN! VIVA LA REVOLUCION!”
+
+The rush of emotion seemed to build within them with each passing word. Swelling up to the point of bursting they were left with a feeling that dwarfed a simple out of body experience. This was a total disassociation followed by a feeling that has been elusive in the previous months. A feeling that they had recalled at times but not felt in recent memory. Joy. The reemergence of the feeling of actual joy was almost uncomfortable at first because it felt misplaced. It felt wrong, almost as if it was irresponsible to give in and allow themselves to feel it. Yet it was unavoidable they had finally felt joy and excitement and they haven’t even left the driveway. Mel turned the volume down on the radio as the original message started its repetition again. She slid the car into reverse to back out of the driveway and felt as if she were driving into the unknown, scary but welcomed. The following statement Mel added was so cliche that it nearly ruined the moment for Chris but nevertheless he smiled and the journey was starting.
+
+“Buckle up Chris, its gunna be a wild ride!”
+
+“Shut. The. fuck. Up.”
+
+4
+
+The labyrinth of back country roads concealed any palpable signs of the gigantic change that everyone was collectively undertaking. The occasional oncoming car passed without incident and few words were exchanged. Finally as they came up over the hill there was a faint column of smoke on the horizon stretching skyward. At the bottom of the hill was a four way stop sign that was buzzing with activity. Two cars idled in-front of a hastily constructed barricade. A large red flag was draped over a white van that was interlocked with pieces of chain link fence and wooden planks that constituted what appeared to be some kind of check point. About a half dozen bodies scurried about around the intersection and they appeared the only thing uniform about their outfits were thin red armbands they all wore.
+
+“The fuck is this?” Stammered Mel with a shaky uneasy voice. Her heart started to race as she tried to get her emotions in check.
+
+“Relax, it will be fine.” He replied but the toned that he delivered the words in betrayed the fact that he had no confidence in the words he chose.
+
+They slowed the car and rolled behind the second car in line then watched as the frantic commotion behind the barricades seemed to die down as well. The signature static crackle of a handheld megaphone broke the surreal silence. “For your own safety throw your cars in park and step out of your vehicles.” Chris at this moment noticed in the tree line to his right the shadowy movements of a handful of figures in the woods. The doors of the first car in line slowly opened and a middle aged lady with short gray streaked hair cautiously and noticeably nervously stepped out. Followed quickly by the car infront of Chris and Mel as both front doors of the older model SUV followed suit. A man and his teenage son appeared. Then Chris with a nod of the head motioned to Mel that they needed to do the same.
+
+It felt like an eternity but in reality only a few seconds had passed before the figures from the woods had descended from both sides on the travelers. In total the roadblock garrison seemed to number around a dozen men and women. Armed with a variety of firearms the rag tag group seemed more like a posse than a fighting force.
+
+“Please step over here. Do not worry we are here to protect you.” The assumed leader of the group said with a sweeping motion of his arm indicating where they should conjugate.
+
+“This is a checkpoint meant to instill a sense of order and attempt to thwart and right wing racists from attempting to seize power. We have been getting reports from across the country that white supremacist militias are trying to seize the instability to take power and return us to the old institutionally racist and oppressive system of before. We are the Peoples Defense Forces and we are here to ensure the safety and stability of the transition to a society where inequality and oppression are thrown into the trash heap of history. We are networking with similar groups across the county and state levels to restore a sense of peace and normalcy to our lives. Here is what we can tell you so far. We have successfully in the last 24 hours occupied the nations capital and driven out the remnants of the old government. It turns out loyalty to the state broke down rather quickly when the money became worthless and the brutality of the old system was exposed for what it is. We have gained control on a national level and with every hour we are bringing more and more control down to the local level across this country.” His stern demeanor seemed to lighten up and a faint smile pressed upon the speakers lips. “We are not here to control or subjugate anyone. We are here to provide and protect. We are looking for anyone that is interested in joining and what they can offer in terms of skills will be greatly appreciated but you are under no obligation to do anything. If you are in need of food we have lists of distribution points up ahead in town where you will be provided with what you need.” With a glance at a short girl in her early 20’s holding a pistol he gave a nod. She adjusted her armband and reached into her satchel she carried with her. A stack of handwritten papers was produced with addresses on them. Chris glanced down at the paper he was handed and in hastily written cursive there was places one could go if they needed food. There were locations for medical attention, mainly previous pharmacies and minute clinics. They had a few locations for PDF strongpoints if one chose to join up.
+
+The man continued his speech “Food, water, medicine, self defense supplies, and more is what we can provide at the moment. We have seized the stores and distribution centers of the corporations and are currently organizing the logistics of how to distribute all of it to all those in need. This is just the beginning. Tonight at 9 the entire plan will be laid out on the roadmap forward. We can build a new world together friends. We have long had the resources and technology to make sure that hunger could be abolished but the old system of artificial scarcity for profit wouldn’t allow that to happen. All that is gone. The goal now is to provide for al and ensure a post viral world that exists for the good of the people, not the profit of the corporation and the power of the elite. You will be allowed to pass this checkpoint into town in 5 minute intervals and please bare with us if you encounter inconveniences with any of this, what we are doing is massive and total and we are learning as we go. Driven by the desire to benefit us all, uncorrupted by the greed for personal benefit, we will prevail.” At this point he started to turn a rosy color as pride welled up inside him. “May we ask what your business is traveling this direction?” As his gaze started on the woman in her late 40’s.
+
+Her gaze jumped from person to person then to the ground as she searched for the right words. “I am a pediatric nurse who used to work at St. Joseph’s Hospital a few years back.” Her eyes glazed over as she struggled to control tears from breaking free. “I have been a stay at home mom since then as I started a family with my husband and our newborn son. The virus…it…..well, I figured it's time for me to get back to work to help those who need it.” The tone of her voice reflected an unfathomable personal tragedy. She straightened her back as if to brace herself even more against the building of a torrent of tears that seemed like they would burst forth at any moment. “I….I..want to help…in any..w..ww.way I can” At that moment a broad shouldered black man in the troop reached in his pocket and pulled out a piece of red cloth and put it in her hand. With both hands he clasped both of hers and folded them over the cloth. He leaned in and whispered something into her ears and a smile replaced the sadness and her arms wrapped around the mountain of a man.
+
+The crackle of the walkie talkie on the speakers shoulder came to life and the focus quickly shifted with the words that were audible to all. “Checkpoint 12 reporting a gun battle with militants. Roughly 10 To 12 OF THEM! EXCHANGING FIRE!” The pop-pop and tat-tat of small arms fire could be heard in the background of the radio call. “Requesting assistance!”
+
+Just then the man in charge of the garrison leaned over to the Kalashnikov brandishing woman to his right and whispered something in her ear. Her eyes lit up and she looked to some of the soldiers on her left. “Max lets put that scope to work 10 miles east we can come up behind CP 12 and hit em from behind through the woods. Let's go!” The only soldier with a scoped rifle hopped up from bended knee and ran back towards the woods followed by the AK wielding young woman. Within 30 seconds the sound of an ATV fired to life with a dull gurgling rumble. It sped off up the hill as the commander resumed speaking.
+
+“We have a ring of manned checkpoints surrounding the town as other cities also do and we mutually assist one another. A few members from each checkpoint will be rapidly deploying to assist CP 12 they will be fine do not worry. What about both of you? What can we do to help you?” He said motioning to the man and his boy. As the woman and the solider walked off back to her car quietly talking the father answered in a voice that was much deeper and raspier than his small stature let on. “This is my son Maxwell and we are heading into town because we heard on the radio that the distribution warehouses have been seized and they were putting together logistics. Well I used to be a warehouse manager for a chain of grocery stores most of my career and I wanted to offer my help. I brought my son with me because I cannot leave him home alone. I raised a hardworking respectful young man and he can carry his weight. We want to help.”
+
+The commanders face washed with a wave of elation and he beckoned for his binder. After flipping through some paged he found what he was looking for and with a raise of his eyebrows tore the sheet he was looking for out. He clicked his pen and scribbled something hastily at the bottom. “Here. The grocery warehouse for Walmart is pretty swamped and they are having some trouble sorting out the best way to decide what gets moved where and how to do it. Bring them this paper and tell them Comrade Jamison sent you. I have a feeling your presence is going to be a pretty big relief. The man tasked with handling it right now used to be a roofer. I bet you he will welcome you with open arms” He said with a chuckle. “Open the gates get both of these cars on their way!” With a wave the two troopers manning the makeshift “gate” started pushing it open to clear a path for both cars. “And finally what about you two?” Eyeing Chris up and down he playfully said, “Lemmie guess you need some food? If not Im definitely recommending it, your skin and bones brother.” Chris responded trying to hide his embarrassment, “My fiancé is at St. Joes. She has been in a coma and on a vent for some time now. She is being woken up at 4.” The commander glanced at this watch and with two taps of his finger he replied, “ Well you better get moving it’s nearly 330.” He turned to the open gate and yelled, “3rd CAR COMING AS WELL!” With a circular wave of his hand and a few snaps of his fingers he urged the pair to get moving as well. “Thank you…..for everything.” Chris said as the sound of a car coming up over the hill behind them met his ears. As they got back into their car the soldiers attention turned to the new car and they fanned out along the sides of the road and prepared to repeat the checkpoint cycle with the new arrival.
+
+5
+
+After a short drive on winding country roads they finally were coming up on the town. It was your average mid-sized midwest American town. Small neighborhoods have way to a plethora of businesses. The houses seemed to be busting with activity. Families moving around briskly, many carrying various items. The air was charged with a sort of muffled excitement. Much like the heavy hanging mugginess of a humid day there was a blanket of energy that could be felt by all. An energy that rustled the trees and flowed through the alleyways and between the brick buildings. It seemed that most people have emerged and wanted to be doing something, anything to feel like they were contributing to the change that was sweeping the country.
+
+As the houses gave way to the business area of town the scene took a more ordered form. There were lines outside of businesses and patrolling groups with red armbands. Certain designated militia members were outside of businesses coordinating and giving speeches detailing what was going on. The modern hotel at the corner of the street that was always remarked about as being too big for a town of this size had its name covered with a giant spray painted banner. HOMELESSNESS IS NO MORE. IF YOU NEED A BED COME GET A ROOM. Directly below lurked a handful of people. Chris could make out one man with faded jeans and a once blue shirt that had taken on a purplish hue from being worn far too much. He had a familiar face but Chris could not quite place where he was from. Mel broke the silence. “Isnt that the guy that’s always hangin at the gas station telling everyone its his birthday and asking for change?” Like the flicking of a lightbulb Chris remembered him now. Looking closely he could make out tears in his eyes as a short brown haired man with one heavily tattooed arm and the other donning a red armband brought him over a bag of food and a drink from one of the expropriated fast food restaurants. The man embraced the one who had brought him the generous offer and they got lost in conversation.
+
+They continued the slow drive through town taking in the scenes unfolding around them as they came closer to the hospital. On their right side there was a line of people being fed from what used to be competing restaurants. On the left`
       }
     };
 
     Object.keys(books).forEach(key => {
       books[key].pages = splitIntoPages(books[key].raw);
     });
+
+    const bgVideo = document.getElementById('bgVideo');
+
+    const pickupScene = document.getElementById('pickupScene');
+    const atmScene = document.getElementById('atmScene');
+    const cloudScene = document.getElementById('cloudScene');
+    const groundTicket = document.getElementById('groundTicket');
+    const dvdCase = document.getElementById('dvdCase');
+    const enterThreadsBtn = document.getElementById('enterThreadsBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const hint = document.getElementById('hint');
+
+    const trailerBtn = document.getElementById('trailerBtn');
+    const videoViewer = document.getElementById('videoViewer');
+    const videoBackdrop = document.getElementById('videoBackdrop');
+    const videoClose = document.getElementById('videoClose');
+    const trailerFrame = document.getElementById('trailerFrame');
+
+    const bookViewer = document.getElementById('bookViewer');
+    const bookBackdrop = document.getElementById('bookBackdrop');
+    const bookClose = document.getElementById('bookClose');
+    const openBookBtn = document.getElementById('openBookBtn');
+    const externalLinkBtn = document.getElementById('externalLinkBtn');
+    const prevPageBtn = document.getElementById('prevPageBtn');
+    const nextPageBtn = document.getElementById('nextPageBtn');
+    const viewerCover = document.getElementById('viewerCover');
+    const pageKickerLeft = document.getElementById('pageKickerLeft');
+    const pageTitleLeft = document.getElementById('pageTitleLeft');
+    const pageTextLeft = document.getElementById('pageTextLeft');
+    const pageKickerRight = document.getElementById('pageKickerRight');
+    const pageTitleRight = document.getElementById('pageTitleRight');
+    const pageTextRight = document.getElementById('pageTextRight');
+    const bookStatus = document.getElementById('bookStatus');
 
     let state = 0;
     let currentBook = null;
@@ -1299,7 +1464,7 @@ After a short drive on winding country roads they finally were coming up on the 
       closeBook();
       closeVideo();
       hint.textContent = 'Click the ticket to begin';
-      hint.style.opacity = '1';
+      try { bgVideo.play(); } catch (e) {}
     }
 
     function beginSequence() {
@@ -1312,29 +1477,29 @@ After a short drive on winding country roads they finally were coming up on the 
         pickupScene.classList.remove('show');
         atmScene.classList.add('show');
         hint.textContent = 'Inserting the ticket';
-      }, 850);
+      }, 1100);
 
-      setTimeout(() => atmScene.classList.add('animate-insert'), 1250);
-      setTimeout(() => atmScene.classList.add('finish-insert'), 2250);
-      setTimeout(() => atmScene.classList.add('machine-hit'), 2350);
-      setTimeout(() => atmScene.classList.remove('machine-hit'), 2800);
+      setTimeout(() => atmScene.classList.add('animate-insert'), 1800);
+      setTimeout(() => atmScene.classList.add('finish-insert'), 3400);
+      setTimeout(() => atmScene.classList.add('machine-hit'), 3550);
+      setTimeout(() => atmScene.classList.remove('machine-hit'), 4050);
       setTimeout(() => {
         atmScene.classList.add('reveal-dvd');
         hint.textContent = 'Click the case to open it';
-      }, 3300);
+      }, 4850);
     }
 
     function openCase() {
       if (state < 1 || dvdCase.classList.contains('open')) return;
       state = 2;
       dvdCase.classList.add('open');
-      hint.textContent = 'The smoke is splitting into threads';
+      hint.textContent = 'Look inside, then enter the archive';
+    }
 
-      setTimeout(() => {
-        atmScene.classList.remove('show');
-        cloudScene.classList.add('show');
-        hint.textContent = 'Choose a thread';
-      }, 1300);
+    function showThreads() {
+      atmScene.classList.remove('show');
+      cloudScene.classList.add('show');
+      hint.textContent = 'Choose a thread';
     }
 
     function openThread(key) {
@@ -1416,8 +1581,13 @@ After a short drive on winding country roads they finally were coming up on the 
       trailerFrame.src = "";
     }
 
+    bgVideo.addEventListener('error', () => {
+      bgVideo.style.display = 'none';
+    });
+
     groundTicket.addEventListener('click', beginSequence);
     dvdCase.addEventListener('click', openCase);
+    enterThreadsBtn.addEventListener('click', showThreads);
     resetBtn.addEventListener('click', resetAll);
 
     trailerBtn.addEventListener('click', openVideo);
