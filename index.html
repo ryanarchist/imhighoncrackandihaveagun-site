@@ -489,12 +489,11 @@
       position: absolute;
       width: 220px;
       padding: 12px;
-      border-radius: 22px;
+      border-radius: 18px;
       border: 1px solid rgba(255,255,255,.10);
       background:
-        linear-gradient(180deg, rgba(30,24,20,.88), rgba(10,10,10,.70)),
-        rgba(10,10,10,.62);
-      backdrop-filter: blur(9px);
+        linear-gradient(180deg, rgba(18,18,18,.90), rgba(8,8,8,.82));
+      backdrop-filter: blur(6px);
       box-shadow: 0 18px 42px rgba(0,0,0,.34);
       color: var(--text);
       text-align: center;
@@ -503,53 +502,54 @@
       transform: translate3d(0,0,0);
       touch-action: none;
       z-index: 10;
+      overflow: visible;
     }
     .thread-node::before,
     .thread-node::after {
       content: "";
       position: absolute;
       top: -8px;
-      width: 54px;
-      height: 16px;
-      border-radius: 4px;
-      background: linear-gradient(180deg, rgba(230,215,180,.78), rgba(196,175,135,.62));
+      width: 48px;
+      height: 14px;
+      border-radius: 3px;
+      background: linear-gradient(180deg, rgba(226,211,177,.82), rgba(196,175,135,.62));
       box-shadow: 0 2px 8px rgba(0,0,0,.25);
       opacity: .92;
-      transform: rotate(-7deg);
       pointer-events: none;
     }
     .thread-node::before {
-      left: 18px;
+      left: 14px;
+      transform: rotate(-8deg);
     }
     .thread-node::after {
-      right: 18px;
-      transform: rotate(8deg);
+      right: 14px;
+      transform: rotate(9deg);
     }
     .thread-node .pin {
       position: absolute;
-      top: 10px;
-      width: 14px;
-      height: 14px;
+      top: 9px;
+      width: 12px;
+      height: 12px;
       border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, #fff 0%, #efc88d 32%, #8b2b20 70%, #4a120d 100%);
+      background: radial-gradient(circle at 35% 35%, #fff 0%, #efc88d 30%, #8b2b20 68%, #4a120d 100%);
       box-shadow: 0 0 0 2px rgba(0,0,0,.18), 0 3px 10px rgba(0,0,0,.35);
       pointer-events: none;
       z-index: 2;
     }
-    .thread-node .pin.left { left: 18px; }
-    .thread-node .pin.right { right: 18px; }
+    .thread-node .pin.left { left: 16px; }
+    .thread-node .pin.right { right: 16px; }
     .thread-node .stub {
       position: absolute;
-      top: -20px;
+      top: -26px;
       left: 50%;
       transform: translateX(-50%);
       width: 3px;
-      height: 24px;
+      height: 30px;
       border-radius: 999px;
-      background: linear-gradient(180deg, rgba(175,135,105,.95), rgba(117,74,50,.85));
+      background: linear-gradient(180deg, rgba(175,135,105,.98), rgba(117,74,50,.88));
       box-shadow: 0 0 4px rgba(0,0,0,.35);
       pointer-events: none;
-      opacity: .9;
+      opacity: .95;
     }
     .thread-node:hover {
       transform: translateY(-8px) scale(1.03);
@@ -563,12 +563,13 @@
     }
     .thread-node img {
       width: 100%;
-      aspect-ratio: .72 / 1;
+      aspect-ratio: .76 / 1;
       object-fit: cover;
       display: block;
-      border-radius: 14px;
+      border-radius: 12px;
       margin-bottom: 12px;
       background: #111;
+      box-shadow: 0 10px 22px rgba(0,0,0,.28);
     }
     .thread-node .mini {
       display: block;
@@ -580,22 +581,23 @@
     }
     .thread-node b {
       display: block;
-      font-size: 18px;
-      line-height: 1.1;
+      font-size: 17px;
+      line-height: 1.08;
     }
     .thread-node.important {
+      width: 236px;
       border-color: rgba(218,172,114,.30);
       box-shadow: 0 20px 56px rgba(125,78,32,.20), 0 18px 42px rgba(0,0,0,.34);
     }
 
     /* positions */
-    #node-trailer1 { left: 2.5%; top: 23%; }
-    #node-trailer2 { left: 19%; top: 11%; }
-    #node-analysis { left: 38%; top: 27%; }
-    #node-sample   { left: 50%; top: 9%; transform: translateX(-50%); }
-    #node-july     { right: 19%; top: 11%; }
-    #node-dopesick { right: 2.5%; top: 23%; }
-    #node-gods     { left: 50%; top: 56%; transform: translateX(-50%); }
+    #node-trailer1 { left: 4%; top: 23%; }
+    #node-trailer2 { left: 26%; top: 13%; }
+    #node-analysis { left: 39%; top: 26%; transform: translateX(-50%); }
+    #node-sample   { left: 50%; top: 11%; transform: translateX(-50%); }
+    #node-july     { right: 26%; top: 13%; }
+    #node-dopesick { right: 4%; top: 23%; }
+    #node-gods     { left: 50%; top: 59%; transform: translateX(-50%); }
 
     /* viewers */
     .book-viewer, .video-viewer, .link-viewer {
@@ -783,15 +785,15 @@
 
     @media (max-width: 1100px) {
       .thread-board {
-        height: 1460px;
+        height: 1420px;
       }
-      #node-trailer1 { left: 5%; top: 9%; }
-      #node-trailer2 { right: 5%; left: auto; top: 9%; }
-      #node-analysis { left: 5%; top: 31%; }
-      #node-sample   { left: 50%; top: 31%; transform: translateX(-50%); }
-      #node-july     { right: 5%; left: auto; top: 31%; }
-      #node-dopesick { left: 5%; top: 57%; right: auto; }
-      #node-gods     { right: 5%; left: auto; top: 57%; transform: none; }
+      #node-trailer1 { left: 5%; top: 10%; }
+      #node-trailer2 { right: 5%; left: auto; top: 10%; }
+      #node-analysis { left: 50%; top: 29%; transform: translateX(-50%); }
+      #node-sample   { left: 5%; top: 50%; transform: none; }
+      #node-july     { right: 5%; left: auto; top: 50%; }
+      #node-dopesick { left: 5%; top: 72%; right: auto; }
+      #node-gods     { right: 5%; left: auto; top: 72%; transform: none; }
     }
 
     @media (max-width: 820px) {
@@ -823,7 +825,7 @@
       }
       .cloud-core {
         min-height: auto;
-        padding: 20px 0 220px;
+        padding: 18px 0 220px;
       }
       .threads-title {
         width: 92vw;
@@ -858,17 +860,28 @@
       }
       .thread-node {
         position: relative !important;
-        width: 100%;
+        width: 100% !important;
         left: auto !important;
         right: auto !important;
         top: auto !important;
         bottom: auto !important;
         transform: none !important;
-        padding: 14px;
+        padding: 14px 14px 16px;
         touch-action: manipulation;
       }
+      .thread-node::before,
+      .thread-node::after {
+        height: 14px;
+        width: 58px;
+        top: -7px;
+      }
+      .thread-node .stub {
+        display: block;
+        top: -18px;
+        height: 20px;
+      }
       .thread-node img {
-        aspect-ratio: .84 / 1;
+        aspect-ratio: .88 / 1;
         margin-bottom: 10px;
       }
       .thread-node .mini {
@@ -879,7 +892,7 @@
         line-height: 1.05;
       }
 
-      .book-shell, .video-shell {
+      .book-shell, .video-shell, .link-viewer .video-shell {
         inset: 2vh 2vw;
         padding: 14px;
       }
@@ -981,10 +994,10 @@
             <b>Second trailer</b>
           </button>
 
-          <button class="thread-node" id="node-analysis" data-embedlink="https://notebooklm.google.com/notebook/9ceca80f-b452-4846-a14e-a484feb8fc1d?artifactId=84ba0f28-2416-427b-a602-ad430c2f1a5e">
+          <button class="thread-node" id="node-analysis" data-video="https://www.youtube.com/embed/ie0lFbVjax8?si=NVDc96W_17iXeIgD">
             <span class="stub"></span><span class="pin left"></span><span class="pin right"></span>
             <img src="counter-book.png" alt="Sample chapter analysis">
-            <span class="mini">NotebookLM analysis</span>
+            <span class="mini">Chapter analysis</span>
             <b>Sample chapter analysis</b>
           </button>
 
@@ -1581,7 +1594,7 @@ With a sweeping motion she waived off his question.
       if (window.matchMedia('(max-width: 820px)').matches) {
         node.addEventListener('click', () => {
           if (node.dataset.video) openVideo(node.dataset.video);
-          if (node.dataset.embedlink) openEmbeddedLink(node.dataset.embedlink);
+          
           if (node.dataset.book) openThread(node.dataset.book);
         });
         return;
@@ -1619,7 +1632,7 @@ With a sweeping motion she waived off his question.
 
         if (!moved) {
           if (node.dataset.video) openVideo(node.dataset.video);
-          if (node.dataset.embedlink) openEmbeddedLink(node.dataset.embedlink);
+          
           if (node.dataset.book) openThread(node.dataset.book);
         }
       });
