@@ -927,6 +927,7 @@
       }
       .book-stage {
         min-height: 0;
+        flex: 1 1 auto;
       }
       .book-cover-panel, .book-pages {
         width: 100%;
@@ -1812,20 +1813,37 @@ With a sweeping motion she waived off his question.
     function renderPages() {
       if (!currentBook) return;
       const pages = currentBook.pages || [];
-      const left = pages[pageIndex] || '';
-      const right = pages[pageIndex + 1] || '';
+      const isMobile = window.matchMedia('(max-width: 820px)').matches;
 
-      pageKickerLeft.textContent = currentBook.kicker;
-      pageTitleLeft.textContent = currentBook.title;
-      pageTextLeft.textContent = left;
+      if (isMobile) {
+        const current = pages[pageIndex] || '';
+        pageKickerLeft.textContent = currentBook.kicker;
+        pageTitleLeft.textContent = currentBook.title;
+        pageTextLeft.textContent = current;
 
-      pageKickerRight.textContent = `Page ${pageIndex + 2}`;
-      pageTitleRight.textContent = right ? currentBook.title : 'End';
-      pageTextRight.textContent = right || 'No more pages yet.';
+        pageKickerRight.textContent = `Page ${pageIndex + 1}`;
+        pageTitleRight.textContent = currentBook.title;
+        pageTextRight.textContent = current || 'No more pages yet.';
 
-      bookStatus.textContent = `Page ${pageIndex + 1}`;
-      prevPageBtn.disabled = pageIndex === 0;
-      nextPageBtn.disabled = pageIndex + 2 >= pages.length;
+        bookStatus.textContent = `Page ${pageIndex + 1} / ${pages.length}`;
+        prevPageBtn.disabled = pageIndex === 0;
+        nextPageBtn.disabled = pageIndex + 1 >= pages.length;
+      } else {
+        const left = pages[pageIndex] || '';
+        const right = pages[pageIndex + 1] || '';
+
+        pageKickerLeft.textContent = currentBook.kicker;
+        pageTitleLeft.textContent = currentBook.title;
+        pageTextLeft.textContent = left;
+
+        pageKickerRight.textContent = `Page ${pageIndex + 2}`;
+        pageTitleRight.textContent = right ? currentBook.title : 'End';
+        pageTextRight.textContent = right || 'No more pages yet.';
+
+        bookStatus.textContent = `Page ${pageIndex + 1}`;
+        prevPageBtn.disabled = pageIndex === 0;
+        nextPageBtn.disabled = pageIndex + 2 >= pages.length;
+      }
     }
 
     function startReading() {
@@ -1844,16 +1862,20 @@ With a sweeping motion she waived off his question.
 
     function nextPages() {
       if (!currentBook) return;
-      if (pageIndex + 2 < currentBook.pages.length) {
-        pageIndex += 2;
+      const isMobile = window.matchMedia('(max-width: 820px)').matches;
+      const step = isMobile ? 1 : 2;
+      if (pageIndex + step < currentBook.pages.length) {
+        pageIndex += step;
         renderPages();
       }
     }
 
     function prevPages() {
       if (!currentBook) return;
-      if (pageIndex - 2 >= 0) {
-        pageIndex -= 2;
+      const isMobile = window.matchMedia('(max-width: 820px)').matches;
+      const step = isMobile ? 1 : 2;
+      if (pageIndex - step >= 0) {
+        pageIndex -= step;
         renderPages();
       }
     }
