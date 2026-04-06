@@ -2,51 +2,59 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>I'm High on Crack and I Have a Gun</title>
   <style>
     :root {
-      --bg: #040404;
+      --bg: #050505;
+      --bg-2: #0a0a0a;
       --text: #f2eadf;
-      --muted: #c8b29a;
-      --line: rgba(255,255,255,.10);
-      --panel: rgba(0,0,0,.52);
+      --muted: #cbb69c;
+      --warm: #d8a66a;
+      --warm-2: #9e6d37;
+      --danger: #8d241d;
+      --panel: rgba(10, 10, 10, 0.82);
+      --panel-2: rgba(18, 14, 10, 0.92);
+      --line: rgba(255,255,255,.11);
       --paper: #eadcc4;
-      --ink: #2b2118;
-      --shadow: 0 30px 90px rgba(0,0,0,.55);
-      --shadow-deep: 0 50px 140px rgba(0,0,0,.78);
-      --danger: #9c2d24;
-      --warm: #daac72;
+      --ink: #2a2119;
+      --shadow: 0 24px 70px rgba(0,0,0,.55);
+      --shadow-deep: 0 44px 130px rgba(0,0,0,.78);
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --header-h: 62px;
     }
 
     * { box-sizing: border-box; }
     html, body {
       margin: 0;
-      height: 100%;
+      min-height: 100%;
       background: #000;
       color: var(--text);
       font-family: Georgia, "Times New Roman", serif;
     }
     body { overflow: hidden; }
     button, a { font: inherit; }
+    button { -webkit-tap-highlight-color: transparent; }
     a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
 
     .app {
       position: relative;
       width: 100vw;
-      height: 100vh;
+      height: 100dvh;
       overflow: hidden;
       background: #000;
     }
 
     .grain, .vignette {
-      position: absolute;
+      position: fixed;
       inset: 0;
       pointer-events: none;
-      z-index: 200;
+      z-index: 300;
     }
     .grain {
-      opacity: .05;
+      opacity: .045;
       background-image:
         linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
@@ -54,7 +62,7 @@
       mix-blend-mode: soft-light;
     }
     .vignette {
-      box-shadow: inset 0 0 220px rgba(0,0,0,.78);
+      box-shadow: inset 0 0 220px rgba(0,0,0,.74);
     }
 
     .scene {
@@ -62,8 +70,9 @@
       inset: 0;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 1s ease, transform 1s ease;
+      transition: opacity .7s ease, transform .7s ease;
       transform: scale(1.01);
+      overflow: hidden;
     }
     .scene.show {
       opacity: 1;
@@ -73,53 +82,63 @@
 
     .pill {
       border: 1px solid var(--line);
-      background: rgba(0,0,0,.48);
+      background: rgba(0,0,0,.56);
       color: var(--muted);
       border-radius: 999px;
       padding: 10px 14px;
       text-transform: uppercase;
       letter-spacing: .14em;
-      font-size: 12px;
-      backdrop-filter: blur(10px);
+      font-size: 11px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 24px rgba(0,0,0,.28);
     }
 
-    .reset {
+    .top-ui {
       position: fixed;
-      top: 16px;
-      right: 16px;
-      z-index: 220;
-      cursor: pointer;
-      border: none;
+      top: calc(var(--safe-top) + 12px);
+      left: 0;
+      right: 0;
+      z-index: 320;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 12px;
+      pointer-events: none;
     }
-
-    .audio-toggle {
-      position: fixed;
-      top: 16px;
-      left: 16px;
-      z-index: 220;
-      cursor: pointer;
-      color: #fff;
-      border: none;
-    }
+    .top-ui > * { pointer-events: auto; }
 
     .hint {
       position: fixed;
       left: 50%;
-      bottom: 14px;
+      bottom: calc(var(--safe-bottom) + 12px);
       transform: translateX(-50%);
-      z-index: 220;
-      max-width: 92vw;
+      z-index: 320;
+      max-width: calc(100vw - 20px);
       text-align: center;
       pointer-events: none;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .hidden { display: none !important; }
 
-    /* ===================== OPENING SCENE ===================== */
-    .pickup-scene {
+    .cta-pulse {
+      animation: ctaPulse 1.9s ease-in-out infinite;
+    }
+    @keyframes ctaPulse {
+      0%, 100% { opacity: .9; box-shadow: 0 0 0 rgba(216,166,106,0); }
+      50% { opacity: 1; box-shadow: 0 0 38px rgba(216,166,106,.22); }
+    }
+    @keyframes bob {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(6px); }
+    }
+
+    /* ---------------- OPENING ---------------- */
+    .opening-scene {
       background:
-        linear-gradient(180deg, rgba(0,0,0,.16), rgba(0,0,0,.58)),
-        url('ticket-collage.png') center center / 680px auto repeat,
+        linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.68)),
+        url('ticket-collage.png') center center / 560px auto repeat,
         #050505;
     }
 
@@ -129,146 +148,141 @@
       overflow: hidden;
     }
     .bg-video {
-      position: absolute;
-      inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      opacity: .75;
-      filter: brightness(.62) contrast(1.04) saturate(.88);
-      transform: scale(1.04);
+      filter: brightness(.56) contrast(1.03) saturate(.92);
+      transform: scale(1.03);
     }
     .video-darkener {
       position: absolute;
       inset: 0;
-      z-index: 2;
       background:
-        linear-gradient(180deg, rgba(0,0,0,.42), rgba(0,0,0,.66)),
-        radial-gradient(circle at center, transparent 0%, rgba(0,0,0,.18) 48%, rgba(0,0,0,.62) 100%);
+        linear-gradient(180deg, rgba(0,0,0,.42), rgba(0,0,0,.70)),
+        radial-gradient(circle at center, transparent 0%, rgba(0,0,0,.16) 46%, rgba(0,0,0,.56) 100%);
+    }
+
+    .scene-inner {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding-top: calc(var(--safe-top) + 58px);
+      padding-bottom: calc(var(--safe-bottom) + 44px);
+      padding-left: 14px;
+      padding-right: 14px;
+      gap: 16px;
     }
 
     .banner-wrap {
-      position: absolute;
-      top: 18px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: min(1500px, 94vw);
-      z-index: 10;
-      pointer-events: none;
+      width: min(1200px, 94vw);
+      flex: 0 0 auto;
     }
     .site-banner {
       width: 100%;
-      display: block;
-      border-radius: 20px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.08);
       box-shadow: var(--shadow);
-      border: 1px solid rgba(255,255,255,.06);
-      background: rgba(0,0,0,.30);
+      background: rgba(0,0,0,.2);
     }
 
-    /* Ticket */
-    .ground-ticket {
-      position: absolute;
-      left: 50%;
-      bottom: 7vh;
-      transform: translateX(-50%) rotate(-6deg);
-      width: min(760px, 82vw);
-      aspect-ratio: 2.05 / 1;
-      border-radius: 24px;
-      overflow: hidden;
-      background: #000;
-      z-index: 12;
-      cursor: pointer;
-      box-shadow: var(--shadow-deep), 0 0 60px rgba(218,172,114,.18);
-      transition: transform .8s ease, opacity 1s ease, box-shadow .6s ease;
-      animation: ticketGlow 2.8s ease-in-out infinite alternate;
-    }
-    @keyframes ticketGlow {
-      from { box-shadow: var(--shadow-deep), 0 0 30px rgba(218,172,114,.10); }
-      to   { box-shadow: var(--shadow-deep), 0 0 80px rgba(218,172,114,.32); }
-    }
-    .ground-ticket:hover, .ground-ticket:focus {
-      transform: translateX(-50%) rotate(-4deg) translateY(-10px) scale(1.02);
-      box-shadow: 0 62px 160px rgba(0,0,0,.8), 0 0 80px rgba(218,172,114,.32);
-    }
-    .ground-ticket img {
+    .opening-center {
+      flex: 1 1 auto;
+      min-height: 0;
       width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    .pickup-scene.animate-out .ground-ticket {
-      transform: translateX(-50%) translateY(-34vh) scale(.48) rotate(-2deg);
-      opacity: .04;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
     }
 
-    /* Mobile CTA — pickup */
-    .pickup-cta-bar {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      bottom: calc(7vh + min(76px, 20vw) + 28px);
-      z-index: 30;
-      display: flex;
+    .ticket-cta {
+      display: inline-flex;
       align-items: center;
       gap: 10px;
-      background: rgba(0,0,0,.60);
-      border: 1px solid rgba(218,172,114,.35);
-      border-radius: 999px;
       padding: 12px 22px;
-      backdrop-filter: blur(12px);
-      animation: ctaPulse 2s ease-in-out infinite;
-      white-space: nowrap;
-    }
-    @keyframes ctaPulse {
-      0%, 100% { opacity: .88; }
-      50% { opacity: 1; box-shadow: 0 0 28px rgba(218,172,114,.22); }
-    }
-    .pickup-cta-bar .arrow { font-size: 18px; animation: arrowBounce 1.4s ease-in-out infinite; }
-    @keyframes arrowBounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(4px); }
-    }
-    .pickup-cta-bar .label {
+      border-radius: 999px;
+      border: 1px solid rgba(216,166,106,.38);
+      background: rgba(0,0,0,.68);
+      color: var(--warm);
       font-family: Arial, Helvetica, sans-serif;
       font-size: 13px;
       font-weight: 700;
       letter-spacing: .16em;
       text-transform: uppercase;
-      color: var(--warm);
+      backdrop-filter: blur(12px);
+      text-align: center;
+    }
+    .ticket-cta .arrow {
+      animation: bob 1.4s ease-in-out infinite;
+      font-size: 18px;
     }
 
-    /* ===================== ATM SCENE ===================== */
-    .atm-scene {
-      display: grid;
-      place-items: center;
-      background: linear-gradient(180deg, #040404, #090909);
-    }
-    .atm-stage {
-      position: absolute;
-      inset: 0;
-      display: grid;
-      place-items: center;
-      padding: 18px;
-    }
-    .atm-machine {
-      position: relative;
-      width: min(1000px, 94vw);
-      aspect-ratio: .92 / 1;
-      border-radius: 28px;
+    .ground-ticket {
+      width: min(760px, 92vw);
+      aspect-ratio: 2.05 / 1;
+      border-radius: 22px;
       overflow: hidden;
       background: #000;
-      box-shadow: var(--shadow-deep);
-      animation: atmZoom 9s ease-in-out infinite alternate;
+      cursor: pointer;
+      box-shadow: var(--shadow-deep), 0 0 52px rgba(216,166,106,.18);
+      border: 1px solid rgba(255,255,255,.05);
+      transition: transform .5s ease, box-shadow .4s ease, opacity .7s ease;
+      animation: ticketGlow 2.5s ease-in-out infinite alternate;
+      transform: rotate(-4deg);
     }
-    @keyframes atmZoom {
-      from { transform: scale(1); }
-      to { transform: scale(1.016); }
+    .ground-ticket:hover,
+    .ground-ticket:focus-visible {
+      transform: rotate(-2deg) translateY(-10px) scale(1.02);
+      box-shadow: 0 58px 150px rgba(0,0,0,.82), 0 0 70px rgba(216,166,106,.28);
+      outline: none;
     }
-    .atm-machine > img:first-child {
+    @keyframes ticketGlow {
+      from { box-shadow: var(--shadow-deep), 0 0 22px rgba(216,166,106,.08); }
+      to { box-shadow: var(--shadow-deep), 0 0 70px rgba(216,166,106,.26); }
+    }
+    .ground-ticket img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      display: block;
+    }
+    .opening-scene.animate-out .ground-ticket {
+      transform: translateY(-26vh) scale(.46) rotate(-2deg);
+      opacity: .04;
+    }
+
+    /* ---------------- ATM ---------------- */
+    .atm-scene {
+      background: linear-gradient(180deg, #040404, #090909);
+    }
+    .atm-stage {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: calc(var(--safe-top) + 20px) 12px calc(var(--safe-bottom) + 28px);
+    }
+    .atm-machine {
+      position: relative;
+      width: min(980px, 96vw);
+      aspect-ratio: .92 / 1;
+      border-radius: 24px;
+      overflow: hidden;
+      background: #000;
+      box-shadow: var(--shadow-deep);
+      border: 1px solid rgba(255,255,255,.06);
+    }
+    .atm-machine > img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
     .atm-overlay {
       position: absolute;
@@ -283,45 +297,43 @@
     .atm-ticket {
       position: absolute;
       left: 50%;
-      bottom: 14%;
+      bottom: 15%;
       transform: translateX(-50%) rotate(-2deg);
-      width: min(430px, 44vw);
+      width: min(430px, 46vw);
       aspect-ratio: 2.05 / 1;
       border-radius: 18px;
       overflow: hidden;
       background: #000;
-      z-index: 10;
       box-shadow: 0 20px 60px rgba(0,0,0,.56);
-      transition: transform 1.9s cubic-bezier(.18,.84,.2,1), opacity 1s ease;
+      transition: transform 1.6s cubic-bezier(.18,.84,.2,1), opacity 1s ease;
+      z-index: 5;
     }
     .atm-ticket img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      display: block;
     }
     .atm-scene.animate-insert .atm-ticket {
-      transform: translateX(-50%) translateY(-12%) scale(.72) rotate(-1deg);
+      transform: translateX(-50%) translateY(-10%) scale(.72) rotate(-1deg);
       opacity: .98;
     }
     .atm-scene.finish-insert .atm-ticket {
-      transform: translateX(-50%) translateY(-28%) scale(.28) rotate(-1deg);
-      opacity: .03;
+      transform: translateX(-50%) translateY(-26%) scale(.28) rotate(-1deg);
+      opacity: .02;
     }
 
-    /* DVD */
     .dvd {
       position: absolute;
       left: 50%;
-      bottom: 4.5%;
-      width: min(380px, 32vw);
+      bottom: 7%;
+      width: min(350px, 34vw);
       aspect-ratio: .72 / 1;
-      transform: translate(-50%, 230%) rotateX(55deg) scale(.82);
+      transform: translate(-50%, 180%) rotateX(48deg) scale(.82);
       transform-origin: center center;
-      transition: transform 1.8s cubic-bezier(.2,.8,.2,1), opacity 1s ease;
+      transition: transform 1.4s cubic-bezier(.2,.8,.2,1), opacity .9s ease;
       opacity: 0;
       perspective: 2200px;
-      z-index: 12;
+      z-index: 8;
     }
     .atm-scene.reveal-dvd .dvd {
       transform: translate(-50%, 0%) rotateX(6deg) scale(1);
@@ -338,7 +350,7 @@
     .case-front, .case-inside {
       position: absolute;
       inset: 0;
-      border-radius: 18px;
+      border-radius: 16px;
       overflow: hidden;
       border: 1px solid rgba(255,255,255,.08);
       box-shadow: var(--shadow);
@@ -352,316 +364,265 @@
     }
     .case-front img { object-fit: cover; }
     .case-inside {
-      display: grid;
-      place-items: center;
-      padding: 10px;
-      background:
-        radial-gradient(circle at center, rgba(255,255,255,.03), transparent 38%),
-        linear-gradient(180deg, #070707, #020202);
+      background: linear-gradient(180deg, #070707, #020202);
+      padding: 8px;
     }
     .case-inside img {
       object-fit: contain;
       object-position: center;
-      padding: 6px;
-      background: #050505;
-      border-radius: 14px;
+      border-radius: 12px;
+      background: #040404;
     }
     .case-front {
       transform-origin: left center;
-      transition: transform 2.2s cubic-bezier(.18,.82,.18,1);
-      z-index: 4;
+      transition: transform 1.8s cubic-bezier(.18,.82,.18,1);
+      z-index: 3;
     }
     .case.open .case-front { transform: rotateY(-132deg); }
 
-    /* Enter archive — inside case (desktop) */
-    .case-enter {
-      position: absolute;
+    .dvd-cta,
+    .archive-cta {
+      position: fixed;
       left: 50%;
-      bottom: 10px;
       transform: translateX(-50%);
-      z-index: 7;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .9s ease .55s;
-      cursor: pointer;
-      border: 1px solid rgba(218,172,114,.50);
-      background: rgba(0,0,0,.72);
+      z-index: 325;
+      border-radius: 999px;
+      border: 1px solid rgba(216,166,106,.5);
+      background: rgba(0,0,0,.76);
       color: var(--warm);
-      border-radius: 999px;
-      padding: 10px 18px;
-      text-transform: uppercase;
-      letter-spacing: .14em;
-      font-size: 13px;
-      backdrop-filter: blur(10px);
-      white-space: nowrap;
-    }
-    .case.open .case-enter {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    /* Mobile DVD CTA overlay — shown after DVD appears, outside ATM box */
-    .dvd-cta-overlay {
-      position: absolute;
-      bottom: 12px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 30;
-      background: rgba(0,0,0,.70);
-      border: 1px solid rgba(218,172,114,.40);
-      border-radius: 999px;
-      padding: 14px 28px;
-      backdrop-filter: blur(12px);
-      text-align: center;
-      white-space: nowrap;
-      animation: ctaPulse 2s ease-in-out infinite;
-      pointer-events: none;
-    }
-    .dvd-cta-overlay .label {
+      padding: 14px 26px;
       font-family: Arial, Helvetica, sans-serif;
       font-size: 13px;
-      font-weight: 700;
+      font-weight: 800;
       letter-spacing: .16em;
       text-transform: uppercase;
-      color: var(--warm);
-    }
-
-    /* Enter Archive overlay — fixed overlay, above everything */
-    .enter-archive-overlay {
-      position: fixed;
-      bottom: 60px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 250;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .6s ease;
-      /* No backdrop-filter here — causes Android compositing bugs */
-    }
-    .enter-archive-overlay.visible {
-      opacity: 1;
-      pointer-events: auto;
-    }
-    .enter-archive-overlay button {
-      border: 2px solid rgba(218,172,114,.80);
-      background: #0a0700;
-      color: var(--warm);
-      border-radius: 999px;
-      padding: 18px 42px;
-      cursor: pointer;
-      text-transform: uppercase;
-      letter-spacing: .18em;
-      font-size: 15px;
-      font-weight: 700;
-      font-family: Arial, Helvetica, sans-serif;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 28px rgba(0,0,0,.48);
+      text-align: center;
       white-space: nowrap;
-      box-shadow: 0 0 40px rgba(218,172,114,.28), 0 8px 32px rgba(0,0,0,.70);
-      animation: ctaPulse 2s ease-in-out infinite;
+      max-width: calc(100vw - 26px);
     }
-    .enter-archive-overlay button:active {
-      background: rgba(30,20,5,.95);
+    .dvd-cta { bottom: calc(var(--safe-bottom) + 70px); }
+    .archive-cta {
+      bottom: calc(var(--safe-bottom) + 18px);
+      cursor: pointer;
+      display: none;
     }
+    .archive-cta.show { display: inline-flex; align-items: center; justify-content: center; }
 
-    /* ===================== THREADS SCENE ===================== */
-    .cloud-scene {
-      display: block;
+    /* ---------------- ARCHIVE ---------------- */
+    .archive-scene {
+      background: #060403;
       overflow-y: auto;
       overflow-x: hidden;
       -webkit-overflow-scrolling: touch;
-      touch-action: pan-y;
       overscroll-behavior-y: contain;
-      background: linear-gradient(180deg, #050505, #000 72%);
     }
 
-    .threads-video-wrap {
+    .archive-video-wrap {
       position: fixed;
       inset: 0;
-      overflow: hidden;
-      pointer-events: none;
       z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
     }
-    .threads-video {
-      position: absolute;
-      inset: 0;
+    .archive-video {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      opacity: .42;
-      filter: brightness(.42) contrast(1.03) saturate(.85);
-      transform: scale(1.06);
+      opacity: .24;
+      filter: brightness(.42) contrast(1.04) saturate(.84);
+      transform: scale(1.05);
     }
-    .threads-darkener {
+    .archive-darkener {
       position: absolute;
       inset: 0;
       background:
-        linear-gradient(180deg, rgba(0,0,0,.44), rgba(0,0,0,.70)),
-        radial-gradient(circle at center, rgba(0,0,0,.08) 0%, rgba(0,0,0,.24) 50%, rgba(0,0,0,.60) 100%);
+        linear-gradient(180deg, rgba(0,0,0,.50), rgba(0,0,0,.76)),
+        radial-gradient(circle at center, rgba(0,0,0,.1) 0%, rgba(0,0,0,.24) 50%, rgba(0,0,0,.62) 100%);
     }
 
-    .cloud-core {
+    .archive-inner {
       position: relative;
-      z-index: 5;
-      width: 100%;
+      z-index: 2;
+      min-height: 100%;
+      padding: calc(var(--safe-top) + 70px) 12px calc(var(--safe-bottom) + 44px);
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 42px 0 130px;
+      gap: 20px;
     }
 
-    .threads-title {
-      width: min(1100px, 94vw);
+    .archive-title {
+      width: min(1180px, 96vw);
       text-align: center;
-      position: relative;
-      z-index: 6;
     }
-    .threads-title h2 {
+    .archive-title h2 {
       margin: 0;
-      font-size: clamp(28px, 4vw, 58px);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(30px, 4vw, 60px);
       text-transform: uppercase;
       letter-spacing: .08em;
-      font-family: Arial, Helvetica, sans-serif;
     }
-    .threads-title p {
-      margin: 14px 0 0;
-      font-size: 17px;
+    .archive-title p {
+      margin: 12px 0 0;
       color: var(--muted);
       font-family: Arial, Helvetica, sans-serif;
+      font-size: 16px;
     }
     .update-pill {
-      margin-top: 18px;
+      margin-top: 16px;
       display: inline-block;
-      padding: 12px 18px;
+      padding: 11px 18px;
       border-radius: 999px;
-      background: rgba(0,0,0,.32);
-      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.42);
+      border: 1px solid rgba(255,255,255,.1);
       color: var(--muted);
       text-transform: uppercase;
-      letter-spacing: .14em;
-      font-size: 12px;
+      letter-spacing: .12em;
+      font-size: 11px;
       font-family: Arial, Helvetica, sans-serif;
     }
 
-    /* Desktop board */
-    .thread-board {
+    .board-wrap {
+      width: min(1240px, 98vw);
       position: relative;
-      width: min(1240px, 96vw);
-      height: 1020px;
-      margin-top: 26px;
-      z-index: 8;
+      padding: 18px;
     }
-
-    .thread-knot {
-      position: absolute;
-      left: 50%;
-      top: 5%;
-      transform: translateX(-50%);
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      background: radial-gradient(circle, #fff 0%, #dcb98c 35%, #6b402a 100%);
-      box-shadow: 0 0 12px rgba(255,255,255,.16), 0 0 30px rgba(213,167,103,.18);
-      z-index: 9;
+    .board {
+      position: relative;
+      min-height: 1020px;
+      border-radius: 28px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(255,255,255,.04), transparent 18%),
+        radial-gradient(circle at 80% 40%, rgba(255,255,255,.03), transparent 20%),
+        linear-gradient(180deg, rgba(255,255,255,.02), rgba(0,0,0,.12)),
+        url('ticket-collage.png') center center / 1100px auto repeat,
+        #5d4531;
+      box-shadow: var(--shadow-deep);
+      border: 1px solid rgba(255,255,255,.08);
+      padding: 42px 36px 56px;
     }
-
-    .yarn-layer {
+    .board::after {
+      content: "";
       position: absolute;
       inset: 0;
       pointer-events: none;
-      z-index: 7;
-      overflow: visible;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.08), rgba(0,0,0,.18)),
+        radial-gradient(circle at center, transparent 0%, rgba(0,0,0,.18) 72%, rgba(0,0,0,.34) 100%);
     }
-    .yarn {
+
+    .board-center {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .center-badge {
+      width: min(320px, 30vw);
+      max-width: 320px;
+      padding: 18px;
+      border-radius: 22px;
+      background: rgba(8,8,8,.78);
+      border: 1px solid rgba(216,166,106,.18);
+      box-shadow: 0 20px 60px rgba(0,0,0,.48), 0 0 50px rgba(216,166,106,.12);
+      transform: rotate(-2deg);
+    }
+    .center-badge img {
+      border-radius: 14px;
+      box-shadow: 0 12px 30px rgba(0,0,0,.35);
+    }
+
+    .thread-svg {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      width: 100%;
+      height: 100%;
+    }
+    .thread-shadow {
       fill: none;
-      stroke: rgba(180,140,110,.86);
-      stroke-width: 3;
+      stroke: rgba(0,0,0,.45);
+      stroke-width: 7;
       stroke-linecap: round;
-      filter: drop-shadow(0 0 4px rgba(0,0,0,.5));
     }
-    .yarn-shadow {
+    .thread-line {
       fill: none;
-      stroke: rgba(0,0,0,.48);
-      stroke-width: 6;
+      stroke: rgba(173, 126, 93, .92);
+      stroke-width: 3.2;
       stroke-linecap: round;
     }
 
-    .thread-node {
+    .cards-layer {
+      position: relative;
+      z-index: 3;
+      min-height: 920px;
+    }
+
+    .thread-card {
       position: absolute;
-      width: 200px;
+      width: 210px;
       padding: 12px;
       border-radius: 18px;
       border: 1px solid rgba(255,255,255,.10);
-      background: linear-gradient(180deg, rgba(18,18,18,.90), rgba(8,8,8,.82));
-      backdrop-filter: blur(6px);
-      box-shadow: 0 18px 42px rgba(0,0,0,.34);
+      background: linear-gradient(180deg, rgba(18,18,18,.94), rgba(7,7,7,.86));
+      box-shadow: 0 18px 44px rgba(0,0,0,.34);
       color: var(--text);
-      text-align: center;
       cursor: pointer;
-      transition: transform .35s ease, background .35s ease, border-color .35s ease, box-shadow .35s ease;
-      transform: translate3d(0,0,0);
-      touch-action: none;
-      z-index: 10;
+      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+      text-align: left;
     }
-    .thread-node::before, .thread-node::after {
+    .thread-card:hover,
+    .thread-card:focus-visible {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 28px 62px rgba(0,0,0,.46);
+      border-color: rgba(255,255,255,.18);
+      outline: none;
+    }
+    .thread-card::before,
+    .thread-card::after {
       content: "";
       position: absolute;
       top: -8px;
-      width: 48px;
+      width: 50px;
       height: 14px;
       border-radius: 3px;
-      background: linear-gradient(180deg, rgba(226,211,177,.82), rgba(196,175,135,.62));
+      background: linear-gradient(180deg, rgba(227,211,180,.84), rgba(197,176,137,.64));
       box-shadow: 0 2px 8px rgba(0,0,0,.25);
       opacity: .92;
       pointer-events: none;
     }
-    .thread-node::before { left: 14px; transform: rotate(-8deg); }
-    .thread-node::after { right: 14px; transform: rotate(9deg); }
-    .thread-node .pin {
+    .thread-card::before { left: 14px; transform: rotate(-7deg); }
+    .thread-card::after { right: 14px; transform: rotate(8deg); }
+    .thread-card .pin {
       position: absolute;
       top: 9px;
       width: 12px;
       height: 12px;
       border-radius: 50%;
       background: radial-gradient(circle at 35% 35%, #fff 0%, #efc88d 30%, #8b2b20 68%, #4a120d 100%);
-      box-shadow: 0 0 0 2px rgba(0,0,0,.18), 0 3px 10px rgba(0,0,0,.35);
+      box-shadow: 0 0 0 2px rgba(0,0,0,.16), 0 3px 10px rgba(0,0,0,.35);
       pointer-events: none;
       z-index: 2;
     }
-    .thread-node .pin.left { left: 16px; }
-    .thread-node .pin.right { right: 16px; }
-    .thread-node .stub {
-      position: absolute;
-      top: -26px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 3px;
-      height: 30px;
-      border-radius: 999px;
-      background: linear-gradient(180deg, rgba(175,135,105,.98), rgba(117,74,50,.88));
-      box-shadow: 0 0 4px rgba(0,0,0,.35);
-      pointer-events: none;
-      opacity: .95;
-    }
-    .thread-node:hover {
-      transform: translateY(-8px) scale(1.03);
-      background: rgba(20,20,20,.88);
-      border-color: rgba(255,255,255,.18);
-      box-shadow: 0 28px 62px rgba(0,0,0,.45);
-    }
-    .thread-node.dragging {
-      transition: none;
-      box-shadow: 0 40px 80px rgba(0,0,0,.58);
-    }
-    .thread-node img {
+    .thread-card .pin.left { left: 16px; }
+    .thread-card .pin.right { right: 16px; }
+    .thread-card img {
       width: 100%;
-      aspect-ratio: .76 / 1;
+      aspect-ratio: .82 / 1;
       object-fit: cover;
-      display: block;
       border-radius: 12px;
       margin-bottom: 10px;
       background: #111;
       box-shadow: 0 10px 22px rgba(0,0,0,.28);
     }
-    .thread-node .mini {
+    .thread-card .mini {
       display: block;
       color: var(--muted);
       font-size: 10px;
@@ -670,56 +631,64 @@
       margin-bottom: 6px;
       font-family: Arial, Helvetica, sans-serif;
     }
-    .thread-node b {
+    .thread-card b {
       display: block;
       font-size: 15px;
-      line-height: 1.1;
+      line-height: 1.12;
       font-family: Arial, Helvetica, sans-serif;
     }
-    .thread-node.important {
-      width: 220px;
-      border-color: rgba(218,172,114,.30);
-      box-shadow: 0 20px 56px rgba(125,78,32,.20), 0 18px 42px rgba(0,0,0,.34);
+
+    #card-trailer1 { left: 2%; top: 10%; transform: rotate(-4deg); }
+    #card-trailer2 { left: 19%; top: 3%; transform: rotate(3deg); }
+    #card-sample   { left: 50%; top: 5%; transform: translateX(-50%) rotate(-2deg); width: 230px; }
+    #card-analysis { right: 19%; top: 4%; transform: rotate(4deg); }
+    #card-july     { right: 2%; top: 11%; transform: rotate(-3deg); }
+    #card-dopesick { left: 8%; top: 56%; transform: rotate(2deg); }
+    #card-gods     { right: 8%; top: 57%; transform: rotate(-2deg); }
+
+    .evidence-note {
+      position: absolute;
+      z-index: 2;
+      background: #e7d7b7;
+      color: #2d2217;
+      padding: 14px 16px;
+      border-radius: 3px;
+      box-shadow: 0 12px 26px rgba(0,0,0,.26);
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      transform: rotate(-4deg);
     }
+    .note-1 { left: 5%; bottom: 8%; }
+    .note-2 { right: 5%; bottom: 8%; transform: rotate(3deg); }
 
-    /* Desktop positions — spread out to prevent overlap */
-    #node-trailer1 { left: 1%;   top: 18%; }
-    #node-trailer2 { left: 16%;  top: 8%; }
-    #node-sample   { left: 50%;  top: 5%; transform: translateX(-50%); }
-    #node-analysis { right: 16%; top: 8%; left: auto; }
-    #node-july     { right: 1%;  top: 18%; left: auto; }
-    #node-dopesick { left: 50%;  top: 42%; transform: translateX(-50%); }
-    #node-gods     { left: 50%;  top: 72%; transform: translateX(-50%); }
-
-    /* ===================== VIEWERS ===================== */
-
-    /* Book viewer — full fixed overlay */
-    .book-viewer {
+    /* ---------------- MODALS ---------------- */
+    .overlay {
       position: fixed;
       inset: 0;
-      z-index: 260;
+      z-index: 340;
       opacity: 0;
       pointer-events: none;
-      transition: opacity .4s ease;
-      display: flex;
-      flex-direction: column;
+      transition: opacity .35s ease;
     }
-    .book-viewer.show {
+    .overlay.show {
       opacity: 1;
       pointer-events: auto;
     }
-    .book-backdrop {
+    .overlay-backdrop {
       position: absolute;
       inset: 0;
       background: rgba(0,0,0,.88);
       backdrop-filter: blur(14px);
     }
 
+    /* book */
     .book-shell {
       position: relative;
       z-index: 2;
-      margin: 3vh 3vw;
-      flex: 1;
+      margin: calc(var(--safe-top) + 10px) 14px calc(var(--safe-bottom) + 10px);
+      height: calc(100dvh - var(--safe-top) - var(--safe-bottom) - 20px);
       border-radius: 24px;
       background: linear-gradient(180deg, #17110d, #0d0a08 62%, #080707);
       border: 1px solid rgba(255,255,255,.08);
@@ -727,59 +696,61 @@
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      min-height: 0;
     }
-
-    /* Shell header row */
     .book-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 14px 18px 10px;
-      flex-shrink: 0;
-      border-bottom: 1px solid rgba(255,255,255,.06);
       gap: 10px;
+      padding: 14px 16px 10px;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      flex-wrap: wrap;
+      flex: 0 0 auto;
+    }
+    .book-header-left,
+    .book-header-right {
+      display: flex;
+      gap: 10px;
+      align-items: center;
       flex-wrap: wrap;
     }
-    .book-header-left { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-
-    /* Buttons */
     .book-btn {
       border: 1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.05);
       color: #fff;
       border-radius: 999px;
-      padding: 9px 16px;
+      padding: 10px 16px;
       cursor: pointer;
       font-family: Arial, Helvetica, sans-serif;
       font-size: 12px;
       letter-spacing: .10em;
       text-transform: uppercase;
       white-space: nowrap;
-      text-decoration: none;
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
-    .book-btn:hover {
-      background: rgba(255,255,255,.10);
+    .book-btn:hover { background: rgba(255,255,255,.10); }
+    .book-btn:disabled {
+      opacity: .45;
+      cursor: not-allowed;
     }
 
-    /* Cover panel */
     .book-cover-panel {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       gap: 16px;
-      padding: 20px;
-      flex: 1;
+      padding: 22px;
       min-height: 0;
-      overflow: hidden;
+      flex: 1 1 auto;
+      overflow: auto;
     }
     .book-cover-panel img {
-      max-height: 65vh;
       max-width: 100%;
+      max-height: min(64vh, 760px);
       width: auto;
-      object-fit: contain;
       border-radius: 16px;
       background: #111;
       box-shadow: var(--shadow);
@@ -791,70 +762,70 @@
       justify-content: center;
     }
 
-    /* Reading panel */
-    .book-pages-panel {
+    .book-read-panel {
       display: none;
-      flex: 1;
+      flex: 1 1 auto;
       min-height: 0;
-      flex-direction: column;
       overflow: hidden;
     }
-    .book-viewer.reading .book-cover-panel { display: none; }
-    .book-viewer.reading .book-pages-panel { display: flex; }
+    .book-overlay.reading .book-cover-panel { display: none; }
+    .book-overlay.reading .book-read-panel { display: flex; }
 
-    /* Single scrollable page */
-    .book-page-scroll {
-      flex: 1;
-      min-height: 0;
+    .book-scroll {
+      width: 100%;
+      height: 100%;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
       overscroll-behavior-y: contain;
-      padding: 28px 32px;
+      padding: 28px 30px 36px;
       background:
         linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.04) 14%, rgba(255,255,255,.01)),
         var(--paper);
       color: var(--ink);
       position: relative;
     }
-    .book-page-scroll::before {
+    .book-scroll::before {
       content: "";
       position: absolute;
       inset: 0;
+      pointer-events: none;
       background: repeating-linear-gradient(180deg, rgba(90,60,32,.03), rgba(90,60,32,.03) 1px, transparent 1px, transparent 30px);
       opacity: .5;
-      pointer-events: none;
     }
     .page-kicker {
+      position: relative;
       font-size: 11px;
       letter-spacing: .18em;
       text-transform: uppercase;
       color: #7b5a39;
       margin-bottom: 10px;
       font-family: Arial, Helvetica, sans-serif;
+      z-index: 1;
     }
     .page-title {
-      margin: 0 0 18px;
-      font-size: 26px;
-      line-height: 1.05;
+      position: relative;
+      margin: 0 0 16px;
+      font-size: 28px;
+      line-height: 1.06;
       text-transform: uppercase;
       font-family: Arial, Helvetica, sans-serif;
+      z-index: 1;
     }
     .page-text {
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 18px;
-      line-height: 1.68;
-      white-space: pre-wrap;
       position: relative;
+      z-index: 1;
+      font-size: 18px;
+      line-height: 1.7;
+      white-space: pre-wrap;
     }
 
-    /* Controls bar */
-    .book-controls {
-      flex-shrink: 0;
+    .book-footer {
+      flex: 0 0 auto;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 14px;
-      padding: 12px 18px;
+      gap: 12px;
+      padding: 12px 16px;
       border-top: 1px solid rgba(255,255,255,.06);
       flex-wrap: wrap;
     }
@@ -868,53 +839,29 @@
       font-family: Arial, Helvetica, sans-serif;
     }
 
-    /* Video viewer */
-    .video-viewer {
-      position: fixed;
-      inset: 0;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .45s ease;
-      z-index: 260;
-    }
-    .video-viewer.show {
-      opacity: 1;
-      pointer-events: auto;
-    }
-    .video-backdrop {
-      position: absolute;
-      inset: 0;
-      background: rgba(0,0,0,.84);
-      backdrop-filter: blur(12px);
-    }
+    /* video */
     .video-shell {
-      position: absolute;
-      inset: 4vh 4vw;
-      border-radius: 28px;
+      position: relative;
+      z-index: 2;
+      margin: calc(var(--safe-top) + 10px) 14px calc(var(--safe-bottom) + 10px);
+      height: calc(100dvh - var(--safe-top) - var(--safe-bottom) - 20px);
+      border-radius: 24px;
       background: linear-gradient(180deg, #17110d, #0d0a08 62%, #080707);
       border: 1px solid rgba(255,255,255,.08);
       box-shadow: var(--shadow-deep);
-      padding: 20px;
+      padding: 16px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 14px;
       overflow: hidden;
     }
-    .video-close {
-      align-self: flex-end;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.05);
-      color: #fff;
-      border-radius: 999px;
-      padding: 10px 16px;
-      cursor: pointer;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 12px;
-      letter-spacing: .10em;
-      text-transform: uppercase;
+    .video-top {
+      display: flex;
+      justify-content: flex-end;
+      flex: 0 0 auto;
     }
     .video-frame-wrap {
-      flex: 1;
+      flex: 1 1 auto;
       min-height: 0;
       display: grid;
       place-items: center;
@@ -934,363 +881,343 @@
       display: block;
     }
 
-    /* ===================== TABLET MQ ===================== */
+    /* ---------------- RESPONSIVE ---------------- */
     @media (max-width: 1100px) {
-      .thread-board { height: 1580px; }
-      #node-trailer1 { left: 3%;  top: 7%; transform: none; }
-      #node-trailer2 { right: 3%; left: auto; top: 7%; transform: none; }
-      #node-sample   { left: 50%; top: 22%; transform: translateX(-50%); }
-      #node-analysis { left: 3%;  top: 43%; transform: none; }
-      #node-july     { right: 3%; left: auto; top: 43%; transform: none; }
-      #node-dopesick { left: 3%;  top: 62%; right: auto; transform: none; }
-      #node-gods     { right: 3%; left: auto; top: 62%; transform: none; }
+      .board { min-height: 1240px; }
+      #card-trailer1 { left: 4%; top: 6%; }
+      #card-trailer2 { left: 58%; top: 5%; }
+      #card-sample   { left: 50%; top: 26%; }
+      #card-analysis { left: 6%; right: auto; top: 44%; transform: rotate(-3deg); }
+      #card-july     { right: 6%; top: 44%; }
+      #card-dopesick { left: 10%; top: 72%; }
+      #card-gods     { right: 10%; top: 72%; }
     }
 
-    /* ===================== MOBILE MQ ===================== */
     @media (max-width: 820px) {
-      body { overflow: hidden; }
-
-      .banner-wrap {
-        top: 58px;
-        width: 96vw;
+      .hint {
+        font-size: 10px;
+        max-width: calc(100vw - 16px);
       }
-      .site-banner { border-radius: 14px; }
-
-      .audio-toggle, .reset {
-        top: 12px;
-        padding: 9px 14px;
-        font-size: 11px;
-      }
-
-      /* Pickup scene */
-      .pickup-scene {
+      .opening-scene {
         background:
-          linear-gradient(180deg, rgba(0,0,0,.20), rgba(0,0,0,.64)),
-          url('ticket-collage.png') center center / 420px auto repeat,
+          linear-gradient(180deg, rgba(0,0,0,.22), rgba(0,0,0,.66)),
+          url('ticket-collage.png') center center / 410px auto repeat,
           #050505;
       }
+      .scene-inner {
+        padding-top: calc(var(--safe-top) + 56px);
+        gap: 14px;
+      }
+      .banner-wrap { width: 96vw; }
+      .site-banner { border-radius: 14px; }
+      .ticket-cta,
+      .dvd-cta,
+      .archive-cta {
+        font-size: 12px;
+        letter-spacing: .14em;
+        padding: 14px 18px;
+        white-space: normal;
+      }
       .ground-ticket {
-        width: 90vw;
-        bottom: 6vh;
+        width: min(96vw, 720px);
+        transform: rotate(-3deg);
       }
-      .pickup-cta-bar {
-        bottom: calc(6vh + min(70px, 22vw) + 24px);
+      .atm-machine {
+        width: 96vw;
+        max-height: calc(100dvh - var(--safe-top) - var(--safe-bottom) - 110px);
       }
-
-      /* ATM scene */
-      .atm-stage { padding-top: 72px; }
-      .atm-machine { width: 96vw; }
-      .atm-ticket { width: 54vw; bottom: 16%; }
-
-      /* DVD much bigger on mobile */
+      .atm-ticket {
+        width: min(54vw, 390px);
+        bottom: 16%;
+      }
       .dvd {
-        width: min(260px, 58vw);
-        bottom: 68px;
+        width: min(280px, 62vw);
+        bottom: 12%;
       }
+      .dvd-cta { bottom: calc(var(--safe-bottom) + 74px); }
+      .archive-cta { bottom: calc(var(--safe-bottom) + 12px); }
 
-      /* Enter archive overlays */
-      .case-enter { display: none; } /* hidden; use overlay instead */
-      .dvd-cta-overlay { display: flex; align-items: center; gap: 8px; }
-      .enter-archive-overlay { bottom: 10px; }
+      .archive-inner {
+        padding-top: calc(var(--safe-top) + 58px);
+        gap: 14px;
+      }
+      .archive-title { width: 94vw; }
+      .archive-title p { font-size: 14px; }
+      .update-pill { font-size: 10px; line-height: 1.45; }
 
-      /* Threads */
-      .cloud-core { padding: 16px 0 180px; }
-      .threads-title { width: 94vw; padding: 0 8px; }
-      .threads-title h2 { font-size: 30px; }
-      .threads-title p { font-size: 14px; }
-      .update-pill { max-width: 94vw; font-size: 10px; line-height: 1.45; }
-
-      /* Mobile thread board — vertical stack */
-      .thread-board {
-        width: min(380px, 94vw);
-        height: auto !important;
+      .board-wrap {
+        width: min(420px, 96vw);
+        padding: 0;
+      }
+      .board {
+        min-height: auto;
+        padding: 18px 14px 20px;
+        border-radius: 22px;
+      }
+      .board-center,
+      .thread-svg,
+      .evidence-note {
+        display: none;
+      }
+      .cards-layer {
         min-height: 0;
-        margin-top: 14px;
         display: flex;
         flex-direction: column;
         gap: 14px;
-        align-items: stretch;
-        position: relative;
       }
-      .thread-knot, .yarn-layer { display: none !important; }
-      .thread-node {
-        position: static !important;
-        width: 100% !important;
+      .thread-card {
+        position: relative !important;
         left: auto !important;
         right: auto !important;
         top: auto !important;
         bottom: auto !important;
         transform: none !important;
-        padding: 14px 14px 16px;
-        touch-action: manipulation;
+        width: 100% !important;
       }
-      .thread-node::before, .thread-node::after {
-        height: 14px; width: 58px; top: -7px;
-      }
-      .thread-node .stub { top: -18px; height: 20px; }
-      .thread-node img { aspect-ratio: .88 / 1; margin-bottom: 10px; }
-      .thread-node b { font-size: 20px; }
+      .thread-card img { aspect-ratio: .9 / 1; }
+      .thread-card b { font-size: 20px; }
 
-      /* Book viewer — full viewport on mobile */
-      .book-shell {
+      .book-shell,
+      .video-shell {
         margin: 0;
         border-radius: 0;
         border: none;
+        height: 100dvh;
       }
-      .book-header { padding: 12px 14px 10px; }
-      .book-page-scroll {
-        padding: 20px 18px 32px;
+      .book-header {
+        padding: calc(var(--safe-top) + 10px) 12px 10px;
       }
-      .page-title { font-size: 20px; }
-      .page-text { font-size: 16px; line-height: 1.62; }
-
-      /* Video viewer */
+      .book-cover-panel {
+        padding: 16px;
+      }
+      .book-cover-panel img {
+        max-height: min(48vh, 420px);
+      }
+      .book-scroll {
+        padding: 20px 16px 32px;
+      }
+      .page-title { font-size: 21px; }
+      .page-text {
+        font-size: 16px;
+        line-height: 1.62;
+      }
+      .book-footer {
+        padding: 10px 12px calc(var(--safe-bottom) + 10px);
+      }
       .video-shell {
-        inset: 0;
-        border-radius: 0;
-        padding: 14px;
+        padding: 12px;
+      }
+      .video-top {
+        padding-top: calc(var(--safe-top) + 2px);
       }
     }
   </style>
 </head>
 <body>
-<div class="app">
-  <audio id="podcastAudio" src="PODCAST.m4a" preload="auto" loop></audio>
+  <div class="app">
+    <audio id="podcastAudio" src="PODCAST.m4a" preload="auto" loop></audio>
 
-  <button class="audio-toggle pill" id="audioToggle">Podcast: Off</button>
-  <button class="reset pill" id="resetBtn">Restart</button>
-
-  <!-- ==================== SCENE 1: PICKUP ==================== -->
-  <section class="scene pickup-scene show" id="pickupScene">
-    <div class="bg-video-wrap">
-      <video class="bg-video" id="bgVideo" autoplay muted loop playsinline preload="auto" poster="ticket-collage.png">
-        <source src="background-video.mp4" type="video/mp4">
-      </video>
-      <div class="video-darkener"></div>
+    <div class="top-ui">
+      <button class="pill" id="audioToggle" type="button">Podcast: Off</button>
+      <button class="pill" id="resetBtn" type="button">Restart</button>
     </div>
 
-    <div class="banner-wrap">
-      <img class="site-banner" src="site-banner.png" alt="Site banner">
-    </div>
-
-    <!-- CTA always visible above ticket -->
-    <div class="pickup-cta-bar" id="pickupCta">
-      <span class="arrow">↓</span>
-      <span class="label">Tap the ticket to begin</span>
-      <span class="arrow">↓</span>
-    </div>
-
-    <div class="ground-ticket" id="groundTicket">
-      <img src="ticket-single.png" alt="Ticket on the ground">
-    </div>
-  </section>
-
-  <!-- ==================== SCENE 2: ATM ==================== -->
-  <section class="scene atm-scene" id="atmScene">
-    <div class="atm-stage">
-      <div class="atm-machine">
-        <img src="atm-machine.png" alt="ATM machine">
-        <div class="atm-overlay"></div>
-
-        <div class="atm-ticket" id="atmTicket">
-          <img src="ticket-single.png" alt="Ticket being inserted">
+    <section class="scene opening-scene show" id="openingScene" aria-label="Opening scene">
+      <div class="bg-video-wrap">
+        <video class="bg-video" id="bgVideo" autoplay muted loop playsinline preload="auto" poster="ticket-collage.png">
+          <source src="background-video.mp4" type="video/mp4">
+        </video>
+        <div class="video-darkener"></div>
+      </div>
+      <div class="scene-inner">
+        <div class="banner-wrap">
+          <img class="site-banner" src="site-banner.png" alt="Site banner">
         </div>
+        <div class="opening-center">
+          <div class="ticket-cta cta-pulse" id="ticketCta">
+            <span class="arrow">↓</span>
+            <span>Tap the ticket to begin</span>
+            <span class="arrow">↓</span>
+          </div>
+          <button class="ground-ticket" id="groundTicket" type="button" aria-label="Tap the ticket to begin">
+            <img src="ticket-single.png" alt="Ticket">
+          </button>
+        </div>
+      </div>
+    </section>
 
-        <div class="dvd" id="dvdWrap">
-          <div class="case" id="dvdCase">
-            <div class="case-front">
-              <img src="dvdcase.png" alt="DVD case cover">
+    <section class="scene atm-scene" id="atmScene" aria-label="ATM scene">
+      <div class="atm-stage">
+        <div class="atm-machine">
+          <img src="atm-machine.png" alt="ATM machine">
+          <div class="atm-overlay"></div>
+          <div class="atm-ticket" id="atmTicket">
+            <img src="ticket-single.png" alt="Ticket being inserted">
+          </div>
+          <div class="dvd" id="dvdWrap">
+            <div class="case" id="dvdCase" aria-label="DVD case" role="button" tabindex="0">
+              <div class="case-front">
+                <img src="dvdcase.png" alt="DVD case cover">
+              </div>
+              <div class="case-inside">
+                <img src="case-open-inside.png" alt="Opened DVD case">
+              </div>
             </div>
-            <div class="case-inside">
-              <img src="case-open-inside.png" alt="Opened DVD case interior">
-            </div>
-            <!-- Desktop enter button inside case -->
-            <button class="case-enter" id="enterThreadsBtn">Enter Archive</button>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- Mobile: "Tap the DVD" overlay — shown after DVD appears -->
-    <div class="dvd-cta-overlay hidden" id="dvdCtaOverlay">
-      <span class="label">↑ Tap the DVD case ↑</span>
-    </div>
-  </section>
+    <div class="dvd-cta cta-pulse hidden" id="dvdCta">↑ Tap the DVD case ↑</div>
+    <button class="archive-cta cta-pulse" id="enterArchiveBtn" type="button">Enter Archive</button>
 
-  <!-- ==================== SCENE 3: THREADS ==================== -->
-  <section class="scene cloud-scene" id="cloudScene">
-    <div class="threads-video-wrap">
-      <video class="threads-video" id="threadsVideo" autoplay muted loop playsinline preload="auto" poster="counter-book.png">
-        <source src="counter-book.mp4" type="video/mp4">
-      </video>
-      <div class="threads-darkener"></div>
-    </div>
-
-    <div class="cloud-core">
-      <div class="threads-title">
-        <h2>Pull a thread</h2>
-        <p>Every entry hangs off the same knot. Tug one.</p>
-        <div class="update-pill">Site updating very, very soon — but you already know we run on drug dealer time around here.</div>
+    <section class="scene archive-scene" id="archiveScene" aria-label="Archive and threads">
+      <div class="archive-video-wrap">
+        <video class="archive-video" id="archiveVideo" autoplay muted loop playsinline preload="auto" poster="counter-book.png">
+          <source src="counter-book.mp4" type="video/mp4">
+        </video>
+        <div class="archive-darkener"></div>
       </div>
 
-      <div class="thread-board" id="threadBoard">
-        <div class="thread-knot" id="threadKnot"></div>
-        <svg class="yarn-layer" id="yarnLayer" viewBox="0 0 1220 760" preserveAspectRatio="none"></svg>
-
-        <button class="thread-node" id="node-trailer1" data-video="https://www.youtube.com/embed/sV8Xi7_nTPQ?si=-zm64U6yl1cdU7Xi">
-          <span class="stub"></span><span class="pin left"></span><span class="pin right"></span>
-          <img src="dvdcase.png" alt="Project trailer">
-          <span class="mini">Main trailer</span>
-          <b>Project trailer</b>
-        </button>
-
-        <button class="thread-node" id="node-trailer2" data-video="https://www.youtube.com/embed/PZNJUtX1Tss?si=jK3p3yNLHW-dGs4Q">
-          <span class="stub"></span><span class="pin left"></span><span class="pin right"></span>
-          <img src="dvdcase.png" alt="Deep dive trailer">
-          <span class="mini">Deep dive</span>
-          <b>Second trailer</b>
-        </button>
-
-        <button class="thread-node important" id="node-sample" data-book="sample">
-          <span class="stub"></span><span class="pin left"></span><span class="pin right"></span>
-          <img src="counter-book.png" alt="Sample chapter">
-          <span class="mini">Cold cop this sample</span>
-          <b>Sample chapter</b>
-        </button>
-
-        <button class="thread-node" id="node-analysis" data-video="https://www.youtube.com/embed/ie0lFbVjax8?si=NVDc96W_17iXeIgD">
-          <span class="stub"></span><span class="pin left"></span><span class="pin right"></span>
-          <img src="counter-book.png" alt="Free chapter analysis">
-          <span class="mini">Free chapter analysis</span>
-          <b>Chapter analysis</b>
-        </button>
-
-        <button class="thread-node" id="node-july" data-book="july">
-          <span class="stub"></span><span class="pin left"></span><span class="pin right"></span>
-          <img src="cover-july.png" alt="To Die in July">
-          <span class="mini">Started September 2018</span>
-          <b>To Die in July</b>
-        </button>
-
-        <button class="thread-node" id="node-dopesick" data-book="dopesick">
-          <span class="stub"></span><span class="pin left"></span><span class="pin right"></span>
-          <img src="cover-dopesick.png" alt="Dopesick bonus chapter">
-          <span class="mini">Bonus chapter</span>
-          <b>Dopesick</b>
-        </button>
-
-        <button class="thread-node" id="node-gods" data-book="gods">
-          <span class="stub"></span><span class="pin left"></span><span class="pin right"></span>
-          <img src="cover-gods.png" alt="The Last Hour of the Gods">
-          <span class="mini">January 2020</span>
-          <b>The Last Hour of the Gods</b>
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- ==================== BOOK VIEWER ==================== -->
-  <section class="book-viewer" id="bookViewer">
-    <div class="book-backdrop" id="bookBackdrop"></div>
-    <div class="book-shell">
-
-      <div class="book-header">
-        <div class="book-header-left">
-          <button class="book-btn" id="bookClose">✕ Close</button>
-          <button class="book-btn" id="openBookBtn">Open &amp; Read</button>
-          <a class="book-btn hidden" id="externalLinkBtn" href="#" target="_blank" rel="noopener noreferrer">External link ↗</a>
+      <div class="archive-inner">
+        <div class="archive-title">
+          <h2>Pull a thread</h2>
+          <p>Every entry hangs off the same knot. Tug one.</p>
+          <div class="update-pill">Site updating very, very soon — but you already know we run on drug dealer time around here.</div>
         </div>
-        <div class="book-controls" id="bookControls" style="display:none;">
-          <button class="book-btn" id="prevPageBtn">← Prev</button>
-          <div class="book-status" id="bookStatus">Page 1</div>
-          <button class="book-btn" id="nextPageBtn">Next →</button>
+
+        <div class="board-wrap">
+          <div class="board" id="board">
+            <div class="board-center">
+              <div class="center-badge">
+                <img src="dvdcase.png" alt="Project centerpiece">
+              </div>
+            </div>
+
+            <svg class="thread-svg" id="threadSvg" viewBox="0 0 1200 1000" preserveAspectRatio="none"></svg>
+
+            <div class="cards-layer" id="cardsLayer">
+              <button class="thread-card" id="card-trailer1" data-type="video" data-src="https://www.youtube.com/embed/sV8Xi7_nTPQ?si=-zm64U6yl1cdU7Xi" type="button">
+                <span class="pin left"></span><span class="pin right"></span>
+                <img src="dvdcase.png" alt="Project trailer">
+                <span class="mini">Main trailer</span>
+                <b>Project trailer</b>
+              </button>
+
+              <button class="thread-card" id="card-trailer2" data-type="video" data-src="https://www.youtube.com/embed/PZNJUtX1Tss?si=jK3p3yNLHW-dGs4Q" type="button">
+                <span class="pin left"></span><span class="pin right"></span>
+                <img src="dvdcase.png" alt="Second trailer">
+                <span class="mini">Deep dive</span>
+                <b>Second trailer</b>
+              </button>
+
+              <button class="thread-card" id="card-sample" data-type="book" data-key="sample" type="button">
+                <span class="pin left"></span><span class="pin right"></span>
+                <img src="counter-book.png" alt="Sample chapter">
+                <span class="mini">Cold cop this sample</span>
+                <b>Sample chapter</b>
+              </button>
+
+              <button class="thread-card" id="card-analysis" data-type="video" data-src="https://www.youtube.com/embed/ie0lFbVjax8?si=NVDc96W_17iXeIgD" type="button">
+                <span class="pin left"></span><span class="pin right"></span>
+                <img src="counter-book.png" alt="Sample chapter analysis">
+                <span class="mini">Free chapter analysis</span>
+                <b>Chapter analysis</b>
+              </button>
+
+              <button class="thread-card" id="card-july" data-type="book" data-key="july" type="button">
+                <span class="pin left"></span><span class="pin right"></span>
+                <img src="cover-july.png" alt="To Die in July">
+                <span class="mini">Started September 2018</span>
+                <b>To Die in July</b>
+              </button>
+
+              <button class="thread-card" id="card-dopesick" data-type="book" data-key="dopesick" type="button">
+                <span class="pin left"></span><span class="pin right"></span>
+                <img src="cover-dopesick.png" alt="Dopesick bonus chapter">
+                <span class="mini">Bonus chapter</span>
+                <b>Dopesick</b>
+              </button>
+
+              <button class="thread-card" id="card-gods" data-type="book" data-key="gods" type="button">
+                <span class="pin left"></span><span class="pin right"></span>
+                <img src="cover-gods.png" alt="The Last Hour of the Gods">
+                <span class="mini">January 2020</span>
+                <b>The Last Hour of the Gods</b>
+              </button>
+            </div>
+
+            <div class="evidence-note note-1">Follow the thread</div>
+            <div class="evidence-note note-2">Nothing stands alone</div>
+          </div>
         </div>
       </div>
+    </section>
 
-      <!-- Cover view -->
-      <div class="book-cover-panel" id="bookCoverPanel">
-        <img id="viewerCover" src="cover-july.png" alt="Book cover">
-        <div class="book-cover-actions">
-          <button class="book-btn" id="openBookBtn2">Open &amp; Read</button>
-          <a class="book-btn hidden" id="externalLinkBtn2" href="#" target="_blank" rel="noopener noreferrer">External link ↗</a>
+    <section class="overlay book-overlay" id="bookOverlay" aria-label="Book viewer">
+      <div class="overlay-backdrop" id="bookBackdrop"></div>
+      <div class="book-shell">
+        <div class="book-header">
+          <div class="book-header-left">
+            <button class="book-btn" id="bookClose" type="button">✕ Close</button>
+            <button class="book-btn" id="bookOpenRead" type="button">Open &amp; Read</button>
+          </div>
+          <div class="book-header-right">
+            <a class="book-btn hidden" id="bookExternalTop" href="#" target="_blank" rel="noopener noreferrer">External link ↗</a>
+          </div>
+        </div>
+
+        <div class="book-cover-panel" id="bookCoverPanel">
+          <img id="bookCover" src="cover-july.png" alt="Book cover">
+          <div class="book-cover-actions">
+            <button class="book-btn" id="bookOpenRead2" type="button">Open &amp; Read</button>
+            <a class="book-btn hidden" id="bookExternalBottom" href="#" target="_blank" rel="noopener noreferrer">External link ↗</a>
+          </div>
+        </div>
+
+        <div class="book-read-panel" id="bookReadPanel">
+          <div class="book-scroll" id="bookScroll">
+            <div class="page-kicker" id="pageKicker"></div>
+            <h2 class="page-title" id="pageTitle"></h2>
+            <div class="page-text" id="pageText"></div>
+          </div>
+        </div>
+
+        <div class="book-footer" id="bookFooter">
+          <button class="book-btn" id="prevPage" type="button">← Prev</button>
+          <div class="book-status" id="bookStatus">Page 1 / 1</div>
+          <button class="book-btn" id="nextPage" type="button">Next →</button>
         </div>
       </div>
+    </section>
 
-      <!-- Reading view -->
-      <div class="book-pages-panel" id="bookPagesPanel">
-        <div class="book-page-scroll" id="bookPageScroll">
-          <div class="page-kicker" id="pageKicker"></div>
-          <h2 class="page-title" id="pageTitle"></h2>
-          <div class="page-text" id="pageText"></div>
+    <section class="overlay video-overlay" id="videoOverlay" aria-label="Video viewer">
+      <div class="overlay-backdrop" id="videoBackdrop"></div>
+      <div class="video-shell">
+        <div class="video-top">
+          <button class="book-btn" id="videoClose" type="button">✕ Close</button>
+        </div>
+        <div class="video-frame-wrap">
+          <div class="video-frame">
+            <iframe id="videoFrame" src="" title="Video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
         </div>
       </div>
+    </section>
 
-    </div>
-  </section>
-
-  <!-- ==================== VIDEO VIEWER ==================== -->
-  <section class="video-viewer" id="videoViewer">
-    <div class="video-backdrop" id="videoBackdrop"></div>
-    <div class="video-shell">
-      <button class="video-close" id="videoClose">✕ Close</button>
-      <div class="video-frame-wrap">
-        <div class="video-frame">
-          <iframe id="trailerFrame"
-            src=""
-            title="YouTube video player"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerpolicy="strict-origin-when-cross-origin"
-            allowfullscreen></iframe>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Enter Archive — fixed overlay, renders above all scenes -->
-  <div class="enter-archive-overlay" id="enterArchiveOverlay">
-    <button id="enterThreadsBtnMobile">↳ Enter Archive</button>
+    <div class="hint pill" id="hint">Tap the ticket to begin</div>
+    <div class="grain"></div>
+    <div class="vignette"></div>
   </div>
 
-  <div class="hint pill" id="hint">Click the ticket to begin</div>
-  <div class="grain"></div>
-  <div class="vignette"></div>
-</div>
-
-<script>
-  /* ======================================================
-     DATA
-  ====================================================== */
-  function splitIntoPages(text, charsPerPage) {
-    const cleaned = text.replace(/\r/g, "").trim();
-    const chunks = [];
-    let remaining = cleaned;
-    while (remaining.length > charsPerPage) {
-      let slice = remaining.slice(0, charsPerPage);
-      let breakAt = Math.max(
-        slice.lastIndexOf("\n\n"),
-        slice.lastIndexOf(". "),
-        slice.lastIndexOf("? "),
-        slice.lastIndexOf("! ")
-      );
-      if (breakAt < charsPerPage * 0.55) breakAt = charsPerPage;
-      chunks.push(remaining.slice(0, breakAt).trim());
-      remaining = remaining.slice(breakAt).trim();
-    }
-    if (remaining.length) chunks.push(remaining);
-    return chunks;
-  }
-
-  const CHARS_DESKTOP = 1800;
-  const CHARS_MOBILE  = 1000;
-
-  const booksRaw = {
-    sample: {
-      title: "Dopesick 2 — Sample Chapter",
-      kicker: "Uploaded chapter sample",
-      cover: "counter-book.png",
-      url: "",
-      raw: `dOPESICK 2
+  <script>
+    const BOOK_SOURCE = {
+      sample: {
+        title: 'Dopesick 2 — Sample Chapter',
+        kicker: 'Uploaded chapter sample',
+        cover: 'counter-book.png',
+        url: '',
+        raw: `dOPESICK 2
                  The new socioeconomic reality of  tranq, fetty, the cocaine comeback , and a   4-year bender
 
 DISACLAIMER/WARNING
@@ -1343,13 +1270,13 @@ My breath is held right now as I tell myself to finish typing this sentence and 
 
 				Chapter 3:
 			Transition from numb to scum to gold alBUM`
-    },
-    july: {
-      title: "To Die in July",
-      kicker: "Started September 2018",
-      cover: "cover-july.png",
-      url: "",
-      raw: `To Die in July
+      },
+      july: {
+        title: 'To Die in July',
+        kicker: 'Started September 2018',
+        cover: 'cover-july.png',
+        url: '',
+        raw: `To Die in July
 					Chapter 1
 
 He thought he would feel a lot different than he actually did. "This world should seem different after you make peace with leaving it." James thought to himself as he reached for his crumbled pack of cigarettes. Fingering around for one of his last remaining smokes as he sat on the sidewalk outside of the convenience store he frequented.
@@ -1371,13 +1298,13 @@ He thought he would feel a lot different than he actually did. "This world shoul
 "You have nice day, stay dry. Rain be on the way the paper says." Fareed said while bagging James's things and sliding an extra cigarette in while James glanced over at the newspapers.
 	Walking back out into the brightness was jarring and James imagined that if he were rich he would probably put on an expensive pair of sunglasses right now. He would probably be walking to his high-end car to fill it up with gas.  He would probably be on his way home from work to eat supper with his family. His wife would probably kiss him and ask him about his day. His daughter would probably come in for her hug and look forward to playing with daddy after dessert. He would probably watch the news and look forward to the weekend when he could play golf with a bunch of his friends who he had known since high school.
 	That world did not exist for him though and no matter how bad he wished it did he knew it never would. It simply was not attainable in any stretch of the imagination. When you have been down so long you become less and less likely to be able to get back up. He began the nearly half an hour walk to the intersection where he has the most luck panhandling at. If his luck holds out and he has a decent day he should make enough money to unwind at his favorite bar at night. For now, though all he has is this walk and his mind to continue to pummel him with nagging thoughts of what could have been. Could have been dead last night. Could have had a life worth living. Could have a reason to live. Could have……….could have.`
-    },
-    dopesick: {
-      title: "Dopesick Bonus Chapter",
-      kicker: "2018 extra chapter",
-      cover: "cover-dopesick.png",
-      url: "https://www.amazon.com/Dopesick-American-Addiction-Heroin-Profit/dp/1984338323/ref=sr_1_1?sr=8-1",
-      raw: `A tale of two cities
+      },
+      dopesick: {
+        title: 'Dopesick Bonus Chapter',
+        kicker: '2018 extra chapter',
+        cover: 'cover-dopesick.png',
+        url: 'https://www.amazon.com/Dopesick-American-Addiction-Heroin-Profit/dp/1984338323/ref=sr_1_1?sr=8-1',
+        raw: `A tale of two cities
 	As Charles Dickens wrote in A Tale of Two Cities, "It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness" They say you write about what you know and one thing I know is about finding every possible resource available in a given area and using it to jam narcotics through my veins.  Since a very young child I have always been critically observant of the world around me. I don't profess to have many gifts but the talent to pick up on things, to notice, to critique has always been one of them. This gift ironically applies to everything outside of myself. I am able with startling accuracy to tell you about a place, a situation, even about yourself but am unable to turn that focus inward to constructively criticize myself. Many of you can relate at a certain level but my inability to do so was near fatal. Nevertheless, through my travels and experiences one thing has always stuck out at me.  A realization that was always in the back of my mind when thinking and analyzing my experiences in the center of the opioid epidemic over the years. It was the striking similarities in two completely different environments in which I "existed." They say drugs do not discriminate and this is true but power systems, class systems, and justice systems definitely do. The differences in the towns were clear as a glass of Caribbean islands ocean water. They exist in different states but it might as well be different countries in many ways. Two different communities under the siege of an opiate epidemic that has extended itself to all classes, races, and institutions of American society. They are so different yet when it comes to the scourge of drugs they might as well be identical twins. I will outline how the slow steady march to self-destruction that drugs bring doesn't just apply to individuals but to communities as a whole using the two different towns that I did the most of my dirt in as an example. Belle Vernon, Pennsylvania and Warren, Ohio.
 	I will start with the sooner of the two. Belle Vernon is a quiet middle-class town in southwestern PA. More specifically Rostraver township which has an area of 32.9 square miles and a population of 11,634 as of the 2000 census. The racial demographic is that of 96.90 percent white with the next closest race being a 1.94 percent African American. The population density of Rostraver township, Belle Vernon PA is 361.5 people per square mile. 6.6 percent of its citizens live below the poverty line which comfortably beats the national average of 14.5 percent as of last year. A beautiful place, about 40 minutes south of its big, big brother Pittsburgh, it was hit hard when the steel mills left the area in the later 1970's but rebounded strong much like Pittsburgh itself. It was a great place to grow up with very minimal crime and an all-around example of a community you would want to raise your children in. One could venture to say a prime example of an American middle-class town. Flanked on 2 sides with California University of PA (where I went to school) and Westmorland County Community College and fairly decent public and private schools in the area education for the youth is something to admire. Hockey, football, and baseball all enjoy tremendous community support. Hockey is where in my youth all of my free time went and I could not have asked for a better more productive and characteristically healthy childhood.  Beautiful parks such as Cedar Creek park which is not just a nice looking public space but also regularly used to host a variety of youth sports every weekend.  The houses are for the most part occupied and well taken care of. Small and large business profitably inhabits Belle Vernon and its surrounding areas. You can drive through the countryside in Rostraver and it is peaceful with an almost comforting aura that encompasses you as the windows are rolled down and in classic Belle Vernon youth fashion Taking Back Sunday plays from the car stereo as you sing along.
 	Warren is a lower class American town. A city of 16.16 miles and a population of 46,832 as of the 2000 census. A city with a relatively high population density of 2,576 people per square mile. The 2000 US census lists the racial makeup of this city as 60.94 percent white with the next closest being a 36.20 percent African American population. It has two noteworthy economic parents. 50 minutes south of Cleveland and 20 minutes northwest of Youngstown it has never recovered from the decimation brought about with the collapse of the steel industry accounting in some part to the 19.4% of citizens living below the poverty line, well above the national average. Neighborhoodscout.com ranks cities and towns in a variety of areas using government and private statistics and ranks warren in safety on a 0-100 scale at an astonishing 7! It is statistically safer than a measly 7% of US cities. In a violent crime comparison between the state of Ohio as a whole and Warren, Warren is at 5.57 per 1000 residents while the average of the state of Ohio is just a 2.92 out of 1000 well below the national average of 3.8. Your mathematical chances of being a victim of a violent crime in Warren is a chilling 1 in 180. You could chalk it up to the bias of being from Pittsburgh but it is apparent cities like Cleveland and Youngstown have a much harder time supporting thriving and profitable surrounding towns.
@@ -1391,13 +1318,13 @@ Yet in Warren it is a different method but the same result. Easy access to all t
 No experience has more greatly laid out the failure of the drug war in black and white than when my one drug dealer got locked up for minor possession and within 2 days I got calls from three of his friends and one of them knew where I lived and even showed up one day with a "tester" or free bag of dope. The supply is never an issue no matter the size of the bust no matter the extent of a drug raid they are never more than a minor glitch in the supply. Partly to US foreign and domestic policy drugs come in at an increasing rate, at a cheaper price and the only action taken that has clearly never worked is systematically targeting poor citizens for processing or possessing the drugs.
 
 All for today end transmission. Many grammatical errors review review review review`
-    },
-    gods: {
-      title: "The Last Hour of the Gods",
-      kicker: "January 2020",
-      cover: "cover-gods.png",
-      url: "",
-      raw: `The sun crept through the curtains in small thin rays, illuminating the dust in the air as the particles danced in the scattered beams of light. The warm strands of light landed on the young but sunken and sickly face of Chris as he slept on his mattress on the floor. He fought the unpleasant rays by groggily turning to the opposite side in a last desperate attempt to salvage this last fleeting moment of rest. He did not last long because in tandem with the intrusive sunlight Melanie was awake and walking through the house. Her heavy footed steps on the old splintered pine floor was the final nail in the coffin of a full nights rest. Chris, admitting defeat, rolled back over and reached for the baggie of pre rolled cigarettes beside his mattress. After rustling around in the foggy, worn plastic bag for the lighter he emerged with a poorly rolled cigarette and a cheap gas station lighter that was down to its last few breaths of flame. The tobacco was so badly packed that he had to hold the cigarette vertical so as not to lose any more strands of tobacco than was already inevitable. The gently rolling flame came across the back of the cigarette and lit more paper than tobacco on the first pass but the return trip of the lighter did the trick.  Chris inhaled deeply and slowly as he advanced to a sitting position on the old heavily stained mattress that had well outlived its normal lifespan. The soft orange glow pulsed in time with his strained attempt at inhaling the relief that nicotine would bring. Four devastating and uncertain months were spent sleeping on the lumpy aged sleeping mat as the Corona virus swept through the country. The destruction was especially prevalent where they lived in northern West Virginia. After initially fairing decently well against the virus eventually the small town, where Chris had lived his whole life, was caught in the crosshairs and eviscerated.
+      },
+      gods: {
+        title: 'The Last Hour of the Gods',
+        kicker: 'January 2020',
+        cover: 'cover-gods.png',
+        url: '',
+        raw: `The sun crept through the curtains in small thin rays, illuminating the dust in the air as the particles danced in the scattered beams of light. The warm strands of light landed on the young but sunken and sickly face of Chris as he slept on his mattress on the floor. He fought the unpleasant rays by groggily turning to the opposite side in a last desperate attempt to salvage this last fleeting moment of rest. He did not last long because in tandem with the intrusive sunlight Melanie was awake and walking through the house. Her heavy footed steps on the old splintered pine floor was the final nail in the coffin of a full nights rest. Chris, admitting defeat, rolled back over and reached for the baggie of pre rolled cigarettes beside his mattress. After rustling around in the foggy, worn plastic bag for the lighter he emerged with a poorly rolled cigarette and a cheap gas station lighter that was down to its last few breaths of flame. The tobacco was so badly packed that he had to hold the cigarette vertical so as not to lose any more strands of tobacco than was already inevitable. The gently rolling flame came across the back of the cigarette and lit more paper than tobacco on the first pass but the return trip of the lighter did the trick.  Chris inhaled deeply and slowly as he advanced to a sitting position on the old heavily stained mattress that had well outlived its normal lifespan. The soft orange glow pulsed in time with his strained attempt at inhaling the relief that nicotine would bring. Four devastating and uncertain months were spent sleeping on the lumpy aged sleeping mat as the Corona virus swept through the country. The destruction was especially prevalent where they lived in northern West Virginia. After initially fairing decently well against the virus eventually the small town, where Chris had lived his whole life, was caught in the crosshairs and eviscerated.
 	He inhaled a long drag and thought about a quote he had heard somewhere in the midst of everything and it fit so well. The words were ordered in succession in such a way that had encompassed totally the depth and enormous change that had swept the entire globe. The virus had ignited the planet and left behind a totally changed world. Issues that simmered in separate societal pots across all aspects of human life were slowly heating up in the latter part of the decade. The virus had burst into everyones lives suddenly at the start of the new decade and took all of those singular pots and combined them into one large pressure cooker. The slow steady simmer turned to a boil rather quickly. Life as people had known it was upended almost over night for a lot of the globe. Then the boil turned into a nuclear reaction and all at once it melted down. The societal explosion was fast and total and it blasted outward at incredible force rearranging everything. It all went in directions that could not be predicted, beyond the control of any person or any government. Chris mumbled the quote softly to himself as if to try and feel the impact of its every word. Lightly he breathed the words, "There are decades where nothing happens, and there are weeks where decades happen." He did not know where he had heard it but he did remember the moment when the quote came rushing back into his conscious mind. A week ago when he looked into his computer screen, transfixed on the events taking place before the worlds eyes, those beautifully prophetic words summed up marvelously all that was taking place.
 	The ash on the end of the cigarette hung on somehow and would not survive intact for another hit. Chris, lost in thought, lifted the dwindling smoke to his lips and the ash gave way, floating softly and settling into his lap with an almost graceful landing. The simplest of things now carried the greatest of meanings. An odd satisfaction boiled within Chris as he looked down and smiled. Taking the ash between his thumb and pointer finger and rolling it back and forth with the most delicate pressure until finally it buckled and the ash disappeared to nothing but a gray smudge.
 	A man of 28 the virus was not supposed to have hit him as hard as it did. The elderly and immuno-compromised is who needed to watch, not a healthy 28 year old man. That wasn't the case though. At 6'2" he had broad stocky shoulders and powerful arms. He was a house of a man until two weeks of the sickness drained him like a parasite, sucking not just his energy but the life force itself with every weakened pulse of his heart. His weight had dropped from a muscular 200 pounds and had withered from fourteen days of not eating to a depressing 164. The color of his skin had changed. The golden tan skin of someone who spent hours a day at work in the sun gave way to a pale grayish tinge that upset him dearly to recognize.
@@ -1407,375 +1334,354 @@ All for today end transmission. Many grammatical errors review review review rev
 "They sent them stimulus checks, then the hospitals had to be nationalized. The government trying to make everyone go back to work to restart the economy in the midst of a runaway viral spread had to be one of the most unfathomably stupid decisions in modern history. One thing after another had to change and I think everyone realized that when the dust settled we were not just going to go back to how it was before." Chris added snapping out of his trance with a strong sense of self satisfaction at the most complete compilation of thoughts he could muster in quite a few days.
 "Yes but how could the entire apparatus of the state capitulate that quickly and without a fight?" Melanie asked, relieved she could finally have a real conversation with her friend.
 "Without a fight? What do you call what happened in Kansas City or Philly?"`
+      }
+    };
+
+    const ui = {
+      bgVideo: document.getElementById('bgVideo'),
+      archiveVideo: document.getElementById('archiveVideo'),
+      podcastAudio: document.getElementById('podcastAudio'),
+      audioToggle: document.getElementById('audioToggle'),
+      resetBtn: document.getElementById('resetBtn'),
+      hint: document.getElementById('hint'),
+      openingScene: document.getElementById('openingScene'),
+      atmScene: document.getElementById('atmScene'),
+      archiveScene: document.getElementById('archiveScene'),
+      groundTicket: document.getElementById('groundTicket'),
+      ticketCta: document.getElementById('ticketCta'),
+      atmTicket: document.getElementById('atmTicket'),
+      dvdWrap: document.getElementById('dvdWrap'),
+      dvdCase: document.getElementById('dvdCase'),
+      dvdCta: document.getElementById('dvdCta'),
+      enterArchiveBtn: document.getElementById('enterArchiveBtn'),
+      threadSvg: document.getElementById('threadSvg'),
+      cardsLayer: document.getElementById('cardsLayer'),
+      threadCards: Array.from(document.querySelectorAll('.thread-card')),
+      bookOverlay: document.getElementById('bookOverlay'),
+      bookBackdrop: document.getElementById('bookBackdrop'),
+      bookClose: document.getElementById('bookClose'),
+      bookOpenRead: document.getElementById('bookOpenRead'),
+      bookOpenRead2: document.getElementById('bookOpenRead2'),
+      bookExternalTop: document.getElementById('bookExternalTop'),
+      bookExternalBottom: document.getElementById('bookExternalBottom'),
+      bookCover: document.getElementById('bookCover'),
+      pageKicker: document.getElementById('pageKicker'),
+      pageTitle: document.getElementById('pageTitle'),
+      pageText: document.getElementById('pageText'),
+      prevPage: document.getElementById('prevPage'),
+      nextPage: document.getElementById('nextPage'),
+      bookStatus: document.getElementById('bookStatus'),
+      bookScroll: document.getElementById('bookScroll'),
+      videoOverlay: document.getElementById('videoOverlay'),
+      videoBackdrop: document.getElementById('videoBackdrop'),
+      videoClose: document.getElementById('videoClose'),
+      videoFrame: document.getElementById('videoFrame')
+    };
+
+    const state = {
+      scene: 'opening',
+      audioOn: false,
+      bookKey: null,
+      pages: [],
+      pageIndex: 0,
+      reading: false
+    };
+
+    function isMobile() {
+      return window.innerWidth <= 820;
     }
-  };
 
-  // Build pages with correct char count per device
-  const isMobileDevice = () => window.innerWidth <= 820;
-  function buildPages(key) {
-    const chars = isMobileDevice() ? CHARS_MOBILE : CHARS_DESKTOP;
-    return splitIntoPages(booksRaw[key].raw, chars);
-  }
+    function setHint(text) {
+      ui.hint.textContent = text;
+    }
 
-  /* ======================================================
-     DOM REFS
-  ====================================================== */
-  const bgVideo          = document.getElementById('bgVideo');
-  const threadsVideo     = document.getElementById('threadsVideo');
-  const podcastAudio     = document.getElementById('podcastAudio');
-  const audioToggle      = document.getElementById('audioToggle');
-  const pickupCta        = document.getElementById('pickupCta');
-  const dvdCtaOverlay    = document.getElementById('dvdCtaOverlay');
-  const enterArchiveOverlay = document.getElementById('enterArchiveOverlay');
+    function setAudioButton() {
+      ui.audioToggle.textContent = state.audioOn ? 'Podcast: On' : 'Podcast: Off';
+    }
 
-  const pickupScene      = document.getElementById('pickupScene');
-  const atmScene         = document.getElementById('atmScene');
-  const cloudScene       = document.getElementById('cloudScene');
-  const groundTicket     = document.getElementById('groundTicket');
-  const dvdCase          = document.getElementById('dvdCase');
-  const enterThreadsBtn  = document.getElementById('enterThreadsBtn');
-  const enterThreadsBtnMobile = document.getElementById('enterThreadsBtnMobile');
-  const resetBtn         = document.getElementById('resetBtn');
-  const hint             = document.getElementById('hint');
-
-  const videoViewer      = document.getElementById('videoViewer');
-  const videoBackdrop    = document.getElementById('videoBackdrop');
-  const videoClose       = document.getElementById('videoClose');
-  const trailerFrame     = document.getElementById('trailerFrame');
-
-  const bookViewer       = document.getElementById('bookViewer');
-  const bookBackdrop     = document.getElementById('bookBackdrop');
-  const bookClose        = document.getElementById('bookClose');
-  const openBookBtn      = document.getElementById('openBookBtn');
-  const openBookBtn2     = document.getElementById('openBookBtn2');
-  const externalLinkBtn  = document.getElementById('externalLinkBtn');
-  const externalLinkBtn2 = document.getElementById('externalLinkBtn2');
-  const prevPageBtn      = document.getElementById('prevPageBtn');
-  const nextPageBtn      = document.getElementById('nextPageBtn');
-  const viewerCover      = document.getElementById('viewerCover');
-  const pageKicker       = document.getElementById('pageKicker');
-  const pageTitle        = document.getElementById('pageTitle');
-  const pageText         = document.getElementById('pageText');
-  const bookStatus       = document.getElementById('bookStatus');
-  const bookControls     = document.getElementById('bookControls');
-  const bookPageScroll   = document.getElementById('bookPageScroll');
-
-  const threadBoard      = document.getElementById('threadBoard');
-  const threadKnot       = document.getElementById('threadKnot');
-  const yarnLayer        = document.getElementById('yarnLayer');
-  const threadNodes      = Array.from(document.querySelectorAll('.thread-node'));
-
-  let state       = 0;
-  let currentKey  = null;
-  let pages       = [];
-  let pageIndex   = 0;
-  let audioOn     = false;
-
-  /* ======================================================
-     AUDIO
-  ====================================================== */
-  function setAudioButton() {
-    audioToggle.textContent = audioOn ? 'Podcast: On' : 'Podcast: Off';
-  }
-  async function tryStartAudio() {
-    try {
-      podcastAudio.volume = 0.85;
-      await podcastAudio.play();
-      audioOn = true;
-    } catch(e) { audioOn = false; }
-    setAudioButton();
-  }
-  function toggleAudio() {
-    if (audioOn) {
-      podcastAudio.pause();
-      audioOn = false;
+    async function tryStartAudio() {
+      try {
+        ui.podcastAudio.volume = 0.85;
+        await ui.podcastAudio.play();
+        state.audioOn = true;
+      } catch (e) {
+        state.audioOn = false;
+      }
       setAudioButton();
-    } else {
-      podcastAudio.play().then(() => { audioOn = true; setAudioButton(); }).catch(() => { audioOn = false; setAudioButton(); });
-    }
-  }
-
-  /* ======================================================
-     FLOW
-  ====================================================== */
-  function resetAll() {
-    state = 0;
-    pickupScene.classList.add('show');
-    pickupScene.classList.remove('animate-out');
-    atmScene.classList.remove('show', 'animate-insert', 'finish-insert', 'reveal-dvd');
-    cloudScene.classList.remove('show');
-    dvdCase.classList.remove('open');
-    pickupCta.classList.remove('hidden');
-    dvdCtaOverlay.classList.add('hidden');
-    enterArchiveOverlay.classList.remove('visible');
-    closeBook();
-    closeVideo();
-    hint.textContent = 'Tap the ticket to begin';
-    try { bgVideo.play(); } catch(e) {}
-    try { threadsVideo.play(); } catch(e) {}
-    drawYarn();
-  }
-
-  function beginSequence() {
-    if (state !== 0) return;
-    state = 1;
-    pickupCta.classList.add('hidden');
-    pickupScene.classList.add('animate-out');
-    hint.textContent = 'Picking up the ticket…';
-
-    setTimeout(() => {
-      pickupScene.classList.remove('show');
-      atmScene.classList.add('show');
-      hint.textContent = 'Inserting the ticket…';
-    }, 1100);
-
-    setTimeout(() => atmScene.classList.add('animate-insert'), 1800);
-    setTimeout(() => atmScene.classList.add('finish-insert'), 3400);
-    setTimeout(() => {
-      atmScene.classList.add('reveal-dvd');
-      dvdCtaOverlay.classList.remove('hidden');
-      hint.textContent = 'Tap the DVD case to open it';
-    }, 4850);
-  }
-
-  function openCase() {
-    if (state < 1 || dvdCase.classList.contains('open')) return;
-    state = 2;
-    dvdCtaOverlay.classList.add('hidden');
-    dvdCase.classList.add('open');
-    hint.textContent = 'Enter the archive';
-    // Show immediately — no delay, no stacking context issues
-    enterArchiveOverlay.classList.add('visible');
-  }
-
-  function showThreads() {
-    atmScene.classList.remove('show');
-    cloudScene.classList.add('show');
-    enterArchiveOverlay.classList.remove('visible');
-    hint.textContent = 'Pull a thread';
-    setTimeout(drawYarn, 80);
-  }
-
-  /* ======================================================
-     BOOK READER
-  ====================================================== */
-  function openThread(key) {
-    currentKey = key;
-    const book = booksRaw[key];
-    pages = buildPages(key);
-    pageIndex = 0;
-
-    viewerCover.src = book.cover;
-    viewerCover.alt = book.title;
-
-    if (book.url) {
-      externalLinkBtn.classList.remove('hidden');
-      externalLinkBtn.href = book.url;
-      externalLinkBtn2.classList.remove('hidden');
-      externalLinkBtn2.href = book.url;
-    } else {
-      externalLinkBtn.classList.add('hidden');
-      externalLinkBtn.href = '#';
-      externalLinkBtn2.classList.add('hidden');
-      externalLinkBtn2.href = '#';
     }
 
-    bookViewer.classList.add('show');
-    bookViewer.classList.remove('reading');
-    bookControls.style.display = 'none';
-
-    // On mobile, skip cover and go straight to reading
-    if (isMobileDevice()) {
-      startReading();
+    function toggleAudio() {
+      if (state.audioOn) {
+        ui.podcastAudio.pause();
+        state.audioOn = false;
+        setAudioButton();
+      } else {
+        ui.podcastAudio.play().then(() => {
+          state.audioOn = true;
+          setAudioButton();
+        }).catch(() => {
+          state.audioOn = false;
+          setAudioButton();
+        });
+      }
     }
-  }
 
-  function startReading() {
-    if (!currentKey) return;
-    // Rebuild pages in case orientation changed
-    pages = buildPages(currentKey);
-    pageIndex = 0;
-    bookViewer.classList.add('reading');
-    bookControls.style.display = 'flex';
-    renderPage();
-  }
+    function showScene(which) {
+      ui.openingScene.classList.toggle('show', which === 'opening');
+      ui.atmScene.classList.toggle('show', which === 'atm');
+      ui.archiveScene.classList.toggle('show', which === 'archive');
+      state.scene = which;
+    }
 
-  function renderPage() {
-    const book = booksRaw[currentKey];
-    pageKicker.textContent = book.kicker;
-    pageTitle.textContent  = book.title;
-    pageText.textContent   = pages[pageIndex] || '';
-    bookStatus.textContent = `Page ${pageIndex + 1} / ${pages.length}`;
-    prevPageBtn.disabled   = (pageIndex === 0);
-    nextPageBtn.disabled   = (pageIndex + 1 >= pages.length);
-    // Scroll reading area back to top on new page
-    bookPageScroll.scrollTop = 0;
-  }
+    function resetFlow() {
+      ui.openingScene.classList.remove('animate-out');
+      ui.atmScene.classList.remove('animate-insert', 'finish-insert', 'reveal-dvd');
+      ui.dvdCase.classList.remove('open');
+      ui.ticketCta.classList.remove('hidden');
+      ui.dvdCta.classList.add('hidden');
+      ui.enterArchiveBtn.classList.remove('show');
+      closeBook();
+      closeVideo();
+      showScene('opening');
+      setHint('Tap the ticket to begin');
+      drawThreads();
+    }
 
-  function nextPage() {
-    if (!currentKey || pageIndex + 1 >= pages.length) return;
-    pageIndex++;
-    renderPage();
-  }
-  function prevPage() {
-    if (!currentKey || pageIndex === 0) return;
-    pageIndex--;
-    renderPage();
-  }
+    function beginSequence() {
+      if (state.scene !== 'opening') return;
+      ui.ticketCta.classList.add('hidden');
+      ui.openingScene.classList.add('animate-out');
+      setHint('Picking up the ticket…');
 
-  function closeBook() {
-    bookViewer.classList.remove('show', 'reading');
-    bookControls.style.display = 'none';
-    currentKey = null;
-    pages = [];
-    pageIndex = 0;
-    externalLinkBtn.classList.add('hidden');
-    externalLinkBtn2.classList.add('hidden');
-  }
+      setTimeout(() => {
+        showScene('atm');
+        setHint('Inserting the ticket…');
+      }, 900);
 
-  /* ======================================================
-     VIDEO
-  ====================================================== */
-  function openVideo(url) {
-    trailerFrame.src = url;
-    videoViewer.classList.add('show');
-  }
-  function closeVideo() {
-    videoViewer.classList.remove('show');
-    trailerFrame.src = '';
-  }
+      setTimeout(() => ui.atmScene.classList.add('animate-insert'), 1450);
+      setTimeout(() => ui.atmScene.classList.add('finish-insert'), 2900);
+      setTimeout(() => {
+        ui.atmScene.classList.add('reveal-dvd');
+        ui.dvdCta.classList.remove('hidden');
+        setHint('Tap the DVD case');
+      }, 4100);
+    }
 
-  /* ======================================================
-     YARN / THREAD BOARD
-  ====================================================== */
-  function drawYarn() {
-    if (!threadKnot || !yarnLayer) return;
-    const boardRect = threadBoard.getBoundingClientRect();
-    const knotRect  = threadKnot.getBoundingClientRect();
-    if (!boardRect.width) return;
-    const x1 = knotRect.left - boardRect.left + knotRect.width / 2;
-    const y1 = knotRect.top  - boardRect.top  + knotRect.height / 2;
+    function openCase() {
+      if (state.scene !== 'atm') return;
+      if (ui.dvdCase.classList.contains('open')) return;
+      ui.dvdCase.classList.add('open');
+      ui.dvdCta.classList.add('hidden');
+      ui.enterArchiveBtn.classList.add('show');
+      setHint('Enter the archive');
+    }
 
-    yarnLayer.setAttribute('viewBox', `0 0 ${boardRect.width} ${boardRect.height}`);
-    yarnLayer.innerHTML = '';
+    function enterArchive() {
+      showScene('archive');
+      ui.enterArchiveBtn.classList.remove('show');
+      setHint('Pull a thread');
+      setTimeout(drawThreads, 80);
+    }
 
-    threadNodes.forEach(node => {
-      const r = node.getBoundingClientRect();
-      if (!r.width) return;
-      const x2 = r.left - boardRect.left + r.width / 2;
-      const y2 = r.top  - boardRect.top  + 8;
-      const midY = y1 + (y2 - y1) * 0.5;
-      const curve = Math.abs(x2 - x1) * 0.14 + 30;
-      const path = `M ${x1} ${y1} C ${x1} ${midY}, ${x2} ${midY - curve}, ${x2} ${y2}`;
+    function splitIntoPages(text, charsPerPage) {
+      const cleaned = text.replace(/\r/g, '').trim();
+      const chunks = [];
+      let remaining = cleaned;
+      while (remaining.length > charsPerPage) {
+        const slice = remaining.slice(0, charsPerPage);
+        let breakAt = Math.max(
+          slice.lastIndexOf('\n\n'),
+          slice.lastIndexOf('. '),
+          slice.lastIndexOf('? '),
+          slice.lastIndexOf('! ')
+        );
+        if (breakAt < charsPerPage * 0.55) breakAt = charsPerPage;
+        chunks.push(remaining.slice(0, breakAt).trim());
+        remaining = remaining.slice(breakAt).trim();
+      }
+      if (remaining.length) chunks.push(remaining);
+      return chunks;
+    }
 
-      const shadow = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-      shadow.setAttribute('class', 'yarn-shadow');
-      shadow.setAttribute('d', path);
-      const yarn = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-      yarn.setAttribute('class', 'yarn');
-      yarn.setAttribute('d', path);
-      yarnLayer.appendChild(shadow);
-      yarnLayer.appendChild(yarn);
-    });
-  }
+    function pageSize() {
+      return isMobile() ? 4200 : 7200;
+    }
 
-  /* ======================================================
-     DRAGGABLE THREADS (desktop) / CLICK (mobile)
-  ====================================================== */
-  function wireDraggableThread(node) {
-    if (isMobileDevice()) {
-      node.addEventListener('click', () => {
-        if (node.dataset.video) openVideo(node.dataset.video);
-        if (node.dataset.book)  openThread(node.dataset.book);
+    function openBook(key) {
+      const book = BOOK_SOURCE[key];
+      if (!book) return;
+      state.bookKey = key;
+      state.pages = splitIntoPages(book.raw, pageSize());
+      state.pageIndex = 0;
+      state.reading = false;
+
+      ui.bookCover.src = book.cover;
+      ui.bookCover.alt = book.title;
+
+      if (book.url) {
+        ui.bookExternalTop.classList.remove('hidden');
+        ui.bookExternalBottom.classList.remove('hidden');
+        ui.bookExternalTop.href = book.url;
+        ui.bookExternalBottom.href = book.url;
+      } else {
+        ui.bookExternalTop.classList.add('hidden');
+        ui.bookExternalBottom.classList.add('hidden');
+        ui.bookExternalTop.href = '#';
+        ui.bookExternalBottom.href = '#';
+      }
+
+      ui.bookOverlay.classList.add('show');
+      ui.bookOverlay.classList.remove('reading');
+
+      if (isMobile()) {
+        startReading();
+      }
+    }
+
+    function startReading() {
+      if (!state.bookKey) return;
+      const book = BOOK_SOURCE[state.bookKey];
+      state.pages = splitIntoPages(book.raw, pageSize());
+      state.pageIndex = 0;
+      state.reading = true;
+      ui.bookOverlay.classList.add('reading');
+      renderPage();
+    }
+
+    function renderPage() {
+      if (!state.bookKey) return;
+      const book = BOOK_SOURCE[state.bookKey];
+      ui.pageKicker.textContent = book.kicker;
+      ui.pageTitle.textContent = book.title;
+      ui.pageText.textContent = state.pages[state.pageIndex] || '';
+      ui.bookStatus.textContent = `Page ${state.pageIndex + 1} / ${state.pages.length}`;
+      ui.prevPage.disabled = state.pageIndex === 0;
+      ui.nextPage.disabled = state.pageIndex >= state.pages.length - 1;
+      ui.bookScroll.scrollTop = 0;
+    }
+
+    function nextPage() {
+      if (state.pageIndex >= state.pages.length - 1) return;
+      state.pageIndex += 1;
+      renderPage();
+    }
+
+    function prevPage() {
+      if (state.pageIndex <= 0) return;
+      state.pageIndex -= 1;
+      renderPage();
+    }
+
+    function closeBook() {
+      ui.bookOverlay.classList.remove('show', 'reading');
+      state.bookKey = null;
+      state.pages = [];
+      state.pageIndex = 0;
+      state.reading = false;
+    }
+
+    function openVideo(src) {
+      ui.videoFrame.src = src;
+      ui.videoOverlay.classList.add('show');
+    }
+
+    function closeVideo() {
+      ui.videoOverlay.classList.remove('show');
+      ui.videoFrame.src = '';
+    }
+
+    function drawThreads() {
+      if (isMobile()) {
+        ui.threadSvg.innerHTML = '';
+        return;
+      }
+
+      const board = document.getElementById('board');
+      const boardRect = board.getBoundingClientRect();
+      if (!boardRect.width) return;
+      const centerX = boardRect.width / 2;
+      const centerY = boardRect.height / 2;
+
+      ui.threadSvg.setAttribute('viewBox', `0 0 ${boardRect.width} ${boardRect.height}`);
+      ui.threadSvg.innerHTML = '';
+
+      ui.threadCards.forEach(card => {
+        const r = card.getBoundingClientRect();
+        const x2 = r.left - boardRect.left + r.width / 2;
+        const y2 = r.top - boardRect.top + 10;
+        const midY = centerY + (y2 - centerY) * 0.48;
+        const curve = Math.abs(x2 - centerX) * 0.14 + 28;
+        const path = `M ${centerX} ${centerY} C ${centerX} ${midY}, ${x2} ${midY - curve}, ${x2} ${y2}`;
+
+        const shadow = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        shadow.setAttribute('class', 'thread-shadow');
+        shadow.setAttribute('d', path);
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        line.setAttribute('class', 'thread-line');
+        line.setAttribute('d', path);
+        ui.threadSvg.appendChild(shadow);
+        ui.threadSvg.appendChild(line);
       });
-      return;
     }
 
-    let startX = 0, startY = 0, moved = false, pointerId = null;
+    function handleThreadClick(e) {
+      const button = e.currentTarget;
+      const type = button.dataset.type;
+      if (type === 'video') {
+        openVideo(button.dataset.src);
+      } else if (type === 'book') {
+        openBook(button.dataset.key);
+      }
+    }
 
-    node.addEventListener('pointerdown', (e) => {
-      pointerId = e.pointerId;
-      startX = e.clientX;
-      startY = e.clientY;
-      moved = false;
-      node.classList.add('dragging');
-      node.setPointerCapture(pointerId);
+    ui.audioToggle.addEventListener('click', toggleAudio);
+    ui.resetBtn.addEventListener('click', resetFlow);
+    ui.groundTicket.addEventListener('click', () => {
+      beginSequence();
+      if (!state.audioOn) tryStartAudio();
     });
-    node.addEventListener('pointermove', (e) => {
-      if (pointerId === null || e.pointerId !== pointerId) return;
-      const dx = Math.max(-22, Math.min(22, e.clientX - startX));
-      const dy = Math.max(-10, Math.min(34, e.clientY - startY));
-      if (Math.abs(dx) > 4 || Math.abs(dy) > 4) moved = true;
-      node.style.transform = `translate(${dx}px, ${dy}px)`;
-      drawYarn();
-    });
-    node.addEventListener('pointerup', (e) => {
-      if (pointerId === null || e.pointerId !== pointerId) return;
-      node.releasePointerCapture(pointerId);
-      pointerId = null;
-      node.classList.remove('dragging');
-      node.style.transform = '';
-      drawYarn();
-      if (!moved) {
-        if (node.dataset.video) openVideo(node.dataset.video);
-        if (node.dataset.book)  openThread(node.dataset.book);
+    ui.dvdCase.addEventListener('click', openCase);
+    ui.dvdCase.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openCase();
       }
     });
-    node.addEventListener('pointercancel', () => {
-      node.classList.remove('dragging');
-      node.style.transform = '';
-      pointerId = null;
-      drawYarn();
+    ui.enterArchiveBtn.addEventListener('click', enterArchive);
+
+    ui.threadCards.forEach(card => card.addEventListener('click', handleThreadClick));
+
+    ui.bookOpenRead.addEventListener('click', startReading);
+    ui.bookOpenRead2.addEventListener('click', startReading);
+    ui.bookClose.addEventListener('click', closeBook);
+    ui.bookBackdrop.addEventListener('click', closeBook);
+    ui.prevPage.addEventListener('click', prevPage);
+    ui.nextPage.addEventListener('click', nextPage);
+
+    ui.videoClose.addEventListener('click', closeVideo);
+    ui.videoBackdrop.addEventListener('click', closeVideo);
+
+    ui.bgVideo.addEventListener('error', () => { ui.bgVideo.style.display = 'none'; });
+    ui.archiveVideo.addEventListener('error', () => { ui.archiveVideo.style.display = 'none'; });
+
+    window.addEventListener('resize', () => {
+      if (state.bookKey && state.reading) {
+        const currentBook = BOOK_SOURCE[state.bookKey];
+        const beforeText = state.pages[state.pageIndex] || '';
+        state.pages = splitIntoPages(currentBook.raw, pageSize());
+        const idx = Math.max(0, state.pages.findIndex(page => page.includes(beforeText.slice(0, 120))));
+        state.pageIndex = idx === -1 ? 0 : idx;
+        renderPage();
+      }
+      drawThreads();
     });
-  }
 
-  /* ======================================================
-     EVENT WIRING
-  ====================================================== */
-  audioToggle.addEventListener('click', toggleAudio);
-
-  groundTicket.addEventListener('click', () => {
-    beginSequence();
-    if (!audioOn) tryStartAudio();
-  });
-
-  dvdCase.addEventListener('click', openCase);
-  enterThreadsBtn.addEventListener('click', showThreads);
-  enterThreadsBtnMobile.addEventListener('click', showThreads);
-  resetBtn.addEventListener('click', resetAll);
-
-  videoClose.addEventListener('click', closeVideo);
-  videoBackdrop.addEventListener('click', closeVideo);
-
-  openBookBtn.addEventListener('click', startReading);
-  openBookBtn2.addEventListener('click', startReading);
-  bookClose.addEventListener('click', closeBook);
-  bookBackdrop.addEventListener('click', closeBook);
-  nextPageBtn.addEventListener('click', nextPage);
-  prevPageBtn.addEventListener('click', prevPage);
-
-  bgVideo.addEventListener('error', () => bgVideo.style.display = 'none');
-  threadsVideo.addEventListener('error', () => threadsVideo.style.display = 'none');
-
-  threadNodes.forEach(wireDraggableThread);
-
-  window.addEventListener('resize', () => {
-    drawYarn();
-    // Rewire thread nodes on orientation change
-    threadNodes.forEach(node => {
-      node.replaceWith(node.cloneNode(true));
-    });
-    Array.from(document.querySelectorAll('.thread-node')).forEach(wireDraggableThread);
-  });
-
-  /* ======================================================
-     INIT
-  ====================================================== */
-  resetAll();
-  tryStartAudio();
-  try { bgVideo.play(); } catch(e) {}
-  try { threadsVideo.play(); } catch(e) {}
-  setTimeout(drawYarn, 200);
-</script>
+    resetFlow();
+    setAudioButton();
+    tryStartAudio();
+    try { ui.bgVideo.play(); } catch (e) {}
+    try { ui.archiveVideo.play(); } catch (e) {}
+    setTimeout(drawThreads, 250);
+  </script>
 </body>
 </html>
