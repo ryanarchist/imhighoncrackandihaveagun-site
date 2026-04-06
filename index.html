@@ -426,40 +426,40 @@
       color: var(--warm);
     }
 
-    /* Enter Archive overlay — shown after case opens, outside case */
+    /* Enter Archive overlay — fixed overlay, above everything */
     .enter-archive-overlay {
-      position: absolute;
-      bottom: 16px;
+      position: fixed;
+      bottom: 60px;
       left: 50%;
       transform: translateX(-50%);
-      z-index: 35;
+      z-index: 250;
       opacity: 0;
       pointer-events: none;
-      transition: opacity .8s ease;
+      transition: opacity .6s ease;
+      /* No backdrop-filter here — causes Android compositing bugs */
     }
     .enter-archive-overlay.visible {
       opacity: 1;
       pointer-events: auto;
     }
     .enter-archive-overlay button {
-      border: 1px solid rgba(218,172,114,.60);
-      background: rgba(0,0,0,.82);
+      border: 2px solid rgba(218,172,114,.80);
+      background: #0a0700;
       color: var(--warm);
       border-radius: 999px;
-      padding: 16px 36px;
+      padding: 18px 42px;
       cursor: pointer;
       text-transform: uppercase;
-      letter-spacing: .16em;
-      font-size: 14px;
+      letter-spacing: .18em;
+      font-size: 15px;
       font-weight: 700;
-      backdrop-filter: blur(12px);
+      font-family: Arial, Helvetica, sans-serif;
       white-space: nowrap;
-      box-shadow: 0 0 30px rgba(218,172,114,.18);
-      transition: background .3s, box-shadow .3s;
+      box-shadow: 0 0 40px rgba(218,172,114,.28), 0 8px 32px rgba(0,0,0,.70);
+      animation: ctaPulse 2s ease-in-out infinite;
     }
-    .enter-archive-overlay button:hover {
-      background: rgba(20,14,5,.90);
-      box-shadow: 0 0 50px rgba(218,172,114,.30);
+    .enter-archive-overlay button:active {
+      background: rgba(30,20,5,.95);
     }
 
     /* ===================== THREADS SCENE ===================== */
@@ -1115,11 +1115,6 @@
     <div class="dvd-cta-overlay hidden" id="dvdCtaOverlay">
       <span class="label">↑ Tap the DVD case ↑</span>
     </div>
-
-    <!-- "Enter Archive" overlay shown after case opens (all screen sizes as fallback) -->
-    <div class="enter-archive-overlay" id="enterArchiveOverlay">
-      <button id="enterThreadsBtnMobile">Enter Archive</button>
-    </div>
   </section>
 
   <!-- ==================== SCENE 3: THREADS ==================== -->
@@ -1251,6 +1246,11 @@
       </div>
     </div>
   </section>
+
+  <!-- Enter Archive — fixed overlay, renders above all scenes -->
+  <div class="enter-archive-overlay" id="enterArchiveOverlay">
+    <button id="enterThreadsBtnMobile">↳ Enter Archive</button>
+  </div>
 
   <div class="hint pill" id="hint">Click the ticket to begin</div>
   <div class="grain"></div>
@@ -1544,10 +1544,8 @@ All for today end transmission. Many grammatical errors review review review rev
     dvdCtaOverlay.classList.add('hidden');
     dvdCase.classList.add('open');
     hint.textContent = 'Enter the archive';
-    // Show enter archive overlay after case animation
-    setTimeout(() => {
-      enterArchiveOverlay.classList.add('visible');
-    }, 800);
+    // Show immediately — no delay, no stacking context issues
+    enterArchiveOverlay.classList.add('visible');
   }
 
   function showThreads() {
