@@ -106,6 +106,87 @@
       pointer-events: none;
     }
     .top-ui > * { pointer-events: auto; }
+    .top-ui {
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .car-radio {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 10px;
+      width: min(660px, calc(100vw - 132px));
+      max-width: 100%;
+      padding: 10px 12px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,.09);
+      background:
+        linear-gradient(180deg, rgba(102,74,45,.96), rgba(40,24,14,.98)),
+        linear-gradient(90deg, rgba(255,255,255,.06), transparent);
+      box-shadow: 0 18px 38px rgba(0,0,0,.38), inset 0 1px 0 rgba(255,255,255,.08);
+    }
+    .radio-face {
+      min-width: 0;
+      padding: 10px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(15,10,7,.66);
+      background:
+        linear-gradient(180deg, rgba(22,18,14,.94), rgba(7,7,7,.98)),
+        repeating-linear-gradient(90deg, rgba(255,176,104,.06) 0 2px, rgba(255,255,255,.01) 2px 10px);
+      box-shadow: inset 0 0 22px rgba(0,0,0,.34);
+    }
+    .radio-kicker {
+      color: #ccb08a;
+      font: 700 10px/1.2 Arial, Helvetica, sans-serif;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .radio-title {
+      color: #f5ead8;
+      font: 700 13px/1.25 Arial, Helvetica, sans-serif;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      text-shadow: 0 1px 0 rgba(0,0,0,.35);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .radio-status {
+      margin-top: 7px;
+      color: #b88d54;
+      font: 700 10px/1.2 Arial, Helvetica, sans-serif;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+    .radio-knob {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.12);
+      background:
+        radial-gradient(circle at 34% 28%, rgba(255,255,255,.22), rgba(255,255,255,.02) 24%, transparent 26%),
+        radial-gradient(circle at center, rgba(63,63,63,.95) 0 36%, rgba(23,23,23,.98) 37% 62%, rgba(117,86,54,.95) 63% 100%);
+      color: #f2eadf;
+      font: 800 10px/1 Arial, Helvetica, sans-serif;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      box-shadow: 0 8px 18px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.12);
+      cursor: pointer;
+      transition: transform .2s ease, filter .2s ease;
+    }
+    .radio-knob:hover,
+    .radio-knob:focus-visible {
+      transform: translateY(-1px) scale(1.02);
+      filter: brightness(1.05);
+      outline: none;
+    }
+    .radio-knob-small {
+      font-size: 18px;
+      letter-spacing: 0;
+    }
 
     .hint {
       position: fixed;
@@ -406,9 +487,19 @@
     }
     .dvd-cta { bottom: calc(var(--safe-bottom) + 70px); }
     .archive-cta {
-      bottom: calc(var(--safe-bottom) + 18px);
+      position: absolute;
+      left: 50%;
+      bottom: clamp(20px, 6%, 48px);
+      transform: translateX(-50%);
+      z-index: 16;
+      width: min(360px, calc(100% - 30px));
+      justify-content: center;
       cursor: pointer;
       display: none;
+      background: rgba(12,8,6,.94);
+      border-color: rgba(216,166,106,.72);
+      color: #f3d7b0;
+      box-shadow: 0 18px 42px rgba(0,0,0,.52), 0 0 28px rgba(216,166,106,.18);
     }
     .archive-cta.show { display: inline-flex; align-items: center; justify-content: center; }
 
@@ -1793,6 +1884,83 @@
     html[data-layout="mobile"] .grain {
       opacity: .022;
     }
+    html[data-layout="mobile"] .car-radio {
+      width: calc(100vw - 110px);
+      min-width: 0;
+      padding: 8px;
+      gap: 8px;
+      border-radius: 18px;
+    }
+    html[data-layout="mobile"] .radio-face {
+      padding: 8px 10px;
+      border-radius: 12px;
+    }
+    html[data-layout="mobile"] .radio-title {
+      font-size: 11px;
+      line-height: 1.3;
+    }
+    html[data-layout="mobile"] .radio-kicker,
+    html[data-layout="mobile"] .radio-status {
+      letter-spacing: .12em;
+      font-size: 9px;
+    }
+    html[data-layout="mobile"] .radio-knob {
+      width: 44px;
+      height: 44px;
+      font-size: 9px;
+    }
+    html[data-layout="mobile"] .radio-knob-small {
+      font-size: 16px;
+    }
+    html[data-layout="mobile"] .archive-cta {
+      width: min(88vw, 340px);
+      bottom: max(18px, calc(var(--safe-bottom) + 10px));
+      font-size: 12px;
+      letter-spacing: .12em;
+      padding: 14px 16px;
+    }
+    html[data-layout="mobile"] .desk-stage {
+      position: relative;
+      left: auto;
+      bottom: auto;
+      transform: none;
+      width: 100%;
+      margin-top: 14px;
+      padding-top: 6px;
+      display: flex;
+      justify-content: center;
+      min-height: 0;
+    }
+    html[data-layout="mobile"] .desk-surface {
+      width: min(100%, 340px);
+      height: 72px;
+    }
+    html[data-layout="mobile"] .typewriter-hotspot {
+      width: min(340px, 100%);
+      padding-bottom: 8px;
+    }
+    html[data-layout="mobile"] .thread-card {
+      display: grid;
+      grid-template-columns: 108px minmax(0, 1fr);
+      gap: 6px 14px;
+      align-items: start;
+      grid-template-areas: none;
+    }
+    html[data-layout="mobile"] .thread-card img {
+      grid-column: 1;
+      grid-row: 1 / span 3;
+      align-self: stretch;
+    }
+    html[data-layout="mobile"] .thread-card .mini,
+    html[data-layout="mobile"] .thread-card b {
+      grid-column: 2;
+      grid-area: auto;
+      min-width: 0;
+    }
+    html[data-layout="mobile"] .thread-card .mini {
+      white-space: normal;
+      display: block;
+    }
     html[data-layout="mobile"] .vignette {
       box-shadow: inset 0 0 120px rgba(0,0,0,.56);
     }
@@ -1895,12 +2063,74 @@
       border-radius: 20px;
     }
 
+    html[data-layout="mobile"] .desk-stage {
+      position: relative;
+      left: auto;
+      bottom: auto;
+      transform: none;
+      width: 100%;
+      margin-top: 14px;
+      padding-top: 6px;
+      display: flex;
+      justify-content: center;
+      min-height: 0;
+    }
+    html[data-layout="mobile"] .desk-surface {
+      width: min(100%, 340px);
+      height: 72px;
+    }
+    html[data-layout="mobile"] .typewriter-hotspot {
+      width: min(340px, 100%);
+      padding-bottom: 8px;
+    }
+    html[data-layout="mobile"] .thread-card {
+      display: grid;
+      grid-template-columns: 108px minmax(0, 1fr);
+      gap: 6px 14px;
+      align-items: start;
+      grid-template-areas: none;
+    }
+    html[data-layout="mobile"] .thread-card img {
+      grid-column: 1;
+      grid-row: 1 / span 3;
+      align-self: stretch;
+      width: 108px;
+      aspect-ratio: 1 / 1;
+      margin: 0;
+      border-radius: 12px;
+    }
+    html[data-layout="mobile"] .thread-card .mini,
+    html[data-layout="mobile"] .thread-card b {
+      grid-column: 2;
+      grid-area: auto !important;
+      min-width: 0;
+    }
+    html[data-layout="mobile"] .thread-card .mini {
+      white-space: normal;
+      display: block;
+      margin: 0;
+      align-self: auto;
+    }
+    html[data-layout="mobile"] .thread-card b {
+      line-height: 1.06;
+      align-self: auto;
+    }
+
     @media (max-width: 560px) {
       html[data-layout="mobile"] .top-ui {
         padding: 0 10px;
       }
       html[data-layout="mobile"] .pill {
         padding: 10px 12px;
+        font-size: 10px;
+      }
+      html[data-layout="mobile"] .car-radio {
+        width: calc(100vw - 102px);
+      }
+      html[data-layout="mobile"] .radio-face {
+        padding: 7px 9px;
+      }
+      html[data-layout="mobile"] .radio-title {
         font-size: 10px;
       }
       html[data-layout="mobile"] .thread-card {
@@ -1935,9 +2165,19 @@
 </head>
 <body>
 <div class="app">
-<audio id="podcastAudio" loop="" preload="metadata" src="PODCAST.m4a"></audio>
+<audio id="podcastAudio" preload="metadata">
+<source src="The_Sociologist_Mapping_His_Own_Addiction_under25mb.m4a" type="audio/mp4"/>
+</audio>
 <div class="top-ui">
-<button class="pill" id="audioToggle" type="button">Podcast: Off</button>
+<div aria-label="Podcast player" class="car-radio">
+<button aria-label="Play the podcast audio" class="radio-knob" id="audioToggle" type="button">Play</button>
+<div class="radio-face">
+<div class="radio-kicker">Old car radio transmission</div>
+<div class="radio-title">The words that built the foundation that IHOCAIHAG is built on</div>
+<div class="radio-status" id="radioStatus">Radio silent</div>
+</div>
+<button aria-label="Restart the podcast audio" class="radio-knob radio-knob-small" id="audioRestart" type="button">↺</button>
+</div>
 <button class="pill" id="resetBtn" type="button">Restart</button>
 </div>
 <section aria-label="Opening scene" class="scene opening-scene show" id="openingScene">
@@ -1980,12 +2220,11 @@
 <img alt="Opened DVD case" decoding="async" loading="lazy" src="case-open-inside.png"/>
 </div>
 </div>
-</div>
+<button class="archive-cta cta-pulse" id="enterArchiveBtn" type="button">Enter Archive</button>
 </div>
 </div>
 </section>
 <div class="dvd-cta cta-pulse hidden" id="dvdCta">↑ Tap the DVD case ↑</div>
-<button class="archive-cta cta-pulse" id="enterArchiveBtn" type="button">Enter Archive</button>
 <section aria-label="Archive and threads" class="scene archive-scene" id="archiveScene">
 <div class="archive-video-wrap">
 <video autoplay="" class="archive-video" id="archiveVideo" loop="" muted="" playsinline="" poster="counter-book.png" preload="metadata">
@@ -2472,6 +2711,8 @@ A single sheet that sits still long enough to be read.`,
       archiveVideo: document.getElementById('archiveVideo'),
       podcastAudio: document.getElementById('podcastAudio'),
       audioToggle: document.getElementById('audioToggle'),
+      audioRestart: document.getElementById('audioRestart'),
+      radioStatus: document.getElementById('radioStatus'),
       resetBtn: document.getElementById('resetBtn'),
       hint: document.getElementById('hint'),
       openingScene: document.getElementById('openingScene'),
@@ -2667,18 +2908,38 @@ A single sheet that sits still long enough to be read.`,
     }
 
     function setAudioButton() {
-      ui.audioToggle.textContent = state.audioOn ? 'Podcast: On' : 'Podcast: Off';
+      if (ui.audioToggle) {
+        ui.audioToggle.textContent = state.audioOn ? 'Pause' : 'Play';
+        ui.audioToggle.setAttribute('aria-label', state.audioOn ? 'Pause the podcast audio' : 'Play the podcast audio');
+      }
+      if (ui.radioStatus) {
+        ui.radioStatus.textContent = state.audioOn ? 'Now playing' : 'Radio silent';
+      }
     }
 
     async function tryStartAudio() {
       try {
-        ui.podcastAudio.volume = 0.85;
+        ui.podcastAudio.volume = 0.92;
         await ui.podcastAudio.play();
         state.audioOn = true;
       } catch (e) {
         state.audioOn = false;
       }
       setAudioButton();
+    }
+
+    function restartAudio() {
+      if (!ui.podcastAudio) return;
+      try {
+        ui.podcastAudio.currentTime = 0;
+      } catch (e) {}
+      ui.podcastAudio.play().then(() => {
+        state.audioOn = true;
+        setAudioButton();
+      }).catch(() => {
+        state.audioOn = false;
+        setAudioButton();
+      });
     }
 
     function toggleAudio() {
@@ -2754,6 +3015,7 @@ A single sheet that sits still long enough to be read.`,
       closeBook();
       closeVideo();
       closeBaggie();
+      closeTypewriter();
       showScene('opening');
       setHint('Tap the ticket to begin');
       drawThreads();
@@ -3227,10 +3489,10 @@ A single sheet that sits still long enough to be read.`,
     }
 
     ui.audioToggle.addEventListener('click', toggleAudio);
+    ui.audioRestart.addEventListener('click', restartAudio);
     ui.resetBtn.addEventListener('click', resetFlow);
     ui.groundTicket.addEventListener('click', () => {
       beginSequence();
-      if (!state.audioOn) tryStartAudio();
     });
     ui.dvdCase.addEventListener('click', openCase);
     ui.dvdCase.addEventListener('keydown', (e) => {
@@ -3274,6 +3536,20 @@ A single sheet that sits still long enough to be read.`,
 
     ui.bgVideo.addEventListener('error', () => { ui.bgVideo.style.display = 'none'; });
     ui.archiveVideo.addEventListener('error', () => { ui.archiveVideo.style.display = 'none'; });
+    ui.podcastAudio.addEventListener('play', () => {
+      state.audioOn = true;
+      setAudioButton();
+    });
+    ui.podcastAudio.addEventListener('pause', () => {
+      if (!ui.podcastAudio.ended) {
+        state.audioOn = false;
+        setAudioButton();
+      }
+    });
+    ui.podcastAudio.addEventListener('ended', () => {
+      state.audioOn = false;
+      setAudioButton();
+    });
 
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) {
