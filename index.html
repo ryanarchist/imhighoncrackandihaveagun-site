@@ -3576,4 +3576,3582 @@ A single sheet that sits still long enough to be read.`,
     setTimeout(drawThreads, 250);
   </script>
 </body>
+</html><!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+<title>I'm High on Crack and I Have a Gun</title>
+<style>
+    :root {
+      --bg: #050505;
+      --bg-2: #0a0a0a;
+      --text: #f2eadf;
+      --muted: #cbb69c;
+      --warm: #d8a66a;
+      --warm-2: #9e6d37;
+      --danger: #8d241d;
+      --panel: rgba(10, 10, 10, 0.82);
+      --panel-2: rgba(18, 14, 10, 0.92);
+      --line: rgba(255,255,255,.11);
+      --paper: #eadcc4;
+      --ink: #2a2119;
+      --shadow: 0 24px 70px rgba(0,0,0,.55);
+      --shadow-deep: 0 44px 130px rgba(0,0,0,.78);
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --header-h: 62px;
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background: #000;
+      color: var(--text);
+      font-family: Georgia, "Times New Roman", serif;
+    }
+    body { overflow: hidden; }
+    button, a { font: inherit; }
+    button { -webkit-tap-highlight-color: transparent; }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    .app {
+      position: relative;
+      width: 100vw;
+      height: 100dvh;
+      overflow: hidden;
+      background: #000;
+    }
+
+    .grain, .vignette {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 300;
+    }
+    .grain {
+      opacity: .045;
+      background-image:
+        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+      background-size: 4px 4px;
+      mix-blend-mode: soft-light;
+    }
+    .vignette {
+      box-shadow: inset 0 0 220px rgba(0,0,0,.74);
+    }
+
+    .scene {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .7s ease, transform .7s ease;
+      transform: scale(1.01);
+      overflow: hidden;
+    }
+    .scene.show {
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(1);
+    }
+
+    .pill {
+      border: 1px solid var(--line);
+      background: rgba(0,0,0,.56);
+      color: var(--muted);
+      border-radius: 999px;
+      padding: 10px 14px;
+      text-transform: uppercase;
+      letter-spacing: .14em;
+      font-size: 11px;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 8px 24px rgba(0,0,0,.28);
+    }
+
+    .top-ui {
+      position: fixed;
+      top: calc(var(--safe-top) + 12px);
+      left: 0;
+      right: 0;
+      z-index: 320;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 12px;
+      pointer-events: none;
+    }
+    .top-ui > * { pointer-events: auto; }
+    .top-ui {
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .car-radio {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 10px;
+      width: min(660px, calc(100vw - 132px));
+      max-width: 100%;
+      padding: 10px 12px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,.09);
+      background:
+        linear-gradient(180deg, rgba(102,74,45,.96), rgba(40,24,14,.98)),
+        linear-gradient(90deg, rgba(255,255,255,.06), transparent);
+      box-shadow: 0 18px 38px rgba(0,0,0,.38), inset 0 1px 0 rgba(255,255,255,.08);
+    }
+    .radio-face {
+      min-width: 0;
+      padding: 10px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(15,10,7,.66);
+      background:
+        linear-gradient(180deg, rgba(22,18,14,.94), rgba(7,7,7,.98)),
+        repeating-linear-gradient(90deg, rgba(255,176,104,.06) 0 2px, rgba(255,255,255,.01) 2px 10px);
+      box-shadow: inset 0 0 22px rgba(0,0,0,.34);
+    }
+    .radio-kicker {
+      color: #ccb08a;
+      font: 700 10px/1.2 Arial, Helvetica, sans-serif;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .radio-title {
+      color: #f5ead8;
+      font: 700 13px/1.25 Arial, Helvetica, sans-serif;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      text-shadow: 0 1px 0 rgba(0,0,0,.35);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .radio-status {
+      margin-top: 7px;
+      color: #b88d54;
+      font: 700 10px/1.2 Arial, Helvetica, sans-serif;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+    .radio-knob {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.12);
+      background:
+        radial-gradient(circle at 34% 28%, rgba(255,255,255,.22), rgba(255,255,255,.02) 24%, transparent 26%),
+        radial-gradient(circle at center, rgba(63,63,63,.95) 0 36%, rgba(23,23,23,.98) 37% 62%, rgba(117,86,54,.95) 63% 100%);
+      color: #f2eadf;
+      font: 800 10px/1 Arial, Helvetica, sans-serif;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      box-shadow: 0 8px 18px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.12);
+      cursor: pointer;
+      transition: transform .2s ease, filter .2s ease;
+    }
+    .radio-knob:hover,
+    .radio-knob:focus-visible {
+      transform: translateY(-1px) scale(1.02);
+      filter: brightness(1.05);
+      outline: none;
+    }
+    .radio-knob-small {
+      font-size: 18px;
+      letter-spacing: 0;
+    }
+
+    .hint {
+      position: fixed;
+      left: 50%;
+      bottom: calc(var(--safe-bottom) + 12px);
+      transform: translateX(-50%);
+      z-index: 320;
+      max-width: calc(100vw - 20px);
+      text-align: center;
+      pointer-events: none;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .hidden { display: none !important; }
+
+    .cta-pulse {
+      animation: ctaPulse 1.9s ease-in-out infinite;
+    }
+    @keyframes ctaPulse {
+      0%, 100% { opacity: .9; box-shadow: 0 0 0 rgba(216,166,106,0); }
+      50% { opacity: 1; box-shadow: 0 0 38px rgba(216,166,106,.22); }
+    }
+    @keyframes bob {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(6px); }
+    }
+
+    /* ---------------- OPENING ---------------- */
+    .opening-scene {
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.68)),
+        url('ticket-collage.png') center center / 560px auto repeat,
+        #050505;
+    }
+
+    .bg-video-wrap {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+    .bg-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(.58) contrast(1.01) saturate(.88);
+      transform: scale(1.015);
+      will-change: transform, opacity;
+    }
+    .video-darkener {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.42), rgba(0,0,0,.70)),
+        radial-gradient(circle at center, transparent 0%, rgba(0,0,0,.16) 46%, rgba(0,0,0,.56) 100%);
+    }
+
+    .scene-inner {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding-top: calc(var(--safe-top) + 58px);
+      padding-bottom: calc(var(--safe-bottom) + 44px);
+      padding-left: 14px;
+      padding-right: 14px;
+      gap: 16px;
+    }
+
+    .banner-wrap {
+      width: min(1200px, 94vw);
+      flex: 0 0 auto;
+    }
+    .site-banner {
+      width: 100%;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow: var(--shadow);
+      background: rgba(0,0,0,.2);
+    }
+
+    .opening-center {
+      flex: 1 1 auto;
+      min-height: 0;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+    }
+
+    .ticket-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 22px;
+      border-radius: 999px;
+      border: 1px solid rgba(216,166,106,.38);
+      background: rgba(0,0,0,.68);
+      color: var(--warm);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      backdrop-filter: blur(6px);
+      text-align: center;
+    }
+    .ticket-cta .arrow {
+      animation: bob 1.4s ease-in-out infinite;
+      font-size: 18px;
+    }
+
+    .ground-ticket {
+      width: min(760px, 92vw);
+      aspect-ratio: 2.05 / 1;
+      border-radius: 22px;
+      overflow: hidden;
+      background: #000;
+      cursor: pointer;
+      box-shadow: var(--shadow-deep), 0 0 52px rgba(216,166,106,.18);
+      border: 1px solid rgba(255,255,255,.05);
+      transition: transform .5s ease, box-shadow .4s ease, opacity .7s ease;
+      animation: ticketGlow 2.5s ease-in-out infinite alternate;
+      transform: rotate(-4deg);
+    }
+    .ground-ticket:hover,
+    .ground-ticket:focus-visible {
+      transform: rotate(-2deg) translateY(-10px) scale(1.02);
+      box-shadow: 0 58px 150px rgba(0,0,0,.82), 0 0 70px rgba(216,166,106,.28);
+      outline: none;
+    }
+    @keyframes ticketGlow {
+      from { box-shadow: var(--shadow-deep), 0 0 22px rgba(216,166,106,.08); }
+      to { box-shadow: var(--shadow-deep), 0 0 70px rgba(216,166,106,.26); }
+    }
+    .ground-ticket img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .opening-scene.animate-out .ground-ticket {
+      transform: translateY(-26vh) scale(.46) rotate(-2deg);
+      opacity: .04;
+    }
+
+    /* ---------------- ATM ---------------- */
+    .atm-scene {
+      background: linear-gradient(180deg, #040404, #090909);
+    }
+    .atm-stage {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: calc(var(--safe-top) + 20px) 12px calc(var(--safe-bottom) + 28px);
+    }
+    .atm-machine {
+      position: relative;
+      width: min(980px, 96vw);
+      aspect-ratio: .92 / 1;
+      border-radius: 24px;
+      overflow: hidden;
+      background: #000;
+      box-shadow: var(--shadow-deep);
+      border: 1px solid rgba(255,255,255,.06);
+    }
+    .atm-machine > img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .atm-overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.02), transparent 18%, transparent 82%, rgba(255,255,255,.02)),
+        radial-gradient(circle at 25% 42%, rgba(140,255,230,.10), transparent 12%),
+        radial-gradient(circle at 57% 58%, rgba(255,210,120,.10), transparent 7%);
+      pointer-events: none;
+    }
+
+    .atm-ticket {
+      position: absolute;
+      left: 50%;
+      bottom: 15%;
+      transform: translateX(-50%) rotate(-2deg);
+      width: min(430px, 46vw);
+      aspect-ratio: 2.05 / 1;
+      border-radius: 18px;
+      overflow: hidden;
+      background: #000;
+      box-shadow: 0 20px 60px rgba(0,0,0,.56);
+      transition: transform 1.6s cubic-bezier(.18,.84,.2,1), opacity 1s ease;
+      z-index: 5;
+    }
+    .atm-ticket img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .atm-scene.animate-insert .atm-ticket {
+      transform: translateX(-50%) translateY(-10%) scale(.72) rotate(-1deg);
+      opacity: .98;
+    }
+    .atm-scene.finish-insert .atm-ticket {
+      transform: translateX(-50%) translateY(-26%) scale(.28) rotate(-1deg);
+      opacity: .02;
+    }
+
+    .dvd {
+      position: absolute;
+      left: 50%;
+      bottom: 7%;
+      width: min(350px, 34vw);
+      aspect-ratio: .72 / 1;
+      transform: translate(-50%, 180%) rotateX(48deg) scale(.82);
+      transform-origin: center center;
+      transition: transform 1.4s cubic-bezier(.2,.8,.2,1), opacity .9s ease;
+      opacity: 0;
+      perspective: 2200px;
+      z-index: 8;
+    }
+    .atm-scene.reveal-dvd .dvd {
+      transform: translate(-50%, 0%) rotateX(6deg) scale(1);
+      opacity: 1;
+    }
+
+    .case {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      cursor: pointer;
+    }
+    .case-front, .case-inside {
+      position: absolute;
+      inset: 0;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow: var(--shadow);
+      background: #000;
+      backface-visibility: hidden;
+    }
+    .case-front img, .case-inside img {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .case-front img { object-fit: cover; }
+    .case-inside {
+      background: linear-gradient(180deg, #070707, #020202);
+      padding: 8px;
+    }
+    .case-inside img {
+      object-fit: contain;
+      object-position: center;
+      border-radius: 12px;
+      background: #040404;
+    }
+    .case-front {
+      transform-origin: left center;
+      transition: transform 1.8s cubic-bezier(.18,.82,.18,1);
+      z-index: 3;
+    }
+    .case.open .case-front { transform: rotateY(-132deg); }
+
+    .dvd-cta,
+    .archive-cta {
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 325;
+      border-radius: 999px;
+      border: 1px solid rgba(216,166,106,.5);
+      background: rgba(0,0,0,.76);
+      color: var(--warm);
+      padding: 14px 26px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 10px 28px rgba(0,0,0,.48);
+      text-align: center;
+      white-space: nowrap;
+      max-width: calc(100vw - 26px);
+    }
+    .dvd-cta { bottom: calc(var(--safe-bottom) + 70px); }
+    .archive-cta {
+      position: absolute;
+      left: 50%;
+      bottom: clamp(20px, 6%, 48px);
+      transform: translateX(-50%);
+      z-index: 16;
+      width: min(360px, calc(100% - 30px));
+      justify-content: center;
+      cursor: pointer;
+      display: none;
+      background: rgba(12,8,6,.94);
+      border-color: rgba(216,166,106,.72);
+      color: #f3d7b0;
+      box-shadow: 0 18px 42px rgba(0,0,0,.52), 0 0 28px rgba(216,166,106,.18);
+    }
+    .archive-cta.show { display: inline-flex; align-items: center; justify-content: center; }
+
+    /* ---------------- ARCHIVE ---------------- */
+    .archive-scene {
+      background: #060403;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-y: contain;
+    }
+
+    .archive-video-wrap {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .archive-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: .22;
+      filter: brightness(.46) contrast(1.01) saturate(.82);
+      transform: scale(1.02);
+      will-change: transform, opacity;
+    }
+    .archive-darkener {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.50), rgba(0,0,0,.76)),
+        radial-gradient(circle at center, rgba(0,0,0,.1) 0%, rgba(0,0,0,.24) 50%, rgba(0,0,0,.62) 100%);
+    }
+
+    .archive-inner {
+      position: relative;
+      z-index: 2;
+      min-height: 100%;
+      padding: calc(var(--safe-top) + 70px) 12px calc(var(--safe-bottom) + 44px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .archive-title {
+      width: min(1180px, 96vw);
+      text-align: center;
+    }
+    .archive-title h2 {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(30px, 4vw, 60px);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+    .archive-title p {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 16px;
+    }
+    .update-pill {
+      margin-top: 16px;
+      display: inline-block;
+      padding: 11px 18px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.42);
+      border: 1px solid rgba(255,255,255,.1);
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      font-size: 11px;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .board-wrap {
+      width: min(1380px, 99vw);
+      position: relative;
+      padding: 18px;
+    }
+    .board {
+      position: relative;
+      min-height: 1340px;
+      border-radius: 30px;
+      overflow: hidden;
+      isolation: isolate;
+      background:
+        radial-gradient(circle at 16% 11%, rgba(255,255,255,.06), transparent 18%),
+        radial-gradient(circle at 82% 22%, rgba(255,255,255,.05), transparent 16%),
+        radial-gradient(circle at 54% 54%, rgba(0,0,0,.12), transparent 26%),
+        linear-gradient(180deg, rgba(255,255,255,.02), rgba(0,0,0,.16)),
+        #6b5038;
+      box-shadow: var(--shadow-deep);
+      border: 1px solid rgba(255,255,255,.08);
+      padding: 42px 34px 58px;
+    }
+    .board::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.02), rgba(0,0,0,.12)),
+        url("./assets/img/board-bg-collage.webp") center center / cover no-repeat;
+      opacity: .42;
+      mix-blend-mode: multiply;
+      filter: saturate(.95) contrast(1.04);
+    }
+    .board::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.08), rgba(0,0,0,.18)),
+        radial-gradient(circle at center, transparent 0%, rgba(0,0,0,.14) 70%, rgba(0,0,0,.30) 100%);
+    }
+
+    .board-center {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      z-index: 2;
+    }
+    .center-badge {
+      position: relative;
+      width: min(390px, 34vw);
+      max-width: 390px;
+      padding: 18px 16px 26px;
+      border-radius: 24px;
+      background: rgba(10, 10, 10, .70);
+      border: 1px solid rgba(216,166,106,.20);
+      box-shadow: 0 24px 70px rgba(0,0,0,.52), 0 0 56px rgba(216,166,106,.10);
+      transform: rotate(-1.8deg);
+    }
+    .center-badge::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: -138px;
+      width: 10px;
+      height: 154px;
+      transform: translateX(-50%);
+      border-radius: 999px;
+      background:
+        linear-gradient(180deg, rgba(96,126,82,.95), rgba(44,67,38,.95));
+      box-shadow: 0 0 0 2px rgba(47,60,43,.35), 0 8px 18px rgba(0,0,0,.32);
+      opacity: .92;
+    }
+    .center-badge::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: -82px;
+      width: 94px;
+      height: 94px;
+      transform: translateX(-50%);
+      border-radius: 50%;
+      border: 10px solid rgba(95,128,84,.86);
+      box-shadow: inset 0 0 0 2px rgba(31,44,28,.28), 0 10px 28px rgba(0,0,0,.26);
+      opacity: .92;
+    }
+    .center-badge img {
+      width: 100%;
+      border-radius: 14px;
+      box-shadow: 0 14px 34px rgba(0,0,0,.38);
+      aspect-ratio: .72 / 1;
+      object-fit: cover;
+    }
+
+    .thread-svg {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      pointer-events: none;
+      width: 100%;
+      height: 100%;
+    }
+    .thread-shadow {
+      fill: none;
+      stroke: rgba(0,0,0,.40);
+      stroke-width: 7;
+      stroke-linecap: round;
+    }
+    .thread-line {
+      fill: none;
+      stroke: rgba(173, 126, 93, .92);
+      stroke-width: 3.2;
+      stroke-linecap: round;
+    }
+
+    .cards-layer {
+      position: relative;
+      z-index: 4;
+      min-height: 1240px;
+    }
+
+    .thread-card {
+      --card-rot: 0deg;
+      position: absolute;
+      width: 214px;
+      padding: 12px 12px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(68,49,33,.18);
+      background: linear-gradient(180deg, rgba(245,236,221,.98), rgba(226,212,186,.96));
+      box-shadow: 0 22px 44px rgba(0,0,0,.28);
+      color: #20170f;
+      cursor: pointer;
+      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease, filter .25s ease;
+      text-align: left;
+      transform: rotate(var(--card-rot));
+      transform-origin: center center;
+    }
+    .thread-card:hover,
+    .thread-card:focus-visible {
+      transform: translateY(-8px) rotate(var(--card-rot)) scale(1.02);
+      box-shadow: 0 30px 66px rgba(0,0,0,.38);
+      border-color: rgba(82,58,38,.28);
+      filter: saturate(1.02);
+      outline: none;
+    }
+    .thread-card::before,
+    .thread-card::after {
+      content: "";
+      position: absolute;
+      top: -8px;
+      width: 54px;
+      height: 14px;
+      border-radius: 3px;
+      background: linear-gradient(180deg, rgba(232,216,184,.92), rgba(198,176,137,.70));
+      box-shadow: 0 2px 8px rgba(0,0,0,.22);
+      opacity: .94;
+      pointer-events: none;
+    }
+    .thread-card::before { left: 14px; transform: rotate(-7deg); }
+    .thread-card::after { right: 14px; transform: rotate(8deg); }
+    .thread-card .pin {
+      position: absolute;
+      top: 10px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #fff 0%, #efc88d 30%, #8b2b20 68%, #4a120d 100%);
+      box-shadow: 0 0 0 2px rgba(0,0,0,.14), 0 3px 10px rgba(0,0,0,.32);
+      pointer-events: none;
+      z-index: 2;
+    }
+    .thread-card .pin.left { left: 16px; }
+    .thread-card .pin.right { right: 16px; }
+    .thread-card img {
+      width: 100%;
+      aspect-ratio: .85 / 1;
+      object-fit: cover;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      background: #fff;
+      border: 6px solid rgba(255,255,255,.95);
+      box-shadow: 0 10px 18px rgba(0,0,0,.16);
+    }
+    .thread-card .mini {
+      display: block;
+      color: #5e4733;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .16em;
+      margin-bottom: 6px;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    .thread-card b {
+      display: block;
+      font-size: 15px;
+      line-height: 1.12;
+      font-family: Arial, Helvetica, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .03em;
+    }
+
+    .thread-card-spotlight {
+      box-shadow: 0 24px 54px rgba(0,0,0,.34), 0 0 0 1px rgba(255,255,255,.06), 0 0 26px rgba(216,166,106,.12);
+    }
+
+    #card-trailer1 { left: 2%; top: 7%; right: auto; --card-rot: -6deg; width: 214px; }
+    #card-trailer2 { left: 22%; top: 2%; right: auto; --card-rot: 4deg; width: 204px; }
+    #card-sample   { left: 58%; top: 3%; right: auto; --card-rot: -3deg; width: 228px; }
+    #card-analysis { right: 4%; top: 18%; left: auto; --card-rot: 5deg; width: 220px; }
+    #card-july     { left: 63%; top: 43%; right: auto; --card-rot: -4deg; width: 226px; }
+    #card-dopesick { left: 6%; top: 78%; right: auto; --card-rot: 3deg; width: 216px; }
+    #card-gods     { right: 8%; top: 80%; left: auto; --card-rot: -3deg; width: 214px; }
+    #card-author   { left: 3%; top: 39%; right: auto; --card-rot: -5deg; width: 228px; z-index: 7; }
+    #card-clipweek { right: 4%; top: 58%; left: auto; --card-rot: 6deg; width: 214px; }
+
+    #card-loopdrawer { left: 30%; top: 55%; right: auto; --card-rot: -1deg; width: 242px; z-index: 12; box-shadow: 0 28px 70px rgba(0,0,0,.42), 0 0 0 2px rgba(216,166,106,.22); }
+    .thread-card.priority-thread::after { box-shadow: 0 2px 10px rgba(0,0,0,.25), 0 0 0 1px rgba(216,166,106,.16); }
+    .thread-card.priority-thread { border-color: rgba(216,166,106,.22); }
+
+    .evidence-note {
+      position: absolute;
+      z-index: 4;
+      background: #e6d4a8;
+      color: #2d2217;
+      padding: 14px 16px;
+      border-radius: 2px;
+      box-shadow: 0 12px 26px rgba(0,0,0,.24);
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      transform: rotate(-4deg);
+    }
+    .note-1 { left: 6%; bottom: 14%; }
+    .note-2 { right: 7%; bottom: 16%; transform: rotate(4deg); }
+
+    /* ---------------- MODALS ---------------- */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 340;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .35s ease;
+    }
+    .overlay.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .overlay-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,.88);
+      backdrop-filter: blur(4px);
+    }
+
+    /* book */
+    .book-shell {
+      position: relative;
+      z-index: 2;
+      margin: calc(var(--safe-top) + 10px) 14px calc(var(--safe-bottom) + 10px);
+      height: calc(100dvh - var(--safe-top) - var(--safe-bottom) - 20px);
+      border-radius: 24px;
+      background: linear-gradient(180deg, #17110d, #0d0a08 62%, #080707);
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow: var(--shadow-deep);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .book-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 14px 16px 10px;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      flex-wrap: wrap;
+      flex: 0 0 auto;
+    }
+    .book-header-left,
+    .book-header-right {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .book-btn {
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      color: #fff;
+      border-radius: 999px;
+      padding: 10px 16px;
+      cursor: pointer;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 12px;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .book-btn:hover { background: rgba(255,255,255,.10); }
+    .book-btn:disabled {
+      opacity: .45;
+      cursor: not-allowed;
+    }
+
+    .book-cover-panel {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      padding: 22px;
+      min-height: 0;
+      flex: 1 1 auto;
+      overflow: auto;
+    }
+    .book-cover-panel img {
+      max-width: 100%;
+      max-height: min(64vh, 760px);
+      width: auto;
+      border-radius: 16px;
+      background: #111;
+      box-shadow: var(--shadow);
+    }
+    .book-cover-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .book-read-panel {
+      display: none;
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow: hidden;
+    }
+    .book-overlay.reading .book-cover-panel { display: none; }
+    .book-overlay.reading .book-read-panel { display: flex; }
+
+    .book-scroll {
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-y: contain;
+      padding: 28px 30px 36px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.04) 14%, rgba(255,255,255,.01)),
+        var(--paper);
+      color: var(--ink);
+      position: relative;
+    }
+    .book-scroll::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: repeating-linear-gradient(180deg, rgba(90,60,32,.03), rgba(90,60,32,.03) 1px, transparent 1px, transparent 30px);
+      opacity: .5;
+    }
+    .page-kicker {
+      position: relative;
+      font-size: 11px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: #7b5a39;
+      margin-bottom: 10px;
+      font-family: Arial, Helvetica, sans-serif;
+      z-index: 1;
+    }
+    .page-title {
+      position: relative;
+      margin: 0 0 16px;
+      font-size: 28px;
+      line-height: 1.06;
+      text-transform: uppercase;
+      font-family: Arial, Helvetica, sans-serif;
+      z-index: 1;
+    }
+    .page-text {
+      position: relative;
+      z-index: 1;
+      font-size: 18px;
+      line-height: 1.7;
+      white-space: pre-wrap;
+    }
+
+    .book-footer {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-top: 1px solid rgba(255,255,255,.06);
+      flex-wrap: wrap;
+    }
+    .book-status {
+      min-width: 120px;
+      text-align: center;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      font-size: 12px;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    /* video */
+    .video-shell {
+      position: relative;
+      z-index: 2;
+      margin: calc(var(--safe-top) + 10px) 14px calc(var(--safe-bottom) + 10px);
+      height: calc(100dvh - var(--safe-top) - var(--safe-bottom) - 20px);
+      border-radius: 24px;
+      background: linear-gradient(180deg, #17110d, #0d0a08 62%, #080707);
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow: var(--shadow-deep);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      overflow: hidden;
+    }
+    .video-top {
+      display: flex;
+      justify-content: flex-end;
+      flex: 0 0 auto;
+    }
+    .video-frame-wrap {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: grid;
+      place-items: center;
+    }
+    .video-frame {
+      width: min(1220px, 100%);
+      aspect-ratio: 16 / 9;
+      border-radius: 20px;
+      overflow: hidden;
+      background: #000;
+      box-shadow: var(--shadow);
+    }
+    .video-frame iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+    #localVideoPlayer {
+      display: none;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      object-fit: contain;
+    }
+    .video-shell.local-video-mode {
+      margin: 0;
+      height: 100dvh;
+      border-radius: 0;
+      border: 0;
+      padding: 0;
+      background: #000;
+      box-shadow: none;
+    }
+    .video-shell.local-video-mode .video-top {
+      position: absolute;
+      top: calc(var(--safe-top) + 12px);
+      right: 12px;
+      z-index: 3;
+    }
+    .video-shell.local-video-mode .video-frame-wrap {
+      width: 100%;
+      height: 100%;
+    }
+    .video-shell.local-video-mode .video-frame {
+      width: 100vw;
+      height: 100dvh;
+      max-width: none;
+      aspect-ratio: auto;
+      border-radius: 0;
+      box-shadow: none;
+    }
+    .video-shell.local-video-mode #videoFrame {
+      display: none;
+    }
+    .video-shell.local-video-mode #localVideoPlayer {
+      display: block;
+    }
+
+    /* baggie */
+    .baggie-shell {
+      position: relative;
+      z-index: 2;
+      margin: calc(var(--safe-top) + 10px) 14px calc(var(--safe-bottom) + 10px);
+      min-height: calc(100dvh - var(--safe-top) - var(--safe-bottom) - 20px);
+      border-radius: 30px;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(245,250,255,.18), rgba(220,236,250,.08) 30%, rgba(210,228,245,.12) 100%),
+        rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.22);
+      box-shadow: var(--shadow-deep), inset 0 0 0 1px rgba(255,255,255,.08);
+      backdrop-filter: blur(20px) saturate(125%);
+      display: flex;
+      flex-direction: column;
+      isolation: isolate;
+    }
+    .baggie-shell::before,
+    .baggie-shell::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .baggie-shell::before {
+      background:
+        radial-gradient(circle at 12% 10%, rgba(255,255,255,.38), transparent 20%),
+        radial-gradient(circle at 82% 16%, rgba(255,255,255,.24), transparent 16%),
+        linear-gradient(115deg, transparent 10%, rgba(255,255,255,.18) 18%, transparent 27%, transparent 58%, rgba(255,255,255,.12) 67%, transparent 75%),
+        repeating-linear-gradient(140deg, rgba(255,255,255,.05) 0 2px, transparent 2px 28px);
+      mix-blend-mode: screen;
+      opacity: .9;
+    }
+    .baggie-shell::after {
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.18), transparent 22%, transparent 74%, rgba(255,255,255,.08)),
+        radial-gradient(circle at center, transparent 0%, rgba(255,255,255,.06) 55%, rgba(0,0,0,.16) 100%);
+      opacity: .85;
+    }
+    .baggie-zip {
+      position: relative;
+      z-index: 1;
+      height: 18px;
+      margin: 18px 24px 0;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(255,255,255,.4), rgba(255,255,255,.12), rgba(255,255,255,.34));
+      box-shadow: inset 0 2px 3px rgba(255,255,255,.18), 0 3px 16px rgba(255,255,255,.12);
+    }
+    .baggie-seal {
+      position: relative;
+      z-index: 1;
+      height: 8px;
+      margin: 10px 34px 0;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(255,255,255,.12), rgba(255,255,255,.42), rgba(255,255,255,.12));
+      opacity: .72;
+    }
+    .baggie-header {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 18px 22px 0;
+      flex-wrap: wrap;
+    }
+    .baggie-body {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(280px, 1.05fr) minmax(320px, 1fr);
+      gap: 24px;
+      padding: 18px 22px 24px;
+      min-height: 0;
+      flex: 1 1 auto;
+      overflow: auto;
+    }
+    .baggie-media {
+      position: relative;
+      min-height: 320px;
+      border-radius: 24px;
+      overflow: hidden;
+      background: rgba(0,0,0,.42);
+      border: 1px solid rgba(255,255,255,.18);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.05), 0 24px 60px rgba(0,0,0,.35);
+    }
+    .baggie-media::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(120deg, rgba(255,255,255,.24), transparent 22%, transparent 74%, rgba(255,255,255,.14)),
+        repeating-linear-gradient(160deg, rgba(255,255,255,.05) 0 2px, transparent 2px 34px);
+      mix-blend-mode: screen;
+      opacity: .9;
+    }
+    .baggie-image,
+    .baggie-video-frame {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .baggie-image {
+      object-fit: cover;
+      filter: saturate(.95) contrast(1.02) brightness(.9);
+    }
+    .baggie-video-frame {
+      background: rgba(0,0,0,.45);
+    }
+    .baggie-video-frame iframe,
+    .baggie-embed-host {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+      background: #000;
+    }
+    .baggie-embed-host {
+      min-height: 100%;
+      overflow: auto;
+      padding: 18px;
+      background:
+        radial-gradient(circle at top, rgba(255,255,255,.12), transparent 28%),
+        rgba(0,0,0,.72);
+    }
+    .baggie-video-frame.is-tiktok iframe {
+      display: none;
+    }
+    .baggie-video-frame.is-tiktok .baggie-embed-host {
+      display: block;
+    }
+    .baggie-embed-host .tiktok-embed {
+      margin: 0 auto !important;
+    }
+    .baggie-copy {
+      align-self: center;
+      padding: 8px 4px 8px 0;
+    }
+    .baggie-kicker {
+      margin-bottom: 10px;
+      color: rgba(255,255,255,.72);
+    }
+    .baggie-title {
+      margin: 0 0 12px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(28px, 4vw, 50px);
+      line-height: 1;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: #fff;
+      text-shadow: 0 10px 30px rgba(0,0,0,.32);
+    }
+    .baggie-edit-note {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.22);
+      border: 1px solid rgba(255,255,255,.16);
+      color: rgba(255,255,255,.78);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 11px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .baggie-text {
+      white-space: pre-wrap;
+      font-size: 18px;
+      line-height: 1.7;
+      color: rgba(255,255,255,.9);
+      text-shadow: 0 4px 18px rgba(0,0,0,.28);
+      margin-bottom: 18px;
+    }
+
+    
+    /* ---------------- UNDERWOOD DESK ---------------- */
+    .desk-stage {
+      position: absolute;
+      left: 50%;
+      bottom: 22px;
+      transform: translateX(-50%);
+      z-index: 3;
+      width: min(420px, 36vw);
+      pointer-events: none;
+    }
+    .desk-surface {
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      transform: translateX(-50%);
+      width: 115%;
+      height: 86px;
+      border-radius: 24px 24px 10px 10px;
+      background:
+        linear-gradient(180deg, rgba(125,76,45,.95), rgba(61,33,18,.98)),
+        linear-gradient(90deg, rgba(255,255,255,.08), rgba(255,255,255,0));
+      box-shadow: 0 24px 34px rgba(0,0,0,.33), inset 0 2px 0 rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.08);
+    }
+    .desk-surface::before,
+    .desk-surface::after {
+      content: "";
+      position: absolute;
+      top: 12px;
+      bottom: 12px;
+      width: 1px;
+      background: rgba(30,15,9,.45);
+      opacity: .55;
+    }
+    .desk-surface::before { left: 34%; }
+    .desk-surface::after { right: 30%; }
+    .typewriter-hotspot {
+      pointer-events: auto;
+      position: relative;
+      margin: 0 auto;
+      display: block;
+      width: min(320px, 100%);
+      border: 0;
+      background: transparent;
+      padding: 0 0 12px;
+      cursor: pointer;
+      transition: transform .22s ease, filter .22s ease;
+    }
+    .typewriter-hotspot:hover,
+    .typewriter-hotspot:focus-visible {
+      transform: translateY(-6px) rotate(-1deg);
+      filter: brightness(1.04);
+      outline: none;
+    }
+    .typewriter-hotspot img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow: 0 18px 38px rgba(0,0,0,.34);
+    }
+    .typewriter-label {
+      position: absolute;
+      left: 50%;
+      bottom: 8px;
+      transform: translateX(-50%) rotate(-1deg);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(8,8,8,.78);
+      color: var(--warm);
+      border: 1px solid rgba(216,166,106,.28);
+      font: 800 11px/1 Arial, Helvetica, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .16em;
+      box-shadow: 0 8px 20px rgba(0,0,0,.26);
+      white-space: nowrap;
+    }
+    .typewriter-label::before {
+      content: "✦";
+      font-size: 11px;
+    }
+
+    .typewriter-overlay .overlay-backdrop {
+      background: rgba(4,4,4,.82);
+    }
+    .typewriter-shell {
+      position: relative;
+      z-index: 2;
+      margin: calc(var(--safe-top) + 10px) 14px calc(var(--safe-bottom) + 10px);
+      height: calc(100dvh - var(--safe-top) - var(--safe-bottom) - 20px);
+      border-radius: 24px;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(26,17,12,.98), rgba(13,10,8,.98)),
+        radial-gradient(circle at 24% 10%, rgba(255,228,180,.07), transparent 18%);
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow: var(--shadow-deep);
+      display: flex;
+      flex-direction: column;
+    }
+    .typewriter-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px 10px;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      flex-wrap: wrap;
+    }
+    .typewriter-header-meta {
+      color: var(--muted);
+      font: 700 11px/1.3 Arial, Helvetica, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .16em;
+    }
+    .typewriter-layout {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: minmax(290px, .95fr) minmax(360px, 1.15fr);
+      gap: 18px;
+      padding: 18px;
+    }
+    .typewriter-rail {
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .typewriter-machine-card {
+      position: relative;
+      flex: 1 1 auto;
+      min-height: 240px;
+      border-radius: 24px;
+      background: linear-gradient(180deg, rgba(14,14,14,.74), rgba(8,8,8,.94));
+      border: 1px solid rgba(255,255,255,.07);
+      padding: 18px;
+      overflow: hidden;
+      box-shadow: 0 24px 44px rgba(0,0,0,.34);
+    }
+    .typewriter-machine-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 18px;
+      box-shadow: 0 20px 34px rgba(0,0,0,.26);
+    }
+    .typewriter-machine-badge {
+      position: absolute;
+      left: 28px;
+      bottom: 28px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(8,8,8,.78);
+      color: var(--warm);
+      border: 1px solid rgba(216,166,106,.28);
+      font: 800 11px/1 Arial, Helvetica, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .14em;
+    }
+    .typewriter-mode-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .typewriter-mode-btn {
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      color: #fff;
+      border-radius: 999px;
+      padding: 11px 14px;
+      cursor: pointer;
+      font: 800 11px/1 Arial, Helvetica, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+    }
+    .typewriter-mode-btn.is-active {
+      background: rgba(216,166,106,.18);
+      color: var(--warm);
+      border-color: rgba(216,166,106,.35);
+    }
+    .typewriter-paper-wrap {
+      min-height: 0;
+      display: flex;
+      align-items: stretch;
+    }
+    .typewriter-paper {
+      position: relative;
+      width: 100%;
+      min-height: 100%;
+      overflow: auto;
+      padding: 34px 30px 30px;
+      border-radius: 26px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.05) 14%, rgba(255,255,255,.02)),
+        #f0e1c6;
+      color: #2a2119;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.6), 0 28px 48px rgba(0,0,0,.22);
+    }
+    .typewriter-paper::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: repeating-linear-gradient(180deg, rgba(114,84,51,.06), rgba(114,84,51,.06) 1px, transparent 1px, transparent 33px);
+      opacity: .44;
+    }
+    .typewriter-paper > * { position: relative; z-index: 1; }
+    .typewriter-paper-kicker {
+      color: #7b5a39;
+      font: 800 11px/1.3 Arial, Helvetica, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .18em;
+      margin-bottom: 12px;
+    }
+    .typewriter-paper-title {
+      margin: 0 0 10px;
+      font: 800 clamp(24px, 3vw, 34px)/1.02 Arial, Helvetica, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    .typewriter-paper-intro {
+      margin: 0 0 22px;
+      color: #5f4831;
+      font: 15px/1.6 Arial, Helvetica, sans-serif;
+    }
+    .tw-view.hidden { display: none !important; }
+    .tw-fragment-frame {
+      border-radius: 18px;
+      overflow: hidden;
+      background: #111;
+      box-shadow: 0 18px 38px rgba(0,0,0,.18);
+      margin-bottom: 16px;
+    }
+    .tw-fragment-frame img {
+      display: block;
+      width: 100%;
+      max-height: 54dvh;
+      object-fit: cover;
+    }
+    .tw-fragment-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .tw-fragment-title {
+      margin: 0;
+      font: 800 20px/1.15 Arial, Helvetica, sans-serif;
+      text-transform: uppercase;
+    }
+    .tw-fragment-count {
+      color: #7b5a39;
+      font: 700 11px/1 Arial, Helvetica, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .16em;
+    }
+    .tw-fragment-caption {
+      margin: 0 0 18px;
+      font: 16px/1.62 Arial, Helvetica, sans-serif;
+      color: #4c3a29;
+    }
+    .tw-fragment-controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .tw-paper-note {
+      white-space: pre-wrap;
+      font: 18px/1.85 "Courier New", Courier, monospace;
+      letter-spacing: .02em;
+    }
+    .typewriter-form {
+      display: grid;
+      gap: 14px;
+    }
+    .typewriter-field {
+      display: grid;
+      gap: 8px;
+    }
+    .typewriter-field label {
+      font: 800 11px/1 Arial, Helvetica, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .16em;
+      color: #7b5a39;
+    }
+    .typewriter-field input,
+    .typewriter-field textarea {
+      width: 100%;
+      border: 1px solid rgba(70,51,34,.2);
+      border-radius: 14px;
+      padding: 14px 16px;
+      background: rgba(255,255,255,.55);
+      color: #1f1711;
+      font: 16px/1.5 "Courier New", Courier, monospace;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.54);
+    }
+    .typewriter-field textarea {
+      min-height: 180px;
+      resize: vertical;
+    }
+    .typewriter-form-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .typewriter-status {
+      color: #5f4831;
+      font: 14px/1.55 Arial, Helvetica, sans-serif;
+      min-height: 22px;
+    }
+
+
+    /* ---------------- RESPONSIVE ---------------- */
+    @media (max-width: 1100px) {
+      .board {
+        min-height: 1660px;
+        padding: 38px 28px 46px;
+      }
+      .cards-layer { min-height: 1530px; }
+      .center-badge {
+        width: min(340px, 42vw);
+      }
+      #card-trailer1 { left: 4%; top: 4%; }
+      #card-trailer2 { left: 31%; top: 4%; }
+      #card-sample   { left: 58%; top: 4%; }
+      #card-analysis { right: 7%; left: auto; top: 23%; }
+      #card-author   { left: 7%; top: 34%; }
+      #card-loopdrawer { left: 34%; top: 52%; }
+      #card-july     { left: 60%; right: auto; top: 43%; }
+      #card-clipweek { right: 8%; left: auto; top: 61%; }
+      #card-dopesick { left: 8%; top: 75%; }
+      #card-gods     { right: 11%; left: auto; top: 79%; }
+    }
+
+    @media (max-width: 820px) {
+      .hint {
+        font-size: 10px;
+        max-width: calc(100vw - 16px);
+      }
+      .opening-scene {
+        background:
+          linear-gradient(180deg, rgba(0,0,0,.22), rgba(0,0,0,.66)),
+          url('ticket-collage.png') center center / 410px auto repeat,
+          #050505;
+      }
+      .scene-inner {
+        padding-top: calc(var(--safe-top) + 56px);
+        gap: 14px;
+      }
+      .banner-wrap { width: 96vw; }
+      .site-banner { border-radius: 14px; }
+      .ticket-cta,
+      .dvd-cta,
+      .archive-cta {
+        font-size: 12px;
+        letter-spacing: .14em;
+        padding: 14px 18px;
+        white-space: normal;
+      }
+      .ground-ticket {
+        width: min(96vw, 720px);
+        transform: rotate(-3deg);
+      }
+      .atm-machine {
+        width: 96vw;
+        max-height: calc(100dvh - var(--safe-top) - var(--safe-bottom) - 110px);
+      }
+      .atm-ticket {
+        width: min(54vw, 390px);
+        bottom: 16%;
+      }
+      .dvd {
+        width: min(280px, 62vw);
+        bottom: 12%;
+      }
+      .dvd-cta { bottom: calc(var(--safe-bottom) + 74px); }
+      .archive-cta { bottom: calc(var(--safe-bottom) + 12px); }
+
+      .archive-inner {
+        padding-top: calc(var(--safe-top) + 58px);
+        gap: 14px;
+      }
+      .archive-title { width: 94vw; }
+      .archive-title p { font-size: 14px; }
+      .update-pill { font-size: 10px; line-height: 1.45; }
+
+      .board-wrap {
+        width: min(420px, 96vw);
+        padding: 0;
+      }
+      .board {
+        min-height: auto;
+        padding: 18px 14px 20px;
+        border-radius: 22px;
+      }
+      .board-center,
+      .thread-svg,
+      .evidence-note {
+        display: none;
+      }
+      .cards-layer {
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+      .thread-card {
+        position: relative !important;
+        left: auto !important;
+        right: auto !important;
+        top: auto !important;
+        bottom: auto !important;
+        transform: none !important;
+        width: 100% !important;
+      }
+      .thread-card img { aspect-ratio: .9 / 1; }
+      .thread-card b { font-size: 20px; }
+
+      .book-shell,
+      .video-shell,
+      .baggie-shell {
+        margin: 0;
+        border-radius: 0;
+        border: none;
+        min-height: 100dvh;
+        height: 100dvh;
+      }
+      .book-header {
+        padding: calc(var(--safe-top) + 10px) 12px 10px;
+      }
+      .book-cover-panel {
+        padding: 16px;
+      }
+      .book-cover-panel img {
+        max-height: min(48vh, 420px);
+      }
+      .book-scroll {
+        padding: 20px 16px 32px;
+      }
+      .page-title { font-size: 21px; }
+      .page-text {
+        font-size: 16px;
+        line-height: 1.62;
+      }
+      .book-footer {
+        padding: 10px 12px calc(var(--safe-bottom) + 10px);
+      }
+      .video-shell {
+        padding: 12px;
+      }
+      .video-shell.local-video-mode {
+        padding: 0;
+      }
+      .video-top {
+        padding-top: calc(var(--safe-top) + 2px);
+      }
+      .baggie-header {
+        padding: calc(var(--safe-top) + 12px) 12px 0;
+      }
+      .baggie-zip {
+        margin: 12px 12px 0;
+      }
+      .baggie-seal {
+        margin: 8px 18px 0;
+      }
+      .baggie-body {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        padding: 16px 12px calc(var(--safe-bottom) + 18px);
+      }
+      .baggie-media {
+        min-height: 220px;
+      }
+      .baggie-embed-host {
+        padding: 10px;
+      }
+      .baggie-copy {
+        padding: 0;
+      }
+      .baggie-title {
+        font-size: 26px;
+      }
+      .baggie-text {
+        font-size: 16px;
+        line-height: 1.62;
+      }
+
+      .desk-stage {
+        position: relative;
+        left: auto;
+        bottom: auto;
+        transform: none;
+        width: 100%;
+        margin-top: 8px;
+        padding: 6px 4px 0;
+      }
+      .desk-surface {
+        position: relative;
+        width: 100%;
+        transform: none;
+        left: auto;
+        height: 62px;
+      }
+      .typewriter-hotspot {
+        width: min(280px, calc(100% - 20px));
+        margin: -60px auto 0;
+      }
+      .typewriter-label {
+        bottom: -2px;
+        white-space: normal;
+        text-align: center;
+        max-width: calc(100% - 20px);
+      }
+      .typewriter-shell {
+        margin: 0;
+        border-radius: 0;
+        border: none;
+        min-height: 100dvh;
+        height: 100dvh;
+      }
+      .typewriter-header {
+        padding: calc(var(--safe-top) + 10px) 12px 10px;
+      }
+      .typewriter-layout {
+        grid-template-columns: 1fr;
+        padding: 12px;
+      }
+      .typewriter-machine-card {
+        min-height: 220px;
+      }
+      .typewriter-paper {
+        padding: 24px 18px calc(var(--safe-bottom) + 24px);
+        border-radius: 22px 22px 0 0;
+      }
+      .tw-fragment-frame img {
+        max-height: 34dvh;
+      }
+
+    }
+
+
+    html[data-layout="mobile"] .grain {
+      display: none;
+    }
+    html[data-layout="mobile"] .pill,
+    html[data-layout="mobile"] .ticket-cta,
+    html[data-layout="mobile"] .archive-cta,
+    html[data-layout="mobile"] .dvd-cta,
+    html[data-layout="mobile"] .overlay-backdrop {
+      backdrop-filter: none;
+    }
+    html[data-layout="mobile"] .bg-video,
+    html[data-layout="mobile"] .archive-video {
+      filter: brightness(.58);
+      transform: none;
+    }
+
+    /* ---------------- LAYOUT MODES ---------------- */
+    html[data-layout="desktop"] .top-ui {
+      padding: 0 18px;
+    }
+    html[data-layout="desktop"] .archive-inner {
+      padding-left: 18px;
+      padding-right: 18px;
+    }
+    html[data-layout="desktop"] .archive-title h2 {
+      font-size: clamp(38px, 4.4vw, 68px);
+      letter-spacing: .11em;
+      text-shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+    html[data-layout="desktop"] .archive-title p {
+      max-width: 760px;
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 17px;
+      line-height: 1.6;
+    }
+    html[data-layout="desktop"] .board-wrap {
+      width: min(1420px, 99vw);
+      padding: 20px;
+    }
+    html[data-layout="desktop"] .board {
+      min-height: 1360px;
+      padding: 46px 36px 60px;
+      border-radius: 32px;
+    }
+    html[data-layout="desktop"] .thread-card {
+      width: 220px;
+    }
+    html[data-layout="desktop"] .thread-card b {
+      font-size: 16px;
+    }
+    html[data-layout="desktop"] .baggie-shell {
+      width: min(1320px, calc(100vw - 28px));
+      margin-left: auto;
+      margin-right: auto;
+    }
+    html[data-layout="desktop"] .baggie-body {
+      grid-template-columns: minmax(340px, .95fr) minmax(420px, 1fr);
+      gap: 30px;
+      align-items: start;
+    }
+    html[data-layout="desktop"] .baggie-media {
+      min-height: 540px;
+      position: sticky;
+      top: 0;
+    }
+    html[data-layout="desktop"] .baggie-copy {
+      padding-right: 10px;
+    }
+
+    html[data-layout="mobile"] .grain {
+      opacity: .022;
+    }
+    html[data-layout="mobile"] .car-radio {
+      width: calc(100vw - 110px);
+      min-width: 0;
+      padding: 8px;
+      gap: 8px;
+      border-radius: 18px;
+    }
+    html[data-layout="mobile"] .radio-face {
+      padding: 8px 10px;
+      border-radius: 12px;
+    }
+    html[data-layout="mobile"] .radio-title {
+      font-size: 11px;
+      line-height: 1.3;
+    }
+    html[data-layout="mobile"] .radio-kicker,
+    html[data-layout="mobile"] .radio-status {
+      letter-spacing: .12em;
+      font-size: 9px;
+    }
+    html[data-layout="mobile"] .radio-knob {
+      width: 44px;
+      height: 44px;
+      font-size: 9px;
+    }
+    html[data-layout="mobile"] .radio-knob-small {
+      font-size: 16px;
+    }
+    html[data-layout="mobile"] .archive-cta {
+      width: min(88vw, 340px);
+      bottom: max(18px, calc(var(--safe-bottom) + 10px));
+      font-size: 12px;
+      letter-spacing: .12em;
+      padding: 14px 16px;
+    }
+    html[data-layout="mobile"] .desk-stage {
+      position: relative;
+      left: auto;
+      bottom: auto;
+      transform: none;
+      width: 100%;
+      margin-top: 14px;
+      padding-top: 6px;
+      display: flex;
+      justify-content: center;
+      min-height: 0;
+    }
+    html[data-layout="mobile"] .desk-surface {
+      width: min(100%, 340px);
+      height: 72px;
+    }
+    html[data-layout="mobile"] .typewriter-hotspot {
+      width: min(340px, 100%);
+      padding-bottom: 8px;
+    }
+    html[data-layout="mobile"] .thread-card {
+      display: grid;
+      grid-template-columns: 108px minmax(0, 1fr);
+      gap: 6px 14px;
+      align-items: start;
+      grid-template-areas: none;
+    }
+    html[data-layout="mobile"] .thread-card img {
+      grid-column: 1;
+      grid-row: 1 / span 3;
+      align-self: stretch;
+    }
+    html[data-layout="mobile"] .thread-card .mini,
+    html[data-layout="mobile"] .thread-card b {
+      grid-column: 2;
+      grid-area: auto;
+      min-width: 0;
+    }
+    html[data-layout="mobile"] .thread-card .mini {
+      white-space: normal;
+      display: block;
+    }
+    html[data-layout="mobile"] .vignette {
+      box-shadow: inset 0 0 120px rgba(0,0,0,.56);
+    }
+    html[data-layout="mobile"] .scene {
+      transition: opacity .45s ease, transform .45s ease;
+    }
+    html[data-layout="mobile"] .bg-video,
+    html[data-layout="mobile"] .archive-video {
+      transform: scale(1.02);
+      filter: brightness(.5) contrast(1.01) saturate(.78);
+    }
+    html[data-layout="mobile"] .archive-title {
+      width: min(100%, 420px);
+      position: sticky;
+      top: calc(var(--safe-top) + 10px);
+      z-index: 4;
+      padding: 14px 14px 12px;
+      border-radius: 20px;
+      background: rgba(7,7,7,.62);
+      border: 1px solid rgba(255,255,255,.08);
+      backdrop-filter: blur(4px);
+      box-shadow: 0 18px 34px rgba(0,0,0,.24);
+    }
+    html[data-layout="mobile"] .archive-title h2 {
+      font-size: clamp(26px, 9vw, 38px);
+      line-height: .95;
+      letter-spacing: .09em;
+    }
+    html[data-layout="mobile"] .archive-title p {
+      margin-top: 10px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    html[data-layout="mobile"] .update-pill {
+      margin-top: 12px;
+      padding: 9px 14px;
+      font-size: 10px;
+      letter-spacing: .11em;
+    }
+    html[data-layout="mobile"] .board {
+      background-size: 760px auto;
+    }
+    html[data-layout="mobile"] .cards-layer {
+      gap: 12px;
+    }
+    html[data-layout="mobile"] .thread-card {
+      display: grid;
+      grid-template-columns: 108px minmax(0, 1fr);
+      grid-template-areas:
+        "image mini"
+        "image title";
+      gap: 6px 14px;
+      align-items: center;
+      padding: 12px;
+      border-radius: 20px;
+      box-shadow: 0 14px 28px rgba(0,0,0,.26);
+    }
+    html[data-layout="mobile"] .thread-card img {
+      grid-area: image;
+      width: 108px;
+      aspect-ratio: 1 / 1;
+      margin: 0;
+      border-radius: 12px;
+    }
+    html[data-layout="mobile"] .thread-card .mini {
+      grid-area: mini;
+      margin: 0;
+      align-self: end;
+      font-size: 10px;
+      line-height: 1.4;
+    }
+    html[data-layout="mobile"] .thread-card b {
+      grid-area: title;
+      font-size: 22px;
+      line-height: 1.02;
+      align-self: start;
+    }
+    html[data-layout="mobile"] .thread-card::before,
+    html[data-layout="mobile"] .thread-card::after {
+      width: 42px;
+      height: 12px;
+      top: -6px;
+    }
+    html[data-layout="mobile"] .thread-card .pin {
+      width: 11px;
+      height: 11px;
+    }
+    html[data-layout="mobile"] .book-btn {
+      min-height: 46px;
+      padding-left: 14px;
+      padding-right: 14px;
+    }
+    html[data-layout="mobile"] .baggie-shell {
+      background:
+        linear-gradient(180deg, rgba(245,250,255,.16), rgba(220,236,250,.06) 34%, rgba(210,228,245,.08) 100%),
+        rgba(255,255,255,.07);
+      backdrop-filter: blur(14px) saturate(115%);
+    }
+    html[data-layout="mobile"] .baggie-media {
+      border-radius: 20px;
+    }
+
+    html[data-layout="mobile"] .desk-stage {
+      position: relative;
+      left: auto;
+      bottom: auto;
+      transform: none;
+      width: 100%;
+      margin-top: 14px;
+      padding-top: 6px;
+      display: flex;
+      justify-content: center;
+      min-height: 0;
+    }
+    html[data-layout="mobile"] .desk-surface {
+      width: min(100%, 340px);
+      height: 72px;
+    }
+    html[data-layout="mobile"] .typewriter-hotspot {
+      width: min(340px, 100%);
+      padding-bottom: 8px;
+    }
+    html[data-layout="mobile"] .thread-card {
+      display: grid;
+      grid-template-columns: 108px minmax(0, 1fr);
+      gap: 6px 14px;
+      align-items: start;
+      grid-template-areas: none;
+    }
+    html[data-layout="mobile"] .thread-card img {
+      grid-column: 1;
+      grid-row: 1 / span 3;
+      align-self: stretch;
+      width: 108px;
+      aspect-ratio: 1 / 1;
+      margin: 0;
+      border-radius: 12px;
+    }
+    html[data-layout="mobile"] .thread-card .mini,
+    html[data-layout="mobile"] .thread-card b {
+      grid-column: 2;
+      grid-area: auto !important;
+      min-width: 0;
+    }
+    html[data-layout="mobile"] .thread-card .mini {
+      white-space: normal;
+      display: block;
+      margin: 0;
+      align-self: auto;
+    }
+    html[data-layout="mobile"] .thread-card b {
+      line-height: 1.06;
+      align-self: auto;
+    }
+
+    @media (max-width: 560px) {
+      html[data-layout="mobile"] .top-ui {
+        padding: 0 10px;
+      }
+      html[data-layout="mobile"] .pill {
+        padding: 10px 12px;
+        font-size: 10px;
+      }
+      html[data-layout="mobile"] .car-radio {
+        width: calc(100vw - 102px);
+      }
+      html[data-layout="mobile"] .radio-face {
+        padding: 7px 9px;
+      }
+      html[data-layout="mobile"] .radio-title {
+        font-size: 10px;
+      }
+      html[data-layout="mobile"] .thread-card {
+        grid-template-columns: 84px minmax(0, 1fr);
+        gap: 6px 12px;
+      }
+      html[data-layout="mobile"] .thread-card img {
+        width: 84px;
+      }
+      html[data-layout="mobile"] .thread-card b {
+        font-size: 19px;
+      }
+      html[data-layout="mobile"] .baggie-title {
+        font-size: 22px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
+      }
+      .bg-video,
+      .archive-video {
+        transform: none !important;
+      }
+    }
+
+  </style>
+</head>
+<body>
+<div class="app">
+<audio id="podcastAudio" preload="metadata">
+<source src="./assets/audio/The_Sociologist_Mapping_His_Own_Addiction_under25mb.mp3" type="audio/mpeg"/>
+</audio>
+<div class="top-ui">
+<div aria-label="Podcast player" class="car-radio">
+<button aria-label="Play the podcast audio" class="radio-knob" id="audioToggle" type="button">Play</button>
+<div class="radio-face">
+<div class="radio-kicker">Old car radio transmission</div>
+<div class="radio-title">The words that built the foundation that IHOCAIHAG is built on</div>
+<div class="radio-status" id="radioStatus">Radio silent</div>
+</div>
+<button aria-label="Restart the podcast audio" class="radio-knob radio-knob-small" id="audioRestart" type="button">↺</button>
+</div>
+<button class="pill" id="resetBtn" type="button">Restart</button>
+</div>
+<section aria-label="Opening scene" class="scene opening-scene show" id="openingScene">
+<div class="bg-video-wrap">
+<video autoplay="" class="bg-video" id="bgVideo" loop="" muted="" playsinline="" poster="ticket-collage.png" preload="metadata">
+<source src="background-video.mp4" type="video/mp4"/>
+</video>
+<div class="video-darkener"></div>
+</div>
+<div class="scene-inner">
+<div class="banner-wrap">
+<img alt="Site banner" class="site-banner" src="site-banner.png"/>
+</div>
+<div class="opening-center">
+<div class="ticket-cta cta-pulse" id="ticketCta">
+<span class="arrow">↓</span>
+<span>Tap the ticket to begin</span>
+<span class="arrow">↓</span>
+</div>
+<button aria-label="Tap the ticket to begin" class="ground-ticket" id="groundTicket" type="button">
+<img alt="Ticket" decoding="async" loading="lazy" src="ticket-single.png"/>
+</button>
+</div>
+</div>
+</section>
+<section aria-label="ATM scene" class="scene atm-scene" id="atmScene">
+<div class="atm-stage">
+<div class="atm-machine">
+<img alt="ATM machine" decoding="async" loading="lazy" src="atm-machine.png"/>
+<div class="atm-overlay"></div>
+<div class="atm-ticket" id="atmTicket">
+<img alt="Ticket being inserted" decoding="async" loading="lazy" src="ticket-single.png"/>
+</div>
+<div class="dvd" id="dvdWrap">
+<div aria-label="DVD case" class="case" id="dvdCase" role="button" tabindex="0">
+<div class="case-front">
+<img alt="DVD case cover" decoding="async" loading="lazy" src="dvdcase.png"/>
+</div>
+<div class="case-inside">
+<img alt="Opened DVD case" decoding="async" loading="lazy" src="case-open-inside.png"/>
+</div>
+</div>
+<button class="archive-cta cta-pulse" id="enterArchiveBtn" type="button">Enter Archive</button>
+</div>
+</div>
+</section>
+<div class="dvd-cta cta-pulse hidden" id="dvdCta">↑ Tap the DVD case ↑</div>
+<section aria-label="Archive and threads" class="scene archive-scene" id="archiveScene">
+<div class="archive-video-wrap">
+<video autoplay="" class="archive-video" id="archiveVideo" loop="" muted="" playsinline="" poster="counter-book.png" preload="metadata">
+<source src="counter-book.mp4" type="video/mp4"/>
+</video>
+<div class="archive-darkener"></div>
+</div>
+<div class="archive-inner">
+<div class="archive-title">
+<h2>Pull a thread</h2>
+<p>Every entry hangs off the same knot. Tug one.</p>
+<div class="update-pill">Site updating very, very soon — but you already know we run on drug dealer time around here.</div>
+</div>
+<div class="board-wrap">
+<div class="board" id="board">
+<div class="board-center">
+<div class="center-badge">
+<img alt="Project centerpiece" decoding="async" loading="lazy" src="dvdcase.png"/>
+</div>
+</div>
+<svg class="thread-svg" id="threadSvg" preserveaspectratio="none" viewbox="0 0 1200 1000"></svg>
+<div class="cards-layer" id="cardsLayer">
+<button class="thread-card" data-src="https://www.youtube.com/embed/sV8Xi7_nTPQ?si=-zm64U6yl1cdU7Xi" data-type="video" id="card-trailer1" type="button">
+<span class="pin left"></span><span class="pin right"></span>
+<img alt="Project trailer" decoding="async" loading="lazy" src="./assets/img/thread-project-trailer.webp"/>
+<span class="mini">Main trailer</span>
+<b>Project trailer</b>
+</button>
+<button class="thread-card" data-src="https://www.youtube.com/embed/PZNJUtX1Tss?si=jK3p3yNLHW-dGs4Q" data-type="video" id="card-trailer2" type="button">
+<span class="pin left"></span><span class="pin right"></span>
+<img alt="Second trailer" decoding="async" loading="lazy" src="./assets/img/thread-second-trailer.webp"/>
+<span class="mini">Deep dive</span>
+<b>Second trailer</b>
+</button>
+<button class="thread-card" data-key="sample" data-type="book" id="card-sample" type="button">
+<span class="pin left"></span><span class="pin right"></span>
+<img alt="Sample chapter" decoding="async" loading="lazy" src="./assets/img/thread-sample-chapter.webp"/>
+<span class="mini">Cold cop this sample</span>
+<b>Sample chapter</b>
+</button>
+<button class="thread-card" data-src="https://www.youtube.com/embed/ie0lFbVjax8?si=NVDc96W_17iXeIgD" data-type="video" id="card-analysis" type="button">
+<span class="pin left"></span><span class="pin right"></span>
+<img alt="Sample chapter analysis" decoding="async" loading="lazy" src="./assets/img/thread-chapter-analysis.webp"/>
+<span class="mini">Free chapter analysis</span>
+<b>Chapter analysis</b>
+</button>
+<button class="thread-card" data-key="july" data-type="book" id="card-july" type="button">
+<span class="pin left"></span><span class="pin right"></span>
+<img alt="To Die in July" decoding="async" loading="lazy" src="cover-july.png"/>
+<span class="mini">Started September 2018</span>
+<b>To Die in July</b>
+</button>
+<button class="thread-card" data-key="dopesick" data-type="book" id="card-dopesick" type="button">
+<span class="pin left"></span><span class="pin right"></span>
+<img alt="Dopesick bonus chapter" decoding="async" loading="lazy" src="cover-dopesick.png"/>
+<span class="mini">Bonus chapter</span>
+<b>Dopesick</b>
+</button>
+<button class="thread-card" data-key="gods" data-type="book" id="card-gods" type="button">
+<span class="pin left"></span><span class="pin right"></span>
+<img alt="The Last Hour of the Gods" decoding="async" loading="lazy" src="./assets/img/thread-last-hour-of-the-gods.webp"/>
+<span class="mini">January 2020</span>
+<b>The Last Hour of the Gods</b>
+</button>
+<button class="thread-card" data-key="author" data-type="baggie" id="card-author" type="button">
+<span class="pin left"></span><span class="pin right"></span>
+<img alt="About the project" decoding="async" loading="lazy" src="./assets/img/thread-about-project.webp"/>
+<span class="mini">Read this first</span>
+<b>About the Project</b>
+</button>
+<button class="thread-card" data-key="clip" data-type="baggie" id="card-clipweek" type="button">
+<span class="pin left"></span><span class="pin right"></span>
+<img alt="Clip of the week" decoding="async" loading="lazy" src="./assets/img/thread-clip-of-the-week.webp"/>
+<span class="mini">TikTok feature</span>
+<b>Clip of the week</b>
+</button>
+</div>
+<button class="thread-card thread-card-spotlight priority-thread" data-poster="./assets/img/thread-got-life-together.webp" data-src="https://www.youtube-nocookie.com/embed/hXIoxnUNy2o" data-type="video" id="card-loopdrawer" type="button">
+<span class="pin left"></span><span class="pin right"></span>
+<img alt="Got life together drawer still" decoding="async" loading="lazy" src="./assets/img/thread-got-life-together.webp"/>
+<span class="mini">Looped video thread</span>
+<span class="mini">Fullscreen autoplay</span>
+<b>Got Life Together</b>
+</button>
+<div aria-label="Underwood desk files" class="desk-stage">
+<div class="desk-surface"></div>
+<button class="typewriter-hotspot" id="typewriterHotspot" type="button">
+<img alt="Underwood typewriter on the writing desk" decoding="async" loading="lazy" src="./assets/img/typewriter-desk-hotspot.webp"/>
+<span class="typewriter-label">DESK FILES</span>
+</button>
+</div>
+<div class="evidence-note note-1">Who profits?</div>
+<div class="evidence-note note-2">Pull one thread</div>
+</div>
+</div>
+</div>
+</section>
+<section aria-label="Book viewer" class="overlay book-overlay" id="bookOverlay">
+<div class="overlay-backdrop" id="bookBackdrop"></div>
+<div class="book-shell">
+<div class="book-header">
+<div class="book-header-left">
+<button class="book-btn" id="bookClose" type="button">✕ Close</button>
+<button class="book-btn" id="bookOpenRead" type="button">Open &amp; Read</button>
+</div>
+<div class="book-header-right">
+<a class="book-btn hidden" href="#" id="bookExternalTop" rel="noopener noreferrer" target="_blank">External link ↗</a>
+</div>
+</div>
+<div class="book-cover-panel" id="bookCoverPanel">
+<img alt="Book cover" id="bookCover" src="cover-july.png"/>
+<div class="book-cover-actions">
+<button class="book-btn" id="bookOpenRead2" type="button">Open &amp; Read</button>
+<a class="book-btn hidden" href="#" id="bookExternalBottom" rel="noopener noreferrer" target="_blank">External link ↗</a>
+</div>
+</div>
+<div class="book-read-panel" id="bookReadPanel">
+<div class="book-scroll" id="bookScroll">
+<div class="page-kicker" id="pageKicker"></div>
+<h2 class="page-title" id="pageTitle"></h2>
+<div class="page-text" id="pageText"></div>
+</div>
+</div>
+<div class="book-footer" id="bookFooter">
+<button class="book-btn" id="prevPage" type="button">← Prev</button>
+<div class="book-status" id="bookStatus">Page 1 / 1</div>
+<button class="book-btn" id="nextPage" type="button">Next →</button>
+</div>
+</div>
+</section>
+<section aria-label="Video viewer" class="overlay video-overlay" id="videoOverlay">
+<div class="overlay-backdrop" id="videoBackdrop"></div>
+<div class="video-shell" id="videoShell">
+<div class="video-top">
+<button class="book-btn" id="videoClose" type="button">✕ Close</button>
+</div>
+<div class="video-frame-wrap">
+<div class="video-frame">
+<iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" id="videoFrame" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="" title="Video player"></iframe>
+<video controls="" id="localVideoPlayer" loop="" playsinline="" preload="metadata"></video>
+</div>
+</div>
+</div>
+</section>
+<section aria-label="Plastic baggie detail page" class="overlay baggie-overlay" id="baggieOverlay">
+<div class="overlay-backdrop" id="baggieBackdrop"></div>
+<div class="baggie-shell">
+<div class="baggie-zip"></div>
+<div class="baggie-seal"></div>
+<div class="baggie-header">
+<div class="book-header-left">
+<button class="book-btn" id="baggieClose" type="button">✕ Close</button>
+</div>
+</div>
+<div class="baggie-body">
+<div class="baggie-media">
+<img alt="Baggie feature image" class="baggie-image" id="baggieImage" src="cover-july.png"/>
+<div class="baggie-video-frame hidden" id="baggieVideoWrap">
+<iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" id="baggieVideoFrame" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="" title="Clip of the week player"></iframe>
+<div class="baggie-embed-host hidden" id="baggieEmbedHost"></div>
+</div>
+</div>
+<div class="baggie-copy">
+<div class="page-kicker baggie-kicker" id="baggieLabel"></div>
+<h2 class="baggie-title" id="baggieTitle"></h2>
+<div class="baggie-edit-note" id="baggieEditNote"></div>
+<div class="baggie-text" id="baggieText"></div>
+<a class="book-btn hidden" href="#" id="baggieLink" rel="noopener noreferrer" target="_blank">Open link ↗</a>
+</div>
+</div>
+</div>
+</section>
+<section aria-label="Underwood desk files" class="overlay typewriter-overlay" id="typewriterOverlay">
+<div class="overlay-backdrop" id="typewriterBackdrop"></div>
+<div class="typewriter-shell">
+<div class="typewriter-header">
+<div class="book-header-left">
+<button class="book-btn" id="typewriterClose" type="button">✕ Close</button>
+</div>
+<div class="typewriter-header-meta">Underwood desk / fragments / locked page / message</div>
+</div>
+<div class="typewriter-layout">
+<div class="typewriter-rail">
+<div class="typewriter-machine-card">
+<img alt="Underwood typewriter" decoding="async" loading="lazy" src="./assets/img/typewriter-machine-card.webp"/>
+<div class="typewriter-machine-badge">Underwood desk</div>
+</div>
+<div aria-label="Typewriter modes" class="typewriter-mode-row" role="tablist">
+<button class="typewriter-mode-btn is-active" data-tw-mode="fragments" id="twModeFragments" type="button">Scan fragments</button>
+<button class="typewriter-mode-btn" data-tw-mode="note" id="twModeNote" type="button">Read-only note</button>
+<button class="typewriter-mode-btn" data-tw-mode="message" id="twModeMessage" type="button">Message author</button>
+</div>
+</div>
+<div class="typewriter-paper-wrap">
+<div class="typewriter-paper">
+<div class="typewriter-paper-kicker" id="twPaperKicker">Underwood desk files</div>
+<h2 class="typewriter-paper-title" id="twPaperTitle">Scan fragments</h2>
+<p class="typewriter-paper-intro" id="twPaperIntro">Move through note fragments from the room, switch over to a locked typed note, or open an email draft to send the author a message.</p>
+<div class="tw-view" id="twFragmentsView">
+<div class="tw-fragment-frame"><img alt="Note fragment" id="twFragmentImage" src="./assets/img/typewriter-fragment-default.webp"/></div>
+<div class="tw-fragment-meta">
+<h3 class="tw-fragment-title" id="twFragmentTitle">Pinned note fragment</h3>
+<div class="tw-fragment-count" id="twFragmentCount">1 / 4</div>
+</div>
+<p class="tw-fragment-caption" id="twFragmentCaption"></p>
+<div class="tw-fragment-controls">
+<button class="book-btn" id="twPrevFragment" type="button">← Previous</button>
+<button class="book-btn" id="twNextFragment" type="button">Next →</button>
+</div>
+</div>
+<div class="tw-view hidden" id="twNoteView">
+<div class="tw-paper-note" id="twNoteText"></div>
+</div>
+<form class="tw-view hidden typewriter-form" id="typewriterMessageForm">
+<div class="typewriter-field">
+<label for="twMessageName">Your name</label>
+<input id="twMessageName" name="name" placeholder="Reader name" type="text"/>
+</div>
+<div class="typewriter-field">
+<label for="twMessageEmail">Your email</label>
+<input id="twMessageEmail" name="email" placeholder="name@example.com" type="email"/>
+</div>
+<div class="typewriter-field">
+<label for="twMessageBody">Message to the author</label>
+<textarea id="twMessageBody" name="message" placeholder="Write a note to the author here."></textarea>
+</div>
+<div class="typewriter-form-actions">
+<button class="book-btn" id="twSendMail" type="submit">Open email draft</button>
+<button class="book-btn" id="twCopyEmail" type="button">Copy email</button>
+</div>
+<div class="typewriter-status" id="twMessageStatus">This launches your own email app with the message prefilled. A direct submit needs a form service or backend.</div>
+</form>
+</div>
+</div>
+</div>
+</div>
+</section>
+<div class="hint pill" id="hint">Tap the ticket to begin</div>
+<div class="grain"></div>
+<div class="vignette"></div>
+</div>
+<script>
+    const BOOK_SOURCE = {
+      sample: {
+        title: 'Dopesick 2 — Sample Chapter',
+        kicker: 'Uploaded chapter sample',
+        cover: 'counter-book.png',
+        url: '',
+        raw: `dOPESICK 2
+                 The new socioeconomic reality of  tranq, fetty, the cocaine comeback , and a   4-year bender
+
+DISACLAIMER/WARNING
+The following two chapters are extremely descriptive and triggering to newly sober and detoxing individuals. They were written in  their entirety without edit, spellcheck, corrections to readibilty or anything of that nature. They are intended to shed light on the visceral, miserable, and chaotic life of someone in the throwes of active addiction to not 1 but 3 simultanous drugs over a period of time and a grand total of 5 dependent to the core addictions by the time a simple mistake turned into an extinction level event in the life of a person who has the survival mechanism of their brain hijacked by a poison and that poision is what the monkey part of our brain tells us must be present in high quantities inside the blood to make it another day, alive. The transition from the broken man sprayng duster in the grooves of his keyboard in the hopes of a small nugget of white gold rushes forth, yet it never does. When the drugs stop working and the only thing you had left in life no longer satisfies any longings for comfort and stability that's a hole that no perceived drug induced relief can dent, it is then when you understand the depths a word like loneliness can truly sink to
+sPun uP down and WaY tf aROunD
+August 1, 2024
+thirty seconds ago I exhaled and from my lungs poured out the thick billowing cloud of a nuclear sized hit of crack cocaine. My vision tightens and the outside of my head seems to start to swirll in a way that is very pleasant to me. I have what feels like pressure as if someone is pushing their thumb in the back bottom right of my skull. My neck and shoulder muscles release the unbreakable tension for a few brief moments  offering a miniscule respite from the constant pressure, that resembles a ratchet strap being tightened to max capacity, that they have felt for the last 5 month segment of this 4 year long constant full speed ahead balls to the walls, deathwish,                                   relapse. Hold one as I load another pipe.
+	I release the poision cloud from my lungs as my hearing noticeably fades from my reality and leaves behind countless bits of debris and residue in my windpipe and lungs. I reach for a staple of my diet this past half a year, a freeze pop, and sit back and think about the implications of writing these words tonight. These words in this document are different than the  handwritten goodbye note to my friends and family when I felt my body giving up back in February or the other one in June that attempted to explain why I couldn't stop or even try to. The letters here differ from the tear stained notebook pages back in March of last year wishing everyone well as I realized that I was stuck and would have to face detoxing from the "Tranq" part of Tranq dope and feeling for the first time brain jolts and seizure pump fakes that left me accepting my imminent death but wishing with my entire being that I could stay here. Gimmie a minute I gotta pack another cocaina pearl and take my probably 10,000th milligram of ol gabbie penty today.
+	My 8 year old angel of a black cat  Dr. Amelia Shepherd MD has now hopped up on my desk and is nuzzling her head into mine as her big chubby orange brother Chaz Michael Michaels sprawls out on the floor next to one of my bookshelves. I can with absolute complete certainty that if I have not had the love and affection of these cats the past 4 years I would 1000% not be alive today even though its pretty much a coin toss if I will be able to make it to tomorrow. They were little kitties with me when I, stone sober, wrote Dopesick: The American Addiction to Heroin and Profit. Now they still play, and fight, and wrestle, and meow, and fetch bottle caps as I sit here and destroy myself attempting to start work on the sequel that I am not sure I will live to see through to publication.  I squint with one eye open trying to focus on the screen because the neurotins have now risen to their height to team up with the 100 mg of methadone that I roughly take in a day to get myself to a point of numb enough to calm the giant black pit that exists within my being.  Take a bathroom break or something I gotta mix up the cocktail of crack, gabapentins                                            , and methadone that have taken the torch in my life from Tranq Dope.
+I made the decision to type this as…….hold on ya already know what it is I gotta scrape the thick gunk like resin from my pipe with a repurposed pick from a dentists office so I can smoke it in a few hits at the very end of this particular session, ill be back in a sec.
+Okay as I was saying I made the decision to write this unedited in the state that I have been basically every night for roughly 4 years the only difference is the selection of drugs.	I wanted to have something of substance and slight depth to be able to look back and remember the pain and adddddddddddddddddddddddddddddddd .  Sorry 2 central nervous system respiratory depressants have me nodding ridiculously hard. I was saying I wanted to remember the pain, despair, constant stress, fear, sloppiness, and ever present sadness that surrounds my entire soul even though I somehow have been able to put on a full life mask to give the appearance of doing ok. I am not saying it in some kind of bragging or glorifying way but I am way to good of an addict. I seem to somehow pull out solutions in the 4th quarter to complex and constant problems and situations that come with active addiction that require hundreds of dollars and multiple levels of human connections that are needed to get sorted out for the day.
+	I hope the me in the future is finally the complete and happy person that the me sitting in this chair with 20 pounds less body and sunken defeated blue eyes and a tattered and shredded will to stay aalive wake up and have to go through another day wishes he could be. I want to see the contrast between this me and a me that is present. Especially on this crack leg of the combat tour as drug war veteran I am wounded. My mind is not sharp I am starting to mix up words. I am forgetful of even the most recent things. I am scatterbrained as this chapter shows and you, the reader, have noticed quite early during your trip down my boarded up and crumbling street. Hold on I need a big hit for this next paragraph, I am sdeeing double at this point to beAAAAAA honest.
+	I started this jourmey 4ish years ago with one of the most kind, caring, rgoughtful, funny. Brave,  observasnt, (I am having such a hard time thinking of specific words that I know I want to say and  that's not fair to her). I am pausing this for now because she was to immaculate of a person to be described by me in this state. I am going to get on here and describe who I knew her to be when I am as close to sober as I get anymore. That's the only paragraph I am writing like that in this chapter then I am finishing this at the end of the day in my normal state that has escalated to the level that has my piss smelling of actual cocaine at times. I reaElly do hope I get to get better and finish this  book because the chapters and ideas I have have not been really explored that well if at all out there.  Night all welcome to Dopesick 2.
+
+This is 2 days after the previous words in the late afternoon before dark and I had the day off and am absolutely knocked. tHIS reoad started fetty heroin and we rode that till the wheels were nothing but nubs then tranq dope came and obliterated us she went for help and I held on by my fingernails. Me and her drove across the country on a long sad breakup trip where I tried detoxing and then we said our goodbyes and I was dopesick. Then methadone and a brief period of started to try and stand while abusing methadone and Seroquel and muscle relaxers .Then I slid right back to dips. Fetty and even worse, tranq became my therapist, my friend, my light, and my dark. I got with my current fiancé we bought a house. I tried righting the ship but cocaine made an appearance again and again and again. I somehow still kept it together to the point where nobody knew. So much effort every day went into using but still keeping everything I needed to fulfilled. Then I got a call this beautiful soul died and I knew I needed to dull the nuclear bomb of feeling that was facing that situation. I sleepwalked thru living an appearance of a normal life until I did what I knew I should never ever do. I took the panties of the bitch I knew would pick me up higher than the sky and faceplant me square in the dirt. Work, hard, bap, crack. The drug that ravaged communities and entire cities in the 80s and  early 90s is still around and its ruining lives and futures just as much as it has ever been. Teamin up with the heroin epidemic to offer a 1,2 punch knocking out the dreams, relationshios, futures, and sanity of many people the world over. I squint to see the computer screen because I besides inhaling roughly 5 times the amount of cocaine that a body can "safely" process in a 24 hour period I am also rocketing neurotins into my body every half hour using the staggering method because myself and fellow addicts have worked out scientifically, based on the bioavalibilty and release time of gabapentin, the way to get the maximum amount of cranked possible. The next 6 months straight, every day, every hour with very rare exceptions, every thought and action, were all consumed in the tornado that is crack cocaine. Having to support a full blown massive addiction to 3 different drugs every single day requires so much energy and effort and parts of yourself that you are reduced to a hollow, dried, thin, cracking, outline of a person. Hold up reader, I need to go grab more hard at the moment and if I wait any longer driving will be absolutely out of the question. Be back shortly.
+	Ok it, s about 6 hours, 2 grams of crack, 60 mg of methandone 2700mg on gabapentin later.  Do you wanna know pretty much every night for roughly the past 6 months have gone?  Hopefully not too many of you have said to yourself "what is this laughably Kerouac and Hemingway inspired drug addicted close one eye to type attempt at depicting substance abuse. If you are this far stick with me the rest of the book is not as scatterbrained and jumpy as this. So if the rest of the book ends up being written bite that pillow and get through this because the rest will be worth it. But if I die and don't get clean to write the rest of these pages I am sorry reader to let you down  but trust me in the life I have led sadly you are definitely not alone. Anyways sorry where was i? Oh yea, so my nights. Excuse my pathetic attempt to write brilliantly vivid and graphic I am sure I will fail spectacularly. Also the pressure that moves all around my body is wild I don't know I its pleasurable and given by the drugs or a very serious medical problem. If its medical well, uh oh I wasn't able to get of the train and beat the odds again this time. The house always wins, eventually you can't 666666666666666666666666666666666666666666666666666666666666keep pushing your luck.
+	I usually return home and kick off a tattered Carrhart boot or shoe outside so as not to  irk my angel of a fiancé. I glance over at the windows I wrapped and the siding I hung last summer. My hand grabs the handle of the storm door that me and myself installed. I look up the stairs and smile as my princess, my angel, my lil girl Amelia.
+her observation post and stretches a big stretch and cant get down the stairs fast enough to rub up against my legs. I glance left to the couch as the other black king of the house looks up at me with his tongue sticking out and makes known his jealousy that I have stolen the total attention of his adoring mother. Then my head looks straight at the Mayor of the home, the glue that holds us all together, the object of everyones unending affection. Shaped of a busted tube of cinnamon roll dough or an over yeasted loaf of Italian vread it is Chaz Michael Michaels, my beautiful 8 year old baby boy. This all star fetches bottle caps, he catches them like you are throwing baseball to your same aged son in the backyard after the big t ball game where he dropped a fly ball he should have had. Speaking of our big roon done I need to roll open my drawer to my left and put the resin lined pipe up to my over tensed lips but the scene is one of such beauty that I try to consciously take a step back and take a moment every time it happens and cherish the beauty and pure goodness that we have an ever diminishing amount of in our lives. Ol Roons head is ever so gently placed upon the top of  my left hand as I type these exact words your eyes are following right at this moment in time. His head, so soft and light give the impression that its floating as his closed eyes and loose pudgy body lays relaxed and sprawled across my desk. I sit back and look at his chest as it rises and falls in satisfaction. Amelia purrs peacefully in my lap, shape resembling a wobbly circle, chest mirroring her brother in its elevation and depression. I take in the moment and cherish the fact that this is imprinted into the universe and will "exist" in someway forever and nobody can ever take that away. Actually think about that for a second, try and think about it in a way you wouldn't normally, see if you are even able.
+	Ok big tubby got up when I coughed a wad of spit that resembled expired vanilla pudding and was dotted with miniature spoofed oreo pieces. A specific speck that took a journey from the ground in south America up the ever heating earth to this Pittsburgh pipe. It skillfully spun through the flames that burst out the tip of a nearly empty Bic lighter. It zig zagged around a smashed copper chore boy pad also evading the heated and now syrupy and sticky resin of pure cocaine base that lines the clear glass walls of this "glass pen". An insult to the word writing as it consists of  a rubber top holding a stick filled with the hypothetical idea of ink, jammed into a rubber bottom that loses the battle of standing upright when tasked with letting the stick pour out a letter. This speck hit the back top of my throat inspiring the waves of motion gabapentin offers to my brain to move to that spot and make it go numb and then proceed to dance around my neck and shoulders that have been well over tensed for months now. I have been unable to cough for real for quite sometime now, inevitably allowing much debris and substance to get into my airway and regrettably im sure down into my lungs. As my best friend said, "your lungs probably look like that pipe".  I took one of the half breaths crack allows and force air up as hard as I could attempting to vacate the area back there that was able to collect another load from down the esophagus and windpipe and stacked it for hopeful evacuation. The speck gets blind sided by the phlem im actually able to produce and gets carried along for the journey out of my mouth at high speed and comes to a stop on an empty camel cigarette pack like a car being crash tested into a wall does. You guys should see this its so concerning all I can do is laugh. I just did a big stretch that Amelia and Salem would be proud of and I am about to pop a few gabbys and crush this nuke of a hit one second.
+	Actually to help your lil imaginations picture the scene better ill tell you u how it goes, As Chaz walks back and forth on the desk looking for a suitable place to do one of his infamous "plops" and get comfy to watch dad throw away this gift of a  life he was given back in 1989 by two of the most perfect parents this world has ever produced. I let you read my moms words and learn about their perfection last book so I wont do it again. Chaz aborted his plop and decided to place himself infront of the keyboard so I have to go over him to type and is blasting me with meows that indicate he is ready to go downstairs to cuddle in bed. Oh my god you have to see what he decided to do. The plop and snuggle position he took is fucking incredible I have to get a picture of us  that must be put in this book for yall to see. The mayor has spoken im sorry everyone, he demands we go down to end the ridiculous consumption of narcotics for the night as the battle between central nervous system depressants go to war against the central nervous system stimulant that is ol crunchy, crack cocaine. That battle probably has something to do with the nonstop shake of my hands.  Even with the amount of crack I smoke eventually late enough at night I start taking a huge hit and it makes me really tired. Weird. Anyway im gunna stumble down the stairs and get my 2 hours of sleep before I gotta wake up to shingle a roof or something of that nature.
+Im sure there are a handful of you all out there who would hope my breathing isn't slowed enough to finally end my daily soul sucking grind to survive another day putting all my effort into evading the awful feelings that await when this curtain of chemicals finally falls. Yea, im sure some of you even still wish I wake tomorrow, but me….im not so sure I do anymore. Gnight all. I love u all, Blaise, these cats, my family….ok shit that last part started feeling like this was turning into the 4th goodbye letter I have written just during this recent stage of the 4 year bender. I will be up in the morning and will keep typing  this book yall, I couldn't be that lucky this aint the powerball (you just wait for that story;) "Alright children lets go
+	I have been awake for half an hour and its about as sober and clear headed I can be so I want to drop you something real quick in this shotgun spread of a mishmashed congregation of ideas.  People who don't understand the pull of addiction and how we can do this to ourselves time and time again until we are able to stop or die.
+The answer lies in what it actually feels like to get high in the way you wanna get  high, heroin or crack, crank or huffin paint the desire is the same. Do you remember what it felt like the first time you were in love? The butterflies and the swooning. The obsessing and wondering what they were doing. Re reading your texts together and organizing your day in a way that may let you see them for even a fleeting moment. That feeling of nothing else matters but their embrace anything less is torture. Do you remember those feelings, either in 9th grade or when you found your soulmate at 40? Well waiting for the high is kind of like that. Then when you finally get your gold into yourself it feels like you have finally met up with your true love and they wrap you in a warm blanket of a calm stillness, if only for a second but it is worth it. Then its gone and you will do anything to claw your way back to it again, only  for us it never returns, All we are lucky to get is a deserving imposter sometimes but they are always just placeholders as we remember our great white buffalo.
+Im back and typing over Amelia as she places herself between the keyboard and me and gently pushes her head against mine over and over. I sit here with my entire neck and shoulder muscles tight as a mother fuck. A bitch to turn my head to be honest. Heavy on the crack today but light on opiates and gabs. Enough gabs though for my head to be swirling with a sort of pulsing type of force that moves through my body whenever I acknowledge or focus on it. I am not sure what it is but it feels strangely present and alarming mildly at the same time.
+	There is a freight train coming very soon with its black smoke pumping as it chugs right at me. Wow that was weird, I have shuffle of acoustic songs on youtube and a few seconds after finishing the last freight train sentence a song I have never heard before started with the words "I can hear my train comin, it's a lonely ride" . Wow, sorry I am back that song was some powerful shit. For 4 years I had a shell of reinforcement against having any feeling really,  A shell that grew and grew and saved me from the painful and unpleasant and piercing negative things that we feel in life. But now for one of the first times in 4 years that shell has had its tough and rigid exterior cracked and shattered off  and I was smashed with a little taste of what feelings actually are going to feel like. They are going to be sliding through me like spears and swords. The interesting thing is I was settling in to write about a very interesting topic. I needed to take a breath and center myself because that was one hell of a powerful  song.
+Okay, I am about to wtrite about every drug users worst nightmare, The time, which for me is coming close, I can feel it in every dose, and hit, and ingestion, The time when the drugs don't work anymore. My tolerance for crack is massive after continuous use for months. I have to load absolute blasting  caps to even real get anything eventually any hit that wont kill a person will result in no result. Gabs are quite pleasant but the tolerance to them rise unbelievably fast I moved up the thousands of milligrams undeniably quicker than any drug I have ever done or taken. The methadone dose I do is ofcourse disgustingly high and it no longer gives me a warm shielding blanket for more than a day anymore. It also gets into your bones and the withdrawal from it is something I will not go through. If I die or scratch myself out post theser words somewhere and let the world do whatever they want with it or if they just let it lay peacefully out in the ether. Let someone else who has the ability I would adore finish this project. It would have been or is going to be a work that may be hated or loved it does not matter, what matters is that is moves and stirs something inside of you that would not have moved before if the words didn't lay themselves upon a little dark, small, unobservable part your brain.
+	This pathetic excuse for written word has to close now because I am sure the me that has it  together will be embarrassed as fuck about everything here so I will try to not heap another awful thing he is going to have to face and feel. I am sure he has enough going on but good luck Ry reading this hopefully you don't gotta give way to me ever again because I am a fucking animal. I am a straight heatseeking missile of an addict that is going to smash through everything if I have to when the drugs need to come to me. I retreat to a machine that's code is unhackable and when I have the wheel some massive force that can shove immoveable objects off that cliff because nobody else is driving when its decided that I will say and do anything to not end up:
+					Dopesick
+
+Man, im fucked no matter how this shakes out, good luck you piece of shit.
+
+August 20th
+Aint dead yet, you dipshits
+		Fuck yall I am still fuckin going but its unavoidable end is locked in laser precision position. When I am using at full tilt I will go and go until something, or some set of circumstances actually can physically stop me and we are at that point. I am regurgitating significant amounts of blood when I burp and it is alarming that I can feel my esophagus area damaged probably a hole in it. I am letting it okay out as it may. I don't have the ability to go through whatever awful chain of events going to the hospital may bring. The amount of pain that route would entail would mean detoxing from methadone that has seeped into my fucking bones. The hell that gabapentin withdrawal brings with it and the dopamine obliteration that I have to turn and face is a mountain I no longer have the will to get bashed against the rocks by again. Even if I got out the other side of the physical sicknesses and bodily horrors there is still the return of actually feeling things again. I wish I could put into words here the nauseating peaks and dead, sun cracked, dry valleys of being numb for years totally dead to all feelings and then getting absolutely mollywomped by them the moment they return. The shock that trembles through you because you didn't know it was even possible to feel such a true, crystal pure, raw scaredness eclipsing any fear you have felt a only couple times in your life and staying upon the level of any you will end up feeling for the remainder of it.  The sensation you get through your body as you realize you have no choice but to face and feel the rush of the wave of feelings as they wash over your damaged and battle scarred body completely envelops you. Right at this moment my left ear is ringing and my heart is palpitating at the remembrance of what that is like from multiple times I have had to spar with it before. I am sure the softball sized rock and the pez dispensers worth of neurotin washed down with 100ish mg of methadone could also play a part in the ringing of the ears and the numb tightness of the right of my throat and the blurring of my vision and the shaking of my hands and the paleness of my skin and the tingling from my writs to my bicep and the tightness of my jaw, and the connection from the jaw straight to the right temple that beats with the throbs, but what do I know I am no doctor.
+The departure of the body slender but full in the places many females could only wish for, the soft disarming and friendly voice, the accepting and inviting shining eyes, the smile that has made friends repeatedly in such a short time that became stuff of legend, in a  aaaaaaaaaaaaaaa  the combination of still unwritten traits here has had me looking at the ground smiling for the past few minutes as I thought of a few of them is such an injustice and tragedy that when the drugs no longer work or the unoccupied receptors in my brain finally allow feelings involving the loss of this beauty to force my inevitable reception of them is such a monumental apocalypse I am not sure what will happen in those moments but I know that it will be one of the defining moments of my life, however short or long it limps along into the future for.     Do yall realize how long of a run on sentence I just typed. Yea, that's how fucked up I must get to try and deflect the constant incoming artillery barrage of the reminders that this unprocessed or delt with trauma is always lurking and waiting. That's a story for another time though if I can live to tell it sober, that's how she deserves it to be told. So, keep turning the pages people if there are any after these remaining few paragraphs.
+	If the end of this road results in my death, as the signs appear to all be about to align with, you people missed some powerful ammo I had stored that would have blown yinz's dicks off.  I hand wrote 3 separate good bye letters as I felt the reaper passing the pipe to me. I have snapchat saved videos that I never sent of what I wish I would have said earlier to those important in my life. I took pictures of my surroundings during the worst of this once I knew I needed to write this book. I got my crack dealer to agree to give me an interview for this book so that so many readers get to peer inside the mind and rationale of one who turns to moving narcotics to get through this capitalist abomination of a society. That's a few of the things iv somehow had the awareness to do or recover with my never ending bamboo stick beaten to mush brain. I cant even imagine the shit I am going to pack into these pages when this torture victim mind is somehow finally calm and clear.
+	If there is a stack of words filling a healthy stack of pages you better put your fucking helmet on, button your awkward fitting flak jacket, pull down the steel hatch above you and use more effort than you hoped it would take to secure the latch, because ya about to get shelled in a way you have not been before. That's a promise now leave me alone you limp dicked loser I got more poison to feloniously assault my edge teetering body with until its too high to function. Lets see if im there yet.
+
+Fuck, fuck, kill.
+ For some to live or die is by the pill.
+
+Guess im a poet too
+
+ hell ya, Fuck you!
+
+My breath is held right now as I tell myself to finish typing this sentence and you may release. I did not make it, with bursting lungs they gave way and let it out around the word typing. Counter pressure in my head has been building and with the smokes release it seems to decide to challenge gravity itself. It sounds the steam whistle and rings the bell kicking off the next handful of seconds that I would sacrifice years of hard work just to feel for seconds. An antithesis to reality as it has been known for the entirety of my sentence in this flesh vehicle for the mind. My hearing is decreased by about 50 percent and to swallow is a task. A flood of peace fills me, happy pumps through me. I become conscious that my jaw is clenched insanely tight as if I am holding on during the freefall of a roller coaster at Kennywood. My head still has a nice tingle almost like a buzzing of positivity. The shadow of that feeling in your stomach you get when something huge that you didn't expect happens that changes your course from normal to YES! When you were little and for Christmas you got that gaming console that you resolved would not be under your tree or when you see the notification that picture mail awaits from the girl you never thought in any lifetime could give you the time of day and the next second your phone sprawls before you and her massive, soft, smooth, perfectly proportioned breasts invoke a feeling of such happy disbelief at your good luck it takes seconds for you to realize you are actually seeing what you never thought you could ever be so blessed to see. Your stomach in those moments is what I am talking about pretty much. Now imagine you have somehow invoked in the crush, the one you are recalling right now , to actually hang out with your awkward teenage self. She drives her parents car to your house and you find her in your bed. Every piece of clothing is shed individually until only one piece remains. Let your own imagination dictate which piece it is, everyone with a dick not made out of glass knows the article of fabric. Now the second it slides down revealing the unimaginably unattainable space of beauty laid bare that's the feeling im trying to lasso you into understanding, you may even have a little tingle going on right now. Let your mind wrap around and absorb that for that is how I can best think to make you relate. Girls, I am sorry I cannot relate to the inverse of that description to adequately make you feel it that way so just think of something comparable like shopping or arguing, or sitting downstairs on a computer saying you are hungry asking me what I want to eat today after I already said I will eat whatever you want just name it and your reply is well I dunno, what do you want? Somethin that shakes your pelvic bone on a level of joy like any of those, FUCK I WILL EAT ANYTHING I DON'T CAREEEEE. A little humor people don't come with scissors snipping at my two reasons I could ever even feel the play station of pussys, we all only get one and you all know who it is.
+   It is that feeling though that begs to be unlocked. It loves being chased, pursued, desired. It is elusive and cunning and cruel. It is always just behind the curtain, just behind the foggy window. It waits on the top shelf that even your fingertips come close too but cannot touch even as you extend every muscle you thought possible. Your mind recalls that feeling but cant quite grasp it, just that it was rare and for that you will trade it all. Last of your money on red spin that wheel, every single time. But all it ever leaves you with is the emptiness of the letdown felt as you agree with the ones before who have told you once that bell gets rung enjoy that like you will never have it like that again, because you wont. No matter how good, how many presents you open, what article of clothing you remove, however many more times you have the honor of removing it, it will never be like that first perfect time. Sitting with that is a loneliness few alive have felt, but many, many have known. R.I.P. to our fallen comrades. These two chapters are for the depths of hell, the remaining words are for you.
+
+(Yes, I know I have not purchased the crunchy or been pulled over from this story. Shut the fuck up and turn the page, quit complaining about everything. I am going to go now and pretend I am dead set on Chinese food and if she says ummm nah the rest of this book will be written by my toe as I swing from my ceiling wearing my capitalist necktie)
+
+				Chapter 3:
+			Transition from numb to scum to gold alBUM`
+      },
+      july: {
+        title: 'To Die in July',
+        kicker: 'Started September 2018',
+        cover: 'cover-july.png',
+        url: '',
+        raw: `To Die in July
+					Chapter 1
+
+He thought he would feel a lot different than he actually did. "This world should seem different after you make peace with leaving it." James thought to himself as he reached for his crumbled pack of cigarettes. Fingering around for one of his last remaining smokes as he sat on the sidewalk outside of the convenience store he frequented.
+	James Mason was in his late thirties. He was homeless for what seemed like an eternity when in actuality it has been about 6 years. A tall man with a slim lanky build. Skin tan and dry, the consistency of a worn leathery shoe from all the days spent out in the warm Ohio sun.  His hair was not long but it definitely was not short either, just matted and tangled from days of dried sweat. An attempt at covering it with a dirty camouflage hat with a curved bill did no justice and only added to the overall look of despair that he wore so noticeably. A patchwork short "beard" reflected a need to shave or at least a trim.
+	Not a dumb man by any means, James was a 2-tour veteran of Operation Iraqi Freedom. Those days in the desert may have been brutal and traumatizing but life was simpler then. Someone told you what to do and you did it. Not like now where it was only James calling the shots and he just couldn't get out of his own way.
+	A backpack carried everything in this world that he could call his. An extra pair of faded blue jeans that were too loose on him to look presentable and two back up semi tattered t-shirts composed his wardrobe. He was also currently wearing a pair of newer blue track pants that he had shoplifted from a nicer store in the mall. Although they bore a trademark ink stain from where he had pried off the anti-theft dye pack on the left thigh. He also had on a NASCAR tee although he could care less about the races. Finally, although it was 83 degrees out he had his thick green coat on. Causing more looks of disgust than sympathy from those who passed in and out of the corner store. The looks on their faces reflected a hope that he would not ask them for a dollar.
+	As he lit one of his last cigarettes he pondered what last night actually meant. His life had the ever so apparent tinge of one that was finished. There was no conceivable next chapter and the constant feeling of a life winding down ate at him constantly. He had a wife once, what felt like a lifetime ago. Amanda was her name and she was beautiful. Long brown hair with a full curvaceous figure but very much a gorgeous woman. He loved her then and he still loved her now but having any kind of relationship with her or their 8-year-old daughter seemed every bit the fantasy. It had been almost 4 months since he had seen her and even then, it was only the locking of eyes as she drove by probably on her way to work. She might as well be a stranger at this point. James was on his own.
+	Last night was hard to process. He had made the choice to end his life. He was sure he was committed to carrying it out but now thinking back he was not so sure. The weather was nice enough in July at night where sleeping at his usual clearing in the woods was semi-comfortable. He laid on the old sleeping bag the night before ready to close his eyes one final time.  He had ten Percocet and two Xanax for his last meal and a fifth of very cheap gas station vodka to wash it down. He loved drugs and drinking, he loved anything really that beat back the ever-persistent depression but was too poor to ever develop anything close to physical addiction. His tolerance was low, and this combination of downers should have allowed him to finally shed his earthly body. Eating the Percocet and snorting a large line of Xanax he forced down as much of the rail vodka as he could. He had laid there for a time, how long it was not clear. The pleasant haze that enveloped him did not allow for an accurate gauging of time. He slowly began to drift in and out of consciousness fully content with slipping out of this life that had somewhere gone so horribly wrong.
+	Waking up the next morning was odd and surprising, or maybe it wasn't. A part of James almost knew he would live to see another sunrise. Yet he took the steps to not wake up. Still very much under the influence he fumbled with the yellowed small plastic baggy that held his pills and he tried to make sense of what he saw. There were still 2 Percocet and a Xanax in the bag. He reached for the bottle of vodka and it was little more than half gone. "Why would I save anything unless I knew I would be alive to take them later" he pondered under the brightening sunlight. He was ready to die, he was at peace with taking his final sleep and yet here he was. Maybe he was not as ready as he thought he was. Maybe there was something deep inside that was still faintly holding on.
+	Grappling with what had happened last night and this morning was a task. It was as if he was trying to decipher the actions of two completely different people. It was midday now and the work for today had to still be done. James was hungry and a little more depressed than usual. The kind of depression that follows a night of numbing yourself. The relief and good feelings that the drugs the night before had brought on needed to be paid back in the currency of misery. It was a thought that had always stuck with James since his time in the Infantry. Whatever good a drink or drug brings must at some point eventually be paid back in equally negative terms.
+	The desire to get up off that sidewalk and try and function did not exist, but the routine of everyday life was by now so heavily engrained into James that his body carried out the task that his mind would not acknowledge needed doing. In his pocket were five crumpled one-dollar bills. "Money may not buy happiness, but it does buy life. Last night it almost bought death" James mumbled to himself accompanied with a smirk at what he thought was a very deep and astute thought from a man so totally broken.
+	As he went to walk into the store his sluggish walk seemed to portray everything you needed to know about the man. Labored and out of rhythm his stride came across to the observer as a man completely incapable of normal daily functioning.  Although the aftermath of intense drug use the night prior had more to play in that than any kind of physical handicap.
+	"The shop" as the neighborhood affectionately called it, was a small gas station/convenience store all too common in lower income areas. The shelves were not quite bare, but they were not well stocked either. Three aisles of all the assortments needed to be a poor man's one stop shop. "Mornin Fareed" Jim said with a weaker voice than usual.
+"Jim, yes, hi. It not morning though. Nearly five o clock." He replied with a playful tone.
+	Fareed and his wife Natalia have owned the store for the last ten plus years.  A middle aged middle eastern couple who were incredibly kind and courteous to whoever came in the place of business, no matter how difficult some customers could be.
+	James browsed over the drinks for a lengthy period of time even though he and Fareed both knew he would end up picking the same beverage he always does.  He finally opened the foggy glass door to grab one tall twenty-four-ounce beer. He set it on the counter avoiding eye contact by pretending to check out the candy on the shelf.  "How many loosey?" Fareed inquired, referring to the individual loose cigarettes James always bought. Only special occasions warranted buying a full pack. "Let me get four." He responded while pulling out his old worn pack he kept from the last time he purchased a complete set.
+"Two fifty"
+"Here then let me get an oatmeal crème pie to make it an even three"
+"You have nice day, stay dry. Rain be on the way the paper says." Fareed said while bagging James's things and sliding an extra cigarette in while James glanced over at the newspapers.
+	Walking back out into the brightness was jarring and James imagined that if he were rich he would probably put on an expensive pair of sunglasses right now. He would probably be walking to his high-end car to fill it up with gas.  He would probably be on his way home from work to eat supper with his family. His wife would probably kiss him and ask him about his day. His daughter would probably come in for her hug and look forward to playing with daddy after dessert. He would probably watch the news and look forward to the weekend when he could play golf with a bunch of his friends who he had known since high school.
+	That world did not exist for him though and no matter how bad he wished it did he knew it never would. It simply was not attainable in any stretch of the imagination. When you have been down so long you become less and less likely to be able to get back up. He began the nearly half an hour walk to the intersection where he has the most luck panhandling at. If his luck holds out and he has a decent day he should make enough money to unwind at his favorite bar at night. For now, though all he has is this walk and his mind to continue to pummel him with nagging thoughts of what could have been. Could have been dead last night. Could have had a life worth living. Could have a reason to live. Could have……….could have.`
+      },
+      dopesick: {
+        title: 'Dopesick Bonus Chapter',
+        kicker: '2018 extra chapter',
+        cover: 'cover-dopesick.png',
+        url: 'https://www.amazon.com/Dopesick-American-Addiction-Heroin-Profit/dp/1984338323/ref=sr_1_1?sr=8-1',
+        raw: `A tale of two cities
+	As Charles Dickens wrote in A Tale of Two Cities, "It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness" They say you write about what you know and one thing I know is about finding every possible resource available in a given area and using it to jam narcotics through my veins.  Since a very young child I have always been critically observant of the world around me. I don't profess to have many gifts but the talent to pick up on things, to notice, to critique has always been one of them. This gift ironically applies to everything outside of myself. I am able with startling accuracy to tell you about a place, a situation, even about yourself but am unable to turn that focus inward to constructively criticize myself. Many of you can relate at a certain level but my inability to do so was near fatal. Nevertheless, through my travels and experiences one thing has always stuck out at me.  A realization that was always in the back of my mind when thinking and analyzing my experiences in the center of the opioid epidemic over the years. It was the striking similarities in two completely different environments in which I "existed." They say drugs do not discriminate and this is true but power systems, class systems, and justice systems definitely do. The differences in the towns were clear as a glass of Caribbean islands ocean water. They exist in different states but it might as well be different countries in many ways. Two different communities under the siege of an opiate epidemic that has extended itself to all classes, races, and institutions of American society. They are so different yet when it comes to the scourge of drugs they might as well be identical twins. I will outline how the slow steady march to self-destruction that drugs bring doesn't just apply to individuals but to communities as a whole using the two different towns that I did the most of my dirt in as an example. Belle Vernon, Pennsylvania and Warren, Ohio.
+	I will start with the sooner of the two. Belle Vernon is a quiet middle-class town in southwestern PA. More specifically Rostraver township which has an area of 32.9 square miles and a population of 11,634 as of the 2000 census. The racial demographic is that of 96.90 percent white with the next closest race being a 1.94 percent African American. The population density of Rostraver township, Belle Vernon PA is 361.5 people per square mile. 6.6 percent of its citizens live below the poverty line which comfortably beats the national average of 14.5 percent as of last year. A beautiful place, about 40 minutes south of its big, big brother Pittsburgh, it was hit hard when the steel mills left the area in the later 1970's but rebounded strong much like Pittsburgh itself. It was a great place to grow up with very minimal crime and an all-around example of a community you would want to raise your children in. One could venture to say a prime example of an American middle-class town. Flanked on 2 sides with California University of PA (where I went to school) and Westmorland County Community College and fairly decent public and private schools in the area education for the youth is something to admire. Hockey, football, and baseball all enjoy tremendous community support. Hockey is where in my youth all of my free time went and I could not have asked for a better more productive and characteristically healthy childhood.  Beautiful parks such as Cedar Creek park which is not just a nice looking public space but also regularly used to host a variety of youth sports every weekend.  The houses are for the most part occupied and well taken care of. Small and large business profitably inhabits Belle Vernon and its surrounding areas. You can drive through the countryside in Rostraver and it is peaceful with an almost comforting aura that encompasses you as the windows are rolled down and in classic Belle Vernon youth fashion Taking Back Sunday plays from the car stereo as you sing along.
+	Warren is a lower class American town. A city of 16.16 miles and a population of 46,832 as of the 2000 census. A city with a relatively high population density of 2,576 people per square mile. The 2000 US census lists the racial makeup of this city as 60.94 percent white with the next closest being a 36.20 percent African American population. It has two noteworthy economic parents. 50 minutes south of Cleveland and 20 minutes northwest of Youngstown it has never recovered from the decimation brought about with the collapse of the steel industry accounting in some part to the 19.4% of citizens living below the poverty line, well above the national average. Neighborhoodscout.com ranks cities and towns in a variety of areas using government and private statistics and ranks warren in safety on a 0-100 scale at an astonishing 7! It is statistically safer than a measly 7% of US cities. In a violent crime comparison between the state of Ohio as a whole and Warren, Warren is at 5.57 per 1000 residents while the average of the state of Ohio is just a 2.92 out of 1000 well below the national average of 3.8. Your mathematical chances of being a victim of a violent crime in Warren is a chilling 1 in 180. You could chalk it up to the bias of being from Pittsburgh but it is apparent cities like Cleveland and Youngstown have a much harder time supporting thriving and profitable surrounding towns.
+Crime in Warren is astronomically high per capita to the national average largely in part to the exploding drug epidemic. Drug dealers from Detroit have moved into the area and are at odds with dealers from Warren to control the areas drug trade. The results are blatant and sometimes violent open-air drug markets and aggressive drug selling tactics, as one side tries to gain an economic edge on the other. Shootings are somewhat regular in fact within the past 4 months of me writing this I have had a gunshot victim on my front doorstep and a month later a shootout directly across the street. In today's paper 2 people died in a gun battle on the Southside of the city.
+First responders at a steady drumbeat are called day after day over and over rushing to administer narcan to overdose victims all across the city and surrounding areas. It has a sense when you exist within it of a humanitarian crisis. People overdosing while driving and plowing through an intersection. State funded healthcare barely funding a couple day stay in detox when one can finally be admitted after a torturous wait on the inevitable waiting lists that pop up with so many seeking help. Those with bad insurance kicked out of treatment while still suffering from post-acute withdrawal syndrome leaving the likelihood of a very quick relapse only to repeat their agonizing cycle all over again. It steadily picks up intensity and steam as the surrounding community begins to spiral out of control.
+Yet to my eye the similarities in these two communities resemble one another a lot more than one might think after the first glance through the rabbit hole. Its not hard to see, just about as thin as a layer of ice on top of a glass of water that you have left in the freezer for only half an hour. One soft poke and you are privy to the reality underneath. Both places are under siege. You are not safe just because you have more money, you are not immune because you have a higher education. You are not quarantined from the problem because you are not addicted. You are not untouched just because you have not had to put a friend in the ground from it. It touches your life, should you choose to see it or not is up to you.
+Warren and Belle Vernon are polar opposites when it comes to the youth's opportunities for extracurricular support yet there was never a shortage of seeing or being around narcotics as a teenager. Full time high school student, member of two hockey teams(one of which being a high level travel team), and a job at a local grocery store and yet my uninhibited exposure to drugs eventually allowed my curious nature to try them at age 16.
+In Belle Vernon to get drugs contacts you have made and people you know make acquiring drugs on 9 out of 10 days a simple text message. You arrange a meeting spot and since it is not an open air drug market you will set up a meeting place. Wal Mart being one of my most frequented. Families all around you, you hop in your dealers car in the parking lot and you are on your way. Belle Vernon being a somewhat economically better off area it is actually in some ways more convenient to get a hold of narcotics as a lot of dealers are mobile and have no problem delivering to wherever you may be. The profits are worth whatever the drive.
+In one instance in college I was selling opanas to support my own habit. I had a friend who was an hour away looking to purchase one single opana 40mg pill. I got them at 20 dollars a pill and my friend was dopesick and needed one very badly. I drove the hour to sell him one pill at 80 dollars and charged him 20 for gas. He had no problem paying, he was glad to. Within two and a half hours I was back home. 80 dollars profit and I had used my parents credit card for gas. Meaning with the sale of one pill I now had 4 for myself at a time when my habit was 5 to 6 Opanas a day. Oxymorphone(opana) is 2 and 1/2 times stronger than oxycontin meaning one opana 40 was stronger than the highest milligram oxycontin on them market and I was pounding them into my body at an alarming rate.
+Yet in Warren it is a different method but the same result. Easy access to all things narcotic. Since it is an open air market you do not even really need to know a dealer on a personal level, although the good ones you become very close with.  Like any monetary business type relationship you hunt for the best supplier to your need, in this case heroin. A trip to, for the most part, to any gas station in downtown Warren and you will see what your looking for. Drug dealers loitering with the advertisements of the trade, rims, chains, nice clothes in an area not well known for having money. Eye contact is achieved by both players in this tragedy have the experience. You can talk to each other without saying a word. A head nod, an approach. So the conversation begins and within minutes you got heroin and a phone number. Don't like his product? Next time it's a different gas station, a different dealer. Its as simple as riding down the street waiting to see a large group of people hanging out off a side street, drive by and nod. Nobody is shy to approach the car. You are a consumer and just like any capitalistic entrepreneur any length to get your business is acceptable. The risk of selling to an undercover is just part of the game and the arrest of one leaves the market open for ten more to take his place.
+No experience has more greatly laid out the failure of the drug war in black and white than when my one drug dealer got locked up for minor possession and within 2 days I got calls from three of his friends and one of them knew where I lived and even showed up one day with a "tester" or free bag of dope. The supply is never an issue no matter the size of the bust no matter the extent of a drug raid they are never more than a minor glitch in the supply. Partly to US foreign and domestic policy drugs come in at an increasing rate, at a cheaper price and the only action taken that has clearly never worked is systematically targeting poor citizens for processing or possessing the drugs.
+
+All for today end transmission. Many grammatical errors review review review review`
+      },
+      gods: {
+        title: 'The Last Hour of the Gods',
+        kicker: 'January 2020',
+        cover: 'cover-gods.png',
+        url: '',
+        raw: `The sun crept through the curtains in small thin rays, illuminating the dust in the air as the particles danced in the scattered beams of light. The warm strands of light landed on the young but sunken and sickly face of Chris as he slept on his mattress on the floor. He fought the unpleasant rays by groggily turning to the opposite side in a last desperate attempt to salvage this last fleeting moment of rest. He did not last long because in tandem with the intrusive sunlight Melanie was awake and walking through the house. Her heavy footed steps on the old splintered pine floor was the final nail in the coffin of a full nights rest. Chris, admitting defeat, rolled back over and reached for the baggie of pre rolled cigarettes beside his mattress. After rustling around in the foggy, worn plastic bag for the lighter he emerged with a poorly rolled cigarette and a cheap gas station lighter that was down to its last few breaths of flame. The tobacco was so badly packed that he had to hold the cigarette vertical so as not to lose any more strands of tobacco than was already inevitable. The gently rolling flame came across the back of the cigarette and lit more paper than tobacco on the first pass but the return trip of the lighter did the trick.  Chris inhaled deeply and slowly as he advanced to a sitting position on the old heavily stained mattress that had well outlived its normal lifespan. The soft orange glow pulsed in time with his strained attempt at inhaling the relief that nicotine would bring. Four devastating and uncertain months were spent sleeping on the lumpy aged sleeping mat as the Corona virus swept through the country. The destruction was especially prevalent where they lived in northern West Virginia. After initially fairing decently well against the virus eventually the small town, where Chris had lived his whole life, was caught in the crosshairs and eviscerated.
+	He inhaled a long drag and thought about a quote he had heard somewhere in the midst of everything and it fit so well. The words were ordered in succession in such a way that had encompassed totally the depth and enormous change that had swept the entire globe. The virus had ignited the planet and left behind a totally changed world. Issues that simmered in separate societal pots across all aspects of human life were slowly heating up in the latter part of the decade. The virus had burst into everyones lives suddenly at the start of the new decade and took all of those singular pots and combined them into one large pressure cooker. The slow steady simmer turned to a boil rather quickly. Life as people had known it was upended almost over night for a lot of the globe. Then the boil turned into a nuclear reaction and all at once it melted down. The societal explosion was fast and total and it blasted outward at incredible force rearranging everything. It all went in directions that could not be predicted, beyond the control of any person or any government. Chris mumbled the quote softly to himself as if to try and feel the impact of its every word. Lightly he breathed the words, "There are decades where nothing happens, and there are weeks where decades happen." He did not know where he had heard it but he did remember the moment when the quote came rushing back into his conscious mind. A week ago when he looked into his computer screen, transfixed on the events taking place before the worlds eyes, those beautifully prophetic words summed up marvelously all that was taking place.
+	The ash on the end of the cigarette hung on somehow and would not survive intact for another hit. Chris, lost in thought, lifted the dwindling smoke to his lips and the ash gave way, floating softly and settling into his lap with an almost graceful landing. The simplest of things now carried the greatest of meanings. An odd satisfaction boiled within Chris as he looked down and smiled. Taking the ash between his thumb and pointer finger and rolling it back and forth with the most delicate pressure until finally it buckled and the ash disappeared to nothing but a gray smudge.
+	A man of 28 the virus was not supposed to have hit him as hard as it did. The elderly and immuno-compromised is who needed to watch, not a healthy 28 year old man. That wasn't the case though. At 6'2" he had broad stocky shoulders and powerful arms. He was a house of a man until two weeks of the sickness drained him like a parasite, sucking not just his energy but the life force itself with every weakened pulse of his heart. His weight had dropped from a muscular 200 pounds and had withered from fourteen days of not eating to a depressing 164. The color of his skin had changed. The golden tan skin of someone who spent hours a day at work in the sun gave way to a pale grayish tinge that upset him dearly to recognize.
+	Melanie stood in the entryway to the living room studying the back of Chris as he faced out the window. She frowned at the once strong and muscular back of an ox. Now the light highlighted the indents and valleys of a boney structure devoid of muscle mass. A once mountain of a man left stripped and bare. "Do you feel up to taking the trip to the hospital, they are bringing Shelly out of the coma today around 4." Melanie said wincing at the delivery of her words, feeling guilty for having disturbed Chris's train of thought. "I will crawl there if I have too, what time is the Peoples Spokesman giving the address to the nation?" He inquired even though he knew the answer. "9 o'clock, we will not be missing it, the entire country will be tuned in. I am sure we will be able to watch it at the hospital if we are till there."
+"I still can't believe this all happened this fast." He added, staring blankly and giving no indication he heard a word Mel had said.
+"Our world was like a row of dominoes. The virus knocked the first one over and very quickly it brought them all smashing down. One long line of everything changing everything else"
+"They sent them stimulus checks, then the hospitals had to be nationalized. The government trying to make everyone go back to work to restart the economy in the midst of a runaway viral spread had to be one of the most unfathomably stupid decisions in modern history. One thing after another had to change and I think everyone realized that when the dust settled we were not just going to go back to how it was before." Chris added snapping out of his trance with a strong sense of self satisfaction at the most complete compilation of thoughts he could muster in quite a few days.
+"Yes but how could the entire apparatus of the state capitulate that quickly and without a fight?" Melanie asked, relieved she could finally have a real conversation with her friend.
+"Without a fight? What do you call what happened in Kansas City or Philly?"`
+      }
+    };
+
+    const BAGGIE_SOURCE = {
+      author: {
+        label: 'About the Project',
+        title: 'About the Project',
+        note: '',
+        image: './assets/img/thread-about-project.webp',
+        body: `IM ABOUT TO PUT YOU TF ON.
+Ever seen what addiction actually looks like?
+I mean ACTUALLY looks like.
+Not the version you’ve assumed in your head.
+Not the version corporate media cleaned up and packaged for you.
+The version that is a fish scale kind of raw 
+that will shake your mind worse than my hands trying to load a cranker
+on the 4th day without sleep and a 140 resting heartrate.
+6 straight years, 5 total chemical addictions, $400 a day average, 3 different suicide notes, 2 obliterating traumas, and 1 shattered brain I thought would never see reclaim its prior razor sharpness.
+Discover how its possible for a person to be
+Full time roofer. Full time Security and Intelligence Masters student.
+HoneyBee keeper of 5 hives.
+ All while smoking crack every single day and dragging along an opiate tolerance 
+that would overdose a track horse. 
+Years without pause, slowdown, or interruption.
+And the only soul in the universe that knew about the walk of this tight rope,
+Died halfway through it.
+
+Losing reality. Losing people. Losing control.
+But this isn’t just about drugs, or even about me at all.
+Its about YOU.
+The deeper you go, the harder it becomes to ignore:
+The same behavior that destroys one life
+is the same behavior shaping the entire system around YOU.
+Molding and designing the very way you are able to perceive the very nature of 
+Reality itself.
+
+Same brain jarring cravings.
+Same self serving rationalizations.
+Same spiraling inability to stop.
+Down to the same neurological pathways themselves. 
+The only difference is scale.
+Your entire existence is planned by, built by, led by, steered by, determined by,
+CRACKHEADS.
+This book doesn’t explain addiction.
+It shows you what it feels like.
+And once you feel it…
+you’ll start seeing it everywhere.
+And once you understand it…
+you’ll never be able to pretend that you’re asleep as you are stepped over
+ever again.
+So follow me and lets go down this dark alley, its going to blow your fucking mind how much shit you are about to learn from someone as you watch them smack down a nuke and turn on the freebase fog machine.
+Good luck…..this about to be a whole thing for you.
+Because IM HIGH ON CRACK AND I HAVE A GUN.
+But the only one at risk of being on the receiving end of it right now,
+Is me.`,
+        link: ''
+      },
+      clip: {
+        label: 'Clip of the Week',
+        title: 'Clip of the Week',
+        note: 'Update the title, TikTok info, text, image, and link in BAGGIE_SOURCE.clip once a week.',
+        image: './assets/img/thread-clip-of-the-week.webp',
+        embedType: 'tiktok',
+        embed: 'https://www.tiktok.com/@bandanarchist/video/7616558123842555149',
+        tiktokVideoId: '7616558123842555149',
+        tiktokHandle: '@bandanarchist',
+        body: `I CAN GUARENTEE THAT NEVER IN YOUR LIFE HAVE YOU HEARD A STORY LIKE THIS.
+
+The Documentary/Book Combo is the continuation and sequel to the 2018 #1 new release on Amazon. This trailer is edited for TikTok.`,
+        link: 'https://www.tiktok.com/@bandanarchist/video/7616558123842555149'
+      }
+    };
+
+
+    const TYPEWRITER_SOURCE = {
+      intro: {
+        fragments: 'Move through note fragments from the room one by one. This stays visual and read-only.',
+        note: 'A single locked page from the desk. This stays read-only and works like one chosen excerpt pinned above the fragments.',
+        message: 'Visitors can write a message here and the site opens a prefilled email draft to imhighoncrackandihaveagun@gmail.com.'
+      },
+      readOnlyNote: `UNDERWOOD / LOCKED PAGE
+
+I kept the machine because it feels like evidence.
+
+The room is full of fragments written under pressure:
+notes from the bender,
+goodbye letters,
+half-broken academic ideas,
+and entries from a brain trying not to drown in its own static.
+
+This page is the cleaner survivor.
+A single sheet that sits still long enough to be read.`,
+      fragments: [
+        {
+          title: 'Goodbye letters wall',
+          caption: 'A sharper pull from the room board with the loose pages, whiteboard, and pinned fragments readable at a glance.',
+          image: "./assets/img/note-fragment-board.webp"
+        },
+        {
+          title: 'Ceiling note cluster',
+          caption: 'The overhead note cluster, clipped letters, and handwritten scraps in a cleaner, more detailed scan.',
+          image: "./assets/img/note-fragment-ceiling.webp"
+        },
+        {
+          title: 'Typed opening line',
+          caption: 'A closer look at the sheet in the Underwood, tightened up so the opening line reads cleaner.',
+          image: "./assets/img/note-fragment-typed-page.webp"
+        }
+      ]
+    };
+
+    const ui = {
+      bgVideo: document.getElementById('bgVideo'),
+      archiveVideo: document.getElementById('archiveVideo'),
+      podcastAudio: document.getElementById('podcastAudio'),
+      audioToggle: document.getElementById('audioToggle'),
+      audioRestart: document.getElementById('audioRestart'),
+      radioStatus: document.getElementById('radioStatus'),
+      resetBtn: document.getElementById('resetBtn'),
+      hint: document.getElementById('hint'),
+      openingScene: document.getElementById('openingScene'),
+      atmScene: document.getElementById('atmScene'),
+      archiveScene: document.getElementById('archiveScene'),
+      board: document.getElementById('board'),
+      groundTicket: document.getElementById('groundTicket'),
+      ticketCta: document.getElementById('ticketCta'),
+      atmTicket: document.getElementById('atmTicket'),
+      dvdWrap: document.getElementById('dvdWrap'),
+      dvdCase: document.getElementById('dvdCase'),
+      dvdCta: document.getElementById('dvdCta'),
+      enterArchiveBtn: document.getElementById('enterArchiveBtn'),
+      threadSvg: document.getElementById('threadSvg'),
+      cardsLayer: document.getElementById('cardsLayer'),
+      threadCards: Array.from(document.querySelectorAll('.thread-card')),
+      bookOverlay: document.getElementById('bookOverlay'),
+      bookBackdrop: document.getElementById('bookBackdrop'),
+      bookClose: document.getElementById('bookClose'),
+      bookOpenRead: document.getElementById('bookOpenRead'),
+      bookOpenRead2: document.getElementById('bookOpenRead2'),
+      bookExternalTop: document.getElementById('bookExternalTop'),
+      bookExternalBottom: document.getElementById('bookExternalBottom'),
+      bookCover: document.getElementById('bookCover'),
+      pageKicker: document.getElementById('pageKicker'),
+      pageTitle: document.getElementById('pageTitle'),
+      pageText: document.getElementById('pageText'),
+      prevPage: document.getElementById('prevPage'),
+      nextPage: document.getElementById('nextPage'),
+      bookStatus: document.getElementById('bookStatus'),
+      bookScroll: document.getElementById('bookScroll'),
+      videoOverlay: document.getElementById('videoOverlay'),
+      videoBackdrop: document.getElementById('videoBackdrop'),
+      videoClose: document.getElementById('videoClose'),
+      videoShell: document.getElementById('videoShell'),
+      videoFrame: document.getElementById('videoFrame'),
+      localVideoPlayer: document.getElementById('localVideoPlayer'),
+      baggieOverlay: document.getElementById('baggieOverlay'),
+      baggieBackdrop: document.getElementById('baggieBackdrop'),
+      baggieClose: document.getElementById('baggieClose'),
+      baggieImage: document.getElementById('baggieImage'),
+      baggieVideoWrap: document.getElementById('baggieVideoWrap'),
+      baggieVideoFrame: document.getElementById('baggieVideoFrame'),
+      baggieEmbedHost: document.getElementById('baggieEmbedHost'),
+      baggieLabel: document.getElementById('baggieLabel'),
+      baggieTitle: document.getElementById('baggieTitle'),
+      baggieEditNote: document.getElementById('baggieEditNote'),
+      baggieText: document.getElementById('baggieText'),
+      baggieLink: document.getElementById('baggieLink'),
+      authorCardImage: document.querySelector('#card-author img'),
+      clipCardImage: document.querySelector('#card-clipweek img'),
+      typewriterHotspot: document.getElementById('typewriterHotspot'),
+      typewriterOverlay: document.getElementById('typewriterOverlay'),
+      typewriterBackdrop: document.getElementById('typewriterBackdrop'),
+      typewriterClose: document.getElementById('typewriterClose'),
+      twPaperTitle: document.getElementById('twPaperTitle'),
+      twPaperIntro: document.getElementById('twPaperIntro'),
+      twFragmentsView: document.getElementById('twFragmentsView'),
+      twNoteView: document.getElementById('twNoteView'),
+      typewriterMessageForm: document.getElementById('typewriterMessageForm'),
+      twNoteText: document.getElementById('twNoteText'),
+      twFragmentImage: document.getElementById('twFragmentImage'),
+      twFragmentTitle: document.getElementById('twFragmentTitle'),
+      twFragmentCount: document.getElementById('twFragmentCount'),
+      twFragmentCaption: document.getElementById('twFragmentCaption'),
+      twPrevFragment: document.getElementById('twPrevFragment'),
+      twNextFragment: document.getElementById('twNextFragment'),
+      twMessageName: document.getElementById('twMessageName'),
+      twMessageEmail: document.getElementById('twMessageEmail'),
+      twMessageBody: document.getElementById('twMessageBody'),
+      twCopyEmail: document.getElementById('twCopyEmail'),
+      twMessageStatus: document.getElementById('twMessageStatus'),
+      twModeButtons: Array.from(document.querySelectorAll('.typewriter-mode-btn'))
+    };
+
+    const state = {
+      scene: 'opening',
+      audioOn: false,
+      bookKey: null,
+      baggieKey: null,
+      pages: [],
+      pageIndex: 0,
+      reading: false,
+      typewriterMode: 'fragments',
+      fragmentIndex: 0,
+      videoMode: null
+    };
+
+    const CARD_LAYOUTS = {
+      wide: {
+        designWidth: 1300,
+        designHeight: 1500,
+        boardHeight: 1540,
+        cardsHeight: 1460,
+        positions: {
+          'card-trailer1': { x: 24,  y: 78,   w: 214, r: -6 },
+          'card-trailer2': { x: 276, y: 28,   w: 202, r: 4 },
+          'card-sample':   { x: 744, y: 50,   w: 224, r: -3 },
+          'card-analysis': { x: 1040,y: 198,  w: 214, r: 5 },
+          'card-author':   { x: 70,  y: 500,  w: 220, r: -5 },
+          'card-july':     { x: 820, y: 512,  w: 218, r: -4 },
+          'card-clipweek': { x: 1040,y: 780,  w: 206, r: 6 },
+          'card-loopdrawer': { x: 378, y: 818, w: 220, r: -2 },
+          'card-dopesick': { x: 120, y: 1132, w: 214, r: 3 },
+          'card-gods':     { x: 920, y: 1160, w: 208, r: -3 }
+        }
+      },
+      mid: {
+        designWidth: 900,
+        designHeight: 1760,
+        boardHeight: 1820,
+        cardsHeight: 1720,
+        positions: {
+          'card-trailer1': { x: 28,  y: 54,   w: 198, r: -5 },
+          'card-trailer2': { x: 596, y: 54,   w: 188, r: 4 },
+          'card-sample':   { x: 90,  y: 338,  w: 214, r: -3 },
+          'card-analysis': { x: 584, y: 344,  w: 194, r: 4 },
+          'card-author':   { x: 54,  y: 674,  w: 202, r: -5 },
+          'card-july':     { x: 560, y: 700,  w: 202, r: -4 },
+          'card-clipweek': { x: 80,  y: 998,  w: 194, r: 5 },
+          'card-loopdrawer': { x: 332, y: 1038, w: 200, r: -2 },
+          'card-dopesick': { x: 108, y: 1336, w: 198, r: 3 },
+          'card-gods':     { x: 548, y: 1376, w: 198, r: -3 }
+        }
+      }
+    };
+
+    function isMobile() {
+      return window.innerWidth <= 820;
+    }
+
+
+    function applyLayoutMode() {
+      document.documentElement.setAttribute('data-layout', isMobile() ? 'mobile' : 'desktop');
+    }
+
+    function applyCardLayout() {
+      if (isMobile()) {
+        ui.board.style.minHeight = '';
+        ui.cardsLayer.style.minHeight = '';
+        ui.threadCards.forEach(card => {
+          card.style.left = '';
+          card.style.top = '';
+          card.style.right = '';
+          card.style.bottom = '';
+          card.style.width = '';
+          card.style.removeProperty('--card-rot');
+        });
+        return;
+      }
+
+      const layout = window.innerWidth >= 1280 ? CARD_LAYOUTS.wide : CARD_LAYOUTS.mid;
+      ui.board.style.minHeight = `${layout.boardHeight}px`;
+      ui.cardsLayer.style.minHeight = `${layout.cardsHeight}px`;
+
+      ui.threadCards.forEach(card => {
+        const spec = layout.positions[card.id];
+        if (!spec) return;
+        card.style.left = `${(spec.x / layout.designWidth) * 100}%`;
+        card.style.top = `${(spec.y / layout.designHeight) * 100}%`;
+        card.style.right = 'auto';
+        card.style.bottom = 'auto';
+        card.style.width = `${(spec.w / layout.designWidth) * 100}%`;
+        card.style.setProperty('--card-rot', `${spec.r}deg`);
+      });
+    }
+
+    function refreshBookLayout() {
+      if (!state.bookKey || !state.reading) return;
+      const book = BOOK_SOURCE[state.bookKey];
+      const marker = (state.pages[state.pageIndex] || '').slice(0, 120);
+      state.pages = splitIntoPages(book.raw, pageSize());
+      const nextIndex = marker
+        ? state.pages.findIndex(page => page.includes(marker.slice(0, 80)))
+        : state.pageIndex;
+      state.pageIndex = nextIndex >= 0
+        ? nextIndex
+        : Math.min(state.pageIndex, state.pages.length - 1);
+      renderPage();
+    }
+
+    let resizeTimer = null;
+    function handleViewportChange() {
+      applyLayoutMode();
+      applyCardLayout();
+      drawThreads();
+      refreshBookLayout();
+      syncAmbientMedia();
+    }
+
+    function setHint(text) {
+      ui.hint.textContent = text;
+    }
+
+    function setAudioButton() {
+      if (ui.audioToggle) {
+        ui.audioToggle.textContent = state.audioOn ? 'Pause' : 'Play';
+        ui.audioToggle.setAttribute('aria-label', state.audioOn ? 'Pause the podcast audio' : 'Play the podcast audio');
+      }
+      if (ui.radioStatus) {
+        ui.radioStatus.textContent = state.audioOn ? 'Now playing' : 'Radio silent';
+      }
+    }
+
+    async function tryStartAudio() {
+      try {
+        ui.podcastAudio.volume = 0.92;
+        await ui.podcastAudio.play();
+        state.audioOn = true;
+      } catch (e) {
+        state.audioOn = false;
+      }
+      setAudioButton();
+    }
+
+    function restartAudio() {
+      if (!ui.podcastAudio) return;
+      try {
+        ui.podcastAudio.currentTime = 0;
+      } catch (e) {}
+      ui.podcastAudio.play().then(() => {
+        state.audioOn = true;
+        setAudioButton();
+      }).catch(() => {
+        state.audioOn = false;
+        setAudioButton();
+      });
+    }
+
+    function toggleAudio() {
+      if (state.audioOn) {
+        ui.podcastAudio.pause();
+        state.audioOn = false;
+        setAudioButton();
+      } else {
+        ui.podcastAudio.play().then(() => {
+          state.audioOn = true;
+          setAudioButton();
+        }).catch(() => {
+          state.audioOn = false;
+          setAudioButton();
+        });
+      }
+    }
+
+    function pausePodcastForMedia() {
+      if (!ui.podcastAudio) return;
+      ui.podcastAudio.pause();
+      state.audioOn = false;
+      setAudioButton();
+    }
+
+
+    function playMedia(media) {
+      if (!media) return;
+      const attempt = media.play && media.play();
+      if (attempt && typeof attempt.catch === 'function') {
+        attempt.catch(() => {});
+      }
+    }
+
+    function pauseMedia(media) {
+      if (!media) return;
+      try { media.pause(); } catch (e) {}
+    }
+
+    function isAnyOverlayOpen() {
+      return ui.bookOverlay.classList.contains('show')
+        || ui.videoOverlay.classList.contains('show')
+        || ui.baggieOverlay.classList.contains('show')
+        || ui.typewriterOverlay.classList.contains('show');
+    }
+
+    function syncAmbientMedia() {
+      pauseMedia(ui.bgVideo);
+      pauseMedia(ui.archiveVideo);
+      if (isAnyOverlayOpen()) return;
+      if (state.scene === 'opening') {
+        playMedia(ui.bgVideo);
+      } else if (state.scene === 'archive') {
+        playMedia(ui.archiveVideo);
+      }
+    }
+
+    function showScene(which) {
+      ui.openingScene.classList.toggle('show', which === 'opening');
+      ui.atmScene.classList.toggle('show', which === 'atm');
+      ui.archiveScene.classList.toggle('show', which === 'archive');
+      state.scene = which;
+      syncAmbientMedia();
+    }
+
+    function resetFlow() {
+      ui.openingScene.classList.remove('animate-out');
+      ui.atmScene.classList.remove('animate-insert', 'finish-insert', 'reveal-dvd');
+      ui.dvdCase.classList.remove('open');
+      ui.ticketCta.classList.remove('hidden');
+      ui.dvdCta.classList.add('hidden');
+      ui.enterArchiveBtn.classList.remove('show');
+      closeBook();
+      closeVideo();
+      closeBaggie();
+      closeTypewriter();
+      showScene('opening');
+      setHint('Tap the ticket to begin');
+      drawThreads();
+    }
+
+    function beginSequence() {
+      if (state.scene !== 'opening') return;
+      ui.ticketCta.classList.add('hidden');
+      ui.openingScene.classList.add('animate-out');
+      setHint('Picking up the ticket…');
+
+      setTimeout(() => {
+        showScene('atm');
+        setHint('Inserting the ticket…');
+      }, 900);
+
+      setTimeout(() => ui.atmScene.classList.add('animate-insert'), 1450);
+      setTimeout(() => ui.atmScene.classList.add('finish-insert'), 2900);
+      setTimeout(() => {
+        ui.atmScene.classList.add('reveal-dvd');
+        ui.dvdCta.classList.remove('hidden');
+        setHint('Tap the DVD case');
+      }, 4100);
+    }
+
+    function openCase() {
+      if (state.scene !== 'atm') return;
+      if (ui.dvdCase.classList.contains('open')) return;
+      ui.dvdCase.classList.add('open');
+      ui.dvdCta.classList.add('hidden');
+      ui.enterArchiveBtn.classList.add('show');
+      setHint('Enter the archive');
+    }
+
+    function enterArchive() {
+      showScene('archive');
+      ui.enterArchiveBtn.classList.remove('show');
+      setHint('Pull a thread');
+      setTimeout(drawThreads, 80);
+    }
+
+    function splitIntoPages(text, charsPerPage) {
+      const cleaned = text.replace(/\r/g, '').trim();
+      const chunks = [];
+      let remaining = cleaned;
+      while (remaining.length > charsPerPage) {
+        const slice = remaining.slice(0, charsPerPage);
+        let breakAt = Math.max(
+          slice.lastIndexOf('\n\n'),
+          slice.lastIndexOf('. '),
+          slice.lastIndexOf('? '),
+          slice.lastIndexOf('! ')
+        );
+        if (breakAt < charsPerPage * 0.55) breakAt = charsPerPage;
+        chunks.push(remaining.slice(0, breakAt).trim());
+        remaining = remaining.slice(breakAt).trim();
+      }
+      if (remaining.length) chunks.push(remaining);
+      return chunks;
+    }
+
+    function pageSize() {
+      return isMobile() ? 4200 : 7200;
+    }
+
+    function openBook(key) {
+      const book = BOOK_SOURCE[key];
+      if (!book) return;
+      state.bookKey = key;
+      state.pages = splitIntoPages(book.raw, pageSize());
+      state.pageIndex = 0;
+      state.reading = false;
+
+      ui.bookCover.src = book.cover;
+      ui.bookCover.alt = book.title;
+
+      if (book.url) {
+        ui.bookExternalTop.classList.remove('hidden');
+        ui.bookExternalBottom.classList.remove('hidden');
+        ui.bookExternalTop.href = book.url;
+        ui.bookExternalBottom.href = book.url;
+      } else {
+        ui.bookExternalTop.classList.add('hidden');
+        ui.bookExternalBottom.classList.add('hidden');
+        ui.bookExternalTop.href = '#';
+        ui.bookExternalBottom.href = '#';
+      }
+
+      ui.bookOverlay.classList.add('show');
+      ui.bookOverlay.classList.remove('reading');
+      syncAmbientMedia();
+
+      if (isMobile()) {
+        startReading();
+      }
+    }
+
+    function startReading() {
+      if (!state.bookKey) return;
+      const book = BOOK_SOURCE[state.bookKey];
+      state.pages = splitIntoPages(book.raw, pageSize());
+      state.pageIndex = 0;
+      state.reading = true;
+      ui.bookOverlay.classList.add('reading');
+      renderPage();
+    }
+
+    function renderPage() {
+      if (!state.bookKey) return;
+      const book = BOOK_SOURCE[state.bookKey];
+      ui.pageKicker.textContent = book.kicker;
+      ui.pageTitle.textContent = book.title;
+      ui.pageText.textContent = state.pages[state.pageIndex] || '';
+      ui.bookStatus.textContent = `Page ${state.pageIndex + 1} / ${state.pages.length}`;
+      ui.prevPage.disabled = state.pageIndex === 0;
+      ui.nextPage.disabled = state.pageIndex >= state.pages.length - 1;
+      ui.bookScroll.scrollTop = 0;
+    }
+
+    function nextPage() {
+      if (state.pageIndex >= state.pages.length - 1) return;
+      state.pageIndex += 1;
+      renderPage();
+    }
+
+    function prevPage() {
+      if (state.pageIndex <= 0) return;
+      state.pageIndex -= 1;
+      renderPage();
+    }
+
+    function closeBook() {
+      ui.bookOverlay.classList.remove('show', 'reading');
+      state.bookKey = null;
+      state.pages = [];
+      state.pageIndex = 0;
+      state.reading = false;
+      syncAmbientMedia();
+    }
+
+    function buildAutoplayEmbed(src) {
+      const getYouTubeId = (value) => {
+        try {
+          const parsed = new URL(value, window.location.href);
+          if (parsed.hostname.includes('youtu.be')) {
+            return parsed.pathname.replace(/^\//, '').split('/')[0];
+          }
+          if (parsed.hostname.includes('youtube.com') || parsed.hostname.includes('youtube-nocookie.com')) {
+            const parts = parsed.pathname.split('/').filter(Boolean);
+            const embedIndex = parts.indexOf('embed');
+            if (embedIndex !== -1 && parts[embedIndex + 1]) return parts[embedIndex + 1];
+            if (parsed.searchParams.get('v')) return parsed.searchParams.get('v');
+          }
+        } catch (e) {}
+        return '';
+      };
+
+      try {
+        const url = new URL(src, window.location.href);
+        url.searchParams.set('autoplay', '1');
+        url.searchParams.set('playsinline', '1');
+        url.searchParams.set('rel', '0');
+        url.searchParams.set('modestbranding', '1');
+        url.searchParams.set('enablejsapi', '1');
+        url.searchParams.set('iv_load_policy', '3');
+
+        const ytId = getYouTubeId(src);
+        if (ytId) {
+          url.searchParams.set('loop', '1');
+          url.searchParams.set('playlist', ytId);
+          url.searchParams.set('mute', '1');
+        }
+        return url.toString();
+      } catch (e) {
+        const joiner = src.includes('?') ? '&' : '?';
+        const ytId = getYouTubeId(src);
+        const ytExtras = ytId ? `&loop=1&playlist=${ytId}&mute=1` : '';
+        return `${src}${joiner}autoplay=1&playsinline=1&rel=0&modestbranding=1&enablejsapi=1&iv_load_policy=3${ytExtras}`;
+      }
+    }
+
+    function resetVideoOverlayMedia() {
+      state.videoMode = null;
+      ui.videoShell.classList.remove('local-video-mode');
+      ui.videoFrame.src = '';
+      try {
+        ui.localVideoPlayer.pause();
+        ui.localVideoPlayer.currentTime = 0;
+      } catch (e) {}
+      ui.localVideoPlayer.removeAttribute('src');
+      ui.localVideoPlayer.removeAttribute('poster');
+      try { ui.localVideoPlayer.load(); } catch (e) {}
+    }
+
+    function openVideo(src) {
+      pausePodcastForMedia();
+      resetVideoOverlayMedia();
+      state.videoMode = 'embed';
+      ui.videoOverlay.classList.add('show');
+      requestAnimationFrame(() => {
+        ui.videoFrame.src = buildAutoplayEmbed(src);
+      });
+      syncAmbientMedia();
+    }
+
+    function openLocalVideo(src, poster = '') {
+      pausePodcastForMedia();
+      resetVideoOverlayMedia();
+      state.videoMode = 'local';
+      ui.videoShell.classList.add('local-video-mode');
+      if (poster) {
+        ui.localVideoPlayer.poster = poster;
+      }
+      ui.localVideoPlayer.src = src;
+      ui.videoOverlay.classList.add('show');
+      syncAmbientMedia();
+      const attempt = ui.localVideoPlayer.play();
+      if (attempt && typeof attempt.catch === 'function') {
+        attempt.catch(() => {});
+      }
+    }
+
+    function closeVideo() {
+      ui.videoOverlay.classList.remove('show');
+      resetVideoOverlayMedia();
+      syncAmbientMedia();
+    }
+
+    function syncBaggieCards() {
+      if (ui.authorCardImage && BAGGIE_SOURCE.author?.image) {
+        ui.authorCardImage.src = BAGGIE_SOURCE.author.image;
+      }
+      if (ui.clipCardImage && BAGGIE_SOURCE.clip?.image) {
+        ui.clipCardImage.src = BAGGIE_SOURCE.clip.image;
+      }
+    }
+
+    function resetBaggieMedia() {
+      ui.baggieVideoFrame.src = '';
+      ui.baggieVideoWrap.classList.remove('is-tiktok');
+      ui.baggieVideoWrap.classList.add('hidden');
+      ui.baggieEmbedHost.classList.add('hidden');
+      ui.baggieEmbedHost.innerHTML = '';
+      ui.baggieImage.classList.remove('hidden');
+    }
+
+    function mountTikTokEmbed(entry) {
+      ui.baggieVideoWrap.classList.remove('hidden');
+      ui.baggieVideoWrap.classList.add('is-tiktok');
+      ui.baggieEmbedHost.classList.remove('hidden');
+      ui.baggieImage.classList.add('hidden');
+
+      const handle = entry.tiktokHandle || '@tiktok';
+      const handlePath = handle.replace('@', '');
+      const embedUrl = entry.embed || `https://www.tiktok.com/@${handlePath}/video/${entry.tiktokVideoId}`;
+      ui.baggieEmbedHost.innerHTML = `
+        <blockquote class="tiktok-embed" cite="${embedUrl}" data-video-id="${entry.tiktokVideoId}" style="max-width: 605px; min-width: 325px;">
+          <section>
+            <a target="_blank" title="${handle}" href="https://www.tiktok.com/@${handlePath}?refer=embed">${handle}</a>
+          </section>
+        </blockquote>
+      `;
+
+      const prior = document.getElementById('dynamicTikTokEmbedScript');
+      if (prior) prior.remove();
+
+      const script = document.createElement('script');
+      script.id = 'dynamicTikTokEmbedScript';
+      script.async = true;
+      script.src = 'https://www.tiktok.com/embed.js';
+      document.body.appendChild(script);
+    }
+
+    function openBaggie(key) {
+      const entry = BAGGIE_SOURCE[key];
+      if (!entry) return;
+      state.baggieKey = key;
+
+      ui.baggieLabel.textContent = entry.label || '';
+      ui.baggieTitle.textContent = entry.title || '';
+      ui.baggieEditNote.textContent = entry.note || '';
+      ui.baggieText.textContent = entry.body || '';
+
+      resetBaggieMedia();
+      ui.baggieImage.src = entry.image || 'cover-july.png';
+      ui.baggieImage.alt = entry.title || 'Baggie feature image';
+
+      if (entry.embedType === 'tiktok' && entry.tiktokVideoId) {
+        pausePodcastForMedia();
+        mountTikTokEmbed(entry);
+      } else if (entry.embed) {
+        pausePodcastForMedia();
+        ui.baggieVideoWrap.classList.remove('hidden');
+        ui.baggieVideoFrame.src = buildAutoplayEmbed(entry.embed);
+        ui.baggieImage.classList.add('hidden');
+      }
+
+      if (entry.link) {
+        ui.baggieLink.classList.remove('hidden');
+        ui.baggieLink.href = entry.link;
+      } else {
+        ui.baggieLink.classList.add('hidden');
+        ui.baggieLink.href = '#';
+      }
+
+      ui.baggieOverlay.classList.add('show');
+      syncAmbientMedia();
+    }
+
+    function closeBaggie() {
+      ui.baggieOverlay.classList.remove('show');
+      resetBaggieMedia();
+      state.baggieKey = null;
+      syncAmbientMedia();
+    }
+
+
+    function renderTypewriterFragment() {
+      const fragments = TYPEWRITER_SOURCE.fragments || [];
+      if (!fragments.length) return;
+      const safeIndex = ((state.fragmentIndex % fragments.length) + fragments.length) % fragments.length;
+      state.fragmentIndex = safeIndex;
+      const entry = fragments[safeIndex];
+      ui.twFragmentImage.src = entry.image;
+      ui.twFragmentImage.alt = entry.title || 'Note fragment';
+      ui.twFragmentTitle.textContent = entry.title || 'Note fragment';
+      ui.twFragmentCaption.textContent = entry.caption || '';
+      ui.twFragmentCount.textContent = `${safeIndex + 1} / ${fragments.length}`;
+    }
+
+    function setTypewriterMode(mode) {
+      state.typewriterMode = mode;
+      ui.twModeButtons.forEach(btn => btn.classList.toggle('is-active', btn.dataset.twMode === mode));
+      ui.twFragmentsView.classList.toggle('hidden', mode !== 'fragments');
+      ui.twNoteView.classList.toggle('hidden', mode !== 'note');
+      ui.typewriterMessageForm.classList.toggle('hidden', mode !== 'message');
+
+      if (mode === 'fragments') {
+        ui.twPaperTitle.textContent = 'Scan fragments';
+        ui.twPaperIntro.textContent = TYPEWRITER_SOURCE.intro.fragments;
+        renderTypewriterFragment();
+      } else if (mode === 'note') {
+        ui.twPaperTitle.textContent = 'Read-only typed note';
+        ui.twPaperIntro.textContent = TYPEWRITER_SOURCE.intro.note;
+        ui.twNoteText.textContent = TYPEWRITER_SOURCE.readOnlyNote || '';
+      } else {
+        ui.twPaperTitle.textContent = 'Message the author';
+        ui.twPaperIntro.textContent = TYPEWRITER_SOURCE.intro.message;
+      }
+    }
+
+    function openTypewriter() {
+      ui.typewriterOverlay.classList.add('show');
+      setTypewriterMode('fragments');
+      syncAmbientMedia();
+    }
+
+    function closeTypewriter() {
+      ui.typewriterOverlay.classList.remove('show');
+      syncAmbientMedia();
+    }
+
+    function stepTypewriterFragment(delta) {
+      const total = (TYPEWRITER_SOURCE.fragments || []).length;
+      if (!total) return;
+      state.fragmentIndex = (state.fragmentIndex + delta + total) % total;
+      renderTypewriterFragment();
+    }
+
+    function submitTypewriterMessage(event) {
+      event.preventDefault();
+      const name = (ui.twMessageName.value || '').trim();
+      const email = (ui.twMessageEmail.value || '').trim();
+      const message = (ui.twMessageBody.value || '').trim();
+      const subject = encodeURIComponent(`Message from ${name || 'a reader'} via I'm High on Crack and I Have a Gun`);
+      const body = encodeURIComponent([
+        `Name: ${name || '(not provided)'}`,
+        `Reply email: ${email || '(not provided)'}`,
+        '',
+        'Message:',
+        message || '(blank)'
+      ].join('\n'));
+      ui.twMessageStatus.textContent = 'Opening your email app…';
+      window.location.href = `mailto:imhighoncrackandihaveagun@gmail.com?subject=${subject}&body=${body}`;
+    }
+
+    async function copyAuthorEmail() {
+      try {
+        await navigator.clipboard.writeText('imhighoncrackandihaveagun@gmail.com');
+        ui.twMessageStatus.textContent = 'Author email copied.';
+      } catch (e) {
+        ui.twMessageStatus.textContent = 'Could not copy automatically. Email: imhighoncrackandihaveagun@gmail.com';
+      }
+    }
+
+    function drawThreads() {
+      if (isMobile()) {
+        ui.threadSvg.innerHTML = '';
+        return;
+      }
+
+      const board = ui.board;
+      const boardRect = board.getBoundingClientRect();
+      if (!boardRect.width) return;
+
+      const anchorX = boardRect.width * 0.515;
+      const anchorY = boardRect.height * 0.43;
+      const threadColors = [
+        'rgba(162, 52, 49, .92)',
+        'rgba(79, 120, 82, .92)',
+        'rgba(182, 151, 86, .94)',
+        'rgba(167, 100, 118, .90)'
+      ];
+
+      ui.threadSvg.setAttribute('viewBox', `0 0 ${boardRect.width} ${boardRect.height}`);
+      ui.threadSvg.innerHTML = '';
+
+      ui.threadCards.forEach((card, index) => {
+        const r = card.getBoundingClientRect();
+        const x2 = r.left - boardRect.left + r.width / 2;
+        const y2 = r.top - boardRect.top + 10;
+        const bendX = anchorX + (x2 - anchorX) * 0.34;
+        const bendY = anchorY + (y2 - anchorY) * 0.42;
+        const swing = (index % 2 === 0 ? 1 : -1) * (Math.abs(x2 - anchorX) * 0.06 + 18);
+        const path = `M ${anchorX} ${anchorY} C ${bendX} ${bendY}, ${x2 - swing} ${bendY - 28}, ${x2} ${y2}`;
+
+        const shadow = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        shadow.setAttribute('class', 'thread-shadow');
+        shadow.setAttribute('d', path);
+
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        line.setAttribute('class', 'thread-line');
+        line.setAttribute('d', path);
+        line.setAttribute('stroke', threadColors[index % threadColors.length]);
+        line.setAttribute('stroke-width', index % 3 === 0 ? '3.6' : '3.2');
+
+        ui.threadSvg.appendChild(shadow);
+        ui.threadSvg.appendChild(line);
+      });
+
+      if (ui.typewriterHotspot && !isMobile()) {
+        const r = ui.typewriterHotspot.getBoundingClientRect();
+        const x2 = r.left - boardRect.left + r.width / 2;
+        const y2 = r.top - boardRect.top + 18;
+        const path = `M ${anchorX} ${anchorY} C ${anchorX + 28} ${anchorY + 190}, ${x2 - 34} ${y2 - 90}, ${x2} ${y2}`;
+        const shadow = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        shadow.setAttribute('class', 'thread-shadow');
+        shadow.setAttribute('d', path);
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        line.setAttribute('class', 'thread-line');
+        line.setAttribute('d', path);
+        line.setAttribute('stroke', 'rgba(126, 98, 47, .94)');
+        line.setAttribute('stroke-width', '3.7');
+        ui.threadSvg.appendChild(shadow);
+        ui.threadSvg.appendChild(line);
+      }
+    }
+
+    function handleThreadClick(e) {
+      const button = e.currentTarget;
+      const type = button.dataset.type;
+      if (type === 'video') {
+        openVideo(button.dataset.src);
+      } else if (type === 'local-video') {
+        openLocalVideo(button.dataset.src, button.dataset.poster || '');
+      } else if (type === 'book') {
+        openBook(button.dataset.key);
+      } else if (type === 'baggie') {
+        openBaggie(button.dataset.key);
+      }
+    }
+
+    ui.audioToggle.addEventListener('click', toggleAudio);
+    ui.audioRestart.addEventListener('click', restartAudio);
+    ui.resetBtn.addEventListener('click', resetFlow);
+    ui.groundTicket.addEventListener('click', () => {
+      beginSequence();
+    });
+    ui.dvdCase.addEventListener('click', openCase);
+    ui.dvdCase.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openCase();
+      }
+    });
+    ui.enterArchiveBtn.addEventListener('click', enterArchive);
+
+    ui.threadCards.forEach(card => card.addEventListener('click', handleThreadClick));
+
+    ui.bookOpenRead.addEventListener('click', startReading);
+    ui.bookOpenRead2.addEventListener('click', startReading);
+    ui.bookClose.addEventListener('click', closeBook);
+    ui.bookBackdrop.addEventListener('click', closeBook);
+    ui.prevPage.addEventListener('click', prevPage);
+    ui.nextPage.addEventListener('click', nextPage);
+
+    ui.videoClose.addEventListener('click', closeVideo);
+    ui.videoBackdrop.addEventListener('click', closeVideo);
+    ui.baggieClose.addEventListener('click', closeBaggie);
+    ui.baggieBackdrop.addEventListener('click', closeBaggie);
+    ui.typewriterHotspot.addEventListener('click', openTypewriter);
+    ui.typewriterClose.addEventListener('click', closeTypewriter);
+    ui.typewriterBackdrop.addEventListener('click', closeTypewriter);
+    ui.twPrevFragment.addEventListener('click', () => stepTypewriterFragment(-1));
+    ui.twNextFragment.addEventListener('click', () => stepTypewriterFragment(1));
+    ui.twModeButtons.forEach(btn => btn.addEventListener('click', () => setTypewriterMode(btn.dataset.twMode)));
+    ui.typewriterMessageForm.addEventListener('submit', submitTypewriterMessage);
+    ui.twCopyEmail.addEventListener('click', copyAuthorEmail);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeBook();
+        closeVideo();
+        closeBaggie();
+        closeTypewriter();
+      }
+    });
+
+    ui.bgVideo.addEventListener('error', () => { ui.bgVideo.style.display = 'none'; });
+    ui.archiveVideo.addEventListener('error', () => { ui.archiveVideo.style.display = 'none'; });
+    ui.podcastAudio.addEventListener('play', () => {
+      state.audioOn = true;
+      setAudioButton();
+    });
+    ui.podcastAudio.addEventListener('pause', () => {
+      if (!ui.podcastAudio.ended) {
+        state.audioOn = false;
+        setAudioButton();
+      }
+    });
+    ui.podcastAudio.addEventListener('ended', () => {
+      state.audioOn = false;
+      setAudioButton();
+    });
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        pauseMedia(ui.bgVideo);
+        pauseMedia(ui.archiveVideo);
+        pauseMedia(ui.localVideoPlayer);
+      } else {
+        if (state.videoMode === 'local' && ui.videoOverlay.classList.contains('show')) {
+          playMedia(ui.localVideoPlayer);
+        } else {
+          syncAmbientMedia();
+        }
+      }
+    });
+
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(handleViewportChange, 120);
+    });
+
+    applyLayoutMode();
+    applyCardLayout();
+    syncBaggieCards();
+    resetFlow();
+    setAudioButton();
+    renderTypewriterFragment();
+    setTypewriterMode('fragments');
+    syncAmbientMedia();
+    setTimeout(drawThreads, 250);
+  </script>
+</body>
 </html>
