@@ -2161,6 +2161,339 @@
       }
     }
 
+
+    /* ---------------- INTRO SEQUENCE ---------------- */
+    .intro-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .7s ease, visibility .7s ease;
+      visibility: hidden;
+      background:
+        radial-gradient(circle at 50% 24%, rgba(108, 64, 190, .16), transparent 22%),
+        radial-gradient(circle at 50% 58%, rgba(19, 145, 150, .12), transparent 28%),
+        linear-gradient(180deg, #040404 0%, #020202 58%, #000 100%);
+      overflow: hidden;
+    }
+    .intro-overlay.show {
+      opacity: 1;
+      pointer-events: auto;
+      visibility: visible;
+    }
+    .intro-overlay.hidden {
+      opacity: 0;
+      pointer-events: none;
+      visibility: hidden;
+    }
+    .intro-noise,
+    .intro-vignette,
+    .intro-particle-field,
+    .intro-stage {
+      position: absolute;
+      inset: 0;
+    }
+    .intro-noise {
+      opacity: .05;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
+      background-size: 3px 3px, 4px 4px;
+      mix-blend-mode: soft-light;
+    }
+    .intro-vignette {
+      pointer-events: none;
+      box-shadow: inset 0 0 180px rgba(0,0,0,.82), inset 0 0 320px rgba(0,0,0,.68);
+    }
+    .intro-stage {
+      display: grid;
+      place-items: center;
+      transition: opacity .65s ease, transform .9s cubic-bezier(.22,.61,.36,1);
+    }
+    .intro-stage.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .intro-hole-stage {
+      z-index: 2;
+    }
+    .intro-hole-stage.zooming {
+      transform: scale(1.14);
+    }
+    .intro-hole-wrap {
+      position: relative;
+      width: min(72vw, 900px);
+      aspect-ratio: 1 / 1;
+      display: grid;
+      place-items: center;
+      filter: drop-shadow(0 0 38px rgba(0,0,0,.48));
+    }
+    .intro-hole-ring,
+    .intro-hole-core {
+      position: absolute;
+      border-radius: 50%;
+    }
+    .intro-hole-ring {
+      inset: 0;
+      background:
+        radial-gradient(circle at center, rgba(0,0,0,0) 0 24%, rgba(14,14,18,.28) 32%, rgba(6,6,8,.92) 47%, rgba(0,0,0,1) 76%),
+        conic-gradient(from 0deg, rgba(122,76,255,.18), rgba(255,40,122,.14), rgba(255,177,20,.12), rgba(0,210,255,.16), rgba(122,76,255,.18));
+      transform: perspective(1200px) rotateX(70deg) scale(1);
+      animation: introPulse 4.8s ease-in-out infinite;
+    }
+    .intro-hole-core {
+      width: 40%;
+      aspect-ratio: 1 / 1;
+      background: radial-gradient(circle, rgba(0,0,0,1) 0 38%, rgba(0,0,0,.95) 54%, rgba(0,0,0,.06) 71%, rgba(0,0,0,0) 72%);
+      filter: blur(4px);
+      transform: perspective(1200px) rotateX(70deg) translateY(2%);
+    }
+    .intro-hole-caption {
+      position: absolute;
+      left: 50%;
+      bottom: 13vh;
+      transform: translateX(-50%);
+      width: min(92vw, 760px);
+      text-align: center;
+      color: rgba(255,255,255,.72);
+      text-transform: uppercase;
+      letter-spacing: .18em;
+      font: 700 clamp(11px, 1vw, 13px)/1.4 Arial, Helvetica, sans-serif;
+    }
+    .intro-enter-btn,
+    .intro-skip {
+      position: absolute;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.44);
+      color: rgba(255,255,255,.88);
+      cursor: pointer;
+      font: 800 12px/1 Arial, Helvetica, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .16em;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 18px 38px rgba(0,0,0,.34);
+    }
+    .intro-enter-btn {
+      left: 50%;
+      bottom: 7.5vh;
+      transform: translateX(-50%);
+      padding: 16px 24px;
+      min-width: min(320px, calc(100vw - 36px));
+      transition: transform .22s ease, background .22s ease, border-color .22s ease;
+    }
+    .intro-enter-btn:hover,
+    .intro-enter-btn:focus-visible {
+      transform: translateX(-50%) translateY(-2px);
+      background: rgba(255,255,255,.10);
+      border-color: rgba(255,255,255,.28);
+      outline: none;
+    }
+    .intro-skip {
+      top: calc(var(--safe-top) + 14px);
+      left: 16px;
+      z-index: 8;
+      padding: 10px 14px;
+    }
+    .intro-countdown {
+      position: absolute;
+      top: calc(var(--safe-top) + 18px);
+      right: 18px;
+      z-index: 8;
+      color: rgba(255,255,255,.72);
+      text-transform: uppercase;
+      letter-spacing: .18em;
+      font: 700 12px/1 Arial, Helvetica, sans-serif;
+      opacity: 0;
+      transition: opacity .3s ease;
+    }
+    .intro-countdown.visible {
+      opacity: 1;
+    }
+    .intro-video-stage,
+    .intro-thread-video-stage {
+      z-index: 3;
+      background:
+        radial-gradient(circle at 50% 30%, rgba(255,255,255,.04), transparent 26%),
+        linear-gradient(180deg, rgba(0,0,0,.28), rgba(0,0,0,.68));
+    }
+    .intro-main-video,
+    .intro-thread-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scale(1.02);
+      filter: brightness(.82) contrast(1.02) saturate(1.02);
+      transition: opacity 1s ease, filter 1s ease, transform 1s ease;
+      background:
+        radial-gradient(circle at center, rgba(255,255,255,.06), transparent 28%),
+        #000;
+    }
+    .intro-main-video.disintegrating {
+      opacity: .16;
+      filter: blur(8px) contrast(1.18) saturate(1.12);
+      transform: scale(1.08);
+    }
+    .intro-branch-instruction {
+      position: absolute;
+      left: 50%;
+      bottom: calc(var(--safe-bottom) + 28px);
+      transform: translateX(-50%);
+      width: min(92vw, 780px);
+      text-align: center;
+      color: rgba(255,255,255,.74);
+      text-transform: uppercase;
+      letter-spacing: .18em;
+      font: 700 clamp(11px, 1vw, 13px)/1.5 Arial, Helvetica, sans-serif;
+      text-shadow: 0 8px 26px rgba(0,0,0,.4);
+    }
+    .intro-particle-field {
+      z-index: 4;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity .6s ease;
+    }
+    .intro-particle-field.active {
+      opacity: 1;
+    }
+    .intro-particle {
+      position: absolute;
+      width: var(--size, 4px);
+      height: var(--size, 4px);
+      left: var(--x, 50%);
+      top: var(--y, 50%);
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,.96), rgba(255,255,255,.12));
+      filter: blur(.2px);
+      opacity: 0;
+      transform: translate3d(0,0,0) scale(.72);
+      animation: introScatter var(--dur, 2200ms) var(--delay, 0ms) ease-out forwards;
+    }
+    .intro-thread-stage {
+      z-index: 5;
+      align-items: center;
+      justify-content: center;
+      padding: 8vh 5vw 10vh;
+    }
+    .intro-thread-center {
+      position: relative;
+      width: min(92vw, 1200px);
+      height: min(80vh, 900px);
+    }
+    .intro-thread-orb {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 20px;
+      height: 20px;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 0 24px rgba(255,255,255,.85), 0 0 72px rgba(255,255,255,.22);
+    }
+    .intro-thread-line {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: var(--length);
+      height: 6px;
+      transform-origin: left center;
+      transform: rotate(var(--angle));
+      pointer-events: none;
+      filter: drop-shadow(0 0 10px color-mix(in srgb, var(--color) 65%, transparent));
+    }
+    .intro-thread-line::before,
+    .intro-thread-line::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 999px;
+    }
+    .intro-thread-line::before {
+      background: linear-gradient(90deg,
+        rgba(255,255,255,.08) 0%,
+        color-mix(in srgb, var(--color) 66%, white 8%) 14%,
+        var(--color) 52%,
+        color-mix(in srgb, var(--color) 66%, white 8%) 86%,
+        rgba(255,255,255,.06) 100%);
+    }
+    .intro-thread-line::after {
+      inset: -5px 0;
+      opacity: .24;
+      background: repeating-linear-gradient(90deg,
+        transparent 0 7px,
+        rgba(255,255,255,.38) 7px 9px,
+        transparent 9px 14px);
+    }
+    .intro-thread-knob {
+      position: absolute;
+      left: calc(50% + var(--tx));
+      top: calc(50% + var(--ty));
+      width: 28px;
+      height: 28px;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,.78);
+      background: radial-gradient(circle at 34% 30%, rgba(255,255,255,.96) 0%, var(--color) 42%, color-mix(in srgb, var(--color) 55%, black) 100%);
+      box-shadow: 0 0 24px color-mix(in srgb, var(--color) 76%, transparent), 0 0 54px rgba(0,0,0,.32);
+      cursor: pointer;
+      transition: transform .16s ease, box-shadow .16s ease;
+    }
+    .intro-thread-knob:hover,
+    .intro-thread-knob:focus-visible {
+      transform: translate(-50%, -50%) scale(1.08);
+      outline: none;
+    }
+    .intro-thread-knob.pulled {
+      transform: translate(-50%, -50%) scale(1.16);
+      box-shadow: 0 0 30px color-mix(in srgb, var(--color) 86%, transparent), 0 0 86px color-mix(in srgb, var(--color) 34%, transparent);
+    }
+    .intro-thread-label {
+      position: absolute;
+      left: calc(50% + var(--lx));
+      top: calc(50% + var(--ly));
+      transform: translate(-50%, -50%);
+      padding: 9px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.34);
+      color: rgba(255,255,255,.84);
+      text-transform: uppercase;
+      letter-spacing: .16em;
+      font: 700 11px/1 Arial, Helvetica, sans-serif;
+      white-space: nowrap;
+      backdrop-filter: blur(8px);
+    }
+    .intro-thread-instruction {
+      position: absolute;
+      left: 50%;
+      bottom: calc(var(--safe-bottom) + 26px);
+      transform: translateX(-50%);
+      width: min(92vw, 780px);
+      text-align: center;
+      color: rgba(255,255,255,.72);
+      text-transform: uppercase;
+      letter-spacing: .18em;
+      font: 700 clamp(11px, 1vw, 13px)/1.5 Arial, Helvetica, sans-serif;
+    }
+    @keyframes introPulse {
+      0%, 100% { transform: perspective(1200px) rotateX(70deg) scale(1); }
+      50% { transform: perspective(1200px) rotateX(70deg) scale(1.035); }
+    }
+    @keyframes introScatter {
+      0% {
+        opacity: 0;
+        transform: translate3d(0,0,0) scale(.72);
+      }
+      12% { opacity: 1; }
+      100% {
+        opacity: 0;
+        transform: translate3d(var(--dx), var(--dy), var(--dz, 0px)) scale(.12);
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -2180,6 +2513,42 @@
 </div>
 <button class="pill" id="resetBtn" type="button">Restart</button>
 </div>
+
+<section aria-label="Opening intro sequence" class="intro-overlay show" id="introOverlay">
+<div class="intro-noise"></div>
+<div class="intro-vignette"></div>
+<button class="intro-skip" id="introSkip" type="button">Skip intro</button>
+<div class="intro-countdown" id="introCountdown">00:15</div>
+
+<div class="intro-stage intro-hole-stage" id="introHoleStage">
+<div class="intro-hole-wrap">
+<div class="intro-hole-ring"></div>
+<div class="intro-hole-core"></div>
+</div>
+<div class="intro-hole-caption">Go into the hole</div>
+<button class="intro-enter-btn" id="introEnterBtn" type="button">Enter the hole</button>
+</div>
+
+<div class="intro-stage intro-video-stage hidden" id="introVideoStage">
+<iframe allow="autoplay; encrypted-media; picture-in-picture; web-share" class="intro-main-video" id="introMainVideo" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="about:blank" title="Intro main video"></iframe>
+<div class="intro-branch-instruction">The frame starts dissolving. Pass through it.</div>
+</div>
+
+<div class="intro-particle-field" id="introParticleField"></div>
+
+<div class="intro-stage intro-thread-stage hidden" id="introThreadStage">
+<div class="intro-thread-center" id="introThreadCenter">
+<div class="intro-thread-orb"></div>
+</div>
+<div class="intro-thread-instruction">Pull one thread to drop into the ATM and DVD sequence.</div>
+</div>
+
+<div class="intro-stage intro-thread-video-stage hidden" id="introThreadVideoStage">
+<iframe allow="autoplay; encrypted-media; picture-in-picture; web-share" class="intro-thread-video" id="introThreadVideo" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="about:blank" title="Selected intro thread video"></iframe>
+<div class="intro-branch-instruction">Thread selected. Dropping you into the ATM.</div>
+</div>
+</section>
+
 <section aria-label="Opening scene" class="scene opening-scene show" id="openingScene">
 <div class="bg-video-wrap">
 <video autoplay="" class="bg-video" id="bgVideo" loop="" muted="" playsinline="" poster="ticket-collage.png" preload="metadata">
@@ -2780,7 +3149,19 @@ A single sheet that sits still long enough to be read.`,
       twMessageBody: document.getElementById('twMessageBody'),
       twCopyEmail: document.getElementById('twCopyEmail'),
       twMessageStatus: document.getElementById('twMessageStatus'),
-      twModeButtons: Array.from(document.querySelectorAll('.typewriter-mode-btn'))
+      twModeButtons: Array.from(document.querySelectorAll('.typewriter-mode-btn')),
+      introOverlay: document.getElementById('introOverlay'),
+      introSkip: document.getElementById('introSkip'),
+      introCountdown: document.getElementById('introCountdown'),
+      introHoleStage: document.getElementById('introHoleStage'),
+      introEnterBtn: document.getElementById('introEnterBtn'),
+      introVideoStage: document.getElementById('introVideoStage'),
+      introMainVideo: document.getElementById('introMainVideo'),
+      introParticleField: document.getElementById('introParticleField'),
+      introThreadStage: document.getElementById('introThreadStage'),
+      introThreadCenter: document.getElementById('introThreadCenter'),
+      introThreadVideoStage: document.getElementById('introThreadVideoStage'),
+      introThreadVideo: document.getElementById('introThreadVideo')
     };
 
     const state = {
@@ -2793,7 +3174,14 @@ A single sheet that sits still long enough to be read.`,
       reading: false,
       typewriterMode: 'fragments',
       fragmentIndex: 0,
-      videoMode: null
+      videoMode: null,
+      introComplete: false,
+      selectedIntroThread: null,
+      introMainTimer: null,
+      introDissolveTimer: null,
+      introCountdownTimer: null,
+      introThreadTimer: null,
+      introThreadStageShown: false
     };
 
     const CARD_LAYOUTS = {
@@ -3012,12 +3400,268 @@ A single sheet that sits still long enough to be read.`,
     function syncAmbientMedia() {
       pauseMedia(ui.bgVideo);
       pauseMedia(ui.archiveVideo);
+      if (!state.introComplete && ui.introOverlay.classList.contains('show')) return;
       if (isAnyOverlayOpen()) return;
       if (state.scene === 'opening') {
         playMedia(ui.bgVideo);
       } else if (state.scene === 'archive') {
         playMedia(ui.archiveVideo);
       }
+    }
+
+
+    const INTRO_MAIN_DURATION = 15000;
+    const INTRO_DISSOLVE_START = 9000;
+    const INTRO_THREAD_VIDEO_FALLBACK = 12000;
+    const INTRO_MAIN_VIDEO = 'https://youtu.be/Q09OcjSv06U';
+    const INTRO_THREADS = [
+      { id: 'thread-1', label: 'Thread 01', color: '#ff3b6b', angle: '-72deg', length: '300px', tx: '96px',  ty: '-286px', lx: '142px', ly: '-324px', video: 'https://youtu.be/y9nsPvIDO4Q' },
+      { id: 'thread-2', label: 'Thread 02', color: '#ff9f1c', angle: '-22deg', length: '370px', tx: '342px', ty: '-138px', lx: '412px', ly: '-165px', video: 'https://youtu.be/D1TBGkWuIfk' },
+      { id: 'thread-3', label: 'Thread 03', color: '#ffee32', angle: '28deg',  length: '360px', tx: '322px', ty: '172px',  lx: '402px', ly: '214px',  video: 'https://youtu.be/hXIoxnUNy2o' },
+      { id: 'thread-4', label: 'Thread 04', color: '#2ceaa3', angle: '112deg', length: '292px', tx: '-112px',ty: '272px',  lx: '-166px',ly: '322px',  video: 'https://youtu.be/aMt4WK7H7MA' },
+      { id: 'thread-5', label: 'Thread 05', color: '#00bbf9', angle: '162deg', length: '360px', tx: '-344px',ty: '108px',  lx: '-424px',ly: '138px',  video: 'https://youtu.be/sV8Xi7_nTPQ' },
+      { id: 'thread-6', label: 'Thread 06', color: '#9b5de5', angle: '230deg', length: '320px', tx: '-206px',ty: '-246px', lx: '-274px',ly: '-292px', video: 'https://youtu.be/PZNJUtX1Tss' }
+    ];
+
+    function getYouTubeId(value) {
+      if (!value) return '';
+      try {
+        const parsed = new URL(value, window.location.href);
+        if (parsed.hostname.includes('youtu.be')) {
+          return parsed.pathname.replace(/^\//, '').split('/')[0];
+        }
+        if (parsed.hostname.includes('youtube.com') || parsed.hostname.includes('youtube-nocookie.com')) {
+          const parts = parsed.pathname.split('/').filter(Boolean);
+          const embedIndex = parts.indexOf('embed');
+          if (embedIndex !== -1 && parts[embedIndex + 1]) return parts[embedIndex + 1];
+          if (parsed.searchParams.get('v')) return parsed.searchParams.get('v');
+        }
+      } catch (e) {}
+      return '';
+    }
+
+    function buildIntroYouTubeEmbed(url, { mute = true, controls = 1 } = {}) {
+      const id = getYouTubeId(url);
+      if (!id) return 'about:blank';
+      const embedUrl = new URL(`https://www.youtube-nocookie.com/embed/${id}`);
+      embedUrl.searchParams.set('autoplay', '1');
+      embedUrl.searchParams.set('playsinline', '1');
+      embedUrl.searchParams.set('rel', '0');
+      embedUrl.searchParams.set('modestbranding', '1');
+      embedUrl.searchParams.set('enablejsapi', '1');
+      embedUrl.searchParams.set('iv_load_policy', '3');
+      embedUrl.searchParams.set('controls', String(controls));
+      if (mute) embedUrl.searchParams.set('mute', '1');
+      return embedUrl.toString();
+    }
+
+    function stopIntroEmbed(frame) {
+      if (!frame) return;
+      frame.src = 'about:blank';
+    }
+
+    function clearIntroTimers() {
+      clearTimeout(state.introMainTimer);
+      clearTimeout(state.introDissolveTimer);
+      clearTimeout(state.introThreadTimer);
+      clearInterval(state.introCountdownTimer);
+      state.introMainTimer = null;
+      state.introDissolveTimer = null;
+      state.introThreadTimer = null;
+      state.introCountdownTimer = null;
+    }
+
+    function setIntroCountdown(msRemaining) {
+      const totalSeconds = Math.max(0, Math.ceil(msRemaining / 1000));
+      const minutes = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
+      const seconds = String(totalSeconds % 60).padStart(2, '0');
+      ui.introCountdown.textContent = `${minutes}:${seconds}`;
+    }
+
+    function resetIntroVisualStages() {
+      ui.introHoleStage.classList.remove('hidden', 'zooming');
+      ui.introVideoStage.classList.add('hidden');
+      ui.introThreadStage.classList.add('hidden');
+      ui.introThreadVideoStage.classList.add('hidden');
+      ui.introParticleField.classList.remove('active');
+      ui.introCountdown.classList.remove('visible');
+      ui.introMainVideo.classList.remove('disintegrating');
+      stopIntroEmbed(ui.introMainVideo);
+      stopIntroEmbed(ui.introThreadVideo);
+      ui.introParticleField.innerHTML = '';
+      state.introThreadStageShown = false;
+      if (ui.introThreadCenter && !ui.introThreadCenter.querySelector('.intro-thread-line')) {
+        renderIntroThreads();
+      }
+      ui.introThreadCenter.querySelectorAll('.intro-thread-knob').forEach(btn => btn.classList.remove('pulled'));
+    }
+
+    function showIntroOverlay() {
+      ui.introOverlay.classList.remove('hidden');
+      ui.introOverlay.classList.add('show');
+      state.introComplete = false;
+      resetIntroVisualStages();
+      syncAmbientMedia();
+    }
+
+    function hideIntroOverlay() {
+      ui.introOverlay.classList.remove('show');
+      ui.introOverlay.classList.add('hidden');
+      state.introComplete = true;
+      syncAmbientMedia();
+    }
+
+    function createIntroParticles(count = 180) {
+      ui.introParticleField.innerHTML = '';
+      const rect = ui.introParticleField.getBoundingClientRect();
+      for (let i = 0; i < count; i += 1) {
+        const particle = document.createElement('span');
+        particle.className = 'intro-particle';
+        const x = 35 + Math.random() * 30;
+        const y = 28 + Math.random() * 44;
+        particle.style.setProperty('--x', `${x}%`);
+        particle.style.setProperty('--y', `${y}%`);
+        particle.style.setProperty('--dx', `${(Math.random() - 0.5) * rect.width * 1.2}px`);
+        particle.style.setProperty('--dy', `${(Math.random() - 0.5) * rect.height * 1.2}px`);
+        particle.style.setProperty('--dz', `${(Math.random() - 0.5) * 320}px`);
+        particle.style.setProperty('--size', `${2 + Math.random() * 8}px`);
+        particle.style.setProperty('--dur', `${1500 + Math.random() * 1800}ms`);
+        particle.style.setProperty('--delay', `${Math.random() * 420}ms`);
+        ui.introParticleField.appendChild(particle);
+      }
+    }
+
+    function renderIntroThreads() {
+      if (!ui.introThreadCenter) return;
+      ui.introThreadCenter.querySelectorAll('.intro-thread-line, .intro-thread-knob, .intro-thread-label').forEach(node => node.remove());
+      INTRO_THREADS.forEach(thread => {
+        const line = document.createElement('div');
+        line.className = 'intro-thread-line';
+        line.style.setProperty('--angle', thread.angle);
+        line.style.setProperty('--length', thread.length);
+        line.style.setProperty('--color', thread.color);
+        ui.introThreadCenter.appendChild(line);
+
+        const knob = document.createElement('button');
+        knob.type = 'button';
+        knob.className = 'intro-thread-knob';
+        knob.style.setProperty('--color', thread.color);
+        knob.style.setProperty('--tx', thread.tx);
+        knob.style.setProperty('--ty', thread.ty);
+        knob.setAttribute('aria-label', thread.label);
+        knob.addEventListener('click', () => selectIntroThread(thread, knob));
+        ui.introThreadCenter.appendChild(knob);
+
+        const label = document.createElement('div');
+        label.className = 'intro-thread-label';
+        label.textContent = thread.label;
+        label.style.setProperty('--lx', thread.lx);
+        label.style.setProperty('--ly', thread.ly);
+        ui.introThreadCenter.appendChild(label);
+      });
+    }
+
+    function beginIntroCountdown() {
+      const startedAt = performance.now();
+      ui.introCountdown.classList.add('visible');
+      setIntroCountdown(INTRO_MAIN_DURATION);
+      state.introCountdownTimer = setInterval(() => {
+        const elapsed = performance.now() - startedAt;
+        const remaining = INTRO_MAIN_DURATION - elapsed;
+        setIntroCountdown(remaining);
+        if (remaining <= 0) {
+          clearInterval(state.introCountdownTimer);
+          state.introCountdownTimer = null;
+        }
+      }, 160);
+    }
+
+    function triggerIntroDisintegration() {
+      createIntroParticles();
+      ui.introParticleField.classList.add('active');
+      ui.introMainVideo.classList.add('disintegrating');
+    }
+
+    function showIntroThreadPicker() {
+      if (state.introThreadStageShown) return;
+      state.introThreadStageShown = true;
+      ui.introVideoStage.classList.add('hidden');
+      ui.introThreadStage.classList.remove('hidden');
+      ui.introCountdown.classList.remove('visible');
+      stopIntroEmbed(ui.introMainVideo);
+      setHint('Pull a thread');
+    }
+
+    function startIntroSequence() {
+      pausePodcastForMedia();
+      clearIntroTimers();
+      ui.introHoleStage.classList.add('zooming');
+      setHint('Going into the hole…');
+
+      setTimeout(() => {
+        ui.introHoleStage.classList.add('hidden');
+        ui.introVideoStage.classList.remove('hidden');
+        ui.introMainVideo.src = buildIntroYouTubeEmbed(INTRO_MAIN_VIDEO, { mute: true, controls: 0 });
+        beginIntroCountdown();
+        state.introDissolveTimer = setTimeout(triggerIntroDisintegration, INTRO_DISSOLVE_START);
+        state.introMainTimer = setTimeout(showIntroThreadPicker, INTRO_MAIN_DURATION);
+      }, 780);
+    }
+
+    function playThreadVideoAndEnter(thread) {
+      state.selectedIntroThread = thread.id;
+      document.body.dataset.selectedIntroThread = thread.id;
+      ui.introThreadStage.classList.add('hidden');
+      ui.introThreadVideoStage.classList.remove('hidden');
+      ui.introParticleField.classList.remove('active');
+      setHint('Dropping into the ATM…');
+
+      const enterAfterClip = () => {
+        clearTimeout(state.introThreadTimer);
+        state.introThreadTimer = null;
+        stopIntroEmbed(ui.introThreadVideo);
+        beginSequenceFromIntro();
+      };
+
+      if (thread.video) {
+        ui.introThreadVideo.src = buildIntroYouTubeEmbed(thread.video, { mute: true, controls: 1 });
+        state.introThreadTimer = setTimeout(enterAfterClip, INTRO_THREAD_VIDEO_FALLBACK);
+      } else {
+        state.introThreadTimer = setTimeout(enterAfterClip, 400);
+      }
+    }
+
+    function selectIntroThread(thread, knob) {
+      ui.introThreadCenter.querySelectorAll('.intro-thread-knob').forEach(btn => btn.classList.remove('pulled'));
+      knob.classList.add('pulled');
+      playThreadVideoAndEnter(thread);
+    }
+
+    function beginSequenceFromIntro() {
+      clearIntroTimers();
+      hideIntroOverlay();
+      ui.ticketCta.classList.add('hidden');
+      ui.openingScene.classList.remove('animate-out');
+      ui.atmScene.classList.remove('animate-insert', 'finish-insert', 'reveal-dvd');
+      ui.dvdCase.classList.remove('open');
+      ui.enterArchiveBtn.classList.remove('show');
+      ui.dvdCta.classList.add('hidden');
+      showScene('atm');
+      setHint('Inserting the ticket…');
+
+      setTimeout(() => ui.atmScene.classList.add('animate-insert'), 120);
+      setTimeout(() => ui.atmScene.classList.add('finish-insert'), 1500);
+      setTimeout(() => {
+        ui.atmScene.classList.add('reveal-dvd');
+        ui.dvdCta.classList.remove('hidden');
+        setHint('Tap the DVD case');
+      }, 2700);
+    }
+
+    function skipIntro() {
+      state.selectedIntroThread = 'skipped';
+      document.body.dataset.selectedIntroThread = 'skipped';
+      beginSequenceFromIntro();
     }
 
     function showScene(which) {
@@ -3029,6 +3673,7 @@ A single sheet that sits still long enough to be read.`,
     }
 
     function resetFlow() {
+      clearIntroTimers();
       ui.openingScene.classList.remove('animate-out');
       ui.atmScene.classList.remove('animate-insert', 'finish-insert', 'reveal-dvd');
       ui.dvdCase.classList.remove('open');
@@ -3040,7 +3685,9 @@ A single sheet that sits still long enough to be read.`,
       closeBaggie();
       closeTypewriter();
       showScene('opening');
-      setHint('Tap the ticket to begin');
+      showIntroOverlay();
+      setIntroCountdown(INTRO_MAIN_DURATION);
+      setHint('Enter the hole');
       drawThreads();
     }
 
@@ -3536,6 +4183,8 @@ A single sheet that sits still long enough to be read.`,
     ui.audioToggle.addEventListener('click', toggleAudio);
     ui.audioRestart.addEventListener('click', restartAudio);
     ui.resetBtn.addEventListener('click', resetFlow);
+    ui.introEnterBtn.addEventListener('click', startIntroSequence);
+    ui.introSkip.addEventListener('click', skipIntro);
     ui.groundTicket.addEventListener('click', () => {
       beginSequence();
     });
@@ -3618,6 +4267,7 @@ A single sheet that sits still long enough to be read.`,
     applyLayoutMode();
     applyCardLayout();
     syncBaggieCards();
+    renderIntroThreads();
     resetFlow();
     setAudioButton();
     renderTypewriterFragment();
