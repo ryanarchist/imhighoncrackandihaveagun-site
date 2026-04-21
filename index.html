@@ -16,278 +16,50 @@
       --ease:cubic-bezier(.22,.61,.36,1);
     }
     *{box-sizing:border-box}
-    html,body{
-      margin:0;
-      min-height:100%;
-      background:#000;
-      color:var(--text);
-      font-family:Arial,Helvetica,sans-serif;
-    }
+    html,body{margin:0;min-height:100%;background:#000;color:var(--text);font-family:Arial,Helvetica,sans-serif}
     body{overflow:hidden}
-    .app{
-      position:relative;
-      width:100vw;
-      height:100dvh;
-      overflow:hidden;
-      background:
-        radial-gradient(circle at top, rgba(216,166,106,.08), transparent 22%),
-        linear-gradient(180deg,#080808,#030303 68%,#000);
-    }
-    .grain,.vignette{
-      position:absolute;
-      inset:0;
-      pointer-events:none;
-      z-index:10;
-    }
-    .grain{
-      opacity:.04;
-      background-image:
-        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
-      background-size:4px 4px;
-      mix-blend-mode:soft-light;
-    }
-    .vignette{ box-shadow:inset 0 0 190px rgba(0,0,0,.82); }
-
-    .topbar{
-      position:absolute;
-      top:16px;
-      left:16px;
-      right:16px;
-      z-index:30;
-      display:flex;
-      justify-content:space-between;
-      gap:12px;
-      align-items:center;
-    }
-    .pill, .ghost-btn, .ticket-cta{
-      border:1px solid var(--line);
-      background:rgba(0,0,0,.56);
-      color:var(--muted);
-      border-radius:999px;
-      padding:10px 14px;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      font-size:11px;
-      backdrop-filter:blur(8px);
-      font-family:Arial,Helvetica,sans-serif;
-      cursor:pointer;
-    }
-    .ghost-btn:hover, .ticket-cta:hover{ filter:brightness(1.08); }
-
-    .scene{
-      position:absolute;
-      inset:0;
-      display:grid;
-      place-items:center;
-      padding:20px;
-      transition:opacity .8s var(--ease), transform .8s var(--ease), visibility .8s var(--ease);
-    }
-    .scene.hidden{
-      opacity:0;
-      pointer-events:none;
-      visibility:hidden;
-      transform:scale(1.015);
-    }
-
-    .video-wrap{
-      position:relative;
-      width:min(1200px,96vw);
-      aspect-ratio:16/9;
-      border-radius:24px;
-      overflow:hidden;
-      border:1px solid var(--line);
-      background:#000;
-      box-shadow:var(--shadow);
-    }
-    video{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-      background:#000;
-    }
-    .video-copy{
-      position:absolute;
-      left:20px;
-      bottom:18px;
-      z-index:3;
-      max-width:min(70ch, calc(100% - 40px));
-      padding:14px 16px;
-      border-radius:18px;
-      border:1px solid rgba(255,255,255,.08);
-      background:rgba(0,0,0,.42);
-      backdrop-filter:blur(10px);
-      box-shadow:0 18px 40px rgba(0,0,0,.25);
-    }
-    .video-copy b{
-      display:block;
-      color:var(--accent);
-      font-size:11px;
-      letter-spacing:.18em;
-      text-transform:uppercase;
-      margin-bottom:8px;
-    }
-    .video-copy span{
-      color:var(--text);
-      line-height:1.5;
-      font-size:14px;
-    }
-    .video-actions{
-      position:absolute;
-      top:14px;
-      right:14px;
-      z-index:4;
-      display:flex;
-      gap:10px;
-    }
-    .dissolve-overlay{
-      position:absolute;
-      inset:0;
-      z-index:2;
-      background:radial-gradient(circle, rgba(255,255,255,.12), rgba(255,255,255,0) 42%), #000;
-      opacity:0;
-      pointer-events:none;
-      transition:opacity 1.8s ease;
-    }
-    .video-wrap.dissolving video{
-      opacity:.12;
-      filter:blur(10px) contrast(1.15) saturate(1.08);
-      transition:opacity 1.8s ease, filter 1.8s ease;
-    }
-    .video-wrap.dissolving .dissolve-overlay{ opacity:.92; }
-
-    .ticket-scene{
-      padding:28px 20px 36px;
-    }
-    .ticket-stage{
-      display:grid;
-      gap:20px;
-      justify-items:center;
-      width:min(1500px, 100%);
-    }
-    .ticket-copy{
-      text-align:center;
-      max-width:820px;
-    }
-    .ticket-kicker{
-      color:var(--accent);
-      font-size:11px;
-      font-weight:800;
-      letter-spacing:.18em;
-      text-transform:uppercase;
-      margin-bottom:12px;
-    }
-    .ticket-copy h1{
-      margin:0 0 12px;
-      font-size:clamp(26px,4vw,52px);
-      line-height:.94;
-      letter-spacing:.04em;
-      text-transform:uppercase;
-    }
-    .ticket-copy p{
-      margin:0 auto;
-      max-width:760px;
-      color:var(--muted);
-      line-height:1.6;
-      font-size:16px;
-    }
-    .ticket-card{
-      position:relative;
-      display:block;
-      width:min(1480px, 96vw);
-      border:0;
-      background:transparent;
-      padding:0;
-      cursor:pointer;
-      border-radius:28px;
-      box-shadow:var(--shadow);
-      transition:transform .22s ease, filter .22s ease;
-    }
-    .ticket-card:hover,
-    .ticket-card:focus-visible{
-      transform:translateY(-6px) scale(1.01);
-      filter:saturate(1.03);
-      outline:none;
-    }
-    .ticket-card img{
-      display:block;
-      width:100%;
-      height:auto;
-      border-radius:28px;
-      border:1px solid rgba(255,255,255,.08);
-      background:#120d0a;
-    }
-    .ticket-overlay-copy{
-      position:absolute;
-      left:50%;
-      bottom:18px;
-      transform:translateX(-50%);
-      width:min(92%, 760px);
-      padding:16px 18px;
-      border-radius:18px;
-      border:1px solid rgba(255,255,255,.10);
-      background:rgba(0,0,0,.54);
-      box-shadow:0 20px 50px rgba(0,0,0,.28);
-      backdrop-filter:blur(12px);
-      text-align:center;
-    }
-    .ticket-overlay-copy strong{
-      display:block;
-      font-size:clamp(20px,2.3vw,30px);
-      text-transform:uppercase;
-      letter-spacing:.05em;
-      color:#fff2df;
-      margin-bottom:8px;
-    }
-    .ticket-overlay-copy span{
-      display:block;
-      color:rgba(255,255,255,.84);
-      font-size:15px;
-      line-height:1.5;
-      margin-bottom:12px;
-    }
-    .ticket-cta{
-      color:#fff1db;
-      background:linear-gradient(180deg, rgba(216,166,106,.24), rgba(110,70,32,.34));
-      border:1px solid rgba(216,166,106,.48);
-      padding:12px 18px;
-      font-weight:800;
-      box-shadow:0 12px 26px rgba(0,0,0,.28);
-    }
-
-    .archive-scene .panel{
-      width:min(900px,94vw);
-      border:1px solid var(--line);
-      border-radius:28px;
-      background:rgba(12,12,12,.72);
-      box-shadow:var(--shadow);
-      backdrop-filter:blur(12px);
-      padding:28px 24px;
-      text-align:center;
-    }
-    .archive-scene h2{
-      margin:0 0 12px;
-      font-size:clamp(28px,4vw,48px);
-      line-height:.95;
-      letter-spacing:.04em;
-      text-transform:uppercase;
-    }
-    .archive-scene p{
-      margin:0 auto;
-      max-width:720px;
-      color:var(--muted);
-      line-height:1.65;
-      font-size:16px;
-    }
-
+    .app{position:relative;width:100vw;height:100dvh;overflow:hidden;background:radial-gradient(circle at top, rgba(216,166,106,.08), transparent 22%),linear-gradient(180deg,#080808,#030303 68%,#000)}
+    .grain,.vignette{position:absolute;inset:0;pointer-events:none;z-index:10}
+    .grain{opacity:.04;background-image:linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);background-size:4px 4px;mix-blend-mode:soft-light}
+    .vignette{box-shadow:inset 0 0 190px rgba(0,0,0,.82)}
+    .topbar{position:absolute;top:16px;left:16px;right:16px;z-index:30;display:flex;justify-content:space-between;gap:12px;align-items:center}
+    .pill,.ghost-btn,.ticket-cta,.start-btn{border:1px solid var(--line);background:rgba(0,0,0,.56);color:var(--muted);border-radius:999px;padding:10px 14px;letter-spacing:.12em;text-transform:uppercase;font-size:11px;backdrop-filter:blur(8px);font-family:Arial,Helvetica,sans-serif;cursor:pointer}
+    .scene{position:absolute;inset:0;display:grid;place-items:center;padding:20px;transition:opacity .8s var(--ease), transform .8s var(--ease), visibility .8s var(--ease)}
+    .scene.hidden{opacity:0;pointer-events:none;visibility:hidden;transform:scale(1.015)}
+    .video-wrap{position:relative;width:min(1200px,96vw);aspect-ratio:16/9;border-radius:24px;overflow:hidden;border:1px solid var(--line);background:#000;box-shadow:var(--shadow)}
+    video{width:100%;height:100%;object-fit:cover;display:block;background:#000}
+    .video-actions{position:absolute;top:14px;right:14px;z-index:4;display:flex;gap:10px}
+    .video-copy{position:absolute;left:20px;bottom:18px;z-index:5;max-width:min(70ch, calc(100% - 40px));padding:14px 16px;border-radius:18px;border:1px solid rgba(255,255,255,.08);background:rgba(0,0,0,.42);backdrop-filter:blur(10px);box-shadow:0 18px 40px rgba(0,0,0,.25)}
+    .video-copy b{display:block;color:var(--accent);font-size:11px;letter-spacing:.18em;text-transform:uppercase;margin-bottom:8px}
+    .video-copy span{color:var(--text);line-height:1.5;font-size:14px}
+    .loading-mask{position:absolute;inset:0;z-index:3;display:grid;place-items:center;background:radial-gradient(circle, rgba(255,255,255,.04), rgba(255,255,255,0) 38%),rgba(0,0,0,.82);transition:opacity .45s ease, visibility .45s ease}
+    .loading-mask.hidden{opacity:0;visibility:hidden;pointer-events:none}
+    .loading-card{max-width:min(92vw, 520px);text-align:center;padding:22px 20px;border-radius:22px;border:1px solid rgba(255,255,255,.09);background:rgba(0,0,0,.54);box-shadow:0 20px 50px rgba(0,0,0,.28);backdrop-filter:blur(12px)}
+    .loading-card strong{display:block;color:var(--accent);text-transform:uppercase;letter-spacing:.18em;font-size:11px;margin-bottom:10px}
+    .loading-card p{margin:0 0 14px;color:var(--text);line-height:1.55;font-size:15px}
+    .dissolve-overlay{position:absolute;inset:0;z-index:2;background:radial-gradient(circle, rgba(255,255,255,.12), rgba(255,255,255,0) 42%), #000;opacity:0;pointer-events:none;transition:opacity 1.8s ease}
+    .video-wrap.dissolving video{opacity:.12;filter:blur(10px) contrast(1.15) saturate(1.08);transition:opacity 1.8s ease, filter 1.8s ease}
+    .video-wrap.dissolving .dissolve-overlay{opacity:.92}
+    .ticket-scene{padding:28px 20px 36px}
+    .ticket-stage{display:grid;gap:20px;justify-items:center;width:min(1500px, 100%)}
+    .ticket-copy{text-align:center;max-width:820px}
+    .ticket-kicker{color:var(--accent);font-size:11px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;margin-bottom:12px}
+    .ticket-copy h1{margin:0 0 12px;font-size:clamp(26px,4vw,52px);line-height:.94;letter-spacing:.04em;text-transform:uppercase}
+    .ticket-copy p{margin:0 auto;max-width:760px;color:var(--muted);line-height:1.6;font-size:16px}
+    .ticket-card{position:relative;display:block;width:min(1480px, 96vw);border:0;background:transparent;padding:0;cursor:pointer;border-radius:28px;box-shadow:var(--shadow);transition:transform .22s ease, filter .22s ease}
+    .ticket-card img{display:block;width:100%;height:auto;border-radius:28px;border:1px solid rgba(255,255,255,.08);background:#120d0a}
+    .ticket-overlay-copy{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);width:min(92%, 760px);padding:16px 18px;border-radius:18px;border:1px solid rgba(255,255,255,.10);background:rgba(0,0,0,.54);box-shadow:0 20px 50px rgba(0,0,0,.28);backdrop-filter:blur(12px);text-align:center}
+    .ticket-overlay-copy strong{display:block;font-size:clamp(20px,2.3vw,30px);text-transform:uppercase;letter-spacing:.05em;color:#fff2df;margin-bottom:8px}
+    .ticket-overlay-copy span{display:block;color:rgba(255,255,255,.84);font-size:15px;line-height:1.5;margin-bottom:12px}
+    .ticket-cta{color:#fff1db;background:linear-gradient(180deg, rgba(216,166,106,.24), rgba(110,70,32,.34));border:1px solid rgba(216,166,106,.48);padding:12px 18px;font-weight:800;box-shadow:0 12px 26px rgba(0,0,0,.28)}
+    .archive-scene .panel{width:min(900px,94vw);border:1px solid var(--line);border-radius:28px;background:rgba(12,12,12,.72);box-shadow:var(--shadow);backdrop-filter:blur(12px);padding:28px 24px;text-align:center}
+    .archive-scene h2{margin:0 0 12px;font-size:clamp(28px,4vw,48px);line-height:.95;letter-spacing:.04em;text-transform:uppercase}
+    .archive-scene p{margin:0 auto;max-width:720px;color:var(--muted);line-height:1.65;font-size:16px}
     @media (max-width: 720px){
       .topbar{top:12px;left:12px;right:12px}
       .video-copy{left:12px;right:12px;max-width:none;bottom:12px}
       .video-actions{top:12px;right:12px}
       .ticket-overlay-copy{left:12px;right:12px;transform:none;width:auto;bottom:12px}
-      .ticket-copy p{font-size:15px}
-      .ticket-overlay-copy span{font-size:14px}
     }
   </style>
 </head>
@@ -304,7 +76,14 @@
           <button class="ghost-btn" id="skipBtn" type="button">Skip</button>
         </div>
         <div class="dissolve-overlay"></div>
-        <video id="introVideo" playsinline preload="metadata" muted>
+        <div class="loading-mask" id="loadingMask">
+          <div class="loading-card">
+            <strong>Loading intro</strong>
+            <p>If autoplay gets blocked, tap start below and the intro will run before the ticket appears.</p>
+            <button class="start-btn" id="startIntroBtn" type="button">Start intro</button>
+          </div>
+        </div>
+        <video id="introVideo" playsinline muted autoplay preload="auto">
           <source src="intro.mp4" type="video/mp4" />
         </video>
         <div class="video-copy">
@@ -321,7 +100,6 @@
           <h1>Take a breath and click ticket when your ready</h1>
           <p>The intro resolves into a single object. When you’re ready, click the ticket to continue.</p>
         </div>
-
         <button class="ticket-card" id="ticketBtn" type="button" aria-label="Click ticket to continue">
           <img src="ticket.png" alt="Limited edition redemption ticket" />
           <div class="ticket-overlay-copy">
@@ -337,9 +115,7 @@
       <div class="panel">
         <div class="ticket-kicker">Next phase</div>
         <h2>Archive entry</h2>
-        <p>
-          This is the clean handoff point. Once you click the ticket, we can build the next step from here — corkboard, OG signup, radio, or whatever comes next — one clean phase at a time.
-        </p>
+        <p>This is the clean handoff point. Build the next scene from here one clean phase at a time.</p>
       </div>
     </section>
 
@@ -356,6 +132,8 @@
     const skipBtn = document.getElementById('skipBtn');
     const resetBtn = document.getElementById('resetBtn');
     const ticketBtn = document.getElementById('ticketBtn');
+    const loadingMask = document.getElementById('loadingMask');
+    const startIntroBtn = document.getElementById('startIntroBtn');
 
     let dissolving = false;
     let ticketShown = false;
@@ -372,7 +150,7 @@
     }
 
     function dissolveToTicket() {
-      if (dissolving) return;
+      if (dissolving || ticketShown) return;
       dissolving = true;
       videoWrap.classList.add('dissolving');
       setTimeout(() => {
@@ -381,16 +159,30 @@
       }, 1700);
     }
 
+    function hideLoader() {
+      loadingMask.classList.add('hidden');
+    }
+
+    async function tryPlayIntro() {
+      try {
+        const playAttempt = introVideo.play();
+        if (playAttempt && typeof playAttempt.then === 'function') {
+          await playAttempt;
+        }
+        hideLoader();
+      } catch (e) {
+        loadingMask.classList.remove('hidden');
+      }
+    }
+
     function startIntro() {
       dissolving = false;
       ticketShown = false;
       videoWrap.classList.remove('dissolving');
+      loadingMask.classList.remove('hidden');
       showScene(introScene);
-      try {
-        introVideo.currentTime = 0;
-        const p = introVideo.play();
-        if (p && typeof p.catch === 'function') p.catch(() => {});
-      } catch (e) {}
+      try { introVideo.currentTime = 0; } catch (e) {}
+      setTimeout(tryPlayIntro, 120);
     }
 
     function resetSite() {
@@ -405,11 +197,26 @@
       showScene(archiveScene);
     }
 
+    introVideo.addEventListener('playing', hideLoader);
+    introVideo.addEventListener('canplay', () => {
+      if (introVideo.paused) tryPlayIntro();
+    });
     introVideo.addEventListener('ended', dissolveToTicket);
+    introVideo.addEventListener('error', () => {
+      loadingMask.classList.remove('hidden');
+    });
+
     skipBtn.addEventListener('click', dissolveToTicket);
     resetBtn.addEventListener('click', resetSite);
     ticketBtn.addEventListener('click', enterArchive);
+    startIntroBtn.addEventListener('click', tryPlayIntro);
+
     window.addEventListener('load', startIntro);
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden && !introScene.classList.contains('hidden') && !ticketShown && introVideo.paused) {
+        tryPlayIntro();
+      }
+    });
   </script>
 </body>
 </html>
