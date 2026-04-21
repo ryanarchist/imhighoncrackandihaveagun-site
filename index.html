@@ -578,6 +578,235 @@
       font-family: Arial, Helvetica, sans-serif;
     }
 
+    .og-capture {
+      width: min(1180px, 96vw);
+      display: grid;
+      grid-template-columns: minmax(280px, 1.15fr) minmax(360px, 1fr);
+      gap: 18px 22px;
+      align-items: center;
+      padding: 22px 24px;
+      border-radius: 28px;
+      background:
+        linear-gradient(180deg, rgba(23,15,10,.90), rgba(10,8,7,.94)),
+        radial-gradient(circle at 18% 16%, rgba(216,166,106,.14), transparent 24%);
+      border: 1px solid rgba(216,166,106,.18);
+      box-shadow: 0 28px 70px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.05);
+      backdrop-filter: blur(10px);
+    }
+
+    .og-dropbox-art {
+      position: relative;
+      align-self: stretch;
+      border-radius: 22px;
+      overflow: hidden;
+      border: 1px solid rgba(216,166,106,.20);
+      background: rgba(0,0,0,.28);
+      box-shadow: 0 20px 50px rgba(0,0,0,.28);
+      min-height: 100%;
+    }
+    .og-dropbox-art img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      min-height: 320px;
+    }
+    .og-dropbox-art::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,.06), rgba(0,0,0,.10) 35%, rgba(0,0,0,.62) 100%);
+      pointer-events: none;
+    }
+    .og-dropbox-caption {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 18px;
+      z-index: 1;
+      display: grid;
+      gap: 6px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(8,8,8,.58);
+      border: 1px solid rgba(255,255,255,.10);
+      backdrop-filter: blur(8px);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+    }
+    .og-dropbox-label {
+      color: var(--warm);
+      font: 800 11px/1 Arial, Helvetica, sans-serif;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+    .og-dropbox-caption strong {
+      color: #fff1db;
+      font: 800 clamp(18px, 2vw, 24px)/1.02 Arial, Helvetica, sans-serif;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+    }
+    .og-dropbox-caption small {
+      color: rgba(255,255,255,.72);
+      font: 13px/1.4 Arial, Helvetica, sans-serif;
+    }
+    .og-capture-content {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+      min-width: 0;
+    }
+
+    .og-capture-copy h3 {
+      margin: 6px 0 10px;
+      font: 800 clamp(24px, 3vw, 38px)/.96 Arial, Helvetica, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: #fff1db;
+    }
+    .og-capture-copy p {
+      margin: 0;
+      color: rgba(255,255,255,.78);
+      font: 16px/1.62 Arial, Helvetica, sans-serif;
+      max-width: 720px;
+    }
+    .og-capture-kicker {
+      color: var(--warm);
+      font: 800 11px/1 Arial, Helvetica, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .18em;
+    }
+    .og-capture-form {
+      display: grid;
+      grid-template-columns: minmax(0, .8fr) minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+    }
+    .og-input {
+      width: 100%;
+      min-height: 52px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.06);
+      color: #fff;
+      font: 15px/1.2 Arial, Helvetica, sans-serif;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+    }
+    .og-input::placeholder {
+      color: rgba(255,255,255,.44);
+    }
+    .og-input:focus {
+      outline: none;
+      border-color: rgba(216,166,106,.55);
+      box-shadow: 0 0 0 2px rgba(216,166,106,.14);
+    }
+    .og-submit {
+      min-height: 52px;
+      border: 1px solid rgba(216,166,106,.48);
+      border-radius: 16px;
+      padding: 14px 18px;
+      background: linear-gradient(180deg, rgba(216,166,106,.24), rgba(110,70,32,.34));
+      color: #fff1db;
+      font: 800 12px/1 Arial, Helvetica, sans-serif;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 12px 26px rgba(0,0,0,.28);
+    }
+    .og-submit:hover,
+    .og-submit:focus-visible {
+      filter: brightness(1.05);
+      transform: translateY(-1px);
+      outline: none;
+    }
+    .og-capture-meta {
+      grid-column: 1 / -1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .og-capture-note {
+      color: rgba(255,255,255,.66);
+      font: 700 11px/1.45 Arial, Helvetica, sans-serif;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+    }
+    .og-capture-note.is-success {
+      color: #f3d7b0;
+    }
+    .og-capture-note.is-error {
+      color: #ffb3a6;
+    }
+    .og-ticket {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 210px;
+      align-items: stretch;
+      overflow: hidden;
+      border-radius: 24px;
+      background:
+        linear-gradient(180deg, rgba(240,226,198,.98), rgba(223,204,166,.96));
+      color: #23170f;
+      border: 1px solid rgba(91,62,34,.18);
+      box-shadow: 0 24px 46px rgba(0,0,0,.22);
+    }
+    .og-ticket-main,
+    .og-ticket-stub {
+      padding: 18px 20px;
+      position: relative;
+    }
+    .og-ticket-main::after {
+      content: "";
+      position: absolute;
+      right: -1px;
+      top: 0;
+      bottom: 0;
+      width: 14px;
+      background:
+        radial-gradient(circle at 0 12px, transparent 0 7px, rgba(223,204,166,.96) 7.5px),
+        radial-gradient(circle at 0 36px, transparent 0 7px, rgba(223,204,166,.96) 7.5px);
+      background-size: 14px 24px;
+      background-repeat: repeat-y;
+    }
+    .og-ticket-label {
+      display: block;
+      color: #735338;
+      font: 800 11px/1 Arial, Helvetica, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .18em;
+      margin-bottom: 8px;
+    }
+    .og-ticket strong {
+      display: block;
+      font: 900 clamp(26px, 4vw, 42px)/1 Arial, Helvetica, sans-serif;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .og-ticket-email {
+      display: block;
+      margin-top: 8px;
+      font: 700 13px/1.4 Arial, Helvetica, sans-serif;
+      color: #4c3828;
+      word-break: break-word;
+    }
+    .og-ticket-stub {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 8px;
+      background: linear-gradient(180deg, rgba(194,156,108,.42), rgba(151,103,54,.50));
+      border-left: 1px dashed rgba(74,49,25,.38);
+      text-transform: uppercase;
+      letter-spacing: .18em;
+      font: 800 11px/1.4 Arial, Helvetica, sans-serif;
+    }
+    .og-ticket-stub b {
+      font-size: 15px;
+      letter-spacing: .12em;
+    }
+
     .board-wrap {
       width: min(1380px, 99vw);
       position: relative;
@@ -1688,6 +1917,47 @@
       .thread-card img { aspect-ratio: .9 / 1; }
       .thread-card b { font-size: 20px; }
 
+      .og-capture {
+        width: min(420px, 96vw);
+        grid-template-columns: 1fr;
+        padding: 18px 14px;
+        gap: 14px;
+        border-radius: 22px;
+      }
+      .og-dropbox-art img {
+        min-height: 220px;
+      }
+      .og-dropbox-caption {
+        left: 12px;
+        right: 12px;
+        bottom: 12px;
+      }
+      .og-capture-copy h3 {
+        font-size: 28px;
+      }
+      .og-capture-copy p {
+        font-size: 14px;
+      }
+      .og-capture-form {
+        grid-template-columns: 1fr;
+      }
+      .og-submit {
+        width: 100%;
+      }
+      .og-capture-meta {
+        align-items: flex-start;
+      }
+      .og-ticket {
+        grid-template-columns: 1fr;
+      }
+      .og-ticket-main::after {
+        display: none;
+      }
+      .og-ticket-stub {
+        border-left: 0;
+        border-top: 1px dashed rgba(74,49,25,.38);
+      }
+
       .book-shell,
       .video-shell,
       .baggie-shell {
@@ -2494,22 +2764,201 @@
       }
     }
 
+  
+    .typewriter-hotspot img,
+    .typewriter-hotspot video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: inherit;
+    }
+    .typewriter-machine-card img,
+    .typewriter-machine-card video {
+      width: 100%;
+      display: block;
+      border-radius: 18px;
+      background: #000;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+    }
+    .typewriter-machine-card video {
+      box-shadow: inset 0 0 18px rgba(0,0,0,.32);
+    }
+    .radio-overlay .overlay-backdrop {
+      z-index: 1;
+    }
+    .radio-shell {
+      position: relative;
+      z-index: 2;
+      width: min(1200px, calc(100vw - 28px));
+      max-height: calc(100dvh - 28px - var(--safe-top) - var(--safe-bottom));
+      overflow: auto;
+      border-radius: 26px;
+      padding: 22px;
+      background: linear-gradient(180deg, rgba(23,16,10,.97), rgba(8,8,8,.985));
+      border: 1px solid rgba(255,255,255,.09);
+      box-shadow: var(--shadow-deep);
+    }
+    .radio-overlay-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: flex-start;
+      margin-bottom: 18px;
+    }
+    .radio-overlay-kicker {
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .16em;
+      font: 700 11px/1.2 Arial, Helvetica, sans-serif;
+      margin-bottom: 8px;
+    }
+    .radio-overlay-header h2 {
+      margin: 0 0 8px;
+      font-size: clamp(28px, 4vw, 42px);
+      line-height: 1;
+    }
+    .radio-overlay-header p {
+      margin: 0;
+      max-width: 700px;
+      color: rgba(242,234,223,.75);
+      line-height: 1.55;
+      font-size: 15px;
+    }
+    .radio-overlay-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      flex-shrink: 0;
+    }
+    .radio-overlay-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(340px, .85fr);
+      gap: 18px;
+      align-items: start;
+    }
+    .radio-hero,
+    .radio-stations,
+    .radio-frame-wrap {
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.03);
+      overflow: hidden;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+    }
+    .radio-hero img {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+    }
+    .radio-stations {
+      padding: 14px;
+      display: grid;
+      gap: 10px;
+      align-content: start;
+      min-height: 100%;
+    }
+    .radio-station {
+      width: 100%;
+      text-align: left;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: linear-gradient(180deg, rgba(61,44,28,.84), rgba(24,18,12,.94));
+      padding: 13px 14px;
+      color: var(--text);
+      cursor: pointer;
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+    }
+    .radio-station:hover,
+    .radio-station:focus-visible,
+    .radio-station.is-active {
+      transform: translateY(-2px);
+      border-color: rgba(216,166,106,.5);
+      box-shadow: 0 10px 24px rgba(0,0,0,.24);
+      outline: none;
+    }
+    .radio-station small {
+      display: block;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .14em;
+      font: 700 10px/1.2 Arial, Helvetica, sans-serif;
+      margin-bottom: 7px;
+    }
+    .radio-station strong {
+      display: block;
+      font: 700 16px/1.25 Arial, Helvetica, sans-serif;
+      text-transform: uppercase;
+    }
+    .radio-station span {
+      display: block;
+      margin-top: 6px;
+      color: rgba(242,234,223,.7);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+    .radio-frame-wrap {
+      margin-top: 18px;
+      background: rgba(0,0,0,.34);
+    }
+    .radio-player-panel {
+      padding: 18px;
+      display: grid;
+      gap: 12px;
+      align-items: start;
+      min-height: 0;
+    }
+    .radio-now-kicker {
+      color: var(--muted);
+      font: 700 11px/1.2 Arial, Helvetica, sans-serif;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+    .radio-now-title {
+      color: #fff1db;
+      font: 800 clamp(22px, 3vw, 30px)/1 Arial, Helvetica, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+    .radio-now-note {
+      color: rgba(242,234,223,.72);
+      font: 14px/1.45 Arial, Helvetica, sans-serif;
+    }
+    .radio-player-mount {
+      width: 100%;
+    }
+    .radio-player-mount audio {
+      width: 100%;
+      display: block;
+      filter: sepia(.18) saturate(.85) brightness(.98);
+    }
+    @media (max-width: 980px) {
+      .radio-overlay-header,
+      .radio-overlay-layout {
+        grid-template-columns: 1fr;
+        display: grid;
+      }
+      .radio-overlay-actions {
+        justify-content: flex-start;
+      }
+    }
+
   </style>
 </head>
 <body>
 <div class="app">
-<audio id="podcastAudio" preload="metadata">
-<source src="podcast.mp3" type="audio/mpeg"/>
-</audio>
+<audio id="podcastAudio" preload="metadata"></audio>
 <div class="top-ui">
-<div aria-label="Podcast player" class="car-radio">
-<button aria-label="Play the podcast audio" class="radio-knob" id="audioToggle" type="button">Play</button>
-<div class="radio-face">
-<div class="radio-kicker">Old car radio transmission</div>
-<div class="radio-title">The words that built the foundation that IHOCAIHAG is built on</div>
-<div class="radio-status" id="radioStatus">Radio silent</div>
+<div aria-label="Song selector radio" class="car-radio" id="radioBar">
+<button aria-label="Play the current radio preset" class="radio-knob" id="audioToggle" type="button">Play</button>
+<div class="radio-face" id="radioFace" role="button" tabindex="0">
+<div class="radio-kicker">Field radio / song presets</div>
+<div class="radio-title" id="radioTitle">Track 01</div>
+<div class="radio-status" id="radioStatus">Preset 1 of 8 · click to choose</div>
 </div>
-<button aria-label="Restart the podcast audio" class="radio-knob radio-knob-small" id="audioRestart" type="button">↺</button>
+<button aria-label="Select the next song preset" class="radio-knob radio-knob-small" id="audioRestart" type="button">›</button>
 </div>
 <button class="pill" id="resetBtn" type="button">Restart</button>
 </div>
@@ -2525,12 +2974,14 @@
 <div class="intro-hole-ring"></div>
 <div class="intro-hole-core"></div>
 </div>
-<div class="intro-hole-caption">Go into the hole</div>
+<div class="intro-hole-caption">Drop into the hole</div>
 <button class="intro-enter-btn" id="introEnterBtn" type="button">Enter the hole</button>
 </div>
 
 <div class="intro-stage intro-video-stage hidden" id="introVideoStage">
-<iframe allow="autoplay; encrypted-media; picture-in-picture; web-share" class="intro-main-video" id="introMainVideo" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="about:blank" title="Intro main video"></iframe>
+<video class="intro-main-video" id="introMainVideo" playsinline preload="metadata" poster="dvdcase.png">
+<source src="DVD_Case_Opens_to_Skid_Row.mp4" type="video/mp4"/>
+</video>
 <div class="intro-branch-instruction">The frame starts dissolving. Pass through it.</div>
 </div>
 
@@ -2540,12 +2991,12 @@
 <div class="intro-thread-center" id="introThreadCenter">
 <div class="intro-thread-orb"></div>
 </div>
-<div class="intro-thread-instruction">Pull one thread to drop into the ATM and DVD sequence.</div>
+<div class="intro-thread-instruction">Pull one thread to enter the main corkboard.</div>
 </div>
 
 <div class="intro-stage intro-thread-video-stage hidden" id="introThreadVideoStage">
-<iframe allow="autoplay; encrypted-media; picture-in-picture; web-share" class="intro-thread-video" id="introThreadVideo" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="about:blank" title="Selected intro thread video"></iframe>
-<div class="intro-branch-instruction">Thread selected. Dropping you into the ATM.</div>
+<iframe allow="autoplay; encrypted-media; picture-in-picture; web-share" class="intro-thread-video" id="introThreadVideo" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="about:blank" title="Selected intro thread"></iframe>
+<div class="intro-branch-instruction">Thread selected. Entering the main corkboard.</div>
 </div>
 </section>
 
@@ -2575,7 +3026,7 @@
 <section aria-label="ATM scene" class="scene atm-scene" id="atmScene">
 <div class="atm-stage">
 <div class="atm-machine">
-<img alt="ATM machine" decoding="async" loading="lazy" src="atm-machine.png"/>
+<img alt="ATM machine" decoding="async" loading="lazy" src="atm-still.png"/>
 <div class="atm-overlay"></div>
 <div class="atm-ticket" id="atmTicket">
 <img alt="Ticket being inserted" decoding="async" loading="lazy" src="ticket-single.png"/>
@@ -2607,6 +3058,43 @@
 <p>Every entry hangs off the same knot. Tug one.</p>
 <div class="update-pill">Site updating very, very soon — but you already know we run on drug dealer time around here.</div>
 </div>
+<section aria-label="OG ticket signup" class="og-capture" id="ogCapture">
+<div class="og-dropbox-art">
+<img alt="Radio-style email drop box" decoding="async" loading="lazy" src="email-dropbox.png"/>
+<div class="og-dropbox-caption">
+<span class="og-dropbox-label">Drop box active</span>
+<strong>Insert email message</strong>
+<small>The new visual for the OG signup gate.</small>
+</div>
+</div>
+<div class="og-capture-content">
+<div class="og-capture-copy">
+<div class="og-capture-kicker">Original numbered ticket</div>
+<h3>Claim your OG #</h3>
+<p>Use the new drop box to lock your place in line for the rollout. Drop your email below and this section will hold your spot now, then issue a real global sequential ticket once the endpoint is connected.</p>
+</div>
+<form class="og-capture-form" id="ogCaptureForm">
+<input autocomplete="name" class="og-input" id="ogName" name="name" placeholder="Name or alias (optional)" type="text"/>
+<input autocomplete="email" class="og-input" id="ogEmail" name="email" placeholder="Email address" required type="email"/>
+<button class="og-submit" id="ogSubmit" type="submit">Insert message</button>
+</form>
+<div class="og-capture-meta">
+<div class="og-capture-note" id="ogCaptureNote">Claim the ticket. Connect the endpoint later to make the numbering global and automatic.</div>
+<button class="book-btn hidden" id="ogCopyTicketBtn" type="button">Copy ticket</button>
+</div>
+<div class="og-ticket hidden" id="ogTicketCard">
+<div class="og-ticket-main">
+<span class="og-ticket-label">Your ticket</span>
+<strong id="ogTicketNumber">PENDING</strong>
+<span class="og-ticket-email" id="ogTicketEmail"></span>
+</div>
+<div class="og-ticket-stub">
+<span>Archive access</span>
+<b>IHOCAIHAG / OG</b>
+</div>
+</div>
+</div>
+</section>
 <div class="board-wrap">
 <div class="board" id="board">
 <div class="board-center">
@@ -2670,6 +3158,18 @@
 <span class="mini">TikTok feature</span>
 <b>Clip of the week</b>
 </button>
+<button class="thread-card" data-poster="atm-still.png" data-src="ATM_Video_with_Ticket_and_Effects.mp4" data-type="local-video" id="card-atmterminal" type="button">
+<span class="pin left"></span><span class="pin right"></span>
+<img alt="Miller Ave ATM still" decoding="async" loading="lazy" src="atm-still.png"/>
+<span class="mini">ATM terminal</span>
+<b>Miller Ave ATM</b>
+</button>
+<button class="thread-card" data-type="radio" id="card-radio" type="button">
+<span class="pin left"></span><span class="pin right"></span>
+<img alt="Field radio and redemption stub" decoding="async" loading="lazy" src="radio-image.png"/>
+<span class="mini">Song presets</span>
+<b>Field radio</b>
+</button>
 </div>
 <button class="thread-card thread-card-spotlight priority-thread" data-poster="thread-got-life-together.webp" data-src="https://www.youtube-nocookie.com/embed/hXIoxnUNy2o" data-type="video" id="card-loopdrawer" type="button">
 <span class="pin left"></span><span class="pin right"></span>
@@ -2681,7 +3181,9 @@
 <div aria-label="Underwood desk files" class="desk-stage">
 <div class="desk-surface"></div>
 <button class="typewriter-hotspot" id="typewriterHotspot" type="button">
-<img alt="Underwood typewriter on the writing desk" decoding="async" loading="lazy" src="typewriter-desk-hotspot.webp"/>
+<video aria-hidden="true" autoplay="" class="typewriter-hotspot-video" loop="" muted="" playsinline="" preload="metadata">
+<source src="Typewriter_Video_Generation.mp4" type="video/mp4"/>
+</video>
 <span class="typewriter-label">DESK FILES</span>
 </button>
 </div>
@@ -2738,6 +3240,36 @@
 </div>
 </div>
 </section>
+<section aria-label="Field radio song selector" class="overlay radio-overlay" id="radioOverlay">
+<div class="overlay-backdrop" id="radioBackdrop"></div>
+<div class="radio-shell">
+<div class="radio-overlay-header">
+<div>
+<div class="radio-overlay-kicker">Field radio / song presets</div>
+<h2 id="radioOverlayTitle">Track 01</h2>
+<p>The radio now runs directly from your uploaded MP3s. Pick a preset below, hit play from the top bar, or use the built-in player here in the overlay.</p>
+</div>
+<div class="radio-overlay-actions">
+<button class="book-btn" id="radioPrev" type="button">← Prev</button>
+<button class="book-btn" id="radioNext" type="button">Next →</button>
+<a class="book-btn" href="#" id="radioOpenLink" rel="noopener noreferrer" target="_blank">Open current file ↗</a>
+<button class="book-btn" id="radioClose" type="button">✕ Close</button>
+</div>
+</div>
+<div class="radio-overlay-layout">
+<div class="radio-hero">
+<img alt="Field radio art" src="radio-image.png"/>
+</div>
+<div class="radio-stations" id="radioStations"></div>
+</div>
+<div class="radio-frame-wrap radio-player-panel">
+<div class="radio-now-kicker">Now playing</div>
+<div class="radio-now-title" id="radioNowPlaying">Track 01</div>
+<div class="radio-now-note" id="radioNowNote">Uploaded MP3 preset</div>
+<div class="radio-player-mount" id="radioPlayerMount"></div>
+</div>
+</div>
+</section>
 <section aria-label="Plastic baggie detail page" class="overlay baggie-overlay" id="baggieOverlay">
 <div class="overlay-backdrop" id="baggieBackdrop"></div>
 <div class="baggie-shell">
@@ -2778,8 +3310,10 @@
 <div class="typewriter-layout">
 <div class="typewriter-rail">
 <div class="typewriter-machine-card">
-<img alt="Underwood typewriter" decoding="async" loading="lazy" src="typewriter-machine-card.webp"/>
-<div class="typewriter-machine-badge">Underwood desk</div>
+<video aria-label="Underwood typewriter typing" autoplay="" class="typewriter-machine-video" loop="" muted="" playsinline="" preload="metadata" controls="">
+<source src="Typewriter_Video_Generation.mp4" type="video/mp4"/>
+</video>
+<div class="typewriter-machine-badge">Underwood desk / typing loop</div>
 </div>
 <div aria-label="Typewriter modes" class="typewriter-mode-row" role="tablist">
 <button class="typewriter-mode-btn is-active" data-tw-mode="fragments" id="twModeFragments" type="button">Scan fragments</button>
@@ -3161,7 +3695,30 @@ A single sheet that sits still long enough to be read.`,
       introThreadStage: document.getElementById('introThreadStage'),
       introThreadCenter: document.getElementById('introThreadCenter'),
       introThreadVideoStage: document.getElementById('introThreadVideoStage'),
-      introThreadVideo: document.getElementById('introThreadVideo')
+      introThreadVideo: document.getElementById('introThreadVideo'),
+      ogCaptureForm: document.getElementById('ogCaptureForm'),
+      ogName: document.getElementById('ogName'),
+      ogEmail: document.getElementById('ogEmail'),
+      ogSubmit: document.getElementById('ogSubmit'),
+      ogCaptureNote: document.getElementById('ogCaptureNote'),
+      ogTicketCard: document.getElementById('ogTicketCard'),
+      ogTicketNumber: document.getElementById('ogTicketNumber'),
+      ogTicketEmail: document.getElementById('ogTicketEmail'),
+      ogCopyTicketBtn: document.getElementById('ogCopyTicketBtn'),
+      radioBar: document.getElementById('radioBar'),
+      radioFace: document.getElementById('radioFace'),
+      radioTitle: document.getElementById('radioTitle'),
+      radioOverlay: document.getElementById('radioOverlay'),
+      radioBackdrop: document.getElementById('radioBackdrop'),
+      radioClose: document.getElementById('radioClose'),
+      radioPrev: document.getElementById('radioPrev'),
+      radioNext: document.getElementById('radioNext'),
+      radioStations: document.getElementById('radioStations'),
+      radioOpenLink: document.getElementById('radioOpenLink'),
+      radioOverlayTitle: document.getElementById('radioOverlayTitle'),
+      radioPlayerMount: document.getElementById('radioPlayerMount'),
+      radioNowPlaying: document.getElementById('radioNowPlaying'),
+      radioNowNote: document.getElementById('radioNowNote')
     };
 
     const state = {
@@ -3181,7 +3738,11 @@ A single sheet that sits still long enough to be read.`,
       introDissolveTimer: null,
       introCountdownTimer: null,
       introThreadTimer: null,
-      introThreadStageShown: false
+      introThreadStageShown: false,
+      ogTicketLabel: '',
+      ogCapturePending: false,
+      radioIndex: 0,
+      radioAutoplay: false
     };
 
     const CARD_LAYOUTS = {
@@ -3200,7 +3761,9 @@ A single sheet that sits still long enough to be read.`,
           'card-clipweek': { x: 1040,y: 780,  w: 206, r: 6 },
           'card-loopdrawer': { x: 378, y: 818, w: 220, r: -2 },
           'card-dopesick': { x: 120, y: 1132, w: 214, r: 3 },
-          'card-gods':     { x: 920, y: 1160, w: 208, r: -3 }
+          'card-gods':     { x: 920, y: 1160, w: 208, r: -3 },
+          'card-atmterminal': { x: 520, y: 1140, w: 232, r: 2 },
+          'card-radio':    { x: 1048, y: 1100, w: 212, r: 4 }
         }
       },
       mid: {
@@ -3218,7 +3781,9 @@ A single sheet that sits still long enough to be read.`,
           'card-clipweek': { x: 80,  y: 998,  w: 194, r: 5 },
           'card-loopdrawer': { x: 332, y: 1038, w: 200, r: -2 },
           'card-dopesick': { x: 108, y: 1336, w: 198, r: 3 },
-          'card-gods':     { x: 548, y: 1376, w: 198, r: -3 }
+          'card-gods':     { x: 548, y: 1376, w: 198, r: -3 },
+          'card-atmterminal': { x: 332, y: 1330, w: 208, r: 1 },
+          'card-radio':    { x: 330, y: 1572, w: 238, r: 4 }
         }
       }
     };
@@ -3290,83 +3855,152 @@ A single sheet that sits still long enough to be read.`,
       ui.hint.textContent = text;
     }
 
-    const AUDIO_CANDIDATES = [
-      { src: 'podcast.mp3', type: 'audio/mpeg' }
+    const RADIO_TRACKS = [
+      { title: '6', note: 'Uploaded MP3 1 of 8', src: '6.mp3' },
+      { title: 'Crack Gun Anthem Chant 2', note: 'Uploaded MP3 2 of 8', src: 'Crack Gun Anthem chant2.mp3' },
+      { title: "I'm High on Crack and I Have a Gun (Remix 5)", note: 'Uploaded MP3 3 of 8', src: 'im high on crack and I have a gun .mp3 (Remix)5.mp3' },
+      { title: "I'm High on Crack and I Have a Gun 1", note: 'Uploaded MP3 4 of 8', src: 'im high on crack and I have a gun 1.mp3' },
+      { title: 'I Have This Disgusting Audible Panic Attack! 7', note: 'Uploaded MP3 5 of 8', src: 'IM HIGH ON CRACK AND I HAVE THIS DISGUSTING AUDIBLE PANIC ATTACK!7.mp3' },
+      { title: "I'm High on Peep and I Have 1 for the Numb", note: 'Uploaded MP3 6 of 8', src: 'IM HIGH ON PEEP AND I HAVE 1 FOR THE NUMB(cover)4.mp3' },
+      { title: 'imhighioncrackandihaveagun8', note: 'Uploaded MP3 7 of 8', src: 'imhighioncrackandihaveagun8.mp3' },
+      { title: 'IMHIGHONCRACKANDIHAVEAGUN3', note: 'Uploaded MP3 8 of 8', src: 'IMHIGHONCRACKANDIHAVEAGUN3.mp3' }
     ];
 
-    function setPodcastSource(index = 0) {
-      if (!ui.podcastAudio || !AUDIO_CANDIDATES[index]) return false;
-      ui.podcastAudio.innerHTML = '';
-      const source = document.createElement('source');
-      source.src = AUDIO_CANDIDATES[index].src;
-      source.type = AUDIO_CANDIDATES[index].type;
-      ui.podcastAudio.appendChild(source);
-      ui.podcastAudio.dataset.audioIndex = String(index);
-      try { ui.podcastAudio.load(); } catch (e) {}
-      return true;
-    }
-
-    function advancePodcastSource() {
-      const current = Number(ui.podcastAudio?.dataset.audioIndex || 0);
-      const next = current + 1;
-      if (next >= AUDIO_CANDIDATES.length) return false;
-      return setPodcastSource(next);
+    function updateRadioMeta() {
+      const track = RADIO_TRACKS[state.radioIndex] || RADIO_TRACKS[0];
+      if (ui.radioTitle) ui.radioTitle.textContent = track.title;
+      if (ui.radioOverlayTitle) ui.radioOverlayTitle.textContent = track.title;
+      if (ui.radioNowPlaying) ui.radioNowPlaying.textContent = track.title;
+      if (ui.radioNowNote) ui.radioNowNote.textContent = track.note;
+      if (ui.radioOpenLink) ui.radioOpenLink.href = track.src;
+      if (ui.radioStations) {
+        Array.from(ui.radioStations.querySelectorAll('.radio-station')).forEach((btn, index) => {
+          btn.classList.toggle('is-active', index === state.radioIndex);
+        });
+      }
     }
 
     function setAudioButton() {
+      const total = RADIO_TRACKS.length;
+      const playing = !!state.audioOn;
       if (ui.audioToggle) {
-        ui.audioToggle.textContent = state.audioOn ? 'Pause' : 'Play';
-        ui.audioToggle.setAttribute('aria-label', state.audioOn ? 'Pause the podcast audio' : 'Play the podcast audio');
+        ui.audioToggle.textContent = playing ? 'Pause' : 'Play';
+        ui.audioToggle.setAttribute('aria-label', playing ? 'Pause the current radio preset' : 'Play the current radio preset');
+      }
+      if (ui.audioRestart) {
+        ui.audioRestart.textContent = '›';
+        ui.audioRestart.setAttribute('aria-label', 'Select the next song preset');
       }
       if (ui.radioStatus) {
-        ui.radioStatus.textContent = state.audioOn ? 'Now playing' : 'Radio silent';
+        ui.radioStatus.textContent = playing
+          ? `Now playing · ${state.radioIndex + 1} of ${total}`
+          : `Preset ${state.radioIndex + 1} of ${total} · click to choose`;
+      }
+      updateRadioMeta();
+    }
+
+    function loadCurrentTrack({ autoplay = false, resetTime = false } = {}) {
+      const track = RADIO_TRACKS[state.radioIndex] || RADIO_TRACKS[0];
+      if (!ui.podcastAudio) return;
+      const currentSrc = ui.podcastAudio.getAttribute('src') || '';
+      const shouldSwap = currentSrc !== track.src;
+      if (shouldSwap) {
+        ui.podcastAudio.src = track.src;
+        try { ui.podcastAudio.load(); } catch (e) {}
+      }
+      if (resetTime) {
+        try { ui.podcastAudio.currentTime = 0; } catch (e) {}
+      }
+      if (autoplay) {
+        const playAttempt = ui.podcastAudio.play();
+        if (playAttempt && typeof playAttempt.then === 'function') {
+          playAttempt.then(() => {
+            state.audioOn = true;
+            setAudioButton();
+          }).catch(() => {
+            state.audioOn = false;
+            setAudioButton();
+          });
+        }
+      } else {
+        setAudioButton();
       }
     }
 
-    async function tryStartAudio() {
-      if (!ui.podcastAudio) return;
-      ui.podcastAudio.dataset.userRequested = '1';
-      try {
-        ui.podcastAudio.volume = 0.92;
-        await ui.podcastAudio.play();
-        state.audioOn = true;
-      } catch (e) {
-        state.audioOn = false;
-      }
-      setAudioButton();
-    }
-
-    function restartAudio() {
-      if (!ui.podcastAudio) return;
-      ui.podcastAudio.dataset.userRequested = '1';
-      try {
-        ui.podcastAudio.currentTime = 0;
-      } catch (e) {}
-      ui.podcastAudio.play().then(() => {
-        state.audioOn = true;
-        setAudioButton();
-      }).catch(() => {
-        state.audioOn = false;
-        setAudioButton();
+    function renderRadioStations() {
+      if (!ui.radioStations) return;
+      ui.radioStations.innerHTML = '';
+      RADIO_TRACKS.forEach((track, index) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'radio-station';
+        btn.innerHTML = `<small>Preset ${String(index + 1).padStart(2, '0')}</small><strong>${track.title}</strong><span>${track.note}</span>`;
+        btn.addEventListener('click', () => {
+          const shouldAutoplay = state.audioOn || state.radioAutoplay;
+          selectRadioTrack(index, { autoplay: shouldAutoplay, resetTime: true });
+        });
+        ui.radioStations.appendChild(btn);
       });
+      updateRadioMeta();
+    }
+
+    function selectRadioTrack(index, { autoplay = false, resetTime = false } = {}) {
+      const total = RADIO_TRACKS.length;
+      state.radioIndex = ((index % total) + total) % total;
+      loadCurrentTrack({ autoplay, resetTime });
+    }
+
+    function stepRadioTrack(delta = 1) {
+      const shouldAutoplay = state.audioOn || state.radioAutoplay;
+      selectRadioTrack(state.radioIndex + delta, { autoplay: shouldAutoplay, resetTime: true });
+    }
+
+    function openRadio() {
+      if (ui.radioOverlay) ui.radioOverlay.classList.add('show');
+      if (ui.radioPlayerMount && ui.podcastAudio.parentElement !== ui.radioPlayerMount) {
+        ui.radioPlayerMount.appendChild(ui.podcastAudio);
+      }
+      ui.podcastAudio.setAttribute('controls', 'controls');
+      selectRadioTrack(state.radioIndex, { autoplay: false, resetTime: false });
+      syncAmbientMedia();
+    }
+
+    function closeRadio() {
+      if (ui.radioOverlay) ui.radioOverlay.classList.remove('show');
+      syncAmbientMedia();
     }
 
     function toggleAudio() {
-      if (state.audioOn) {
-        ui.podcastAudio.dataset.userRequested = '0';
+      state.radioAutoplay = true;
+      loadCurrentTrack({ autoplay: false, resetTime: false });
+      if (!ui.podcastAudio) return;
+      if (ui.podcastAudio.paused) {
+        const playAttempt = ui.podcastAudio.play();
+        if (playAttempt && typeof playAttempt.then === 'function') {
+          playAttempt.then(() => {
+            state.audioOn = true;
+            setAudioButton();
+          }).catch(() => {
+            state.audioOn = false;
+            setAudioButton();
+            openRadio();
+          });
+        }
+      } else {
         ui.podcastAudio.pause();
         state.audioOn = false;
         setAudioButton();
-      } else {
-        ui.podcastAudio.dataset.userRequested = '1';
-        ui.podcastAudio.play().then(() => {
-          state.audioOn = true;
-          setAudioButton();
-        }).catch(() => {
-          state.audioOn = false;
-          setAudioButton();
-        });
       }
+    }
+
+    function restartAudio() {
+      state.radioAutoplay = true;
+      stepRadioTrack(1);
+    }
+
+    function tryStartAudio() {
+      state.radioAutoplay = true;
+      toggleAudio();
     }
 
     function pausePodcastForMedia() {
@@ -3394,7 +4028,8 @@ A single sheet that sits still long enough to be read.`,
       return ui.bookOverlay.classList.contains('show')
         || ui.videoOverlay.classList.contains('show')
         || ui.baggieOverlay.classList.contains('show')
-        || ui.typewriterOverlay.classList.contains('show');
+        || ui.typewriterOverlay.classList.contains('show')
+        || ui.radioOverlay.classList.contains('show');
     }
 
     function syncAmbientMedia() {
@@ -3412,16 +4047,24 @@ A single sheet that sits still long enough to be read.`,
 
     const INTRO_MAIN_DURATION = 15000;
     const INTRO_DISSOLVE_START = 9000;
-    const INTRO_THREAD_VIDEO_FALLBACK = 12000;
-    const INTRO_MAIN_VIDEO = 'https://youtu.be/Q09OcjSv06U';
+    const INTRO_DIRECT_ENTER_DELAY = 760;
+    const INTRO_MAIN_VIDEO_SOURCE = 'DVD_Case_Opens_to_Skid_Row.mp4';
     const INTRO_THREADS = [
-      { id: 'thread-1', label: 'Thread 01', color: '#ff3b6b', angle: '-72deg', length: '300px', tx: '96px',  ty: '-286px', lx: '142px', ly: '-324px', video: 'https://youtu.be/y9nsPvIDO4Q' },
-      { id: 'thread-2', label: 'Thread 02', color: '#ff9f1c', angle: '-22deg', length: '370px', tx: '342px', ty: '-138px', lx: '412px', ly: '-165px', video: 'https://youtu.be/D1TBGkWuIfk' },
-      { id: 'thread-3', label: 'Thread 03', color: '#ffee32', angle: '28deg',  length: '360px', tx: '322px', ty: '172px',  lx: '402px', ly: '214px',  video: 'https://youtu.be/hXIoxnUNy2o' },
-      { id: 'thread-4', label: 'Thread 04', color: '#2ceaa3', angle: '112deg', length: '292px', tx: '-112px',ty: '272px',  lx: '-166px',ly: '322px',  video: 'https://youtu.be/aMt4WK7H7MA' },
-      { id: 'thread-5', label: 'Thread 05', color: '#00bbf9', angle: '162deg', length: '360px', tx: '-344px',ty: '108px',  lx: '-424px',ly: '138px',  video: 'https://youtu.be/sV8Xi7_nTPQ' },
-      { id: 'thread-6', label: 'Thread 06', color: '#9b5de5', angle: '230deg', length: '320px', tx: '-206px',ty: '-246px', lx: '-274px',ly: '-292px', video: 'https://youtu.be/PZNJUtX1Tss' }
+      { id: 'thread-1', label: 'Red thread',    color: '#ff4b6e', angle: '-72deg', length: '300px', tx: '92px',  ty: '-286px', lx: '140px', ly: '-325px' },
+      { id: 'thread-2', label: 'Orange thread', color: '#ff9f1c', angle: '-22deg', length: '370px', tx: '340px', ty: '-138px', lx: '412px', ly: '-165px' },
+      { id: 'thread-3', label: 'Yellow thread', color: '#ffe45c', angle: '28deg',  length: '360px', tx: '320px', ty: '174px',  lx: '402px', ly: '212px'  },
+      { id: 'thread-4', label: 'Green thread',  color: '#2ceaa3', angle: '112deg', length: '292px', tx: '-112px',ty: '272px',  lx: '-168px',ly: '320px'  },
+      { id: 'thread-5', label: 'Blue thread',   color: '#00bbf9', angle: '162deg', length: '360px', tx: '-342px',ty: '108px',  lx: '-426px',ly: '138px'  },
+      { id: 'thread-6', label: 'Purple thread', color: '#9b5de5', angle: '230deg', length: '320px', tx: '-206px',ty: '-246px', lx: '-274px',ly: '-292px' }
     ];
+
+    const OG_CAPTURE_CONFIG = {
+      endpoint: '',
+      fallbackEmail: 'imhighoncrackandihaveagun@gmail.com',
+      storageKey: 'ihocaihag-og-ticket',
+      projectTitle: "I'm High on Crack and I Have a Gun",
+      endpointHelp: 'Paste your Formspree / Getform / Google Apps Script / Supabase function URL into OG_CAPTURE_CONFIG.endpoint to issue real sequential OG numbers.'
+    };
 
     function getYouTubeId(value) {
       if (!value) return '';
@@ -3486,8 +4129,10 @@ A single sheet that sits still long enough to be read.`,
       ui.introParticleField.classList.remove('active');
       ui.introCountdown.classList.remove('visible');
       ui.introMainVideo.classList.remove('disintegrating');
-      stopIntroEmbed(ui.introMainVideo);
-      stopIntroEmbed(ui.introThreadVideo);
+      try {
+        ui.introMainVideo.pause();
+        ui.introMainVideo.currentTime = 0;
+      } catch (e) {}
       ui.introParticleField.innerHTML = '';
       state.introThreadStageShown = false;
       if (ui.introThreadCenter && !ui.introThreadCenter.querySelector('.intro-thread-line')) {
@@ -3588,7 +4233,7 @@ A single sheet that sits still long enough to be read.`,
       ui.introVideoStage.classList.add('hidden');
       ui.introThreadStage.classList.remove('hidden');
       ui.introCountdown.classList.remove('visible');
-      stopIntroEmbed(ui.introMainVideo);
+      try { ui.introMainVideo.pause(); } catch (e) {}
       setHint('Pull a thread');
     }
 
@@ -3601,67 +4246,51 @@ A single sheet that sits still long enough to be read.`,
       setTimeout(() => {
         ui.introHoleStage.classList.add('hidden');
         ui.introVideoStage.classList.remove('hidden');
-        ui.introMainVideo.src = buildIntroYouTubeEmbed(INTRO_MAIN_VIDEO, { mute: true, controls: 0 });
+        try {
+          ui.introMainVideo.pause();
+          ui.introMainVideo.currentTime = 0;
+          ui.introMainVideo.muted = false;
+          const playAttempt = ui.introMainVideo.play();
+          if (playAttempt && typeof playAttempt.catch === 'function') playAttempt.catch(() => {});
+        } catch (e) {}
         beginIntroCountdown();
         state.introDissolveTimer = setTimeout(triggerIntroDisintegration, INTRO_DISSOLVE_START);
         state.introMainTimer = setTimeout(showIntroThreadPicker, INTRO_MAIN_DURATION);
       }, 780);
     }
 
-    function playThreadVideoAndEnter(thread) {
-      state.selectedIntroThread = thread.id;
-      document.body.dataset.selectedIntroThread = thread.id;
+    function enterArchiveFromIntro(thread) {
+      state.selectedIntroThread = thread?.id || 'skipped';
+      document.body.dataset.selectedIntroThread = state.selectedIntroThread;
       ui.introThreadStage.classList.add('hidden');
-      ui.introThreadVideoStage.classList.remove('hidden');
       ui.introParticleField.classList.remove('active');
-      setHint('Dropping into the ATM…');
+      setHint('Entering the main corkboard…');
 
-      const enterAfterClip = () => {
+      clearTimeout(state.introThreadTimer);
+      state.introThreadTimer = setTimeout(() => {
         clearTimeout(state.introThreadTimer);
         state.introThreadTimer = null;
-        stopIntroEmbed(ui.introThreadVideo);
-        beginSequenceFromIntro();
-      };
-
-      if (thread.video) {
-        ui.introThreadVideo.src = buildIntroYouTubeEmbed(thread.video, { mute: true, controls: 1 });
-        state.introThreadTimer = setTimeout(enterAfterClip, INTRO_THREAD_VIDEO_FALLBACK);
-      } else {
-        state.introThreadTimer = setTimeout(enterAfterClip, 400);
-      }
+        hideIntroOverlay();
+        ui.ticketCta.classList.remove('hidden');
+        ui.openingScene.classList.remove('animate-out');
+        ui.atmScene.classList.remove('animate-insert', 'finish-insert', 'reveal-dvd');
+        ui.dvdCase.classList.remove('open');
+        ui.enterArchiveBtn.classList.remove('show');
+        ui.dvdCta.classList.add('hidden');
+        showScene('archive');
+        setHint('Claim your OG # and pull a thread');
+        drawThreads();
+      }, INTRO_DIRECT_ENTER_DELAY);
     }
 
     function selectIntroThread(thread, knob) {
       ui.introThreadCenter.querySelectorAll('.intro-thread-knob').forEach(btn => btn.classList.remove('pulled'));
       knob.classList.add('pulled');
-      playThreadVideoAndEnter(thread);
-    }
-
-    function beginSequenceFromIntro() {
-      clearIntroTimers();
-      hideIntroOverlay();
-      ui.ticketCta.classList.add('hidden');
-      ui.openingScene.classList.remove('animate-out');
-      ui.atmScene.classList.remove('animate-insert', 'finish-insert', 'reveal-dvd');
-      ui.dvdCase.classList.remove('open');
-      ui.enterArchiveBtn.classList.remove('show');
-      ui.dvdCta.classList.add('hidden');
-      showScene('atm');
-      setHint('Inserting the ticket…');
-
-      setTimeout(() => ui.atmScene.classList.add('animate-insert'), 120);
-      setTimeout(() => ui.atmScene.classList.add('finish-insert'), 1500);
-      setTimeout(() => {
-        ui.atmScene.classList.add('reveal-dvd');
-        ui.dvdCta.classList.remove('hidden');
-        setHint('Tap the DVD case');
-      }, 2700);
+      enterArchiveFromIntro(thread);
     }
 
     function skipIntro() {
-      state.selectedIntroThread = 'skipped';
-      document.body.dataset.selectedIntroThread = 'skipped';
-      beginSequenceFromIntro();
+      enterArchiveFromIntro({ id: 'skipped' });
     }
 
     function showScene(which) {
@@ -4003,6 +4632,150 @@ A single sheet that sits still long enough to be read.`,
     }
 
 
+    function setOgCaptureNote(text, tone = '') {
+      ui.ogCaptureNote.textContent = text;
+      ui.ogCaptureNote.classList.remove('is-success', 'is-error');
+      if (tone === 'success') ui.ogCaptureNote.classList.add('is-success');
+      if (tone === 'error') ui.ogCaptureNote.classList.add('is-error');
+    }
+
+    function formatOgTicketLabel(ticketNumber) {
+      return `OG-${String(ticketNumber).padStart(5, '0')}`;
+    }
+
+    function persistOgTicket(data) {
+      try {
+        localStorage.setItem(OG_CAPTURE_CONFIG.storageKey, JSON.stringify(data));
+      } catch (e) {}
+    }
+
+    function restoreOgTicket() {
+      try {
+        const raw = localStorage.getItem(OG_CAPTURE_CONFIG.storageKey);
+        if (!raw) return;
+        const data = JSON.parse(raw);
+        if (!data || !data.email) return;
+        state.ogTicketLabel = data.ticketLabel || '';
+        ui.ogTicketEmail.textContent = data.email;
+        if (data.ticketLabel) {
+          ui.ogTicketNumber.textContent = data.ticketLabel;
+          ui.ogTicketCard.classList.remove('hidden');
+          ui.ogCopyTicketBtn.classList.remove('hidden');
+          setOgCaptureNote('Your OG ticket is already locked on this device.', 'success');
+        } else {
+          ui.ogTicketNumber.textContent = 'PENDING';
+          ui.ogTicketCard.classList.remove('hidden');
+          setOgCaptureNote('You already opened the fallback signup here. Connect the endpoint to issue the real global number.', 'error');
+        }
+      } catch (e) {}
+    }
+
+    function showOgTicket(ticketLabel, email, { pending = false } = {}) {
+      state.ogTicketLabel = ticketLabel || '';
+      ui.ogTicketCard.classList.remove('hidden');
+      ui.ogTicketNumber.textContent = pending ? 'PENDING' : ticketLabel;
+      ui.ogTicketEmail.textContent = email;
+      ui.ogCopyTicketBtn.classList.toggle('hidden', pending || !ticketLabel);
+    }
+
+    async function copyOgTicket() {
+      if (!state.ogTicketLabel) return;
+      try {
+        await navigator.clipboard.writeText(state.ogTicketLabel);
+        setOgCaptureNote('OG ticket copied.', 'success');
+      } catch (e) {
+        setOgCaptureNote(`Could not copy automatically. Ticket: ${state.ogTicketLabel}`, 'error');
+      }
+    }
+
+    async function submitOgCapture(event) {
+      event.preventDefault();
+      if (state.ogCapturePending) return;
+
+      const name = (ui.ogName.value || '').trim();
+      const email = (ui.ogEmail.value || '').trim();
+
+      if (!email) {
+        setOgCaptureNote('Drop an email in first.', 'error');
+        ui.ogEmail.focus();
+        return;
+      }
+
+      state.ogCapturePending = true;
+      ui.ogSubmit.disabled = true;
+      setOgCaptureNote('Locking your ticket…');
+
+      const payload = {
+        name,
+        email,
+        source: 'site-og-capture',
+        selectedIntroThread: state.selectedIntroThread || '',
+        createdAt: new Date().toISOString(),
+        project: OG_CAPTURE_CONFIG.projectTitle
+      };
+
+      if (OG_CAPTURE_CONFIG.endpoint) {
+        try {
+          const response = await fetch(OG_CAPTURE_CONFIG.endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+
+          if (!response.ok) throw new Error(`Bad response: ${response.status}`);
+
+          let data = {};
+          try {
+            data = await response.json();
+          } catch (e) {
+            data = {};
+          }
+
+          const ticketNumber = Number(data.ticketNumber || data.position || data.sequence || 0);
+          const ticketLabel = data.ticketLabel || (ticketNumber ? formatOgTicketLabel(ticketNumber) : '');
+
+          if (!ticketLabel) {
+            throw new Error('Endpoint did not return ticketNumber or ticketLabel.');
+          }
+
+          persistOgTicket({ email, ticketLabel });
+          showOgTicket(ticketLabel, email);
+          setOgCaptureNote(`OG ticket locked. ${ticketLabel}`, 'success');
+          ui.ogCaptureForm.reset();
+        } catch (error) {
+          showOgTicket('', email, { pending: true });
+          persistOgTicket({ email, ticketLabel: '' });
+          setOgCaptureNote('The capture UI is live, but the endpoint did not return a real OG number yet. I opened the email fallback.', 'error');
+          const subject = encodeURIComponent('OG ticket signup');
+          const body = encodeURIComponent([
+            `Name: ${name || '(not provided)'}`,
+            `Email: ${email}`,
+            `Selected intro thread: ${state.selectedIntroThread || '(none)'}`,
+            '',
+            'Please add me to the OG ticket list.'
+          ].join('\n'));
+          window.location.href = `mailto:${OG_CAPTURE_CONFIG.fallbackEmail}?subject=${subject}&body=${body}`;
+        }
+      } else {
+        showOgTicket('', email, { pending: true });
+        persistOgTicket({ email, ticketLabel: '' });
+        setOgCaptureNote(OG_CAPTURE_CONFIG.endpointHelp, 'error');
+        const subject = encodeURIComponent('OG ticket signup');
+        const body = encodeURIComponent([
+          `Name: ${name || '(not provided)'}`,
+          `Email: ${email}`,
+          `Selected intro thread: ${state.selectedIntroThread || '(none)'}`,
+          '',
+          'Please add me to the OG ticket list.'
+        ].join('\n'));
+        window.location.href = `mailto:${OG_CAPTURE_CONFIG.fallbackEmail}?subject=${subject}&body=${body}`;
+      }
+
+      state.ogCapturePending = false;
+      ui.ogSubmit.disabled = false;
+    }
+
+
     function renderTypewriterFragment() {
       const fragments = TYPEWRITER_SOURCE.fragments || [];
       if (!fragments.length) return;
@@ -4155,33 +4928,22 @@ A single sheet that sits still long enough to be read.`,
         openBook(button.dataset.key);
       } else if (type === 'baggie') {
         openBaggie(button.dataset.key);
+      } else if (type === 'radio') {
+        openRadio();
       }
     }
 
-    setPodcastSource(0);
-    ui.podcastAudio.dataset.userRequested = '0';
-    ui.podcastAudio.addEventListener('error', () => {
-      const hadRequest = ui.podcastAudio.dataset.userRequested === '1';
-      if (advancePodcastSource()) {
-        ui.radioStatus.textContent = 'Trying backup source…';
-        if (hadRequest) {
-          ui.podcastAudio.play().then(() => {
-            state.audioOn = true;
-            setAudioButton();
-          }).catch(() => {
-            state.audioOn = false;
-            setAudioButton();
-          });
-        }
-      } else {
-        state.audioOn = false;
-        ui.radioStatus.textContent = 'Audio file missing';
-        setAudioButton();
-      }
-    });
+    renderRadioStations();
+    selectRadioTrack(0, false);
 
     ui.audioToggle.addEventListener('click', toggleAudio);
     ui.audioRestart.addEventListener('click', restartAudio);
+    ui.radioFace.addEventListener('click', openRadio);
+    ui.radioFace.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openRadio(); } });
+    ui.radioClose.addEventListener('click', closeRadio);
+    ui.radioBackdrop.addEventListener('click', closeRadio);
+    ui.radioPrev.addEventListener('click', () => stepRadioTrack(-1));
+    ui.radioNext.addEventListener('click', () => stepRadioTrack(1));
     ui.resetBtn.addEventListener('click', resetFlow);
     ui.introEnterBtn.addEventListener('click', startIntroSequence);
     ui.introSkip.addEventListener('click', skipIntro);
@@ -4218,6 +4980,8 @@ A single sheet that sits still long enough to be read.`,
     ui.twModeButtons.forEach(btn => btn.addEventListener('click', () => setTypewriterMode(btn.dataset.twMode)));
     ui.typewriterMessageForm.addEventListener('submit', submitTypewriterMessage);
     ui.twCopyEmail.addEventListener('click', copyAuthorEmail);
+    ui.ogCaptureForm.addEventListener('submit', submitOgCapture);
+    ui.ogCopyTicketBtn.addEventListener('click', copyOgTicket);
 
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
@@ -4225,25 +4989,16 @@ A single sheet that sits still long enough to be read.`,
         closeVideo();
         closeBaggie();
         closeTypewriter();
+        closeRadio();
       }
     });
 
     ui.bgVideo.addEventListener('error', () => { ui.bgVideo.style.display = 'none'; });
     ui.archiveVideo.addEventListener('error', () => { ui.archiveVideo.style.display = 'none'; });
-    ui.podcastAudio.addEventListener('play', () => {
-      state.audioOn = true;
-      setAudioButton();
-    });
-    ui.podcastAudio.addEventListener('pause', () => {
-      if (!ui.podcastAudio.ended) {
-        state.audioOn = false;
-        setAudioButton();
-      }
-    });
-    ui.podcastAudio.addEventListener('ended', () => {
-      state.audioOn = false;
-      setAudioButton();
-    });
+    ui.podcastAudio.addEventListener('play', () => { state.audioOn = true; setAudioButton(); });
+    ui.podcastAudio.addEventListener('pause', () => { if (!ui.podcastAudio.ended) { state.audioOn = false; setAudioButton(); } });
+    ui.podcastAudio.addEventListener('ended', () => { state.audioOn = false; setAudioButton(); });
+    ui.podcastAudio.addEventListener('loadedmetadata', () => { setAudioButton(); });
 
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) {
@@ -4272,6 +5027,7 @@ A single sheet that sits still long enough to be read.`,
     setAudioButton();
     renderTypewriterFragment();
     setTypewriterMode('fragments');
+    restoreOgTicket();
     syncAmbientMedia();
     setTimeout(drawThreads, 250);
   </script>
