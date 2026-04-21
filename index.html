@@ -6,67 +6,191 @@
   <title>IM HIGH ON CRACK AND I HAVE A GUN</title>
   <style>
     :root{
-      --bg:#000;
-      --panel:rgba(10,10,10,.72);
-      --line:rgba(255,255,255,.14);
+      --bg:#030303;
+      --panel:rgba(10,10,10,.70);
+      --line:rgba(255,255,255,.12);
       --text:#f4efe7;
-      --muted:rgba(244,239,231,.74);
+      --muted:rgba(244,239,231,.72);
       --accent:#d8a66a;
-      --shadow:0 30px 90px rgba(0,0,0,.5);
+      --shadow:0 28px 80px rgba(0,0,0,.45);
       --ease:cubic-bezier(.22,.61,.36,1);
     }
     *{box-sizing:border-box}
     html,body{margin:0;min-height:100%;background:#000;color:var(--text);font-family:Arial,Helvetica,sans-serif}
     body{overflow:hidden}
-    .app{position:relative;width:100vw;height:100dvh;overflow:hidden;background:radial-gradient(circle at top, rgba(216,166,106,.08), transparent 22%),linear-gradient(180deg,#080808,#030303 68%,#000)}
-    .grain,.vignette{position:absolute;inset:0;pointer-events:none;z-index:10}
-    .grain{opacity:.04;background-image:linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);background-size:4px 4px;mix-blend-mode:soft-light}
+    button,input{font:inherit}
+    .app{
+      position:relative;
+      width:100vw;
+      height:100dvh;
+      overflow:hidden;
+      background:
+        radial-gradient(circle at top, rgba(216,166,106,.08), transparent 22%),
+        linear-gradient(180deg,#080808,#030303 68%,#000);
+    }
+    .grain,.vignette{position:absolute;inset:0;pointer-events:none;z-index:40}
+    .grain{
+      opacity:.04;
+      background-image:
+        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+      background-size:4px 4px;
+      mix-blend-mode:soft-light;
+    }
     .vignette{box-shadow:inset 0 0 190px rgba(0,0,0,.82)}
-    .topbar{position:absolute;top:16px;left:16px;right:16px;z-index:30;display:flex;justify-content:space-between;gap:12px;align-items:center}
-    .pill,.ghost-btn,.ticket-cta,.start-btn{border:1px solid var(--line);background:rgba(0,0,0,.56);color:var(--muted);border-radius:999px;padding:10px 14px;letter-spacing:.12em;text-transform:uppercase;font-size:11px;backdrop-filter:blur(8px);font-family:Arial,Helvetica,sans-serif;cursor:pointer}
-    .scene{position:absolute;inset:0;display:grid;place-items:center;padding:20px;transition:opacity .8s var(--ease), transform .8s var(--ease), visibility .8s var(--ease)}
-    .scene.hidden{opacity:0;pointer-events:none;visibility:hidden;transform:scale(1.015)}
-    .video-wrap{position:relative;width:min(1200px,96vw);aspect-ratio:16/9;border-radius:24px;overflow:hidden;border:1px solid var(--line);background:#000;box-shadow:var(--shadow)}
-    video{width:100%;height:100%;object-fit:cover;display:block;background:#000}
+
+    .topbar{
+      position:absolute;top:16px;left:16px;right:16px;z-index:50;
+      display:flex;justify-content:space-between;align-items:center;gap:12px;
+      pointer-events:none;
+    }
+    .topbar > *{pointer-events:auto}
+    .pill,.ghost-btn,.primary-btn{
+      border:1px solid var(--line);background:rgba(0,0,0,.56);color:var(--muted);
+      border-radius:999px;padding:10px 14px;letter-spacing:.12em;text-transform:uppercase;
+      font-size:11px;backdrop-filter:blur(8px);cursor:pointer;
+    }
+    .primary-btn{
+      color:#fff1db;background:linear-gradient(180deg, rgba(216,166,106,.24), rgba(110,70,32,.34));
+      border-color:rgba(216,166,106,.42);font-weight:800;
+    }
+
+    .scene{
+      position:absolute;inset:0;display:grid;place-items:center;padding:22px;
+      transition:opacity .75s var(--ease), transform .75s var(--ease), visibility .75s var(--ease);
+    }
+    .scene.hidden{opacity:0;visibility:hidden;pointer-events:none;transform:scale(1.015)}
+
+    .video-wrap{
+      position:relative;width:min(1200px,96vw);aspect-ratio:16/9;border-radius:24px;overflow:hidden;
+      border:1px solid var(--line);background:#000;box-shadow:var(--shadow);
+    }
+    video{width:100%;height:100%;display:block;object-fit:cover;background:#000}
     .video-actions{position:absolute;top:14px;right:14px;z-index:4;display:flex;gap:10px}
-    .video-copy{position:absolute;left:20px;bottom:18px;z-index:5;max-width:min(70ch, calc(100% - 40px));padding:14px 16px;border-radius:18px;border:1px solid rgba(255,255,255,.08);background:rgba(0,0,0,.42);backdrop-filter:blur(10px);box-shadow:0 18px 40px rgba(0,0,0,.25)}
+    .video-copy{
+      position:absolute;left:20px;bottom:18px;z-index:5;max-width:min(70ch, calc(100% - 40px));
+      padding:14px 16px;border-radius:18px;border:1px solid rgba(255,255,255,.08);
+      background:rgba(0,0,0,.42);backdrop-filter:blur(10px);box-shadow:0 18px 40px rgba(0,0,0,.25);
+    }
     .video-copy b{display:block;color:var(--accent);font-size:11px;letter-spacing:.18em;text-transform:uppercase;margin-bottom:8px}
     .video-copy span{color:var(--text);line-height:1.5;font-size:14px}
-    .loading-mask{position:absolute;inset:0;z-index:3;display:grid;place-items:center;background:radial-gradient(circle, rgba(255,255,255,.04), rgba(255,255,255,0) 38%),rgba(0,0,0,.82);transition:opacity .45s ease, visibility .45s ease}
+    .loading-mask{
+      position:absolute;inset:0;z-index:3;display:grid;place-items:center;
+      background:radial-gradient(circle, rgba(255,255,255,.04), rgba(255,255,255,0) 38%), rgba(0,0,0,.82);
+      transition:opacity .45s ease, visibility .45s ease;
+    }
     .loading-mask.hidden{opacity:0;visibility:hidden;pointer-events:none}
-    .loading-card{max-width:min(92vw, 520px);text-align:center;padding:22px 20px;border-radius:22px;border:1px solid rgba(255,255,255,.09);background:rgba(0,0,0,.54);box-shadow:0 20px 50px rgba(0,0,0,.28);backdrop-filter:blur(12px)}
+    .loading-card{
+      max-width:min(92vw, 520px);text-align:center;padding:22px 20px;border-radius:22px;
+      border:1px solid rgba(255,255,255,.09);background:rgba(0,0,0,.54);
+      box-shadow:0 20px 50px rgba(0,0,0,.28);backdrop-filter:blur(12px);
+    }
     .loading-card strong{display:block;color:var(--accent);text-transform:uppercase;letter-spacing:.18em;font-size:11px;margin-bottom:10px}
     .loading-card p{margin:0 0 14px;color:var(--text);line-height:1.55;font-size:15px}
-    .dissolve-overlay{position:absolute;inset:0;z-index:2;background:radial-gradient(circle, rgba(255,255,255,.12), rgba(255,255,255,0) 42%), #000;opacity:0;pointer-events:none;transition:opacity 1.8s ease}
-    .video-wrap.dissolving video{opacity:.12;filter:blur(10px) contrast(1.15) saturate(1.08);transition:opacity 1.8s ease, filter 1.8s ease}
+    .dissolve-overlay{
+      position:absolute;inset:0;z-index:2;background:radial-gradient(circle, rgba(255,255,255,.12), rgba(255,255,255,0) 42%), #000;
+      opacity:0;pointer-events:none;transition:opacity 1.6s ease;
+    }
+    .video-wrap.dissolving video{opacity:.10;filter:blur(10px) contrast(1.12) saturate(1.08);transition:opacity 1.6s ease, filter 1.6s ease}
     .video-wrap.dissolving .dissolve-overlay{opacity:.92}
-    .ticket-scene{padding:28px 20px 36px}
+
     .ticket-stage{display:grid;gap:20px;justify-items:center;width:min(1500px, 100%)}
     .ticket-copy{text-align:center;max-width:820px}
     .ticket-kicker{color:var(--accent);font-size:11px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;margin-bottom:12px}
     .ticket-copy h1{margin:0 0 12px;font-size:clamp(26px,4vw,52px);line-height:.94;letter-spacing:.04em;text-transform:uppercase}
     .ticket-copy p{margin:0 auto;max-width:760px;color:var(--muted);line-height:1.6;font-size:16px}
-    .ticket-card{position:relative;display:block;width:min(1480px, 96vw);border:0;background:transparent;padding:0;cursor:pointer;border-radius:28px;box-shadow:var(--shadow);transition:transform .22s ease, filter .22s ease}
-    .ticket-card img{display:block;width:100%;height:auto;border-radius:28px;border:1px solid rgba(255,255,255,.08);background:#120d0a}
-    .ticket-overlay-copy{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);width:min(92%, 760px);padding:16px 18px;border-radius:18px;border:1px solid rgba(255,255,255,.10);background:rgba(0,0,0,.54);box-shadow:0 20px 50px rgba(0,0,0,.28);backdrop-filter:blur(12px);text-align:center}
+    .ticket-card{position:relative;display:block;width:min(1480px,96vw);border:0;background:transparent;padding:0;cursor:pointer;border-radius:28px;box-shadow:var(--shadow);transition:transform .22s ease, filter .22s ease}
+    .ticket-card:hover,.ticket-card:focus-visible{transform:translateY(-6px) scale(1.01);filter:saturate(1.03);outline:none}
+    .ticket-card img{display:block;width:100%;border-radius:28px;border:1px solid rgba(255,255,255,.08);background:#120d0a}
+    .ticket-overlay-copy{
+      position:absolute;left:50%;bottom:18px;transform:translateX(-50%);width:min(92%, 760px);padding:16px 18px;border-radius:18px;
+      border:1px solid rgba(255,255,255,.10);background:rgba(0,0,0,.54);box-shadow:0 20px 50px rgba(0,0,0,.28);
+      backdrop-filter:blur(12px);text-align:center;
+    }
     .ticket-overlay-copy strong{display:block;font-size:clamp(20px,2.3vw,30px);text-transform:uppercase;letter-spacing:.05em;color:#fff2df;margin-bottom:8px}
     .ticket-overlay-copy span{display:block;color:rgba(255,255,255,.84);font-size:15px;line-height:1.5;margin-bottom:12px}
-    .ticket-cta{color:#fff1db;background:linear-gradient(180deg, rgba(216,166,106,.24), rgba(110,70,32,.34));border:1px solid rgba(216,166,106,.48);padding:12px 18px;font-weight:800;box-shadow:0 12px 26px rgba(0,0,0,.28)}
-    .archive-scene .panel{width:min(900px,94vw);border:1px solid var(--line);border-radius:28px;background:rgba(12,12,12,.72);box-shadow:var(--shadow);backdrop-filter:blur(12px);padding:28px 24px;text-align:center}
-    .archive-scene h2{margin:0 0 12px;font-size:clamp(28px,4vw,48px);line-height:.95;letter-spacing:.04em;text-transform:uppercase}
-    .archive-scene p{margin:0 auto;max-width:720px;color:var(--muted);line-height:1.65;font-size:16px}
-    @media (max-width: 720px){
+
+    .board-stage{width:min(1600px, 98vw);display:grid;gap:16px;justify-items:center}
+    .board-copy{text-align:center;max-width:900px}
+    .board-copy h2{margin:0 0 10px;font-size:clamp(28px,4vw,54px);line-height:.94;text-transform:uppercase;letter-spacing:.04em}
+    .board-copy p{margin:0;color:var(--muted);font-size:16px;line-height:1.6}
+    .board-shell{position:relative;width:min(1600px, 98vw);border-radius:26px;overflow:hidden;box-shadow:var(--shadow);border:1px solid rgba(255,255,255,.10);background:#0b0907;isolation:isolate}
+    .board-image-wrap{position:relative;width:100%;aspect-ratio:2048 / 1126}
+    .board-image-wrap picture,.board-image-wrap img{width:100%;height:100%;display:block}
+    .board-image-wrap img{object-fit:cover}
+
+    .hotspot{
+      position:absolute;border:0;padding:0;margin:0;background:rgba(216,166,106,.07);border:1px solid rgba(216,166,106,.16);
+      border-radius:18px;cursor:pointer;transition:transform .18s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease;
+    }
+    .hotspot:hover,.hotspot:focus-visible{
+      transform:scale(1.02);box-shadow:0 0 0 2px rgba(216,166,106,.24), 0 16px 30px rgba(0,0,0,.20);
+      background:rgba(216,166,106,.12);border-color:rgba(216,166,106,.34);outline:none;
+    }
+    .hotspot::after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 0 1px rgba(255,255,255,.04);pointer-events:none}
+    .hotspot-label{
+      position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);padding:8px 10px;border-radius:999px;background:rgba(0,0,0,.58);
+      color:#fff1db;border:1px solid rgba(255,255,255,.09);font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;opacity:0;transition:opacity .18s ease;pointer-events:none;
+    }
+    .hotspot:hover .hotspot-label,.hotspot:focus-visible .hotspot-label{opacity:1}
+
+    /* desktop positions for updated board */
+    .hs-basement{left:16.2%;top:3.8%;width:11.5%;height:18.8%}
+    .hs-evidence-top{left:27.8%;top:3.1%;width:20.0%;height:22.0%}
+    .hs-writing{left:56.0%;top:3.5%;width:14.0%;height:18.8%}
+    .hs-teaser{left:80.5%;top:5.8%;width:12.3%;height:21.2%}
+    .hs-dopesick{left:17.0%;top:22.2%;width:10.7%;height:18.0%}
+    .hs-main{left:38.8%;top:15.0%;width:25.4%;height:44.8%}
+    .hs-email-note{left:63.2%;top:28.8%;width:12.5%;height:15.6%}
+    .hs-atm{left:72.5%;top:27.6%;width:13.5%;height:22.0%}
+    .hs-evidence-bottom-left{left:18.0%;top:53.7%;width:17.5%;height:20.8%}
+    .hs-evidence-bottom-right{left:63.0%;top:56.0%;width:19.0%;height:20.8%}
+    .hs-dive{left:10.7%;top:68.6%;width:18.0%;height:24.0%}
+    .hs-radio{left:27.8%;top:60.6%;width:42.8%;height:25.0%;border-radius:22px}
+
+    .overlay{position:absolute;inset:0;z-index:80;display:grid;place-items:center;padding:22px;background:rgba(0,0,0,.62);backdrop-filter:blur(10px);transition:opacity .25s ease, visibility .25s ease}
+    .overlay.hidden{opacity:0;visibility:hidden;pointer-events:none}
+    .modal{width:min(760px, 94vw);border-radius:26px;border:1px solid rgba(255,255,255,.10);background:linear-gradient(180deg, rgba(19,16,12,.96), rgba(8,8,8,.98));box-shadow:var(--shadow);padding:22px}
+    .modal-top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:16px}
+    .modal-kicker{color:var(--accent);font-size:11px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;margin-bottom:10px}
+    .modal h3{margin:0 0 8px;font-size:clamp(24px, 3vw, 40px);line-height:.96;text-transform:uppercase;letter-spacing:.04em}
+    .modal p{margin:0;color:var(--muted);line-height:1.65;font-size:15px}
+    .modal-body{display:grid;gap:14px}
+    .email-form{display:grid;gap:12px;margin-top:8px}
+    .email-form input{width:100%;min-height:52px;border-radius:16px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.06);color:#fff;padding:14px 16px;box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+    .email-form input::placeholder{color:rgba(255,255,255,.46)}
+    .email-note{color:var(--muted);font-size:13px;line-height:1.55}
+
+    @media (max-width: 820px){
       .topbar{top:12px;left:12px;right:12px}
-      .video-copy{left:12px;right:12px;max-width:none;bottom:12px}
+      .video-copy{left:12px;right:12px;bottom:12px;max-width:none}
       .video-actions{top:12px;right:12px}
       .ticket-overlay-copy{left:12px;right:12px;transform:none;width:auto;bottom:12px}
+      .board-stage{width:min(100%, 100vw)}
+      .board-shell{width:min(100vw - 12px, 100%);border-radius:20px}
+      .board-image-wrap{aspect-ratio:1159 / 2048}
+      .board-copy p{font-size:15px}
+      .hotspot-label{display:none}
+      /* mobile positions for updated board */
+      .hs-basement{left:8.0%;top:4.1%;width:18.4%;height:12.4%}
+      .hs-evidence-top{left:26.8%;top:3.8%;width:26.2%;height:17.4%}
+      .hs-writing{left:54.3%;top:4.2%;width:19.2%;height:16.8%}
+      .hs-teaser{left:81.0%;top:6.2%;width:13.6%;height:16.2%}
+      .hs-dopesick{left:11.4%;top:22.0%;width:15.6%;height:14.4%}
+      .hs-main{left:31.0%;top:19.8%;width:36.8%;height:32.8%}
+      .hs-email-note{left:70.2%;top:28.8%;width:14.8%;height:13.2%}
+      .hs-atm{left:69.3%;top:40.6%;width:18.4%;height:16.2%}
+      .hs-evidence-bottom-left{left:11.8%;top:54.7%;width:19.2%;height:17.6%}
+      .hs-evidence-bottom-right{left:66.2%;top:55.5%;width:20.8%;height:17.6%}
+      .hs-dive{left:5.4%;top:73.5%;width:22.5%;height:18.2%}
+      .hs-radio{left:28.0%;top:64.8%;width:46.5%;height:17.6%;border-radius:18px}
     }
   </style>
 </head>
 <body>
   <div class="app">
     <div class="topbar">
-      <div class="pill">Phase 1 / ticket intro</div>
+      <div class="pill">Fresh build / updated corkboard</div>
       <button class="ghost-btn" id="resetBtn" type="button">Reset</button>
     </div>
 
@@ -80,7 +204,7 @@
           <div class="loading-card">
             <strong>Loading intro</strong>
             <p>If autoplay gets blocked, tap start below and the intro will run before the ticket appears.</p>
-            <button class="start-btn" id="startIntroBtn" type="button">Start intro</button>
+            <button class="primary-btn" id="startIntroBtn" type="button">Start intro</button>
           </div>
         </div>
         <video id="introVideo" playsinline muted autoplay preload="auto">
@@ -93,7 +217,7 @@
       </div>
     </section>
 
-    <section class="scene ticket-scene hidden" id="ticketScene">
+    <section class="scene hidden" id="ticketScene">
       <div class="ticket-stage">
         <div class="ticket-copy">
           <div class="ticket-kicker">Take a breath</div>
@@ -105,17 +229,77 @@
           <div class="ticket-overlay-copy">
             <strong>Take a breath</strong>
             <span>Click ticket when your ready.</span>
-            <span class="ticket-cta">Click ticket</span>
+            <span class="primary-btn" style="display:inline-block;padding:12px 18px;">Click ticket</span>
           </div>
         </button>
       </div>
     </section>
 
-    <section class="scene archive-scene hidden" id="archiveScene">
-      <div class="panel">
-        <div class="ticket-kicker">Next phase</div>
-        <h2>Archive entry</h2>
-        <p>This is the clean handoff point. Build the next scene from here one clean phase at a time.</p>
+    <section class="scene hidden" id="boardScene">
+      <div class="board-stage">
+        <div class="board-copy">
+          <div class="ticket-kicker">Main corkboard</div>
+          <h2>Pull a thread</h2>
+          <p>Every main image is wired again on the updated desktop and mobile boards. The drop box / radio below opens the email list.</p>
+        </div>
+
+        <div class="board-shell">
+          <div class="board-image-wrap">
+            <picture>
+              <source media="(max-width: 820px)" srcset="corkboard-mobile.png" />
+              <img src="corkboard-desktop.png" alt="Updated corkboard scene" />
+            </picture>
+
+            <button class="hotspot hs-basement" data-title="Creations from the basement" data-body="This hotspot is wired for the top-left basement card." type="button"><span class="hotspot-label">Basement</span></button>
+            <button class="hotspot hs-evidence-top" data-title="Evidence file" data-body="This hotspot is wired for the top evidence collage." type="button"><span class="hotspot-label">Evidence</span></button>
+            <button class="hotspot hs-writing" data-title="Previously unreleased writing" data-body="This hotspot is wired for the writing card." type="button"><span class="hotspot-label">Writing</span></button>
+            <button class="hotspot hs-teaser" data-title="Teaser chapter" data-body="This hotspot is wired for the teaser chapter card." type="button"><span class="hotspot-label">Teaser</span></button>
+            <button class="hotspot hs-dopesick" data-title="Dopesick" data-body="This hotspot is wired for the Dopesick card." type="button"><span class="hotspot-label">Dopesick</span></button>
+            <button class="hotspot hs-main" data-title="Main center poster" data-body="This hotspot is wired for the main center poster." type="button"><span class="hotspot-label">Main</span></button>
+            <button class="hotspot hs-email-note" id="emailNoteHotspot" type="button" aria-label="Open email list sign up"><span class="hotspot-label">Email note</span></button>
+            <button class="hotspot hs-atm" data-title="Hit ur lick" data-body="This hotspot is wired for the ATM / hit ur lick image." type="button"><span class="hotspot-label">ATM</span></button>
+            <button class="hotspot hs-evidence-bottom-left" data-title="Evidence file" data-body="This hotspot is wired for the lower-left evidence collage." type="button"><span class="hotspot-label">Evidence</span></button>
+            <button class="hotspot hs-evidence-bottom-right" data-title="Evidence file" data-body="This hotspot is wired for the lower-right evidence collage." type="button"><span class="hotspot-label">Evidence</span></button>
+            <button class="hotspot hs-dive" data-title="Dive in" data-body="This hotspot is wired for the dive-in blueprint / card." type="button"><span class="hotspot-label">Dive in</span></button>
+            <button class="hotspot hs-radio" id="radioEmailHotspot" type="button" aria-label="Open email list sign up"><span class="hotspot-label">Email drop</span></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="overlay hidden" id="infoOverlay">
+      <div class="modal">
+        <div class="modal-top">
+          <div>
+            <div class="modal-kicker">Thread</div>
+            <h3 id="infoTitle">Title</h3>
+          </div>
+          <button class="ghost-btn" id="closeInfoBtn" type="button">Close</button>
+        </div>
+        <div class="modal-body">
+          <p id="infoBody">Body</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="overlay hidden" id="emailOverlay">
+      <div class="modal">
+        <div class="modal-top">
+          <div>
+            <div class="modal-kicker">Email list / drop box</div>
+            <h3>Get on the list</h3>
+          </div>
+          <button class="ghost-btn" id="closeEmailBtn" type="button">Close</button>
+        </div>
+        <div class="modal-body">
+          <p>Both the sticky note and the radio drop box are wired to this email list modal. Hook this form to your real endpoint later.</p>
+          <form class="email-form" id="emailForm">
+            <input type="text" id="emailName" placeholder="Name or alias (optional)" />
+            <input type="email" id="emailAddress" placeholder="Email address" required />
+            <button class="primary-btn" type="submit">Join list</button>
+          </form>
+          <div class="email-note" id="emailNote">This demo saves your info locally in the browser right now.</div>
+        </div>
       </div>
     </section>
 
@@ -126,7 +310,7 @@
   <script>
     const introScene = document.getElementById('introScene');
     const ticketScene = document.getElementById('ticketScene');
-    const archiveScene = document.getElementById('archiveScene');
+    const boardScene = document.getElementById('boardScene');
     const introVideo = document.getElementById('introVideo');
     const videoWrap = document.getElementById('videoWrap');
     const skipBtn = document.getElementById('skipBtn');
@@ -135,11 +319,23 @@
     const loadingMask = document.getElementById('loadingMask');
     const startIntroBtn = document.getElementById('startIntroBtn');
 
+    const infoOverlay = document.getElementById('infoOverlay');
+    const infoTitle = document.getElementById('infoTitle');
+    const infoBody = document.getElementById('infoBody');
+    const closeInfoBtn = document.getElementById('closeInfoBtn');
+
+    const emailOverlay = document.getElementById('emailOverlay');
+    const emailNoteHotspot = document.getElementById('emailNoteHotspot');
+    const radioEmailHotspot = document.getElementById('radioEmailHotspot');
+    const closeEmailBtn = document.getElementById('closeEmailBtn');
+    const emailForm = document.getElementById('emailForm');
+    const emailNote = document.getElementById('emailNote');
+
     let dissolving = false;
     let ticketShown = false;
 
     function showScene(scene) {
-      [introScene, ticketScene, archiveScene].forEach(el => el.classList.add('hidden'));
+      [introScene, ticketScene, boardScene].forEach(el => el.classList.add('hidden'));
       scene.classList.remove('hidden');
     }
 
@@ -156,19 +352,15 @@
       setTimeout(() => {
         try { introVideo.pause(); } catch (e) {}
         revealTicket();
-      }, 1700);
+      }, 1600);
     }
 
-    function hideLoader() {
-      loadingMask.classList.add('hidden');
-    }
+    function hideLoader() { loadingMask.classList.add('hidden'); }
 
     async function tryPlayIntro() {
       try {
         const playAttempt = introVideo.play();
-        if (playAttempt && typeof playAttempt.then === 'function') {
-          await playAttempt;
-        }
+        if (playAttempt && typeof playAttempt.then === 'function') await playAttempt;
         hideLoader();
       } catch (e) {
         loadingMask.classList.remove('hidden');
@@ -180,6 +372,8 @@
       ticketShown = false;
       videoWrap.classList.remove('dissolving');
       loadingMask.classList.remove('hidden');
+      infoOverlay.classList.add('hidden');
+      emailOverlay.classList.add('hidden');
       showScene(introScene);
       try { introVideo.currentTime = 0; } catch (e) {}
       setTimeout(tryPlayIntro, 120);
@@ -193,23 +387,65 @@
       startIntro();
     }
 
-    function enterArchive() {
-      showScene(archiveScene);
+    function openBoard() { showScene(boardScene); }
+
+    function openInfo(title, body) {
+      infoTitle.textContent = title;
+      infoBody.textContent = body;
+      infoOverlay.classList.remove('hidden');
     }
+
+    function openEmail() {
+      emailOverlay.classList.remove('hidden');
+      const saved = localStorage.getItem('ihocaihag-email-demo');
+      if (saved) {
+        try {
+          const data = JSON.parse(saved);
+          if (data.email) emailNote.textContent = 'Saved on this device: ' + data.email;
+        } catch (e) {}
+      }
+    }
+
+    document.querySelectorAll('.hotspot').forEach(hotspot => {
+      if (hotspot.id === 'emailNoteHotspot' || hotspot.id === 'radioEmailHotspot') return;
+      hotspot.addEventListener('click', () => {
+        openInfo(hotspot.dataset.title || 'Thread', hotspot.dataset.body || 'This hotspot is wired.');
+      });
+    });
 
     introVideo.addEventListener('playing', hideLoader);
     introVideo.addEventListener('canplay', () => {
       if (introVideo.paused) tryPlayIntro();
     });
     introVideo.addEventListener('ended', dissolveToTicket);
-    introVideo.addEventListener('error', () => {
-      loadingMask.classList.remove('hidden');
-    });
+    introVideo.addEventListener('error', () => { loadingMask.classList.remove('hidden'); });
 
     skipBtn.addEventListener('click', dissolveToTicket);
     resetBtn.addEventListener('click', resetSite);
-    ticketBtn.addEventListener('click', enterArchive);
+    ticketBtn.addEventListener('click', openBoard);
     startIntroBtn.addEventListener('click', tryPlayIntro);
+
+    closeInfoBtn.addEventListener('click', () => infoOverlay.classList.add('hidden'));
+    emailNoteHotspot.addEventListener('click', openEmail);
+    radioEmailHotspot.addEventListener('click', openEmail);
+    closeEmailBtn.addEventListener('click', () => emailOverlay.classList.add('hidden'));
+
+    emailForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('emailName').value.trim();
+      const email = document.getElementById('emailAddress').value.trim();
+      if (!email) return;
+      localStorage.setItem('ihocaihag-email-demo', JSON.stringify({ name, email }));
+      emailNote.textContent = 'Saved on this device: ' + email;
+      emailForm.reset();
+    });
+
+    infoOverlay.addEventListener('click', (e) => {
+      if (e.target === infoOverlay) infoOverlay.classList.add('hidden');
+    });
+    emailOverlay.addEventListener('click', (e) => {
+      if (e.target === emailOverlay) emailOverlay.classList.add('hidden');
+    });
 
     window.addEventListener('load', startIntro);
     document.addEventListener('visibilitychange', () => {
