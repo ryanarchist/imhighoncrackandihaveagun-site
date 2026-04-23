@@ -9,7 +9,6 @@
       --text:#f4efe7;
       --muted:rgba(244,239,231,.78);
       --accent:#d8a66a;
-      --line:rgba(255,255,255,.10);
       --shadow:0 28px 80px rgba(0,0,0,.45);
       --ease:cubic-bezier(.22,.61,.36,1);
     }
@@ -20,8 +19,7 @@
     .scene{position:absolute;inset:0;transition:opacity .7s var(--ease), visibility .7s var(--ease), transform .7s var(--ease)}
     .scene.hidden{opacity:0;visibility:hidden;pointer-events:none;transform:scale(1.01)}
 
-    /* intro only */
-    #introScene{background:#000}
+    /* intro */
     .intro-video{width:100vw;height:100dvh;object-fit:cover;display:block;background:#000}
 
     /* ticket */
@@ -103,9 +101,9 @@
     .modal-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:16px}
     .modal-kicker{color:var(--accent);font-size:11px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;margin-bottom:10px}
     .modal h3{margin:0 0 8px;font-size:clamp(24px,3vw,40px);line-height:.96;letter-spacing:.04em;text-transform:uppercase}
-    .modal p{margin:0;color:rgba(244,239,231,.78);line-height:1.65;font-size:15px}
+    .modal p{margin:0;color:var(--muted);line-height:1.65;font-size:15px}
     .ghost-btn,.primary-btn{
-      border:1px solid var(--line);background:rgba(0,0,0,.56);color:rgba(244,239,231,.78);border-radius:999px;padding:10px 14px;
+      border:1px solid rgba(255,255,255,.10);background:rgba(0,0,0,.56);color:var(--muted);border-radius:999px;padding:10px 14px;
       letter-spacing:.12em;text-transform:uppercase;font-size:11px;cursor:pointer
     }
     .primary-btn{
@@ -141,7 +139,7 @@
   <div class="app">
     <section class="scene" id="introScene">
       <video class="intro-video" id="introVideo" autoplay muted playsinline preload="auto">
-        <source src="intro.mp4?v=3" type="video/mp4" />
+        <source src="intro-real.mp4?cb=1" type="video/mp4" />
       </video>
     </section>
 
@@ -259,6 +257,9 @@
     }
     async function forcePlayIntro() {
       try {
+        introVideo.muted = true;
+        introVideo.defaultMuted = true;
+        introVideo.playsInline = true;
         await introVideo.play();
       } catch (e) {
         const playOnGesture = async () => {
