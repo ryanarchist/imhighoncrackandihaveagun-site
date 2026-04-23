@@ -63,10 +63,9 @@
       object-fit: cover;
       background: #000;
     }
-    .skip-intro {
+    .skip-intro,
+    .intro-audio-btn {
       position: absolute;
-      top: 18px;
-      right: 18px;
       z-index: 8;
       border: 1px solid rgba(255,255,255,0.16);
       background: rgba(0,0,0,0.44);
@@ -78,6 +77,19 @@
       font-size: 11px;
       cursor: pointer;
       backdrop-filter: blur(8px);
+    }
+    .skip-intro {
+      top: 18px;
+      right: 18px;
+    }
+    .intro-audio-btn {
+      top: 18px;
+      left: 18px;
+    }
+    .intro-audio-btn.is-on {
+      color: #fff1db;
+      border-color: rgba(216,166,106,.42);
+      background: linear-gradient(180deg, rgba(216,166,106,.24), rgba(110,70,32,.34));
     }
 
     /* TICKET */
@@ -341,6 +353,11 @@
       color: var(--muted);
       line-height: 1.65;
       font-size: 15px;
+    }
+    .panel-kicker.is-hidden,
+    .panel-title.is-hidden,
+    .panel-copy.is-hidden {
+      display: none;
     }
 
     /* Video modal */
@@ -715,6 +732,7 @@
 <body>
   <div class="app">
     <section class="scene" id="introScene">
+      <button class="intro-audio-btn" id="introAudioBtn" type="button" aria-label="Enable intro sound">Sound</button>
       <button class="skip-intro" id="skipIntroBtn" type="button">Skip</button>
       <video class="intro-video" id="introVideo" autoplay muted playsinline preload="auto">
         <source src="intro-real.mp4" type="video/mp4">
@@ -793,7 +811,6 @@
       <div class="panel-inner">
         <div class="panel-kicker">Dopesick</div>
         <h2 class="panel-title">Dopesick</h2>
-        <p class="panel-copy">The American Addiction to Heroin and Profit. Bonus chapter edition, original listing, cover variations, and direct buy link.</p>
         <div class="gallery-grid">
           <div class="gallery-card"><img src="dopesick-cover-original.png" alt="Dopesick original cover"></div>
           <div class="gallery-card"><img src="dopesick-holding-book.png" alt="Ryan holding Dopesick"></div>
@@ -953,6 +970,7 @@
       spreadIndex: 0,
       fontSize: 18
     };
+    let activeVideoEndHandler = null;
 
     function showScene(scene) {
       [introScene, ticketScene, boardScene].forEach(el => el.classList.add('hidden'));
@@ -1010,6 +1028,15 @@
       } catch (e) {}
     }
 
+    function enableIntroSound() {
+      introVideo.muted = false;
+      introVideo.defaultMuted = false;
+      introVideo.volume = 1;
+      introAudioBtn.classList.add('is-on');
+      introAudioBtn.textContent = 'Sound On';
+      introVideo.play().catch(() => {});
+    }
+
     function openModal(modal) {
       modal.classList.add('active');
       modal.setAttribute('aria-hidden', 'false');
@@ -1025,11 +1052,17 @@
     }
 
     function openVideoModal(config) {
-      videoKicker.textContent = config.kicker || 'Thread';
-      videoTitle.textContent = config.title || 'Video';
-      videoCopy.textContent = config.copy || 'Press play and dive in.';
+      activeVideoEndHandler = typeof config.onEnd === 'function' ? config.onEnd : null;
+
+      videoKicker.textContent = config.kicker || '';
+      videoTitle.textContent = config.title || '';
+      videoCopy.textContent = config.copy || '';
+      videoKicker.classList.toggle('is-hidden', !config.kicker);
+      videoTitle.classList.toggle('is-hidden', !config.title);
+      videoCopy.classList.toggle('is-hidden', !config.copy);
 
       modalVideo.pause();
+      modalVideo.onended = null;
       modalVideo.classList.add('is-hidden');
       modalIframe.classList.add('is-hidden');
       modalVideo.removeAttribute('src');
@@ -1042,6 +1075,13 @@
         modalVideo.src = config.src;
         modalVideo.load();
         modalVideo.classList.remove('is-hidden');
+        if (activeVideoEndHandler) {
+          modalVideo.onended = () => {
+            const handler = activeVideoEndHandler;
+            activeVideoEndHandler = null;
+            handler();
+          };
+        }
       }
 
       openModal(videoModal);
@@ -1052,6 +1092,8 @@
     }
 
     function closeVideoModal() {
+      activeVideoEndHandler = null;
+      modalVideo.onended = null;
       modalVideo.pause();
       modalVideo.removeAttribute('src');
       modalVideo.load();
@@ -1199,9 +1241,13 @@
 
     hotspotWriting.addEventListener('click', () => openVideoModal({
       src: 'Typewriter_Video_Generation.mp4',
-      kicker: 'Previously unreleased writing',
-      title: 'Typewriter Intro',
-      copy: 'This thread now opens the typewriter video instead of the envelope.'
+      kicker: '',
+      title: '',
+      copy: '',
+      onEnd: () => {
+        closeVideoModal();
+        openModal(libraryModal);
+      }
     }));
 
     hotspotMain.addEventListener('click', () => openVideoModal({
@@ -1226,8 +1272,13 @@
     // Intro / scene flow
     introVideo.addEventListener('ended', revealTicket);
     introVideo.addEventListener('click', () => {
-      if (introVideo.paused) introVideo.play().catch(() => {});
+      if (introVideo.muted) {
+        enableIntroSound();
+      } else if (introVideo.paused) {
+        introVideo.play().catch(() => {});
+      }
     });
+    introAudioBtn.addEventListener('click', enableIntroSound);
     skipIntroBtn.addEventListener('click', revealTicket);
     ticketBtn.addEventListener('click', goToBoard);
 
