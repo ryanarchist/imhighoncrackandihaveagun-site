@@ -910,21 +910,52 @@
   .suno-card img { width:72px; height:72px; }
 }
 
+
+/* HARD INTRO FIX */
+.intro-scene {
+  background: #000 !important;
+  padding: 0 !important;
+  display: block !important;
+}
+.intro-video {
+  width: 100vw !important;
+  height: 100dvh !important;
+  object-fit: cover !important;
+  display: block !important;
+  background: #000 !important;
+}
+.intro-tap-to-start {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  margin: auto;
+  width: 190px;
+  height: 56px;
+  border-radius: 999px;
+  border: 1px solid rgba(216,166,106,.55);
+  background: rgba(20,12,5,.82);
+  color: #fff1db;
+  font-weight: 900;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  box-shadow: 0 20px 70px rgba(0,0,0,.75);
+}
+.intro-tap-to-start.hidden {
+  display: none !important;
+}
+
 </style>
 </head>
 <body>
   <div class="app">
-    <section class="scene" id="introScene">
-
-<div id="introTapStart" class="intro-tap-start hidden">
-  <button type="button" id="introTapButton">Tap to Start</button>
-</div>
-
-      <button class="intro-audio-btn" id="introAudioBtn" type="button" aria-label="Enable intro sound">Sound</button>
-      <button class="skip-intro" id="skipIntroBtn" type="button">Skip</button>
-      <video class="intro-video" id="introVideo" autoplay muted playsinline preload="auto" webkit-playsinline="true" autoplay muted playsinline preload="auto">
-        <source src="intro.mp4" type="video/mp4">
+    <section class="scene intro-scene" id="introScene">
+      <video class="intro-video" id="introVideo" autoplay muted playsinline webkit-playsinline preload="auto">
+        <source src="intro.mp4?v=9" type="video/mp4" />
       </video>
+
+      <button id="introTapToStart" class="intro-tap-to-start hidden" type="button">
+        TAP TO START
+      </button>
     </section>
 
     <section class="scene hidden ticket-scene" id="ticketScene">
@@ -1714,5 +1745,173 @@ const ticketBtn = document.getElementById('ticketBtn');
       }
     });
   </script>
+
+<script id="hard-intro-fix">
+(function () {
+  const introScene = document.getElementById('introScene');
+  const ticketScene = document.getElementById('ticketScene');
+  const introVideo = document.getElementById('introVideo');
+  const tap = document.getElementById('introTapToStart');
+
+  if (!introScene || !ticketScene || !introVideo) return;
+
+  let startedAt = 0;
+  let allowFinish = false;
+  let finished = false;
+  const MIN_SECONDS_BEFORE_TICKET = 3.0;
+
+  function showOnlyIntroOnLoad() {
+    document.querySelectorAll('.scene').forEach(s => s.classList.add('hidden'));
+    introScene.classList.remove('hidden');
+  }
+
+  function revealTicketHard() {
+    if (finished) return;
+    finished = true;
+    try { introVideo.pause(); } catch(e) {}
+    document.querySelectorAll('.scene').forEach(s => s.classList.add('hidden'));
+    ticketScene.classList.remove('hidden');
+  }
+
+  async function startIntroHard() {
+    try {
+      finished = false;
+      allowFinish = false;
+      startedAt = performance.now();
+      introVideo.muted = true;
+      introVideo.defaultMuted = true;
+      introVideo.playsInline = true;
+      introVideo.setAttribute('muted', '');
+      introVideo.setAttribute('autoplay', '');
+      introVideo.setAttribute('playsinline', '');
+      introVideo.setAttribute('webkit-playsinline', '');
+
+      try { introVideo.currentTime = 0; } catch(e) {}
+
+      const p = introVideo.play();
+      if (p && typeof p.then === 'function') await p;
+
+      if (tap) tap.classList.add('hidden');
+
+      setTimeout(() => { allowFinish = true; }, MIN_SECONDS_BEFORE_TICKET * 1000);
+    } catch (e) {
+      if (tap) tap.classList.remove('hidden');
+    }
+  }
+
+  if (tap) {
+    tap.addEventListener('click', function () {
+      tap.classList.add('hidden');
+      startIntroHard();
+    });
+  }
+
+  introVideo.addEventListener('playing', function () {
+    if (tap) tap.classList.add('hidden');
+  });
+
+  introVideo.addEventListener('ended', function () {
+    const elapsed = (performance.now() - startedAt) / 1000;
+    if (!allowFinish || elapsed < MIN_SECONDS_BEFORE_TICKET) {
+      try {
+        introVideo.currentTime = 0;
+        introVideo.play();
+      } catch(e) {
+        if (tap) tap.classList.remove('hidden');
+      }
+      return;
+    }
+    revealTicketHard();
+  });
+
+  introVideo.addEventListener('error', function () {
+    if (tap) {
+      tap.textContent = 'VIDEO ERROR';
+      tap.classList.remove('hidden');
+    }
+  });
+
+  window.addEventListener('load', function () {
+    showOnlyIntroOnLoad();
+    startIntroHard();
+  });
+
+  document.addEventListener('visibilitychange', function () {
+    if (!document.hidden && !introScene.classList.contains('hidden') && introVideo.paused && !finished) {
+      startIntroHard();
+    }
+  });
+})();
+</script>
+
+
+<script id="hard-creations-suno-fix">
+(function () {
+  function qs(sel) { return document.querySelector(sel); }
+  function qsa(sel) { return Array.from(document.querySelectorAll(sel)); }
+
+  function openElementModal(el) {
+    if (!el) return false;
+    el.classList.add('active');
+    el.classList.remove('hidden');
+    el.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    return true;
+  }
+
+  function openSunoLibrary() {
+    const possible = [
+      '#sunoModal',
+      '#sunoLibraryModal',
+      '#basementModal',
+      '#musicModal',
+      '#creationsModal'
+    ];
+    for (const sel of possible) {
+      const modal = qs(sel);
+      if (openElementModal(modal)) return;
+    }
+
+    // Fallback: if the build named the section differently, click the visible Suno/profile trigger if present.
+    const profileLink = qs('a[href*="suno.com/@imhighoncrackandihaveagun"], a[href*="suno.com/%40imhighoncrackandihaveagun"]');
+    if (profileLink) {
+      const modal = profileLink.closest('.overlay-modal, .overlay, .modal-wrap, section');
+      if (modal && (modal.id || modal.className)) {
+        openElementModal(modal);
+        return;
+      }
+    }
+
+    // Last-resort fallback: open profile in new tab.
+    window.open('https://suno.com/@imhighoncrackandihaveagun', '_blank', 'noopener,noreferrer');
+  }
+
+  function isCreationsButton(el) {
+    const text = ((el.textContent || '') + ' ' + (el.getAttribute('aria-label') || '') + ' ' + (el.dataset.title || '') + ' ' + (el.id || '') + ' ' + (el.className || '')).toLowerCase();
+    return text.includes('basement') || text.includes('creation');
+  }
+
+  function bindCreations() {
+    qsa('button, a, [role="button"], .hotspot').forEach(el => {
+      if (!isCreationsButton(el)) return;
+
+      // remove writing/video classes that were causing the wrong action
+      el.classList.remove('open-writing', 'open-typewriter', 'open-video');
+      el.classList.add('open-suno', 'open-basement');
+
+      el.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+        openSunoLibrary();
+      }, true);
+    });
+  }
+
+  window.addEventListener('load', bindCreations);
+  document.addEventListener('DOMContentLoaded', bindCreations);
+})();
+</script>
+
 </body>
 </html>
