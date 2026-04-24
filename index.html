@@ -624,28 +624,101 @@
     }
 
     /* Email modal */
+    .email-shell {
+      display: grid;
+      gap: 18px;
+    }
+    .email-perks {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .perk-card {
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      padding: 14px 14px 12px;
+    }
+    .perk-kicker {
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .perk-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
     .email-form {
       display: grid;
       gap: 12px;
-      margin-top: 18px;
+      margin-top: 2px;
+    }
+    .email-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .field {
+      display: grid;
+      gap: 8px;
+    }
+    .field label {
+      color: rgba(255,255,255,.78);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
     }
     .email-form input {
       width: 100%;
-      min-height: 54px;
+      min-height: 56px;
       border-radius: 16px;
       border: 1px solid rgba(255,255,255,.10);
       background: rgba(255,255,255,.06);
       color: #fff;
       padding: 14px 16px;
+      transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
+    }
+    .email-form input:focus {
+      outline: none;
+      border-color: rgba(216,166,106,.56);
+      box-shadow: 0 0 0 3px rgba(216,166,106,.12);
+      background: rgba(255,255,255,.08);
     }
     .email-form input::placeholder {
       color: rgba(255,255,255,.46);
     }
+    .email-submit {
+      width: 100%;
+      min-height: 56px;
+      justify-content: center;
+      display: inline-flex;
+      align-items: center;
+    }
+    .email-disclaimer {
+      display: grid;
+      gap: 8px;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 16px;
+      background: rgba(255,255,255,.03);
+      padding: 14px 14px 12px;
+    }
+    .email-disclaimer strong {
+      color: rgba(255,255,255,.92);
+      font-size: 12px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
     .helper {
       color: var(--muted);
       font-size: 13px;
-      line-height: 1.55;
-      margin-top: 10px;
+      line-height: 1.6;
+      margin-top: 0;
     }
 
     @keyframes glowPulse {
@@ -725,6 +798,10 @@
       }
       .reader-top {
         gap: 12px;
+      }
+      .email-perks,
+      .email-row {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -897,18 +974,52 @@
       <button class="overlay-close" data-close="email" aria-label="Close">×</button>
       <div class="panel-inner">
         <div class="panel-kicker">Drop box / radio</div>
-        <h2 class="panel-title">Get on the list</h2>
-        <p class="panel-copy">This is wired to email submissions out through FormSubmit. Submit once and the capture starts routing back into the configured inbox.</p>
-        <form class="email-form" id="emailForm" action="https://formsubmit.co/ryanhomanics@gmail.com" method="POST">
-          <input type="hidden" name="_subject" value="IM HIGH ON CRACK AND I HAVE A GUN — new email signup">
-          <input type="hidden" name="_template" value="table">
-          <input type="hidden" name="_next" id="emailNextField" value="">
-          <input type="text" name="_honey" style="display:none">
-          <input type="text" name="alias" placeholder="Name or alias (optional)">
-          <input type="email" name="email" placeholder="Email address" required>
-          <button class="primary-btn" type="submit">Join list</button>
-        </form>
-        <div class="helper"><strong>FormSubmit setup:</strong> keep the form action pointed at the inbox you want, submit the form once yourself, then click the activation email FormSubmit sends you. After that, future submissions route straight into that inbox. The hidden <code>_next</code> field here sends visitors back to the corkboard and triggers the follow-up video after submit.</div>
+        <h2 class="panel-title">Get the dispatch</h2>
+        <p class="panel-copy">Get first access to new clips, writing drops, book updates, and the weirdest stuff before it hits everywhere else.</p>
+
+        <div class="email-shell">
+          <div class="email-perks">
+            <div class="perk-card">
+              <div class="perk-kicker">Early drops</div>
+              <p>New trailers, uploads, and corkboard additions first.</p>
+            </div>
+            <div class="perk-card">
+              <div class="perk-kicker">Writing alerts</div>
+              <p>Fresh excerpts and unreleased writing when they go live.</p>
+            </div>
+            <div class="perk-card">
+              <div class="perk-kicker">No middleman</div>
+              <p>Direct delivery into your inbox instead of hoping the algorithm behaves.</p>
+            </div>
+          </div>
+
+          <form class="email-form" id="emailForm" action="https://formsubmit.co/imhighoncrackandihaveagun@gmail.com" method="POST">
+            <input type="hidden" name="_subject" value="IM HIGH ON CRACK AND I HAVE A GUN — new email signup">
+            <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="_next" id="emailNextField" value="">
+            <input type="hidden" name="_autoresponse" value="You are on the list. Watch your inbox for new drops, writing updates, and archive dispatches.">
+            <input type="hidden" name="_blacklist" value="http://,https://,www.,bitcoin,crypto,loan,casino">
+            <input type="text" name="_honey" style="display:none">
+
+            <div class="email-row">
+              <div class="field">
+                <label for="signupAlias">Name or alias</label>
+                <input id="signupAlias" type="text" name="alias" placeholder="Optional">
+              </div>
+              <div class="field">
+                <label for="signupEmail">Email address</label>
+                <input id="signupEmail" type="email" name="email" placeholder="you@example.com" required>
+              </div>
+            </div>
+
+            <button class="primary-btn email-submit" id="emailSubmitBtn" type="submit">Join the list</button>
+          </form>
+
+          <div class="email-disclaimer">
+            <strong>What happens after submit</strong>
+            <div class="helper">After the form is sent, the site routes back to the corkboard, marks the signup as received, and plays the follow-up fog/radio video automatically.</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -935,6 +1046,10 @@
     const libraryModal = document.getElementById('libraryModal');
     const readerModal = document.getElementById('readerModal');
     const emailModal = document.getElementById('emailModal');
+    const emailForm = document.getElementById('emailForm');
+    const signupAlias = document.getElementById('signupAlias');
+    const signupEmail = document.getElementById('signupEmail');
+    const emailSubmitBtn = document.getElementById('emailSubmitBtn');
 
     const hotspotBasement = document.getElementById('hotspotBasement');
     const hotspotWriting = document.getElementById('hotspotWriting');
@@ -1006,19 +1121,30 @@
       const url = new URL(window.location.href);
       const joined = url.searchParams.get('joined') === '1';
       const emailVideo = url.searchParams.get('emailvideo') === '1';
+      let savedSignup = null;
+      try {
+        savedSignup = JSON.parse(sessionStorage.getItem('ihocaihag-signup') || 'null');
+      } catch (e) {
+        savedSignup = null;
+      }
       if (joined || location.hash === '#board') {
         showScene(boardScene);
       }
       if (joined) {
+        const toastName = savedSignup && savedSignup.alias ? savedSignup.alias : (savedSignup && savedSignup.email ? savedSignup.email : 'Email received');
+        joinToast.textContent = `You are on the list — ${toastName}`;
         joinToast.classList.add('show');
         setTimeout(() => joinToast.classList.remove('show'), 4200);
       }
       if (joined && emailVideo) {
+        const followupCopy = savedSignup && savedSignup.email
+          ? `Thanks — ${savedSignup.email} is now on the list.`
+          : 'Thanks for getting on the list.';
         setTimeout(() => openVideoModal({
           src: 'Action_Figure_Radio_Fog_Video.mp4',
           kicker: 'Email capture',
           title: 'Submission Received',
-          copy: 'Thanks for getting on the list.'
+          copy: followupCopy
         }), 450);
       }
       if (joined || emailVideo) {
@@ -1246,6 +1372,17 @@
     }
 
     function openEmailModal() {
+      try {
+        const savedSignup = JSON.parse(sessionStorage.getItem('ihocaihag-signup') || 'null');
+        if (savedSignup) {
+          if (savedSignup.alias) signupAlias.value = savedSignup.alias;
+          if (savedSignup.email) signupEmail.value = savedSignup.email;
+        }
+      } catch (e) {}
+      if (emailSubmitBtn) {
+        emailSubmitBtn.disabled = false;
+        emailSubmitBtn.textContent = 'Join the list';
+      }
       openModal(emailModal);
     }
 
@@ -1293,6 +1430,14 @@
     hotspotDopesick.addEventListener('click', openDopesickModal);
     hotspotEmailNote.addEventListener('click', openEmailModal);
     hotspotRadioEmail.addEventListener('click', openEmailModal);
+
+    emailForm.addEventListener('submit', () => {
+      const alias = signupAlias.value.trim();
+      const email = signupEmail.value.trim();
+      sessionStorage.setItem('ihocaihag-signup', JSON.stringify({ alias, email }));
+      emailSubmitBtn.disabled = true;
+      emailSubmitBtn.textContent = 'Routing...';
+    });
 
     // Intro / scene flow
     introVideo.addEventListener('loadedmetadata', () => {
