@@ -804,33 +804,117 @@
         grid-template-columns: 1fr;
       }
     }
-  </style>
+  
+/* MOBILE TICKET FIX */
+@media (max-width: 820px) {
+  .ticket-scene {
+    padding: 0 !important;
+    display: grid !important;
+    place-items: center !important;
+    min-height: 100dvh !important;
+    overflow: hidden !important;
+  }
+
+  .ticket-stage {
+    width: 100vw !important;
+    height: 100dvh !important;
+    display: grid !important;
+    place-items: center !important;
+    gap: 0 !important;
+    padding: 0 !important;
+  }
+
+  .ticket-copy,
+  .ticket-overlay {
+    display: none !important;
+  }
+
+  .ticket-btn {
+    width: 96vw !important;
+    max-width: 96vw !important;
+    border-radius: 16px !important;
+    transform: none !important;
+    box-shadow: 0 18px 70px rgba(0,0,0,.65) !important;
+  }
+
+  .ticket-btn img {
+    width: 100% !important;
+    height: auto !important;
+    max-height: 78dvh !important;
+    object-fit: contain !important;
+    border-radius: 16px !important;
+  }
+}
+
+/* DESKTOP TICKET CLEANUP */
+.ticket-copy,
+.ticket-overlay {
+  display: none !important;
+}
+.ticket-scene {
+  padding: 0 !important;
+}
+.ticket-stage {
+  width: 100vw !important;
+  height: 100dvh !important;
+  display: grid !important;
+  place-items: center !important;
+}
+.ticket-btn {
+  width: min(1480px, 96vw) !important;
+}
+.ticket-btn img {
+  width: 100% !important;
+  height: auto !important;
+  max-height: 86dvh !important;
+  object-fit: contain !important;
+}
+
+
+.intro-tap-start {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: grid;
+  place-items: center;
+  background: rgba(0,0,0,.78);
+}
+.intro-tap-start.hidden {
+  display: none;
+}
+.intro-tap-start button {
+  border: 1px solid rgba(216,166,106,.5);
+  background: linear-gradient(180deg, rgba(216,166,106,.25), rgba(80,46,18,.45));
+  color: #fff1db;
+  border-radius: 999px;
+  padding: 16px 24px;
+  text-transform: uppercase;
+  letter-spacing: .16em;
+  font-weight: 800;
+  font-size: 13px;
+}
+
+</style>
 </head>
 <body>
   <div class="app">
     <section class="scene" id="introScene">
+
+<div id="introTapStart" class="intro-tap-start hidden">
+  <button type="button" id="introTapButton">Tap to Start</button>
+</div>
+
       <button class="intro-audio-btn" id="introAudioBtn" type="button" aria-label="Enable intro sound">Sound</button>
       <button class="skip-intro" id="skipIntroBtn" type="button">Skip</button>
-      <video class="intro-video" id="introVideo" autoplay muted playsinline preload="auto" webkit-playsinline="true">
+      <video class="intro-video" id="introVideo" autoplay muted playsinline preload="auto" webkit-playsinline="true" autoplay muted playsinline preload="auto">
         <source src="intro.mp4" type="video/mp4">
       </video>
     </section>
 
     <section class="scene hidden ticket-scene" id="ticketScene">
       <div class="ticket-stage">
-        <div class="ticket-copy">
-          <div class="ticket-kicker">Take a breath</div>
-          <h1>Take a breath and click ticket when your ready</h1>
-          <p>The intro resolves into a single object. When you’re ready, click the ticket to continue.</p>
-        </div>
         <button class="ticket-btn" id="ticketBtn" type="button" aria-label="Click ticket to continue">
-          <img src="ticket.png" alt="Limited edition redemption ticket">
-          <div class="ticket-overlay">
-            <strong>Take a breath</strong>
-            <span>Click ticket when your ready.</span>
-            <span class="ticket-chip">Click ticket</span>
-          </div>
-        </button>
+          <img src="ticket.png" alt="Limited edition redemption ticket"></button>
       </div>
     </section>
 
@@ -1031,7 +1115,48 @@
     const ticketScene = document.getElementById('ticketScene');
     const boardScene = document.getElementById('boardScene');
     const introVideo = document.getElementById('introVideo');
-    const ticketBtn = document.getElementById('ticketBtn');
+    
+
+    const introTapStart = document.getElementById('introTapStart');
+    const introTapButton = document.getElementById('introTapButton');
+
+    async function runIntroVideoClean() {
+      if (!introVideo) return;
+      try {
+        introVideo.muted = true;
+        introVideo.defaultMuted = true;
+        introVideo.playsInline = true;
+        introVideo.setAttribute('playsinline', '');
+        introVideo.setAttribute('muted', '');
+        introVideo.setAttribute('autoplay', '');
+        const p = introVideo.play();
+        if (p && typeof p.then === 'function') await p;
+        if (introTapStart) introTapStart.classList.add('hidden');
+      } catch (err) {
+        if (introTapStart) introTapStart.classList.remove('hidden');
+      }
+    }
+
+    if (introTapButton) {
+      introTapButton.addEventListener('click', async () => {
+        if (introTapStart) introTapStart.classList.add('hidden');
+        try { introVideo.currentTime = 0; } catch(e) {}
+        await runIntroVideoClean();
+      });
+    }
+
+    document.addEventListener('touchstart', () => {
+      if (introScene && !introScene.classList.contains('hidden') && introVideo && introVideo.paused) {
+        runIntroVideoClean();
+      }
+    }, { once: true });
+
+    document.addEventListener('click', () => {
+      if (introScene && !introScene.classList.contains('hidden') && introVideo && introVideo.paused) {
+        runIntroVideoClean();
+      }
+    }, { once: true });
+const ticketBtn = document.getElementById('ticketBtn');
     const skipIntroBtn = document.getElementById('skipIntroBtn');
     const joinToast = document.getElementById('joinToast');
 
