@@ -375,6 +375,33 @@
       display: none;
     }
 
+    .transition-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 72;
+      display: grid;
+      place-items: center;
+      width: 100%;
+      height: 100dvh;
+      padding: 0;
+      border: 0;
+      cursor: pointer;
+      background: #020202;
+    }
+
+    .transition-overlay[hidden] {
+      display: none;
+    }
+
+    .transition-overlay video {
+      display: block;
+      width: 100vw;
+      height: 100dvh;
+      object-fit: cover;
+      object-position: center;
+      background: #000;
+    }
+
     .modal-panel {
       position: relative;
       width: min(100%, 980px);
@@ -1262,6 +1289,10 @@
     </video>
   </div>
 
+  <button class="transition-overlay" id="transitionOverlay" type="button" aria-label="Skip transition" hidden>
+    <video id="transitionVideo" muted playsinline preload="none"></video>
+  </button>
+
   <script>
     (() => {
       "use strict";
@@ -1281,14 +1312,19 @@
       const successToast = document.getElementById("successToast");
       const toastMessage = document.getElementById("toastMessage");
       const successVideo = document.getElementById("successVideo");
+      const transitionOverlay = document.getElementById("transitionOverlay");
+      const transitionVideo = document.getElementById("transitionVideo");
       const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       const entryFadeMs = reducedMotion ? 10 : 430;
       const accessKey = "ihocaig-access-unlocked";
       const accessCookie = "ihocaig_access_unlocked";
+      const transitionMaxMs = reducedMotion ? 10 : 9000;
 
       let activeModal = null;
       let lastFocus = null;
       let typewriterFallbackTimer = null;
+      let transitionFallbackTimer = null;
+      let transitionFinish = null;
       let readerPages = [];
       let readerIndex = 0;
 
@@ -1302,6 +1338,12 @@
         suno: () => openModal("sunoModal"),
         social: () => openModal("socialModal"),
         shop: () => openModal("shopModal")
+      };
+
+      const transitionMap = {
+        youtube: "mp_.mp4",
+        dopesick: "f_d_d_a_a_f_contentmp_.mp4",
+        social: "channmealsrr.mp4"
       };
 
       const readerSources = {
@@ -1441,6 +1483,60 @@
 
         if (restoreFocus && lastFocus && typeof lastFocus.focus === "function") {
           lastFocus.focus({ preventScroll: true });
+        }
+      }
+
+      function runAction(action) {
+        const handler = actionMap[action];
+        if (!handler) return;
+
+        const transitionSrc = transitionMap[action];
+        if (!transitionSrc) {
+          handler();
+          return;
+        }
+
+        playTransition(transitionSrc, handler);
+      }
+
+      function playTransition(src, next) {
+        if (!transitionOverlay || !transitionVideo || reducedMotion) {
+          next();
+          return;
+        }
+
+        window.clearTimeout(transitionFallbackTimer);
+
+        const finish = () => {
+          if (transitionFinish !== finish) return;
+          transitionFinish = null;
+          window.clearTimeout(transitionFallbackTimer);
+          transitionVideo.pause();
+          transitionVideo.removeAttribute("src");
+          transitionVideo.load();
+          transitionOverlay.hidden = true;
+          next();
+        };
+
+        transitionFinish = finish;
+        transitionOverlay.hidden = false;
+        transitionVideo.src = src;
+        transitionVideo.currentTime = 0;
+        transitionVideo.load();
+
+        transitionVideo.onended = finish;
+        transitionVideo.onerror = finish;
+        transitionFallbackTimer = window.setTimeout(finish, transitionMaxMs);
+
+        const playAttempt = transitionVideo.play();
+        if (playAttempt && typeof playAttempt.catch === "function") {
+          playAttempt.catch(finish);
+        }
+      }
+
+      function skipTransition() {
+        if (transitionFinish) {
+          transitionFinish();
         }
       }
 
@@ -1696,13 +1792,19 @@
           const action = actionButton.dataset.action;
           if (actionMap[action]) {
             event.preventDefault();
-            actionMap[action]();
+            runAction(action);
           }
         });
 
+        transitionOverlay.addEventListener("click", skipTransition);
+
         document.addEventListener("keydown", (event) => {
           if (event.key === "Escape") {
-            closeModal();
+            if (transitionFinish) {
+              skipTransition();
+            } else {
+              closeModal();
+            }
           }
         });
 
