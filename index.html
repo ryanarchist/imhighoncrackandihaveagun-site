@@ -602,6 +602,15 @@
       gap: 16px;
     }
 
+    .reader-shell.is-library {
+      display: block;
+    }
+
+    .reader-shell.is-library .reader-cover,
+    .reader-shell.is-library .reader-controls {
+      display: none;
+    }
+
     .reader-cover {
       display: grid;
       gap: 12px;
@@ -658,6 +667,52 @@
 
     .reader-content p {
       margin: 0 0 1em;
+    }
+
+    .book-grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .book-card {
+      display: grid;
+      gap: 10px;
+      padding: 0;
+      border: 1px solid rgba(108, 34, 29, 0.28);
+      border-radius: 8px;
+      color: var(--paper-ink);
+      background: rgba(255, 255, 255, 0.24);
+      cursor: pointer;
+      overflow: hidden;
+      text-align: left;
+    }
+
+    .book-card img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      background: #1b1713;
+    }
+
+    .book-card span {
+      display: grid;
+      gap: 4px;
+      padding: 0 12px 12px;
+    }
+
+    .book-card strong {
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 1rem;
+      line-height: 1.2;
+    }
+
+    .book-card small {
+      color: #6c221d;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0;
     }
 
     .reader-controls {
@@ -822,6 +877,10 @@
       .reader-shell {
         grid-template-columns: 300px minmax(0, 1fr);
         align-items: start;
+      }
+
+      .book-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
       }
 
       .shirt-preview,
@@ -1101,10 +1160,11 @@
         <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
       </header>
       <div class="modal-body">
-        <div class="reader-shell">
+        <div class="reader-shell" id="readerShell">
           <aside class="reader-cover">
             <img id="readerCover" src="teaser-cover-dopesick2.png" data-candidates="teaser-cover-dopesick2.png,teaser-cover.png,cover-dopesick2.png,book-cover.png,cover.png" alt="Book cover" loading="lazy">
             <a class="plain-btn" id="readerDocLink" href="dopesick2-introduction.docx">Open DOCX</a>
+            <button class="plain-btn" id="readerLibraryLink" type="button" data-reader-mode="library" hidden>Back to Library</button>
           </aside>
           <article class="reader-page">
             <p class="reader-kicker" id="readerKicker">Teaser Chapter</p>
@@ -1367,19 +1427,55 @@
         library: {
           modalTitle: "Writing Library",
           kicker: "Previously Unreleased",
-          title: "Writing Library",
-          candidates: [
-            "ihocaig.txt",
-            "writing-library.html",
-            "writing-library.txt",
-            "unreleased-writing.html",
-            "unreleased-writing.txt",
-            "previously-unreleased-writing.html",
-            "previously-unreleased-writing.txt"
-          ],
+          title: "Previously Unreleased Writing",
+          isLibrary: true,
+          candidates: [],
           fallbackPages: [
-            "<p>The writing library opens here after the typewriter video.</p><p><a class=\"plain-btn\" href=\"ihocaig.docx\">Open IHOCAIG DOCX</a></p><p><a class=\"plain-btn\" href=\"an-apocalyptic-paradise.docx\">Open An Apocalyptic Paradise</a></p><p><a class=\"plain-btn\" href=\"elezione-and-world-after-wealth.docx\">Open Elezione and World After Wealth</a></p><p><a class=\"plain-btn\" href=\"to-die-in-july.docx\">Open To Die in July</a></p><p><button class=\"plain-btn\" type=\"button\" data-reader-mode=\"teaser\">Open Teaser Chapter</button></p>"
+            `<div class="book-grid">
+              <button class="book-card" type="button" data-reader-mode="apocalyptic">
+                <img src="cover-apocalyptic-paradise.png" alt="An Apocalyptic Paradise cover" loading="lazy">
+                <span><strong>An Apocalyptic Paradise</strong><small>Open reader</small></span>
+              </button>
+              <button class="book-card" type="button" data-reader-mode="elezione">
+                <img src="cover-elezione-world-after-wealth.png" alt="Elezione and The World After Wealth cover" loading="lazy">
+                <span><strong>Elezione and The World After Wealth</strong><small>Open reader</small></span>
+              </button>
+              <button class="book-card" type="button" data-reader-mode="july">
+                <img src="cover-to-die-in-july.png" alt="To Die in July cover" loading="lazy">
+                <span><strong>To Die in July</strong><small>Open reader</small></span>
+              </button>
+            </div>`
           ]
+        },
+        apocalyptic: {
+          modalTitle: "An Apocalyptic Paradise",
+          kicker: "Previously Unreleased",
+          title: "An Apocalyptic Paradise",
+          cover: "cover-apocalyptic-paradise.png",
+          doc: "an-apocalyptic-paradise.docx",
+          libraryBack: true,
+          candidates: ["an-apocalyptic-paradise.txt"],
+          fallbackPages: ["<p>An Apocalyptic Paradise text is not available yet.</p>"]
+        },
+        elezione: {
+          modalTitle: "Elezione and The World After Wealth",
+          kicker: "Previously Unreleased",
+          title: "Elezione and The World After Wealth",
+          cover: "cover-elezione-world-after-wealth.png",
+          doc: "elezione-and-world-after-wealth.docx",
+          libraryBack: true,
+          candidates: ["elezione-and-world-after-wealth.txt"],
+          fallbackPages: ["<p>Elezione and The World After Wealth text is not available yet.</p>"]
+        },
+        july: {
+          modalTitle: "To Die in July",
+          kicker: "Previously Unreleased",
+          title: "To Die in July",
+          cover: "cover-to-die-in-july.png",
+          doc: "to-die-in-july.docx",
+          libraryBack: true,
+          candidates: ["to-die-in-july.txt"],
+          fallbackPages: ["<p>To Die in July text is not available yet.</p>"]
         }
       };
 
@@ -1584,12 +1680,33 @@
       async function openReader(mode) {
         const config = readerSources[mode] || readerSources.teaser;
         const modal = document.getElementById("teaserReaderModal");
+        const readerShell = document.getElementById("readerShell");
+        const readerCover = document.getElementById("readerCover");
+        const readerDocLink = document.getElementById("readerDocLink");
+        const readerLibraryLink = document.getElementById("readerLibraryLink");
 
         document.getElementById("readerModalTitle").textContent = config.modalTitle;
         document.getElementById("readerKicker").textContent = config.kicker;
         document.getElementById("readerTitle").textContent = config.title;
-        document.getElementById("readerDocLink").href = mode === "library" ? "ihocaig.docx" : "dopesick2-introduction.docx";
-        document.getElementById("readerDocLink").textContent = mode === "library" ? "Open Writing DOCX" : "Open DOCX";
+        readerShell.classList.toggle("is-library", Boolean(config.isLibrary));
+
+        if (config.cover) {
+          readerCover.classList.remove("is-missing");
+          readerCover.dataset.candidates = config.cover;
+          readerCover.dataset.candidateIndex = "0";
+          readerCover.src = config.cover;
+          readerCover.alt = `${config.title} cover`;
+        } else if (!config.isLibrary) {
+          readerCover.classList.remove("is-missing");
+          readerCover.dataset.candidates = "teaser-cover-dopesick2.png,teaser-cover.png,cover-dopesick2.png,book-cover.png,cover.png";
+          readerCover.dataset.candidateIndex = "0";
+          readerCover.src = "teaser-cover-dopesick2.png";
+          readerCover.alt = "Book cover";
+        }
+
+        readerDocLink.href = config.doc || "dopesick2-introduction.docx";
+        readerDocLink.textContent = config.doc ? "Open DOCX" : "Open DOCX";
+        readerLibraryLink.hidden = !config.libraryBack;
 
         readerPages = config.fallbackPages;
         readerIndex = 0;
@@ -1712,11 +1829,13 @@
 
       function cycleImageCandidates(img) {
         if (!img?.dataset.candidates) return;
-        const candidates = img.dataset.candidates.split(",").map((item) => item.trim()).filter(Boolean);
-        let index = 0;
+        img.dataset.candidateIndex = "0";
 
         img.addEventListener("error", () => {
+          const candidates = img.dataset.candidates.split(",").map((item) => item.trim()).filter(Boolean);
+          let index = Number(img.dataset.candidateIndex || "0");
           index += 1;
+          img.dataset.candidateIndex = String(index);
           if (index < candidates.length) {
             img.src = candidates[index];
           } else {
