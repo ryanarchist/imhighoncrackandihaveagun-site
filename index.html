@@ -1009,7 +1009,7 @@
           <input type="hidden" name="_captcha" value="false">
           <input type="hidden" name="_template" value="table">
           <input type="hidden" name="_subject" value="New Entry Signup">
-          <input type="hidden" name="_next" value="https://imhighoncrackandihaveagun.com/?signup=success">
+          <input type="hidden" name="_next" value="https://imhighoncrackandihaveagun.com/?signup=success&scene=board">
           <div class="field">
             <label for="signupEmail">Email</label>
             <input id="signupEmail" name="email" type="email" autocomplete="email" required>
@@ -1211,7 +1211,7 @@
           <input type="hidden" name="_captcha" value="false">
           <input type="hidden" name="_template" value="table">
           <input type="hidden" name="_subject" value="New T-Shirt Shop Request">
-          <input type="hidden" name="_next" value="https://imhighoncrackandihaveagun.com/?shop=sent">
+          <input type="hidden" name="_next" value="https://imhighoncrackandihaveagun.com/?shop=sent&scene=board">
           <input type="hidden" name="product" value="Official Black Text Tee">
           <div class="shop-grid">
             <div class="field">
@@ -1348,6 +1348,14 @@
           body.classList.remove("entry-active");
           boardScene.focus?.({ preventScroll: true });
         }, entryFadeMs);
+      }
+
+      function showBoardImmediately() {
+        body.classList.add("board-active");
+        boardScene.setAttribute("aria-hidden", "false");
+        entryScene.classList.add("is-leaving");
+        entryScene.hidden = true;
+        body.classList.remove("entry-active");
       }
 
       function openModal(id) {
@@ -1675,6 +1683,11 @@
 
       function initQueryToasts() {
         const params = new URLSearchParams(window.location.search);
+        const shouldOpenBoard = params.get("scene") === "board" || params.get("signup") === "success" || params.get("shop") === "sent";
+
+        if (shouldOpenBoard) {
+          showBoardImmediately();
+        }
 
         if (params.get("signup") === "success") {
           showToast("You are on the list.", true);
