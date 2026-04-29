@@ -733,7 +733,7 @@
       opacity: 0.45;
     }
 
-    /* Suno and socials */
+    /* Soundtrack and socials */
     .link-grid,
     .shop-grid {
       display: grid;
@@ -769,6 +769,16 @@
     .track-card audio {
       width: 100%;
       margin-top: 6px;
+    }
+
+    .track-cover {
+      display: block;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 6px;
+      background: #100b08;
     }
 
     .shop-card {
@@ -1191,53 +1201,23 @@
         <p class="modal-copy">This is the sound behind the collapse</p>
         <div class="link-grid">
           <div class="track-card">
-            <strong>Basement Track 1</strong>
-            <span>Local audio</span>
+            <img class="track-cover" src="ogCRackTrack-cover.png" alt="ogCRackTRack cover" loading="lazy">
+            <strong>ogCRackTRack</strong>
+            <span>Main song</span>
             <audio id="localTrack" controls preload="metadata">
-              <source src="suno-track-1.mp3" type="audio/mpeg">
-              <source src="track.mp3" type="audio/mpeg">
+              <source src="ogCRackTrack.mp3" type="audio/mpeg">
             </audio>
           </div>
           <div class="track-card">
-            <strong>Basement Track 2</strong>
-            <span>Local audio</span>
+            <img class="track-cover" src="cracktraptrack-cover.png" alt="CrackTRapTRack cover" loading="lazy">
+            <strong>CrackTRapTRack</strong>
+            <span>Trap remix</span>
             <audio controls preload="metadata">
-              <source src="suno-track-2.mp3" type="audio/mpeg">
-            </audio>
-          </div>
-          <div class="track-card">
-            <strong>Basement Track 3</strong>
-            <span>Local audio</span>
-            <audio controls preload="metadata">
-              <source src="suno-track-3.mp3" type="audio/mpeg">
-            </audio>
-          </div>
-          <div class="track-card">
-            <strong>Basement Track 4</strong>
-            <span>Local audio</span>
-            <audio controls preload="metadata">
-              <source src="suno-track-4.mp3" type="audio/mpeg">
-            </audio>
-          </div>
-          <div class="track-card">
-            <strong>Basement Track 5</strong>
-            <span>Local audio</span>
-            <audio controls preload="metadata">
-              <source src="suno-track-5.mp3" type="audio/mpeg">
-            </audio>
-          </div>
-          <div class="track-card">
-            <strong>Track 3</strong>
-            <span>Local audio</span>
-            <audio controls preload="metadata">
-              <source src="track3.mp3" type="audio/mpeg">
+              <source src="cracktraptrack.mp3" type="audio/mpeg">
             </audio>
           </div>
         </div>
         <p class="asset-note" id="trackNote" hidden>No local MP3 was found by the browser.</p>
-        <p>
-          <a class="primary-btn" href="https://suno.com/@imhighoncrackandihaveagun" target="_blank" rel="noopener noreferrer">Open Suno</a>
-        </p>
       </div>
     </div>
   </section>
@@ -1253,10 +1233,6 @@
           <a class="social-link" href="https://www.tiktok.com/@bandanarchist" target="_blank" rel="noopener noreferrer">
             <strong>TikTok</strong>
             <span>@bandanarchist</span>
-          </a>
-          <a class="social-link" href="https://suno.com/@imhighoncrackandihaveagun" target="_blank" rel="noopener noreferrer">
-            <strong>Suno</strong>
-            <span>@imhighoncrackandihaveagun</span>
           </a>
           <a class="social-link" href="https://www.instagram.com/imhighoncrackandihaveagun/" target="_blank" rel="noopener noreferrer">
             <strong>Instagram</strong>
