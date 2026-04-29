@@ -1282,6 +1282,7 @@
       const successVideo = document.getElementById("successVideo");
       const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       const entryFadeMs = reducedMotion ? 10 : 430;
+      const accessKey = "ihocaig-access-unlocked";
 
       let activeModal = null;
       let lastFocus = null;
@@ -1356,6 +1357,31 @@
         entryScene.classList.add("is-leaving");
         entryScene.hidden = true;
         body.classList.remove("entry-active");
+      }
+
+      function hasUnlockedAccess() {
+        try {
+          return window.localStorage.getItem(accessKey) === "true";
+        } catch (error) {
+          return false;
+        }
+      }
+
+      function setUnlockedAccess() {
+        try {
+          window.localStorage.setItem(accessKey, "true");
+        } catch (error) {
+          /* Private browsing can block storage; the success URL still opens the board. */
+        }
+      }
+
+      function handleEntryClick() {
+        if (hasUnlockedAccess()) {
+          enterBoard();
+          return;
+        }
+
+        openModal("emailModal");
       }
 
       function openModal(id) {
@@ -1628,7 +1654,7 @@
       }
 
       function initEvents() {
-        entryHit.addEventListener("click", enterBoard, { once: true });
+        entryHit.addEventListener("click", handleEntryClick);
 
         document.addEventListener("click", (event) => {
           const closeButton = event.target.closest("[data-close-modal]");
@@ -1683,17 +1709,20 @@
 
       function initQueryToasts() {
         const params = new URLSearchParams(window.location.search);
-        const shouldOpenBoard = params.get("scene") === "board" || params.get("signup") === "success" || params.get("shop") === "sent";
+        const signupSuccess = params.get("signup") === "success";
+        const shopSent = params.get("shop") === "sent";
+        const shouldOpenBoard = signupSuccess || shopSent;
 
         if (shouldOpenBoard) {
+          setUnlockedAccess();
           showBoardImmediately();
         }
 
-        if (params.get("signup") === "success") {
+        if (signupSuccess) {
           showToast("You are on the list.", true);
         }
 
-        if (params.get("shop") === "sent") {
+        if (shopSent) {
           showToast("Shirt request received.", false);
         }
       }
