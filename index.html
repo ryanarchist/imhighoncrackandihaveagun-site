@@ -1001,20 +1001,21 @@
   <section class="modal" id="emailModal" role="dialog" aria-modal="true" aria-labelledby="emailTitle" hidden>
     <div class="modal-panel">
       <header class="modal-header">
-        <h2 class="modal-title" id="emailTitle">Get early access to the full track</h2>
+        <h2 class="modal-title" id="emailTitle">Email required for project access</h2>
         <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
       </header>
       <div class="modal-body">
+        <p class="modal-copy">Enter your email to unlock the full project. You will not need to submit again on this browser.</p>
         <form class="form-grid" action="https://formsubmit.co/imhighoncrackandihaveagun@gmail.com" method="POST">
           <input type="hidden" name="_captcha" value="false">
           <input type="hidden" name="_template" value="table">
-          <input type="hidden" name="_subject" value="New Entry Signup">
+          <input type="hidden" name="_subject" value="New Project Access Signup">
           <input type="hidden" name="_next" value="https://imhighoncrackandihaveagun.com/?signup=success&scene=board">
           <div class="field">
             <label for="signupEmail">Email</label>
             <input id="signupEmail" name="email" type="email" autocomplete="email" required>
           </div>
-          <button class="primary-btn" type="submit">Submit</button>
+          <button class="primary-btn" type="submit">Unlock Project</button>
         </form>
       </div>
     </div>
@@ -1283,6 +1284,7 @@
       const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       const entryFadeMs = reducedMotion ? 10 : 430;
       const accessKey = "ihocaig-access-unlocked";
+      const accessCookie = "ihocaig_access_unlocked";
 
       let activeModal = null;
       let lastFocus = null;
@@ -1360,6 +1362,15 @@
       }
 
       function hasUnlockedAccess() {
+        const cookieUnlocked = document.cookie
+          .split(";")
+          .map((item) => item.trim())
+          .includes(`${accessCookie}=true`);
+
+        if (cookieUnlocked) {
+          return true;
+        }
+
         try {
           return window.localStorage.getItem(accessKey) === "true";
         } catch (error) {
@@ -1373,6 +1384,9 @@
         } catch (error) {
           /* Private browsing can block storage; the success URL still opens the board. */
         }
+
+        const secureFlag = window.location.protocol === "https:" ? "; Secure" : "";
+        document.cookie = `${accessCookie}=true; Max-Age=31536000; Path=/; SameSite=Lax${secureFlag}`;
       }
 
       function handleEntryClick() {
