@@ -1,209 +1,1694 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#080706">
+  <title>IM HIGH ON CRACK AND I HAVE A GUN</title>
+  <meta name="description" content="A hidden corkboard experience for IMHIGHONCRACKANDIHAVEAGUN.COM.">
+  <link rel="preload" as="image" href="entry-graphic.png">
+  <link rel="preload" as="image" href="entry.jpg">
+  <link rel="preload" as="image" href="corkboard-mobile.png" media="(max-width: 700px)">
+  <link rel="preload" as="image" href="corkboard-desktop.png" media="(min-width: 701px)">
+  <style>
+    /* Base */
+    :root {
+      color-scheme: dark;
+      --bg: #080706;
+      --ink: #f7efe0;
+      --muted: #c6b9a0;
+      --blood: #941f25;
+      --blood-bright: #d94343;
+      --paper: #f4e3bd;
+      --paper-ink: #21170f;
+      --line: rgba(255, 238, 202, 0.22);
+      --panel: rgba(14, 11, 9, 0.94);
+      --shadow: 0 26px 90px rgba(0, 0, 0, 0.6);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
 
-<title>IM HIGH ON CRACK AND I HAVE A GUN</title>
+    * {
+      box-sizing: border-box;
+    }
 
-<style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+    html,
+    body {
+      min-height: 100%;
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--ink);
+    }
 
-html, body {
-  width: 100%;
-  height: 100%;
-  background: #000;
-  overflow: hidden;
-  font-family: Arial, sans-serif;
-}
+    body.entry-active {
+      height: 100dvh;
+      overflow: hidden;
+    }
 
-/* ===== ENTRY SCREEN ===== */
-.entry {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  background: url("entry.jpg") center/cover no-repeat;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
+    body.modal-open {
+      overflow: hidden;
+    }
 
-/* Grain */
-.entry::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: url('https://grainy-gradients.vercel.app/noise.svg');
-  opacity: 0.25;
-  pointer-events: none;
-}
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
 
-/* Vignette */
-.entry::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle, transparent 40%, black 90%);
-  pointer-events: none;
-}
+    a {
+      color: inherit;
+    }
 
-/* Tap text */
-.tap-text {
-  position: absolute;
-  bottom: 8%;
-  color: #fff;
-  font-size: 14px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  opacity: 0.75;
-}
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
 
-/* Fade */
-.fade-out {
-  animation: fadeOut 0.4s forwards;
-}
+    /* Entry scene */
+    #entryScene {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      width: 100vw;
+      height: 100dvh;
+      overflow: hidden;
+      background: #050403;
+      opacity: 1;
+      transition: opacity 420ms ease;
+    }
 
-@keyframes fadeOut {
-  to {
-    opacity: 0;
-    transform: scale(1.02);
-  }
-}
+    #entryScene.is-leaving {
+      opacity: 0;
+      pointer-events: none;
+    }
 
-/* ===== MAIN EXPERIENCE ===== */
-.main {
-  position: fixed;
-  inset: 0;
-  background: #0a0a0a;
-  color: #fff;
-  display: none;
-  overflow-y: auto;
-  padding: 40px 20px;
-}
+    .entry-hit {
+      position: absolute;
+      inset: 0;
+      display: block;
+      width: 100vw;
+      height: 100dvh;
+      margin: 0;
+      padding: 0;
+      cursor: pointer;
+      border: 0;
+      background: #050403;
+      color: var(--ink);
+    }
 
-.main.active {
-  display: block;
-}
+    .entry-image {
+      display: block;
+      width: 100vw;
+      height: 100dvh;
+      object-fit: cover;
+      object-position: center;
+      border: 0;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
 
-/* ===== SOUNDTRACK ===== */
-.section {
-  max-width: 700px;
-  margin: 0 auto 60px;
-  text-align: center;
-}
+    #entryScene::before,
+    #entryScene::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
 
-.section h2 {
-  font-size: 22px;
-  letter-spacing: 3px;
-  margin-bottom: 10px;
-}
+    #entryScene::before {
+      background:
+        radial-gradient(circle at center, transparent 52%, rgba(0, 0, 0, 0.42) 100%),
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.22), transparent 26%, rgba(0, 0, 0, 0.28));
+      mix-blend-mode: multiply;
+    }
 
-.section p {
-  opacity: 0.7;
-  margin-bottom: 20px;
-}
+    #entryScene::after {
+      opacity: 0.12;
+      background-image:
+        repeating-radial-gradient(circle at 18% 24%, rgba(255, 255, 255, 0.18) 0 1px, transparent 1px 3px),
+        repeating-linear-gradient(97deg, rgba(255, 255, 255, 0.09) 0 1px, transparent 1px 5px);
+      background-size: 120px 120px, 180px 180px;
+    }
 
-/* Audio */
-audio {
-  width: 100%;
-  margin-top: 10px;
-}
+    .entry-fallback {
+      position: absolute;
+      inset: 0;
+      display: none;
+      place-items: center;
+      padding: 24px;
+      text-align: center;
+      background:
+        radial-gradient(circle at 50% 38%, rgba(148, 31, 37, 0.28), transparent 48%),
+        #090706;
+    }
 
-/* ===== EMAIL ===== */
-.email-box {
-  margin-top: 30px;
-}
+    .entry-fallback strong,
+    .entry-fallback span {
+      display: block;
+    }
 
-input {
-  width: 100%;
-  padding: 14px;
-  background: #111;
-  border: 1px solid #333;
-  color: white;
-  margin-bottom: 10px;
-}
+    .entry-fallback strong {
+      margin-bottom: 8px;
+      font-size: clamp(1.1rem, 5vw, 2rem);
+      letter-spacing: 0;
+    }
 
-button {
-  width: 100%;
-  padding: 14px;
-  background: #fff;
-  color: #000;
-  border: none;
-  font-weight: bold;
-  cursor: pointer;
-}
+    .entry-fallback span {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
 
-.entry-count {
-  margin-top: 10px;
-  font-size: 12px;
-  opacity: 0.6;
-}
+    #entryScene.asset-missing .entry-image {
+      display: none;
+    }
 
-</style>
+    #entryScene.asset-missing .entry-fallback {
+      display: grid;
+    }
+
+    /* Corkboard scene */
+    #boardScene {
+      min-height: 100dvh;
+      opacity: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 22% 8%, rgba(148, 31, 37, 0.18), transparent 24rem),
+        linear-gradient(180deg, #0b0806 0%, #170f0a 100%);
+      transition: opacity 260ms ease;
+    }
+
+    body.board-active #boardScene {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .board-wrap {
+      width: 100%;
+      min-height: 100dvh;
+      display: grid;
+      align-items: start;
+      justify-items: center;
+    }
+
+    .board-frame {
+      position: relative;
+      width: 100%;
+      max-width: none;
+      margin: 0 auto;
+      background: #120c08;
+      box-shadow: 0 0 80px rgba(0, 0, 0, 0.5);
+    }
+
+    .board-picture,
+    .board-image {
+      display: block;
+      width: 100%;
+    }
+
+    .board-image {
+      height: auto;
+      object-fit: contain;
+      object-position: top center;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .board-fallback {
+      display: none;
+      min-height: 100dvh;
+      place-content: center;
+      gap: 18px;
+      padding: 28px;
+      background:
+        linear-gradient(rgba(30, 17, 9, 0.78), rgba(12, 8, 5, 0.9)),
+        repeating-linear-gradient(90deg, rgba(244, 180, 95, 0.08) 0 2px, transparent 2px 10px);
+      text-align: center;
+    }
+
+    .board-fallback h1 {
+      margin: 0;
+      font-size: clamp(1.5rem, 7vw, 3rem);
+      letter-spacing: 0;
+    }
+
+    .board-fallback p {
+      max-width: 36rem;
+      margin: 0 auto;
+      color: var(--muted);
+    }
+
+    .fallback-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .board-frame.board-missing .board-picture,
+    .board-frame.board-missing .hotspot {
+      display: none;
+    }
+
+    .board-frame.board-missing .board-fallback {
+      display: grid;
+    }
+
+    .hotspot {
+      position: absolute;
+      left: var(--x);
+      top: var(--y);
+      width: var(--w);
+      height: var(--h);
+      min-width: 34px;
+      min-height: 34px;
+      padding: 0;
+      cursor: pointer;
+      background: transparent;
+      border: 0;
+      border-radius: 6px;
+      touch-action: manipulation;
+    }
+
+    .hotspot:focus-visible {
+      outline: 3px solid rgba(255, 238, 202, 0.86);
+      outline-offset: 3px;
+      background: rgba(217, 67, 67, 0.16);
+      box-shadow: 0 0 28px rgba(217, 67, 67, 0.45);
+    }
+
+    .hotspot[data-action="youtube"] {
+      --x: 43%;
+      --y: 19%;
+      --w: 20%;
+      --h: 52%;
+    }
+
+    .hotspot[data-action="atm"] {
+      --x: 70.5%;
+      --y: 27%;
+      --w: 12.5%;
+      --h: 29%;
+    }
+
+    .hotspot[data-action="email"] {
+      --x: 30.5%;
+      --y: 72%;
+      --w: 18%;
+      --h: 13%;
+    }
+
+    .hotspot.email-note {
+      --x: 61%;
+      --y: 31%;
+      --w: 10%;
+      --h: 18%;
+    }
+
+    .hotspot[data-action="dopesick"] {
+      --x: 21%;
+      --y: 25%;
+      --w: 10.5%;
+      --h: 24%;
+    }
+
+    .hotspot[data-action="writing"] {
+      --x: 59%;
+      --y: 2.5%;
+      --w: 11.5%;
+      --h: 23%;
+    }
+
+    .hotspot[data-action="teaser"] {
+      --x: 83%;
+      --y: 9%;
+      --w: 10%;
+      --h: 30%;
+    }
+
+    .hotspot[data-action="suno"] {
+      --x: 20.5%;
+      --y: 1.5%;
+      --w: 11%;
+      --h: 22%;
+    }
+
+    .hotspot[data-action="social"] {
+      --x: 15%;
+      --y: 70%;
+      --w: 13%;
+      --h: 22%;
+    }
+
+    .hotspot[data-action="shop"] {
+      --x: 42%;
+      --y: 91%;
+      --w: 18%;
+      --h: 8%;
+    }
+
+    /* Modal system */
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 80;
+      display: grid;
+      place-items: center;
+      width: 100%;
+      min-height: 100dvh;
+      padding: 14px;
+      overflow: auto;
+      background:
+        radial-gradient(circle at 50% 35%, rgba(148, 31, 37, 0.24), transparent 30rem),
+        rgba(0, 0, 0, 0.78);
+    }
+
+    .modal[hidden] {
+      display: none;
+    }
+
+    .modal-panel {
+      position: relative;
+      width: min(100%, 980px);
+      max-height: calc(100dvh - 28px);
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 14px 12px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(14, 11, 9, 0.96);
+      backdrop-filter: blur(12px);
+    }
+
+    .modal-title {
+      margin: 0;
+      font-size: clamp(1.05rem, 4.8vw, 1.6rem);
+      line-height: 1.1;
+      letter-spacing: 0;
+    }
+
+    .close-btn,
+    .plain-btn,
+    .primary-btn,
+    .fallback-actions button,
+    .reader-controls button {
+      min-height: 42px;
+      border: 1px solid rgba(255, 238, 202, 0.22);
+      border-radius: 6px;
+      color: var(--ink);
+      background: rgba(255, 238, 202, 0.08);
+      cursor: pointer;
+    }
+
+    .close-btn {
+      flex: 0 0 auto;
+      width: 42px;
+      padding: 0;
+      font-size: 1.35rem;
+      line-height: 1;
+    }
+
+    .close-btn:hover,
+    .plain-btn:hover,
+    .primary-btn:hover,
+    .fallback-actions button:hover,
+    .reader-controls button:hover {
+      border-color: rgba(255, 238, 202, 0.45);
+      background: rgba(255, 238, 202, 0.14);
+    }
+
+    .modal-body {
+      padding: 16px;
+    }
+
+    .modal-copy {
+      margin: 0 0 16px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .media-frame {
+      overflow: hidden;
+      border: 1px solid rgba(255, 238, 202, 0.16);
+      border-radius: 8px;
+      background: #000;
+    }
+
+    .media-frame iframe,
+    .media-frame video {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border: 0;
+      background: #000;
+    }
+
+    .asset-note {
+      margin: 12px 0 0;
+      color: #ffd9a0;
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+
+    .asset-note[hidden] {
+      display: none;
+    }
+
+    /* Forms */
+    .form-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .field {
+      display: grid;
+      gap: 6px;
+    }
+
+    .field label {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      min-height: 44px;
+      padding: 10px 12px;
+      border: 1px solid rgba(255, 238, 202, 0.22);
+      border-radius: 6px;
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .field textarea {
+      min-height: 88px;
+      resize: vertical;
+    }
+
+    .primary-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 16px;
+      font-weight: 800;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0;
+      background: linear-gradient(180deg, rgba(217, 67, 67, 0.9), rgba(123, 24, 28, 0.95));
+      border-color: rgba(255, 214, 151, 0.45);
+    }
+
+    .plain-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 14px;
+      text-decoration: none;
+    }
+
+    /* Dopesick */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .gallery-grid img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      border: 1px solid rgba(255, 238, 202, 0.16);
+      border-radius: 6px;
+      background: #100b08;
+    }
+
+    .buy-card {
+      display: grid;
+      gap: 8px;
+      margin-top: 14px;
+      padding: 16px;
+      border: 1px solid rgba(255, 214, 151, 0.48);
+      border-radius: 8px;
+      color: var(--ink);
+      text-decoration: none;
+      background:
+        radial-gradient(circle at 18% 0%, rgba(217, 67, 67, 0.38), transparent 15rem),
+        rgba(255, 238, 202, 0.08);
+      box-shadow: 0 0 34px rgba(217, 67, 67, 0.28);
+    }
+
+    .buy-card strong {
+      font-size: 1.2rem;
+      letter-spacing: 0;
+    }
+
+    .buy-card span {
+      color: var(--muted);
+    }
+
+    /* Reader */
+    .reader-shell {
+      display: grid;
+      gap: 16px;
+    }
+
+    .reader-cover {
+      display: grid;
+      gap: 12px;
+      align-content: start;
+    }
+
+    .reader-cover img {
+      width: min(100%, 290px);
+      margin: 0 auto;
+      aspect-ratio: 2 / 3;
+      object-fit: cover;
+      border: 1px solid rgba(255, 238, 202, 0.2);
+      border-radius: 6px;
+      background: #120c08;
+      box-shadow: 0 20px 44px rgba(0, 0, 0, 0.35);
+    }
+
+    .reader-cover img.is-missing {
+      display: none;
+    }
+
+    .reader-page {
+      min-height: 360px;
+      padding: clamp(18px, 5vw, 34px);
+      border-radius: 8px;
+      color: var(--paper-ink);
+      background:
+        linear-gradient(90deg, rgba(0, 0, 0, 0.08), transparent 7%, transparent 93%, rgba(0, 0, 0, 0.08)),
+        var(--paper);
+      box-shadow: inset 0 0 28px rgba(85, 49, 16, 0.15);
+    }
+
+    .reader-kicker {
+      margin: 0 0 8px;
+      color: #6c221d;
+      font-size: 0.82rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    .reader-page h2 {
+      margin: 0 0 16px;
+      font-size: clamp(1.35rem, 6vw, 2.4rem);
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    .reader-content {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1rem, 4.4vw, 1.16rem);
+      line-height: 1.7;
+    }
+
+    .reader-content p {
+      margin: 0 0 1em;
+    }
+
+    .reader-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 12px;
+      color: var(--muted);
+    }
+
+    .reader-controls button {
+      padding: 9px 12px;
+    }
+
+    .reader-controls button:disabled {
+      cursor: not-allowed;
+      opacity: 0.45;
+    }
+
+    /* Suno and socials */
+    .link-grid,
+    .shop-grid {
+      display: grid;
+      gap: 10px;
+    }
+
+    .social-link,
+    .shop-card,
+    .track-card {
+      display: grid;
+      gap: 6px;
+      padding: 14px;
+      border: 1px solid rgba(255, 238, 202, 0.16);
+      border-radius: 8px;
+      color: var(--ink);
+      text-decoration: none;
+      background: rgba(255, 238, 202, 0.07);
+    }
+
+    .social-link strong,
+    .shop-card strong,
+    .track-card strong {
+      font-size: 1rem;
+    }
+
+    .social-link span,
+    .shop-card span,
+    .track-card span {
+      color: var(--muted);
+      overflow-wrap: anywhere;
+    }
+
+    .track-card audio {
+      width: 100%;
+      margin-top: 6px;
+    }
+
+    .shop-card {
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .shirt-preview {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .shirt-side {
+      min-height: 180px;
+      display: grid;
+      place-items: center;
+      padding: 18px;
+      border: 1px solid rgba(255, 238, 202, 0.18);
+      border-radius: 8px;
+      color: #f8f4ec;
+      background: #050505;
+      text-align: center;
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    .shirt-side.back {
+      font-size: clamp(0.78rem, 3.5vw, 1rem);
+      overflow-wrap: anywhere;
+    }
+
+    .shirt-side.front {
+      font-size: clamp(1.55rem, 9vw, 3.2rem);
+    }
+
+    .request-note {
+      margin: 0 0 14px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      right: 12px;
+      bottom: 12px;
+      z-index: 120;
+      width: min(calc(100vw - 24px), 360px);
+      padding: 12px;
+      border: 1px solid rgba(255, 238, 202, 0.25);
+      border-radius: 8px;
+      background: rgba(13, 10, 8, 0.96);
+      box-shadow: var(--shadow);
+    }
+
+    .toast[hidden] {
+      display: none;
+    }
+
+    .toast p {
+      margin: 0;
+      color: var(--ink);
+      line-height: 1.35;
+    }
+
+    .toast video {
+      display: block;
+      width: 100%;
+      margin-top: 10px;
+      border-radius: 6px;
+      background: #000;
+    }
+
+    .toast video[hidden] {
+      display: none;
+    }
+
+    @media (min-width: 701px) {
+      .board-wrap {
+        align-items: center;
+      }
+
+      .board-image {
+        min-height: 100dvh;
+        max-height: none;
+      }
+
+      .modal {
+        padding: 28px;
+      }
+
+      .modal-panel {
+        max-height: calc(100dvh - 56px);
+      }
+
+      .modal-body {
+        padding: 22px;
+      }
+
+      .gallery-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .reader-shell {
+        grid-template-columns: 300px minmax(0, 1fr);
+        align-items: start;
+      }
+
+      .shirt-preview,
+      .shop-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .link-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 700px) {
+      .hotspot[data-action="youtube"] {
+        --x: 33%;
+        --y: 22%;
+        --w: 38%;
+        --h: 39%;
+      }
+
+      .hotspot[data-action="atm"] {
+        --x: 73%;
+        --y: 40%;
+        --w: 22%;
+        --h: 15%;
+      }
+
+      .hotspot[data-action="email"] {
+        --x: 26%;
+        --y: 67%;
+        --w: 30%;
+        --h: 11%;
+      }
+
+      .hotspot.email-note {
+        --x: 73%;
+        --y: 27%;
+        --w: 22%;
+        --h: 13%;
+      }
+
+      .hotspot[data-action="dopesick"] {
+        --x: 13%;
+        --y: 21.5%;
+        --w: 19%;
+        --h: 14.5%;
+      }
+
+      .hotspot[data-action="writing"] {
+        --x: 58%;
+        --y: 4%;
+        --w: 18%;
+        --h: 14%;
+      }
+
+      .hotspot[data-action="teaser"] {
+        --x: 78%;
+        --y: 8.5%;
+        --w: 18%;
+        --h: 17%;
+      }
+
+      .hotspot[data-action="suno"] {
+        --x: 14%;
+        --y: 4.5%;
+        --w: 19%;
+        --h: 12%;
+      }
+
+      .hotspot[data-action="social"] {
+        --x: 8%;
+        --y: 70%;
+        --w: 24%;
+        --h: 14%;
+      }
+
+      .hotspot[data-action="shop"] {
+        --x: 36%;
+        --y: 88%;
+        --w: 29%;
+        --h: 11%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 1ms !important;
+        animation-duration: 1ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+  </style>
 </head>
+<body class="entry-active">
+  <section id="entryScene" aria-label="Entry">
+    <button class="entry-hit" id="entryHit" type="button" aria-label="Enter">
+      <img class="entry-image" id="entryImage" src="entry-graphic.png" data-candidates="entry-graphic.png,entry.jpg" alt="" decoding="async" fetchpriority="high">
+      <span class="entry-fallback" aria-live="polite">
+        <span>
+          <strong>entry-graphic.png is missing.</strong>
+          <span>Continue to the corkboard.</span>
+        </span>
+      </span>
+    </button>
+  </section>
 
-<body>
+  <section id="boardScene" aria-label="Corkboard" aria-hidden="true">
+    <div class="board-wrap">
+      <div class="board-frame" id="boardFrame">
+        <picture class="board-picture">
+          <source media="(min-width: 701px)" srcset="corkboard-desktop.png">
+          <img class="board-image" id="boardImage" src="corkboard-mobile.png" alt="Corkboard with pinned entry points" decoding="async" fetchpriority="high">
+        </picture>
 
-<!-- ENTRY SCREEN -->
-<div class="entry" id="entry">
-  <div class="tap-text">tap to enter</div>
-</div>
+        <button class="hotspot" type="button" data-action="youtube" aria-label="Open main poster video">
+          <span class="sr-only">Main poster</span>
+        </button>
+        <button class="hotspot" type="button" data-action="atm" aria-label="Open ATM video">
+          <span class="sr-only">ATM / hit ur lick</span>
+        </button>
+        <button class="hotspot" type="button" data-action="email" aria-label="Open email signup">
+          <span class="sr-only">Email dropbox / radio</span>
+        </button>
+        <button class="hotspot email-note" type="button" data-action="email" aria-label="Open email signup from sticky note">
+          <span class="sr-only">Email giveaway sticky note</span>
+        </button>
+        <button class="hotspot" type="button" data-action="dopesick" aria-label="Open Dopesick gallery">
+          <span class="sr-only">Dopesick</span>
+        </button>
+        <button class="hotspot" type="button" data-action="writing" aria-label="Open previously unreleased writing">
+          <span class="sr-only">Previously unreleased writing</span>
+        </button>
+        <button class="hotspot" type="button" data-action="teaser" aria-label="Open teaser chapter">
+          <span class="sr-only">Teaser Chapter</span>
+        </button>
+        <button class="hotspot" type="button" data-action="suno" aria-label="Open Creations from the Basement">
+          <span class="sr-only">Creations from the Basement</span>
+        </button>
+        <button class="hotspot" type="button" data-action="social" aria-label="Open Dive in links">
+          <span class="sr-only">Dive in</span>
+        </button>
+        <button class="hotspot" type="button" data-action="shop" aria-label="Open shop request">
+          <span class="sr-only">Shop</span>
+        </button>
 
-<!-- MAIN EXPERIENCE -->
-<div class="main" id="main">
-
-  <!-- SOUNDTRACK -->
-  <div class="section">
-    <h2>THE SOUNDTRACK</h2>
-    <p>This is the sound behind the collapse</p>
-
-    <audio controls>
-      <source src="track.mp3" type="audio/mpeg">
-    </audio>
-
-    <!-- EMAIL -->
-    <div class="email-box">
-      <form action="https://formsubmit.co/imhighoncrackandihaveagun@gmail.com" method="POST">
-        <input type="hidden" name="_captcha" value="false">
-        <input type="hidden" name="_subject" value="New Entry Signup">
-        <input type="hidden" name="_template" value="table">
-
-        <input type="email" name="email" placeholder="enter your email" required>
-        <button type="submit">unlock full access</button>
-      </form>
-
-      <div class="entry-count" id="entryCount"></div>
+        <div class="board-fallback" role="region" aria-label="Corkboard fallback">
+          <h1>Corkboard asset missing.</h1>
+          <p>Place corkboard-mobile.png and corkboard-desktop.png beside this file. The entry points are still available below.</p>
+          <div class="fallback-actions">
+            <button type="button" data-action="youtube">Main Poster</button>
+            <button type="button" data-action="atm">ATM</button>
+            <button type="button" data-action="email">Email</button>
+            <button type="button" data-action="dopesick">Dopesick</button>
+            <button type="button" data-action="writing">Writing</button>
+            <button type="button" data-action="teaser">Teaser</button>
+            <button type="button" data-action="suno">Basement</button>
+            <button type="button" data-action="social">Dive In</button>
+            <button type="button" data-action="shop">Shop</button>
+          </div>
+        </div>
+      </div>
     </div>
+  </section>
 
+  <section class="modal" id="youtubeModal" role="dialog" aria-modal="true" aria-labelledby="youtubeTitle" hidden>
+    <div class="modal-panel">
+      <header class="modal-header">
+        <h2 class="modal-title" id="youtubeTitle">Main Poster</h2>
+        <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
+      </header>
+      <div class="modal-body">
+        <div class="media-frame">
+          <iframe
+            id="youtubeFrame"
+            data-src="https://www.youtube.com/embed/y9nsPvIDO4Q?si=Mb1cfNqgMevI5mHP"
+            title="Main poster video"
+            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="modal" id="videoModal" role="dialog" aria-modal="true" aria-labelledby="atmTitle" hidden>
+    <div class="modal-panel">
+      <header class="modal-header">
+        <h2 class="modal-title" id="atmTitle">Monetary breakdown visual coming soon.</h2>
+        <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
+      </header>
+      <div class="modal-body">
+        <div class="media-frame">
+          <video id="atmVideo" controls playsinline preload="metadata">
+            <source src="ATM_Video_with_Ticket_and_Effects.mp4" type="video/mp4">
+          </video>
+        </div>
+        <p class="asset-note" id="atmVideoNote" hidden>ATM_Video_with_Ticket_and_Effects.mp4 is missing or could not be loaded.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="modal" id="emailModal" role="dialog" aria-modal="true" aria-labelledby="emailTitle" hidden>
+    <div class="modal-panel">
+      <header class="modal-header">
+        <h2 class="modal-title" id="emailTitle">Get early access to the full track</h2>
+        <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
+      </header>
+      <div class="modal-body">
+        <form class="form-grid" action="https://formsubmit.co/imhighoncrackandihaveagun@gmail.com" method="POST">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_subject" value="New Entry Signup">
+          <input type="hidden" name="_next" value="https://imhighoncrackandihaveagun.com/?signup=success">
+          <div class="field">
+            <label for="signupEmail">Email</label>
+            <input id="signupEmail" name="email" type="email" autocomplete="email" required>
+          </div>
+          <button class="primary-btn" type="submit">Submit</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="modal" id="dopesickModal" role="dialog" aria-modal="true" aria-labelledby="dopesickTitle" hidden>
+    <div class="modal-panel">
+      <header class="modal-header">
+        <h2 class="modal-title" id="dopesickTitle">Dopesick</h2>
+        <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
+      </header>
+      <div class="modal-body">
+        <div class="gallery-grid" id="dopesickGallery">
+          <img src="dopesick-definitive-front.png" alt="Dopesick book front cover" loading="lazy">
+          <img src="dopesick-back-cover.png" alt="Dopesick book back cover" loading="lazy">
+          <img src="dopesick-holding-book.png" alt="Dopesick book in hand" loading="lazy">
+          <img src="dopesick-standing-mockup.png" alt="Dopesick standing book mockup" loading="lazy">
+          <img src="dopesick-amazon-listing.png" alt="Dopesick Amazon listing" loading="lazy">
+          <img src="dopesick-cover-original.png" alt="Original Dopesick cover" loading="lazy">
+        </div>
+        <p class="asset-note" id="dopesickNote" hidden>Dopesick gallery images are missing from the site root.</p>
+        <a class="buy-card" href="https://www.amazon.com/Dopesick-American-Addiction-Heroin-Profit/dp/1984338323/" target="_blank" rel="noopener noreferrer">
+          <strong>BUY ONLINE</strong>
+          <span>Dopesick: Dealers, Doctors, and the Drug Company that Addicted America</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="modal" id="writingModal" role="dialog" aria-modal="true" aria-labelledby="writingTitle" hidden>
+    <div class="modal-panel">
+      <header class="modal-header">
+        <h2 class="modal-title" id="writingTitle">Previously Unreleased Writing</h2>
+        <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
+      </header>
+      <div class="modal-body">
+        <div class="media-frame">
+          <video id="typewriterVideo" controls playsinline preload="metadata">
+            <source src="Typewriter_Video_Generation.mp4" type="video/mp4">
+            <source src="Typewriter_Video.mp4" type="video/mp4">
+            <source src="typewriter.mp4" type="video/mp4">
+            <source src="typewriter-video.mp4" type="video/mp4">
+            <source src="Writing_Typewriter_Video.mp4" type="video/mp4">
+            <source src="Manilla_Envelope_Dive_Video.mp4" type="video/mp4">
+          </video>
+        </div>
+        <p class="asset-note" id="typewriterNote" hidden>Typewriter video unavailable. Opening the writing library.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="modal" id="teaserReaderModal" role="dialog" aria-modal="true" aria-labelledby="readerTitle" hidden>
+    <div class="modal-panel">
+      <header class="modal-header">
+        <h2 class="modal-title" id="readerModalTitle">Reader</h2>
+        <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
+      </header>
+      <div class="modal-body">
+        <div class="reader-shell">
+          <aside class="reader-cover">
+            <img id="readerCover" src="teaser-cover-dopesick2.png" data-candidates="teaser-cover-dopesick2.png,teaser-cover.png,cover-dopesick2.png,book-cover.png,cover.png" alt="Book cover" loading="lazy">
+            <a class="plain-btn" id="readerDocLink" href="dopesick2-introduction.docx">Open DOCX</a>
+          </aside>
+          <article class="reader-page">
+            <p class="reader-kicker" id="readerKicker">Teaser Chapter</p>
+            <h2 id="readerTitle">Introduction</h2>
+            <div class="reader-content" id="readerContent"></div>
+            <div class="reader-controls" id="readerControls">
+              <button type="button" id="readerPrev">Previous</button>
+              <span id="readerStatus">Page 1 of 1</span>
+              <button type="button" id="readerNext">Next</button>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="modal" id="sunoModal" role="dialog" aria-modal="true" aria-labelledby="sunoTitle" hidden>
+    <div class="modal-panel">
+      <header class="modal-header">
+        <h2 class="modal-title" id="sunoTitle">THE SOUNDTRACK</h2>
+        <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
+      </header>
+      <div class="modal-body">
+        <p class="modal-copy">This is the sound behind the collapse</p>
+        <div class="link-grid">
+          <div class="track-card">
+            <strong>Basement Track 1</strong>
+            <span>Local audio</span>
+            <audio id="localTrack" controls preload="metadata">
+              <source src="suno-track-1.mp3" type="audio/mpeg">
+              <source src="track.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+          <div class="track-card">
+            <strong>Basement Track 2</strong>
+            <span>Local audio</span>
+            <audio controls preload="metadata">
+              <source src="suno-track-2.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+          <div class="track-card">
+            <strong>Basement Track 3</strong>
+            <span>Local audio</span>
+            <audio controls preload="metadata">
+              <source src="suno-track-3.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+          <div class="track-card">
+            <strong>Basement Track 4</strong>
+            <span>Local audio</span>
+            <audio controls preload="metadata">
+              <source src="suno-track-4.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+          <div class="track-card">
+            <strong>Basement Track 5</strong>
+            <span>Local audio</span>
+            <audio controls preload="metadata">
+              <source src="suno-track-5.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+          <div class="track-card">
+            <strong>Track 3</strong>
+            <span>Local audio</span>
+            <audio controls preload="metadata">
+              <source src="track3.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
+        <p class="asset-note" id="trackNote" hidden>No local MP3 was found by the browser.</p>
+        <p>
+          <a class="primary-btn" href="https://suno.com/@imhighoncrackandihaveagun" target="_blank" rel="noopener noreferrer">Open Suno</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="modal" id="socialModal" role="dialog" aria-modal="true" aria-labelledby="socialTitle" hidden>
+    <div class="modal-panel">
+      <header class="modal-header">
+        <h2 class="modal-title" id="socialTitle">Dive In</h2>
+        <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
+      </header>
+      <div class="modal-body">
+        <div class="link-grid">
+          <a class="social-link" href="https://www.tiktok.com/@bandanarchist" target="_blank" rel="noopener noreferrer">
+            <strong>TikTok</strong>
+            <span>@bandanarchist</span>
+          </a>
+          <a class="social-link" href="https://suno.com/@imhighoncrackandihaveagun" target="_blank" rel="noopener noreferrer">
+            <strong>Suno</strong>
+            <span>@imhighoncrackandihaveagun</span>
+          </a>
+          <a class="social-link" href="https://www.instagram.com/imhighoncrackandihaveagun/" target="_blank" rel="noopener noreferrer">
+            <strong>Instagram</strong>
+            <span>@imhighoncrackandihaveagun</span>
+          </a>
+          <a class="social-link" href="https://www.youtube.com/@imhighoncrackandihaveagun" target="_blank" rel="noopener noreferrer">
+            <strong>YouTube</strong>
+            <span>@imhighoncrackandihaveagun</span>
+          </a>
+          <a class="social-link" href="https://imhighoncrackandihaveagun.com" target="_blank" rel="noopener noreferrer">
+            <strong>Official Site</strong>
+            <span>imhighoncrackandihaveagun.com</span>
+          </a>
+          <button class="shop-card" type="button" data-action="shop">
+            <strong>Shop</strong>
+            <span>Request the Official Black Text Tee</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="modal" id="shopModal" role="dialog" aria-modal="true" aria-labelledby="shopTitle" hidden>
+    <div class="modal-panel">
+      <header class="modal-header">
+        <h2 class="modal-title" id="shopTitle">Official Black Text Tee</h2>
+        <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
+      </header>
+      <div class="modal-body">
+        <div class="shirt-preview" aria-label="Shirt text preview">
+          <div class="shirt-side front">
+            <span>IM HIGH<br>ON CRACK<br>AND I HAVE<br>A GUN</span>
+          </div>
+          <div class="shirt-side back">
+            <span>IMHIGHONCRACKANDIHAVEAGUN.COM</span>
+          </div>
+        </div>
+        <p class="request-note">This is a request/preorder form, not a payment checkout.</p>
+        <form class="form-grid" action="https://formsubmit.co/imhighoncrackandihaveagun@gmail.com" method="POST">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_subject" value="New T-Shirt Shop Request">
+          <input type="hidden" name="_next" value="https://imhighoncrackandihaveagun.com/?shop=sent">
+          <input type="hidden" name="product" value="Official Black Text Tee">
+          <div class="shop-grid">
+            <div class="field">
+              <label for="shopName">Name</label>
+              <input id="shopName" name="name" autocomplete="name" required>
+            </div>
+            <div class="field">
+              <label for="shopEmail">Email</label>
+              <input id="shopEmail" name="email" type="email" autocomplete="email" required>
+            </div>
+            <div class="field">
+              <label for="shirtSize">Size</label>
+              <select id="shirtSize" name="size" required>
+                <option value="">Select size</option>
+                <option>S</option>
+                <option>M</option>
+                <option>L</option>
+                <option>XL</option>
+                <option>2XL</option>
+                <option>3XL</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="shirtColor">Color</label>
+              <select id="shirtColor" name="color" required>
+                <option>Black</option>
+                <option>Dark Red</option>
+                <option>White</option>
+                <option>Surprise Me</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label for="shopNotes">Notes</label>
+            <textarea id="shopNotes" name="notes" placeholder="Quantity, shipping region, or anything else."></textarea>
+          </div>
+          <button class="primary-btn" type="submit">Send Request</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <div class="toast" id="successToast" role="status" aria-live="polite" hidden>
+    <p id="toastMessage">Success.</p>
+    <video id="successVideo" muted playsinline preload="metadata" hidden>
+      <source src="Action_Figure_Radio_Fog_Video.mp4" type="video/mp4">
+    </video>
   </div>
 
-</div>
+  <script>
+    (() => {
+      "use strict";
 
-<script>
-const entry = document.getElementById("entry");
-const main = document.getElementById("main");
+      const body = document.body;
+      const entryScene = document.getElementById("entryScene");
+      const entryHit = document.getElementById("entryHit");
+      const entryImage = document.getElementById("entryImage");
+      const boardScene = document.getElementById("boardScene");
+      const boardFrame = document.getElementById("boardFrame");
+      const boardImage = document.getElementById("boardImage");
+      const modals = Array.from(document.querySelectorAll(".modal"));
+      const youtubeFrame = document.getElementById("youtubeFrame");
+      const atmVideo = document.getElementById("atmVideo");
+      const typewriterVideo = document.getElementById("typewriterVideo");
+      const localTrack = document.getElementById("localTrack");
+      const successToast = document.getElementById("successToast");
+      const toastMessage = document.getElementById("toastMessage");
+      const successVideo = document.getElementById("successVideo");
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const entryFadeMs = reducedMotion ? 10 : 430;
 
-entry.addEventListener("click", () => {
-  entry.classList.add("fade-out");
+      let activeModal = null;
+      let lastFocus = null;
+      let typewriterFallbackTimer = null;
+      let readerPages = [];
+      let readerIndex = 0;
 
-  setTimeout(() => {
-    entry.style.display = "none";
-    main.classList.add("active");
-    document.body.style.overflow = "auto";
-  }, 400);
-});
+      const actionMap = {
+        youtube: () => openModal("youtubeModal"),
+        atm: () => openModal("videoModal"),
+        email: () => openModal("emailModal"),
+        dopesick: () => openModal("dopesickModal"),
+        writing: () => openWritingModal(),
+        teaser: () => openReader("teaser"),
+        suno: () => openModal("sunoModal"),
+        social: () => openModal("socialModal"),
+        shop: () => openModal("shopModal")
+      };
 
-/* Fake entry counter (visual psychology) */
-const count = localStorage.getItem("entryCount") || Math.floor(Math.random()*200 + 100);
-document.getElementById("entryCount").innerText = "Entry #" + count;
-localStorage.setItem("entryCount", count);
-</script>
+      const readerSources = {
+        teaser: {
+          modalTitle: "Teaser Chapter",
+          kicker: "Teaser Chapter",
+          title: "Introduction",
+          candidates: [
+            "dopesick2-introduction.txt",
+            "imhighoncrackandihaveagunINTRODUCTION.html",
+            "imhighoncrackandihaveagunINTRODUCTION.txt",
+            "introduction.html",
+            "introduction.txt",
+            "teaser.html",
+            "teaser.txt"
+          ],
+          fallbackPages: [
+            "<p>The reader is ready for the teaser text. Add <strong>imhighoncrackandihaveagunINTRODUCTION.html</strong> or <strong>imhighoncrackandihaveagunINTRODUCTION.txt</strong> beside this file to show the extracted chapter here.</p><p>The uploaded DOCX link remains available from the cover column.</p>"
+          ]
+        },
+        library: {
+          modalTitle: "Writing Library",
+          kicker: "Previously Unreleased",
+          title: "Writing Library",
+          candidates: [
+            "ihocaig.txt",
+            "writing-library.html",
+            "writing-library.txt",
+            "unreleased-writing.html",
+            "unreleased-writing.txt",
+            "previously-unreleased-writing.html",
+            "previously-unreleased-writing.txt"
+          ],
+          fallbackPages: [
+            "<p>The writing library opens here after the typewriter video.</p><p><a class=\"plain-btn\" href=\"ihocaig.docx\">Open IHOCAIG DOCX</a></p><p><a class=\"plain-btn\" href=\"an-apocalyptic-paradise.docx\">Open An Apocalyptic Paradise</a></p><p><a class=\"plain-btn\" href=\"elezione-and-world-after-wealth.docx\">Open Elezione and World After Wealth</a></p><p><a class=\"plain-btn\" href=\"to-die-in-july.docx\">Open To Die in July</a></p><p><button class=\"plain-btn\" type=\"button\" data-reader-mode=\"teaser\">Open Teaser Chapter</button></p>"
+          ]
+        }
+      };
 
+      function enterBoard() {
+        body.classList.add("board-active");
+        boardScene.setAttribute("aria-hidden", "false");
+        entryScene.classList.add("is-leaving");
+
+        window.setTimeout(() => {
+          entryScene.hidden = true;
+          body.classList.remove("entry-active");
+          boardScene.focus?.({ preventScroll: true });
+        }, entryFadeMs);
+      }
+
+      function openModal(id) {
+        const modal = document.getElementById(id);
+        if (!modal) return;
+
+        if (activeModal && activeModal !== modal) {
+          closeModal(false);
+        }
+
+        lastFocus = document.activeElement;
+        activeModal = modal;
+        modal.hidden = false;
+        modal.setAttribute("aria-hidden", "false");
+        body.classList.add("modal-open");
+
+        if (id === "youtubeModal") {
+          youtubeFrame.src = youtubeFrame.dataset.src;
+        }
+
+        if (id === "videoModal") {
+          playMedia(atmVideo);
+        }
+
+        if (id === "sunoModal") {
+          document.querySelectorAll("#sunoModal audio").forEach((audio) => audio.load());
+        }
+
+        const focusTarget = modal.querySelector("[data-close-modal], button, a, input, select, textarea, video, audio");
+        window.setTimeout(() => focusTarget?.focus({ preventScroll: true }), 0);
+      }
+
+      function closeModal(restoreFocus = true) {
+        if (!activeModal) return;
+
+        const modalToClose = activeModal;
+        pauseMedia(modalToClose);
+        modalToClose.hidden = true;
+        modalToClose.setAttribute("aria-hidden", "true");
+        activeModal = null;
+        body.classList.remove("modal-open");
+        window.clearTimeout(typewriterFallbackTimer);
+
+        if (restoreFocus && lastFocus && typeof lastFocus.focus === "function") {
+          lastFocus.focus({ preventScroll: true });
+        }
+      }
+
+      function pauseMedia(scope) {
+        scope.querySelectorAll("video, audio").forEach((media) => {
+          media.pause();
+          try {
+            media.currentTime = 0;
+          } catch (error) {
+            /* Some streams do not expose currentTime until metadata loads. */
+          }
+        });
+
+        scope.querySelectorAll("iframe[data-src]").forEach((iframe) => {
+          iframe.removeAttribute("src");
+        });
+      }
+
+      function playMedia(media) {
+        if (!media) return;
+        media.load();
+        const playAttempt = media.play();
+        if (playAttempt && typeof playAttempt.catch === "function") {
+          playAttempt.catch(() => {
+            /* Browser can require a second tap; controls remain visible. */
+          });
+        }
+      }
+
+      function openWritingModal() {
+        openModal("writingModal");
+        document.getElementById("typewriterNote").hidden = true;
+        window.clearTimeout(typewriterFallbackTimer);
+
+        typewriterFallbackTimer = window.setTimeout(() => {
+          if (activeModal?.id === "writingModal" && typewriterVideo.readyState === 0) {
+            document.getElementById("typewriterNote").hidden = false;
+            window.setTimeout(() => openReader("library"), 800);
+          }
+        }, 1800);
+
+        playMedia(typewriterVideo);
+      }
+
+      async function openReader(mode) {
+        const config = readerSources[mode] || readerSources.teaser;
+        const modal = document.getElementById("teaserReaderModal");
+
+        document.getElementById("readerModalTitle").textContent = config.modalTitle;
+        document.getElementById("readerKicker").textContent = config.kicker;
+        document.getElementById("readerTitle").textContent = config.title;
+        document.getElementById("readerDocLink").href = mode === "library" ? "ihocaig.docx" : "dopesick2-introduction.docx";
+        document.getElementById("readerDocLink").textContent = mode === "library" ? "Open Writing DOCX" : "Open DOCX";
+
+        readerPages = config.fallbackPages;
+        readerIndex = 0;
+        renderReader();
+        openModal("teaserReaderModal");
+
+        const fetchedPages = await fetchFirstReadable(config.candidates);
+        if (activeModal === modal && fetchedPages.length) {
+          readerPages = fetchedPages;
+          readerIndex = 0;
+          renderReader();
+        }
+      }
+
+      async function fetchFirstReadable(candidates) {
+        for (const file of candidates) {
+          try {
+            const response = await fetch(file, { cache: "no-store" });
+            if (!response.ok) continue;
+
+            const text = await response.text();
+            if (!text.trim()) continue;
+
+            if (file.toLowerCase().endsWith(".html")) {
+              return [sanitizeHtml(text)];
+            }
+
+            return chunkText(text).map((chunk) => chunk.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join(""));
+          } catch (error) {
+            /* Local file previews can block fetch; GitHub Pages serves these normally. */
+          }
+        }
+        return [];
+      }
+
+      function sanitizeHtml(html) {
+        const doc = new DOMParser().parseFromString(html, "text/html");
+        doc.querySelectorAll("script, style, iframe, object, embed").forEach((node) => node.remove());
+        return doc.body.innerHTML || `<p>${escapeHtml(doc.documentElement.textContent || "")}</p>`;
+      }
+
+      function chunkText(text) {
+        const paragraphs = text
+          .replace(/\r\n/g, "\n")
+          .split(/\n{2,}/)
+          .map((part) => part.trim())
+          .filter(Boolean);
+        const pages = [];
+        const perPage = 7;
+
+        for (let index = 0; index < paragraphs.length; index += perPage) {
+          pages.push(paragraphs.slice(index, index + perPage));
+        }
+
+        return pages.length ? pages : [[text.trim()]];
+      }
+
+      function escapeHtml(text) {
+        const div = document.createElement("div");
+        div.textContent = text;
+        return div.innerHTML;
+      }
+
+      function renderReader() {
+        const content = document.getElementById("readerContent");
+        const status = document.getElementById("readerStatus");
+        const prev = document.getElementById("readerPrev");
+        const next = document.getElementById("readerNext");
+        const total = Math.max(readerPages.length, 1);
+
+        content.innerHTML = readerPages[readerIndex] || "";
+        status.textContent = `Page ${readerIndex + 1} of ${total}`;
+        prev.disabled = readerIndex <= 0;
+        next.disabled = readerIndex >= total - 1;
+      }
+
+      function showToast(message, playSuccessVideo = false) {
+        toastMessage.textContent = message;
+        successToast.hidden = false;
+
+        if (playSuccessVideo) {
+          successVideo.hidden = false;
+          successVideo.load();
+          const attempt = successVideo.play();
+          if (attempt && typeof attempt.catch === "function") {
+            attempt.catch(() => {
+              successVideo.hidden = true;
+            });
+          }
+        }
+
+        window.setTimeout(() => {
+          successToast.hidden = true;
+          successVideo.pause();
+          successVideo.hidden = true;
+        }, 7600);
+      }
+
+      function initImageFallbacks() {
+        cycleImageCandidates(entryImage);
+
+        boardImage.addEventListener("error", () => {
+          boardFrame.classList.add("board-missing");
+        }, { once: true });
+
+        cycleImageCandidates(document.getElementById("readerCover"));
+
+        const galleryImages = Array.from(document.querySelectorAll("#dopesickGallery img"));
+        let failedGalleryImages = 0;
+        galleryImages.forEach((img) => {
+          img.addEventListener("error", () => {
+            failedGalleryImages += 1;
+            img.hidden = true;
+            if (failedGalleryImages === galleryImages.length) {
+              document.getElementById("dopesickNote").hidden = false;
+            }
+          }, { once: true });
+        });
+      }
+
+      function cycleImageCandidates(img) {
+        if (!img?.dataset.candidates) return;
+        const candidates = img.dataset.candidates.split(",").map((item) => item.trim()).filter(Boolean);
+        let index = 0;
+
+        img.addEventListener("error", () => {
+          index += 1;
+          if (index < candidates.length) {
+            img.src = candidates[index];
+          } else {
+            img.classList.add("is-missing");
+            if (img === entryImage) {
+              entryScene.classList.add("asset-missing");
+            }
+          }
+        });
+      }
+
+      function initMediaFallbacks() {
+        atmVideo.addEventListener("error", () => {
+          document.getElementById("atmVideoNote").hidden = false;
+        });
+
+        typewriterVideo.addEventListener("loadedmetadata", () => {
+          window.clearTimeout(typewriterFallbackTimer);
+        });
+
+        typewriterVideo.addEventListener("ended", () => {
+          if (activeModal?.id === "writingModal") {
+            openReader("library");
+          }
+        });
+
+        typewriterVideo.addEventListener("error", () => {
+          if (activeModal?.id === "writingModal") {
+            document.getElementById("typewriterNote").hidden = false;
+            window.clearTimeout(typewriterFallbackTimer);
+            typewriterFallbackTimer = window.setTimeout(() => openReader("library"), 800);
+          }
+        });
+
+        document.querySelectorAll("#sunoModal audio").forEach((audio) => {
+          audio.addEventListener("error", () => {
+            const workingAudio = Array.from(document.querySelectorAll("#sunoModal audio")).some((item) => item.readyState > 0);
+            document.getElementById("trackNote").hidden = workingAudio;
+          });
+        });
+
+        localTrack.addEventListener("error", () => {
+          document.getElementById("trackNote").hidden = false;
+        });
+      }
+
+      function initEvents() {
+        entryHit.addEventListener("click", enterBoard, { once: true });
+
+        document.addEventListener("click", (event) => {
+          const closeButton = event.target.closest("[data-close-modal]");
+          if (closeButton) {
+            event.preventDefault();
+            closeModal();
+            return;
+          }
+
+          if (activeModal && event.target === activeModal) {
+            closeModal();
+            return;
+          }
+
+          const readerButton = event.target.closest("[data-reader-mode]");
+          if (readerButton) {
+            event.preventDefault();
+            openReader(readerButton.dataset.readerMode);
+            return;
+          }
+
+          const actionButton = event.target.closest("[data-action]");
+          if (!actionButton) return;
+
+          const action = actionButton.dataset.action;
+          if (actionMap[action]) {
+            event.preventDefault();
+            actionMap[action]();
+          }
+        });
+
+        document.addEventListener("keydown", (event) => {
+          if (event.key === "Escape") {
+            closeModal();
+          }
+        });
+
+        document.getElementById("readerPrev").addEventListener("click", () => {
+          if (readerIndex > 0) {
+            readerIndex -= 1;
+            renderReader();
+          }
+        });
+
+        document.getElementById("readerNext").addEventListener("click", () => {
+          if (readerIndex < readerPages.length - 1) {
+            readerIndex += 1;
+            renderReader();
+          }
+        });
+      }
+
+      function initQueryToasts() {
+        const params = new URLSearchParams(window.location.search);
+
+        if (params.get("signup") === "success") {
+          showToast("You are on the list.", true);
+        }
+
+        if (params.get("shop") === "sent") {
+          showToast("Shirt request received.", false);
+        }
+      }
+
+      initImageFallbacks();
+      initMediaFallbacks();
+      initEvents();
+      initQueryToasts();
+    })();
+  </script>
 </body>
 </html>
