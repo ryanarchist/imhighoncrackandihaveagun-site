@@ -6,10 +6,8 @@
   <meta name="theme-color" content="#080706">
   <title>IM HIGH ON CRACK AND I HAVE A GUN</title>
   <meta name="description" content="A hidden corkboard experience for IMHIGHONCRACKANDIHAVEAGUN.COM.">
-  <link rel="preload" as="image" href="entry-graphic.png">
-  <link rel="preload" as="image" href="entry.jpg">
-  <link rel="preload" as="image" href="corkboard-mobile.png" media="(max-width: 700px)">
-  <link rel="preload" as="image" href="corkboard-desktop.png" media="(min-width: 701px)">
+  <link rel="icon" href="data:,">
+  <link rel="preload" as="image" href="entry-graphic.webp" type="image/webp">
   <style>
     /* Base */
     :root {
@@ -41,8 +39,13 @@
     }
 
     body.entry-active {
+      height: 100vh;
       height: 100dvh;
       overflow: hidden;
+    }
+
+    body.board-active {
+      overflow-x: hidden;
     }
 
     body.modal-open {
@@ -78,6 +81,7 @@
       inset: 0;
       z-index: 50;
       width: 100vw;
+      height: 100vh;
       height: 100dvh;
       overflow: hidden;
       background: #050403;
@@ -95,6 +99,7 @@
       inset: 0;
       display: block;
       width: 100vw;
+      height: 100vh;
       height: 100dvh;
       margin: 0;
       padding: 0;
@@ -104,13 +109,31 @@
       color: var(--ink);
     }
 
+    .entry-hit::before {
+      position: absolute;
+      inset: -18px;
+      z-index: 0;
+      content: "";
+      background: url("entry-graphic.webp") center / cover no-repeat;
+      filter: blur(14px) brightness(0.38) saturate(1.08);
+      transform: scale(1.04);
+    }
+
+    .entry-hit picture {
+      position: relative;
+      z-index: 1;
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
     .entry-image {
       display: block;
       width: 100vw;
       height: 100dvh;
       object-fit: contain;
       object-position: center;
-      background: #050403;
+      background: transparent;
       border: 0;
       user-select: none;
       -webkit-user-drag: none;
@@ -177,6 +200,8 @@
 
     /* Corkboard scene */
     #boardScene {
+      position: relative;
+      min-height: 100vh;
       min-height: 100dvh;
       opacity: 0;
       pointer-events: none;
@@ -184,6 +209,7 @@
         radial-gradient(circle at 22% 8%, rgba(148, 31, 37, 0.18), transparent 24rem),
         linear-gradient(180deg, #0b0806 0%, #170f0a 100%);
       transition: opacity 260ms ease;
+      overflow: hidden;
     }
 
     body.board-active #boardScene {
@@ -193,10 +219,15 @@
 
     .board-wrap {
       width: 100%;
+      min-height: 100vh;
       min-height: 100dvh;
       display: grid;
       align-items: start;
       justify-items: center;
+    }
+
+    .board-hint {
+      display: none;
     }
 
     .board-frame {
@@ -224,6 +255,7 @@
 
     .board-fallback {
       display: none;
+      min-height: 100vh;
       min-height: 100dvh;
       place-content: center;
       gap: 18px;
@@ -268,14 +300,57 @@
       top: var(--y);
       width: var(--w);
       height: var(--h);
-      min-width: 34px;
-      min-height: 34px;
+      min-width: 48px;
+      min-height: 48px;
       padding: 0;
       cursor: pointer;
       background: transparent;
       border: 0;
       border-radius: 6px;
       touch-action: manipulation;
+    }
+
+    .hotspot[data-action="suno"]::before {
+      position: absolute;
+      inset: -10%;
+      content: "";
+      border-radius: 10px;
+      background: radial-gradient(circle at 50% 50%, rgba(217, 157, 64, 0.24), rgba(148, 31, 37, 0.11) 52%, transparent 76%);
+      box-shadow: 0 0 22px rgba(217, 157, 64, 0.3), 0 0 42px rgba(148, 31, 37, 0.22);
+      opacity: 0.72;
+      animation: startPulse 3.1s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    .start-badge {
+      position: absolute;
+      left: 50%;
+      top: calc(100% + 8px);
+      z-index: 2;
+      display: grid;
+      gap: 1px;
+      min-width: 124px;
+      padding: 6px 8px;
+      color: #ffe5b1;
+      border: 1px solid rgba(255, 214, 151, 0.34);
+      border-radius: 6px;
+      background: rgba(14, 8, 6, 0.72);
+      box-shadow: 0 0 18px rgba(217, 67, 67, 0.28);
+      text-align: center;
+      text-transform: uppercase;
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    .start-badge strong {
+      font-size: 0.78rem;
+      line-height: 1;
+    }
+
+    .start-badge small {
+      color: var(--muted);
+      font-size: 0.66rem;
+      line-height: 1;
     }
 
     .hotspot:focus-visible {
@@ -363,6 +438,7 @@
       display: grid;
       place-items: center;
       width: 100%;
+      min-height: 100vh;
       min-height: 100dvh;
       padding: 14px;
       overflow: auto;
@@ -382,6 +458,7 @@
       display: grid;
       place-items: center;
       width: 100%;
+      height: 100vh;
       height: 100dvh;
       padding: 0;
       border: 0;
@@ -396,6 +473,7 @@
     .transition-overlay video {
       display: block;
       width: 100vw;
+      height: 100vh;
       height: 100dvh;
       object-fit: cover;
       object-position: center;
@@ -439,7 +517,7 @@
     .primary-btn,
     .fallback-actions button,
     .reader-controls button {
-      min-height: 42px;
+      min-height: 48px;
       border: 1px solid rgba(255, 238, 202, 0.22);
       border-radius: 6px;
       color: var(--ink);
@@ -449,7 +527,7 @@
 
     .close-btn {
       flex: 0 0 auto;
-      width: 42px;
+      width: 48px;
       padding: 0;
       font-size: 1.35rem;
       line-height: 1;
@@ -521,7 +599,7 @@
     .field select,
     .field textarea {
       width: 100%;
-      min-height: 44px;
+      min-height: 48px;
       padding: 10px 12px;
       border: 1px solid rgba(255, 238, 202, 0.22);
       border-radius: 6px;
@@ -534,11 +612,83 @@
       resize: vertical;
     }
 
+    .field input.is-invalid {
+      border-color: rgba(255, 99, 99, 0.78);
+      box-shadow: 0 0 0 3px rgba(217, 67, 67, 0.2);
+    }
+
+    .unlock-panel {
+      width: min(100%, 430px);
+    }
+
+    .unlock-body {
+      display: grid;
+      gap: 14px;
+    }
+
+    .unlock-copy {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .unlock-support {
+      margin: 0;
+      color: #ffe5b1;
+      font-size: 0.95rem;
+      font-weight: 800;
+    }
+
+    .form-error,
+    .form-success {
+      min-height: 1.3em;
+      margin: 0;
+      font-size: 0.92rem;
+      line-height: 1.35;
+    }
+
+    .form-error {
+      color: #ff9b92;
+    }
+
+    .form-success {
+      color: #ffe5b1;
+    }
+
+    .unlock-form .primary-btn {
+      width: 100%;
+    }
+
+    .entry-number-card {
+      display: grid;
+      gap: 4px;
+      padding: 12px;
+      border: 1px dashed rgba(255, 214, 151, 0.35);
+      border-radius: 8px;
+      color: #ffe5b1;
+      background:
+        linear-gradient(135deg, rgba(217, 67, 67, 0.13), transparent),
+        rgba(255, 238, 202, 0.05);
+    }
+
+    .entry-number-card strong {
+      font-size: clamp(1.35rem, 7vw, 2rem);
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .entry-number-card span {
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.25;
+    }
+
     .primary-btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 10px 16px;
+      min-height: 48px;
+      padding: 12px 16px;
       font-weight: 800;
       text-decoration: none;
       text-transform: uppercase;
@@ -823,6 +973,14 @@
       user-select: none;
     }
 
+    .soundtrack-stage picture {
+      position: relative;
+      z-index: 1;
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
     .soundtrack-light {
       position: absolute;
       z-index: 3;
@@ -858,8 +1016,8 @@
     .machine-hotspot {
       position: absolute;
       z-index: 4;
-      min-width: 44px;
-      min-height: 44px;
+      min-width: 48px;
+      min-height: 48px;
       padding: 0;
       border: 1px solid transparent;
       border-radius: 999px;
@@ -933,9 +1091,20 @@
       align-items: center;
     }
 
+    .player-cover-wrap,
     .player-cover {
       width: 72px;
       aspect-ratio: 1;
+    }
+
+    .player-cover-wrap {
+      display: block;
+    }
+
+    .player-cover {
+      display: block;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
       border: 1px solid rgba(255, 238, 202, 0.18);
       border-radius: 7px;
@@ -970,7 +1139,7 @@
     }
 
     .player-btn {
-      min-height: 42px;
+      min-height: 48px;
       padding: 9px 13px;
       border: 1px solid rgba(255, 238, 202, 0.22);
       border-radius: 6px;
@@ -1022,10 +1191,15 @@
       text-align: left;
     }
 
+    .mix-track picture,
     .mix-track img {
       display: block;
       width: 58px;
       aspect-ratio: 1;
+    }
+
+    .mix-track img {
+      height: 100%;
       object-fit: cover;
       border-radius: 6px;
       background: #100b08;
@@ -1056,9 +1230,60 @@
       display: none;
     }
 
+    .soundtrack-cta {
+      width: 100%;
+      text-transform: uppercase;
+      font-weight: 800;
+    }
+
     .shop-card {
       cursor: pointer;
       text-align: left;
+    }
+
+    .roadmap-list {
+      display: grid;
+      gap: 10px;
+      margin: 0 0 16px;
+      padding: 0;
+      list-style: none;
+      counter-reset: roadmap;
+    }
+
+    .roadmap-list li {
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr);
+      gap: 10px;
+      align-items: start;
+      padding: 12px;
+      border: 1px solid rgba(255, 238, 202, 0.15);
+      border-radius: 8px;
+      background: rgba(255, 238, 202, 0.055);
+      counter-increment: roadmap;
+    }
+
+    .roadmap-list li::before {
+      display: grid;
+      place-items: center;
+      width: 36px;
+      aspect-ratio: 1;
+      border: 1px solid rgba(255, 214, 151, 0.32);
+      border-radius: 999px;
+      color: #ffe5b1;
+      background: rgba(148, 31, 37, 0.18);
+      content: counter(roadmap);
+      font-weight: 900;
+    }
+
+    .roadmap-list strong,
+    .roadmap-list span {
+      display: block;
+    }
+
+    .roadmap-list span {
+      margin-top: 2px;
+      color: var(--muted);
+      line-height: 1.35;
     }
 
     @keyframes smokeDrift {
@@ -1081,34 +1306,15 @@
       }
     }
 
-    .shirt-preview {
-      display: grid;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-
-    .shirt-side {
-      min-height: 180px;
-      display: grid;
-      place-items: center;
-      padding: 18px;
-      border: 1px solid rgba(255, 238, 202, 0.18);
-      border-radius: 8px;
-      color: #f8f4ec;
-      background: #050505;
-      text-align: center;
-      font-weight: 900;
-      line-height: 1.05;
-      letter-spacing: 0;
-    }
-
-    .shirt-side.back {
-      font-size: clamp(0.78rem, 3.5vw, 1rem);
-      overflow-wrap: anywhere;
-    }
-
-    .shirt-side.front {
-      font-size: clamp(1.55rem, 9vw, 3.2rem);
+    @keyframes startPulse {
+      0%, 100% {
+        opacity: 0.46;
+        transform: scale(0.985);
+      }
+      50% {
+        opacity: 0.86;
+        transform: scale(1.025);
+      }
     }
 
     .request-note {
@@ -1153,7 +1359,7 @@
       display: none;
     }
 
-    @media (min-width: 701px) {
+    @media (min-width: 768px) {
       .board-wrap {
         align-items: center;
       }
@@ -1188,7 +1394,6 @@
         grid-template-columns: repeat(3, minmax(0, 1fr));
       }
 
-      .shirt-preview,
       .shop-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
@@ -1202,7 +1407,103 @@
       }
     }
 
-    @media (max-width: 700px) {
+    @media (max-width: 767px) {
+      body.board-active {
+        height: 100vh;
+        height: 100dvh;
+        overflow: hidden;
+      }
+
+      .modal {
+        place-items: center;
+        padding: max(12px, env(safe-area-inset-top)) 14px max(16px, env(safe-area-inset-bottom));
+      }
+
+      #boardScene::before,
+      #boardScene::after {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        z-index: 8;
+        width: 36px;
+        content: "";
+        pointer-events: none;
+      }
+
+      #boardScene::before {
+        left: 0;
+        background: linear-gradient(90deg, rgba(8, 7, 6, 0.84), transparent);
+      }
+
+      #boardScene::after {
+        right: 0;
+        background: linear-gradient(270deg, rgba(8, 7, 6, 0.84), transparent);
+      }
+
+      .board-wrap {
+        display: block;
+        width: 100vw;
+        min-height: 100vh;
+        min-height: 100dvh;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        touch-action: pan-x;
+      }
+
+      .board-wrap::-webkit-scrollbar {
+        display: none;
+      }
+
+      .board-frame {
+        width: max(1120px, calc(100vh * 1.819));
+        width: max(1120px, calc(100dvh * 1.819));
+        min-width: 1120px;
+        height: 100vh;
+        height: 100dvh;
+        overflow: hidden;
+      }
+
+      .board-picture,
+      .board-image {
+        height: 100%;
+      }
+
+      .board-image {
+        width: 100%;
+        object-fit: fill;
+        object-position: left center;
+      }
+
+      .board-hint {
+        position: fixed;
+        top: max(12px, env(safe-area-inset-top));
+        left: 50%;
+        z-index: 10;
+        display: block;
+        padding: 7px 10px;
+        border: 1px solid rgba(255, 214, 151, 0.24);
+        border-radius: 999px;
+        color: #ffe5b1;
+        background: rgba(10, 7, 6, 0.68);
+        box-shadow: 0 0 18px rgba(148, 31, 37, 0.22);
+        font-size: 0.8rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        transform: translateX(-50%);
+        pointer-events: none;
+      }
+
+      .hotspot {
+        min-width: 56px;
+        min-height: 56px;
+      }
+
+      .start-badge {
+        min-width: 132px;
+      }
+
       .machine-status {
         right: 2.5%;
         bottom: 5%;
@@ -1244,76 +1545,6 @@
       .player-time {
         width: 100%;
       }
-
-      .hotspot[data-action="youtube"] {
-        --x: 33%;
-        --y: 22%;
-        --w: 38%;
-        --h: 39%;
-      }
-
-      .hotspot[data-action="atm"] {
-        --x: 73%;
-        --y: 40%;
-        --w: 22%;
-        --h: 15%;
-      }
-
-      .hotspot[data-action="email"] {
-        --x: 26%;
-        --y: 67%;
-        --w: 30%;
-        --h: 11%;
-      }
-
-      .hotspot.email-note {
-        --x: 73%;
-        --y: 27%;
-        --w: 22%;
-        --h: 13%;
-      }
-
-      .hotspot[data-action="dopesick"] {
-        --x: 13%;
-        --y: 21.5%;
-        --w: 19%;
-        --h: 14.5%;
-      }
-
-      .hotspot[data-action="writing"] {
-        --x: 58%;
-        --y: 4%;
-        --w: 18%;
-        --h: 14%;
-      }
-
-      .hotspot[data-action="teaser"] {
-        --x: 78%;
-        --y: 8.5%;
-        --w: 18%;
-        --h: 17%;
-      }
-
-      .hotspot[data-action="suno"] {
-        --x: 14%;
-        --y: 4.5%;
-        --w: 19%;
-        --h: 12%;
-      }
-
-      .hotspot[data-action="social"] {
-        --x: 8%;
-        --y: 70%;
-        --w: 24%;
-        --h: 14%;
-      }
-
-      .hotspot[data-action="shop"] {
-        --x: 36%;
-        --y: 88%;
-        --w: 29%;
-        --h: 11%;
-      }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -1325,13 +1556,22 @@
         animation-duration: 1ms !important;
         animation-iteration-count: 1 !important;
       }
+
+      .hotspot[data-action="suno"]::before,
+      .soundtrack-stage::before,
+      .soundtrack-light {
+        animation: none !important;
+      }
     }
   </style>
 </head>
 <body class="entry-active">
   <section id="entryScene" aria-label="Entry">
     <button class="entry-hit" id="entryHit" type="button" aria-label="Enter">
-      <img class="entry-image" id="entryImage" src="entry-graphic.png" data-candidates="entry-graphic.png,entry.jpg" alt="" decoding="async" fetchpriority="high">
+      <picture>
+        <source srcset="entry-graphic.webp" type="image/webp">
+        <img class="entry-image" id="entryImage" src="entry-graphic.png" data-candidates="entry-graphic.png,entry.jpg" alt="" width="1337" height="1680" decoding="async" fetchpriority="high">
+      </picture>
       <span class="entry-fallback" aria-live="polite">
         <span>
           <strong>entry-graphic.png is missing.</strong>
@@ -1342,11 +1582,12 @@
   </section>
 
   <section id="boardScene" aria-label="Corkboard" aria-hidden="true">
+    <div class="board-hint" aria-hidden="true">swipe to explore &rarr;</div>
     <div class="board-wrap">
       <div class="board-frame" id="boardFrame">
         <picture class="board-picture">
-          <source media="(min-width: 701px)" srcset="corkboard-desktop.png">
-          <img class="board-image" id="boardImage" src="corkboard-mobile.png" alt="Corkboard with pinned entry points" decoding="async" fetchpriority="high">
+          <source data-srcset="corkboard-desktop.webp" type="image/webp">
+          <img class="board-image" id="boardImage" data-src="corkboard-desktop.png" data-candidates="corkboard-desktop.png,corkboard-mobile.png" alt="Corkboard with pinned entry points" width="2048" height="1126" loading="lazy" decoding="async" fetchpriority="low">
         </picture>
 
         <button class="hotspot" type="button" data-action="youtube" aria-label="Open main poster video">
@@ -1359,7 +1600,7 @@
           <span class="sr-only">Email dropbox / radio</span>
         </button>
         <button class="hotspot email-note" type="button" data-action="email" aria-label="Open email signup from sticky note">
-          <span class="sr-only">Email giveaway sticky note</span>
+          <span class="sr-only">Email archive sticky note</span>
         </button>
         <button class="hotspot" type="button" data-action="dopesick" aria-label="Open Dopesick gallery">
           <span class="sr-only">Dopesick</span>
@@ -1370,14 +1611,15 @@
         <button class="hotspot" type="button" data-action="teaser" aria-label="Open teaser chapter">
           <span class="sr-only">Teaser Chapter</span>
         </button>
-        <button class="hotspot" type="button" data-action="suno" aria-label="Open Creations from the Basement">
-          <span class="sr-only">Creations from the Basement</span>
+        <button class="hotspot" type="button" data-action="suno" aria-label="Start here: open OG Crack Track soundtrack">
+          <span class="start-badge" aria-hidden="true"><strong>START HERE</strong><small>OG CRACK TRACK</small></span>
+          <span class="sr-only">START HERE: OG Crack Track soundtrack</span>
         </button>
         <button class="hotspot" type="button" data-action="social" aria-label="Open Dive in links">
           <span class="sr-only">Dive in</span>
         </button>
-        <button class="hotspot" type="button" data-action="shop" aria-label="Open shop request">
-          <span class="sr-only">Shop</span>
+        <button class="hotspot" type="button" data-action="shop" aria-label="Open archive waitlist">
+          <span class="sr-only">Archive waitlist</span>
         </button>
 
         <div class="board-fallback" role="region" aria-label="Corkboard fallback">
@@ -1392,7 +1634,7 @@
             <button type="button" data-action="teaser">Teaser</button>
             <button type="button" data-action="suno">Basement</button>
             <button type="button" data-action="social">Dive In</button>
-            <button type="button" data-action="shop">Shop</button>
+            <button type="button" data-action="shop">Waitlist</button>
           </div>
         </div>
       </div>
@@ -1426,7 +1668,7 @@
       </header>
       <div class="modal-body">
         <div class="media-frame">
-          <video id="atmVideo" controls playsinline preload="metadata">
+          <video id="atmVideo" controls playsinline preload="none">
             <source src="ATM_Video_with_Ticket_and_Effects.mp4" type="video/mp4">
           </video>
         </div>
@@ -1436,24 +1678,33 @@
   </section>
 
   <section class="modal" id="emailModal" role="dialog" aria-modal="true" aria-labelledby="emailTitle" hidden>
-    <div class="modal-panel">
+    <div class="modal-panel unlock-panel">
       <header class="modal-header">
-        <h2 class="modal-title" id="emailTitle">Email required for project access</h2>
+        <h2 class="modal-title" id="emailTitle">UNLOCK THE ARCHIVE</h2>
         <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
       </header>
-      <div class="modal-body">
-        <p class="modal-copy">Enter your email to unlock the full project. You will not need to submit again on this browser.</p>
-        <form class="form-grid" action="https://formsubmit.co/imhighoncrackandihaveagun@gmail.com" method="POST">
+      <div class="modal-body unlock-body">
+        <p class="unlock-copy">Entry is logged before the board opens.</p>
+        <p class="unlock-support">Get your entry number + early access.</p>
+        <div class="entry-number-card" aria-live="polite">
+          <strong id="entryNumberLabel">ENTRY #PENDING</strong>
+          <span id="entryNumberNote">Entry number assigns after unlock.</span>
+        </div>
+        <form class="form-grid unlock-form" id="unlockForm" action="https://formsubmit.co/imhighoncrackandihaveagun@gmail.com" method="POST" target="formsubmitFrame" novalidate>
           <input type="hidden" name="_captcha" value="false">
           <input type="hidden" name="_template" value="table">
           <input type="hidden" name="_subject" value="New Project Access Signup">
           <input type="hidden" name="_next" value="https://imhighoncrackandihaveagun.com/?signup=success&scene=board">
+          <input type="hidden" id="entryNumberInput" name="entry_number" value="ENTRY #PENDING">
           <div class="field">
             <label for="signupEmail">Email</label>
-            <input id="signupEmail" name="email" type="email" autocomplete="email" required>
+            <input id="signupEmail" name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="none" spellcheck="false" aria-describedby="emailError emailSuccess" required>
           </div>
-          <button class="primary-btn" type="submit">Unlock Project</button>
+          <p class="form-error" id="emailError" aria-live="polite"></p>
+          <p class="form-success" id="emailSuccess" aria-live="polite"></p>
+          <button class="primary-btn" id="unlockButton" type="submit">UNLOCK THE ARCHIVE</button>
         </form>
+        <iframe class="sr-only" id="formsubmitFrame" name="formsubmitFrame" title="Archive signup submission"></iframe>
       </div>
     </div>
   </section>
@@ -1490,7 +1741,7 @@
       </header>
       <div class="modal-body">
         <div class="media-frame">
-          <video id="typewriterVideo" controls playsinline preload="metadata">
+          <video id="typewriterVideo" controls playsinline preload="none">
             <source src="Typewriter_Video_Generation.mp4" type="video/mp4">
             <source src="Typewriter_Video.mp4" type="video/mp4">
             <source src="typewriter.mp4" type="video/mp4">
@@ -1535,14 +1786,18 @@
   <section class="modal" id="sunoModal" role="dialog" aria-modal="true" aria-labelledby="sunoTitle" hidden>
     <div class="modal-panel soundtrack-panel">
       <header class="modal-header">
-        <h2 class="modal-title" id="sunoTitle">THE SOUNDTRACK</h2>
+        <h2 class="modal-title" id="sunoTitle">OG CRACK TRACK</h2>
         <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
       </header>
       <div class="modal-body soundtrack-body">
-        <p class="modal-copy">This is the sound behind the collapse</p>
+        <p class="modal-copy">Soundtrack to the collapse.</p>
+        <p class="modal-copy">Part of the IHOCAIHAG book/documentary archive.</p>
 
         <div class="soundtrack-stage" aria-label="Interactive soundtrack machine">
-          <img class="soundtrack-machine-image" src="soundtrack-machine.png" alt="A burned metal email dropbox and radio machine with glowing controls" loading="lazy">
+          <picture>
+            <source srcset="soundtrack-machine.webp" type="image/webp">
+            <img class="soundtrack-machine-image" src="soundtrack-machine.png" alt="A burned metal email dropbox and radio machine with glowing controls" width="2200" height="767" loading="lazy" decoding="async">
+          </picture>
           <span class="soundtrack-light one" aria-hidden="true"></span>
           <span class="soundtrack-light two" aria-hidden="true"></span>
           <span class="soundtrack-light three" aria-hidden="true"></span>
@@ -1554,10 +1809,13 @@
 
         <div class="soundtrack-player">
           <div class="now-playing">
-            <img class="player-cover" id="playerCover" src="ogCRackTrack-cover.png" alt="ogCRackTRack cover" loading="lazy">
+            <picture class="player-cover-wrap">
+              <source id="playerCoverWebp" srcset="ogCRackTrack-cover.webp" type="image/webp">
+              <img class="player-cover" id="playerCover" src="ogCRackTrack-cover.png" alt="OG CRACK TRACK cover" width="1385" height="1327" loading="lazy" decoding="async">
+            </picture>
             <div class="player-meta">
               <span class="player-kicker" id="playerLabel">Main song</span>
-              <strong class="player-title" id="playerTitle">ogCRackTRack</strong>
+              <strong class="player-title" id="playerTitle">OG CRACK TRACK</strong>
               <span class="player-state" id="playerState">Ready</span>
             </div>
           </div>
@@ -1573,16 +1831,22 @@
 
           <div class="track-list" aria-label="Available songs">
             <button class="mix-track is-active" type="button" data-track-index="0">
-              <img src="ogCRackTrack-cover.png" alt="" loading="lazy">
+              <picture>
+                <source srcset="ogCRackTrack-cover.webp" type="image/webp">
+                <img src="ogCRackTrack-cover.png" alt="" width="1385" height="1327" loading="lazy" decoding="async">
+              </picture>
               <span>
-                <strong>ogCRackTRack</strong>
+                <strong>OG CRACK TRACK</strong>
                 <small>Main song</small>
               </span>
             </button>
             <button class="mix-track" type="button" data-track-index="1">
-              <img src="cracktraptrack-cover.png" alt="" loading="lazy">
+              <picture>
+                <source srcset="cracktraptrack-cover.webp" type="image/webp">
+                <img src="cracktraptrack-cover.png" alt="" width="1121" height="1684" loading="lazy" decoding="async">
+              </picture>
               <span>
-                <strong>CrackTRapTRack</strong>
+                <strong>CRACK TRAP TRACK</strong>
                 <small>Trap remix</small>
               </span>
             </button>
@@ -1593,6 +1857,7 @@
           </audio>
         </div>
         <p class="asset-note" id="trackNote" hidden>One of the local MP3 files could not be loaded.</p>
+        <button class="plain-btn soundtrack-cta" type="button" data-close-modal>Explore the archive</button>
       </div>
     </div>
   </section>
@@ -1622,8 +1887,8 @@
             <span>imhighoncrackandihaveagun.com</span>
           </a>
           <button class="shop-card" type="button" data-action="shop">
-            <strong>Shop</strong>
-            <span>Request the Official Black Text Tee</span>
+            <strong>Archive Waitlist</strong>
+            <span>First access to signed books, archive cut access, and limited boxes</span>
           </button>
         </div>
       </div>
@@ -1633,25 +1898,35 @@
   <section class="modal" id="shopModal" role="dialog" aria-modal="true" aria-labelledby="shopTitle" hidden>
     <div class="modal-panel">
       <header class="modal-header">
-        <h2 class="modal-title" id="shopTitle">Official Black Text Tee</h2>
+        <h2 class="modal-title" id="shopTitle">Archive Waitlist</h2>
         <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
       </header>
       <div class="modal-body">
-        <div class="shirt-preview" aria-label="Shirt text preview">
-          <div class="shirt-side front">
-            <span>IM HIGH<br>ON CRACK<br>AND I HAVE<br>A GUN</span>
-          </div>
-          <div class="shirt-side back">
-            <span>IMHIGHONCRACKANDIHAVEAGUN.COM</span>
-          </div>
-        </div>
-        <p class="request-note">This is a request/preorder form, not a payment checkout.</p>
+        <p class="modal-copy">Join the list for first access to signed books, archive cut access, and limited boxes.</p>
+        <ol class="roadmap-list">
+          <li>
+            <span><strong>Soundtrack</strong><span>OG CRACK TRACK opens the board.</span></span>
+          </li>
+          <li>
+            <span><strong>Archive board</strong><span>Evidence, chapters, documents, and hidden threads.</span></span>
+          </li>
+          <li>
+            <span><strong>Documentary archive cut</strong><span>The raw archive cut premieres here first.</span></span>
+          </li>
+          <li>
+            <span><strong>Book</strong><span>The book/documentary combo arrives Summer '26. First access goes to archive members.</span></span>
+          </li>
+          <li>
+            <span><strong>Limited Archive Box #001-050</strong><span>First access to the 50 numbered archive boxes goes to the list.</span></span>
+          </li>
+        </ol>
+        <p class="request-note">Author of <em>Dopesick: The American Addiction to Heroin and Profit</em>.</p>
         <form class="form-grid" action="https://formsubmit.co/imhighoncrackandihaveagun@gmail.com" method="POST">
           <input type="hidden" name="_captcha" value="false">
           <input type="hidden" name="_template" value="table">
-          <input type="hidden" name="_subject" value="New T-Shirt Shop Request">
-          <input type="hidden" name="_next" value="https://imhighoncrackandihaveagun.com/?shop=sent&scene=board">
-          <input type="hidden" name="product" value="Official Black Text Tee">
+          <input type="hidden" name="_subject" value="New Archive Waitlist Signup">
+          <input type="hidden" name="_next" value="https://imhighoncrackandihaveagun.com/?waitlist=joined&scene=board">
+          <input type="hidden" name="list" value="Archive Waitlist">
           <div class="shop-grid">
             <div class="field">
               <label for="shopName">Name</label>
@@ -1659,35 +1934,25 @@
             </div>
             <div class="field">
               <label for="shopEmail">Email</label>
-              <input id="shopEmail" name="email" type="email" autocomplete="email" required>
+              <input id="shopEmail" name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="none" spellcheck="false" required>
             </div>
             <div class="field">
-              <label for="shirtSize">Size</label>
-              <select id="shirtSize" name="size" required>
-                <option value="">Select size</option>
-                <option>S</option>
-                <option>M</option>
-                <option>L</option>
-                <option>XL</option>
-                <option>2XL</option>
-                <option>3XL</option>
-              </select>
-            </div>
-            <div class="field">
-              <label for="shirtColor">Color</label>
-              <select id="shirtColor" name="color" required>
-                <option>Black</option>
-                <option>Dark Red</option>
-                <option>White</option>
-                <option>Surprise Me</option>
+              <label for="archiveInterest">First access interest</label>
+              <select id="archiveInterest" name="interest" required>
+                <option value="">Select one</option>
+                <option>Soundtrack updates</option>
+                <option>Documentary archive cut</option>
+                <option>Book release</option>
+                <option>Limited Archive Box #001-050</option>
+                <option>All archive drops</option>
               </select>
             </div>
           </div>
           <div class="field">
             <label for="shopNotes">Notes</label>
-            <textarea id="shopNotes" name="notes" placeholder="Quantity, shipping region, or anything else."></textarea>
+            <textarea id="shopNotes" name="notes" placeholder="Tell the archive what you want first."></textarea>
           </div>
-          <button class="primary-btn" type="submit">Send Request</button>
+          <button class="primary-btn" type="submit">Join the Archive List</button>
         </form>
       </div>
     </div>
@@ -1695,7 +1960,7 @@
 
   <div class="toast" id="successToast" role="status" aria-live="polite" hidden>
     <p id="toastMessage">Success.</p>
-    <video id="successVideo" muted playsinline preload="metadata" hidden>
+    <video id="successVideo" muted playsinline preload="none" hidden>
       <source src="Action_Figure_Radio_Fog_Video.mp4" type="video/mp4">
     </video>
   </div>
@@ -1713,20 +1978,31 @@
       const entryHit = document.getElementById("entryHit");
       const entryImage = document.getElementById("entryImage");
       const boardScene = document.getElementById("boardScene");
+      const boardWrap = document.querySelector(".board-wrap");
       const boardFrame = document.getElementById("boardFrame");
       const boardImage = document.getElementById("boardImage");
+      const boardSource = document.querySelector(".board-picture source");
       const modals = Array.from(document.querySelectorAll(".modal"));
       const youtubeFrame = document.getElementById("youtubeFrame");
       const atmVideo = document.getElementById("atmVideo");
       const typewriterVideo = document.getElementById("typewriterVideo");
       const soundtrackAudio = document.getElementById("soundtrackAudio");
       const playerCover = document.getElementById("playerCover");
+      const playerCoverWebp = document.getElementById("playerCoverWebp");
       const playerLabel = document.getElementById("playerLabel");
       const playerTitle = document.getElementById("playerTitle");
       const playerState = document.getElementById("playerState");
       const playerTime = document.getElementById("playerTime");
       const playerProgress = document.getElementById("playerProgress");
       const machineStatus = document.getElementById("machineStatus");
+      const unlockForm = document.getElementById("unlockForm");
+      const signupEmail = document.getElementById("signupEmail");
+      const emailError = document.getElementById("emailError");
+      const emailSuccess = document.getElementById("emailSuccess");
+      const unlockButton = document.getElementById("unlockButton");
+      const entryNumberLabel = document.getElementById("entryNumberLabel");
+      const entryNumberNote = document.getElementById("entryNumberNote");
+      const entryNumberInput = document.getElementById("entryNumberInput");
       const successToast = document.getElementById("successToast");
       const toastMessage = document.getElementById("toastMessage");
       const successVideo = document.getElementById("successVideo");
@@ -1767,16 +2043,18 @@
 
       const soundtrackTracks = [
         {
-          title: "ogCRackTRack",
+          title: "OG CRACK TRACK",
           label: "Main song",
           src: "ogCRackTrack.mp3",
-          cover: "ogCRackTrack-cover.png"
+          cover: "ogCRackTrack-cover.png",
+          coverWebp: "ogCRackTrack-cover.webp"
         },
         {
-          title: "CrackTRapTRack",
+          title: "CRACK TRAP TRACK",
           label: "Trap remix",
           src: "cracktraptrack.mp3",
-          cover: "cracktraptrack-cover.png"
+          cover: "cracktraptrack-cover.png",
+          coverWebp: "cracktraptrack-cover.webp"
         }
       ];
 
@@ -1853,7 +2131,35 @@
         }
       };
 
+      function prepareBoardImage() {
+        if (!boardImage || boardImage.dataset.loaded === "true") {
+          return;
+        }
+
+        if (boardSource?.dataset.srcset) {
+          boardSource.srcset = boardSource.dataset.srcset;
+        }
+
+        boardImage.src = boardImage.dataset.src || "corkboard-desktop.png";
+        boardImage.dataset.loaded = "true";
+      }
+
+      function cueStartHere() {
+        if (!boardWrap || window.innerWidth >= 768) {
+          return;
+        }
+
+        window.requestAnimationFrame(() => {
+          const startHotspot = boardFrame.querySelector('[data-action="suno"]');
+          if (!startHotspot) return;
+
+          const targetLeft = Math.max(0, startHotspot.offsetLeft - Math.round(window.innerWidth * 0.24));
+          boardWrap.scrollTo({ left: targetLeft, behavior: reducedMotion ? "auto" : "smooth" });
+        });
+      }
+
       function enterBoard() {
+        prepareBoardImage();
         body.classList.add("board-active");
         boardScene.setAttribute("aria-hidden", "false");
         entryScene.classList.add("is-leaving");
@@ -1861,16 +2167,19 @@
         window.setTimeout(() => {
           entryScene.hidden = true;
           body.classList.remove("entry-active");
+          cueStartHere();
           boardScene.focus?.({ preventScroll: true });
         }, entryFadeMs);
       }
 
       function showBoardImmediately() {
+        prepareBoardImage();
         body.classList.add("board-active");
         boardScene.setAttribute("aria-hidden", "false");
         entryScene.classList.add("is-leaving");
         entryScene.hidden = true;
         body.classList.remove("entry-active");
+        cueStartHere();
       }
 
       function hasUnlockedAccess() {
@@ -1901,16 +2210,99 @@
         document.cookie = `${accessCookie}=true; Max-Age=31536000; Path=/; SameSite=Lax${secureFlag}`;
       }
 
+      function getTemporaryEntryNumber() {
+        try {
+          const existing = window.localStorage.getItem("ihocaig-entry-number");
+          if (existing) return existing;
+        } catch (error) {
+          /* Storage can be unavailable in locked-down in-app browser modes. */
+        }
+
+        // Temporary local receipt only. Replace this with a backend/database sequence
+        // before treating entry numbers as permanent, globally unique, or collectible.
+        const seed = Math.abs(Date.now() + Math.floor(Math.random() * 9000)) % 1000000;
+        const number = `ENTRY #TEMP-${String(seed).padStart(6, "0")}`;
+
+        try {
+          window.localStorage.setItem("ihocaig-entry-number", number);
+        } catch (error) {
+          /* The visible receipt still works for this session. */
+        }
+
+        return number;
+      }
+
+      function setEntryNumber(number) {
+        entryNumberLabel.textContent = number;
+        entryNumberInput.value = number;
+        entryNumberNote.textContent = number === "ENTRY #PENDING"
+          ? "Entry number assigns after unlock."
+          : "Archive receipt saved on this device.";
+      }
+
+      function resetUnlockFeedback() {
+        if (!signupEmail || !unlockButton) return;
+
+        const existingEntryNumber = (() => {
+          try {
+            return window.localStorage.getItem("ihocaig-entry-number");
+          } catch (error) {
+            return null;
+          }
+        })();
+
+        setEntryNumber(existingEntryNumber || "ENTRY #PENDING");
+        signupEmail.classList.remove("is-invalid");
+        signupEmail.removeAttribute("aria-invalid");
+        emailError.textContent = "";
+        emailSuccess.textContent = "";
+        unlockButton.disabled = false;
+        unlockButton.textContent = "UNLOCK THE ARCHIVE";
+      }
+
+      function handleUnlockSubmit(event) {
+        const email = signupEmail.value.trim();
+        signupEmail.value = email;
+        signupEmail.classList.remove("is-invalid");
+        signupEmail.removeAttribute("aria-invalid");
+        emailError.textContent = "";
+
+        if (!email || !signupEmail.checkValidity()) {
+          event.preventDefault();
+          signupEmail.classList.add("is-invalid");
+          signupEmail.setAttribute("aria-invalid", "true");
+          emailError.textContent = "Enter a working email to unlock the archive.";
+          emailSuccess.textContent = "";
+          signupEmail.focus({ preventScroll: false });
+          return;
+        }
+
+        setUnlockedAccess();
+        const entryNumber = getTemporaryEntryNumber();
+        setEntryNumber(entryNumber);
+        emailSuccess.textContent = "Archive unlocked. Entry recorded.";
+        unlockButton.disabled = true;
+        unlockButton.textContent = "ARCHIVE UNLOCKED";
+
+        window.setTimeout(() => {
+          if (activeModal?.id === "emailModal") {
+            closeModal(false);
+          }
+          enterBoard();
+        }, 520);
+      }
+
       function handleEntryClick() {
         if (hasUnlockedAccess()) {
           enterBoard();
           return;
         }
 
-        openModal("emailModal");
+        openModal("emailModal", { focusSelector: "#signupEmail" });
+        window.setTimeout(prepareBoardImage, 140);
       }
 
-      function openModal(id) {
+      function openModal(id, options = {}) {
         const modal = document.getElementById(id);
         if (!modal) return;
 
@@ -1936,8 +2328,17 @@
           loadSoundtrackTrack(soundtrackIndex, false);
         }
 
-        const focusTarget = modal.querySelector("[data-close-modal], button, a, input, select, textarea, video, audio");
-        window.setTimeout(() => focusTarget?.focus({ preventScroll: true }), 0);
+        if (id === "emailModal") {
+          resetUnlockFeedback();
+        }
+
+        const focusTarget = options.focusSelector
+          ? modal.querySelector(options.focusSelector)
+          : modal.querySelector("[data-close-modal], button, a, input, select, textarea, video, audio");
+
+        if (options.focusSelector || id !== "emailModal") {
+          window.setTimeout(() => focusTarget?.focus({ preventScroll: true }), 80);
+        }
       }
 
       function closeModal(restoreFocus = true) {
@@ -2064,6 +2465,7 @@
 
         playerCover.src = track.cover;
         playerCover.alt = `${track.title} cover`;
+        playerCoverWebp.srcset = track.coverWebp;
         playerLabel.textContent = track.label;
         playerTitle.textContent = track.title;
         machineStatus.textContent = `Ready: ${track.title}`;
@@ -2294,11 +2696,7 @@
 
       function initImageFallbacks() {
         cycleImageCandidates(entryImage);
-
-        boardImage.addEventListener("error", () => {
-          boardFrame.classList.add("board-missing");
-        }, { once: true });
-
+        cycleImageCandidates(boardImage);
         cycleImageCandidates(document.getElementById("readerCover"));
 
         const galleryImages = Array.from(document.querySelectorAll("#dopesickGallery img"));
@@ -2316,7 +2714,11 @@
 
       function cycleImageCandidates(img) {
         if (!img?.dataset.candidates) return;
-        img.dataset.candidateIndex = "0";
+        const pictureSource = img.parentElement?.tagName === "PICTURE"
+          ? img.parentElement.querySelector("source")
+          : null;
+
+        img.dataset.candidateIndex = pictureSource ? "-1" : "0";
 
         img.addEventListener("error", () => {
           const candidates = img.dataset.candidates.split(",").map((item) => item.trim()).filter(Boolean);
@@ -2324,11 +2726,18 @@
           index += 1;
           img.dataset.candidateIndex = String(index);
           if (index < candidates.length) {
+            if (pictureSource) {
+              pictureSource.removeAttribute("srcset");
+              pictureSource.removeAttribute("data-srcset");
+            }
             img.src = candidates[index];
           } else {
             img.classList.add("is-missing");
             if (img === entryImage) {
               entryScene.classList.add("asset-missing");
+            }
+            if (img === boardImage) {
+              boardFrame.classList.add("board-missing");
             }
           }
         });
@@ -2374,6 +2783,14 @@
 
       function initEvents() {
         entryHit.addEventListener("click", handleEntryClick);
+        unlockForm.addEventListener("submit", handleUnlockSubmit);
+        signupEmail.addEventListener("input", () => {
+          if (signupEmail.classList.contains("is-invalid")) {
+            signupEmail.classList.remove("is-invalid");
+            signupEmail.removeAttribute("aria-invalid");
+            emailError.textContent = "";
+          }
+        });
 
         document.addEventListener("click", (event) => {
           const closeButton = event.target.closest("[data-close-modal]");
@@ -2465,8 +2882,9 @@
       function initQueryToasts() {
         const params = new URLSearchParams(window.location.search);
         const signupSuccess = params.get("signup") === "success";
+        const waitlistJoined = params.get("waitlist") === "joined";
         const shopSent = params.get("shop") === "sent";
-        const shouldOpenBoard = signupSuccess || shopSent;
+        const shouldOpenBoard = signupSuccess || waitlistJoined || shopSent;
 
         if (shouldOpenBoard) {
           setUnlockedAccess();
@@ -2474,11 +2892,11 @@
         }
 
         if (signupSuccess) {
-          showToast("You are on the list.", true);
+          showToast("Archive unlocked. Entry recorded.", false);
         }
 
-        if (shopSent) {
-          showToast("Shirt request received.", false);
+        if (waitlistJoined || shopSent) {
+          showToast("Archive list entry received.", false);
         }
       }
 
