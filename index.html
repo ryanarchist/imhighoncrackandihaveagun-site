@@ -5,9 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#080706">
   <title>IM HIGH ON CRACK AND I HAVE A GUN</title>
-  <meta name="description" content="A hidden corkboard experience for IMHIGHONCRACKANDIHAVEAGUN.COM.">
+  <meta name="description" content="A hidden action-figure archive room for IMHIGHONCRACKANDIHAVEAGUN.COM.">
   <link rel="icon" href="data:,">
   <link rel="preload" as="image" href="entry-graphic.webp" type="image/webp">
+  <link rel="preload" as="image" href="action-figure-room.webp" type="image/webp">
   <style>
     /* Base */
     :root {
@@ -198,7 +199,7 @@
       display: grid;
     }
 
-    /* Corkboard scene */
+    /* Action-figure archive room scene */
     #boardScene {
       position: relative;
       min-height: 100vh;
@@ -232,10 +233,12 @@
 
     .board-frame {
       position: relative;
-      width: 100%;
+      width: min(100vw, calc(100dvh * 1.333333));
+      height: 100vh;
+      height: 100dvh;
       max-width: none;
       margin: 0 auto;
-      background: #120c08;
+      background: #080605;
       box-shadow: 0 0 80px rgba(0, 0, 0, 0.5);
     }
 
@@ -246,9 +249,9 @@
     }
 
     .board-image {
-      height: auto;
+      height: 100%;
       object-fit: contain;
-      object-position: top center;
+      object-position: center;
       user-select: none;
       -webkit-user-drag: none;
     }
@@ -296,6 +299,7 @@
 
     .hotspot {
       position: absolute;
+      display: block;
       left: var(--x);
       top: var(--y);
       width: var(--w);
@@ -306,51 +310,127 @@
       cursor: pointer;
       background: transparent;
       border: 0;
-      border-radius: 6px;
+      border-radius: 999px 999px 18px 18px;
       touch-action: manipulation;
     }
 
-    .hotspot[data-action="suno"]::before {
+    .hotspot::before {
       position: absolute;
-      inset: -10%;
+      inset: -7% -12%;
       content: "";
-      border-radius: 10px;
-      background: radial-gradient(circle at 50% 50%, rgba(217, 157, 64, 0.24), rgba(148, 31, 37, 0.11) 52%, transparent 76%);
-      box-shadow: 0 0 22px rgba(217, 157, 64, 0.3), 0 0 42px rgba(148, 31, 37, 0.22);
-      opacity: 0.72;
-      animation: startPulse 3.1s ease-in-out infinite;
+      border-radius: inherit;
+      background:
+        radial-gradient(circle at 50% 34%, rgba(255, 214, 151, 0.3), rgba(148, 31, 37, 0.17) 42%, transparent 72%);
+      box-shadow:
+        0 0 0 1px rgba(255, 214, 151, 0.18),
+        0 0 26px rgba(217, 67, 67, 0.32),
+        0 0 50px rgba(217, 157, 64, 0.2);
+      opacity: 0;
+      transform: scale(0.98);
+      transition: opacity 180ms ease, transform 180ms ease;
       pointer-events: none;
     }
 
-    .start-badge {
+    .hotspot:focus-visible::before,
+    .hotspot.is-armed::before {
+      opacity: 0.88;
+      transform: scale(1.02);
+    }
+
+    .hotspot.is-primary::before {
+      opacity: 0.58;
+      animation: startPulse 3.2s ease-in-out infinite;
+    }
+
+    .hotspot.is-primary:focus-visible::before,
+    .hotspot.is-primary.is-armed::before {
+      opacity: 0.96;
+    }
+
+    .figure-plaque {
       position: absolute;
       left: 50%;
       top: calc(100% + 8px);
       z-index: 2;
       display: grid;
-      gap: 1px;
-      min-width: 124px;
-      padding: 6px 8px;
+      gap: 2px;
+      min-width: min(172px, 34vw);
+      padding: 7px 9px;
       color: #ffe5b1;
-      border: 1px solid rgba(255, 214, 151, 0.34);
-      border-radius: 6px;
-      background: rgba(14, 8, 6, 0.72);
-      box-shadow: 0 0 18px rgba(217, 67, 67, 0.28);
+      border: 1px solid rgba(255, 214, 151, 0.48);
+      border-radius: 3px;
+      background:
+        linear-gradient(135deg, rgba(148, 31, 37, 0.84), rgba(15, 10, 7, 0.92) 42%, rgba(114, 19, 22, 0.82)),
+        #140b08;
+      box-shadow:
+        inset 0 0 0 1px rgba(0, 0, 0, 0.42),
+        0 0 20px rgba(217, 67, 67, 0.36);
+      opacity: 0;
       text-align: center;
       text-transform: uppercase;
       transform: translateX(-50%);
+      transition: opacity 180ms ease, transform 180ms ease;
       pointer-events: none;
     }
 
-    .start-badge strong {
-      font-size: 0.78rem;
+    .figure-plaque::before,
+    .figure-plaque::after {
+      position: absolute;
+      top: 50%;
+      width: 5px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: rgba(255, 214, 151, 0.82);
+      box-shadow: 0 0 8px rgba(255, 214, 151, 0.58);
+      content: "";
+      transform: translateY(-50%);
+    }
+
+    .figure-plaque::before {
+      left: 6px;
+    }
+
+    .figure-plaque::after {
+      right: 6px;
+    }
+
+    .figure-plaque strong {
+      padding: 0 8px;
+      font-size: clamp(0.65rem, 1.1vw, 0.82rem);
+      line-height: 1.05;
+      overflow-wrap: anywhere;
+    }
+
+    .figure-plaque small {
+      color: var(--muted);
+      font-size: clamp(0.55rem, 0.92vw, 0.66rem);
       line-height: 1;
     }
 
-    .start-badge small {
-      color: var(--muted);
-      font-size: 0.66rem;
-      line-height: 1;
+    .hotspot:focus-visible .figure-plaque,
+    .hotspot.is-armed .figure-plaque {
+      opacity: 1;
+      transform: translateX(-50%) translateY(-2px);
+    }
+
+    .hotspot.is-primary .figure-plaque {
+      opacity: 0.92;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .hotspot:hover::before {
+        opacity: 0.88;
+        transform: scale(1.02);
+      }
+
+      .hotspot.is-primary:hover::before {
+        opacity: 0.96;
+      }
+
+      .hotspot:hover .figure-plaque {
+        opacity: 1;
+        transform: translateX(-50%) translateY(-2px);
+      }
     }
 
     .hotspot:focus-visible {
@@ -360,74 +440,70 @@
       box-shadow: 0 0 28px rgba(217, 67, 67, 0.45);
     }
 
-    .hotspot[data-action="youtube"] {
-      --x: 43%;
-      --y: 19%;
-      --w: 20%;
-      --h: 52%;
+    /* Action-figure room hotspot coordinates.
+       Tweak only these percentages to realign plaques/click zones over action-figure-room.png. */
+    .hotspot[data-figure="soundtrack"] {
+      --x: 5.4%;
+      --y: 33.4%;
+      --w: 8.8%;
+      --h: 47%;
     }
 
-    .hotspot[data-action="atm"] {
-      --x: 70.5%;
-      --y: 27%;
-      --w: 12.5%;
-      --h: 29%;
+    .hotspot[data-figure="dopesick"] {
+      --x: 14.8%;
+      --y: 33.4%;
+      --w: 8.8%;
+      --h: 47%;
     }
 
-    .hotspot[data-action="email"] {
-      --x: 30.5%;
-      --y: 72%;
-      --w: 18%;
-      --h: 13%;
+    .hotspot[data-figure="writing"] {
+      --x: 24.5%;
+      --y: 33.2%;
+      --w: 10.2%;
+      --h: 48%;
     }
 
-    .hotspot.email-note {
-      --x: 61%;
-      --y: 31%;
+    .hotspot[data-figure="teaser"] {
+      --x: 36.8%;
+      --y: 34%;
+      --w: 8.4%;
+      --h: 47%;
+    }
+
+    .hotspot[data-figure="plug"] {
+      --x: 46.7%;
+      --y: 34.6%;
+      --w: 8.4%;
+      --h: 47%;
+    }
+
+    .hotspot[data-figure="dirt"] {
+      --x: 56.1%;
+      --y: 34.4%;
+      --w: 8.6%;
+      --h: 47.5%;
+    }
+
+    .hotspot[data-figure="who"] {
+      --x: 66.2%;
+      --y: 34.2%;
+      --w: 9.5%;
+      --h: 48%;
+    }
+
+    .hotspot[data-figure="reels"] {
+      --x: 76.5%;
+      --y: 34.4%;
       --w: 10%;
-      --h: 18%;
+      --h: 48%;
     }
 
-    .hotspot[data-action="dopesick"] {
-      --x: 21%;
-      --y: 25%;
+    .hotspot[data-dock="social"] {
+      --x: 33.8%;
+      --y: 94.8%;
       --w: 10.5%;
-      --h: 24%;
-    }
-
-    .hotspot[data-action="writing"] {
-      --x: 59%;
-      --y: 2.5%;
-      --w: 11.5%;
-      --h: 23%;
-    }
-
-    .hotspot[data-action="teaser"] {
-      --x: 83%;
-      --y: 9%;
-      --w: 10%;
-      --h: 30%;
-    }
-
-    .hotspot[data-action="suno"] {
-      --x: 20.5%;
-      --y: 1.5%;
-      --w: 11%;
-      --h: 22%;
-    }
-
-    .hotspot[data-action="social"] {
-      --x: 15%;
-      --y: 70%;
-      --w: 13%;
-      --h: 22%;
-    }
-
-    .hotspot[data-action="shop"] {
-      --x: 42%;
-      --y: 91%;
-      --w: 18%;
-      --h: 8%;
+      --h: 4%;
+      border-radius: 999px;
     }
 
     /* Modal system */
@@ -1286,6 +1362,119 @@
       line-height: 1.35;
     }
 
+    .lick-list {
+      margin: 0 0 16px;
+      padding: 14px;
+      border: 1px solid rgba(255, 214, 151, 0.28);
+      border-radius: 8px;
+      background:
+        linear-gradient(135deg, rgba(148, 31, 37, 0.16), transparent 38%),
+        rgba(255, 238, 202, 0.06);
+      color: var(--ink);
+    }
+
+    .lick-list p {
+      margin: 0 0 10px;
+      color: #ffe5b1;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .lick-list ol {
+      display: grid;
+      gap: 9px;
+      margin: 0;
+      padding-left: 1.25rem;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .dirt-panel {
+      width: min(100%, 1120px);
+    }
+
+    .dirt-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .dirt-card {
+      position: relative;
+      min-height: 190px;
+      margin: 0;
+      overflow: hidden;
+      border: 1px solid rgba(255, 214, 151, 0.22);
+      border-radius: 8px;
+      background: #100b08;
+      box-shadow: 0 18px 34px rgba(0, 0, 0, 0.28);
+    }
+
+    .dirt-card img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      min-height: 190px;
+      object-fit: contain;
+      filter: contrast(1.04) saturate(1.02);
+      background:
+        radial-gradient(circle at 50% 35%, rgba(148, 31, 37, 0.12), transparent 46%),
+        #080605;
+    }
+
+    .dirt-card picture {
+      display: block;
+      height: 100%;
+    }
+
+    .dirt-card.is-wide img {
+      min-height: 260px;
+    }
+
+    .dirt-card figcaption {
+      position: absolute;
+      left: 10px;
+      right: 10px;
+      bottom: 10px;
+      padding: 7px 9px;
+      border: 1px solid rgba(255, 214, 151, 0.24);
+      border-radius: 4px;
+      color: #ffe5b1;
+      background: rgba(9, 6, 5, 0.78);
+      box-shadow: 0 0 18px rgba(148, 31, 37, 0.28);
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .who-panel {
+      width: min(100%, 560px);
+      overflow: visible;
+    }
+
+    .who-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 3;
+    }
+
+    .who-body {
+      display: grid;
+      min-height: 260px;
+      place-items: center;
+      padding: 52px 20px 34px;
+    }
+
+    .who-body p {
+      max-width: 20rem;
+      margin: 0;
+      color: #ffe5b1;
+      font-size: clamp(1.6rem, 8vw, 3.1rem);
+      font-weight: 900;
+      line-height: 1.02;
+      text-align: center;
+      text-transform: lowercase;
+    }
+
     @keyframes smokeDrift {
       from {
         transform: translate3d(-1.5%, -1%, 0) scale(1);
@@ -1365,8 +1554,8 @@
       }
 
       .board-image {
-        min-height: 100dvh;
-        max-height: none;
+        min-height: 0;
+        max-height: 100dvh;
       }
 
       .modal {
@@ -1404,6 +1593,14 @@
 
       .track-list {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .dirt-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .dirt-card.is-wide {
+        grid-column: span 2;
       }
     }
 
@@ -1457,9 +1654,9 @@
       }
 
       .board-frame {
-        width: max(1120px, calc(100vh * 1.819));
-        width: max(1120px, calc(100dvh * 1.819));
-        min-width: 1120px;
+        width: max(900px, calc(100vh * 1.333333));
+        width: max(900px, calc(100dvh * 1.333333));
+        min-width: 900px;
         height: 100vh;
         height: 100dvh;
         overflow: hidden;
@@ -1500,8 +1697,8 @@
         min-height: 56px;
       }
 
-      .start-badge {
-        min-width: 132px;
+      .figure-plaque {
+        min-width: 142px;
       }
 
       .machine-status {
@@ -1557,7 +1754,7 @@
         animation-iteration-count: 1 !important;
       }
 
-      .hotspot[data-action="suno"]::before,
+      .hotspot::before,
       .soundtrack-stage::before,
       .soundtrack-light {
         animation: none !important;
@@ -1575,66 +1772,70 @@
       <span class="entry-fallback" aria-live="polite">
         <span>
           <strong>entry-graphic.png is missing.</strong>
-          <span>Continue to the corkboard.</span>
+          <span>Continue to the archive room.</span>
         </span>
       </span>
     </button>
   </section>
 
-  <section id="boardScene" aria-label="Corkboard" aria-hidden="true">
-    <div class="board-hint" aria-hidden="true">swipe to explore &rarr;</div>
+  <section id="boardScene" aria-label="Action-figure archive room" aria-hidden="true">
+    <div class="board-hint" aria-hidden="true">scroll to explore &rarr;</div>
     <div class="board-wrap">
       <div class="board-frame" id="boardFrame">
         <picture class="board-picture">
-          <source data-srcset="corkboard-desktop.webp" type="image/webp">
-          <img class="board-image" id="boardImage" data-src="corkboard-desktop.png" data-candidates="corkboard-desktop.png,corkboard-mobile.png" alt="Corkboard with pinned entry points" width="2048" height="1126" loading="lazy" decoding="async" fetchpriority="low">
+          <source data-srcset="action-figure-room.webp" type="image/webp">
+          <img class="board-image" id="boardImage" data-src="action-figure-room.png" data-candidates="action-figure-room.png,corkboard-desktop.png,corkboard-mobile.png" alt="Action-figure archive room with eight clickable figures" width="1448" height="1086" loading="lazy" decoding="async" fetchpriority="low">
         </picture>
 
-        <button class="hotspot" type="button" data-action="youtube" aria-label="Open main poster video">
-          <span class="sr-only">Main poster</span>
+        <button class="hotspot is-primary" type="button" data-menu-hotspot data-figure="soundtrack" data-action="suno" aria-label="Open IM HIGH ON CRACK AND I HAVE A SOUNDTRACK">
+          <span class="figure-plaque" aria-hidden="true"><small>START HERE</small><strong>IM HIGH ON CRACK AND I HAVE A SOUNDTRACK</strong></span>
+          <span class="sr-only">IM HIGH ON CRACK AND I HAVE A SOUNDTRACK</span>
         </button>
-        <button class="hotspot" type="button" data-action="atm" aria-label="Open ATM video">
-          <span class="sr-only">ATM / hit ur lick</span>
-        </button>
-        <button class="hotspot" type="button" data-action="email" aria-label="Open email signup">
-          <span class="sr-only">Email dropbox / radio</span>
-        </button>
-        <button class="hotspot email-note" type="button" data-action="email" aria-label="Open email signup from sticky note">
-          <span class="sr-only">Email archive sticky note</span>
-        </button>
-        <button class="hotspot" type="button" data-action="dopesick" aria-label="Open Dopesick gallery">
+        <button class="hotspot" type="button" data-menu-hotspot data-figure="dopesick" data-action="dopesick" aria-label="Open Dopesick">
+          <span class="figure-plaque" aria-hidden="true"><strong>Dopesick</strong></span>
           <span class="sr-only">Dopesick</span>
         </button>
-        <button class="hotspot" type="button" data-action="writing" aria-label="Open previously unreleased writing">
-          <span class="sr-only">Previously unreleased writing</span>
+        <button class="hotspot" type="button" data-menu-hotspot data-figure="writing" data-action="writing" aria-label="Open WouldaBeenCouldaBeenShouldaBeen">
+          <span class="figure-plaque" aria-hidden="true"><strong>WouldaBeenCouldaBeenShouldaBeen</strong></span>
+          <span class="sr-only">WouldaBeenCouldaBeenShouldaBeen</span>
         </button>
-        <button class="hotspot" type="button" data-action="teaser" aria-label="Open teaser chapter">
-          <span class="sr-only">Teaser Chapter</span>
+        <button class="hotspot" type="button" data-menu-hotspot data-figure="teaser" data-action="teaser" aria-label="Open Just a bump to get ya fienin">
+          <span class="figure-plaque" aria-hidden="true"><strong>Just a bump to get ya fienin</strong></span>
+          <span class="sr-only">Just a bump to get ya fienin</span>
         </button>
-        <button class="hotspot" type="button" data-action="suno" aria-label="Start here: open OG Crack Track soundtrack">
-          <span class="start-badge" aria-hidden="true"><strong>START HERE</strong><small>OG CRACK TRACK</small></span>
-          <span class="sr-only">START HERE: OG Crack Track soundtrack</span>
+        <button class="hotspot" type="button" data-menu-hotspot data-figure="plug" data-action="shop" aria-label="Open the plug">
+          <span class="figure-plaque" aria-hidden="true"><strong>the plug</strong></span>
+          <span class="sr-only">the plug</span>
         </button>
-        <button class="hotspot" type="button" data-action="social" aria-label="Open Dive in links">
-          <span class="sr-only">Dive in</span>
+        <button class="hotspot" type="button" data-menu-hotspot data-figure="dirt" data-action="dirt" aria-label="Open the DIRT SHOW">
+          <span class="figure-plaque" aria-hidden="true"><strong>the DIRT SHOW</strong></span>
+          <span class="sr-only">the DIRT SHOW</span>
         </button>
-        <button class="hotspot" type="button" data-action="shop" aria-label="Open archive waitlist">
-          <span class="sr-only">Archive waitlist</span>
+        <button class="hotspot" type="button" data-menu-hotspot data-figure="who" data-action="who" aria-label="Open so who is this crackhead anyway?">
+          <span class="figure-plaque" aria-hidden="true"><strong>so who is this crackhead anyway?</strong></span>
+          <span class="sr-only">so who is this crackhead anyway?</span>
+        </button>
+        <a class="hotspot" data-menu-hotspot data-figure="reels" href="https://www.instagram.com/imhighoncrackandihaveagun/reels/" target="_blank" rel="noopener noreferrer" aria-label="Open Instagram Reels">
+          <span class="figure-plaque" aria-hidden="true"><strong>;)</strong></span>
+          <span class="sr-only">;)</span>
+        </a>
+        <button class="hotspot" type="button" data-menu-hotspot data-dock="social" data-action="social" aria-label="Open social links">
+          <span class="figure-plaque" aria-hidden="true"><strong>links</strong></span>
+          <span class="sr-only">social links</span>
         </button>
 
-        <div class="board-fallback" role="region" aria-label="Corkboard fallback">
-          <h1>Corkboard asset missing.</h1>
-          <p>Place corkboard-mobile.png and corkboard-desktop.png beside this file. The entry points are still available below.</p>
+        <div class="board-fallback" role="region" aria-label="Action-figure room fallback">
+          <h1>Action-figure room asset missing.</h1>
+          <p>Place action-figure-room.png beside this file. The entry points are still available below.</p>
           <div class="fallback-actions">
-            <button type="button" data-action="youtube">Main Poster</button>
-            <button type="button" data-action="atm">ATM</button>
-            <button type="button" data-action="email">Email</button>
+            <button type="button" data-action="suno">Soundtrack</button>
             <button type="button" data-action="dopesick">Dopesick</button>
             <button type="button" data-action="writing">Writing</button>
             <button type="button" data-action="teaser">Teaser</button>
-            <button type="button" data-action="suno">Basement</button>
-            <button type="button" data-action="social">Dive In</button>
-            <button type="button" data-action="shop">Waitlist</button>
+            <button type="button" data-action="shop">the plug</button>
+            <button type="button" data-action="dirt">the DIRT SHOW</button>
+            <button type="button" data-action="who">Who</button>
+            <button type="button" data-action="social">Links</button>
           </div>
         </div>
       </div>
@@ -1736,7 +1937,7 @@
   <section class="modal" id="writingModal" role="dialog" aria-modal="true" aria-labelledby="writingTitle" hidden>
     <div class="modal-panel">
       <header class="modal-header">
-        <h2 class="modal-title" id="writingTitle">Previously Unreleased Writing</h2>
+        <h2 class="modal-title" id="writingTitle">WouldaBeenCouldaBeenShouldaBeen</h2>
         <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
       </header>
       <div class="modal-body">
@@ -1786,7 +1987,7 @@
   <section class="modal" id="sunoModal" role="dialog" aria-modal="true" aria-labelledby="sunoTitle" hidden>
     <div class="modal-panel soundtrack-panel">
       <header class="modal-header">
-        <h2 class="modal-title" id="sunoTitle">OG CRACK TRACK</h2>
+        <h2 class="modal-title" id="sunoTitle">IM HIGH ON CRACK AND I HAVE A SOUNDTRACK</h2>
         <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
       </header>
       <div class="modal-body soundtrack-body">
@@ -1804,18 +2005,18 @@
           <button class="machine-hotspot drop" type="button" data-player-toggle aria-label="Play or pause the current song"></button>
           <button class="machine-hotspot submit" type="button" data-player-toggle aria-label="Play or pause the current song"></button>
           <button class="machine-hotspot dial" type="button" data-player-next aria-label="Tune to the next song"></button>
-          <div class="machine-status" id="machineStatus" aria-live="polite">Ready: ogCRackTRack</div>
+          <div class="machine-status" id="machineStatus" aria-live="polite">Ready: og crAcK trAcK</div>
         </div>
 
         <div class="soundtrack-player">
           <div class="now-playing">
             <picture class="player-cover-wrap">
-              <source id="playerCoverWebp" srcset="ogCRackTrack-cover.webp" type="image/webp">
-              <img class="player-cover" id="playerCover" src="ogCRackTrack-cover.png" alt="OG CRACK TRACK cover" width="1385" height="1327" loading="lazy" decoding="async">
+              <source id="playerCoverWebp" srcset="cracktraptrack-cover.webp" type="image/webp">
+              <img class="player-cover" id="playerCover" src="cracktraptrack-cover.png" alt="og crAcK trAcK cover" width="1121" height="1684" loading="lazy" decoding="async">
             </picture>
             <div class="player-meta">
-              <span class="player-kicker" id="playerLabel">Main song</span>
-              <strong class="player-title" id="playerTitle">OG CRACK TRACK</strong>
+              <span class="player-kicker" id="playerLabel">Main/default song</span>
+              <strong class="player-title" id="playerTitle">og crAcK trAcK</strong>
               <span class="player-state" id="playerState">Ready</span>
             </div>
           </div>
@@ -1832,28 +2033,28 @@
           <div class="track-list" aria-label="Available songs">
             <button class="mix-track is-active" type="button" data-track-index="0">
               <picture>
-                <source srcset="ogCRackTrack-cover.webp" type="image/webp">
-                <img src="ogCRackTrack-cover.png" alt="" width="1385" height="1327" loading="lazy" decoding="async">
-              </picture>
-              <span>
-                <strong>OG CRACK TRACK</strong>
-                <small>Main song</small>
-              </span>
-            </button>
-            <button class="mix-track" type="button" data-track-index="1">
-              <picture>
                 <source srcset="cracktraptrack-cover.webp" type="image/webp">
                 <img src="cracktraptrack-cover.png" alt="" width="1121" height="1684" loading="lazy" decoding="async">
               </picture>
               <span>
-                <strong>CRACK TRAP TRACK</strong>
-                <small>Trap remix</small>
+                <strong>og crAcK trAcK</strong>
+                <small>Main/default song</small>
+              </span>
+            </button>
+            <button class="mix-track" type="button" data-track-index="1">
+              <picture>
+                <source srcset="ogCRackTrack-cover.webp" type="image/webp">
+                <img src="ogCRackTrack-cover.png" alt="" width="1385" height="1327" loading="lazy" decoding="async">
+              </picture>
+              <span>
+                <strong>og Sad Crack Trap</strong>
+                <small>Second track</small>
               </span>
             </button>
           </div>
 
           <audio class="soundtrack-audio" id="soundtrackAudio" preload="none">
-            <source src="ogCRackTrack.mp3" type="audio/mpeg">
+            <source src="cracktraptrack.mp3" type="audio/mpeg">
           </audio>
         </div>
         <p class="asset-note" id="trackNote" hidden>One of the local MP3 files could not be loaded.</p>
@@ -1886,11 +2087,80 @@
             <strong>Official Site</strong>
             <span>imhighoncrackandihaveagun.com</span>
           </a>
+          <a class="social-link" href="https://www.amazon.com/Dopesick-American-Addiction-Heroin-Profit/dp/1984338323/" target="_blank" rel="noopener noreferrer">
+            <strong>Dopesick on Amazon</strong>
+            <span>Existing book link</span>
+          </a>
+          <!-- TODO: Add confirmed Threads, Suno, Goodreads, and additional book links here when the exact URLs are available. -->
           <button class="shop-card" type="button" data-action="shop">
-            <strong>Archive Waitlist</strong>
-            <span>First access to signed books, archive cut access, and limited boxes</span>
+            <strong>the plug</strong>
+            <span>List for the Lick</span>
           </button>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="modal" id="dirtShowModal" role="dialog" aria-modal="true" aria-labelledby="dirtShowTitle" hidden>
+    <div class="modal-panel dirt-panel">
+      <header class="modal-header">
+        <h2 class="modal-title" id="dirtShowTitle">the DIRT SHOW</h2>
+        <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
+      </header>
+      <div class="modal-body">
+        <div class="dirt-grid" aria-label="Book and archive material">
+          <figure class="dirt-card is-wide">
+            <picture>
+              <source srcset="book-action-figure-packs.webp" type="image/webp">
+              <img src="book-action-figure-packs.png" alt="Two collector-style action figure packages tied to the book archive" width="1929" height="1472" loading="lazy" decoding="async">
+            </picture>
+            <figcaption>Collector figure editions</figcaption>
+          </figure>
+          <figure class="dirt-card">
+            <picture>
+              <source srcset="book-front-display.webp" type="image/webp">
+              <img src="book-front-display.png" alt="Front display mockup of the IHOCAIHAG book" width="1191" height="1634" loading="lazy" decoding="async">
+            </picture>
+            <figcaption>Front cover display</figcaption>
+          </figure>
+          <figure class="dirt-card">
+            <picture>
+              <source srcset="book-back-display.webp" type="image/webp">
+              <img src="book-back-display.png" alt="Back display mockup of the IHOCAIHAG book" width="1197" height="1536" loading="lazy" decoding="async">
+            </picture>
+            <figcaption>Back cover display</figcaption>
+          </figure>
+          <figure class="dirt-card">
+            <picture>
+              <source srcset="book-blueprint.webp" type="image/webp">
+              <img src="book-blueprint.png" alt="Blueprint-style printed volume study for the IHOCAIHAG book" width="1281" height="1613" loading="lazy" decoding="async">
+            </picture>
+            <figcaption>Blueprint study</figcaption>
+          </figure>
+          <figure class="dirt-card">
+            <picture>
+              <source srcset="book-back-cover-panel.webp" type="image/webp">
+              <img src="book-back-cover-panel.png" alt="Full back cover panel for the IHOCAIHAG book" width="1404" height="1755" loading="lazy" decoding="async">
+            </picture>
+            <figcaption>Back cover panel</figcaption>
+          </figure>
+          <figure class="dirt-card is-wide">
+            <picture>
+              <source srcset="book-atlas-study.webp" type="image/webp">
+              <img src="book-atlas-study.png" alt="Atlas study sheet showing the printed volume design and details" width="1267" height="1606" loading="lazy" decoding="async">
+            </picture>
+            <figcaption>Atlas study of a printed volume</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="modal" id="whoModal" role="dialog" aria-modal="true" aria-label="so who is this crackhead anyway?" hidden>
+    <div class="modal-panel who-panel">
+      <button class="close-btn who-close" type="button" data-close-modal aria-label="Close">x</button>
+      <div class="modal-body who-body">
+        <p>when im off dealer time ill tell u</p>
       </div>
     </div>
   </section>
@@ -1898,29 +2168,18 @@
   <section class="modal" id="shopModal" role="dialog" aria-modal="true" aria-labelledby="shopTitle" hidden>
     <div class="modal-panel">
       <header class="modal-header">
-        <h2 class="modal-title" id="shopTitle">Archive Waitlist</h2>
+        <h2 class="modal-title" id="shopTitle">the plug</h2>
         <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
       </header>
       <div class="modal-body">
-        <p class="modal-copy">Join the list for first access to signed books, archive cut access, and limited boxes.</p>
-        <ol class="roadmap-list">
-          <li>
-            <span><strong>Soundtrack</strong><span>OG CRACK TRACK opens the board.</span></span>
-          </li>
-          <li>
-            <span><strong>Archive board</strong><span>Evidence, chapters, documents, and hidden threads.</span></span>
-          </li>
-          <li>
-            <span><strong>Documentary archive cut</strong><span>The raw archive cut premieres here first.</span></span>
-          </li>
-          <li>
-            <span><strong>Book</strong><span>The book/documentary combo arrives Summer '26. First access goes to archive members.</span></span>
-          </li>
-          <li>
-            <span><strong>Limited Archive Box #001-050</strong><span>First access to the 50 numbered archive boxes goes to the list.</span></span>
-          </li>
-        </ol>
-        <p class="request-note">Author of <em>Dopesick: The American Addiction to Heroin and Profit</em>.</p>
+        <div class="lick-list">
+          <p>List for the Lick:</p>
+          <ol>
+            <li>First access to the UNEDITED Complete Documentary release 2 weeks before a StreamSafe version goes public.</li>
+            <li>First pick to get the chance at the ogCRACKPACK.</li>
+            <li>The first to receive all the important updates for the Book, Doc, and soundtrack.</li>
+          </ol>
+        </div>
         <form class="form-grid" action="https://formsubmit.co/imhighoncrackandihaveagun@gmail.com" method="POST">
           <input type="hidden" name="_captcha" value="false">
           <input type="hidden" name="_template" value="table">
@@ -2022,6 +2281,7 @@
       let readerPages = [];
       let readerIndex = 0;
       let soundtrackIndex = 0;
+      let armedHotspot = null;
 
       const actionMap = {
         youtube: () => openModal("youtubeModal"),
@@ -2032,7 +2292,9 @@
         teaser: () => openReader("teaser"),
         suno: () => openModal("sunoModal"),
         social: () => openModal("socialModal"),
-        shop: () => openModal("shopModal")
+        shop: () => openModal("shopModal"),
+        dirt: () => openModal("dirtShowModal"),
+        who: () => openModal("whoModal")
       };
 
       const transitionMap = {
@@ -2043,25 +2305,25 @@
 
       const soundtrackTracks = [
         {
-          title: "OG CRACK TRACK",
-          label: "Main song",
-          src: "ogCRackTrack.mp3",
-          cover: "ogCRackTrack-cover.png",
-          coverWebp: "ogCRackTrack-cover.webp"
-        },
-        {
-          title: "CRACK TRAP TRACK",
-          label: "Trap remix",
+          title: "og crAcK trAcK",
+          label: "Main/default song",
           src: "cracktraptrack.mp3",
           cover: "cracktraptrack-cover.png",
           coverWebp: "cracktraptrack-cover.webp"
+        },
+        {
+          title: "og Sad Crack Trap",
+          label: "Second track",
+          src: "ogCRackTrack.mp3",
+          cover: "ogCRackTrack-cover.png",
+          coverWebp: "ogCRackTrack-cover.webp"
         }
       ];
 
       const readerSources = {
         teaser: {
-          modalTitle: "Teaser Chapter",
-          kicker: "Teaser Chapter",
+          modalTitle: "Just a bump to get ya fienin",
+          kicker: "Just a bump to get ya fienin",
           title: "Introduction",
           candidates: [
             "dopesick2-introduction.txt",
@@ -2140,7 +2402,7 @@
           boardSource.srcset = boardSource.dataset.srcset;
         }
 
-        boardImage.src = boardImage.dataset.src || "corkboard-desktop.png";
+        boardImage.src = boardImage.dataset.src || "action-figure-room.png";
         boardImage.dataset.loaded = "true";
       }
 
@@ -2336,7 +2598,10 @@
           ? modal.querySelector(options.focusSelector)
           : modal.querySelector("[data-close-modal], button, a, input, select, textarea, video, audio");
 
-        if (options.focusSelector || id !== "emailModal") {
+        if (options.focusSelector) {
+          focusTarget?.focus({ preventScroll: true });
+          window.setTimeout(() => focusTarget?.focus({ preventScroll: true }), 80);
+        } else if (id !== "emailModal") {
           window.setTimeout(() => focusTarget?.focus({ preventScroll: true }), 80);
         }
       }
@@ -2781,6 +3046,29 @@
         });
       }
 
+      function clearArmedHotspot() {
+        armedHotspot?.classList.remove("is-armed");
+        armedHotspot = null;
+      }
+
+      function armMobileMenuHotspot(event, hotspot) {
+        const shouldArm = window.matchMedia("(max-width: 767px)").matches && event.detail > 0;
+        if (!shouldArm) {
+          return false;
+        }
+
+        if (armedHotspot === hotspot) {
+          clearArmedHotspot();
+          return false;
+        }
+
+        event.preventDefault();
+        clearArmedHotspot();
+        hotspot.classList.add("is-armed");
+        armedHotspot = hotspot;
+        return true;
+      }
+
       function initEvents() {
         entryHit.addEventListener("click", handleEntryClick);
         unlockForm.addEventListener("submit", handleUnlockSubmit);
@@ -2793,6 +3081,15 @@
         });
 
         document.addEventListener("click", (event) => {
+          const menuHotspot = event.target.closest("[data-menu-hotspot]");
+          if (menuHotspot && armMobileMenuHotspot(event, menuHotspot)) {
+            return;
+          }
+
+          if (!menuHotspot && armedHotspot) {
+            clearArmedHotspot();
+          }
+
           const closeButton = event.target.closest("[data-close-modal]");
           if (closeButton) {
             event.preventDefault();
@@ -2846,6 +3143,7 @@
           const action = actionButton.dataset.action;
           if (actionMap[action]) {
             event.preventDefault();
+            clearArmedHotspot();
             runAction(action);
           }
         });
