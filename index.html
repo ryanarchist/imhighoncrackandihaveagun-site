@@ -2386,6 +2386,19 @@
       const passViewedKey = "ihocaig-trap-pass-run-wave-1-viewed";
       const passViewedCookie = "ihocaig_trap_pass_run_wave_1_viewed";
       const trapPassNumberKey = "ihocaig-trap-pass-run-wave-1-number";
+      const legacyAccessKeys = [
+        "ihocaig-access-unlocked",
+        "ihocaig-entry-number",
+        "ihocaig-archive-unlocked",
+        "ihocaig-email-unlocked",
+        "ihocaig-unlocked"
+      ];
+      const legacyAccessCookies = [
+        "ihocaig_access_unlocked",
+        "ihocaig_archive_unlocked",
+        "ihocaig_email_unlocked",
+        "ihocaig_unlocked"
+      ];
       const trapPassButtonText = "Recieve your individual Trap Pass";
       const transitionMaxMs = reducedMotion ? 10 : 9000;
 
@@ -2548,6 +2561,49 @@
         document.cookie = `${name}=true; Max-Age=31536000; Path=/; SameSite=Lax${secureFlag}`;
       }
 
+      function readStorageValue(key) {
+        try {
+          return window.localStorage.getItem(key);
+        } catch (error) {
+          return null;
+        }
+      }
+
+      function writeStorageValue(key, value) {
+        try {
+          window.localStorage.setItem(key, value);
+        } catch (error) {
+          /* Locked-down in-app browsers can block storage; cookies still carry access. */
+        }
+      }
+
+      function hasLegacyUnlockedAccess() {
+        if (legacyAccessCookies.some((cookieName) => hasCookie(cookieName))) {
+          return true;
+        }
+
+        return legacyAccessKeys.some((key) => {
+          const value = readStorageValue(key);
+          return key === "ihocaig-entry-number" ? Boolean(value) : value === "true";
+        });
+      }
+
+      function migrateLegacyUnlockedAccess() {
+        if (!hasLegacyUnlockedAccess()) {
+          return false;
+        }
+
+        setUnlockedAccess();
+
+        const oldEntryNumber = readStorageValue("ihocaig-entry-number");
+        if (oldEntryNumber && !readStorageValue(trapPassNumberKey)) {
+          const suffix = oldEntryNumber.replace(/[^0-9A-Za-z]/g, "").slice(-6).padStart(6, "0");
+          writeStorageValue(trapPassNumberKey, `TRAP PASS #LEGACY-${suffix}`);
+        }
+
+        return true;
+      }
+
       function enterBoard() {
         prepareBoardImage();
         body.classList.add("board-active");
@@ -2645,20 +2701,15 @@
           return true;
         }
 
-        try {
-          return window.localStorage.getItem(accessKey) === "true";
-        } catch (error) {
-          return false;
+        if (readStorageValue(accessKey) === "true") {
+          return true;
         }
+
+        return migrateLegacyUnlockedAccess();
       }
 
       function setUnlockedAccess() {
-        try {
-          window.localStorage.setItem(accessKey, "true");
-        } catch (error) {
-          /* Private browsing can block storage; the success URL still opens the board. */
-        }
-
+        writeStorageValue(accessKey, "true");
         setYearCookie(accessCookie);
       }
 
@@ -2781,6 +2832,11 @@
       }
 
       function handleAtmClick() {
+        if (hasUnlockedAccess()) {
+          showTrapPassFromAtm();
+          return;
+        }
+
         openModal("emailModal", { focusSelector: "#signupEmail" });
       }
 
