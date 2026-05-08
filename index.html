@@ -127,7 +127,7 @@
       z-index: 0;
       content: "";
       background: url("entry-graphic.webp") center / cover no-repeat;
-      filter: blur(14px) brightness(0.38) saturate(1.08);
+      filter: blur(10px) brightness(0.48);
       transform: scale(1.04);
     }
 
@@ -147,6 +147,7 @@
       object-position: center;
       background: transparent;
       border: 0;
+      image-rendering: auto;
       user-select: none;
       -webkit-user-drag: none;
     }
@@ -161,13 +162,13 @@
 
     #entryScene::before {
       background:
-        radial-gradient(circle at center, transparent 52%, rgba(0, 0, 0, 0.42) 100%),
-        linear-gradient(to bottom, rgba(0, 0, 0, 0.22), transparent 26%, rgba(0, 0, 0, 0.28));
+        radial-gradient(circle at center, transparent 56%, rgba(0, 0, 0, 0.26) 100%),
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.12), transparent 28%, rgba(0, 0, 0, 0.16));
       mix-blend-mode: multiply;
     }
 
     #entryScene::after {
-      opacity: 0.12;
+      opacity: 0.07;
       background-image:
         repeating-radial-gradient(circle at 18% 24%, rgba(255, 255, 255, 0.18) 0 1px, transparent 1px 3px),
         repeating-linear-gradient(97deg, rgba(255, 255, 255, 0.09) 0 1px, transparent 1px 5px);
@@ -276,8 +277,9 @@
     }
 
     .atm-image {
-      object-fit: cover;
+      object-fit: contain;
       object-position: center;
+      image-rendering: auto;
     }
 
     .trap-pass-image {
@@ -286,6 +288,7 @@
       max-height: 100dvh;
       object-fit: contain;
       object-position: center;
+      image-rendering: auto;
       box-shadow: 0 0 42px rgba(0, 0, 0, 0.82);
     }
 
@@ -348,6 +351,7 @@
     .board-image {
       object-fit: contain;
       object-position: center;
+      image-rendering: auto;
       user-select: none;
       -webkit-user-drag: none;
     }
@@ -465,7 +469,7 @@
         0 0 0 1px rgba(255, 214, 151, 0.28),
         0 0 26px rgba(217, 67, 67, 0.38),
         0 0 54px rgba(217, 157, 64, 0.26);
-      opacity: 0.38;
+      opacity: 0.2;
       transition: opacity 180ms ease;
     }
 
@@ -798,7 +802,7 @@
       width: 100vw;
       height: 100vh;
       height: 100dvh;
-      object-fit: cover;
+      object-fit: contain;
       object-position: center;
       background: #000;
     }
@@ -1073,7 +1077,8 @@
       display: block;
       width: 100%;
       aspect-ratio: 4 / 5;
-      object-fit: cover;
+      object-fit: contain;
+      image-rendering: auto;
       border: 1px solid rgba(255, 238, 202, 0.16);
       border-radius: 6px;
       background: #100b08;
@@ -1130,7 +1135,8 @@
       width: min(100%, 290px);
       margin: 0 auto;
       aspect-ratio: 2 / 3;
-      object-fit: cover;
+      object-fit: contain;
+      image-rendering: auto;
       border: 1px solid rgba(255, 238, 202, 0.2);
       border-radius: 6px;
       background: #120c08;
@@ -1205,7 +1211,8 @@
       display: block;
       width: 100%;
       aspect-ratio: 16 / 10;
-      object-fit: cover;
+      object-fit: contain;
+      image-rendering: auto;
       background: #1b1713;
     }
 
@@ -1313,7 +1320,7 @@
 
     .soundtrack-stage::before {
       inset: -30% -12%;
-      opacity: 0.32;
+      opacity: 0.16;
       background:
         radial-gradient(circle at 18% 42%, rgba(255, 166, 66, 0.32), transparent 18rem),
         radial-gradient(circle at 78% 32%, rgba(69, 237, 213, 0.16), transparent 14rem),
@@ -1325,9 +1332,9 @@
 
     .soundtrack-stage::after {
       background:
-        linear-gradient(90deg, rgba(0, 0, 0, 0.24), transparent 18%, transparent 78%, rgba(0, 0, 0, 0.24)),
-        radial-gradient(circle at 50% 45%, transparent 66%, rgba(0, 0, 0, 0.28) 100%);
-      box-shadow: inset 0 0 34px rgba(255, 154, 46, 0.18);
+        linear-gradient(90deg, rgba(0, 0, 0, 0.14), transparent 18%, transparent 78%, rgba(0, 0, 0, 0.14)),
+        radial-gradient(circle at 50% 45%, transparent 72%, rgba(0, 0, 0, 0.16) 100%);
+      box-shadow: inset 0 0 22px rgba(255, 154, 46, 0.1);
     }
 
     .soundtrack-machine-image {
@@ -1338,7 +1345,7 @@
       height: 100%;
       object-fit: cover;
       object-position: center;
-      filter: saturate(1.08) contrast(1.05);
+      image-rendering: auto;
       user-select: none;
     }
 
@@ -1475,7 +1482,8 @@
       display: block;
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
+      image-rendering: auto;
       border: 1px solid rgba(255, 238, 202, 0.18);
       border-radius: 7px;
       background: #100b08;
@@ -1576,7 +1584,8 @@
 
     .mix-track img {
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
+      image-rendering: auto;
       border-radius: 6px;
       background: #100b08;
     }
@@ -1817,6 +1826,7 @@
     .store-scene img {
       object-fit: cover;
       background: #080605;
+      image-rendering: auto;
     }
 
     .store-scene-hotspot {
@@ -1918,6 +1928,7 @@
     .store-counter {
       display: grid;
       gap: clamp(12px, 1.8vw, 18px);
+      scroll-margin-top: 92px;
       animation: counterReveal 320ms ease both;
     }
 
@@ -2023,6 +2034,9 @@
       display: block;
       width: 100%;
       min-height: 0;
+      overflow: hidden;
+      border-radius: 6px;
+      background: #f2f0eb;
     }
 
     .store-shot img {
@@ -2031,6 +2045,7 @@
       height: clamp(320px, 34vw, 520px);
       object-fit: contain;
       object-position: center;
+      image-rendering: auto;
       border-radius: 6px;
       background: #f2f0eb;
       box-shadow:
@@ -2041,6 +2056,16 @@
     .store-shot.is-figure img {
       height: clamp(300px, 29vw, 470px);
       background: #f5f4f1;
+    }
+
+    .store-shot.is-shirt img {
+      transform: scale(1.12);
+      transform-origin: center;
+    }
+
+    .store-shot.is-figure img {
+      transform: scale(1.06);
+      transform-origin: center;
     }
 
     .store-shot figcaption {
@@ -2225,7 +2250,7 @@
       height: 100%;
       min-height: 190px;
       object-fit: contain;
-      filter: contrast(1.04) saturate(1.02);
+      image-rendering: auto;
       background:
         radial-gradient(circle at 50% 35%, rgba(148, 31, 37, 0.12), transparent 46%),
         #080605;
@@ -2321,12 +2346,10 @@
     @keyframes storeTurnIn {
       from {
         opacity: 0;
-        filter: brightness(0.72) blur(3px);
         transform: rotateY(-12deg) scale(0.96);
       }
       to {
         opacity: 1;
-        filter: brightness(1) blur(0);
         transform: rotateY(0) scale(1);
       }
     }
@@ -2443,7 +2466,7 @@
       }
 
       .store-layout {
-        grid-template-columns: minmax(0, 1.65fr) minmax(330px, 0.72fr);
+        grid-template-columns: minmax(0, 1.9fr) minmax(330px, 0.66fr);
         align-items: start;
       }
 
@@ -2524,7 +2547,7 @@
 
       .board-image {
         width: 100%;
-        object-fit: fill;
+        object-fit: contain;
         object-position: left center;
       }
 
@@ -2899,7 +2922,7 @@
           </div>
           <p class="form-error" id="emailError" aria-live="polite"></p>
           <p class="form-success" id="emailSuccess" aria-live="polite"></p>
-          <button class="primary-btn" id="unlockButton" type="submit">Print My Trap Pass</button>
+          <button class="primary-btn" id="unlockButton" type="submit">Receive Your Individual Trap Pass</button>
         </form>
         <iframe class="sr-only" id="formsubmitFrame" name="formsubmitFrame" title="Archive signup submission"></iframe>
       </div>
@@ -3489,7 +3512,7 @@
         "ihocaig_email_unlocked",
         "ihocaig_unlocked"
       ];
-      const trapPassButtonText = "Print My Trap Pass";
+      const trapPassButtonText = "Receive Your Individual Trap Pass";
       const transitionMaxMs = reducedMotion ? 10 : 9000;
 
       let activeModal = null;
