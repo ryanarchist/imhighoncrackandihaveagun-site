@@ -2818,12 +2818,13 @@
         position: fixed;
         bottom: max(12px, env(safe-area-inset-bottom));
         z-index: 12;
-        width: 50px;
-        height: 50px;
-        min-width: 50px;
-        min-height: 50px;
+        width: 48px;
+        height: 46px;
+        min-width: 48px;
+        min-height: 46px;
         color: #ffe5b1;
         border: 1px solid rgba(255, 214, 151, 0.4);
+        border-radius: 18px;
         background:
           linear-gradient(135deg, rgba(148, 31, 37, 0.86), rgba(15, 10, 7, 0.92) 54%, rgba(93, 15, 18, 0.86)),
           #130a07;
@@ -2832,16 +2833,21 @@
           0 0 18px rgba(217, 67, 67, 0.28);
       }
 
+      .dock-link::before {
+        display: none;
+      }
+
       .dock-link[data-dock="instagram"] {
         left: 12px;
       }
 
       .dock-link[data-dock="links"] {
-        left: 68px;
+        left: 66px;
+        width: 58px;
       }
 
       .dock-link[data-dock="youtube"] {
-        left: 124px;
+        left: 132px;
       }
 
       .dock-link[data-dock="scroll"] {
@@ -2873,15 +2879,89 @@
       }
 
       .store-prop::after {
-        bottom: -30px;
-        min-width: 148px;
+        bottom: calc(100% + 6px);
+        min-width: min(170px, 44vw);
         padding: 7px 10px;
-        font-size: 0.72rem;
+        font-size: 0.68rem;
       }
 
       .hotspot {
         min-width: 56px;
         min-height: 56px;
+      }
+
+      .hotspot::before {
+        inset: auto 18% 8% 18%;
+        height: 18%;
+        border-color: rgba(255, 221, 166, 0.16);
+        border-radius: 999px;
+        background:
+          radial-gradient(ellipse at center, rgba(255, 221, 166, 0.14), rgba(217, 67, 67, 0.08) 46%, transparent 74%);
+        box-shadow:
+          0 0 10px rgba(217, 67, 67, 0.16),
+          0 0 22px rgba(255, 181, 74, 0.1);
+        opacity: 0.34;
+        transform: none;
+      }
+
+      .hotspot.is-primary::before {
+        inset: auto 12% 6% 12%;
+        height: 23%;
+        border-color: rgba(255, 221, 166, 0.34);
+        opacity: 0.58;
+        box-shadow:
+          0 0 14px rgba(217, 67, 67, 0.32),
+          0 0 32px rgba(255, 181, 74, 0.18);
+      }
+
+      .hotspot.is-armed::before,
+      .hotspot:focus-visible::before {
+        inset: 7% 8% 10%;
+        height: auto;
+        border-color: rgba(255, 238, 202, 0.52);
+        border-radius: 999px 999px 24px 24px;
+        background:
+          linear-gradient(180deg, rgba(255, 232, 174, 0.04), transparent 40%),
+          radial-gradient(ellipse at 50% 74%, rgba(255, 214, 151, 0.12), transparent 58%);
+        box-shadow:
+          inset 0 0 16px rgba(255, 214, 151, 0.08),
+          0 0 18px rgba(217, 67, 67, 0.38),
+          0 0 42px rgba(255, 181, 74, 0.24);
+        opacity: 0.78;
+        transform: none;
+      }
+
+      .store-prop::before {
+        inset: auto 10% 18%;
+        height: 34%;
+        border-color: transparent;
+        border-radius: 999px;
+        background:
+          radial-gradient(ellipse at center, rgba(255, 221, 166, 0.1), rgba(217, 67, 67, 0.07) 46%, transparent 72%);
+        box-shadow:
+          0 0 18px rgba(217, 67, 67, 0.14),
+          0 0 28px rgba(255, 181, 74, 0.08);
+        opacity: 0.26;
+        transform: none;
+      }
+
+      .store-prop:focus-visible {
+        outline: 0;
+      }
+
+      .store-prop:hover::before,
+      .store-prop:focus-visible::before {
+        inset: auto 4% 14%;
+        height: 42%;
+        border-color: transparent;
+        border-radius: 999px;
+        background:
+          radial-gradient(ellipse at center, rgba(255, 238, 202, 0.18), rgba(217, 67, 67, 0.12) 48%, transparent 76%);
+        box-shadow:
+          0 0 20px rgba(217, 67, 67, 0.42),
+          0 0 44px rgba(255, 181, 74, 0.24);
+        opacity: 0.58;
+        transform: none;
       }
 
       .figure-plaque {
