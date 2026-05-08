@@ -425,41 +425,32 @@
 
     .store-prop {
       position: absolute;
-      left: 69.6%;
-      top: 74.1%;
+      left: 73.2%;
+      top: 74.8%;
       z-index: 7;
       display: block;
-      width: 21.5%;
-      min-width: 190px;
+      width: 8.6%;
+      height: 12.6%;
+      min-width: 58px;
+      min-height: 58px;
       padding: 0;
       cursor: pointer;
       border: 0;
+      border-radius: 999px;
       background: transparent;
-      transform: rotate(-2deg);
-      transform-origin: center;
       touch-action: manipulation;
-    }
-
-    .store-prop img {
-      display: block;
-      width: 100%;
-      height: auto;
-      filter: drop-shadow(8px 12px 12px rgba(0, 0, 0, 0.5));
-      pointer-events: none;
-      user-select: none;
-      -webkit-user-drag: none;
     }
 
     .store-prop::before {
       position: absolute;
-      inset: 3%;
+      inset: -14%;
       z-index: -1;
-      border-radius: 10px;
+      border-radius: 999px;
       content: "";
       box-shadow:
         0 0 0 1px rgba(255, 214, 151, 0.28),
-        0 0 26px rgba(217, 67, 67, 0.34),
-        0 0 48px rgba(217, 157, 64, 0.22);
+        0 0 26px rgba(217, 67, 67, 0.38),
+        0 0 54px rgba(217, 157, 64, 0.26);
       opacity: 0;
       transition: opacity 180ms ease;
     }
@@ -2138,8 +2129,8 @@
       }
 
       .board-frame {
-        width: max(900px, calc(100vh * 1.333333));
-        width: max(900px, calc(100dvh * 1.333333));
+        width: max(900px, calc(100vh * 1.325566));
+        width: max(900px, calc(100dvh * 1.325566));
         min-width: 900px;
         height: 100vh;
         height: 100dvh;
@@ -2226,10 +2217,12 @@
       }
 
       .store-prop {
-        left: 69.4%;
-        top: 74.2%;
-        width: 24%;
-        min-width: 216px;
+        left: 73.3%;
+        top: 74.6%;
+        width: 9%;
+        height: 13%;
+        min-width: 70px;
+        min-height: 70px;
       }
 
       .hotspot {
@@ -2368,7 +2361,7 @@
       <div class="board-frame" id="boardFrame">
         <picture class="board-picture">
           <source data-srcset="action-figure-room.webp" type="image/webp">
-          <img class="board-image" id="boardImage" data-src="action-figure-room.png" data-candidates="action-figure-room.png,corkboard-desktop.png,corkboard-mobile.png" alt="Action-figure archive room with eight clickable figures" width="1448" height="1086" loading="lazy" decoding="async" fetchpriority="low">
+          <img class="board-image" id="boardImage" data-src="action-figure-room.png" data-candidates="action-figure-room.png,corkboard-desktop.png,corkboard-mobile.png" alt="Action-figure archive room with eight clickable figures and Chaz and Amelia near the store area" width="1991" height="1502" loading="lazy" decoding="async" fetchpriority="low">
         </picture>
 
         <button class="hotspot is-primary" type="button" data-menu-hotspot data-figure="soundtrack" data-action="suno" aria-label="Open IM HIGH ON CRACK AND I HAVE A SOUNDTRACK">
@@ -2424,10 +2417,7 @@
           <span class="sr-only">scroll to explore</span>
         </button>
         <button class="store-prop" type="button" data-action="shop" aria-label="Open Chaz n Amelia's Cocaina Pearl IHOCAIHAG Store">
-          <picture>
-            <source srcset="chaz-amelia-store-card.webp" type="image/webp">
-            <img src="chaz-amelia-store-card.png" alt="Chaz n Amelia's Cocaina Pearl IHOCAIHAG Store" width="311" height="170" loading="lazy" decoding="async">
-          </picture>
+          <span class="sr-only">Chaz n Amelia's Cocaina Pearl IHOCAIHAG Store</span>
         </button>
 
         <div class="board-fallback" role="region" aria-label="Action-figure room fallback">
