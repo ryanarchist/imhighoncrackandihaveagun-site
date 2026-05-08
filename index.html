@@ -1688,57 +1688,142 @@
 
     .store-stage {
       position: relative;
+      display: grid;
+      place-items: center;
       overflow: hidden;
-      max-height: 680px;
+      padding: clamp(8px, 2vw, 16px);
       border: 1px solid rgba(255, 214, 151, 0.24);
       border-radius: 8px;
-      background: #080605;
+      background:
+        radial-gradient(circle at 42% 38%, rgba(217, 67, 67, 0.14), transparent 36rem),
+        #080605;
       box-shadow: inset 0 0 38px rgba(0, 0, 0, 0.42), 0 18px 42px rgba(0, 0, 0, 0.34);
+      perspective: 1100px;
     }
 
-    .store-stage img {
+    .store-scene {
+      position: relative;
+      width: min(100%, calc(min(74dvh, 820px) * 1097 / 1676));
+      aspect-ratio: 1097 / 1676;
+      overflow: hidden;
+      border: 1px solid rgba(255, 214, 151, 0.18);
+      border-radius: 8px;
+      background: #080605;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.48);
+      animation: storeTurnIn 560ms cubic-bezier(0.2, 0.72, 0.2, 1) both;
+    }
+
+    .store-scene picture,
+    .store-scene img {
       display: block;
       width: 100%;
-      max-height: 680px;
-      object-fit: contain;
+      height: 100%;
+    }
+
+    .store-scene img {
+      object-fit: cover;
       background: #080605;
     }
 
-    .store-url-plaque {
+    .store-scene-hotspot {
+      position: absolute;
+      left: var(--x);
+      top: var(--y);
+      z-index: 3;
+      width: var(--w);
+      height: var(--h);
+      min-width: 48px;
+      min-height: 48px;
+      padding: 0;
+      border: 0;
+      border-radius: 10px;
+      background: transparent;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    .store-scene-hotspot::before {
+      position: absolute;
+      inset: -8%;
+      border: 1px solid rgba(255, 214, 151, 0.28);
+      border-radius: inherit;
+      content: "";
+      background:
+        radial-gradient(circle at 50% 50%, rgba(255, 214, 151, 0.3), rgba(148, 31, 37, 0.18) 46%, transparent 74%);
+      box-shadow:
+        0 0 0 1px rgba(255, 214, 151, 0.14),
+        0 0 30px rgba(217, 67, 67, 0.34),
+        0 0 56px rgba(217, 157, 64, 0.22);
+      opacity: 0.34;
+      transition: opacity 180ms ease, transform 180ms ease;
+      pointer-events: none;
+    }
+
+    .store-scene-hotspot::after {
       position: absolute;
       left: 50%;
-      bottom: 14px;
-      z-index: 2;
-      display: grid;
-      gap: 3px;
-      width: min(calc(100% - 24px), 470px);
-      padding: 10px 12px;
-      border: 1px solid rgba(255, 214, 151, 0.52);
-      border-radius: 6px;
+      bottom: -34px;
+      min-width: 134px;
+      padding: 7px 10px;
+      border: 1px solid rgba(255, 214, 151, 0.58);
+      border-radius: 4px;
       color: #ffe5b1;
       background:
-        linear-gradient(135deg, rgba(217, 67, 67, 0.72), rgba(15, 10, 7, 0.9)),
-        rgba(0, 0, 0, 0.75);
-      box-shadow: 0 0 24px rgba(217, 67, 67, 0.28);
-      text-align: center;
+        linear-gradient(135deg, rgba(148, 31, 37, 0.9), rgba(15, 10, 7, 0.95) 48%, rgba(114, 19, 22, 0.86)),
+        #140b08;
+      box-shadow:
+        inset 0 0 0 1px rgba(0, 0, 0, 0.42),
+        0 0 18px rgba(217, 67, 67, 0.34);
+      content: attr(data-label);
+      font-family: var(--font-display);
+      font-size: clamp(0.68rem, 1.1vw, 0.84rem);
       font-weight: 900;
+      line-height: 1;
+      text-align: center;
       text-transform: uppercase;
       transform: translateX(-50%);
+      transition: opacity 180ms ease, transform 180ms ease;
+      pointer-events: none;
     }
 
-    .store-url-plaque strong {
-      font-family: var(--font-display);
-      overflow-wrap: anywhere;
-      font-size: clamp(0.88rem, 3vw, 1.08rem);
-      line-height: 1.05;
+    .store-scene-hotspot:hover::before,
+    .store-scene-hotspot:focus-visible::before {
+      opacity: 0.92;
+      transform: scale(1.03);
     }
 
-    .store-url-plaque span {
-      color: var(--muted);
-      font-family: var(--font-display);
-      font-size: 0.72rem;
-      font-weight: 900;
-      line-height: 1.1;
+    .store-scene-hotspot:hover::after,
+    .store-scene-hotspot:focus-visible::after {
+      transform: translateX(-50%) translateY(-2px);
+    }
+
+    .store-scene-hotspot:focus-visible {
+      outline: 3px solid rgba(255, 238, 202, 0.86);
+      outline-offset: 3px;
+    }
+
+    .store-door-hotspot {
+      --x: 4.2%;
+      --y: 42.2%;
+      --w: 32.5%;
+      --h: 25%;
+    }
+
+    .store-tip-hotspot {
+      --x: 31.2%;
+      --y: 62.6%;
+      --w: 23%;
+      --h: 11.6%;
+    }
+
+    .store-counter {
+      display: grid;
+      gap: 14px;
+      animation: counterReveal 320ms ease both;
+    }
+
+    .store-counter[hidden] {
+      display: none;
     }
 
     .store-copy {
@@ -2073,6 +2158,30 @@
       }
     }
 
+    @keyframes storeTurnIn {
+      from {
+        opacity: 0;
+        filter: brightness(0.72) blur(3px);
+        transform: rotateY(-12deg) scale(0.96);
+      }
+      to {
+        opacity: 1;
+        filter: brightness(1) blur(0);
+        transform: rotateY(0) scale(1);
+      }
+    }
+
+    @keyframes counterReveal {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
     .request-note {
       margin: 0 0 14px;
       color: var(--muted);
@@ -2398,16 +2507,18 @@
       }
 
       .store-stage {
-        max-height: 62dvh;
+        padding: 8px;
       }
 
-      .store-stage img {
-        max-height: 62dvh;
+      .store-scene {
+        width: min(100%, calc(68dvh * 1097 / 1676));
       }
 
-      .store-url-plaque {
-        bottom: 10px;
-        padding: 9px 10px;
+      .store-scene-hotspot::after {
+        bottom: -28px;
+        min-width: 112px;
+        padding: 6px 8px;
+        font-size: 0.68rem;
       }
 
       .store-gallery,
@@ -2888,24 +2999,28 @@
       </header>
       <div class="modal-body store-body">
         <div class="store-stage">
-          <picture>
-            <source srcset="store-hallway.webp" type="image/webp">
-            <img src="store-hallway.png" alt="Chaz n Amelia's Cocaina Pearl IHOCAIHAG Store hallway entrance" width="944" height="1677" loading="lazy" decoding="async">
-          </picture>
-          <!-- TODO: Point DNS/CNAME before using shop.imhighoncrackandihaveagun.com as a live subdomain. -->
-          <div class="store-url-plaque" aria-label="Store address">
-            <strong>shop.imhighoncrackandihaveagun.com</strong>
-            <span>Collector Counter</span>
+          <div class="store-scene" aria-label="Turned-around store location">
+            <picture>
+              <source srcset="store-red-carpet.webp" type="image/webp">
+              <img src="store-red-carpet.png" alt="Chaz n Amelia's Cocaina Pearl IHOCAIHAG Store red carpet location with a front door and tip jar sign" width="1097" height="1676" loading="lazy" decoding="async">
+            </picture>
+            <button class="store-scene-hotspot store-door-hotspot" type="button" data-store-enter data-label="Enter Store" aria-label="Enter the store order screen">
+              <span class="sr-only">Enter the store order screen</span>
+            </button>
+            <button class="store-scene-hotspot store-tip-hotspot" type="button" data-tip-jar data-label="Tip Display" aria-label="Open PayPal tip display">
+              <span class="sr-only">Open PayPal tip display</span>
+            </button>
           </div>
         </div>
 
-        <p class="store-copy">Collector shirt counter. Trap Pass holders get 10% off during the first two weeks; type any Trap Pass serial to apply it.</p>
-        <div class="store-actions">
-          <span>Display counter open</span>
-          <button class="plain-btn store-tip-button" type="button" data-tip-jar>Open Tip Display</button>
-        </div>
+        <section class="store-counter" id="storeCounter" aria-label="Store order screen" hidden>
+          <!-- TODO: Point DNS/CNAME before using shop.imhighoncrackandihaveagun.com as a live subdomain. -->
+          <p class="store-copy">Front door opened. Collector shirt counter is live. Trap Pass holders get 10% off during the first two weeks; type any Trap Pass serial to apply it.</p>
+          <div class="store-actions">
+            <span>Order counter open</span>
+          </div>
 
-        <div class="store-layout">
+          <div class="store-layout">
           <div class="store-gallery" aria-label="Store product photos">
             <figure class="store-shot">
               <picture>
@@ -3085,7 +3200,8 @@
 
             <button class="primary-btn" type="submit">Send Collector Request</button>
         </form>
-        </div>
+          </div>
+        </section>
       </div>
     </div>
   </section>
@@ -3162,6 +3278,8 @@
       const successVideo = document.getElementById("successVideo");
       const transitionOverlay = document.getElementById("transitionOverlay");
       const transitionVideo = document.getElementById("transitionVideo");
+      const shopTitle = document.getElementById("shopTitle");
+      const storeCounter = document.getElementById("storeCounter");
       const shirtOrderForm = document.getElementById("shirtOrderForm");
       const trapPassDiscount = document.getElementById("trapPassDiscount");
       const paymentMethod = document.getElementById("paymentMethod");
@@ -3222,7 +3340,7 @@
         teaser: () => openReader("teaser"),
         suno: () => openModal("sunoModal"),
         social: () => openModal("socialModal"),
-        shop: () => openModal("shopModal"),
+        shop: () => openModal("shopModal", { focusSelector: "[data-store-enter]" }),
         tipJar: () => openModal("tipJarModal"),
         dirt: () => openModal("dirtShowModal"),
         who: () => openModal("whoModal")
@@ -3684,6 +3802,7 @@
         }
 
         if (id === "shopModal") {
+          resetStoreCounter();
           updateShopTotals();
           updatePaymentInstructions();
         }
@@ -3812,6 +3931,30 @@
 
       function formatMoney(amount) {
         return `$${amount.toFixed(2)}`;
+      }
+
+      function resetStoreCounter() {
+        if (!storeCounter) return;
+        storeCounter.hidden = true;
+        if (shopTitle) {
+          shopTitle.textContent = "Chaz & Amelia's Cocaina Pearl Store";
+        }
+      }
+
+      function enterStoreCounter() {
+        if (!storeCounter) return;
+        storeCounter.hidden = false;
+        if (shopTitle) {
+          shopTitle.textContent = "Shirt Figure Pack Counter";
+        }
+        updateShopTotals();
+        updatePaymentInstructions();
+        window.requestAnimationFrame(() => {
+          storeCounter.scrollIntoView({
+            behavior: reducedMotion ? "auto" : "smooth",
+            block: "start"
+          });
+        });
       }
 
       function updateShopTotals() {
@@ -4237,6 +4380,14 @@
           });
         });
 
+        document.querySelectorAll("[data-store-enter]").forEach((button) => {
+          button.addEventListener("click", (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            enterStoreCounter();
+          });
+        });
+
         document.querySelectorAll("[data-tip-jar]").forEach((button) => {
           button.addEventListener("click", (event) => {
             event.preventDefault();
@@ -4304,6 +4455,13 @@
           if (scrollButton) {
             event.preventDefault();
             scrollBoardForward();
+            return;
+          }
+
+          const storeEnterButton = event.target.closest("[data-store-enter]");
+          if (storeEnterButton) {
+            event.preventDefault();
+            enterStoreCounter();
             return;
           }
 
