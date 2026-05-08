@@ -2033,6 +2033,33 @@
       image-rendering: auto;
     }
 
+    .store-scene .store-front-sign {
+      position: absolute;
+      left: 9.6%;
+      top: 37.2%;
+      z-index: 2;
+      display: block;
+      width: 33%;
+      height: auto;
+      pointer-events: none;
+      filter:
+        drop-shadow(0 12px 18px rgba(0, 0, 0, 0.42))
+        drop-shadow(0 0 16px rgba(255, 181, 74, 0.18));
+      transform: rotate(-0.35deg);
+      transform-origin: center;
+    }
+
+    .store-front-sign img {
+      display: block;
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      object-position: center;
+      background: transparent;
+      border-radius: 4px;
+      image-rendering: auto;
+    }
+
     .store-scene-hotspot {
       position: absolute;
       left: var(--x);
@@ -3412,6 +3439,10 @@
             <picture>
               <source srcset="store-red-carpet.webp" type="image/webp">
               <img src="store-red-carpet.png" alt="Chaz n Amelia's Cocaina Pearl IHOCAIHAG Store red carpet location with a front door and tip jar sign" width="1097" height="1676" loading="lazy" decoding="async">
+            </picture>
+            <picture class="store-front-sign" aria-hidden="true">
+              <source srcset="store-sign-chaz-amelia.webp" type="image/webp">
+              <img src="store-sign-chaz-amelia.png" alt="" width="1080" height="803" loading="lazy" decoding="async">
             </picture>
             <button class="store-scene-hotspot store-door-hotspot" type="button" data-store-enter data-label="Front Door" aria-label="Enter the store order screen">
               <span class="sr-only">Enter the store order screen</span>
