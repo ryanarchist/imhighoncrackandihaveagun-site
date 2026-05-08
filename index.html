@@ -2435,25 +2435,52 @@
     .qr-card {
       display: grid;
       gap: 6px;
+      justify-items: center;
       color: var(--muted);
       font-size: 0.82rem;
       line-height: 1.2;
     }
 
-    .qr-card img,
-    .tip-jar-image {
+    .qr-card picture,
+    .payment-card > picture,
+    .tip-jar-body picture {
       display: block;
-      width: 100%;
+      width: min(100%, 340px);
+      margin: 0 auto;
+      overflow: hidden;
       border-radius: 8px;
       background: #fff;
     }
 
-    .payment-card > picture img {
+    .qr-card img,
+    .payment-card > picture img,
+    .tip-jar-image {
       display: block;
-      width: min(100%, 320px);
-      margin: 0 auto;
+      width: 100%;
+      height: auto !important;
+      max-height: none;
+      object-fit: contain;
+      object-position: center;
       border-radius: 8px;
       background: #fff;
+    }
+
+    .qr-scan picture,
+    .payment-card.qr-scan > picture,
+    .tip-jar-body picture {
+      aspect-ratio: 1;
+    }
+
+    .qr-scan img,
+    .payment-card.qr-scan > picture img,
+    .tip-jar-image {
+      height: 100% !important;
+      object-fit: cover;
+      object-position: center 52%;
+    }
+
+    .payment-card > picture img {
+      max-width: 340px;
     }
 
     .tip-jar-body {
@@ -3673,7 +3700,7 @@
               <strong>PayPal</strong>
               <p>Scan the seller code below, or confirm the PayPal profile before sending payment.</p>
               <div class="qr-grid">
-                <span class="qr-card">
+                <span class="qr-card qr-scan">
                   <picture>
                     <source srcset="payment-paypal-seller.webp" type="image/webp">
                     <img src="payment-paypal-seller.png" alt="PayPal seller QR for Ryan Homanics" width="771" height="904" loading="lazy" decoding="async">
@@ -3690,7 +3717,7 @@
               </div>
             </div>
 
-            <div class="payment-card" data-payment-panel="cashapp" hidden>
+            <div class="payment-card qr-scan" data-payment-panel="cashapp" hidden>
               <strong>Cash App</strong>
               <p>Cash App: <code>$RyanHomanics</code></p>
               <picture>
@@ -3699,7 +3726,7 @@
               </picture>
             </div>
 
-            <div class="payment-card" data-payment-panel="chime" hidden>
+            <div class="payment-card qr-scan" data-payment-panel="chime" hidden>
               <strong>Chime</strong>
               <p>Chime: <code>$Ryan-Homanics</code></p>
               <picture>
