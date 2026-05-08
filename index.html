@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#080706">
   <title>IM HIGH ON CRACK AND I HAVE A GUN</title>
-  <meta name="description" content="A hidden action-figure archive room for IMHIGHONCRACKANDIHAVEAGUN.COM.">
+  <meta name="description" content="A hidden collector toy-display archive room for IMHIGHONCRACKANDIHAVEAGUN.COM.">
   <link rel="icon" href="data:,">
   <link rel="preload" as="image" href="entry-graphic.webp" type="image/webp">
   <link rel="preload" as="image" href="trap-pass-atm.webp" type="image/webp">
@@ -25,7 +25,10 @@
       --line: rgba(255, 238, 202, 0.22);
       --panel: rgba(14, 11, 9, 0.94);
       --shadow: 0 26px 90px rgba(0, 0, 0, 0.6);
-      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-display: "Bahnschrift Condensed", "Agency FB", "Arial Narrow", Impact, sans-serif;
+      --font-body: Bahnschrift, "Aptos Condensed", "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
+      --font-tech: "Cascadia Mono", Consolas, "Lucida Console", monospace;
+      font-family: var(--font-body);
     }
 
     * {
@@ -39,6 +42,9 @@
       padding: 0;
       background: var(--bg);
       color: var(--ink);
+      font-family: var(--font-body);
+      font-weight: 650;
+      text-rendering: geometricPrecision;
     }
 
     body.entry-active,
@@ -62,6 +68,7 @@
     select,
     textarea {
       font: inherit;
+      letter-spacing: 0;
     }
 
     a {
@@ -186,8 +193,10 @@
 
     .entry-fallback strong {
       margin-bottom: 8px;
+      font-family: var(--font-display);
       font-size: clamp(1.1rem, 5vw, 2rem);
       letter-spacing: 0;
+      text-transform: uppercase;
     }
 
     .entry-fallback span {
@@ -358,8 +367,11 @@
 
     .board-fallback h1 {
       margin: 0;
+      font-family: var(--font-display);
       font-size: clamp(1.5rem, 7vw, 3rem);
+      font-weight: 900;
       letter-spacing: 0;
+      text-transform: uppercase;
     }
 
     .board-fallback p {
@@ -472,7 +484,8 @@
       box-shadow:
         inset 0 0 0 1px rgba(0, 0, 0, 0.42),
         0 0 18px rgba(217, 67, 67, 0.34);
-      content: "CHAZ & AMELIA STORE";
+      content: "CHAZ & AMELIA SHOP";
+      font-family: var(--font-display);
       font-size: clamp(0.68rem, 1.1vw, 0.86rem);
       font-weight: 900;
       line-height: 1;
@@ -596,7 +609,9 @@
     .figure-plaque strong,
     .dock-plaque strong {
       padding: 0 8px;
+      font-family: var(--font-display);
       font-size: clamp(0.65rem, 1.1vw, 0.82rem);
+      font-weight: 900;
       line-height: 1.05;
       overflow-wrap: anywhere;
     }
@@ -604,7 +619,9 @@
     .figure-plaque small,
     .dock-plaque small {
       color: var(--muted);
+      font-family: var(--font-display);
       font-size: clamp(0.55rem, 0.92vw, 0.66rem);
+      font-weight: 900;
       line-height: 1;
     }
 
@@ -813,9 +830,12 @@
 
     .modal-title {
       margin: 0;
+      font-family: var(--font-display);
       font-size: clamp(1.05rem, 4.8vw, 1.6rem);
+      font-weight: 900;
       line-height: 1.1;
       letter-spacing: 0;
+      text-transform: uppercase;
     }
 
     .close-btn,
@@ -898,7 +918,10 @@
 
     .field label {
       color: var(--muted);
+      font-family: var(--font-display);
       font-size: 0.9rem;
+      font-weight: 900;
+      text-transform: uppercase;
     }
 
     .field input,
@@ -911,6 +934,8 @@
       border-radius: 6px;
       color: var(--ink);
       background: rgba(255, 255, 255, 0.06);
+      font-family: var(--font-body);
+      font-weight: 750;
     }
 
     .field textarea {
@@ -941,8 +966,10 @@
     .unlock-support {
       margin: 0;
       color: #ffe5b1;
+      font-family: var(--font-display);
       font-size: 0.95rem;
       font-weight: 800;
+      text-transform: uppercase;
     }
 
     .form-error,
@@ -978,6 +1005,7 @@
     }
 
     .entry-number-card strong {
+      font-family: var(--font-tech);
       font-size: clamp(1.35rem, 7vw, 2rem);
       line-height: 1;
       letter-spacing: 0;
@@ -995,6 +1023,7 @@
       justify-content: center;
       min-height: 48px;
       padding: 12px 16px;
+      font-family: var(--font-display);
       font-weight: 800;
       text-decoration: none;
       text-transform: uppercase;
@@ -1008,7 +1037,10 @@
       align-items: center;
       justify-content: center;
       padding: 10px 14px;
+      font-family: var(--font-display);
+      font-weight: 900;
       text-decoration: none;
+      text-transform: uppercase;
     }
 
     /* Dopesick */
@@ -1044,8 +1076,10 @@
     }
 
     .buy-card strong {
+      font-family: var(--font-display);
       font-size: 1.2rem;
       letter-spacing: 0;
+      text-transform: uppercase;
     }
 
     .buy-card span {
@@ -1102,6 +1136,7 @@
     .reader-kicker {
       margin: 0 0 8px;
       color: #6c221d;
+      font-family: var(--font-display);
       font-size: 0.82rem;
       font-weight: 800;
       text-transform: uppercase;
@@ -1110,14 +1145,18 @@
 
     .reader-page h2 {
       margin: 0 0 16px;
+      font-family: var(--font-display);
       font-size: clamp(1.35rem, 6vw, 2.4rem);
+      font-weight: 900;
       line-height: 1.05;
       letter-spacing: 0;
+      text-transform: uppercase;
     }
 
     .reader-content {
-      font-family: Georgia, "Times New Roman", serif;
+      font-family: var(--font-body);
       font-size: clamp(1rem, 4.4vw, 1.16rem);
+      font-weight: 650;
       line-height: 1.7;
     }
 
@@ -1158,14 +1197,16 @@
     }
 
     .book-card strong {
-      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: var(--font-display);
       font-size: 1rem;
+      font-weight: 900;
       line-height: 1.2;
+      text-transform: uppercase;
     }
 
     .book-card small {
       color: #6c221d;
-      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: var(--font-display);
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0;
@@ -1210,7 +1251,10 @@
 
     .social-link strong,
     .shop-card strong {
+      font-family: var(--font-display);
       font-size: 1rem;
+      font-weight: 900;
+      text-transform: uppercase;
     }
 
     .social-link span,
@@ -1372,6 +1416,7 @@
       border-radius: 6px;
       color: #ffe2aa;
       background: rgba(5, 5, 5, 0.55);
+      font-family: var(--font-display);
       font-size: 0.78rem;
       font-weight: 800;
       text-transform: uppercase;
@@ -1432,9 +1477,12 @@
 
     .player-title {
       color: var(--ink);
+      font-family: var(--font-display);
       font-size: clamp(1.05rem, 4.6vw, 1.35rem);
+      font-weight: 900;
       line-height: 1.1;
       overflow-wrap: anywhere;
+      text-transform: uppercase;
     }
 
     .player-controls {
@@ -1450,6 +1498,9 @@
       border: 1px solid rgba(255, 238, 202, 0.22);
       border-radius: 6px;
       color: var(--ink);
+      font-family: var(--font-display);
+      font-weight: 900;
+      text-transform: uppercase;
       background: rgba(255, 238, 202, 0.08);
       cursor: pointer;
     }
@@ -1518,12 +1569,18 @@
     }
 
     .mix-track strong {
+      font-family: var(--font-display);
+      font-weight: 900;
       overflow-wrap: anywhere;
+      text-transform: uppercase;
     }
 
     .mix-track small {
       color: var(--muted);
+      font-family: var(--font-display);
+      font-weight: 900;
       line-height: 1.25;
+      text-transform: uppercase;
     }
 
     .mix-track.is-active {
@@ -1670,6 +1727,7 @@
     }
 
     .store-url-plaque strong {
+      font-family: var(--font-display);
       overflow-wrap: anywhere;
       font-size: clamp(0.88rem, 3vw, 1.08rem);
       line-height: 1.05;
@@ -1677,7 +1735,9 @@
 
     .store-url-plaque span {
       color: var(--muted);
+      font-family: var(--font-display);
       font-size: 0.72rem;
+      font-weight: 900;
       line-height: 1.1;
     }
 
@@ -1701,12 +1761,14 @@
 
     .store-actions span {
       color: #ffe5b1;
+      font-family: var(--font-display);
       font-weight: 900;
       text-transform: uppercase;
     }
 
     .store-tip-button {
       min-width: min(100%, 180px);
+      font-family: var(--font-display);
       font-weight: 900;
       text-transform: uppercase;
     }
@@ -1743,6 +1805,7 @@
 
     .store-shot figcaption {
       color: #ffe5b1;
+      font-family: var(--font-display);
       font-size: 0.83rem;
       font-weight: 900;
       line-height: 1.2;
@@ -1765,7 +1828,9 @@
     .totals-card h3 {
       margin: 0;
       color: #ffe5b1;
+      font-family: var(--font-display);
       font-size: 1.05rem;
+      font-weight: 900;
       line-height: 1.1;
       text-transform: uppercase;
     }
@@ -1797,6 +1862,8 @@
       justify-content: space-between;
       gap: 12px;
       color: var(--muted);
+      font-family: var(--font-body);
+      font-weight: 750;
       font-variant-numeric: tabular-nums;
     }
 
@@ -1827,6 +1894,8 @@
 
     .payment-card strong {
       color: #ffe5b1;
+      font-family: var(--font-display);
+      font-weight: 900;
       text-transform: uppercase;
     }
 
@@ -1838,6 +1907,7 @@
 
     .payment-card code {
       color: var(--ink);
+      font-family: var(--font-tech);
       overflow-wrap: anywhere;
       white-space: normal;
     }
@@ -1936,6 +2006,7 @@
       color: #ffe5b1;
       background: rgba(9, 6, 5, 0.78);
       box-shadow: 0 0 18px rgba(148, 31, 37, 0.28);
+      font-family: var(--font-display);
       font-weight: 900;
       text-transform: uppercase;
     }
@@ -1963,6 +2034,7 @@
       max-width: 20rem;
       margin: 0;
       color: #ffe5b1;
+      font-family: var(--font-display);
       font-size: clamp(1.6rem, 8vw, 3.1rem);
       font-weight: 900;
       line-height: 1.02;
@@ -2028,7 +2100,10 @@
     .toast p {
       margin: 0;
       color: var(--ink);
+      font-family: var(--font-display);
+      font-weight: 900;
       line-height: 1.35;
+      text-transform: uppercase;
     }
 
     .toast video {
@@ -2194,6 +2269,7 @@
         color: #ffe5b1;
         background: rgba(10, 7, 6, 0.68);
         box-shadow: 0 0 18px rgba(148, 31, 37, 0.22);
+        font-family: var(--font-display);
         font-size: 0.8rem;
         font-weight: 800;
         text-transform: uppercase;
@@ -2371,15 +2447,15 @@
       </picture>
       <span class="entry-fallback" aria-live="polite">
         <span>
-          <strong>entry-graphic.png is missing.</strong>
-          <span>Continue to the archive room.</span>
+          <strong>Entry card missing.</strong>
+          <span>Continue to the display room.</span>
         </span>
       </span>
     </button>
   </section>
 
   <section id="atmScene" aria-label="Trap Pass ATM" hidden>
-    <button class="atm-hit" id="atmHit" type="button" aria-label="Collect your personal Trap Pass">
+    <button class="atm-hit" id="atmHit" type="button" aria-label="Print your personal Trap Pass">
       <picture>
         <source srcset="trap-pass-atm.webp" type="image/webp">
         <img class="atm-image" id="atmImage" src="trap-pass-atm.png" data-candidates="trap-pass-atm.png" alt="Trap Pass ATM" width="1481" height="1300" decoding="async">
@@ -2388,7 +2464,7 @@
   </section>
 
   <section id="trapPassScene" aria-label="Trap Pass Run Wave 1" hidden>
-    <button class="trap-pass-hit" id="trapPassHit" type="button" aria-label="Continue to the action-figure archive room">
+    <button class="trap-pass-hit" id="trapPassHit" type="button" aria-label="Continue to the collector display room">
       <picture>
         <source srcset="trap-pass-run-wave-1.webp" type="image/webp">
         <img class="trap-pass-image" id="trapPassImage" src="trap-pass-run-wave-1.png" data-candidates="trap-pass-run-wave-1.png" alt="Trap Pass Run Wave 1 Ride or Dies" width="724" height="1302" decoding="async">
@@ -2396,8 +2472,8 @@
     </button>
   </section>
 
-  <section id="boardScene" aria-label="Action-figure archive room" aria-hidden="true">
-    <div class="board-hint" aria-hidden="true">scroll to explore &rarr;</div>
+  <section id="boardScene" aria-label="Collector action-figure archive room" aria-hidden="true">
+    <div class="board-hint" aria-hidden="true">slide the display shelf &rarr;</div>
     <div class="board-wrap">
       <div class="board-frame" id="boardFrame">
         <picture class="board-picture">
@@ -2405,74 +2481,74 @@
           <img class="board-image" id="boardImage" data-src="action-figure-room.png" data-candidates="action-figure-room.png,corkboard-desktop.png,corkboard-mobile.png" alt="Action-figure archive room with eight clickable figures and Chaz and Amelia near the store area" width="1991" height="1502" loading="lazy" decoding="async" fetchpriority="low">
         </picture>
 
-        <button class="hotspot is-primary" type="button" data-menu-hotspot data-figure="soundtrack" data-action="suno" aria-label="Open IM HIGH ON CRACK AND I HAVE A SOUNDTRACK">
-          <span class="figure-plaque" aria-hidden="true"><small>START HERE</small><strong>IM HIGH ON CRACK AND I HAVE A SOUNDTRACK</strong></span>
-          <span class="sr-only">IM HIGH ON CRACK AND I HAVE A SOUNDTRACK</span>
+        <button class="hotspot is-primary" type="button" data-menu-hotspot data-figure="soundtrack" data-action="suno" aria-label="Open OG Crack Track sound figure">
+          <span class="figure-plaque" aria-hidden="true"><small>START HERE</small><strong>OG CRACK TRACK SOUND FIGURE</strong></span>
+          <span class="sr-only">OG Crack Track sound figure</span>
         </button>
-        <button class="hotspot" type="button" data-menu-hotspot data-figure="dopesick" data-action="dopesick" aria-label="Open Dopesick">
-          <span class="figure-plaque" aria-hidden="true"><strong>Dopesick</strong></span>
-          <span class="sr-only">Dopesick</span>
+        <button class="hotspot" type="button" data-menu-hotspot data-figure="dopesick" data-action="dopesick" aria-label="Open Dopesick book file">
+          <span class="figure-plaque" aria-hidden="true"><strong>DOPESICK BOOK FILE</strong></span>
+          <span class="sr-only">Dopesick book file</span>
         </button>
-        <button class="hotspot" type="button" data-menu-hotspot data-figure="writing" data-action="writing" aria-label="Open WouldaBeenCouldaBeenShouldaBeen">
-          <span class="figure-plaque" aria-hidden="true"><strong>WouldaBeenCouldaBeenShouldaBeen</strong></span>
-          <span class="sr-only">WouldaBeenCouldaBeenShouldaBeen</span>
+        <button class="hotspot" type="button" data-menu-hotspot data-figure="writing" data-action="writing" aria-label="Open sealed writing pack">
+          <span class="figure-plaque" aria-hidden="true"><strong>SEALED WRITING PACK</strong></span>
+          <span class="sr-only">Sealed writing pack</span>
         </button>
-        <button class="hotspot" type="button" data-menu-hotspot data-figure="teaser" data-action="teaser" aria-label="Open Just a bump to get ya fienin">
-          <span class="figure-plaque" aria-hidden="true"><strong>Just a bump to get ya fienin</strong></span>
-          <span class="sr-only">Just a bump to get ya fienin</span>
+        <button class="hotspot" type="button" data-menu-hotspot data-figure="teaser" data-action="teaser" aria-label="Open teaser insert">
+          <span class="figure-plaque" aria-hidden="true"><strong>TEASER INSERT</strong></span>
+          <span class="sr-only">Teaser insert</span>
         </button>
-        <button class="hotspot" type="button" data-menu-hotspot data-figure="plug" data-action="shop" aria-label="Open the plug">
-          <span class="figure-plaque" aria-hidden="true"><strong>the plug</strong></span>
-          <span class="sr-only">the plug</span>
+        <button class="hotspot" type="button" data-menu-hotspot data-figure="plug" data-action="shop" aria-label="Open store counter">
+          <span class="figure-plaque" aria-hidden="true"><strong>STORE COUNTER</strong></span>
+          <span class="sr-only">Store counter</span>
         </button>
-        <button class="hotspot" type="button" data-menu-hotspot data-figure="dirt" data-action="dirt" aria-label="Open the DIRT SHOW">
-          <span class="figure-plaque" aria-hidden="true"><strong>the DIRT SHOW</strong></span>
-          <span class="sr-only">the DIRT SHOW</span>
+        <button class="hotspot" type="button" data-menu-hotspot data-figure="dirt" data-action="dirt" aria-label="Open The Dirt Show display">
+          <span class="figure-plaque" aria-hidden="true"><strong>THE DIRT SHOW DISPLAY</strong></span>
+          <span class="sr-only">The Dirt Show display</span>
         </button>
-        <button class="hotspot" type="button" data-menu-hotspot data-figure="who" data-action="who" aria-label="Open so who is this crackhead anyway?">
-          <span class="figure-plaque" aria-hidden="true"><strong>so who is this crackhead anyway?</strong></span>
-          <span class="sr-only">so who is this crackhead anyway?</span>
+        <button class="hotspot" type="button" data-menu-hotspot data-figure="who" data-action="who" aria-label="Open mystery figure card">
+          <span class="figure-plaque" aria-hidden="true"><strong>MYSTERY FIGURE CARD</strong></span>
+          <span class="sr-only">Mystery figure card</span>
         </button>
         <a class="hotspot" data-menu-hotspot data-figure="reels" href="https://www.instagram.com/imhighoncrackandihaveagun/reels/" target="_blank" rel="noopener noreferrer" aria-label="Open Instagram Reels">
-          <span class="figure-plaque" aria-hidden="true"><strong>;)</strong></span>
-          <span class="sr-only">;)</span>
+          <span class="figure-plaque" aria-hidden="true"><strong>REELS</strong></span>
+          <span class="sr-only">Instagram Reels</span>
         </a>
         <a class="dock-link" data-dock="instagram" href="https://www.instagram.com/imhighoncrackandihaveagun/" target="_blank" rel="noopener noreferrer" aria-label="Open Instagram">
           <span class="dock-icon" aria-hidden="true">IG</span>
-          <span class="dock-plaque" aria-hidden="true"><strong>Instagram</strong></span>
+          <span class="dock-plaque" aria-hidden="true"><strong>IG CARD</strong></span>
           <span class="sr-only">Instagram</span>
         </a>
         <button class="dock-link" type="button" data-dock="links" data-action="social" aria-label="Open all social links">
           <span class="dock-icon" aria-hidden="true">Links</span>
-          <span class="dock-plaque" aria-hidden="true"><strong>All Links</strong></span>
+          <span class="dock-plaque" aria-hidden="true"><strong>LINKS CARD</strong></span>
           <span class="sr-only">all social links</span>
         </button>
         <a class="dock-link" data-dock="youtube" href="https://www.youtube.com/@imhighoncrackandihaveagun" target="_blank" rel="noopener noreferrer" aria-label="Open YouTube">
           <span class="dock-icon" aria-hidden="true">YT</span>
-          <span class="dock-plaque" aria-hidden="true"><strong>YouTube</strong></span>
+          <span class="dock-plaque" aria-hidden="true"><strong>YOUTUBE SLOT</strong></span>
           <span class="sr-only">YouTube</span>
         </a>
-        <button class="dock-link" type="button" data-dock="scroll" data-scroll-board aria-label="Scroll to explore">
-          <span class="dock-icon" aria-hidden="true">Explore &rarr;</span>
-          <span class="dock-plaque" aria-hidden="true"><strong>Explore</strong></span>
-          <span class="sr-only">scroll to explore</span>
+        <button class="dock-link" type="button" data-dock="scroll" data-scroll-board aria-label="Slide the display shelf">
+          <span class="dock-icon" aria-hidden="true">Shelf &rarr;</span>
+          <span class="dock-plaque" aria-hidden="true"><strong>DISPLAY AISLE</strong></span>
+          <span class="sr-only">slide the display shelf</span>
         </button>
         <button class="store-prop" type="button" data-action="shop" aria-label="Open Chaz n Amelia's Cocaina Pearl IHOCAIHAG Store">
           <span class="sr-only">Chaz n Amelia's Cocaina Pearl IHOCAIHAG Store</span>
         </button>
 
-        <div class="board-fallback" role="region" aria-label="Action-figure room fallback">
-          <h1>Action-figure room asset missing.</h1>
-          <p>Place action-figure-room.png beside this file. The entry points are still available below.</p>
+        <div class="board-fallback" role="region" aria-label="Collector display room fallback">
+          <h1>Display room asset missing.</h1>
+          <p>Place action-figure-room.png beside this file. The collector slots are still open below.</p>
           <div class="fallback-actions">
-            <button type="button" data-action="suno">Soundtrack</button>
-            <button type="button" data-action="dopesick">Dopesick</button>
-            <button type="button" data-action="writing">Writing</button>
-            <button type="button" data-action="teaser">Teaser</button>
-            <button type="button" data-action="shop">the plug</button>
-            <button type="button" data-action="dirt">the DIRT SHOW</button>
-            <button type="button" data-action="who">Who</button>
-            <button type="button" data-action="social">Links</button>
+            <button type="button" data-action="suno">Sound Figure</button>
+            <button type="button" data-action="dopesick">Book File</button>
+            <button type="button" data-action="writing">Writing Pack</button>
+            <button type="button" data-action="teaser">Teaser Insert</button>
+            <button type="button" data-action="shop">Store Counter</button>
+            <button type="button" data-action="dirt">Dirt Display</button>
+            <button type="button" data-action="who">Mystery Card</button>
+            <button type="button" data-action="social">Link Cards</button>
           </div>
         </div>
       </div>
@@ -2482,7 +2558,7 @@
   <section class="modal" id="youtubeModal" role="dialog" aria-modal="true" aria-labelledby="youtubeTitle" hidden>
     <div class="modal-panel">
       <header class="modal-header">
-        <h2 class="modal-title" id="youtubeTitle">Main Poster</h2>
+        <h2 class="modal-title" id="youtubeTitle">Display Case: Main Poster</h2>
         <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
       </header>
       <div class="modal-body">
@@ -2501,10 +2577,11 @@
   <section class="modal" id="videoModal" role="dialog" aria-modal="true" aria-labelledby="atmTitle" hidden>
     <div class="modal-panel">
       <header class="modal-header">
-        <h2 class="modal-title" id="atmTitle">Monetary breakdown visual coming soon.</h2>
+        <h2 class="modal-title" id="atmTitle">ATM Accessory Reel</h2>
         <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
       </header>
       <div class="modal-body">
+        <p class="modal-copy">Monetary breakdown visual coming soon.</p>
         <div class="media-frame">
           <video id="atmVideo" controls playsinline preload="none">
             <source src="ATM_Video_with_Ticket_and_Effects.mp4" type="video/mp4">
@@ -2518,15 +2595,15 @@
   <section class="modal" id="emailModal" role="dialog" aria-modal="true" aria-labelledby="emailTitle" hidden>
     <div class="modal-panel unlock-panel">
       <header class="modal-header">
-        <h2 class="modal-title" id="emailTitle">COLLECT YOUR TRAP PASS</h2>
+        <h2 class="modal-title" id="emailTitle">Trap Pass Dispenser</h2>
         <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
       </header>
       <div class="modal-body unlock-body">
-        <p class="unlock-copy">Run Wave 1: Ride or Dies.</p>
-        <p class="unlock-support">Enter your email address to receive your individual Trap Pass.</p>
+        <p class="unlock-copy">Run Wave 1: Ride or Dies collector access.</p>
+        <p class="unlock-support">Enter email to print your numbered Trap Pass.</p>
         <div class="entry-number-card" aria-live="polite">
           <strong id="entryNumberLabel">TRAP PASS #PENDING</strong>
-          <span id="entryNumberNote">Run Wave assigns after signup.</span>
+          <span id="entryNumberNote">Serial prints after signup.</span>
         </div>
         <form class="form-grid unlock-form" id="unlockForm" action="https://formsubmit.co/imhighoncrackandihaveagun@gmail.com" method="POST" target="formsubmitFrame" novalidate>
           <input type="hidden" name="_captcha" value="false">
@@ -2541,7 +2618,7 @@
           </div>
           <p class="form-error" id="emailError" aria-live="polite"></p>
           <p class="form-success" id="emailSuccess" aria-live="polite"></p>
-          <button class="primary-btn" id="unlockButton" type="submit">Recieve your individual Trap Pass</button>
+          <button class="primary-btn" id="unlockButton" type="submit">Print My Trap Pass</button>
         </form>
         <iframe class="sr-only" id="formsubmitFrame" name="formsubmitFrame" title="Archive signup submission"></iframe>
       </div>
@@ -2551,7 +2628,7 @@
   <section class="modal" id="dopesickModal" role="dialog" aria-modal="true" aria-labelledby="dopesickTitle" hidden>
     <div class="modal-panel">
       <header class="modal-header">
-        <h2 class="modal-title" id="dopesickTitle">Dopesick</h2>
+        <h2 class="modal-title" id="dopesickTitle">Dopesick Book File</h2>
         <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
       </header>
       <div class="modal-body">
@@ -2566,7 +2643,7 @@
         <p class="asset-note" id="dopesickNote" hidden>Dopesick gallery images are missing from the site root.</p>
         <a class="buy-card" href="https://www.amazon.com/Dopesick-American-Addiction-Heroin-Profit/dp/1984338323/" target="_blank" rel="noopener noreferrer">
           <strong>BUY ONLINE</strong>
-          <span>Dopesick: Dealers, Doctors, and the Drug Company that Addicted America</span>
+          <span>Paperback collector file on Amazon.</span>
         </a>
       </div>
     </div>
@@ -2575,7 +2652,7 @@
   <section class="modal" id="writingModal" role="dialog" aria-modal="true" aria-labelledby="writingTitle" hidden>
     <div class="modal-panel">
       <header class="modal-header">
-        <h2 class="modal-title" id="writingTitle">WouldaBeenCouldaBeenShouldaBeen</h2>
+        <h2 class="modal-title" id="writingTitle">Sealed Writing Pack</h2>
         <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
       </header>
       <div class="modal-body">
@@ -2589,7 +2666,7 @@
             <source src="Manilla_Envelope_Dive_Video.mp4" type="video/mp4">
           </video>
         </div>
-        <p class="asset-note" id="typewriterNote" hidden>Typewriter video unavailable. Opening the writing library.</p>
+        <p class="asset-note" id="typewriterNote" hidden>Typewriter insert unavailable. Opening the writing rack.</p>
       </div>
     </div>
   </section>
@@ -2597,24 +2674,24 @@
   <section class="modal" id="teaserReaderModal" role="dialog" aria-modal="true" aria-labelledby="readerTitle" hidden>
     <div class="modal-panel">
       <header class="modal-header">
-        <h2 class="modal-title" id="readerModalTitle">Reader</h2>
+        <h2 class="modal-title" id="readerModalTitle">Collector Reader</h2>
         <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
       </header>
       <div class="modal-body">
         <div class="reader-shell" id="readerShell">
           <aside class="reader-cover">
             <img id="readerCover" src="teaser-cover-dopesick2.png" data-candidates="teaser-cover-dopesick2.png,teaser-cover.png,cover-dopesick2.png,book-cover.png,cover.png" alt="Book cover" loading="lazy">
-            <a class="plain-btn" id="readerDocLink" href="dopesick2-introduction.docx">Open DOCX</a>
-            <button class="plain-btn" id="readerLibraryLink" type="button" data-reader-mode="library" hidden>Back to Library</button>
+            <a class="plain-btn" id="readerDocLink" href="dopesick2-introduction.docx">Open Source File</a>
+            <button class="plain-btn" id="readerLibraryLink" type="button" data-reader-mode="library" hidden>Back to Insert Rack</button>
           </aside>
           <article class="reader-page">
-            <p class="reader-kicker" id="readerKicker">Teaser Chapter</p>
+            <p class="reader-kicker" id="readerKicker">Teaser Insert</p>
             <h2 id="readerTitle">Introduction</h2>
             <div class="reader-content" id="readerContent"></div>
             <div class="reader-controls" id="readerControls">
-              <button type="button" id="readerPrev">Previous</button>
+              <button type="button" id="readerPrev">Prev Page</button>
               <span id="readerStatus">Page 1 of 1</span>
-              <button type="button" id="readerNext">Next</button>
+              <button type="button" id="readerNext">Next Page</button>
             </div>
           </article>
         </div>
@@ -2625,12 +2702,12 @@
   <section class="modal" id="sunoModal" role="dialog" aria-modal="true" aria-labelledby="sunoTitle" hidden>
     <div class="modal-panel soundtrack-panel">
       <header class="modal-header">
-        <h2 class="modal-title" id="sunoTitle">IM HIGH ON CRACK AND I HAVE A SOUNDTRACK</h2>
+        <h2 class="modal-title" id="sunoTitle">OG Crack Track Sound Figure</h2>
         <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
       </header>
       <div class="modal-body soundtrack-body">
-        <p class="modal-copy">Soundtrack to the collapse.</p>
-        <p class="modal-copy">Part of the IHOCAIHAG book/documentary archive.</p>
+        <p class="modal-copy">Blister-card soundtrack to the collapse.</p>
+        <p class="modal-copy">Packed inside the IHOCAIHAG book/documentary display.</p>
 
         <div class="soundtrack-stage" aria-label="Interactive soundtrack machine">
           <picture>
@@ -2643,7 +2720,7 @@
           <button class="machine-hotspot drop" type="button" data-player-toggle aria-label="Play or pause the current song"></button>
           <button class="machine-hotspot submit" type="button" data-player-toggle aria-label="Play or pause the current song"></button>
           <button class="machine-hotspot dial" type="button" data-player-next aria-label="Tune to the next song"></button>
-          <div class="machine-status" id="machineStatus" aria-live="polite">Ready: og crAcK trAcK</div>
+          <div class="machine-status" id="machineStatus" aria-live="polite">Loaded: og crAcK trAcK</div>
         </div>
 
         <div class="soundtrack-player">
@@ -2653,14 +2730,14 @@
               <img class="player-cover" id="playerCover" src="cracktraptrack-cover.png" alt="og crAcK trAcK cover" width="1121" height="1684" loading="lazy" decoding="async">
             </picture>
             <div class="player-meta">
-              <span class="player-kicker" id="playerLabel">Main/default song</span>
+              <span class="player-kicker" id="playerLabel">Figure 01 / Default</span>
               <strong class="player-title" id="playerTitle">og crAcK trAcK</strong>
-              <span class="player-state" id="playerState">Ready</span>
+              <span class="player-state" id="playerState">Carded</span>
             </div>
           </div>
 
           <div class="player-controls" aria-label="Soundtrack controls">
-            <button class="player-btn" type="button" data-player-prev>Previous</button>
+            <button class="player-btn" type="button" data-player-prev>Prev</button>
             <button class="player-btn player-toggle" type="button" data-player-toggle>Play</button>
             <button class="player-btn" type="button" data-player-next>Next</button>
             <span class="player-time" id="playerTime">0:00 / 0:00</span>
@@ -2676,7 +2753,7 @@
               </picture>
               <span>
                 <strong>og crAcK trAcK</strong>
-                <small>Main/default song</small>
+                <small>Figure 01 / Default</small>
               </span>
             </button>
             <button class="mix-track" type="button" data-track-index="1">
@@ -2686,7 +2763,7 @@
               </picture>
               <span>
                 <strong>og Sad Crack Trap</strong>
-                <small>Second track</small>
+                <small>Figure 02 / Variant</small>
               </span>
             </button>
           </div>
@@ -2696,7 +2773,7 @@
           </audio>
         </div>
         <p class="asset-note" id="trackNote" hidden>One of the local MP3 files could not be loaded.</p>
-        <button class="plain-btn soundtrack-cta" type="button" data-close-modal>Explore the archive</button>
+        <button class="plain-btn soundtrack-cta" type="button" data-close-modal>Back to Display Room</button>
       </div>
     </div>
   </section>
@@ -2704,35 +2781,35 @@
   <section class="modal" id="socialModal" role="dialog" aria-modal="true" aria-labelledby="socialTitle" hidden>
     <div class="modal-panel">
       <header class="modal-header">
-        <h2 class="modal-title" id="socialTitle">Dive In</h2>
+        <h2 class="modal-title" id="socialTitle">Back-Card Links</h2>
         <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
       </header>
       <div class="modal-body">
         <div class="link-grid">
           <a class="social-link" href="https://www.tiktok.com/@bandanarchist" target="_blank" rel="noopener noreferrer">
-            <strong>TikTok</strong>
+            <strong>TikTok Card</strong>
             <span>@bandanarchist</span>
           </a>
           <a class="social-link" href="https://www.instagram.com/imhighoncrackandihaveagun/" target="_blank" rel="noopener noreferrer">
-            <strong>Instagram</strong>
+            <strong>Instagram Card</strong>
             <span>@imhighoncrackandihaveagun</span>
           </a>
           <a class="social-link" href="https://www.youtube.com/@imhighoncrackandihaveagun" target="_blank" rel="noopener noreferrer">
-            <strong>YouTube</strong>
+            <strong>YouTube Slot</strong>
             <span>@imhighoncrackandihaveagun</span>
           </a>
           <a class="social-link" href="https://imhighoncrackandihaveagun.com" target="_blank" rel="noopener noreferrer">
-            <strong>Official Site</strong>
+            <strong>Official Display Room</strong>
             <span>imhighoncrackandihaveagun.com</span>
           </a>
           <a class="social-link" href="https://www.amazon.com/Dopesick-American-Addiction-Heroin-Profit/dp/1984338323/" target="_blank" rel="noopener noreferrer">
-            <strong>Dopesick on Amazon</strong>
-            <span>Existing book link</span>
+            <strong>Dopesick Book File</strong>
+            <span>Amazon listing</span>
           </a>
           <!-- TODO: Add confirmed Threads, Suno, Goodreads, and additional book links here when the exact URLs are available. -->
           <button class="shop-card" type="button" data-action="shop">
-            <strong>the plug</strong>
-            <span>List for the Lick</span>
+            <strong>Chaz & Amelia Store</strong>
+            <span>Collector counter</span>
           </button>
         </div>
       </div>
@@ -2742,7 +2819,7 @@
   <section class="modal" id="dirtShowModal" role="dialog" aria-modal="true" aria-labelledby="dirtShowTitle" hidden>
     <div class="modal-panel dirt-panel">
       <header class="modal-header">
-        <h2 class="modal-title" id="dirtShowTitle">the DIRT SHOW</h2>
+        <h2 class="modal-title" id="dirtShowTitle">The Dirt Show Display</h2>
         <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
       </header>
       <div class="modal-body">
@@ -2752,21 +2829,21 @@
               <source srcset="book-action-figure-packs.webp" type="image/webp">
               <img src="book-action-figure-packs.png" alt="Two collector-style action figure packages tied to the book archive" width="1929" height="1472" loading="lazy" decoding="async">
             </picture>
-            <figcaption>Collector figure editions</figcaption>
+              <figcaption>Collector figure editions</figcaption>
           </figure>
           <figure class="dirt-card">
             <picture>
               <source srcset="book-front-display.webp" type="image/webp">
               <img src="book-front-display.png" alt="Front display mockup of the IHOCAIHAG book" width="1191" height="1634" loading="lazy" decoding="async">
             </picture>
-            <figcaption>Front cover display</figcaption>
+              <figcaption>Front cover card</figcaption>
           </figure>
           <figure class="dirt-card">
             <picture>
               <source srcset="book-back-display.webp" type="image/webp">
               <img src="book-back-display.png" alt="Back display mockup of the IHOCAIHAG book" width="1197" height="1536" loading="lazy" decoding="async">
             </picture>
-            <figcaption>Back cover display</figcaption>
+              <figcaption>Back cover card</figcaption>
           </figure>
           <figure class="dirt-card">
             <picture>
@@ -2806,7 +2883,7 @@
   <section class="modal" id="shopModal" role="dialog" aria-modal="true" aria-labelledby="shopTitle" hidden>
     <div class="modal-panel store-panel">
       <header class="modal-header">
-        <h2 class="modal-title" id="shopTitle">Chaz n Amelia's Cocaina Pearl IHOCAIHAG Store</h2>
+        <h2 class="modal-title" id="shopTitle">Chaz & Amelia's Cocaina Pearl Store</h2>
         <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
       </header>
       <div class="modal-body store-body">
@@ -2818,14 +2895,14 @@
           <!-- TODO: Point DNS/CNAME before using shop.imhighoncrackandihaveagun.com as a live subdomain. -->
           <div class="store-url-plaque" aria-label="Store address">
             <strong>shop.imhighoncrackandihaveagun.com</strong>
-            <span>Chaz n Amelia's Cocaina Pearl</span>
+            <span>Collector Counter</span>
           </div>
         </div>
 
-        <p class="store-copy">Physical shirt request. Trap Pass holders get 10% off during the first two weeks; type anything in the Trap Pass box to apply it.</p>
+        <p class="store-copy">Collector shirt counter. Trap Pass holders get 10% off during the first two weeks; type any Trap Pass serial to apply it.</p>
         <div class="store-actions">
-          <span>Store counter open</span>
-          <button class="plain-btn store-tip-button" type="button" data-tip-jar>Open Tip Jar</button>
+          <span>Display counter open</span>
+          <button class="plain-btn store-tip-button" type="button" data-tip-jar>Open Tip Display</button>
         </div>
 
         <div class="store-layout">
@@ -2835,28 +2912,28 @@
                 <source srcset="store-shirt-black.webp" type="image/webp">
                 <img src="store-shirt-black.png" alt="Black IHOCAIHAG shirt front and back" width="1996" height="1481" loading="lazy" decoding="async">
               </picture>
-              <figcaption>Black shirt, front/back</figcaption>
+              <figcaption>Black tee blister card</figcaption>
             </figure>
             <figure class="store-shot">
               <picture>
                 <source srcset="store-shirt-red.webp" type="image/webp">
                 <img src="store-shirt-red.png" alt="Red IHOCAIHAG shirt front and back" width="1884" height="1565" loading="lazy" decoding="async">
               </picture>
-              <figcaption>Red shirt, front/back</figcaption>
+              <figcaption>Red tee variant card</figcaption>
             </figure>
             <figure class="store-shot">
               <picture>
                 <source srcset="store-figure-black-shirt.webp" type="image/webp">
                 <img src="store-figure-black-shirt.png" alt="Action figure modeling the black IHOCAIHAG shirt" width="1985" height="1492" loading="lazy" decoding="async">
               </picture>
-              <figcaption>Black shirt model</figcaption>
+              <figcaption>Black tee figure model</figcaption>
             </figure>
             <figure class="store-shot">
               <picture>
                 <source srcset="store-figure-red-shirt-cats.webp" type="image/webp">
                 <img src="store-figure-red-shirt-cats.png" alt="Action figure package modeling the red IHOCAIHAG shirt with Chaz and Amelia" width="2110" height="1419" loading="lazy" decoding="async">
               </picture>
-              <figcaption>Red shirt model</figcaption>
+              <figcaption>Red tee figure model</figcaption>
             </figure>
           </div>
 
@@ -2872,20 +2949,20 @@
             <input type="hidden" id="shirtShippingInput" name="shipping" value="$5.00">
             <input type="hidden" id="shirtTotalInput" name="estimated_total" value="$31.75">
 
-            <h3>Official shirt request</h3>
+            <h3>Shirt Figure Pack</h3>
 
             <div class="store-fields two-up">
               <div class="field">
-                <label for="shirtStyle">Item</label>
+                <label for="shirtStyle">Variant</label>
                 <select id="shirtStyle" name="shirt_style" required>
                   <option value="Black IHOCAIHAG shirt">Black IHOCAIHAG shirt</option>
                   <option value="Red IHOCAIHAG shirt">Red IHOCAIHAG shirt</option>
                 </select>
               </div>
               <div class="field">
-                <label for="shirtSize">Size</label>
+                <label for="shirtSize">Figure Size</label>
                 <select id="shirtSize" name="size" required>
-                  <option value="">Select size</option>
+                  <option value="">Select scale</option>
                   <option>S</option>
                   <option>M</option>
                   <option>L</option>
@@ -2897,24 +2974,24 @@
             </div>
 
             <div class="field">
-              <label for="trapPassDiscount">Trap Pass number</label>
+              <label for="trapPassDiscount">Trap Pass Serial</label>
               <input id="trapPassDiscount" name="trap_pass_number" autocomplete="off" placeholder="TRAP PASS #201-11FFP">
             </div>
-            <p class="discount-note" id="discountNote" aria-live="polite">Trap Pass discount ready.</p>
+            <p class="discount-note" id="discountNote" aria-live="polite">Trap Pass discount slot ready.</p>
 
             <div class="store-fields two-up">
             <div class="field">
-              <label for="shopName">Name</label>
+              <label for="shopName">Collector Name</label>
               <input id="shopName" name="name" autocomplete="name" required>
             </div>
             <div class="field">
-              <label for="shopEmail">Email</label>
+              <label for="shopEmail">Collector Email</label>
               <input id="shopEmail" name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="none" spellcheck="false" required>
             </div>
             </div>
 
             <div class="field">
-              <label for="shippingAddress">Shipping address</label>
+              <label for="shippingAddress">Ship-To Address</label>
               <input id="shippingAddress" name="shipping_address" autocomplete="street-address" required>
             </div>
 
@@ -2932,9 +3009,9 @@
                 <input id="shippingZip" name="shipping_zip" inputmode="numeric" autocomplete="postal-code" required>
               </div>
               <div class="field">
-                <label for="paymentMethod">Payment method</label>
+                <label for="paymentMethod">Payment Rail</label>
                 <select id="paymentMethod" name="payment_method" required>
-                  <option value="">Select payment</option>
+                  <option value="">Select rail</option>
                   <option value="paypal">PayPal</option>
                   <option value="cashapp">Cash App</option>
                   <option value="chime">Chime</option>
@@ -2944,8 +3021,8 @@
             </div>
 
             <div class="totals-card" aria-live="polite">
-              <h3>Checkout total</h3>
-              <div class="total-line"><span>Shirt</span><strong id="subtotalText">$25.00</strong></div>
+              <h3>Register Total</h3>
+              <div class="total-line"><span>Figure pack</span><strong id="subtotalText">$25.00</strong></div>
               <div class="total-line is-discount"><span>Trap Pass discount</span><strong id="discountText">$0.00</strong></div>
               <div class="total-line"><span>Estimated sales tax</span><strong id="taxText">$1.75</strong></div>
               <div class="total-line"><span>Shipping</span><strong id="shippingText">$5.00</strong></div>
@@ -2953,27 +3030,27 @@
             </div>
 
             <div class="payment-card" id="paymentPlaceholder">
-              <strong>Payment details</strong>
-              <p>Select a payment method to reveal the address or QR.</p>
+              <strong>Payment Display</strong>
+              <p>Select a rail to reveal the QR/address panel.</p>
             </div>
 
             <div class="payment-card" data-payment-panel="paypal" hidden>
               <strong>PayPal</strong>
-              <p>Use the seller QR below, or confirm the PayPal profile shown before sending payment.</p>
+              <p>Scan the seller code below, or confirm the PayPal profile before sending payment.</p>
               <div class="qr-grid">
                 <span class="qr-card">
                   <picture>
                     <source srcset="payment-paypal-seller.webp" type="image/webp">
                     <img src="payment-paypal-seller.png" alt="PayPal seller QR for Ryan Homanics" width="771" height="904" loading="lazy" decoding="async">
                   </picture>
-                  Seller QR
+                  Seller code
                 </span>
                 <span class="qr-card">
                   <picture>
                     <source srcset="payment-paypal-profile.webp" type="image/webp">
                     <img src="payment-paypal-profile.png" alt="PayPal profile for Ryan Homanics" width="567" height="400" loading="lazy" decoding="async">
                   </picture>
-                  PayPal profile
+                  Profile card
                 </span>
               </div>
             </div>
@@ -3002,11 +3079,11 @@
             </div>
 
             <div class="field">
-              <label for="shopNotes">Notes</label>
-              <textarea id="shopNotes" name="notes" placeholder="Color note, delivery note, or anything I need to know."></textarea>
+              <label for="shopNotes">Counter Notes</label>
+              <textarea id="shopNotes" name="notes" placeholder="Variant note, delivery note, or anything the counter should know."></textarea>
             </div>
 
-            <button class="primary-btn" type="submit">Send shirt request</button>
+            <button class="primary-btn" type="submit">Send Collector Request</button>
         </form>
         </div>
       </div>
@@ -3016,7 +3093,7 @@
   <section class="modal" id="tipJarModal" role="dialog" aria-modal="true" aria-labelledby="tipJarTitle" hidden>
     <div class="modal-panel unlock-panel">
       <header class="modal-header">
-        <h2 class="modal-title" id="tipJarTitle">PayPal Tip Jar</h2>
+        <h2 class="modal-title" id="tipJarTitle">PayPal Tip Display</h2>
         <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
       </header>
       <div class="modal-body tip-jar-body">
@@ -3024,13 +3101,13 @@
           <source srcset="payment-paypal-tipjar.webp" type="image/webp">
           <img class="tip-jar-image" src="payment-paypal-tipjar.png" alt="PayPal tip jar QR for Ryan Homanics" width="798" height="1072" loading="lazy" decoding="async">
         </picture>
-        <p class="tip-jar-copy">Any tips go toward helping me keep everything I have focused on this project for the full-speed home stretch.</p>
+        <p class="tip-jar-copy">Tips help keep the project moving at full speed through the home stretch.</p>
       </div>
     </div>
   </section>
 
   <div class="toast" id="successToast" role="status" aria-live="polite" hidden>
-    <p id="toastMessage">Success.</p>
+    <p id="toastMessage">Card logged.</p>
     <video id="successVideo" muted playsinline preload="none" hidden>
       <source src="Action_Figure_Radio_Fog_Video.mp4" type="video/mp4">
     </video>
@@ -3123,7 +3200,7 @@
         "ihocaig_email_unlocked",
         "ihocaig_unlocked"
       ];
-      const trapPassButtonText = "Recieve your individual Trap Pass";
+      const trapPassButtonText = "Print My Trap Pass";
       const transitionMaxMs = reducedMotion ? 10 : 9000;
 
       let activeModal = null;
@@ -3160,14 +3237,14 @@
       const soundtrackTracks = [
         {
           title: "og crAcK trAcK",
-          label: "Main/default song",
+          label: "Figure 01 / Default",
           src: "cracktraptrack.mp3",
           cover: "cracktraptrack-cover.png",
           coverWebp: "cracktraptrack-cover.webp"
         },
         {
           title: "og Sad Crack Trap",
-          label: "Second track",
+          label: "Figure 02 / Variant",
           src: "ogCRackTrack.mp3",
           cover: "ogCRackTrack-cover.png",
           coverWebp: "ogCRackTrack-cover.webp"
@@ -3189,35 +3266,35 @@
             "teaser.txt"
           ],
           fallbackPages: [
-            "<p>The reader is ready for the teaser text. Add <strong>imhighoncrackandihaveagunINTRODUCTION.html</strong> or <strong>imhighoncrackandihaveagunINTRODUCTION.txt</strong> beside this file to show the extracted chapter here.</p><p>The uploaded DOCX link remains available from the cover column.</p>"
+            "<p>The teaser insert slot is ready. Add <strong>imhighoncrackandihaveagunINTRODUCTION.html</strong> or <strong>imhighoncrackandihaveagunINTRODUCTION.txt</strong> beside this file to display the card text here.</p><p>The source file link remains available from the cover column.</p>"
           ]
         },
         library: {
-          modalTitle: "Writing Library",
-          kicker: "Previously Unreleased",
-          title: "Previously Unreleased Writing",
+          modalTitle: "Sealed Writing Rack",
+          kicker: "Unreleased Inserts",
+          title: "Choose a Sealed Insert",
           isLibrary: true,
           candidates: [],
           fallbackPages: [
             `<div class="book-grid">
               <button class="book-card" type="button" data-reader-mode="apocalyptic">
                 <img src="cover-apocalyptic-paradise.png" alt="An Apocalyptic Paradise cover" loading="lazy">
-                <span><strong>An Apocalyptic Paradise</strong><small>Open reader</small></span>
+                <span><strong>An Apocalyptic Paradise</strong><small>Open insert</small></span>
               </button>
               <button class="book-card" type="button" data-reader-mode="elezione">
                 <img src="cover-elezione-world-after-wealth.png" alt="Elezione and The World After Wealth cover" loading="lazy">
-                <span><strong>Elezione and The World After Wealth</strong><small>Open reader</small></span>
+                <span><strong>Elezione and The World After Wealth</strong><small>Open insert</small></span>
               </button>
               <button class="book-card" type="button" data-reader-mode="july">
                 <img src="cover-to-die-in-july.png" alt="To Die in July cover" loading="lazy">
-                <span><strong>To Die in July</strong><small>Open reader</small></span>
+                <span><strong>To Die in July</strong><small>Open insert</small></span>
               </button>
             </div>`
           ]
         },
         apocalyptic: {
           modalTitle: "An Apocalyptic Paradise",
-          kicker: "Previously Unreleased",
+          kicker: "Sealed Insert",
           title: "An Apocalyptic Paradise",
           cover: "cover-apocalyptic-paradise.png",
           doc: "an-apocalyptic-paradise.docx",
@@ -3227,7 +3304,7 @@
         },
         elezione: {
           modalTitle: "Elezione and The World After Wealth",
-          kicker: "Previously Unreleased",
+          kicker: "Sealed Insert",
           title: "Elezione and The World After Wealth",
           cover: "cover-elezione-world-after-wealth.png",
           doc: "elezione-and-world-after-wealth.docx",
@@ -3237,7 +3314,7 @@
         },
         july: {
           modalTitle: "To Die in July",
-          kicker: "Previously Unreleased",
+          kicker: "Sealed Insert",
           title: "To Die in July",
           cover: "cover-to-die-in-july.png",
           doc: "to-die-in-july.docx",
@@ -3497,7 +3574,7 @@
         entryNumberLabel.textContent = number;
         entryNumberInput.value = number;
         entryNumberNote.textContent = number === "TRAP PASS #PENDING"
-          ? "Run Wave assigns after signup."
+          ? "Serial prints after signup."
           : "RUN WAVE 1: RIDE OR DIES saved on this device.";
       }
 
@@ -3532,7 +3609,7 @@
           event.preventDefault();
           signupEmail.classList.add("is-invalid");
           signupEmail.setAttribute("aria-invalid", "true");
-          emailError.textContent = "Enter a working email to receive your Trap Pass.";
+          emailError.textContent = "Enter a working email to print your Trap Pass.";
           emailSuccess.textContent = "";
           signupEmail.focus({ preventScroll: false });
           return;
@@ -3541,7 +3618,7 @@
         setUnlockedAccess();
         const entryNumber = getTemporaryEntryNumber();
         setEntryNumber(entryNumber);
-        emailSuccess.textContent = "Trap Pass printed. Save this screen.";
+        emailSuccess.textContent = "Trap Pass printed. Save the card.";
         unlockButton.disabled = true;
         unlockButton.textContent = "TRAP PASS PRINTED";
 
@@ -3758,8 +3835,8 @@
         shirtShippingInput.value = formatMoney(shirtShipping);
         shirtTotalInput.value = formatMoney(total);
         discountNote.textContent = hasDiscount
-          ? "Trap Pass accepted. 10% discount applied."
-          : "Trap Pass discount ready.";
+          ? "Trap Pass scanned. 10% collector discount applied."
+          : "Trap Pass discount slot ready.";
       }
 
       function updatePaymentInstructions() {
@@ -3789,7 +3866,7 @@
         playerCoverWebp.srcset = track.coverWebp;
         playerLabel.textContent = track.label;
         playerTitle.textContent = track.title;
-        machineStatus.textContent = `Ready: ${track.title}`;
+        machineStatus.textContent = `Loaded: ${track.title}`;
         document.getElementById("trackNote").hidden = true;
 
         document.querySelectorAll(".mix-track").forEach((button) => {
@@ -3807,14 +3884,14 @@
       function startSoundtrack() {
         if (!soundtrackAudio) return;
 
-        playerState.textContent = "Loading";
+        playerState.textContent = "Loading signal";
         const playAttempt = soundtrackAudio.play();
         if (playAttempt && typeof playAttempt.catch === "function") {
           playAttempt
             .then(updateSoundtrackPlaybackState)
             .catch(() => {
               updateSoundtrackPlaybackState();
-              playerState.textContent = "Tap play to start";
+              playerState.textContent = "Tap play to unbox";
             });
         } else {
           updateSoundtrackPlaybackState();
@@ -3849,8 +3926,8 @@
         });
 
         const track = soundtrackTracks[soundtrackIndex];
-        playerState.textContent = isPlaying ? "Playing" : "Ready";
-        machineStatus.textContent = `${isPlaying ? "Broadcasting" : "Ready"}: ${track.title}`;
+        playerState.textContent = isPlaying ? "Broadcasting" : "Carded";
+        machineStatus.textContent = `${isPlaying ? "Broadcasting" : "Loaded"}: ${track.title}`;
       }
 
       function updateSoundtrackProgress() {
@@ -4096,7 +4173,7 @@
         soundtrackAudio.addEventListener("ended", () => playSoundtrackOffset(1));
         soundtrackAudio.addEventListener("error", () => {
           document.getElementById("trackNote").hidden = false;
-          playerState.textContent = "Audio file missing";
+          playerState.textContent = "Audio accessory missing";
           machineStatus.textContent = "Signal lost";
           document.querySelectorAll(".player-toggle").forEach((button) => {
             button.textContent = "Play";
@@ -4303,7 +4380,7 @@
         }
 
         if (waitlistJoined || shopSent) {
-          showToast("Archive list entry received.", false);
+          showToast("Collector request received.", false);
         }
       }
 
