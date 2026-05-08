@@ -376,7 +376,9 @@
     }
 
     .board-frame.board-missing .board-picture,
-    .board-frame.board-missing .hotspot {
+    .board-frame.board-missing .hotspot,
+    .board-frame.board-missing .dock-link,
+    .board-frame.board-missing .store-prop {
       display: none;
     }
 
@@ -384,11 +386,11 @@
       display: grid;
     }
 
-    .hotspot {
+    .hotspot,
+    .dock-link {
       position: absolute;
       display: block;
       left: var(--x);
-      top: var(--y);
       width: var(--w);
       height: var(--h);
       min-width: 48px;
@@ -401,7 +403,78 @@
       touch-action: manipulation;
     }
 
-    .hotspot::before {
+    .hotspot {
+      top: var(--y);
+    }
+
+    .dock-link {
+      bottom: var(--bottom);
+      z-index: 6;
+      display: grid;
+      place-items: center;
+      color: transparent;
+      font: inherit;
+      text-decoration: none;
+      border-radius: 999px;
+    }
+
+    .dock-icon {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .store-prop {
+      position: absolute;
+      left: 69.6%;
+      top: 74.1%;
+      z-index: 7;
+      display: block;
+      width: 21.5%;
+      min-width: 190px;
+      padding: 0;
+      cursor: pointer;
+      border: 0;
+      background: transparent;
+      transform: rotate(-2deg);
+      transform-origin: center;
+      touch-action: manipulation;
+    }
+
+    .store-prop img {
+      display: block;
+      width: 100%;
+      height: auto;
+      filter: drop-shadow(8px 12px 12px rgba(0, 0, 0, 0.5));
+      pointer-events: none;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .store-prop::before {
+      position: absolute;
+      inset: 3%;
+      z-index: -1;
+      border-radius: 10px;
+      content: "";
+      box-shadow:
+        0 0 0 1px rgba(255, 214, 151, 0.28),
+        0 0 26px rgba(217, 67, 67, 0.34),
+        0 0 48px rgba(217, 157, 64, 0.22);
+      opacity: 0;
+      transition: opacity 180ms ease;
+    }
+
+    .store-prop:focus-visible {
+      outline: 3px solid rgba(255, 238, 202, 0.86);
+      outline-offset: 3px;
+    }
+
+    .store-prop:focus-visible::before {
+      opacity: 0.9;
+    }
+
+    .hotspot::before,
+    .dock-link::before {
       position: absolute;
       inset: -7% -12%;
       content: "";
@@ -419,7 +492,8 @@
     }
 
     .hotspot:focus-visible::before,
-    .hotspot.is-armed::before {
+    .hotspot.is-armed::before,
+    .dock-link:focus-visible::before {
       opacity: 0.88;
       transform: scale(1.02);
     }
@@ -434,10 +508,10 @@
       opacity: 0.96;
     }
 
-    .figure-plaque {
+    .figure-plaque,
+    .dock-plaque {
       position: absolute;
       left: 50%;
-      top: calc(100% + 8px);
       z-index: 2;
       display: grid;
       gap: 2px;
@@ -460,8 +534,19 @@
       pointer-events: none;
     }
 
+    .figure-plaque {
+      top: calc(100% + 8px);
+    }
+
+    .dock-plaque {
+      bottom: calc(100% + 8px);
+      min-width: 92px;
+    }
+
     .figure-plaque::before,
-    .figure-plaque::after {
+    .figure-plaque::after,
+    .dock-plaque::before,
+    .dock-plaque::after {
       position: absolute;
       top: 50%;
       width: 5px;
@@ -473,29 +558,34 @@
       transform: translateY(-50%);
     }
 
-    .figure-plaque::before {
+    .figure-plaque::before,
+    .dock-plaque::before {
       left: 6px;
     }
 
-    .figure-plaque::after {
+    .figure-plaque::after,
+    .dock-plaque::after {
       right: 6px;
     }
 
-    .figure-plaque strong {
+    .figure-plaque strong,
+    .dock-plaque strong {
       padding: 0 8px;
       font-size: clamp(0.65rem, 1.1vw, 0.82rem);
       line-height: 1.05;
       overflow-wrap: anywhere;
     }
 
-    .figure-plaque small {
+    .figure-plaque small,
+    .dock-plaque small {
       color: var(--muted);
       font-size: clamp(0.55rem, 0.92vw, 0.66rem);
       line-height: 1;
     }
 
     .hotspot:focus-visible .figure-plaque,
-    .hotspot.is-armed .figure-plaque {
+    .hotspot.is-armed .figure-plaque,
+    .dock-link:focus-visible .dock-plaque {
       opacity: 1;
       transform: translateX(-50%) translateY(-2px);
     }
@@ -510,17 +600,24 @@
         transform: scale(1.02);
       }
 
+      .dock-link:hover::before {
+        opacity: 0.82;
+        transform: scale(1.02);
+      }
+
       .hotspot.is-primary:hover::before {
         opacity: 0.96;
       }
 
-      .hotspot:hover .figure-plaque {
+      .hotspot:hover .figure-plaque,
+      .dock-link:hover .dock-plaque {
         opacity: 1;
         transform: translateX(-50%) translateY(-2px);
       }
     }
 
-    .hotspot:focus-visible {
+    .hotspot:focus-visible,
+    .dock-link:focus-visible {
       outline: 3px solid rgba(255, 238, 202, 0.86);
       outline-offset: 3px;
       background: rgba(217, 67, 67, 0.16);
@@ -585,12 +682,33 @@
       --h: 48%;
     }
 
-    .hotspot[data-dock="social"] {
-      --x: 33.8%;
-      --y: 94.8%;
-      --w: 10.5%;
-      --h: 4%;
-      border-radius: 999px;
+    /* Bottom table/social dock coordinates. Kept above the image edge so mobile taps do not get clipped. */
+    .dock-link[data-dock="instagram"] {
+      --x: 33.4%;
+      --bottom: 1.25%;
+      --w: 4%;
+      --h: 5%;
+    }
+
+    .dock-link[data-dock="links"] {
+      --x: 36.7%;
+      --bottom: 1.25%;
+      --w: 4%;
+      --h: 5%;
+    }
+
+    .dock-link[data-dock="youtube"] {
+      --x: 40%;
+      --bottom: 1.25%;
+      --w: 4%;
+      --h: 5%;
+    }
+
+    .dock-link[data-dock="scroll"] {
+      --x: 47.5%;
+      --bottom: 1.05%;
+      --w: 15.5%;
+      --h: 5.2%;
     }
 
     /* Modal system */
@@ -1476,6 +1594,240 @@
       line-height: 1.45;
     }
 
+    /* Store */
+    .store-panel {
+      width: min(100%, 1180px);
+    }
+
+    .store-body {
+      display: grid;
+      gap: 16px;
+    }
+
+    .store-stage {
+      position: relative;
+      overflow: hidden;
+      max-height: 680px;
+      border: 1px solid rgba(255, 214, 151, 0.24);
+      border-radius: 8px;
+      background: #080605;
+      box-shadow: inset 0 0 38px rgba(0, 0, 0, 0.42), 0 18px 42px rgba(0, 0, 0, 0.34);
+    }
+
+    .store-stage img {
+      display: block;
+      width: 100%;
+      max-height: 680px;
+      object-fit: contain;
+      background: #080605;
+    }
+
+    .tip-hotspot {
+      position: absolute;
+      left: 25.5%;
+      top: 70.5%;
+      z-index: 2;
+      width: 23%;
+      min-width: 104px;
+      min-height: 56px;
+      padding: 8px 10px;
+      border: 1px solid rgba(255, 214, 151, 0.52);
+      border-radius: 6px;
+      color: #ffe5b1;
+      background:
+        linear-gradient(135deg, rgba(217, 67, 67, 0.82), rgba(15, 10, 7, 0.88)),
+        rgba(0, 0, 0, 0.75);
+      box-shadow: 0 0 24px rgba(217, 67, 67, 0.28);
+      cursor: pointer;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .tip-hotspot:hover,
+    .tip-hotspot:focus-visible {
+      outline: 0;
+      box-shadow: 0 0 34px rgba(255, 180, 72, 0.5);
+    }
+
+    .store-copy {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .store-layout {
+      display: grid;
+      gap: 14px;
+    }
+
+    .store-gallery {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .store-shot {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding: 8px;
+      border: 1px solid rgba(255, 238, 202, 0.14);
+      border-radius: 8px;
+      background: rgba(255, 238, 202, 0.055);
+    }
+
+    .store-shot img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: contain;
+      border-radius: 6px;
+      background: #080605;
+    }
+
+    .store-shot figcaption {
+      color: #ffe5b1;
+      font-size: 0.83rem;
+      font-weight: 900;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+
+    .store-checkout {
+      display: grid;
+      gap: 12px;
+      align-content: start;
+      padding: 14px;
+      border: 1px solid rgba(255, 214, 151, 0.26);
+      border-radius: 8px;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(217, 67, 67, 0.18), transparent 18rem),
+        rgba(7, 5, 4, 0.78);
+    }
+
+    .store-checkout h3,
+    .totals-card h3 {
+      margin: 0;
+      color: #ffe5b1;
+      font-size: 1.05rem;
+      line-height: 1.1;
+      text-transform: uppercase;
+    }
+
+    .store-fields {
+      display: grid;
+      gap: 10px;
+    }
+
+    .discount-note {
+      min-height: 1.3em;
+      margin: -2px 0 0;
+      color: #ffe5b1;
+      font-size: 0.88rem;
+      line-height: 1.35;
+    }
+
+    .totals-card {
+      display: grid;
+      gap: 8px;
+      padding: 12px;
+      border: 1px dashed rgba(255, 214, 151, 0.34);
+      border-radius: 8px;
+      background: rgba(255, 238, 202, 0.055);
+    }
+
+    .total-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .total-line.is-discount {
+      color: #ffe5b1;
+    }
+
+    .total-line.is-grand {
+      padding-top: 8px;
+      border-top: 1px solid rgba(255, 238, 202, 0.14);
+      color: var(--ink);
+      font-size: 1.12rem;
+      font-weight: 900;
+    }
+
+    .payment-card {
+      display: grid;
+      gap: 10px;
+      padding: 12px;
+      border: 1px solid rgba(255, 238, 202, 0.16);
+      border-radius: 8px;
+      background: rgba(255, 238, 202, 0.06);
+    }
+
+    .payment-card[hidden] {
+      display: none;
+    }
+
+    .payment-card strong {
+      color: #ffe5b1;
+      text-transform: uppercase;
+    }
+
+    .payment-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    .payment-card code {
+      color: var(--ink);
+      overflow-wrap: anywhere;
+      white-space: normal;
+    }
+
+    .qr-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      align-items: start;
+    }
+
+    .qr-card {
+      display: grid;
+      gap: 6px;
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.2;
+    }
+
+    .qr-card img,
+    .tip-jar-image {
+      display: block;
+      width: 100%;
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .payment-card > picture img {
+      display: block;
+      width: min(100%, 320px);
+      margin: 0 auto;
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .tip-jar-body {
+      display: grid;
+      gap: 14px;
+    }
+
+    .tip-jar-copy {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
     .dirt-panel {
       width: min(100%, 1120px);
     }
@@ -1689,6 +2041,20 @@
       .dirt-card.is-wide {
         grid-column: span 2;
       }
+
+      .store-layout {
+        grid-template-columns: minmax(0, 1.1fr) minmax(330px, 0.9fr);
+        align-items: start;
+      }
+
+      .store-checkout {
+        position: sticky;
+        top: 74px;
+      }
+
+      .store-fields.two-up {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
     }
 
     @media (max-width: 767px) {
@@ -1779,6 +2145,62 @@
         pointer-events: none;
       }
 
+      .dock-link {
+        position: fixed;
+        bottom: max(12px, env(safe-area-inset-bottom));
+        z-index: 12;
+        width: 50px;
+        height: 50px;
+        min-width: 50px;
+        min-height: 50px;
+        color: #ffe5b1;
+        border: 1px solid rgba(255, 214, 151, 0.4);
+        background:
+          linear-gradient(135deg, rgba(148, 31, 37, 0.86), rgba(15, 10, 7, 0.92) 54%, rgba(93, 15, 18, 0.86)),
+          #130a07;
+        box-shadow:
+          inset 0 0 0 1px rgba(0, 0, 0, 0.42),
+          0 0 18px rgba(217, 67, 67, 0.28);
+      }
+
+      .dock-link[data-dock="instagram"] {
+        left: 12px;
+      }
+
+      .dock-link[data-dock="links"] {
+        left: 68px;
+      }
+
+      .dock-link[data-dock="youtube"] {
+        left: 124px;
+      }
+
+      .dock-link[data-dock="scroll"] {
+        right: 12px;
+        left: auto;
+        width: 142px;
+      }
+
+      .dock-icon {
+        opacity: 1;
+        color: #ffe5b1;
+        font-size: 0.76rem;
+        font-weight: 900;
+        line-height: 1;
+        text-transform: uppercase;
+      }
+
+      .dock-plaque {
+        display: none;
+      }
+
+      .store-prop {
+        left: 69.4%;
+        top: 74.2%;
+        width: 24%;
+        min-width: 216px;
+      }
+
       .hotspot {
         min-width: 56px;
         min-height: 56px;
@@ -1828,6 +2250,36 @@
 
       .player-time {
         width: 100%;
+      }
+
+      .store-panel {
+        max-height: calc(100dvh - 24px);
+      }
+
+      .store-stage {
+        max-height: 62dvh;
+      }
+
+      .store-stage img {
+        max-height: 62dvh;
+      }
+
+      .tip-hotspot {
+        left: 23%;
+        top: 69%;
+        width: 30%;
+        min-width: 92px;
+        min-height: 50px;
+        font-size: 0.72rem;
+      }
+
+      .store-gallery,
+      .qr-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .store-shot img {
+        aspect-ratio: 16 / 11;
       }
     }
 
@@ -1924,9 +2376,31 @@
           <span class="figure-plaque" aria-hidden="true"><strong>;)</strong></span>
           <span class="sr-only">;)</span>
         </a>
-        <button class="hotspot" type="button" data-menu-hotspot data-dock="social" data-action="social" aria-label="Open social links">
-          <span class="figure-plaque" aria-hidden="true"><strong>links</strong></span>
-          <span class="sr-only">social links</span>
+        <a class="dock-link" data-dock="instagram" href="https://www.instagram.com/imhighoncrackandihaveagun/" target="_blank" rel="noopener noreferrer" aria-label="Open Instagram">
+          <span class="dock-icon" aria-hidden="true">IG</span>
+          <span class="dock-plaque" aria-hidden="true"><strong>Instagram</strong></span>
+          <span class="sr-only">Instagram</span>
+        </a>
+        <button class="dock-link" type="button" data-dock="links" data-action="social" aria-label="Open all social links">
+          <span class="dock-icon" aria-hidden="true">Links</span>
+          <span class="dock-plaque" aria-hidden="true"><strong>All Links</strong></span>
+          <span class="sr-only">all social links</span>
+        </button>
+        <a class="dock-link" data-dock="youtube" href="https://www.youtube.com/@imhighoncrackandihaveagun" target="_blank" rel="noopener noreferrer" aria-label="Open YouTube">
+          <span class="dock-icon" aria-hidden="true">YT</span>
+          <span class="dock-plaque" aria-hidden="true"><strong>YouTube</strong></span>
+          <span class="sr-only">YouTube</span>
+        </a>
+        <button class="dock-link" type="button" data-dock="scroll" data-scroll-board aria-label="Scroll to explore">
+          <span class="dock-icon" aria-hidden="true">Explore &rarr;</span>
+          <span class="dock-plaque" aria-hidden="true"><strong>Explore</strong></span>
+          <span class="sr-only">scroll to explore</span>
+        </button>
+        <button class="store-prop" type="button" data-action="shop" aria-label="Open Chaz n Amelia's Cocaina Pearl IHOCAIHAG Store">
+          <picture>
+            <source srcset="chaz-amelia-store-card.webp" type="image/webp">
+            <img src="chaz-amelia-store-card.png" alt="Chaz n Amelia's Cocaina Pearl IHOCAIHAG Store" width="311" height="170" loading="lazy" decoding="async">
+          </picture>
         </button>
 
         <div class="board-fallback" role="region" aria-label="Action-figure room fallback">
@@ -2272,27 +2746,97 @@
   </section>
 
   <section class="modal" id="shopModal" role="dialog" aria-modal="true" aria-labelledby="shopTitle" hidden>
-    <div class="modal-panel">
+    <div class="modal-panel store-panel">
       <header class="modal-header">
-        <h2 class="modal-title" id="shopTitle">the plug</h2>
+        <h2 class="modal-title" id="shopTitle">Chaz n Amelia's Cocaina Pearl IHOCAIHAG Store</h2>
         <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
       </header>
-      <div class="modal-body">
-        <div class="lick-list">
-          <p>List for the Lick:</p>
-          <ol>
-            <li>First access to the UNEDITED Complete Documentary release 2 weeks before a StreamSafe version goes public.</li>
-            <li>First pick to get the chance at the ogCRACKPACK.</li>
-            <li>The first to receive all the important updates for the Book, Doc, and soundtrack.</li>
-          </ol>
+      <div class="modal-body store-body">
+        <div class="store-stage">
+          <picture>
+            <source srcset="store-red-carpet.webp" type="image/webp">
+            <img src="store-red-carpet.png" alt="Chaz n Amelia's Cocaina Pearl IHOCAIHAG Store red carpet scene" width="1097" height="1676" loading="lazy" decoding="async">
+          </picture>
+          <button class="tip-hotspot" type="button" data-tip-jar aria-label="Open PayPal tip jar">Tip Jar</button>
         </div>
-        <form class="form-grid" action="https://formsubmit.co/imhighoncrackandihaveagun@gmail.com" method="POST">
+
+        <p class="store-copy">Physical shirt request. Trap Pass holders get 10% off during the first two weeks; type anything in the Trap Pass box to apply it.</p>
+
+        <div class="store-layout">
+          <div class="store-gallery" aria-label="Store product photos">
+            <figure class="store-shot">
+              <picture>
+                <source srcset="store-shirt-black.webp" type="image/webp">
+                <img src="store-shirt-black.png" alt="Black IHOCAIHAG shirt front and back" width="1996" height="1481" loading="lazy" decoding="async">
+              </picture>
+              <figcaption>Black shirt, front/back</figcaption>
+            </figure>
+            <figure class="store-shot">
+              <picture>
+                <source srcset="store-shirt-red.webp" type="image/webp">
+                <img src="store-shirt-red.png" alt="Red IHOCAIHAG shirt front and back" width="1884" height="1565" loading="lazy" decoding="async">
+              </picture>
+              <figcaption>Red shirt, front/back</figcaption>
+            </figure>
+            <figure class="store-shot">
+              <picture>
+                <source srcset="store-figure-black-shirt.webp" type="image/webp">
+                <img src="store-figure-black-shirt.png" alt="Action figure modeling the black IHOCAIHAG shirt" width="1985" height="1492" loading="lazy" decoding="async">
+              </picture>
+              <figcaption>Black shirt model</figcaption>
+            </figure>
+            <figure class="store-shot">
+              <picture>
+                <source srcset="store-figure-red-shirt-cats.webp" type="image/webp">
+                <img src="store-figure-red-shirt-cats.png" alt="Action figure package modeling the red IHOCAIHAG shirt with Chaz and Amelia" width="2110" height="1419" loading="lazy" decoding="async">
+              </picture>
+              <figcaption>Red shirt model</figcaption>
+            </figure>
+          </div>
+
+          <form class="store-checkout" id="shirtOrderForm" action="https://formsubmit.co/imhighoncrackandihaveagun@gmail.com" method="POST">
           <input type="hidden" name="_captcha" value="false">
           <input type="hidden" name="_template" value="table">
-          <input type="hidden" name="_subject" value="New Archive Waitlist Signup">
-          <input type="hidden" name="_next" value="https://imhighoncrackandihaveagun.com/?waitlist=joined&scene=board">
-          <input type="hidden" name="list" value="Archive Waitlist">
-          <div class="shop-grid">
+            <input type="hidden" name="_subject" value="New T-Shirt Shop Request">
+            <input type="hidden" name="_next" value="https://imhighoncrackandihaveagun.com/?shop=sent&scene=board">
+            <input type="hidden" name="product" value="Official IHOCAIHAG Shirt">
+            <input type="hidden" id="shirtSubtotalInput" name="subtotal" value="$25.00">
+            <input type="hidden" id="shirtDiscountInput" name="trap_pass_discount" value="$0.00">
+            <input type="hidden" id="shirtTaxInput" name="estimated_sales_tax" value="$1.75">
+            <input type="hidden" id="shirtShippingInput" name="shipping" value="$5.00">
+            <input type="hidden" id="shirtTotalInput" name="estimated_total" value="$31.75">
+
+            <h3>Official shirt request</h3>
+
+            <div class="store-fields two-up">
+              <div class="field">
+                <label for="shirtStyle">Item</label>
+                <select id="shirtStyle" name="shirt_style" required>
+                  <option value="Black IHOCAIHAG shirt">Black IHOCAIHAG shirt</option>
+                  <option value="Red IHOCAIHAG shirt">Red IHOCAIHAG shirt</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="shirtSize">Size</label>
+                <select id="shirtSize" name="size" required>
+                  <option value="">Select size</option>
+                  <option>S</option>
+                  <option>M</option>
+                  <option>L</option>
+                  <option>XL</option>
+                  <option>2XL</option>
+                  <option>3XL</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="trapPassDiscount">Trap Pass number</label>
+              <input id="trapPassDiscount" name="trap_pass_number" autocomplete="off" placeholder="TRAP PASS #201-11FFP">
+            </div>
+            <p class="discount-note" id="discountNote" aria-live="polite">Trap Pass discount ready.</p>
+
+            <div class="store-fields two-up">
             <div class="field">
               <label for="shopName">Name</label>
               <input id="shopName" name="name" autocomplete="name" required>
@@ -2301,24 +2845,120 @@
               <label for="shopEmail">Email</label>
               <input id="shopEmail" name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="none" spellcheck="false" required>
             </div>
-            <div class="field">
-              <label for="archiveInterest">First access interest</label>
-              <select id="archiveInterest" name="interest" required>
-                <option value="">Select one</option>
-                <option>Soundtrack updates</option>
-                <option>Documentary archive cut</option>
-                <option>Book release</option>
-                <option>Limited Archive Box #001-050</option>
-                <option>All archive drops</option>
-              </select>
             </div>
-          </div>
-          <div class="field">
-            <label for="shopNotes">Notes</label>
-            <textarea id="shopNotes" name="notes" placeholder="Tell the archive what you want first."></textarea>
-          </div>
-          <button class="primary-btn" type="submit">Join the Archive List</button>
+
+            <div class="field">
+              <label for="shippingAddress">Shipping address</label>
+              <input id="shippingAddress" name="shipping_address" autocomplete="street-address" required>
+            </div>
+
+            <div class="store-fields two-up">
+              <div class="field">
+                <label for="shippingCity">City</label>
+                <input id="shippingCity" name="shipping_city" autocomplete="address-level2" required>
+              </div>
+              <div class="field">
+                <label for="shippingState">State</label>
+                <input id="shippingState" name="shipping_state" autocomplete="address-level1" required>
+              </div>
+              <div class="field">
+                <label for="shippingZip">ZIP</label>
+                <input id="shippingZip" name="shipping_zip" inputmode="numeric" autocomplete="postal-code" required>
+              </div>
+              <div class="field">
+                <label for="paymentMethod">Payment method</label>
+                <select id="paymentMethod" name="payment_method" required>
+                  <option value="">Select payment</option>
+                  <option value="paypal">PayPal</option>
+                  <option value="cashapp">Cash App</option>
+                  <option value="chime">Chime</option>
+                  <option value="zelle">Zelle</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="totals-card" aria-live="polite">
+              <h3>Checkout total</h3>
+              <div class="total-line"><span>Shirt</span><strong id="subtotalText">$25.00</strong></div>
+              <div class="total-line is-discount"><span>Trap Pass discount</span><strong id="discountText">$0.00</strong></div>
+              <div class="total-line"><span>Estimated sales tax</span><strong id="taxText">$1.75</strong></div>
+              <div class="total-line"><span>Shipping</span><strong id="shippingText">$5.00</strong></div>
+              <div class="total-line is-grand"><span>Total</span><strong id="totalText">$31.75</strong></div>
+            </div>
+
+            <div class="payment-card" id="paymentPlaceholder">
+              <strong>Payment details</strong>
+              <p>Select a payment method to reveal the address or QR.</p>
+            </div>
+
+            <div class="payment-card" data-payment-panel="paypal" hidden>
+              <strong>PayPal</strong>
+              <p>Use the seller QR below, or confirm the PayPal profile shown before sending payment.</p>
+              <div class="qr-grid">
+                <span class="qr-card">
+                  <picture>
+                    <source srcset="payment-paypal-seller.webp" type="image/webp">
+                    <img src="payment-paypal-seller.png" alt="PayPal seller QR for Ryan Homanics" width="771" height="904" loading="lazy" decoding="async">
+                  </picture>
+                  Seller QR
+                </span>
+                <span class="qr-card">
+                  <picture>
+                    <source srcset="payment-paypal-profile.webp" type="image/webp">
+                    <img src="payment-paypal-profile.png" alt="PayPal profile for Ryan Homanics" width="567" height="400" loading="lazy" decoding="async">
+                  </picture>
+                  PayPal profile
+                </span>
+              </div>
+            </div>
+
+            <div class="payment-card" data-payment-panel="cashapp" hidden>
+              <strong>Cash App</strong>
+              <p>Cash App: <code>$RyanHomanics</code></p>
+              <picture>
+                <source srcset="payment-cashapp.webp" type="image/webp">
+                <img src="payment-cashapp.png" alt="Cash App QR for Ryan Homanics" width="765" height="987" loading="lazy" decoding="async">
+              </picture>
+            </div>
+
+            <div class="payment-card" data-payment-panel="chime" hidden>
+              <strong>Chime</strong>
+              <p>Chime: <code>$Ryan-Homanics</code></p>
+              <picture>
+                <source srcset="payment-chime.webp" type="image/webp">
+                <img src="payment-chime.png" alt="Chime QR for Ryan Homanics" width="672" height="694" loading="lazy" decoding="async">
+              </picture>
+            </div>
+
+            <div class="payment-card" data-payment-panel="zelle" hidden>
+              <strong>Zelle</strong>
+              <p>Zelle address: <code>ryanhomanics@gmail.com</code></p>
+            </div>
+
+            <div class="field">
+              <label for="shopNotes">Notes</label>
+              <textarea id="shopNotes" name="notes" placeholder="Color note, delivery note, or anything I need to know."></textarea>
+            </div>
+
+            <button class="primary-btn" type="submit">Send shirt request</button>
         </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="modal" id="tipJarModal" role="dialog" aria-modal="true" aria-labelledby="tipJarTitle" hidden>
+    <div class="modal-panel unlock-panel">
+      <header class="modal-header">
+        <h2 class="modal-title" id="tipJarTitle">PayPal Tip Jar</h2>
+        <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
+      </header>
+      <div class="modal-body tip-jar-body">
+        <picture>
+          <source srcset="payment-paypal-tipjar.webp" type="image/webp">
+          <img class="tip-jar-image" src="payment-paypal-tipjar.png" alt="PayPal tip jar QR for Ryan Homanics" width="798" height="1072" loading="lazy" decoding="async">
+        </picture>
+        <p class="tip-jar-copy">Any tips go toward helping me keep everything I have focused on this project for the full-speed home stretch.</p>
       </div>
     </div>
   </section>
@@ -2379,8 +3019,26 @@
       const successVideo = document.getElementById("successVideo");
       const transitionOverlay = document.getElementById("transitionOverlay");
       const transitionVideo = document.getElementById("transitionVideo");
+      const shirtOrderForm = document.getElementById("shirtOrderForm");
+      const trapPassDiscount = document.getElementById("trapPassDiscount");
+      const paymentMethod = document.getElementById("paymentMethod");
+      const paymentPlaceholder = document.getElementById("paymentPlaceholder");
+      const subtotalText = document.getElementById("subtotalText");
+      const discountText = document.getElementById("discountText");
+      const taxText = document.getElementById("taxText");
+      const shippingText = document.getElementById("shippingText");
+      const totalText = document.getElementById("totalText");
+      const discountNote = document.getElementById("discountNote");
+      const shirtSubtotalInput = document.getElementById("shirtSubtotalInput");
+      const shirtDiscountInput = document.getElementById("shirtDiscountInput");
+      const shirtTaxInput = document.getElementById("shirtTaxInput");
+      const shirtShippingInput = document.getElementById("shirtShippingInput");
+      const shirtTotalInput = document.getElementById("shirtTotalInput");
       const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       const entryFadeMs = reducedMotion ? 10 : 430;
+      const shirtPrice = 25;
+      const shirtShipping = 5;
+      const shirtTaxRate = 0.07;
       const accessKey = "ihocaig-trap-pass-run-wave-1-claimed";
       const accessCookie = "ihocaig_trap_pass_run_wave_1_claimed";
       const passViewedKey = "ihocaig-trap-pass-run-wave-1-viewed";
@@ -2422,6 +3080,7 @@
         suno: () => openModal("sunoModal"),
         social: () => openModal("socialModal"),
         shop: () => openModal("shopModal"),
+        tipJar: () => openModal("tipJarModal"),
         dirt: () => openModal("dirtShowModal"),
         who: () => openModal("whoModal")
       };
@@ -2547,6 +3206,17 @@
           const targetLeft = Math.max(0, startHotspot.offsetLeft - Math.round(window.innerWidth * 0.24));
           boardWrap.scrollTo({ left: targetLeft, behavior: reducedMotion ? "auto" : "smooth" });
         });
+      }
+
+      function scrollBoardForward() {
+        if (!boardWrap) return;
+
+        const maxLeft = Math.max(0, boardWrap.scrollWidth - boardWrap.clientWidth);
+        if (!maxLeft) return;
+
+        const nextLeft = Math.min(maxLeft, boardWrap.scrollLeft + Math.round(boardWrap.clientWidth * 0.82));
+        const targetLeft = nextLeft <= boardWrap.scrollLeft + 4 ? 0 : nextLeft;
+        boardWrap.scrollTo({ left: targetLeft, behavior: reducedMotion ? "auto" : "smooth" });
       }
 
       function hasCookie(name) {
@@ -2870,6 +3540,11 @@
           resetUnlockFeedback();
         }
 
+        if (id === "shopModal") {
+          updateShopTotals();
+          updatePaymentInstructions();
+        }
+
         const focusTarget = options.focusSelector
           ? modal.querySelector(options.focusSelector)
           : modal.querySelector("[data-close-modal], button, a, input, select, textarea, video, audio");
@@ -2990,6 +3665,45 @@
         const minutes = Math.floor(seconds / 60);
         const remainingSeconds = Math.floor(seconds % 60).toString().padStart(2, "0");
         return `${minutes}:${remainingSeconds}`;
+      }
+
+      function formatMoney(amount) {
+        return `$${amount.toFixed(2)}`;
+      }
+
+      function updateShopTotals() {
+        if (!shirtOrderForm) return;
+
+        const hasDiscount = Boolean(trapPassDiscount?.value.trim());
+        const discount = hasDiscount ? shirtPrice * 0.1 : 0;
+        const taxableAmount = Math.max(0, shirtPrice - discount);
+        const tax = Math.round((taxableAmount * shirtTaxRate + Number.EPSILON) * 100) / 100;
+        const total = taxableAmount + tax + shirtShipping;
+
+        subtotalText.textContent = formatMoney(shirtPrice);
+        discountText.textContent = hasDiscount ? `-${formatMoney(discount)}` : formatMoney(0);
+        taxText.textContent = formatMoney(tax);
+        shippingText.textContent = formatMoney(shirtShipping);
+        totalText.textContent = formatMoney(total);
+
+        shirtSubtotalInput.value = formatMoney(shirtPrice);
+        shirtDiscountInput.value = hasDiscount ? `-${formatMoney(discount)}` : formatMoney(0);
+        shirtTaxInput.value = formatMoney(tax);
+        shirtShippingInput.value = formatMoney(shirtShipping);
+        shirtTotalInput.value = formatMoney(total);
+        discountNote.textContent = hasDiscount
+          ? "Trap Pass accepted. 10% discount applied."
+          : "Trap Pass discount ready.";
+      }
+
+      function updatePaymentInstructions() {
+        if (!paymentMethod) return;
+
+        const selectedMethod = paymentMethod.value;
+        paymentPlaceholder.hidden = Boolean(selectedMethod);
+        document.querySelectorAll("[data-payment-panel]").forEach((panel) => {
+          panel.hidden = panel.dataset.paymentPanel !== selectedMethod;
+        });
       }
 
       function loadSoundtrackTrack(index, shouldPlay) {
@@ -3360,6 +4074,39 @@
           }
         });
 
+        document.querySelectorAll(".dock-link[data-action], .store-prop[data-action]").forEach((button) => {
+          button.addEventListener("click", (event) => {
+            const action = event.currentTarget.dataset.action;
+            if (!actionMap[action]) return;
+
+            event.preventDefault();
+            event.stopPropagation();
+            clearArmedHotspot();
+            action === "social" ? openModal("socialModal") : runAction(action);
+          });
+        });
+
+        document.querySelectorAll("[data-scroll-board]").forEach((button) => {
+          button.addEventListener("click", (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            scrollBoardForward();
+          });
+        });
+
+        document.querySelectorAll("[data-tip-jar]").forEach((button) => {
+          button.addEventListener("click", (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            openModal("tipJarModal");
+          });
+        });
+
+        trapPassDiscount?.addEventListener("input", updateShopTotals);
+        paymentMethod?.addEventListener("change", updatePaymentInstructions);
+        updateShopTotals();
+        updatePaymentInstructions();
+
         document.addEventListener("click", (event) => {
           const menuHotspot = event.target.closest("[data-menu-hotspot]");
           if (menuHotspot && armMobileMenuHotspot(event, menuHotspot)) {
@@ -3407,6 +4154,20 @@
           if (toggleButton) {
             event.preventDefault();
             toggleSoundtrack();
+            return;
+          }
+
+          const scrollButton = event.target.closest("[data-scroll-board]");
+          if (scrollButton) {
+            event.preventDefault();
+            scrollBoardForward();
+            return;
+          }
+
+          const tipButton = event.target.closest("[data-tip-jar]");
+          if (tipButton) {
+            event.preventDefault();
+            openModal("tipJarModal");
             return;
           }
 
