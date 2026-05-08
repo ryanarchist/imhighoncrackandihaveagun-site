@@ -1710,7 +1710,7 @@
     }
 
     .store-panel.is-counter-open {
-      width: min(100%, 1180px);
+      width: min(100%, 1380px);
     }
 
     .store-panel .modal-header {
@@ -1786,13 +1786,7 @@
     }
 
     .store-panel.is-counter-open .store-stage {
-      padding: clamp(8px, 2vw, 16px);
-      border: 1px solid rgba(255, 214, 151, 0.24);
-      border-radius: 8px;
-      background:
-        radial-gradient(circle at 42% 38%, rgba(217, 67, 67, 0.14), transparent 36rem),
-        #080605;
-      box-shadow: inset 0 0 38px rgba(0, 0, 0, 0.42), 0 18px 42px rgba(0, 0, 0, 0.34);
+      display: none;
     }
 
     .store-scene {
@@ -1923,7 +1917,7 @@
 
     .store-counter {
       display: grid;
-      gap: 14px;
+      gap: clamp(12px, 1.8vw, 18px);
       animation: counterReveal 320ms ease both;
     }
 
@@ -1934,7 +1928,7 @@
     .store-counter-plaque {
       display: grid;
       gap: 5px;
-      padding: 12px 14px;
+      padding: clamp(12px, 1.6vw, 18px);
       border: 1px solid rgba(255, 214, 151, 0.28);
       border-radius: 8px;
       background:
@@ -1960,8 +1954,17 @@
 
     .store-counter-plaque strong {
       color: #ffe5b1;
-      font-size: clamp(1.35rem, 5vw, 2.05rem);
+      font-size: clamp(1.55rem, 5vw, 2.45rem);
       text-shadow: 0 0 18px rgba(217, 67, 67, 0.26);
+    }
+
+    .store-counter-plaque em {
+      color: rgba(255, 244, 220, 0.82);
+      font-family: var(--font-body);
+      font-size: clamp(0.9rem, 2.5vw, 1rem);
+      font-style: normal;
+      font-weight: 800;
+      line-height: 1.3;
     }
 
     .store-copy {
@@ -1979,41 +1982,75 @@
 
     .store-layout {
       display: grid;
-      gap: 14px;
+      gap: clamp(14px, 2vw, 22px);
+      align-items: start;
     }
 
     .store-gallery {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
+      gap: clamp(12px, 1.6vw, 18px);
+      align-items: start;
+      align-content: start;
     }
 
     .store-shot {
+      position: relative;
       display: grid;
       gap: 8px;
+      align-content: start;
+      align-items: start;
       margin: 0;
-      padding: 8px;
-      border: 1px solid rgba(255, 238, 202, 0.14);
+      min-height: 0;
+      overflow: hidden;
+      padding: clamp(8px, 1.2vw, 12px);
+      border: 1px solid rgba(255, 214, 151, 0.24);
       border-radius: 8px;
-      background: rgba(255, 238, 202, 0.055);
+      background:
+        radial-gradient(circle at 50% 0%, rgba(255, 214, 151, 0.12), transparent 18rem),
+        linear-gradient(180deg, rgba(255, 238, 202, 0.08), rgba(0, 0, 0, 0.2)),
+        rgba(7, 5, 4, 0.86);
+      box-shadow:
+        0 18px 44px rgba(0, 0, 0, 0.36),
+        inset 0 0 0 1px rgba(0, 0, 0, 0.4);
+    }
+
+    .store-shot.is-shirt {
+      grid-column: span 1;
+    }
+
+    .store-shot picture {
+      display: block;
+      width: 100%;
+      min-height: 0;
     }
 
     .store-shot img {
       display: block;
       width: 100%;
-      aspect-ratio: 4 / 3;
+      height: clamp(320px, 34vw, 520px);
       object-fit: contain;
+      object-position: center;
       border-radius: 6px;
-      background: #080605;
+      background: #f2f0eb;
+      box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.34),
+        0 0 0 1px rgba(255, 244, 220, 0.16);
+    }
+
+    .store-shot.is-figure img {
+      height: clamp(300px, 29vw, 470px);
+      background: #f5f4f1;
     }
 
     .store-shot figcaption {
       color: #ffe5b1;
       font-family: var(--font-display);
-      font-size: 0.83rem;
+      font-size: clamp(0.86rem, 1.35vw, 1.05rem);
       font-weight: 900;
       line-height: 1.2;
       text-transform: uppercase;
+      text-shadow: 0 0 14px rgba(217, 67, 67, 0.26);
     }
 
     .store-checkout {
@@ -2025,7 +2062,11 @@
       border-radius: 8px;
       background:
         radial-gradient(circle at 0% 0%, rgba(217, 67, 67, 0.18), transparent 18rem),
-        rgba(7, 5, 4, 0.78);
+        linear-gradient(180deg, rgba(18, 11, 8, 0.94), rgba(5, 4, 3, 0.96)),
+        rgba(7, 5, 4, 0.9);
+      box-shadow:
+        0 20px 48px rgba(0, 0, 0, 0.34),
+        inset 0 0 0 1px rgba(0, 0, 0, 0.42);
     }
 
     .store-checkout h3,
@@ -2402,13 +2443,15 @@
       }
 
       .store-layout {
-        grid-template-columns: minmax(0, 1.1fr) minmax(330px, 0.9fr);
+        grid-template-columns: minmax(0, 1.65fr) minmax(330px, 0.72fr);
         align-items: start;
       }
 
       .store-checkout {
         position: sticky;
         top: 74px;
+        max-height: calc(100dvh - 112px);
+        overflow: auto;
       }
 
       .store-fields.two-up {
@@ -2650,7 +2693,11 @@
       }
 
       .store-shot img {
-        aspect-ratio: 16 / 11;
+        height: clamp(280px, 82vw, 430px);
+      }
+
+      .store-shot.is-figure img {
+        height: clamp(260px, 76vw, 410px);
       }
     }
 
@@ -3140,37 +3187,38 @@
           <div class="store-counter-plaque">
             <span>Counter Open</span>
             <strong>Shirt Figure Pack</strong>
+            <em>Official shirts and figure-display variants are on the counter. Pick a size, choose a payment method, then send the request.</em>
           </div>
 
           <div class="store-layout">
           <div class="store-gallery" aria-label="Store product photos">
-            <figure class="store-shot">
+            <figure class="store-shot is-shirt">
               <picture>
                 <source srcset="store-shirt-black.webp" type="image/webp">
-                <img src="store-shirt-black.png" alt="Black IHOCAIHAG shirt front and back" width="1996" height="1481" loading="lazy" decoding="async">
+                <img src="store-shirt-black.png" alt="Black IHOCAIHAG shirt front and back" width="1996" height="1481" loading="eager" decoding="async">
               </picture>
-              <figcaption>Black tee blister card</figcaption>
+              <figcaption>Black shirt / front and back</figcaption>
             </figure>
-            <figure class="store-shot">
+            <figure class="store-shot is-shirt">
               <picture>
                 <source srcset="store-shirt-red.webp" type="image/webp">
-                <img src="store-shirt-red.png" alt="Red IHOCAIHAG shirt front and back" width="1884" height="1565" loading="lazy" decoding="async">
+                <img src="store-shirt-red.png" alt="Red IHOCAIHAG shirt front and back" width="1884" height="1565" loading="eager" decoding="async">
               </picture>
-              <figcaption>Red tee variant card</figcaption>
+              <figcaption>Red shirt / front and back</figcaption>
             </figure>
-            <figure class="store-shot">
+            <figure class="store-shot is-figure">
               <picture>
                 <source srcset="store-figure-black-shirt.webp" type="image/webp">
                 <img src="store-figure-black-shirt.png" alt="Action figure modeling the black IHOCAIHAG shirt" width="1985" height="1492" loading="lazy" decoding="async">
               </picture>
-              <figcaption>Black tee figure model</figcaption>
+              <figcaption>Black shirt action figure</figcaption>
             </figure>
-            <figure class="store-shot">
+            <figure class="store-shot is-figure">
               <picture>
                 <source srcset="store-figure-red-shirt-cats.webp" type="image/webp">
                 <img src="store-figure-red-shirt-cats.png" alt="Action figure package modeling the red IHOCAIHAG shirt with Chaz and Amelia" width="2110" height="1419" loading="lazy" decoding="async">
               </picture>
-              <figcaption>Red tee figure model</figcaption>
+              <figcaption>Red shirt figure pack</figcaption>
             </figure>
           </div>
 
