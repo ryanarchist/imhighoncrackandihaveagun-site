@@ -1622,37 +1622,68 @@
       background: #080605;
     }
 
-    .tip-hotspot {
+    .store-url-plaque {
       position: absolute;
-      left: 25.5%;
-      top: 70.5%;
+      left: 50%;
+      bottom: 14px;
       z-index: 2;
-      width: 23%;
-      min-width: 104px;
-      min-height: 56px;
-      padding: 8px 10px;
+      display: grid;
+      gap: 3px;
+      width: min(calc(100% - 24px), 470px);
+      padding: 10px 12px;
       border: 1px solid rgba(255, 214, 151, 0.52);
       border-radius: 6px;
       color: #ffe5b1;
       background:
-        linear-gradient(135deg, rgba(217, 67, 67, 0.82), rgba(15, 10, 7, 0.88)),
+        linear-gradient(135deg, rgba(217, 67, 67, 0.72), rgba(15, 10, 7, 0.9)),
         rgba(0, 0, 0, 0.75);
       box-shadow: 0 0 24px rgba(217, 67, 67, 0.28);
-      cursor: pointer;
+      text-align: center;
       font-weight: 900;
       text-transform: uppercase;
+      transform: translateX(-50%);
     }
 
-    .tip-hotspot:hover,
-    .tip-hotspot:focus-visible {
-      outline: 0;
-      box-shadow: 0 0 34px rgba(255, 180, 72, 0.5);
+    .store-url-plaque strong {
+      overflow-wrap: anywhere;
+      font-size: clamp(0.88rem, 3vw, 1.08rem);
+      line-height: 1.05;
+    }
+
+    .store-url-plaque span {
+      color: var(--muted);
+      font-size: 0.72rem;
+      line-height: 1.1;
     }
 
     .store-copy {
       margin: 0;
       color: var(--muted);
       line-height: 1.45;
+    }
+
+    .store-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px;
+      border: 1px solid rgba(255, 238, 202, 0.14);
+      border-radius: 8px;
+      background: rgba(255, 238, 202, 0.055);
+    }
+
+    .store-actions span {
+      color: #ffe5b1;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .store-tip-button {
+      min-width: min(100%, 180px);
+      font-weight: 900;
+      text-transform: uppercase;
     }
 
     .store-layout {
@@ -2264,13 +2295,9 @@
         max-height: 62dvh;
       }
 
-      .tip-hotspot {
-        left: 23%;
-        top: 69%;
-        width: 30%;
-        min-width: 92px;
-        min-height: 50px;
-        font-size: 0.72rem;
+      .store-url-plaque {
+        bottom: 10px;
+        padding: 9px 10px;
       }
 
       .store-gallery,
@@ -2754,13 +2781,21 @@
       <div class="modal-body store-body">
         <div class="store-stage">
           <picture>
-            <source srcset="store-red-carpet.webp" type="image/webp">
-            <img src="store-red-carpet.png" alt="Chaz n Amelia's Cocaina Pearl IHOCAIHAG Store red carpet scene" width="1097" height="1676" loading="lazy" decoding="async">
+            <source srcset="store-hallway.webp" type="image/webp">
+            <img src="store-hallway.png" alt="Chaz n Amelia's Cocaina Pearl IHOCAIHAG Store hallway entrance" width="944" height="1677" loading="lazy" decoding="async">
           </picture>
-          <button class="tip-hotspot" type="button" data-tip-jar aria-label="Open PayPal tip jar">Tip Jar</button>
+          <!-- TODO: Point DNS/CNAME before using shop.imhighoncrackandihaveagun.com as a live subdomain. -->
+          <div class="store-url-plaque" aria-label="Store address">
+            <strong>shop.imhighoncrackandihaveagun.com</strong>
+            <span>Chaz n Amelia's Cocaina Pearl</span>
+          </div>
         </div>
 
         <p class="store-copy">Physical shirt request. Trap Pass holders get 10% off during the first two weeks; type anything in the Trap Pass box to apply it.</p>
+        <div class="store-actions">
+          <span>Store counter open</span>
+          <button class="plain-btn store-tip-button" type="button" data-tip-jar>Open Tip Jar</button>
+        </div>
 
         <div class="store-layout">
           <div class="store-gallery" aria-label="Store product photos">
