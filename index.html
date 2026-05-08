@@ -1697,12 +1697,79 @@
 
     /* Store */
     .store-panel {
+      position: relative;
+      width: min(100%, calc((100dvh - 28px) * 1097 / 1676));
+      max-height: calc(100dvh - 28px);
+      border-color: rgba(255, 214, 151, 0.28);
+      background:
+        linear-gradient(180deg, rgba(10, 7, 5, 0.98), rgba(3, 2, 2, 0.98)),
+        #050403;
+      box-shadow:
+        0 34px 110px rgba(0, 0, 0, 0.78),
+        inset 0 0 0 1px rgba(255, 214, 151, 0.08);
+    }
+
+    .store-panel.is-counter-open {
       width: min(100%, 1180px);
+    }
+
+    .store-panel .modal-header {
+      z-index: 8;
+      border-bottom-color: rgba(255, 214, 151, 0.22);
+      background:
+        linear-gradient(135deg, rgba(127, 20, 24, 0.78), rgba(7, 5, 4, 0.92) 46%, rgba(0, 0, 0, 0.94)),
+        #080605;
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.36);
+    }
+
+    .store-panel:not(.is-counter-open) .modal-header {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      left: 10px;
+      border: 1px solid rgba(255, 214, 151, 0.34);
+      border-radius: 8px;
+      background:
+        linear-gradient(135deg, rgba(130, 24, 28, 0.82), rgba(8, 5, 4, 0.88) 54%, rgba(0, 0, 0, 0.92));
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+    }
+
+    .store-panel.is-counter-open .modal-header {
+      position: sticky;
+      top: 0;
+    }
+
+    .store-panel .modal-title {
+      display: grid;
+      gap: 3px;
+      color: #ffe5b1;
+      font-size: clamp(1rem, 3.8vw, 1.48rem);
+      line-height: 0.95;
+      text-shadow:
+        0 1px 0 rgba(0, 0, 0, 0.9),
+        0 0 18px rgba(217, 67, 67, 0.28);
+    }
+
+    .store-panel .modal-title::before {
+      content: "STORE ENTRANCE";
+      color: rgba(255, 214, 151, 0.72);
+      font-size: 0.56em;
+      line-height: 1;
+    }
+
+    .store-panel.is-counter-open .modal-title::before {
+      content: "ORDER COUNTER";
     }
 
     .store-body {
       display: grid;
       gap: 16px;
+      padding: 0;
+    }
+
+    .store-panel.is-counter-open .store-body {
+      padding: clamp(10px, 2vw, 16px);
     }
 
     .store-stage {
@@ -1710,6 +1777,15 @@
       display: grid;
       place-items: center;
       overflow: hidden;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: #030202;
+      box-shadow: none;
+      perspective: 1100px;
+    }
+
+    .store-panel.is-counter-open .store-stage {
       padding: clamp(8px, 2vw, 16px);
       border: 1px solid rgba(255, 214, 151, 0.24);
       border-radius: 8px;
@@ -1717,19 +1793,24 @@
         radial-gradient(circle at 42% 38%, rgba(217, 67, 67, 0.14), transparent 36rem),
         #080605;
       box-shadow: inset 0 0 38px rgba(0, 0, 0, 0.42), 0 18px 42px rgba(0, 0, 0, 0.34);
-      perspective: 1100px;
     }
 
     .store-scene {
       position: relative;
-      width: min(100%, calc(min(74dvh, 820px) * 1097 / 1676));
+      width: 100%;
       aspect-ratio: 1097 / 1676;
       overflow: hidden;
+      border: 0;
+      border-radius: 0;
+      background: #080605;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.56);
+      animation: storeTurnIn 560ms cubic-bezier(0.2, 0.72, 0.2, 1) both;
+    }
+
+    .store-panel.is-counter-open .store-scene {
+      width: min(100%, calc(min(54dvh, 520px) * 1097 / 1676));
       border: 1px solid rgba(255, 214, 151, 0.18);
       border-radius: 8px;
-      background: #080605;
-      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.48);
-      animation: storeTurnIn 560ms cubic-bezier(0.2, 0.72, 0.2, 1) both;
     }
 
     .store-scene picture,
@@ -1773,7 +1854,7 @@
         0 0 0 1px rgba(255, 214, 151, 0.14),
         0 0 30px rgba(217, 67, 67, 0.34),
         0 0 56px rgba(217, 157, 64, 0.22);
-      opacity: 0.34;
+      opacity: 0.2;
       transition: opacity 180ms ease, transform 180ms ease;
       pointer-events: none;
     }
@@ -1782,7 +1863,7 @@
       position: absolute;
       left: 50%;
       bottom: -34px;
-      min-width: 134px;
+      min-width: 156px;
       padding: 7px 10px;
       border: 1px solid rgba(255, 214, 151, 0.58);
       border-radius: 4px;
@@ -1800,9 +1881,14 @@
       line-height: 1;
       text-align: center;
       text-transform: uppercase;
+      opacity: 0.92;
       transform: translateX(-50%);
       transition: opacity 180ms ease, transform 180ms ease;
       pointer-events: none;
+    }
+
+    .store-door-hotspot::after {
+      bottom: -42px;
     }
 
     .store-scene-hotspot:hover::before,
@@ -1845,29 +1931,43 @@
       display: none;
     }
 
+    .store-counter-plaque {
+      display: grid;
+      gap: 5px;
+      padding: 12px 14px;
+      border: 1px solid rgba(255, 214, 151, 0.28);
+      border-radius: 8px;
+      background:
+        linear-gradient(135deg, rgba(132, 24, 28, 0.76), rgba(9, 6, 4, 0.92) 52%, rgba(0, 0, 0, 0.94)),
+        #110807;
+      box-shadow:
+        inset 0 0 0 1px rgba(0, 0, 0, 0.42),
+        0 12px 32px rgba(0, 0, 0, 0.28);
+    }
+
+    .store-counter-plaque span,
+    .store-counter-plaque strong {
+      font-family: var(--font-display);
+      font-weight: 900;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .store-counter-plaque span {
+      color: rgba(255, 214, 151, 0.72);
+      font-size: 0.78rem;
+    }
+
+    .store-counter-plaque strong {
+      color: #ffe5b1;
+      font-size: clamp(1.35rem, 5vw, 2.05rem);
+      text-shadow: 0 0 18px rgba(217, 67, 67, 0.26);
+    }
+
     .store-copy {
       margin: 0;
       color: var(--muted);
       line-height: 1.45;
-    }
-
-    .store-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px;
-      border: 1px solid rgba(255, 238, 202, 0.14);
-      border-radius: 8px;
-      background: rgba(255, 238, 202, 0.055);
-    }
-
-    .store-actions span {
-      color: #ffe5b1;
-      font-family: var(--font-display);
-      font-weight: 900;
-      text-transform: uppercase;
     }
 
     .store-tip-button {
@@ -2526,10 +2626,14 @@
       }
 
       .store-stage {
+        padding: 0;
+      }
+
+      .store-panel.is-counter-open .store-stage {
         padding: 8px;
       }
 
-      .store-scene {
+      .store-panel.is-counter-open .store-scene {
         width: min(100%, calc(68dvh * 1097 / 1676));
       }
 
@@ -3013,7 +3117,7 @@
   <section class="modal" id="shopModal" role="dialog" aria-modal="true" aria-labelledby="shopTitle" hidden>
     <div class="modal-panel store-panel">
       <header class="modal-header">
-        <h2 class="modal-title" id="shopTitle">Chaz & Amelia's Cocaina Pearl Store</h2>
+        <h2 class="modal-title" id="shopTitle">Chaz & Amelia's Cocaina Pearl</h2>
         <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
       </header>
       <div class="modal-body store-body">
@@ -3023,19 +3127,19 @@
               <source srcset="store-red-carpet.webp" type="image/webp">
               <img src="store-red-carpet.png" alt="Chaz n Amelia's Cocaina Pearl IHOCAIHAG Store red carpet location with a front door and tip jar sign" width="1097" height="1676" loading="lazy" decoding="async">
             </picture>
-            <button class="store-scene-hotspot store-door-hotspot" type="button" data-store-enter data-label="Enter Store" aria-label="Enter the store order screen">
+            <button class="store-scene-hotspot store-door-hotspot" type="button" data-store-enter data-label="Front Door" aria-label="Enter the store order screen">
               <span class="sr-only">Enter the store order screen</span>
             </button>
-            <button class="store-scene-hotspot store-tip-hotspot" type="button" data-tip-jar data-label="Tip Display" aria-label="Open PayPal tip display">
+            <button class="store-scene-hotspot store-tip-hotspot" type="button" data-tip-jar data-label="Tip Jar" aria-label="Open PayPal tip display">
               <span class="sr-only">Open PayPal tip display</span>
             </button>
           </div>
         </div>
 
         <section class="store-counter" id="storeCounter" aria-label="Store order screen" hidden>
-          <!-- TODO: Point DNS/CNAME before using shop.imhighoncrackandihaveagun.com as a live subdomain. -->
-          <div class="store-actions">
-            <span>Order counter open</span>
+          <div class="store-counter-plaque">
+            <span>Counter Open</span>
+            <strong>Shirt Figure Pack</strong>
           </div>
 
           <div class="store-layout">
@@ -3093,9 +3197,9 @@
                 </select>
               </div>
               <div class="field">
-                <label for="shirtSize">Figure Size</label>
+                <label for="shirtSize">Shirt Size</label>
                 <select id="shirtSize" name="size" required>
-                  <option value="">Select scale</option>
+                  <option value="">Select size</option>
                   <option>S</option>
                   <option>M</option>
                   <option>L</option>
@@ -3142,9 +3246,9 @@
                 <input id="shippingZip" name="shipping_zip" inputmode="numeric" autocomplete="postal-code" required>
               </div>
               <div class="field">
-                <label for="paymentMethod">Payment Rail</label>
+                <label for="paymentMethod">Payment Method</label>
                 <select id="paymentMethod" name="payment_method" required>
-                  <option value="">Select rail</option>
+                  <option value="">Select payment</option>
                   <option value="paypal">PayPal</option>
                   <option value="cashapp">Cash App</option>
                   <option value="chime">Chime</option>
@@ -3163,8 +3267,8 @@
             </div>
 
             <div class="payment-card" id="paymentPlaceholder">
-              <strong>Payment Display</strong>
-              <p>Select a rail to reveal the QR/address panel.</p>
+              <strong>Payment Details</strong>
+              <p>Choose a payment method to show the matching QR or address.</p>
             </div>
 
             <div class="payment-card" data-payment-panel="paypal" hidden>
@@ -3216,7 +3320,7 @@
               <textarea id="shopNotes" name="notes" placeholder="Variant note, delivery note, or anything the counter should know."></textarea>
             </div>
 
-            <button class="primary-btn" type="submit">Send Collector Request</button>
+            <button class="primary-btn" type="submit">Send Shirt Request</button>
         </form>
           </div>
         </section>
@@ -3297,6 +3401,7 @@
       const transitionOverlay = document.getElementById("transitionOverlay");
       const transitionVideo = document.getElementById("transitionVideo");
       const shopTitle = document.getElementById("shopTitle");
+      const shopPanel = document.querySelector("#shopModal .store-panel");
       const storeCounter = document.getElementById("storeCounter");
       const shirtOrderForm = document.getElementById("shirtOrderForm");
       const trapPassDiscount = document.getElementById("trapPassDiscount");
@@ -3954,16 +4059,18 @@
       function resetStoreCounter() {
         if (!storeCounter) return;
         storeCounter.hidden = true;
+        shopPanel?.classList.remove("is-counter-open");
         if (shopTitle) {
-          shopTitle.textContent = "Chaz & Amelia's Cocaina Pearl Store";
+          shopTitle.textContent = "Chaz & Amelia's Cocaina Pearl";
         }
       }
 
       function enterStoreCounter() {
         if (!storeCounter) return;
         storeCounter.hidden = false;
+        shopPanel?.classList.add("is-counter-open");
         if (shopTitle) {
-          shopTitle.textContent = "Shirt Figure Pack Counter";
+          shopTitle.textContent = "Shirt Figure Pack";
         }
         updateShopTotals();
         updatePaymentInstructions();
