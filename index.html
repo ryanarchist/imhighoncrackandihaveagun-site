@@ -473,7 +473,7 @@
         0 0 0 1px rgba(255, 214, 151, 0.24),
         0 0 18px rgba(217, 67, 67, 0.34),
         0 0 44px rgba(217, 157, 64, 0.24);
-      opacity: 0.46;
+      opacity: 0;
       transform: scale(1);
       transition: opacity 180ms ease, transform 180ms ease, box-shadow 180ms ease;
     }
@@ -519,10 +519,10 @@
       opacity: 1;
       transform: scale(1.025);
       box-shadow:
-        inset 0 0 22px rgba(255, 214, 151, 0.12),
-        0 0 0 1px rgba(255, 238, 202, 0.44),
-        0 0 24px rgba(217, 67, 67, 0.58),
-        0 0 62px rgba(255, 181, 74, 0.38);
+        inset 0 0 26px rgba(255, 214, 151, 0.16),
+        0 0 0 2px rgba(255, 238, 202, 0.58),
+        0 0 34px rgba(217, 67, 67, 0.72),
+        0 0 82px rgba(255, 181, 74, 0.48);
     }
 
     .store-prop:hover::after,
@@ -545,7 +545,7 @@
         0 0 0 1px rgba(255, 214, 151, 0.16),
         0 0 16px rgba(217, 67, 67, 0.28),
         0 0 38px rgba(217, 157, 64, 0.2);
-      opacity: 0.38;
+      opacity: 0;
       transform: scale(1);
       transition: opacity 180ms ease, transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
       pointer-events: none;
@@ -558,21 +558,22 @@
       opacity: 1;
       transform: scale(1.02);
       box-shadow:
-        inset 0 0 20px rgba(255, 214, 151, 0.12),
-        0 0 0 1px rgba(255, 238, 202, 0.38),
-        0 0 24px rgba(217, 67, 67, 0.58),
-        0 0 62px rgba(255, 181, 74, 0.36);
+        inset 0 0 26px rgba(255, 214, 151, 0.16),
+        0 0 0 2px rgba(255, 238, 202, 0.54),
+        0 0 34px rgba(217, 67, 67, 0.74),
+        0 0 86px rgba(255, 181, 74, 0.5);
     }
 
     .hotspot.is-primary::before {
       border-color: rgba(255, 221, 166, 0.54);
-      opacity: 0.76;
-      animation: startPulse 3.2s ease-in-out infinite;
+      opacity: 0;
+      animation: none;
     }
 
     .hotspot.is-primary:focus-visible::before,
     .hotspot.is-primary.is-armed::before {
       opacity: 1;
+      animation: startPulse 3.2s ease-in-out infinite;
     }
 
     .figure-plaque,
@@ -687,10 +688,10 @@
         opacity: 1;
         transform: scale(1.02);
         box-shadow:
-          inset 0 0 20px rgba(255, 214, 151, 0.12),
-          0 0 0 1px rgba(255, 238, 202, 0.38),
-          0 0 24px rgba(217, 67, 67, 0.58),
-          0 0 62px rgba(255, 181, 74, 0.36);
+          inset 0 0 28px rgba(255, 214, 151, 0.16),
+          0 0 0 2px rgba(255, 238, 202, 0.56),
+          0 0 34px rgba(217, 67, 67, 0.76),
+          0 0 86px rgba(255, 181, 74, 0.5);
       }
 
       .dock-link:hover::before {
@@ -698,10 +699,10 @@
         opacity: 1;
         transform: scale(1.02);
         box-shadow:
-          inset 0 0 18px rgba(255, 214, 151, 0.12),
-          0 0 0 1px rgba(255, 238, 202, 0.36),
-          0 0 22px rgba(217, 67, 67, 0.56),
-          0 0 52px rgba(255, 181, 74, 0.32);
+          inset 0 0 24px rgba(255, 214, 151, 0.16),
+          0 0 0 2px rgba(255, 238, 202, 0.52),
+          0 0 32px rgba(217, 67, 67, 0.72),
+          0 0 74px rgba(255, 181, 74, 0.42);
       }
 
       .hotspot.is-primary:hover::before {
@@ -2091,7 +2092,7 @@
         0 0 0 1px rgba(255, 214, 151, 0.16),
         0 0 18px rgba(217, 67, 67, 0.32),
         0 0 42px rgba(217, 157, 64, 0.22);
-      opacity: 0.44;
+      opacity: 0;
       transition: opacity 180ms ease, transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
       pointer-events: none;
     }
@@ -2138,10 +2139,10 @@
       opacity: 1;
       transform: scale(1.03);
       box-shadow:
-        inset 0 0 22px rgba(255, 214, 151, 0.12),
-        0 0 0 1px rgba(255, 238, 202, 0.38),
-        0 0 26px rgba(217, 67, 67, 0.58),
-        0 0 62px rgba(255, 181, 74, 0.36);
+        inset 0 0 28px rgba(255, 214, 151, 0.16),
+        0 0 0 2px rgba(255, 238, 202, 0.54),
+        0 0 36px rgba(217, 67, 67, 0.74),
+        0 0 86px rgba(255, 181, 74, 0.48);
     }
 
     .store-scene-hotspot:hover::after,
@@ -2915,60 +2916,97 @@
       .hotspot {
         min-width: 56px;
         min-height: 56px;
+        --halo-top-mobile: 4%;
+        --halo-right-mobile: 10%;
+        --halo-bottom-mobile: 7%;
+        --halo-left-mobile: 10%;
       }
 
       .hotspot::before {
-        inset: auto 18% 8% 18%;
-        height: 18%;
-        border-color: rgba(255, 221, 166, 0.16);
-        border-radius: 999px;
+        inset: var(--halo-top-mobile) var(--halo-right-mobile) var(--halo-bottom-mobile) var(--halo-left-mobile);
+        height: auto;
+        border: 2px solid rgba(255, 238, 202, 0.62);
+        border-radius: 999px 999px 24px 24px;
         background:
-          radial-gradient(ellipse at center, rgba(255, 221, 166, 0.14), rgba(217, 67, 67, 0.08) 46%, transparent 74%);
+          linear-gradient(180deg, rgba(255, 232, 174, 0.035), transparent 38%),
+          radial-gradient(ellipse at 50% 74%, rgba(255, 214, 151, 0.14), transparent 60%);
         box-shadow:
-          0 0 10px rgba(217, 67, 67, 0.16),
-          0 0 22px rgba(255, 181, 74, 0.1);
-        opacity: 0.34;
+          inset 0 0 20px rgba(255, 214, 151, 0.12),
+          0 0 0 2px rgba(255, 238, 202, 0.42),
+          0 0 34px rgba(217, 67, 67, 0.68),
+          0 0 84px rgba(255, 181, 74, 0.42);
+        opacity: 0;
         transform: none;
       }
 
       .hotspot.is-primary::before {
-        inset: auto 12% 6% 12%;
-        height: 23%;
-        border-color: rgba(255, 221, 166, 0.34);
-        opacity: 0.58;
-        box-shadow:
-          0 0 14px rgba(217, 67, 67, 0.32),
-          0 0 32px rgba(255, 181, 74, 0.18);
+        opacity: 0;
+        animation: none;
       }
 
       .hotspot.is-armed::before,
       .hotspot:focus-visible::before {
-        inset: 7% 8% 10%;
-        height: auto;
-        border-color: rgba(255, 238, 202, 0.52);
-        border-radius: 999px 999px 24px 24px;
-        background:
-          linear-gradient(180deg, rgba(255, 232, 174, 0.04), transparent 40%),
-          radial-gradient(ellipse at 50% 74%, rgba(255, 214, 151, 0.12), transparent 58%);
-        box-shadow:
-          inset 0 0 16px rgba(255, 214, 151, 0.08),
-          0 0 18px rgba(217, 67, 67, 0.38),
-          0 0 42px rgba(255, 181, 74, 0.24);
-        opacity: 0.78;
+        opacity: 1;
         transform: none;
       }
 
+      .hotspot.is-primary.is-armed::before,
+      .hotspot.is-primary:focus-visible::before {
+        animation: startPulse 3.2s ease-in-out infinite;
+      }
+
+      .hotspot[data-figure="soundtrack"],
+      .hotspot[data-figure="dopesick"] {
+        --halo-top-mobile: 3%;
+        --halo-right-mobile: 13%;
+        --halo-bottom-mobile: 7%;
+        --halo-left-mobile: 13%;
+      }
+
+      .hotspot[data-figure="writing"],
+      .hotspot[data-figure="teaser"] {
+        --halo-top-mobile: 2%;
+        --halo-right-mobile: 12%;
+        --halo-bottom-mobile: 7%;
+        --halo-left-mobile: 12%;
+      }
+
+      .hotspot[data-figure="plug"],
+      .hotspot[data-figure="dirt"] {
+        --halo-top-mobile: 4%;
+        --halo-right-mobile: 11%;
+        --halo-bottom-mobile: 8%;
+        --halo-left-mobile: 11%;
+      }
+
+      .hotspot[data-figure="who"] {
+        --halo-top-mobile: 3%;
+        --halo-right-mobile: 12%;
+        --halo-bottom-mobile: 8%;
+        --halo-left-mobile: 12%;
+      }
+
+      .hotspot[data-figure="reels"] {
+        --halo-top-mobile: 4%;
+        --halo-right-mobile: 10%;
+        --halo-bottom-mobile: 10%;
+        --halo-left-mobile: 10%;
+      }
+
       .store-prop::before {
-        inset: auto 10% 18%;
-        height: 34%;
-        border-color: transparent;
-        border-radius: 999px;
+        inset: 7% 6% 14%;
+        height: auto;
+        border: 2px solid rgba(255, 238, 202, 0.58);
+        border-radius: 999px 999px 22px 22px;
         background:
-          radial-gradient(ellipse at center, rgba(255, 221, 166, 0.1), rgba(217, 67, 67, 0.07) 46%, transparent 72%);
+          linear-gradient(180deg, rgba(255, 232, 174, 0.035), transparent 38%),
+          radial-gradient(ellipse at 50% 76%, rgba(255, 214, 151, 0.15), transparent 64%);
         box-shadow:
-          0 0 18px rgba(217, 67, 67, 0.14),
-          0 0 28px rgba(255, 181, 74, 0.08);
-        opacity: 0.26;
+          inset 0 0 20px rgba(255, 214, 151, 0.12),
+          0 0 0 2px rgba(255, 238, 202, 0.4),
+          0 0 34px rgba(217, 67, 67, 0.68),
+          0 0 82px rgba(255, 181, 74, 0.42);
+        opacity: 0;
         transform: none;
       }
 
@@ -2978,16 +3016,7 @@
 
       .store-prop:hover::before,
       .store-prop:focus-visible::before {
-        inset: auto 4% 14%;
-        height: 42%;
-        border-color: transparent;
-        border-radius: 999px;
-        background:
-          radial-gradient(ellipse at center, rgba(255, 238, 202, 0.18), rgba(217, 67, 67, 0.12) 48%, transparent 76%);
-        box-shadow:
-          0 0 20px rgba(217, 67, 67, 0.42),
-          0 0 44px rgba(255, 181, 74, 0.24);
-        opacity: 0.58;
+        opacity: 1;
         transform: none;
       }
 
@@ -3061,27 +3090,32 @@
       }
 
       .store-scene-hotspot::before {
-        inset: auto 10% 8%;
-        height: 42%;
-        border-color: transparent;
-        border-radius: 999px;
+        inset: 6% 7% 10%;
+        height: auto;
+        border: 2px solid rgba(255, 238, 202, 0.52);
+        border-radius: 999px 999px 18px 18px;
         background:
-          radial-gradient(ellipse at center, rgba(255, 221, 166, 0.14), rgba(217, 67, 67, 0.08) 48%, transparent 76%);
+          linear-gradient(180deg, rgba(255, 232, 174, 0.035), transparent 38%),
+          radial-gradient(ellipse at 50% 72%, rgba(255, 214, 151, 0.14), transparent 62%);
         box-shadow:
-          0 0 16px rgba(217, 67, 67, 0.18),
-          0 0 28px rgba(255, 181, 74, 0.12);
-        opacity: 0.28;
+          inset 0 0 18px rgba(255, 214, 151, 0.1),
+          0 0 0 2px rgba(255, 238, 202, 0.36),
+          0 0 30px rgba(217, 67, 67, 0.62),
+          0 0 70px rgba(255, 181, 74, 0.36);
+        opacity: 0;
         transform: none;
       }
 
       .store-scene-hotspot:hover::before,
       .store-scene-hotspot:focus-visible::before {
-        border-color: transparent;
-        opacity: 0.58;
+        border-color: rgba(255, 238, 202, 0.58);
+        opacity: 1;
         transform: none;
         box-shadow:
-          0 0 20px rgba(217, 67, 67, 0.34),
-          0 0 42px rgba(255, 181, 74, 0.2);
+          inset 0 0 22px rgba(255, 214, 151, 0.14),
+          0 0 0 2px rgba(255, 238, 202, 0.48),
+          0 0 36px rgba(217, 67, 67, 0.74),
+          0 0 84px rgba(255, 181, 74, 0.46);
       }
 
       .store-scene-hotspot:focus-visible {
