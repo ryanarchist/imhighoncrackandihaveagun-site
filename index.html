@@ -2444,6 +2444,7 @@
 
     .qr-card picture,
     .payment-card > picture,
+    .payment-card > img,
     .tip-jar-body picture {
       display: block;
       width: min(100%, 340px);
@@ -2455,6 +2456,7 @@
 
     .qr-card img,
     .payment-card > picture img,
+    .payment-card > img,
     .tip-jar-image {
       display: block;
       width: 100%;
@@ -2468,19 +2470,22 @@
 
     .qr-scan picture,
     .payment-card.qr-scan > picture,
+    .payment-card.qr-scan > img,
     .tip-jar-body picture {
       aspect-ratio: 1;
     }
 
     .qr-scan img,
     .payment-card.qr-scan > picture img,
+    .payment-card.qr-scan > img,
     .tip-jar-image {
       height: 100% !important;
       object-fit: cover;
       object-position: center 52%;
     }
 
-    .payment-card > picture img {
+    .payment-card > picture img,
+    .payment-card > img {
       max-width: 340px;
     }
 
@@ -3799,8 +3804,7 @@
               <strong>Cash App</strong>
               <p>Cash App: <code>$RyanHomanics</code></p>
               <picture>
-                <source srcset="payment-cashapp.webp" type="image/webp">
-                <img src="payment-cashapp.png" alt="Cash App QR for Ryan Homanics" width="765" height="987" loading="lazy" decoding="async">
+                <img src="payment-cashapp.png?v=20260509" alt="Cash App QR for Ryan Homanics" width="765" height="987" loading="eager" decoding="async" fetchpriority="low">
               </picture>
             </div>
 
