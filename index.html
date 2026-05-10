@@ -8,6 +8,7 @@
   <meta name="description" content="A hidden collector toy-display archive room for IMHIGHONCRACKANDIHAVEAGUN.COM.">
   <link rel="icon" href="data:,">
   <link rel="preload" as="image" href="entry-graphic.webp" type="image/webp">
+  <link rel="preload" as="image" href="mothers-day-card.webp" type="image/webp">
   <link rel="preload" as="image" href="trap-pass-atm.webp" type="image/webp">
   <link rel="preload" as="image" href="trap-pass-run-wave-1.webp" type="image/webp">
   <link rel="preload" as="image" href="action-figure-room.webp" type="image/webp">
@@ -36,6 +37,10 @@
       box-sizing: border-box;
     }
 
+    [hidden] {
+      display: none !important;
+    }
+
     html,
     body {
       min-height: 100%;
@@ -49,6 +54,7 @@
     }
 
     body.entry-active,
+    body.mothers-active,
     body.atm-active,
     body.trap-pass-active {
       height: 100vh;
@@ -212,6 +218,136 @@
 
     #entryScene.asset-missing .entry-fallback {
       display: grid;
+    }
+
+    /* Mother's Day chapter scene */
+    #mothersDayScene {
+      position: fixed;
+      inset: 0;
+      z-index: 49;
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      overflow: hidden;
+      background: #030202;
+      opacity: 1;
+      transition: opacity 420ms ease;
+    }
+
+    #mothersDayScene[hidden] {
+      display: none;
+    }
+
+    #mothersDayScene.is-leaving {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    #mothersDayScene::before,
+    #mothersDayScene::after {
+      position: absolute;
+      inset: 0;
+      content: "";
+      pointer-events: none;
+    }
+
+    #mothersDayScene::before {
+      background:
+        radial-gradient(circle at 50% 46%, rgba(212, 154, 78, 0.18), transparent 30rem),
+        url("mothers-day-card.webp") center / cover no-repeat,
+        #030202;
+      filter: blur(16px) brightness(0.34) saturate(0.9);
+      transform: scale(1.06);
+    }
+
+    #mothersDayScene::after {
+      background:
+        radial-gradient(circle at center, transparent 44%, rgba(0, 0, 0, 0.64) 100%),
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.5), transparent 30%, rgba(0, 0, 0, 0.58));
+    }
+
+    .mothers-day-stage {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      width: 100%;
+      height: 100%;
+      place-items: center;
+      padding: max(10px, env(safe-area-inset-top)) 10px max(12px, env(safe-area-inset-bottom));
+    }
+
+    .mothers-day-picture {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .mothers-day-image {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      image-rendering: auto;
+      filter: drop-shadow(0 22px 44px rgba(0, 0, 0, 0.76));
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .mothers-day-actions {
+      position: absolute;
+      left: max(14px, env(safe-area-inset-left));
+      right: max(14px, env(safe-area-inset-right));
+      bottom: max(16px, env(safe-area-inset-bottom));
+      display: grid;
+      gap: 10px;
+      width: min(720px, calc(100vw - 28px));
+      margin: 0 auto;
+    }
+
+    .mothers-day-actions button {
+      min-height: 50px;
+      padding: 8px 12px;
+      border: 1px solid rgba(255, 225, 172, 0.62);
+      border-radius: 7px;
+      color: #fff3d5;
+      background:
+        linear-gradient(180deg, rgba(128, 36, 32, 0.96), rgba(50, 12, 12, 0.98)),
+        #661c1d;
+      box-shadow:
+        0 0 0 1px rgba(0, 0, 0, 0.58),
+        0 14px 30px rgba(0, 0, 0, 0.56),
+        inset 0 1px 0 rgba(255, 255, 255, 0.14);
+      cursor: pointer;
+      font-family: var(--font-card);
+      font-size: clamp(0.92rem, 3.4vw, 1.25rem);
+      font-weight: 950;
+      line-height: 1.08;
+      text-transform: uppercase;
+      text-wrap: balance;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.84);
+    }
+
+    .mothers-day-actions button:hover,
+    .mothers-day-actions button:focus-visible {
+      border-color: rgba(255, 239, 205, 0.9);
+      box-shadow:
+        0 0 0 1px rgba(255, 222, 159, 0.38),
+        0 0 28px rgba(212, 154, 78, 0.5),
+        0 14px 34px rgba(0, 0, 0, 0.62),
+        inset 0 1px 0 rgba(255, 255, 255, 0.18);
+      outline: none;
+    }
+
+    .mothers-day-skip {
+      color: rgba(247, 239, 224, 0.86) !important;
+      background:
+        linear-gradient(180deg, rgba(11, 10, 9, 0.88), rgba(7, 5, 4, 0.96)),
+        #090706 !important;
+    }
+
+    .mothers-day-chapter span {
+      display: block;
     }
 
     /* Trap Pass ATM and ticket scenes */
@@ -3191,6 +3327,19 @@
     </button>
   </section>
 
+  <section id="mothersDayScene" aria-label="Mother's Day chapter" hidden>
+    <div class="mothers-day-stage">
+      <picture class="mothers-day-picture">
+        <source srcset="mothers-day-card.webp" type="image/webp">
+        <img class="mothers-day-image" id="mothersDayImage" src="mothers-day-card.png" data-candidates="mothers-day-card.png" alt="Mom and Son Always Together Mother's Day chapter card" width="1010" height="1411" decoding="async" fetchpriority="high">
+      </picture>
+      <div class="mothers-day-actions" aria-label="Mother's Day chapter choices">
+        <button class="mothers-day-chapter" type="button" data-reader-mode="mothersday" aria-label="IF YOU ARE HERE FOR THE MOTHERS DAY CHAPTER CLICK HERE"><span>IF YOU ARE HERE FOR THE MOTHERS DAY CHAPTER</span><span>CLICK HERE</span></button>
+        <button class="mothers-day-skip" type="button" data-skip-mothers-day>Skip to main site</button>
+      </div>
+    </div>
+  </section>
+
   <section id="atmScene" aria-label="Trap Pass ATM" hidden>
     <button class="atm-hit" id="atmHit" type="button" aria-label="Print your personal Trap Pass">
       <picture>
@@ -3870,6 +4019,8 @@
       const entryScene = document.getElementById("entryScene");
       const entryHit = document.getElementById("entryHit");
       const entryImage = document.getElementById("entryImage");
+      const mothersDayScene = document.getElementById("mothersDayScene");
+      const mothersDayImage = document.getElementById("mothersDayImage");
       const atmScene = document.getElementById("atmScene");
       const atmHit = document.getElementById("atmHit");
       const atmImage = document.getElementById("atmImage");
@@ -3960,6 +4111,7 @@
       let readerIndex = 0;
       let soundtrackIndex = 0;
       let armedHotspot = null;
+      let mothersDayPresented = false;
 
       const actionMap = {
         youtube: () => openModal("youtubeModal"),
@@ -4000,6 +4152,15 @@
       ];
 
       const readerSources = {
+        mothersday: {
+          modalTitle: "Mother's Day Chapter",
+          kicker: "Mother's Day Insert",
+          title: "Family",
+          cover: "mothers-day-card.png",
+          doc: "mothersday.docx",
+          candidates: ["mothersday.txt"],
+          fallbackPages: ["<p>The Mother's Day chapter file is still loading. Use the source file link from the cover column if it does not appear here.</p>"]
+        },
         teaser: {
           modalTitle: "Just a bump to get ya fienin",
           kicker: "Just a bump to get ya fienin",
@@ -4165,6 +4326,94 @@
         return true;
       }
 
+      function isMothersDayChapterActive() {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get("mothersday") === "1") {
+          return true;
+        }
+        if (params.get("mothersday") === "0") {
+          return false;
+        }
+
+        const now = new Date();
+        return now.getFullYear() === 2026 && now.getMonth() === 4 && now.getDate() === 10;
+      }
+
+      function showMothersDayScene() {
+        mothersDayPresented = true;
+        mothersDayScene.hidden = false;
+        body.classList.add("mothers-active");
+        entryScene.classList.add("is-leaving");
+
+        window.setTimeout(() => {
+          entryScene.hidden = true;
+          body.classList.remove("entry-active");
+          mothersDayScene.querySelector("[data-reader-mode='mothersday']")?.focus({ preventScroll: true });
+        }, entryFadeMs);
+      }
+
+      function clearMothersDayScene() {
+        if (!mothersDayScene) return;
+        mothersDayScene.hidden = true;
+        mothersDayScene.classList.remove("is-leaving");
+        body.classList.remove("mothers-active");
+      }
+
+      function continueStandardEntryFlow() {
+        if (hasUnlockedAccess() && hasTrapPassViewed()) {
+          enterBoardFromMothersDay();
+          return;
+        }
+
+        if (hasUnlockedAccess()) {
+          showTrapPassFromMothersDay();
+          return;
+        }
+
+        showAtmFromMothersDay();
+      }
+
+      function fadeMothersDayTo(next) {
+        mothersDayScene.classList.add("is-leaving");
+        next();
+
+        window.setTimeout(() => {
+          clearMothersDayScene();
+        }, entryFadeMs);
+      }
+
+      function showAtmFromMothersDay() {
+        fadeMothersDayTo(() => {
+          atmScene.hidden = false;
+          body.classList.add("atm-active");
+          window.setTimeout(() => {
+            atmHit?.focus({ preventScroll: true });
+          }, entryFadeMs);
+        });
+      }
+
+      function showTrapPassFromMothersDay() {
+        fadeMothersDayTo(() => {
+          trapPassScene.hidden = false;
+          body.classList.add("trap-pass-active");
+          window.setTimeout(() => {
+            trapPassHit?.focus({ preventScroll: true });
+          }, entryFadeMs);
+        });
+      }
+
+      function enterBoardFromMothersDay() {
+        prepareBoardImage();
+        fadeMothersDayTo(() => {
+          body.classList.add("board-active");
+          boardScene.setAttribute("aria-hidden", "false");
+          window.setTimeout(() => {
+            cueStartHere();
+            boardScene.focus?.({ preventScroll: true });
+          }, entryFadeMs);
+        });
+      }
+
       function enterBoard() {
         prepareBoardImage();
         body.classList.add("board-active");
@@ -4174,6 +4423,7 @@
         window.setTimeout(() => {
           entryScene.hidden = true;
           body.classList.remove("entry-active");
+          clearMothersDayScene();
           atmScene.hidden = true;
           trapPassScene.hidden = true;
           body.classList.remove("atm-active", "trap-pass-active");
@@ -4188,6 +4438,7 @@
         boardScene.setAttribute("aria-hidden", "false");
         entryScene.classList.add("is-leaving");
         entryScene.hidden = true;
+        clearMothersDayScene();
         atmScene.hidden = true;
         trapPassScene.hidden = true;
         body.classList.remove("entry-active", "atm-active", "trap-pass-active");
@@ -4379,6 +4630,11 @@
       }
 
       function handleEntryClick() {
+        if (!mothersDayPresented && isMothersDayChapterActive()) {
+          showMothersDayScene();
+          return;
+        }
+
         if (hasUnlockedAccess() && hasTrapPassViewed()) {
           enterBoard();
           return;
@@ -4869,6 +5125,7 @@
 
       function initImageFallbacks() {
         cycleImageCandidates(entryImage);
+        cycleImageCandidates(mothersDayImage);
         cycleImageCandidates(atmImage);
         cycleImageCandidates(trapPassImage);
         cycleImageCandidates(boardImage);
@@ -5108,6 +5365,13 @@
           if (readerButton) {
             event.preventDefault();
             openReader(readerButton.dataset.readerMode);
+            return;
+          }
+
+          const mothersDaySkipButton = event.target.closest("[data-skip-mothers-day]");
+          if (mothersDaySkipButton) {
+            event.preventDefault();
+            continueStandardEntryFlow();
             return;
           }
 
