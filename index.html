@@ -12,8 +12,17 @@
   <link rel="preload" as="image" href="trap-pass-atm.webp" type="image/webp">
   <link rel="preload" as="image" href="trap-pass-run-wave-1.webp" type="image/webp">
   <link rel="preload" as="image" href="action-figure-room.webp" type="image/webp">
+  <link rel="preload" as="font" href="fonts/impact-label-reversed.ttf" type="font/ttf" crossorigin>
   <style>
     /* Base */
+    @font-face {
+      font-family: "Impact Label Reversed";
+      src: url("fonts/impact-label-reversed.ttf") format("truetype");
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+    }
+
     :root {
       color-scheme: dark;
       --bg: #080706;
@@ -26,9 +35,10 @@
       --line: rgba(255, 238, 202, 0.22);
       --panel: rgba(14, 11, 9, 0.94);
       --shadow: 0 26px 90px rgba(0, 0, 0, 0.6);
-      --font-display: "Bahnschrift Condensed", "Agency FB", "Arial Narrow", Impact, sans-serif;
-      --font-card: "Copperplate Gothic Bold", "Rockwell Extra Bold", "Bahnschrift Condensed", "Agency FB", Impact, sans-serif;
-      --font-body: Bahnschrift, "Aptos Condensed", "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
+      --font-display: "Impact Label Reversed", "Bahnschrift Condensed", "Agency FB", "Arial Narrow", Impact, sans-serif;
+      --font-card: "Impact Label Reversed", "Copperplate Gothic Bold", "Rockwell Extra Bold", "Bahnschrift Condensed", "Agency FB", Impact, sans-serif;
+      --font-body: "Impact Label Reversed", Bahnschrift, "Aptos Condensed", "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
+      --font-reading: Bahnschrift, "Aptos Condensed", "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
       --font-tech: "Cascadia Mono", Consolas, "Lucida Console", monospace;
       font-family: var(--font-body);
     }
@@ -1376,6 +1386,7 @@
       padding: clamp(18px, 5vw, 34px);
       border-radius: 8px;
       color: var(--paper-ink);
+      font-family: var(--font-reading);
       background:
         linear-gradient(90deg, rgba(0, 0, 0, 0.08), transparent 7%, transparent 93%, rgba(0, 0, 0, 0.08)),
         var(--paper);
@@ -1403,7 +1414,7 @@
     }
 
     .reader-content {
-      font-family: var(--font-body);
+      font-family: var(--font-reading);
       font-size: clamp(1rem, 4.4vw, 1.16rem);
       font-weight: 650;
       line-height: 1.7;
@@ -2982,6 +2993,7 @@
         font-family: var(--font-display);
         font-size: 0.8rem;
         font-weight: 800;
+        white-space: nowrap;
         text-transform: uppercase;
         transform: translateX(-50%);
         pointer-events: none;
