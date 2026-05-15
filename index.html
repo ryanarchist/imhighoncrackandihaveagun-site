@@ -988,6 +988,10 @@
       background: #020202;
     }
 
+    .transition-overlay.is-locked {
+      cursor: default;
+    }
+
     .transition-overlay[hidden] {
       display: none;
     }
@@ -4101,12 +4105,14 @@
       ];
       const trapPassButtonText = "Receive Your Individual Trap Pass";
       const transitionMaxMs = reducedMotion ? 10 : 9000;
+      const menuIntroSrc = "introsite.mp4";
 
       let activeModal = null;
       let lastFocus = null;
       let typewriterFallbackTimer = null;
       let transitionFallbackTimer = null;
       let transitionFinish = null;
+      let transitionCanSkip = true;
       let readerPages = [];
       let readerIndex = 0;
       let soundtrackIndex = 0;
@@ -4402,22 +4408,28 @@
         });
       }
 
-      function enterBoardFromMothersDay() {
+      function revealBoard() {
         prepareBoardImage();
+        body.classList.add("board-active");
+        boardScene.setAttribute("aria-hidden", "false");
+        cueStartHere();
+        boardScene.focus?.({ preventScroll: true });
+      }
+
+      function playMenuIntroThen(next = revealBoard) {
+        playTransition(menuIntroSrc, next, { locked: true, maxMs: 12000 });
+      }
+
+      function enterBoardFromMothersDay() {
         fadeMothersDayTo(() => {
-          body.classList.add("board-active");
-          boardScene.setAttribute("aria-hidden", "false");
           window.setTimeout(() => {
-            cueStartHere();
-            boardScene.focus?.({ preventScroll: true });
+            playMenuIntroThen();
           }, entryFadeMs);
         });
       }
 
       function enterBoard() {
         prepareBoardImage();
-        body.classList.add("board-active");
-        boardScene.setAttribute("aria-hidden", "false");
         entryScene.classList.add("is-leaving");
 
         window.setTimeout(() => {
@@ -4427,22 +4439,18 @@
           atmScene.hidden = true;
           trapPassScene.hidden = true;
           body.classList.remove("atm-active", "trap-pass-active");
-          cueStartHere();
-          boardScene.focus?.({ preventScroll: true });
+          playMenuIntroThen();
         }, entryFadeMs);
       }
 
       function showBoardImmediately() {
-        prepareBoardImage();
-        body.classList.add("board-active");
-        boardScene.setAttribute("aria-hidden", "false");
         entryScene.classList.add("is-leaving");
         entryScene.hidden = true;
         clearMothersDayScene();
         atmScene.hidden = true;
         trapPassScene.hidden = true;
         body.classList.remove("entry-active", "atm-active", "trap-pass-active");
-        cueStartHere();
+        revealBoard();
       }
 
       function showAtmScene() {
@@ -4494,17 +4502,13 @@
 
       function enterBoardFromTrapPass() {
         setTrapPassViewed();
-        prepareBoardImage();
-        body.classList.add("board-active");
-        boardScene.setAttribute("aria-hidden", "false");
         trapPassScene.classList.add("is-leaving");
 
         window.setTimeout(() => {
           trapPassScene.hidden = true;
           trapPassScene.classList.remove("is-leaving");
           body.classList.remove("trap-pass-active");
-          cueStartHere();
-          boardScene.focus?.({ preventScroll: true });
+          playMenuIntroThen();
         }, entryFadeMs);
       }
 
@@ -4738,13 +4742,17 @@
         playTransition(transitionSrc, handler);
       }
 
-      function playTransition(src, next) {
+      function playTransition(src, next, options = {}) {
         if (!transitionOverlay || !transitionVideo || reducedMotion) {
           next();
           return;
         }
 
         window.clearTimeout(transitionFallbackTimer);
+        transitionCanSkip = !options.locked;
+        transitionOverlay.classList.toggle("is-locked", !transitionCanSkip);
+        transitionOverlay.setAttribute("aria-label", transitionCanSkip ? "Skip transition" : "Menu intro video");
+        transitionOverlay.tabIndex = transitionCanSkip ? 0 : -1;
 
         const finish = () => {
           if (transitionFinish !== finish) return;
@@ -4754,6 +4762,10 @@
           transitionVideo.removeAttribute("src");
           transitionVideo.load();
           transitionOverlay.hidden = true;
+          transitionOverlay.classList.remove("is-locked");
+          transitionOverlay.setAttribute("aria-label", "Skip transition");
+          transitionOverlay.tabIndex = 0;
+          transitionCanSkip = true;
           next();
         };
 
@@ -4765,7 +4777,7 @@
 
         transitionVideo.onended = finish;
         transitionVideo.onerror = finish;
-        transitionFallbackTimer = window.setTimeout(finish, transitionMaxMs);
+        transitionFallbackTimer = window.setTimeout(finish, options.maxMs || transitionMaxMs);
 
         const playAttempt = transitionVideo.play();
         if (playAttempt && typeof playAttempt.catch === "function") {
@@ -4774,7 +4786,7 @@
       }
 
       function skipTransition() {
-        if (transitionFinish) {
+        if (transitionFinish && transitionCanSkip) {
           transitionFinish();
         }
       }
