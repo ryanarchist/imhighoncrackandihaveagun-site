@@ -464,6 +464,26 @@
       pointer-events: auto;
     }
 
+    #shelfScene {
+      position: fixed;
+      inset: 0;
+      z-index: 14;
+      min-height: 100vh;
+      min-height: 100dvh;
+      opacity: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 50% 10%, rgba(148, 31, 37, 0.16), transparent 24rem),
+        linear-gradient(180deg, #0b0806 0%, #170f0a 100%);
+      transition: opacity 260ms ease;
+      overflow: hidden;
+    }
+
+    body.shelf-active #shelfScene {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
     .board-wrap {
       width: 100%;
       min-height: 100vh;
@@ -488,14 +508,48 @@
       box-shadow: 0 0 80px rgba(0, 0, 0, 0.5);
     }
 
+    .shelf-wrap {
+      width: 100%;
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: grid;
+      align-items: start;
+      justify-items: center;
+    }
+
+    .shelf-hint {
+      display: none;
+    }
+
+    .shelf-frame {
+      position: relative;
+      width: min(100vw, calc(100dvh * 1.34587));
+      aspect-ratio: 2004 / 1489;
+      max-width: none;
+      margin: 0 auto;
+      overflow: hidden;
+      background: #080605;
+      box-shadow: 0 0 80px rgba(0, 0, 0, 0.5);
+    }
+
     .board-picture,
-    .board-image {
+    .board-image,
+    .shelf-picture,
+    .shelf-image {
       display: block;
       width: 100%;
       height: 100%;
     }
 
     .board-image {
+      object-fit: contain;
+      object-position: center;
+      image-rendering: auto;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .shelf-image {
       object-fit: contain;
       object-position: center;
       image-rendering: auto;
@@ -546,6 +600,42 @@
     }
 
     .board-frame.board-missing .board-fallback {
+      display: grid;
+    }
+
+    .shelf-fallback {
+      display: none;
+      min-height: 100vh;
+      min-height: 100dvh;
+      place-content: center;
+      gap: 18px;
+      padding: 28px;
+      background:
+        linear-gradient(rgba(30, 17, 9, 0.78), rgba(12, 8, 5, 0.9)),
+        repeating-linear-gradient(90deg, rgba(244, 180, 95, 0.08) 0 2px, transparent 2px 10px);
+      text-align: center;
+    }
+
+    .shelf-fallback h1 {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 7vw, 3rem);
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .shelf-fallback p {
+      max-width: 36rem;
+      margin: 0 auto;
+      color: var(--muted);
+    }
+
+    .shelf-frame.shelf-missing .shelf-picture,
+    .shelf-frame.shelf-missing .shelf-hotspot {
+      display: none;
+    }
+
+    .shelf-frame.shelf-missing .shelf-fallback {
       display: grid;
     }
 
@@ -602,6 +692,37 @@
       border-radius: 46% 46% 18px 18px;
       background: transparent;
       touch-action: manipulation;
+    }
+
+    .shelf-back {
+      position: fixed;
+      top: max(14px, env(safe-area-inset-top));
+      left: max(14px, env(safe-area-inset-left));
+      z-index: 18;
+      min-height: 48px;
+      padding: 0 16px;
+      color: #ffe5b1;
+      border: 1px solid rgba(255, 214, 151, 0.48);
+      border-radius: 999px;
+      background:
+        linear-gradient(135deg, rgba(148, 31, 37, 0.9), rgba(15, 10, 7, 0.96) 54%, rgba(93, 15, 18, 0.9)),
+        #130a07;
+      box-shadow:
+        inset 0 0 0 1px rgba(0, 0, 0, 0.42),
+        0 0 18px rgba(217, 67, 67, 0.28);
+      font-family: var(--font-card);
+      font-size: 0.84rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .shelf-back:hover,
+    .shelf-back:focus-visible {
+      box-shadow:
+        inset 0 0 0 1px rgba(0, 0, 0, 0.42),
+        0 0 0 2px rgba(255, 238, 202, 0.42),
+        0 0 28px rgba(217, 67, 67, 0.58);
     }
 
     .store-prop::before {
@@ -931,6 +1052,73 @@
       --y: 34.4%;
       --w: 8.8%;
       --h: 37.5%;
+    }
+
+    .hotspot[data-figure="bookshelf"] {
+      --x: 61.4%;
+      --y: 17.8%;
+      --w: 18.2%;
+      --h: 16.6%;
+      border-radius: 18px;
+    }
+
+    /* Bookshelf close-up hotspot coordinates.
+       Tweak only these percentages to realign shelf targets over bookshelf-room.png. */
+    .shelf-hotspot[data-shelf-item="roofer"] {
+      --x: 23%;
+      --y: 7.8%;
+      --w: 18.7%;
+      --h: 33%;
+    }
+
+    .shelf-hotspot[data-shelf-item="roon-poon"] {
+      --x: 40.2%;
+      --y: 7.8%;
+      --w: 16.8%;
+      --h: 33%;
+    }
+
+    .shelf-hotspot[data-shelf-item="street-arrest"] {
+      --x: 56.5%;
+      --y: 7.9%;
+      --w: 22.7%;
+      --h: 33%;
+    }
+
+    .shelf-hotspot[data-shelf-item="dopesick-book"] {
+      --x: 32.4%;
+      --y: 45.6%;
+      --w: 18.8%;
+      --h: 34.8%;
+    }
+
+    .shelf-hotspot[data-shelf-item="ihocaig-book"] {
+      --x: 50.2%;
+      --y: 45.5%;
+      --w: 18.8%;
+      --h: 36.3%;
+    }
+
+    .shelf-hotspot[data-shelf-item="cd"] {
+      --x: 18.5%;
+      --y: 82.7%;
+      --w: 23.4%;
+      --h: 14.6%;
+      border-radius: 18px;
+    }
+
+    .shelf-hotspot[data-shelf-item="dvd"] {
+      --x: 42.4%;
+      --y: 82.5%;
+      --w: 12.5%;
+      --h: 15%;
+      border-radius: 18px;
+    }
+
+    .shelf-hotspot[data-shelf-item="cd"] .figure-plaque,
+    .shelf-hotspot[data-shelf-item="dvd"] .figure-plaque {
+      top: auto;
+      bottom: calc(100% + 8px);
     }
 
     /* Bottom table/social dock coordinates. Kept above the image edge so mobile taps do not get clipped. */
@@ -2798,6 +2986,62 @@
       line-height: 1.5;
     }
 
+    .shelf-card-panel {
+      width: min(880px, 100%);
+    }
+
+    .shelf-card-layout {
+      display: grid;
+      grid-template-columns: minmax(220px, 0.82fr) minmax(240px, 1fr);
+      gap: clamp(16px, 3vw, 28px);
+      align-items: center;
+    }
+
+    .shelf-card-media {
+      margin: 0;
+      overflow: hidden;
+      border: 1px solid rgba(255, 214, 151, 0.28);
+      border-radius: 8px;
+      background: #0d0907;
+      box-shadow: 0 16px 34px rgba(0, 0, 0, 0.34);
+    }
+
+    .shelf-card-media picture,
+    .shelf-card-media img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .shelf-card-copy {
+      display: grid;
+      gap: 12px;
+      align-content: center;
+    }
+
+    .shelf-card-copy .eyebrow {
+      margin: 0;
+      color: #ffbc60;
+      font-family: var(--font-card);
+      font-size: 0.82rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .shelf-card-copy h3 {
+      margin: 0;
+      color: #ffe5b1;
+      font-family: var(--font-display);
+      font-size: clamp(1.25rem, 3vw, 2rem);
+      line-height: 0.98;
+      text-transform: uppercase;
+    }
+
+    .shelf-card-copy p {
+      margin: 0;
+      color: var(--muted);
+    }
+
     /* Toast */
     .toast {
       position: fixed;
@@ -2910,7 +3154,8 @@
     }
 
     @media (max-width: 767px) {
-      body.board-active {
+      body.board-active,
+      body.shelf-active {
         height: 100vh;
         height: 100dvh;
         overflow: hidden;
@@ -2922,7 +3167,9 @@
       }
 
       #boardScene::before,
-      #boardScene::after {
+      #boardScene::after,
+      #shelfScene::before,
+      #shelfScene::after {
         position: fixed;
         top: 0;
         bottom: 0;
@@ -2932,17 +3179,20 @@
         pointer-events: none;
       }
 
-      #boardScene::before {
+      #boardScene::before,
+      #shelfScene::before {
         left: 0;
         background: linear-gradient(90deg, rgba(8, 7, 6, 0.84), transparent);
       }
 
-      #boardScene::after {
+      #boardScene::after,
+      #shelfScene::after {
         right: 0;
         background: linear-gradient(270deg, rgba(8, 7, 6, 0.84), transparent);
       }
 
-      .board-wrap {
+      .board-wrap,
+      .shelf-wrap {
         display: block;
         width: 100vw;
         min-height: 100vh;
@@ -2954,7 +3204,8 @@
         touch-action: pan-x;
       }
 
-      .board-wrap::-webkit-scrollbar {
+      .board-wrap::-webkit-scrollbar,
+      .shelf-wrap::-webkit-scrollbar {
         display: none;
       }
 
@@ -2967,18 +3218,31 @@
         overflow: hidden;
       }
 
+      .shelf-frame {
+        width: max(900px, calc(100vh * 1.34587));
+        width: max(900px, calc(100dvh * 1.34587));
+        min-width: 900px;
+        height: 100vh;
+        height: 100dvh;
+        overflow: hidden;
+      }
+
       .board-picture,
-      .board-image {
+      .board-image,
+      .shelf-picture,
+      .shelf-image {
         height: 100%;
       }
 
-      .board-image {
+      .board-image,
+      .shelf-image {
         width: 100%;
         object-fit: contain;
         object-position: left center;
       }
 
-      .board-hint {
+      .board-hint,
+      .shelf-hint {
         position: fixed;
         top: max(12px, env(safe-area-inset-top));
         left: 50%;
@@ -2997,6 +3261,15 @@
         text-transform: uppercase;
         transform: translateX(-50%);
         pointer-events: none;
+      }
+
+      .shelf-back {
+        top: auto;
+        bottom: max(12px, env(safe-area-inset-bottom));
+        left: 12px;
+        min-height: 46px;
+        padding-inline: 14px;
+        font-size: 0.76rem;
       }
 
       .dock-link {
@@ -3150,6 +3423,21 @@
         --halo-left-mobile: 10%;
       }
 
+      .hotspot[data-figure="bookshelf"] {
+        --halo-top-mobile: 8%;
+        --halo-right-mobile: 6%;
+        --halo-bottom-mobile: 8%;
+        --halo-left-mobile: 6%;
+      }
+
+      .shelf-hotspot[data-shelf-item="cd"],
+      .shelf-hotspot[data-shelf-item="dvd"] {
+        --halo-top-mobile: 8%;
+        --halo-right-mobile: 4%;
+        --halo-bottom-mobile: 8%;
+        --halo-left-mobile: 4%;
+      }
+
       .store-prop::before {
         inset: 7% 6% 14%;
         height: auto;
@@ -3179,6 +3467,10 @@
 
       .figure-plaque {
         min-width: 142px;
+      }
+
+      .shelf-card-layout {
+        grid-template-columns: 1fr;
       }
 
       .machine-status {
@@ -3380,7 +3672,7 @@
       <div class="board-frame" id="boardFrame">
         <picture class="board-picture">
           <source data-srcset="action-figure-room.webp" type="image/webp">
-          <img class="board-image" id="boardImage" data-src="action-figure-room.png" data-candidates="action-figure-room.png,corkboard-desktop.png,corkboard-mobile.png" alt="Action-figure archive room with eight clickable figures and Chaz and Amelia near the store area" width="2001" height="1502" loading="lazy" decoding="async" fetchpriority="low">
+          <img class="board-image" id="boardImage" data-src="action-figure-room.png" data-candidates="action-figure-room.png,corkboard-desktop.png,corkboard-mobile.png" alt="Action-figure archive room with eight clickable figures, a clickable bookshelf, and Chaz and Amelia near the store area" width="2001" height="1502" loading="lazy" decoding="async" fetchpriority="low">
         </picture>
 
         <button class="hotspot is-primary" type="button" data-menu-hotspot data-figure="soundtrack" data-action="suno" aria-label="Open OG Crack Track sound figure">
@@ -3415,6 +3707,10 @@
           <span class="figure-plaque" aria-hidden="true"><strong>REELS</strong></span>
           <span class="sr-only">Instagram Reels</span>
         </a>
+        <button class="hotspot" type="button" data-menu-hotspot data-figure="bookshelf" data-action="bookshelf" aria-label="Open bookshelf archive">
+          <span class="figure-plaque" aria-hidden="true"><strong>BOOKSHELF ARCHIVE</strong></span>
+          <span class="sr-only">Bookshelf archive</span>
+        </button>
         <a class="dock-link" data-dock="instagram" href="https://www.instagram.com/imhighoncrackandihaveagun/" target="_blank" rel="noopener noreferrer" aria-label="Open Instagram">
           <span class="dock-icon" aria-hidden="true">IG</span>
           <span class="dock-plaque" aria-hidden="true"><strong>IG CARD</strong></span>
@@ -3451,6 +3747,62 @@
             <button type="button" data-action="dirt">Dirt Display</button>
             <button type="button" data-action="who">Mystery Card</button>
             <button type="button" data-action="social">Link Cards</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="shelfScene" aria-label="Bookshelf archive close-up" aria-hidden="true" hidden>
+    <button class="shelf-back" type="button" data-return-room aria-label="Return to collector display room">Back to room</button>
+    <div class="shelf-hint" aria-hidden="true">slide the shelf &rarr;</div>
+    <div class="shelf-wrap">
+      <div class="shelf-frame" id="shelfFrame">
+        <picture class="shelf-picture">
+          <source data-srcset="bookshelf-room.webp" type="image/webp">
+          <img class="shelf-image" id="shelfImage" data-src="bookshelf-room.png" data-candidates="bookshelf-room.png" alt="Bookshelf archive close-up with collector figures, books, soundtrack CD, and archive DVD" width="2004" height="1489" loading="lazy" decoding="async" fetchpriority="low">
+        </picture>
+
+        <button class="hotspot shelf-hotspot" type="button" data-menu-hotspot data-shelf-item="roofer" data-action="rooferShelf" aria-label="Open Ryan Homanics Roofer figure section">
+          <span class="figure-plaque" aria-hidden="true"><strong>ROOFER FIGURE</strong></span>
+          <span class="sr-only">Ryan Homanics Roofer figure</span>
+        </button>
+        <button class="hotspot shelf-hotspot" type="button" data-menu-hotspot data-shelf-item="roon-poon" data-action="roonPoonShelf" aria-label="Open Roon n' Poon figure section">
+          <span class="figure-plaque" aria-hidden="true"><strong>ROON N' POON</strong></span>
+          <span class="sr-only">Roon n' Poon figure</span>
+        </button>
+        <button class="hotspot shelf-hotspot" type="button" data-menu-hotspot data-shelf-item="street-arrest" data-action="streetArrestShelf" aria-label="Open Street Arrest playset section">
+          <span class="figure-plaque" aria-hidden="true"><strong>STREET ARREST PLAYSET</strong></span>
+          <span class="sr-only">Street Arrest playset</span>
+        </button>
+        <button class="hotspot shelf-hotspot" type="button" data-menu-hotspot data-shelf-item="dopesick-book" data-action="dopesick" aria-label="Open Dopesick book section">
+          <span class="figure-plaque" aria-hidden="true"><strong>DOPESICK BOOK</strong></span>
+          <span class="sr-only">Dopesick book</span>
+        </button>
+        <button class="hotspot shelf-hotspot" type="button" data-menu-hotspot data-shelf-item="ihocaig-book" data-action="dirt" aria-label="Open IHOCAIHAG book section">
+          <span class="figure-plaque" aria-hidden="true"><strong>IHOCAIHAG BOOK</strong></span>
+          <span class="sr-only">IHOCAIHAG book</span>
+        </button>
+        <button class="hotspot shelf-hotspot" type="button" data-menu-hotspot data-shelf-item="cd" data-action="suno" aria-label="Open soundtrack CD section">
+          <span class="figure-plaque" aria-hidden="true"><strong>SOUNDTRACK CD</strong></span>
+          <span class="sr-only">Soundtrack CD</span>
+        </button>
+        <button class="hotspot shelf-hotspot" type="button" data-menu-hotspot data-shelf-item="dvd" data-action="archiveCutShelf" aria-label="Open archive DVD section">
+          <span class="figure-plaque" aria-hidden="true"><strong>ARCHIVE DVD</strong></span>
+          <span class="sr-only">Archive DVD</span>
+        </button>
+
+        <div class="shelf-fallback" role="region" aria-label="Bookshelf archive fallback">
+          <h1>Bookshelf asset missing.</h1>
+          <p>Place bookshelf-room.png beside this file. The shelf sections remain open below.</p>
+          <div class="fallback-actions">
+            <button type="button" data-action="rooferShelf">Roofer Figure</button>
+            <button type="button" data-action="roonPoonShelf">Roon N' Poon</button>
+            <button type="button" data-action="streetArrestShelf">Street Arrest</button>
+            <button type="button" data-action="dopesick">Dopesick</button>
+            <button type="button" data-action="dirt">IHOCAIHAG Book</button>
+            <button type="button" data-action="suno">Soundtrack CD</button>
+            <button type="button" data-action="archiveCutShelf">Archive DVD</button>
           </div>
         </div>
       </div>
@@ -3773,6 +4125,102 @@
     </div>
   </section>
 
+  <section class="modal" id="rooferShelfModal" role="dialog" aria-modal="true" aria-labelledby="rooferShelfTitle" hidden>
+    <div class="modal-panel shelf-card-panel">
+      <header class="modal-header">
+        <h2 class="modal-title" id="rooferShelfTitle">Roofer Figure</h2>
+        <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
+      </header>
+      <div class="modal-body">
+        <div class="shelf-card-layout">
+          <figure class="shelf-card-media">
+            <picture>
+              <source srcset="shelf-roofer.webp" type="image/webp">
+              <img src="shelf-roofer.png" alt="Ryan Homanics Roofer collector figure on the bookshelf" width="405" height="500" loading="lazy" decoding="async">
+            </picture>
+          </figure>
+          <div class="shelf-card-copy">
+            <p class="eyebrow">Collector's Series</p>
+            <h3>Ryan Homanics Roofer</h3>
+            <p>Standalone figure card from the shelf archive.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="modal" id="roonPoonShelfModal" role="dialog" aria-modal="true" aria-labelledby="roonPoonShelfTitle" hidden>
+    <div class="modal-panel shelf-card-panel">
+      <header class="modal-header">
+        <h2 class="modal-title" id="roonPoonShelfTitle">Roon N' Poon</h2>
+        <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
+      </header>
+      <div class="modal-body">
+        <div class="shelf-card-layout">
+          <figure class="shelf-card-media">
+            <picture>
+              <source srcset="shelf-roon-poon.webp" type="image/webp">
+              <img src="shelf-roon-poon.png" alt="Roon n' Poon in the Afternoon collector figure on the bookshelf" width="361" height="500" loading="lazy" decoding="async">
+            </picture>
+          </figure>
+          <div class="shelf-card-copy">
+            <p class="eyebrow">Shelf Figure</p>
+            <h3>Roon N' Poon In The Afternoon</h3>
+            <p>Dedicated collector figure section from the shelf archive.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="modal" id="streetArrestShelfModal" role="dialog" aria-modal="true" aria-labelledby="streetArrestShelfTitle" hidden>
+    <div class="modal-panel shelf-card-panel">
+      <header class="modal-header">
+        <h2 class="modal-title" id="streetArrestShelfTitle">Street Arrest</h2>
+        <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
+      </header>
+      <div class="modal-body">
+        <div class="shelf-card-layout">
+          <figure class="shelf-card-media">
+            <picture>
+              <source srcset="shelf-street-arrest.webp" type="image/webp">
+              <img src="shelf-street-arrest.png" alt="Street Arrest collector playset on the bookshelf" width="475" height="500" loading="lazy" decoding="async">
+            </picture>
+          </figure>
+          <div class="shelf-card-copy">
+            <p class="eyebrow">Collector Playset</p>
+            <h3>Street Arrest</h3>
+            <p>Dedicated playset section from the shelf archive.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="modal" id="archiveCutShelfModal" role="dialog" aria-modal="true" aria-labelledby="archiveCutShelfTitle" hidden>
+    <div class="modal-panel shelf-card-panel">
+      <header class="modal-header">
+        <h2 class="modal-title" id="archiveCutShelfTitle">Archive DVD</h2>
+        <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
+      </header>
+      <div class="modal-body">
+        <div class="shelf-card-layout">
+          <figure class="shelf-card-media">
+            <picture>
+              <source srcset="shelf-dvd.webp" type="image/webp">
+              <img src="shelf-dvd.png" alt="Archive DVD display on the bookshelf" width="285" height="309" loading="lazy" decoding="async">
+            </picture>
+          </figure>
+          <div class="shelf-card-copy">
+            <p class="eyebrow">Archive Cut</p>
+            <h3>The Raw Archive Cut</h3>
+            <p>The raw archive cut premieres here first.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="modal" id="whoModal" role="dialog" aria-modal="true" aria-label="so who is this crackhead anyway?" hidden>
     <div class="modal-panel who-panel">
       <button class="close-btn who-close" type="button" data-close-modal aria-label="Close">x</button>
@@ -4048,6 +4496,11 @@
       const boardFrame = document.getElementById("boardFrame");
       const boardImage = document.getElementById("boardImage");
       const boardSource = document.querySelector(".board-picture source");
+      const shelfScene = document.getElementById("shelfScene");
+      const shelfWrap = document.querySelector(".shelf-wrap");
+      const shelfFrame = document.getElementById("shelfFrame");
+      const shelfImage = document.getElementById("shelfImage");
+      const shelfSource = document.querySelector(".shelf-picture source");
       const modals = Array.from(document.querySelectorAll(".modal"));
       const youtubeFrame = document.getElementById("youtubeFrame");
       const atmVideo = document.getElementById("atmVideo");
@@ -4143,7 +4596,12 @@
         shop: () => openModal("shopModal", { focusSelector: "[data-store-enter]" }),
         tipJar: () => openModal("tipJarModal"),
         dirt: () => openModal("dirtShowModal"),
-        who: () => openModal("whoModal")
+        who: () => openModal("whoModal"),
+        bookshelf: () => openBookshelf(),
+        rooferShelf: () => openModal("rooferShelfModal"),
+        roonPoonShelf: () => openModal("roonPoonShelfModal"),
+        streetArrestShelf: () => openModal("streetArrestShelfModal"),
+        archiveCutShelf: () => openModal("archiveCutShelfModal")
       };
 
       const transitionMap = {
@@ -4262,6 +4720,19 @@
 
         boardImage.src = boardImage.dataset.src || "action-figure-room.png";
         boardImage.dataset.loaded = "true";
+      }
+
+      function prepareShelfImage() {
+        if (!shelfImage || shelfImage.dataset.loaded === "true") {
+          return;
+        }
+
+        if (shelfSource?.dataset.srcset) {
+          shelfSource.srcset = shelfSource.dataset.srcset;
+        }
+
+        shelfImage.src = shelfImage.dataset.src || "bookshelf-room.png";
+        shelfImage.dataset.loaded = "true";
       }
 
       function cueStartHere() {
@@ -4426,6 +4897,30 @@
         boardScene.setAttribute("aria-hidden", "false");
         cueStartHere();
         boardScene.focus?.({ preventScroll: true });
+      }
+
+      function revealShelfScene() {
+        prepareShelfImage();
+        shelfScene.hidden = false;
+        shelfScene.setAttribute("aria-hidden", "false");
+        boardScene.setAttribute("aria-hidden", "true");
+        body.classList.add("shelf-active");
+      }
+
+      function openBookshelf() {
+        prepareShelfImage();
+        playTransition("bookshelf.mp4", revealShelfScene, { locked: true, maxMs: 12000 });
+      }
+
+      function returnToBoardScene() {
+        body.classList.remove("shelf-active");
+        shelfScene.setAttribute("aria-hidden", "true");
+        boardScene.setAttribute("aria-hidden", "false");
+        window.setTimeout(() => {
+          if (!body.classList.contains("shelf-active")) {
+            shelfScene.hidden = true;
+          }
+        }, reducedMotion ? 0 : 260);
       }
 
       function playMenuIntroThen(next = revealBoard) {
@@ -5153,6 +5648,7 @@
         cycleImageCandidates(atmImage);
         cycleImageCandidates(trapPassImage);
         cycleImageCandidates(boardImage);
+        cycleImageCandidates(shelfImage);
         cycleImageCandidates(document.getElementById("readerCover"));
 
         const galleryImages = Array.from(document.querySelectorAll("#dopesickGallery img"));
@@ -5194,6 +5690,9 @@
             }
             if (img === boardImage) {
               boardFrame.classList.add("board-missing");
+            }
+            if (img === shelfImage) {
+              shelfFrame.classList.add("shelf-missing");
             }
           }
         });
@@ -5385,6 +5884,14 @@
             return;
           }
 
+          const returnRoomButton = event.target.closest("[data-return-room]");
+          if (returnRoomButton) {
+            event.preventDefault();
+            clearArmedHotspot();
+            returnToBoardScene();
+            return;
+          }
+
           const readerButton = event.target.closest("[data-reader-mode]");
           if (readerButton) {
             event.preventDefault();
@@ -5416,6 +5923,10 @@
           if (event.key === "Escape") {
             if (transitionFinish) {
               skipTransition();
+            } else if (activeModal) {
+              closeModal();
+            } else if (body.classList.contains("shelf-active")) {
+              returnToBoardScene();
             } else {
               closeModal();
             }
