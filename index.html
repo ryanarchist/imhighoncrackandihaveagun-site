@@ -745,37 +745,6 @@
       transition: opacity 180ms ease, transform 180ms ease, box-shadow 180ms ease;
     }
 
-    .store-prop::after {
-      position: absolute;
-      left: 50%;
-      bottom: -34px;
-      min-width: 174px;
-      padding: 7px 12px;
-      border: 1px solid rgba(255, 214, 151, 0.62);
-      border-radius: 3px;
-      color: #ffe5b1;
-      background:
-        linear-gradient(180deg, rgba(255, 210, 128, 0.14), transparent 34%),
-        linear-gradient(135deg, rgba(148, 31, 37, 0.96), rgba(15, 10, 7, 0.98) 45%, rgba(114, 19, 22, 0.92)),
-        #140b08;
-      box-shadow:
-        inset 0 0 0 1px rgba(0, 0, 0, 0.42),
-        inset 0 1px 0 rgba(255, 238, 202, 0.24),
-        0 0 18px rgba(217, 67, 67, 0.38),
-        0 8px 20px rgba(0, 0, 0, 0.42);
-      content: "CHAZ & AMELIA'S STORE";
-      font-family: var(--font-card);
-      font-size: clamp(0.68rem, 1.1vw, 0.86rem);
-      font-weight: 900;
-      line-height: 1;
-      text-align: center;
-      text-shadow: 0 1px 0 #130805, 0 0 10px rgba(255, 214, 151, 0.34);
-      text-transform: uppercase;
-      transform: translateX(-50%);
-      transition: transform 180ms ease, opacity 180ms ease;
-      pointer-events: none;
-    }
-
     .store-prop:focus-visible {
       outline: 3px solid rgba(255, 238, 202, 0.86);
       outline-offset: 3px;
@@ -790,11 +759,6 @@
         0 0 0 2px rgba(255, 238, 202, 0.58),
         0 0 34px rgba(217, 67, 67, 0.72),
         0 0 82px rgba(255, 181, 74, 0.48);
-    }
-
-    .store-prop:hover::after,
-    .store-prop:focus-visible::after {
-      transform: translateX(-50%) translateY(-2px);
     }
 
     .hotspot::before,
@@ -3336,13 +3300,6 @@
         min-height: 70px;
       }
 
-      .store-prop::after {
-        bottom: calc(100% + 6px);
-        min-width: min(170px, 44vw);
-        padding: 7px 10px;
-        font-size: 0.68rem;
-      }
-
       .hotspot {
         min-width: 56px;
         min-height: 56px;
@@ -3726,10 +3683,10 @@
           <span class="dock-plaque" aria-hidden="true"><strong>YOUTUBE SLOT</strong></span>
           <span class="sr-only">YouTube</span>
         </a>
-        <button class="dock-link" type="button" data-dock="scroll" data-scroll-board aria-label="Slide the display shelf">
+        <button class="dock-link" type="button" data-dock="scroll" data-action="bookshelf" aria-label="Open bookshelf archive">
           <span class="dock-icon" aria-hidden="true">Shelf &rarr;</span>
-          <span class="dock-plaque" aria-hidden="true"><strong>DISPLAY AISLE</strong></span>
-          <span class="sr-only">slide the display shelf</span>
+          <span class="dock-plaque" aria-hidden="true"><strong>BOOKSHELF</strong></span>
+          <span class="sr-only">open bookshelf archive</span>
         </button>
         <button class="store-prop" type="button" data-action="shop" aria-label="Open Chaz n Amelia's Cocaina Pearl IHOCAIHAG Store">
           <span class="sr-only">Chaz n Amelia's Cocaina Pearl IHOCAIHAG Store</span>
@@ -4747,17 +4704,6 @@
           const targetLeft = Math.max(0, startHotspot.offsetLeft - Math.round(window.innerWidth * 0.24));
           boardWrap.scrollTo({ left: targetLeft, behavior: reducedMotion ? "auto" : "smooth" });
         });
-      }
-
-      function scrollBoardForward() {
-        if (!boardWrap) return;
-
-        const maxLeft = Math.max(0, boardWrap.scrollWidth - boardWrap.clientWidth);
-        if (!maxLeft) return;
-
-        const nextLeft = Math.min(maxLeft, boardWrap.scrollLeft + Math.round(boardWrap.clientWidth * 0.82));
-        const targetLeft = nextLeft <= boardWrap.scrollLeft + 4 ? 0 : nextLeft;
-        boardWrap.scrollTo({ left: targetLeft, behavior: reducedMotion ? "auto" : "smooth" });
       }
 
       function hasCookie(name) {
@@ -5784,14 +5730,6 @@
           });
         });
 
-        document.querySelectorAll("[data-scroll-board]").forEach((button) => {
-          button.addEventListener("click", (event) => {
-            event.preventDefault();
-            event.stopPropagation();
-            scrollBoardForward();
-          });
-        });
-
         document.querySelectorAll("[data-store-enter]").forEach((button) => {
           button.addEventListener("click", (event) => {
             event.preventDefault();
@@ -5860,13 +5798,6 @@
           if (toggleButton) {
             event.preventDefault();
             toggleSoundtrack();
-            return;
-          }
-
-          const scrollButton = event.target.closest("[data-scroll-board]");
-          if (scrollButton) {
-            event.preventDefault();
-            scrollBoardForward();
             return;
           }
 
