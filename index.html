@@ -5196,7 +5196,8 @@
       }
 
       function playTransition(src, next, options = {}) {
-        if (!transitionOverlay || !transitionVideo || reducedMotion) {
+        const shouldSkipForReducedMotion = reducedMotion && !options.locked;
+        if (!transitionOverlay || !transitionVideo || shouldSkipForReducedMotion) {
           next();
           return;
         }
