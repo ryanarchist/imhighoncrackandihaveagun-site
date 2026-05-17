@@ -1720,413 +1720,25 @@
       gap: 14px;
     }
 
-    .soundtrack-stage {
-      position: relative;
+    .spotify-shell {
       overflow: hidden;
-      aspect-ratio: 2200 / 767;
-      border: 1px solid rgba(255, 214, 151, 0.28);
-      border-radius: 8px;
-      background: #080706;
-      box-shadow: inset 0 0 42px rgba(0, 0, 0, 0.72), 0 20px 42px rgba(0, 0, 0, 0.38);
-      isolation: isolate;
-    }
-
-    .soundtrack-stage::before,
-    .soundtrack-stage::after {
-      position: absolute;
-      inset: 0;
-      z-index: 2;
-      content: "";
-      pointer-events: none;
-    }
-
-    .soundtrack-stage::before {
-      inset: -30% -12%;
-      opacity: 0.16;
-      background:
-        radial-gradient(circle at 18% 42%, rgba(255, 166, 66, 0.32), transparent 18rem),
-        radial-gradient(circle at 78% 32%, rgba(69, 237, 213, 0.16), transparent 14rem),
-        radial-gradient(circle at 48% 8%, rgba(255, 255, 255, 0.14), transparent 10rem),
-        linear-gradient(105deg, transparent 0 35%, rgba(255, 255, 255, 0.16) 43%, transparent 54% 100%);
-      mix-blend-mode: screen;
-      animation: smokeDrift 9s ease-in-out infinite alternate;
-    }
-
-    .soundtrack-stage::after {
-      background:
-        linear-gradient(90deg, rgba(0, 0, 0, 0.14), transparent 18%, transparent 78%, rgba(0, 0, 0, 0.14)),
-        radial-gradient(circle at 50% 45%, transparent 72%, rgba(0, 0, 0, 0.16) 100%);
-      box-shadow: inset 0 0 22px rgba(255, 154, 46, 0.1);
-    }
-
-    .soundtrack-machine-image {
-      position: relative;
-      z-index: 1;
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-      image-rendering: auto;
-      user-select: none;
-    }
-
-    .soundtrack-stage picture {
-      position: relative;
-      z-index: 1;
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
-
-    .soundtrack-light {
-      position: absolute;
-      z-index: 3;
-      display: block;
-      width: clamp(10px, 1.8vw, 22px);
-      aspect-ratio: 1;
-      border-radius: 999px;
-      background: #ffb545;
-      box-shadow: 0 0 12px rgba(255, 181, 69, 0.95), 0 0 32px rgba(255, 75, 24, 0.55);
-      pointer-events: none;
-      animation: signalPulse 1.9s ease-in-out infinite;
-    }
-
-    .soundtrack-light.one {
-      left: 27.7%;
-      top: 63.5%;
-    }
-
-    .soundtrack-light.two {
-      left: 52.2%;
-      top: 58.8%;
-      animation-delay: 420ms;
-      background: #55f0dd;
-      box-shadow: 0 0 12px rgba(85, 240, 221, 0.95), 0 0 30px rgba(85, 240, 221, 0.38);
-    }
-
-    .soundtrack-light.three {
-      left: 73%;
-      top: 64%;
-      animation-delay: 820ms;
-    }
-
-    .machine-hotspot {
-      position: absolute;
-      z-index: 4;
-      min-width: 48px;
-      min-height: 48px;
-      padding: 0;
-      border: 1px solid rgba(255, 221, 166, 0.32);
-      border-radius: 999px;
-      color: transparent;
-      background:
-        radial-gradient(circle, rgba(255, 214, 151, 0.08), transparent 66%);
-      box-shadow:
-        inset 0 0 16px rgba(255, 214, 151, 0.06),
-        0 0 0 1px rgba(255, 214, 151, 0.14),
-        0 0 16px rgba(217, 67, 67, 0.28),
-        0 0 36px rgba(255, 181, 74, 0.18);
-      cursor: pointer;
-      transition: border-color 180ms ease, background 180ms ease, box-shadow 180ms ease, transform 180ms ease;
-    }
-
-    .machine-hotspot::after {
-      position: absolute;
-      left: 50%;
-      bottom: -26px;
-      min-width: 96px;
-      padding: 6px 9px;
-      border: 1px solid rgba(255, 214, 151, 0.58);
-      border-radius: 2px;
-      color: #ffe5b1;
-      background:
-        linear-gradient(180deg, rgba(255, 214, 151, 0.14), transparent 30%),
-        linear-gradient(135deg, rgba(148, 31, 37, 0.96), rgba(15, 10, 7, 0.98) 44%, rgba(114, 19, 22, 0.92)),
-        #140b08;
-      box-shadow:
-        inset 0 1px 0 rgba(255, 238, 202, 0.24),
-        0 0 18px rgba(217, 67, 67, 0.36),
-        0 8px 18px rgba(0, 0, 0, 0.44);
-      content: attr(data-label);
-      font-family: var(--font-card);
-      font-size: clamp(0.58rem, 0.9vw, 0.72rem);
-      font-weight: 900;
-      line-height: 1;
-      text-align: center;
-      text-shadow: 0 1px 0 #120705, 0 0 9px rgba(255, 214, 151, 0.32);
-      text-transform: uppercase;
-      opacity: 0;
-      transform: translateX(-50%);
-      transition: opacity 180ms ease, transform 180ms ease;
-      pointer-events: none;
-    }
-
-    .machine-hotspot:hover,
-    .machine-hotspot:focus-visible {
-      border-color: rgba(255, 226, 169, 0.72);
-      background: radial-gradient(circle, rgba(255, 196, 89, 0.16), rgba(255, 196, 89, 0.03) 68%);
-      box-shadow:
-        inset 0 0 22px rgba(255, 214, 151, 0.12),
-        0 0 0 1px rgba(255, 238, 202, 0.38),
-        0 0 24px rgba(217, 67, 67, 0.54),
-        0 0 58px rgba(255, 181, 74, 0.34);
-      outline: 0;
-      transform: scale(1.015);
-    }
-
-    .machine-hotspot:hover::after,
-    .machine-hotspot:focus-visible::after {
-      opacity: 1;
-      transform: translateX(-50%) translateY(-2px);
-    }
-
-    .machine-hotspot.drop {
-      left: 15.5%;
-      top: 23%;
-      width: 37%;
-      height: 32%;
-    }
-
-    .machine-hotspot.submit {
-      left: 43.5%;
-      top: 68%;
-      width: 16.5%;
-      height: 15%;
-    }
-
-    .machine-hotspot.dial {
-      left: 59.5%;
-      top: 19%;
-      width: 15.5%;
-      height: 56%;
-    }
-
-    .machine-status {
-      position: absolute;
-      right: 3.5%;
-      bottom: 7%;
-      z-index: 4;
-      max-width: min(46%, 420px);
-      padding: 7px 10px;
-      border: 1px solid rgba(255, 238, 202, 0.2);
-      border-radius: 6px;
-      color: #ffe2aa;
-      background: rgba(5, 5, 5, 0.55);
-      font-family: var(--font-display);
-      font-size: 0.78rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      line-height: 1.2;
-      text-shadow: 0 0 8px rgba(255, 91, 44, 0.55);
-    }
-
-    .soundtrack-player {
-      display: grid;
-      gap: 12px;
       padding: 12px;
       border: 1px solid rgba(255, 238, 202, 0.16);
       border-radius: 8px;
       background:
         linear-gradient(135deg, rgba(255, 238, 202, 0.08), rgba(255, 238, 202, 0.02)),
         rgba(5, 5, 5, 0.72);
-    }
-
-    .now-playing {
-      display: grid;
-      grid-template-columns: 72px minmax(0, 1fr);
-      gap: 12px;
-      align-items: center;
-    }
-
-    .player-cover-wrap,
-    .player-cover {
-      width: 72px;
-      aspect-ratio: 1;
-    }
-
-    .player-cover-wrap {
-      display: block;
-    }
-
-    .player-cover {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      image-rendering: auto;
-      border: 1px solid rgba(255, 238, 202, 0.18);
-      border-radius: 7px;
-      background: #100b08;
-    }
-
-    .player-meta {
-      display: grid;
-      gap: 4px;
-      min-width: 0;
-    }
-
-    .player-kicker,
-    .player-state,
-    .player-time {
-      color: var(--muted);
-      font-size: 0.86rem;
-    }
-
-    .player-title {
-      color: var(--ink);
-      font-family: var(--font-display);
-      font-size: clamp(1.05rem, 4.6vw, 1.35rem);
-      font-weight: 900;
-      line-height: 1.1;
-      overflow-wrap: anywhere;
-      text-transform: uppercase;
-    }
-
-    .player-controls {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      align-items: center;
-    }
-
-    .player-btn {
-      min-height: 48px;
-      padding: 9px 13px;
-      border: 1px solid rgba(255, 238, 202, 0.22);
-      border-radius: 6px;
-      color: var(--ink);
-      font-family: var(--font-card);
-      font-weight: 900;
-      text-transform: uppercase;
-      text-shadow: 0 1px 0 #120705, 0 0 10px rgba(255, 214, 151, 0.24);
-      background:
-        linear-gradient(180deg, rgba(255, 214, 151, 0.1), transparent 38%),
-        linear-gradient(135deg, rgba(148, 31, 37, 0.62), rgba(18, 12, 8, 0.94) 48%, rgba(82, 18, 18, 0.72));
       box-shadow:
         inset 0 0 0 1px rgba(0, 0, 0, 0.34),
-        0 0 0 1px rgba(255, 214, 151, 0.08),
-        0 0 16px rgba(217, 67, 67, 0.18);
-      cursor: pointer;
-      transition: border-color 180ms ease, background 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+        0 18px 34px rgba(0, 0, 0, 0.32);
     }
 
-    .player-btn:hover,
-    .player-btn:focus-visible {
-      border-color: rgba(255, 238, 202, 0.62);
-      background:
-        linear-gradient(180deg, rgba(255, 214, 151, 0.16), transparent 34%),
-        linear-gradient(135deg, rgba(181, 36, 42, 0.82), rgba(18, 12, 8, 0.96) 48%, rgba(113, 22, 22, 0.86));
-      box-shadow:
-        inset 0 0 0 1px rgba(0, 0, 0, 0.42),
-        0 0 0 1px rgba(255, 238, 202, 0.28),
-        0 0 22px rgba(217, 67, 67, 0.46),
-        0 0 44px rgba(255, 181, 74, 0.22);
-      outline: 0;
-      transform: translateY(-1px);
-    }
-
-    .player-toggle {
-      min-width: 94px;
-      color: #fff4dc;
-      background: linear-gradient(180deg, rgba(217, 67, 67, 0.92), rgba(104, 18, 22, 0.95));
-      border-color: rgba(255, 214, 151, 0.48);
-    }
-
-    .player-progress {
-      width: 100%;
-      accent-color: #d94343;
-    }
-
-    .player-time {
-      font-variant-numeric: tabular-nums;
-    }
-
-    .track-list {
-      display: grid;
-      gap: 8px;
-    }
-
-    .mix-track {
-      display: grid;
-      grid-template-columns: 58px minmax(0, 1fr);
-      gap: 10px;
-      align-items: center;
-      min-height: 74px;
-      padding: 8px;
-      border: 1px solid rgba(255, 238, 202, 0.15);
-      border-radius: 8px;
-      color: var(--ink);
-      background: rgba(255, 238, 202, 0.06);
-      box-shadow:
-        0 0 0 1px rgba(255, 214, 151, 0.08),
-        0 0 16px rgba(217, 67, 67, 0.14);
-      cursor: pointer;
-      text-align: left;
-      transition: border-color 180ms ease, background 180ms ease, box-shadow 180ms ease, transform 180ms ease;
-    }
-
-    .mix-track:hover,
-    .mix-track:focus-visible {
-      border-color: rgba(255, 214, 151, 0.48);
-      background:
-        linear-gradient(180deg, rgba(255, 214, 151, 0.1), transparent 42%),
-        rgba(217, 67, 67, 0.13);
-      box-shadow:
-        0 0 0 1px rgba(255, 238, 202, 0.24),
-        0 0 22px rgba(217, 67, 67, 0.38),
-        0 0 42px rgba(255, 181, 74, 0.2);
-      outline: 0;
-      transform: translateY(-1px);
-    }
-
-    .mix-track picture,
-    .mix-track img {
+    .spotify-embed {
       display: block;
-      width: 58px;
-      aspect-ratio: 1;
-    }
-
-    .mix-track img {
-      height: 100%;
-      object-fit: contain;
-      image-rendering: auto;
-      border-radius: 6px;
-      background: #100b08;
-    }
-
-    .mix-track span {
-      display: grid;
-      gap: 3px;
-      min-width: 0;
-    }
-
-    .mix-track strong {
-      font-family: var(--font-card);
-      font-weight: 900;
-      overflow-wrap: anywhere;
-      text-transform: uppercase;
-    }
-
-    .mix-track small {
-      color: var(--muted);
-      font-family: var(--font-card);
-      font-weight: 900;
-      line-height: 1.25;
-      text-transform: uppercase;
-    }
-
-    .mix-track.is-active {
-      border-color: rgba(255, 214, 151, 0.52);
-      background: rgba(217, 67, 67, 0.16);
-      box-shadow:
-        0 0 0 1px rgba(255, 238, 202, 0.22),
-        0 0 24px rgba(217, 67, 67, 0.42),
-        0 0 46px rgba(255, 181, 74, 0.22);
-    }
-
-    .soundtrack-audio {
-      display: none;
+      width: 100%;
+      min-height: 352px;
+      border: 0;
+      border-radius: 8px;
     }
 
     .soundtrack-cta {
@@ -3430,48 +3042,6 @@
         grid-template-columns: 1fr;
       }
 
-      .machine-status {
-        right: 2.5%;
-        bottom: 5%;
-        max-width: 68%;
-        padding: 5px 7px;
-        font-size: 0.62rem;
-      }
-
-      .soundtrack-stage {
-        aspect-ratio: auto;
-        height: clamp(160px, 48vw, 210px);
-      }
-
-      .soundtrack-light {
-        width: 8px;
-      }
-
-      .machine-hotspot.drop {
-        left: 3%;
-        top: 22%;
-        width: 54%;
-        height: 36%;
-      }
-
-      .machine-hotspot.submit {
-        left: 43%;
-        top: 66%;
-        width: 21%;
-        height: 18%;
-      }
-
-      .machine-hotspot.dial {
-        left: 61%;
-        top: 18%;
-        width: 26%;
-        height: 58%;
-      }
-
-      .player-time {
-        width: 100%;
-      }
-
       .store-panel {
         max-height: calc(100dvh - 24px);
       }
@@ -3568,9 +3138,7 @@
         animation-iteration-count: 1 !important;
       }
 
-      .hotspot::before,
-      .soundtrack-stage::before,
-      .soundtrack-light {
+      .hotspot::before {
         animation: none !important;
       }
     }
@@ -3913,77 +3481,23 @@
   <section class="modal" id="sunoModal" role="dialog" aria-modal="true" aria-labelledby="sunoTitle" hidden>
     <div class="modal-panel soundtrack-panel">
       <header class="modal-header">
-        <h2 class="modal-title" id="sunoTitle">OG Crack Track Sound Figure</h2>
+        <h2 class="modal-title" id="sunoTitle">OG Crack Track</h2>
         <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
       </header>
       <div class="modal-body soundtrack-body">
-        <p class="modal-copy">Blister-card soundtrack to the collapse.</p>
-        <p class="modal-copy">Packed inside the IHOCAIHAG book/documentary display.</p>
-
-        <div class="soundtrack-stage" aria-label="Interactive soundtrack machine">
-          <picture>
-            <source srcset="soundtrack-machine.webp" type="image/webp">
-            <img class="soundtrack-machine-image" src="soundtrack-machine.png" alt="A burned metal email dropbox and radio machine with glowing controls" width="2200" height="767" loading="lazy" decoding="async">
-          </picture>
-          <span class="soundtrack-light one" aria-hidden="true"></span>
-          <span class="soundtrack-light two" aria-hidden="true"></span>
-          <span class="soundtrack-light three" aria-hidden="true"></span>
-          <button class="machine-hotspot drop" type="button" data-player-toggle data-label="Play Track" aria-label="Play or pause the current song"></button>
-          <button class="machine-hotspot submit" type="button" data-player-toggle data-label="Decode" aria-label="Play or pause the current song"></button>
-          <button class="machine-hotspot dial" type="button" data-player-next data-label="Tune" aria-label="Tune to the next song"></button>
-          <div class="machine-status" id="machineStatus" aria-live="polite">Loaded: og crAcK trAcK</div>
+        <div class="spotify-shell">
+          <iframe
+            class="spotify-embed"
+            data-testid="embed-iframe"
+            src="https://open.spotify.com/embed/track/1GmmWYruNlEuCx9sIilYFw?utm_source=generator"
+            title="Spotify player for ihocaihag - og crack track"
+            width="100%"
+            height="352"
+            frameborder="0"
+            allowfullscreen
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy"></iframe>
         </div>
-
-        <div class="soundtrack-player">
-          <div class="now-playing">
-            <picture class="player-cover-wrap">
-              <source id="playerCoverWebp" srcset="cracktraptrack-cover.webp" type="image/webp">
-              <img class="player-cover" id="playerCover" src="cracktraptrack-cover.png" alt="og crAcK trAcK cover" width="1121" height="1684" loading="lazy" decoding="async">
-            </picture>
-            <div class="player-meta">
-              <span class="player-kicker" id="playerLabel">Figure 01 / Default</span>
-              <strong class="player-title" id="playerTitle">og crAcK trAcK</strong>
-              <span class="player-state" id="playerState">Carded</span>
-            </div>
-          </div>
-
-          <div class="player-controls" aria-label="Soundtrack controls">
-            <button class="player-btn" type="button" data-player-prev>Prev</button>
-            <button class="player-btn player-toggle" type="button" data-player-toggle>Play</button>
-            <button class="player-btn" type="button" data-player-next>Next</button>
-            <span class="player-time" id="playerTime">0:00 / 0:00</span>
-          </div>
-
-          <input class="player-progress" id="playerProgress" type="range" min="0" max="100" step="0.1" value="0" aria-label="Track progress">
-
-          <div class="track-list" aria-label="Available songs">
-            <button class="mix-track is-active" type="button" data-track-index="0">
-              <picture>
-                <source srcset="cracktraptrack-cover.webp" type="image/webp">
-                <img src="cracktraptrack-cover.png" alt="" width="1121" height="1684" loading="lazy" decoding="async">
-              </picture>
-              <span>
-                <strong>og crAcK trAcK</strong>
-                <small>Figure 01 / Default</small>
-              </span>
-            </button>
-            <button class="mix-track" type="button" data-track-index="1">
-              <picture>
-                <source srcset="ogCRackTrack-cover.webp" type="image/webp">
-                <img src="ogCRackTrack-cover.png" alt="" width="1385" height="1327" loading="lazy" decoding="async">
-              </picture>
-              <span>
-                <strong>og Sad Crack Trap</strong>
-                <small>Figure 02 / Variant</small>
-              </span>
-            </button>
-          </div>
-
-          <audio class="soundtrack-audio" id="soundtrackAudio" preload="none">
-            <source src="cracktraptrack.mp3" type="audio/mpeg">
-          </audio>
-        </div>
-        <p class="asset-note" id="trackNote" hidden>One of the local MP3 files could not be loaded.</p>
         <button class="plain-btn soundtrack-cta" type="button" data-close-modal>Back to Display Room</button>
       </div>
     </div>
@@ -4462,15 +3976,6 @@
       const youtubeFrame = document.getElementById("youtubeFrame");
       const atmVideo = document.getElementById("atmVideo");
       const typewriterVideo = document.getElementById("typewriterVideo");
-      const soundtrackAudio = document.getElementById("soundtrackAudio");
-      const playerCover = document.getElementById("playerCover");
-      const playerCoverWebp = document.getElementById("playerCoverWebp");
-      const playerLabel = document.getElementById("playerLabel");
-      const playerTitle = document.getElementById("playerTitle");
-      const playerState = document.getElementById("playerState");
-      const playerTime = document.getElementById("playerTime");
-      const playerProgress = document.getElementById("playerProgress");
-      const machineStatus = document.getElementById("machineStatus");
       const unlockForm = document.getElementById("unlockForm");
       const signupEmail = document.getElementById("signupEmail");
       const emailError = document.getElementById("emailError");
@@ -4537,7 +4042,6 @@
       let transitionCanSkip = true;
       let readerPages = [];
       let readerIndex = 0;
-      let soundtrackIndex = 0;
       let armedHotspot = null;
       let mothersDayPresented = false;
 
@@ -4566,23 +4070,6 @@
         dopesick: "f_d_d_a_a_f_contentmp_.mp4",
         social: "channmealsrr.mp4"
       };
-
-      const soundtrackTracks = [
-        {
-          title: "og crAcK trAcK",
-          label: "Figure 01 / Default",
-          src: "cracktraptrack.mp3",
-          cover: "cracktraptrack-cover.png",
-          coverWebp: "cracktraptrack-cover.webp"
-        },
-        {
-          title: "og Sad Crack Trap",
-          label: "Figure 02 / Variant",
-          src: "ogCRackTrack.mp3",
-          cover: "ogCRackTrack-cover.png",
-          coverWebp: "ogCRackTrack-cover.webp"
-        }
-      ];
 
       const readerSources = {
         mothersday: {
@@ -5136,10 +4623,6 @@
           playMedia(atmVideo);
         }
 
-        if (id === "sunoModal") {
-          loadSoundtrackTrack(soundtrackIndex, false);
-        }
-
         if (id === "emailModal") {
           resetUnlockFeedback();
         }
@@ -5167,10 +4650,6 @@
 
         const modalToClose = activeModal;
         pauseMedia(modalToClose);
-        if (modalToClose.id === "sunoModal") {
-          updateSoundtrackProgress();
-          updateSoundtrackPlaybackState();
-        }
         modalToClose.hidden = true;
         modalToClose.setAttribute("aria-hidden", "true");
         activeModal = null;
@@ -5271,16 +4750,6 @@
         }
       }
 
-      function formatTime(seconds) {
-        if (!Number.isFinite(seconds) || seconds < 0) {
-          return "0:00";
-        }
-
-        const minutes = Math.floor(seconds / 60);
-        const remainingSeconds = Math.floor(seconds % 60).toString().padStart(2, "0");
-        return `${minutes}:${remainingSeconds}`;
-      }
-
       function formatMoney(amount) {
         return `$${amount.toFixed(2)}`;
       }
@@ -5344,106 +4813,6 @@
         document.querySelectorAll("[data-payment-panel]").forEach((panel) => {
           panel.hidden = panel.dataset.paymentPanel !== selectedMethod;
         });
-      }
-
-      function loadSoundtrackTrack(index, shouldPlay) {
-        if (!soundtrackAudio) return;
-
-        const trackCount = soundtrackTracks.length;
-        soundtrackIndex = ((index % trackCount) + trackCount) % trackCount;
-        const track = soundtrackTracks[soundtrackIndex];
-
-        if (soundtrackAudio.getAttribute("src") !== track.src) {
-          soundtrackAudio.src = track.src;
-          soundtrackAudio.load();
-        }
-
-        playerCover.src = track.cover;
-        playerCover.alt = `${track.title} cover`;
-        playerCoverWebp.srcset = track.coverWebp;
-        playerLabel.textContent = track.label;
-        playerTitle.textContent = track.title;
-        machineStatus.textContent = `Loaded: ${track.title}`;
-        document.getElementById("trackNote").hidden = true;
-
-        document.querySelectorAll(".mix-track").forEach((button) => {
-          button.classList.toggle("is-active", Number(button.dataset.trackIndex) === soundtrackIndex);
-        });
-
-        updateSoundtrackProgress();
-        updateSoundtrackPlaybackState();
-
-        if (shouldPlay) {
-          startSoundtrack();
-        }
-      }
-
-      function startSoundtrack() {
-        if (!soundtrackAudio) return;
-
-        playerState.textContent = "Loading signal";
-        const playAttempt = soundtrackAudio.play();
-        if (playAttempt && typeof playAttempt.catch === "function") {
-          playAttempt
-            .then(updateSoundtrackPlaybackState)
-            .catch(() => {
-              updateSoundtrackPlaybackState();
-              playerState.textContent = "Tap play to unbox";
-            });
-        } else {
-          updateSoundtrackPlaybackState();
-        }
-      }
-
-      function toggleSoundtrack() {
-        if (!soundtrackAudio) return;
-
-        if (soundtrackAudio.paused) {
-          if (!soundtrackAudio.getAttribute("src")) {
-            loadSoundtrackTrack(soundtrackIndex, false);
-          }
-          startSoundtrack();
-        } else {
-          soundtrackAudio.pause();
-        }
-      }
-
-      function playSoundtrackOffset(offset) {
-        loadSoundtrackTrack(soundtrackIndex + offset, true);
-      }
-
-      function updateSoundtrackPlaybackState() {
-        if (!soundtrackAudio) return;
-
-        const isPlaying = !soundtrackAudio.paused && !soundtrackAudio.ended;
-        document.querySelectorAll("[data-player-toggle]").forEach((button) => {
-          if (button.classList.contains("player-toggle")) {
-            button.textContent = isPlaying ? "Pause" : "Play";
-          }
-        });
-
-        const track = soundtrackTracks[soundtrackIndex];
-        playerState.textContent = isPlaying ? "Broadcasting" : "Carded";
-        machineStatus.textContent = `${isPlaying ? "Broadcasting" : "Loaded"}: ${track.title}`;
-      }
-
-      function updateSoundtrackProgress() {
-        if (!soundtrackAudio) return;
-
-        const duration = soundtrackAudio.duration;
-        const current = soundtrackAudio.currentTime;
-        const hasDuration = Number.isFinite(duration) && duration > 0;
-        playerProgress.value = hasDuration ? String((current / duration) * 100) : "0";
-        playerTime.textContent = `${formatTime(current)} / ${formatTime(hasDuration ? duration : 0)}`;
-      }
-
-      function seekSoundtrack() {
-        if (!soundtrackAudio) return;
-
-        const duration = soundtrackAudio.duration;
-        if (!Number.isFinite(duration) || duration <= 0) return;
-        soundtrackAudio.currentTime = (Number(playerProgress.value) / 100) * duration;
-        updateSoundtrackProgress();
       }
 
       function openWritingModal() {
@@ -5668,19 +5037,6 @@
           }
         });
 
-        soundtrackAudio.addEventListener("loadedmetadata", updateSoundtrackProgress);
-        soundtrackAudio.addEventListener("timeupdate", updateSoundtrackProgress);
-        soundtrackAudio.addEventListener("play", updateSoundtrackPlaybackState);
-        soundtrackAudio.addEventListener("pause", updateSoundtrackPlaybackState);
-        soundtrackAudio.addEventListener("ended", () => playSoundtrackOffset(1));
-        soundtrackAudio.addEventListener("error", () => {
-          document.getElementById("trackNote").hidden = false;
-          playerState.textContent = "Audio accessory missing";
-          machineStatus.textContent = "Signal lost";
-          document.querySelectorAll(".player-toggle").forEach((button) => {
-            button.textContent = "Play";
-          });
-        });
       }
 
       function clearArmedHotspot() {
@@ -5774,34 +5130,6 @@
             return;
           }
 
-          const trackButton = event.target.closest("[data-track-index]");
-          if (trackButton) {
-            event.preventDefault();
-            loadSoundtrackTrack(Number(trackButton.dataset.trackIndex), true);
-            return;
-          }
-
-          const previousButton = event.target.closest("[data-player-prev]");
-          if (previousButton) {
-            event.preventDefault();
-            playSoundtrackOffset(-1);
-            return;
-          }
-
-          const nextButton = event.target.closest("[data-player-next]");
-          if (nextButton) {
-            event.preventDefault();
-            playSoundtrackOffset(1);
-            return;
-          }
-
-          const toggleButton = event.target.closest("[data-player-toggle]");
-          if (toggleButton) {
-            event.preventDefault();
-            toggleSoundtrack();
-            return;
-          }
-
           const storeEnterButton = event.target.closest("[data-store-enter]");
           if (storeEnterButton) {
             event.preventDefault();
@@ -5878,8 +5206,6 @@
             renderReader();
           }
         });
-
-        playerProgress.addEventListener("input", seekSoundtrack);
       }
 
       function initQueryToasts() {
