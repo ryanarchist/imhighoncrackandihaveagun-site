@@ -9,8 +9,8 @@
   <link rel="icon" href="data:,">
   <link rel="preload" as="image" href="entry-graphic.webp" type="image/webp">
   <link rel="preload" as="image" href="mothers-day-card.webp" type="image/webp">
-  <link rel="preload" as="image" href="trap-pass-atm.webp" type="image/webp">
-  <link rel="preload" as="image" href="trap-pass-run-wave-1.webp" type="image/webp">
+  <link rel="preload" as="image" href="trap-pass-wave-2-main.webp" type="image/webp">
+  <link rel="preload" as="image" href="trap-pass-run-wave-2.webp" type="image/webp">
   <link rel="preload" as="image" href="action-figure-room.webp" type="image/webp">
   <link rel="preload" as="font" href="fonts/impact-label-reversed.ttf" type="font/ttf" crossorigin>
   <style>
@@ -406,6 +406,16 @@
       place-items: stretch;
     }
 
+    .atm-hit::before {
+      position: absolute;
+      inset: -18px;
+      z-index: 0;
+      content: "";
+      background: url("trap-pass-wave-2-main.webp") center / cover no-repeat;
+      filter: blur(12px) brightness(0.42);
+      transform: scale(1.04);
+    }
+
     .trap-pass-hit {
       place-items: center;
       padding: max(10px, env(safe-area-inset-top)) 10px max(10px, env(safe-area-inset-bottom));
@@ -419,6 +429,8 @@
       display: block;
       width: 100%;
       height: 100%;
+      position: relative;
+      z-index: 1;
       user-select: none;
       -webkit-user-drag: none;
     }
@@ -431,7 +443,7 @@
 
     .trap-pass-image {
       width: auto;
-      max-width: min(100vw, calc(100dvh * 0.556067));
+      max-width: min(100vw, calc(100dvh * 0.66));
       max-height: 100dvh;
       object-fit: contain;
       object-position: center;
@@ -3173,20 +3185,20 @@
     </div>
   </section>
 
-  <section id="atmScene" aria-label="Trap Pass ATM" hidden>
+  <section id="atmScene" aria-label="Trap Pass Wave 2 gate" hidden>
     <button class="atm-hit" id="atmHit" type="button" aria-label="Print your personal Trap Pass">
       <picture>
-        <source srcset="trap-pass-atm.webp" type="image/webp">
-        <img class="atm-image" id="atmImage" src="trap-pass-atm.png" data-candidates="trap-pass-atm.png" alt="Trap Pass ATM" width="1481" height="1300" decoding="async">
+        <source srcset="trap-pass-wave-2-main.webp" type="image/webp">
+        <img class="atm-image" id="atmImage" src="trap-pass-wave-2-main.png" data-candidates="trap-pass-wave-2-main.png,trap-pass-atm.png" alt="Trap Pass explainer and Wave 2 redemption screen" width="1322" height="1683" decoding="async">
       </picture>
     </button>
   </section>
 
-  <section id="trapPassScene" aria-label="Trap Pass Run Wave 1" hidden>
+  <section id="trapPassScene" aria-label="Trap Pass Run Wave 2" hidden>
     <button class="trap-pass-hit" id="trapPassHit" type="button" aria-label="Continue to the collector display room">
       <picture>
-        <source srcset="trap-pass-run-wave-1.webp" type="image/webp">
-        <img class="trap-pass-image" id="trapPassImage" src="trap-pass-run-wave-1.png" data-candidates="trap-pass-run-wave-1.png" alt="Trap Pass Run Wave 1 Ride or Dies" width="724" height="1302" decoding="async">
+        <source srcset="trap-pass-run-wave-2.webp" type="image/webp">
+        <img class="trap-pass-image" id="trapPassImage" src="trap-pass-run-wave-2.png" data-candidates="trap-pass-run-wave-2.png,trap-pass-run-wave-1.png" alt="Trap Pass Run Wave 2 When 3 Deer Appear" width="1103" height="1674" decoding="async">
       </picture>
     </button>
   </section>
@@ -3374,12 +3386,12 @@
   <section class="modal" id="emailModal" role="dialog" aria-modal="true" aria-labelledby="emailTitle" hidden>
     <div class="modal-panel unlock-panel">
       <header class="modal-header">
-        <h2 class="modal-title" id="emailTitle">Trap Pass Dispenser</h2>
+        <h2 class="modal-title" id="emailTitle">Redeem Your Trap Pass</h2>
         <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
       </header>
       <div class="modal-body unlock-body">
-        <p class="unlock-copy">Run Wave 1: Ride or Dies collector access.</p>
-        <p class="unlock-support">Enter email to print your numbered Trap Pass.</p>
+        <p class="unlock-copy">Run Wave 2: When 3 Deer Appear.</p>
+        <p class="unlock-support">Enter email to claim your Trap Pass. Check your inbox for the pass link.</p>
         <div class="entry-number-card" aria-live="polite">
           <strong id="entryNumberLabel">TRAP PASS #PENDING</strong>
           <span id="entryNumberNote">Serial prints after signup.</span>
@@ -3388,8 +3400,12 @@
           <input type="hidden" name="_captcha" value="false">
           <input type="hidden" name="_template" value="table">
           <input type="hidden" name="_subject" value="New Trap Pass Signup">
-          <input type="hidden" name="_next" value="https://imhighoncrackandihaveagun.com/?trap_pass=success&wave=1">
-          <input type="hidden" name="trap_pass" value="RUN WAVE 1 - RIDE OR DIES">
+          <input type="hidden" name="_next" value="https://imhighoncrackandihaveagun.com/?trap_pass=success&wave=2">
+          <!-- FormSubmit _cc sends the visitor a copy of the receipt. A true image attachment needs backend email handling later. -->
+          <input type="hidden" id="emailCopyInput" name="_cc" value="">
+          <input type="hidden" name="trap_pass" value="RUN WAVE 2 - WHEN 3 DEER APPEAR">
+          <input type="hidden" name="trap_pass_message" value="Your Wave 2 Trap Pass is inside. Save this image: https://imhighoncrackandihaveagun.com/trap-pass-run-wave-2.png">
+          <input type="hidden" name="trap_pass_image" value="https://imhighoncrackandihaveagun.com/trap-pass-run-wave-2.png">
           <input type="hidden" id="entryNumberInput" name="entry_number" value="TRAP PASS #PENDING">
           <div class="field">
             <label for="signupEmail">Email</label>
@@ -3397,7 +3413,7 @@
           </div>
           <p class="form-error" id="emailError" aria-live="polite"></p>
           <p class="form-success" id="emailSuccess" aria-live="polite"></p>
-          <button class="primary-btn" id="unlockButton" type="submit">Receive Your Individual Trap Pass</button>
+          <button class="primary-btn" id="unlockButton" type="submit">GET MY TRAP PASS</button>
         </form>
         <iframe class="sr-only" id="formsubmitFrame" name="formsubmitFrame" title="Archive signup submission"></iframe>
       </div>
@@ -3981,6 +3997,7 @@
       const emailError = document.getElementById("emailError");
       const emailSuccess = document.getElementById("emailSuccess");
       const unlockButton = document.getElementById("unlockButton");
+      const emailCopyInput = document.getElementById("emailCopyInput");
       const entryNumberLabel = document.getElementById("entryNumberLabel");
       const entryNumberNote = document.getElementById("entryNumberNote");
       const entryNumberInput = document.getElementById("entryNumberInput");
@@ -4012,13 +4029,15 @@
       const shirtPrice = 25;
       const shirtShipping = 5;
       const shirtTaxRate = 0.07;
-      const accessKey = "ihocaig-trap-pass-run-wave-1-claimed";
-      const accessCookie = "ihocaig_trap_pass_run_wave_1_claimed";
-      const passViewedKey = "ihocaig-trap-pass-run-wave-1-viewed";
-      const passViewedCookie = "ihocaig_trap_pass_run_wave_1_viewed";
-      const trapPassNumberKey = "ihocaig-trap-pass-run-wave-1-number";
+      const accessKey = "ihocaig-trap-pass-access-claimed";
+      const accessCookie = "ihocaig_trap_pass_access_claimed";
+      const passViewedKey = "ihocaig-trap-pass-run-wave-2-viewed";
+      const passViewedCookie = "ihocaig_trap_pass_run_wave_2_viewed";
+      const trapPassNumberKey = "ihocaig-trap-pass-run-wave-2-number";
+      const currentTrapPassLabel = "RUN WAVE 2: WHEN 3 DEER APPEAR";
       const legacyAccessKeys = [
         "ihocaig-access-unlocked",
+        "ihocaig-trap-pass-run-wave-1-claimed",
         "ihocaig-entry-number",
         "ihocaig-archive-unlocked",
         "ihocaig-email-unlocked",
@@ -4026,11 +4045,12 @@
       ];
       const legacyAccessCookies = [
         "ihocaig_access_unlocked",
+        "ihocaig_trap_pass_run_wave_1_claimed",
         "ihocaig_archive_unlocked",
         "ihocaig_email_unlocked",
         "ihocaig_unlocked"
       ];
-      const trapPassButtonText = "Receive Your Individual Trap Pass";
+      const trapPassButtonText = "GET MY TRAP PASS";
       const transitionMaxMs = reducedMotion ? 10 : 9000;
       const menuIntroSrc = "introsite.mp4";
 
@@ -4502,7 +4522,7 @@
         // Temporary local receipt only. Replace this with a backend/database sequence
         // before treating entry numbers as permanent, globally unique, or collectible.
         const seed = Math.abs(Date.now() + Math.floor(Math.random() * 9000)) % 1000000;
-        const number = `TRAP PASS #TEMP-${String(seed).padStart(6, "0")}`;
+        const number = `WAVE 2 #TEMP-${String(seed).padStart(6, "0")}`;
 
         try {
           window.localStorage.setItem(trapPassNumberKey, number);
@@ -4518,7 +4538,7 @@
         entryNumberInput.value = number;
         entryNumberNote.textContent = number === "TRAP PASS #PENDING"
           ? "Serial prints after signup."
-          : "RUN WAVE 1: RIDE OR DIES saved on this device.";
+          : `${currentTrapPassLabel} saved on this device.`;
       }
 
       function resetUnlockFeedback() {
@@ -4561,7 +4581,12 @@
         setUnlockedAccess();
         const entryNumber = getTemporaryEntryNumber();
         setEntryNumber(entryNumber);
-        emailSuccess.textContent = "Trap Pass printed. Save the card.";
+        if (emailCopyInput) {
+          // Static-site email copy: FormSubmit receives this as a cc target and
+          // includes the Trap Pass image URL in the submitted receipt fields.
+          emailCopyInput.value = email;
+        }
+        emailSuccess.textContent = "Trap Pass printed. Check your email, then save the card.";
         unlockButton.disabled = true;
         unlockButton.textContent = "TRAP PASS PRINTED";
 
