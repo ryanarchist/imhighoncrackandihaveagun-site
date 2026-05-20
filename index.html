@@ -7,7 +7,6 @@
   <title>IM HIGH ON CRACK AND I HAVE A GUN</title>
   <meta name="description" content="A hidden collector toy-display archive room for IMHIGHONCRACKANDIHAVEAGUN.COM.">
   <link rel="icon" href="data:,">
-  <link rel="preload" as="image" href="entry-graphic.webp" type="image/webp">
   <link rel="preload" as="image" href="mothers-day-card.webp" type="image/webp">
   <link rel="preload" as="image" href="trap-pass-wave-2-main.webp" type="image/webp">
   <link rel="preload" as="image" href="trap-pass-run-wave-2.webp" type="image/webp">
@@ -143,7 +142,7 @@
       inset: -18px;
       z-index: 0;
       content: "";
-      background: url("entry-graphic.webp") center / cover no-repeat;
+      background: url("trap-pass-wave-2-main.webp") center / cover no-repeat;
       filter: blur(10px) brightness(0.48);
       transform: scale(1.04);
     }
@@ -3160,8 +3159,8 @@
   <section id="entryScene" aria-label="Entry">
     <button class="entry-hit" id="entryHit" type="button" aria-label="Enter">
       <picture>
-        <source srcset="entry-graphic.webp" type="image/webp">
-        <img class="entry-image" id="entryImage" src="entry-graphic.png" data-candidates="entry-graphic.png,entry.jpg" alt="" width="1337" height="1680" decoding="async" fetchpriority="high">
+        <source srcset="trap-pass-wave-2-main.webp" type="image/webp">
+        <img class="entry-image" id="entryImage" src="trap-pass-wave-2-main.png" data-candidates="trap-pass-wave-2-main.png,entry-graphic.png,entry.jpg" alt="Trap Pass Wave 2 entry screen" width="1322" height="1683" decoding="async" fetchpriority="high">
       </picture>
       <span class="entry-fallback" aria-live="polite">
         <span>
@@ -4594,7 +4593,11 @@
           if (activeModal?.id === "emailModal") {
             closeModal(false);
           }
-          showTrapPassFromAtm();
+          if (atmScene.hidden) {
+            showTrapPassFromEntry();
+          } else {
+            showTrapPassFromAtm();
+          }
         }, 520);
       }
 
@@ -4614,7 +4617,7 @@
           return;
         }
 
-        showAtmScene();
+        openModal("emailModal", { focusSelector: "#signupEmail" });
       }
 
       function handleAtmClick() {
