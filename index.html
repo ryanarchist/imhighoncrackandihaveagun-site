@@ -1037,6 +1037,16 @@
       border-radius: 18px;
     }
 
+    .hotspot[data-figure="bookshelf"]::before {
+      border-color: rgba(255, 238, 202, 0.42);
+      opacity: 0.5;
+      box-shadow:
+        inset 0 0 22px rgba(255, 214, 151, 0.1),
+        0 0 0 1px rgba(255, 238, 202, 0.28),
+        0 0 26px rgba(217, 67, 67, 0.42),
+        0 0 68px rgba(255, 181, 74, 0.28);
+    }
+
     /* Bookshelf close-up hotspot coordinates.
        Tweak only these percentages to realign shelf targets over bookshelf-room.png. */
     .shelf-hotspot[data-shelf-item="roofer"] {
@@ -1363,7 +1373,8 @@
       resize: vertical;
     }
 
-    .field input.is-invalid {
+    .field input.is-invalid,
+    .field textarea.is-invalid {
       border-color: rgba(255, 99, 99, 0.78);
       box-shadow: 0 0 0 3px rgba(217, 67, 67, 0.2);
     }
@@ -2223,18 +2234,8 @@
         0 0 0 1px rgba(255, 244, 220, 0.16);
     }
 
-    .store-shot.is-figure img {
-      height: clamp(300px, 29vw, 470px);
-      background: #f5f4f1;
-    }
-
     .store-shot.is-shirt img {
       transform: scale(1.12);
-      transform-origin: center;
-    }
-
-    .store-shot.is-figure img {
-      transform: scale(1.06);
       transform-origin: center;
     }
 
@@ -2483,35 +2484,92 @@
       text-transform: uppercase;
     }
 
-    .who-panel {
-      width: min(100%, 560px);
-      overflow: visible;
+    .dropbox-panel {
+      width: min(100%, 1040px);
     }
 
-    .who-close {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      z-index: 3;
-    }
-
-    .who-body {
+    .dropbox-body {
       display: grid;
-      min-height: 260px;
-      place-items: center;
-      padding: 52px 20px 34px;
+      grid-template-columns: minmax(0, 1.05fr) minmax(280px, 0.95fr);
+      gap: clamp(14px, 2vw, 22px);
+      align-items: start;
     }
 
-    .who-body p {
-      max-width: 20rem;
+    .dropbox-card {
+      position: relative;
+      margin: 0;
+      overflow: hidden;
+      border: 1px solid rgba(255, 214, 151, 0.22);
+      border-radius: 8px;
+      background: #090605;
+      box-shadow:
+        0 18px 48px rgba(0, 0, 0, 0.42),
+        0 0 0 1px rgba(255, 214, 151, 0.08);
+    }
+
+    .dropbox-card img {
+      display: block;
+      width: 100%;
+      max-height: min(74dvh, 780px);
+      object-fit: contain;
+      object-position: center;
+      background: #090605;
+    }
+
+    .dropbox-card figcaption {
+      position: absolute;
+      left: 12px;
+      right: 12px;
+      bottom: 12px;
+      padding: 9px 12px;
+      border: 1px solid rgba(255, 214, 151, 0.26);
+      border-radius: 6px;
+      color: #ffe5b1;
+      background:
+        linear-gradient(135deg, rgba(148, 31, 37, 0.82), rgba(12, 8, 6, 0.9) 56%, rgba(78, 18, 18, 0.74));
+      box-shadow:
+        inset 0 0 0 1px rgba(0, 0, 0, 0.44),
+        0 0 22px rgba(217, 67, 67, 0.32);
+      font-family: var(--font-display);
+      font-size: clamp(1rem, 3vw, 1.35rem);
+      font-weight: 900;
+      text-align: center;
+      text-transform: uppercase;
+      text-shadow: 0 1px 0 #120705, 0 0 10px rgba(255, 214, 151, 0.26);
+    }
+
+    .dropbox-controls {
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+
+    .dropbox-copy {
       margin: 0;
       color: #ffe5b1;
       font-family: var(--font-display);
-      font-size: clamp(1.6rem, 8vw, 3.1rem);
+      font-size: clamp(1rem, 3.2vw, 1.32rem);
       font-weight: 900;
-      line-height: 1.02;
-      text-align: center;
-      text-transform: lowercase;
+      line-height: 1.18;
+      text-transform: uppercase;
+    }
+
+    .dropbox-form textarea {
+      min-height: 150px;
+    }
+
+    .dropbox-receipt {
+      display: grid;
+      gap: 10px;
+    }
+
+    .dropbox-receipt[hidden] {
+      display: none;
+    }
+
+    .dropbox-video {
+      border-color: rgba(255, 214, 151, 0.26);
+      box-shadow: 0 0 28px rgba(217, 67, 67, 0.22);
     }
 
     @keyframes smokeDrift {
@@ -3010,6 +3068,15 @@
         --halo-left-mobile: 6%;
       }
 
+      .hotspot[data-figure="bookshelf"]::before {
+        opacity: 0.46;
+        box-shadow:
+          inset 0 0 22px rgba(255, 214, 151, 0.1),
+          0 0 0 1px rgba(255, 238, 202, 0.28),
+          0 0 26px rgba(217, 67, 67, 0.42),
+          0 0 68px rgba(255, 181, 74, 0.28);
+      }
+
       .shelf-hotspot[data-shelf-item="cd"],
       .shelf-hotspot[data-shelf-item="dvd"] {
         --halo-top-mobile: 8%;
@@ -3125,6 +3192,14 @@
         transform: translateY(-2px);
       }
 
+      .dropbox-body {
+        grid-template-columns: 1fr;
+      }
+
+      .dropbox-card img {
+        max-height: 62dvh;
+      }
+
       .store-gallery,
       .qr-grid {
         grid-template-columns: 1fr;
@@ -3134,9 +3209,6 @@
         height: clamp(280px, 82vw, 430px);
       }
 
-      .store-shot.is-figure img {
-        height: clamp(260px, 76vw, 410px);
-      }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -3235,9 +3307,9 @@
           <span class="figure-plaque" aria-hidden="true"><strong>THE DIRT SHOW DISPLAY</strong></span>
           <span class="sr-only">The Dirt Show display</span>
         </button>
-        <button class="hotspot" type="button" data-menu-hotspot data-figure="who" data-action="who" aria-label="Open mystery figure card">
-          <span class="figure-plaque" aria-hidden="true"><strong>MYSTERY FIGURE CARD</strong></span>
-          <span class="sr-only">Mystery figure card</span>
+        <button class="hotspot" type="button" data-menu-hotspot data-figure="who" data-action="who" aria-label="Open tattoo suggestion dropbox">
+          <span class="figure-plaque" aria-hidden="true"><strong>TATTOO DROPBOX</strong></span>
+          <span class="sr-only">Tattoo suggestion dropbox</span>
         </button>
         <a class="hotspot" data-menu-hotspot data-figure="reels" href="https://www.instagram.com/imhighoncrackandihaveagun/reels/" target="_blank" rel="noopener noreferrer" aria-label="Open Instagram Reels">
           <span class="figure-plaque" aria-hidden="true"><strong>REELS</strong></span>
@@ -3281,7 +3353,7 @@
             <button type="button" data-action="teaser">Teaser Insert</button>
             <button type="button" data-action="shop">Store Counter</button>
             <button type="button" data-action="dirt">Dirt Display</button>
-            <button type="button" data-action="who">Mystery Card</button>
+            <button type="button" data-action="who">Tattoo Dropbox</button>
             <button type="button" data-action="social">Link Cards</button>
           </div>
         </div>
@@ -3395,13 +3467,14 @@
           <strong id="entryNumberLabel">TRAP PASS #PENDING</strong>
           <span id="entryNumberNote">Serial prints after signup.</span>
         </div>
-        <form class="form-grid unlock-form" id="unlockForm" action="https://formsubmit.co/imhighoncrackandihaveagun@gmail.com" method="POST" target="formsubmitFrame" novalidate>
+        <form class="form-grid unlock-form" id="unlockForm" action="https://formsubmit.co/imhighoncrackandihaveagun@gmail.com" method="POST" novalidate>
           <input type="hidden" name="_captcha" value="false">
           <input type="hidden" name="_template" value="table">
-          <input type="hidden" name="_subject" value="New Trap Pass Signup">
+          <input type="hidden" name="_subject" value="New Wave 2 Trap Pass Signup">
           <input type="hidden" name="_next" value="https://imhighoncrackandihaveagun.com/?trap_pass=success&wave=2">
-          <!-- FormSubmit _cc sends the visitor a copy of the receipt. A true image attachment needs backend email handling later. -->
-          <input type="hidden" id="emailCopyInput" name="_cc" value="">
+          <input type="hidden" id="replyToInput" name="_replyto" value="">
+          <input type="hidden" id="visitorCopyInput" name="_cc" value="">
+          <input type="hidden" name="source" value="Wave 2 Trap Pass entry gate">
           <input type="hidden" name="trap_pass" value="RUN WAVE 2 - WHEN 3 DEER APPEAR">
           <input type="hidden" name="trap_pass_message" value="Your Wave 2 Trap Pass is inside. Save this image: https://imhighoncrackandihaveagun.com/trap-pass-run-wave-2.png">
           <input type="hidden" name="trap_pass_image" value="https://imhighoncrackandihaveagun.com/trap-pass-run-wave-2.png">
@@ -3414,7 +3487,6 @@
           <p class="form-success" id="emailSuccess" aria-live="polite"></p>
           <button class="primary-btn" id="unlockButton" type="submit">GET MY TRAP PASS</button>
         </form>
-        <iframe class="sr-only" id="formsubmitFrame" name="formsubmitFrame" title="Archive signup submission"></iframe>
       </div>
     </div>
   </section>
@@ -3707,11 +3779,50 @@
     </div>
   </section>
 
-  <section class="modal" id="whoModal" role="dialog" aria-modal="true" aria-label="so who is this crackhead anyway?" hidden>
-    <div class="modal-panel who-panel">
-      <button class="close-btn who-close" type="button" data-close-modal aria-label="Close">x</button>
-      <div class="modal-body who-body">
-        <p>when im off dealer time ill tell u</p>
+  <section class="modal" id="whoModal" role="dialog" aria-modal="true" aria-labelledby="tattooDropboxTitle" hidden>
+    <div class="modal-panel dropbox-panel">
+      <header class="modal-header">
+        <h2 class="modal-title" id="tattooDropboxTitle">Tattoo Dropbox</h2>
+        <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
+      </header>
+      <div class="modal-body dropbox-body">
+        <figure class="dropbox-card">
+          <picture>
+            <source srcset="tattoo-dropbox-card.webp" type="image/webp">
+            <img src="tattoo-dropbox-card.png" alt="Tattoo suggestion dropbox figure scene" width="1322" height="1665" loading="lazy" decoding="async">
+          </picture>
+          <figcaption>Submit Your Entry</figcaption>
+        </figure>
+        <div class="dropbox-controls">
+          <p class="dropbox-copy">Submit what this figure has to tattoo on himself next.</p>
+          <form class="form-grid dropbox-form" id="tattooSuggestionForm" action="https://formsubmit.co/imhighoncrackandihaveagun@gmail.com" method="POST" novalidate>
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="_subject" value="New Tattoo Dropbox Suggestion">
+            <input type="hidden" name="_next" value="https://imhighoncrackandihaveagun.com/?tattoo=sent&scene=board">
+            <input type="hidden" id="tattooReplyToInput" name="_replyto" value="">
+            <input type="hidden" name="source" value="Mystery Figure Tattoo Dropbox">
+            <div class="field">
+              <label for="tattooSuggestion">Your Entry</label>
+              <textarea id="tattooSuggestion" name="tattoo_suggestion" maxlength="900" placeholder="Type the tattoo suggestion here." required></textarea>
+            </div>
+            <div class="field">
+              <label for="tattooEmail">Email / Trap Pass</label>
+              <input id="tattooEmail" name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="none" spellcheck="false" placeholder="optional">
+            </div>
+            <p class="form-error" id="tattooError" aria-live="polite"></p>
+            <p class="form-success" id="tattooSuccess" aria-live="polite"></p>
+            <button class="primary-btn" id="tattooSubmitButton" type="submit">Drop It In The Box</button>
+          </form>
+          <div class="dropbox-receipt" id="dropboxReceipt" hidden>
+            <div class="media-frame dropbox-video">
+              <video id="dropboxVideo" controls playsinline preload="none">
+                <source src="dropbox.mp4" type="video/mp4">
+              </video>
+            </div>
+            <p class="asset-note">Entry dropped. Receipt tape playing.</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -3746,7 +3857,7 @@
           <div class="store-counter-plaque">
             <span>Counter Open</span>
             <strong>Trash Fash For Cash</strong>
-            <em>Official shirts and figure-display variants are on the counter. Pick a size, choose a payment method, then send the request.</em>
+            <em>Official shirts only. Pick a design, choose a size, choose a payment method, then send the request.</em>
           </div>
 
           <div class="store-layout">
@@ -3765,20 +3876,6 @@
               </picture>
               <figcaption>Red shirt / front and back</figcaption>
             </figure>
-            <figure class="store-shot is-figure">
-              <picture>
-                <source srcset="store-figure-black-shirt.webp" type="image/webp">
-                <img src="store-figure-black-shirt.png" alt="Action figure modeling the black IHOCAIHAG shirt" width="1985" height="1492" loading="lazy" decoding="async">
-              </picture>
-              <figcaption>Black shirt action figure</figcaption>
-            </figure>
-            <figure class="store-shot is-figure">
-              <picture>
-                <source srcset="store-figure-red-shirt-cats.webp" type="image/webp">
-                <img src="store-figure-red-shirt-cats.png" alt="Action figure package modeling the red IHOCAIHAG shirt with Chaz and Amelia" width="2110" height="1419" loading="lazy" decoding="async">
-              </picture>
-              <figcaption>Red Trash Fash display</figcaption>
-            </figure>
           </div>
 
           <form class="store-checkout" id="shirtOrderForm" action="https://formsubmit.co/imhighoncrackandihaveagun@gmail.com" method="POST">
@@ -3786,7 +3883,7 @@
           <input type="hidden" name="_template" value="table">
             <input type="hidden" name="_subject" value="New T-Shirt Shop Request">
             <input type="hidden" name="_next" value="https://imhighoncrackandihaveagun.com/?shop=sent&scene=board">
-            <input type="hidden" name="product" value="Official IHOCAIHAG Shirt">
+            <input type="hidden" name="product" value="Official IHOCAIHAG Shirt Only">
             <input type="hidden" id="shirtSubtotalInput" name="subtotal" value="$25.00">
             <input type="hidden" id="shirtDiscountInput" name="trap_pass_discount" value="$0.00">
             <input type="hidden" id="shirtTaxInput" name="estimated_sales_tax" value="$1.75">
@@ -3797,10 +3894,10 @@
 
             <div class="store-fields two-up">
               <div class="field">
-                <label for="shirtStyle">Variant</label>
+                <label for="shirtStyle">Shirt Design</label>
                 <select id="shirtStyle" name="shirt_style" required>
-                  <option value="Black IHOCAIHAG shirt">Black IHOCAIHAG shirt</option>
-                  <option value="Red IHOCAIHAG shirt">Red IHOCAIHAG shirt</option>
+                  <option value="Black IHOCAIHAG shirt - front/back">Black IHOCAIHAG shirt - front/back</option>
+                  <option value="Red IHOCAIHAG shirt - front/back">Red IHOCAIHAG shirt - front/back</option>
                 </select>
               </div>
               <div class="field">
@@ -3866,7 +3963,7 @@
 
             <div class="totals-card" aria-live="polite">
               <h3>Register Total</h3>
-              <div class="total-line"><span>Figure pack</span><strong id="subtotalText">$25.00</strong></div>
+              <div class="total-line"><span>Shirt</span><strong id="subtotalText">$25.00</strong></div>
               <div class="total-line is-discount"><span>Trap Pass discount</span><strong id="discountText">$0.00</strong></div>
               <div class="total-line"><span>Estimated sales tax</span><strong id="taxText">$1.75</strong></div>
               <div class="total-line"><span>Shipping</span><strong id="shippingText">$5.00</strong></div>
@@ -3996,10 +4093,20 @@
       const emailError = document.getElementById("emailError");
       const emailSuccess = document.getElementById("emailSuccess");
       const unlockButton = document.getElementById("unlockButton");
-      const emailCopyInput = document.getElementById("emailCopyInput");
+      const replyToInput = document.getElementById("replyToInput");
+      const visitorCopyInput = document.getElementById("visitorCopyInput");
       const entryNumberLabel = document.getElementById("entryNumberLabel");
       const entryNumberNote = document.getElementById("entryNumberNote");
       const entryNumberInput = document.getElementById("entryNumberInput");
+      const tattooSuggestionForm = document.getElementById("tattooSuggestionForm");
+      const tattooSuggestion = document.getElementById("tattooSuggestion");
+      const tattooEmail = document.getElementById("tattooEmail");
+      const tattooReplyToInput = document.getElementById("tattooReplyToInput");
+      const tattooError = document.getElementById("tattooError");
+      const tattooSuccess = document.getElementById("tattooSuccess");
+      const tattooSubmitButton = document.getElementById("tattooSubmitButton");
+      const dropboxReceipt = document.getElementById("dropboxReceipt");
+      const dropboxVideo = document.getElementById("dropboxVideo");
       const successToast = document.getElementById("successToast");
       const toastMessage = document.getElementById("toastMessage");
       const successVideo = document.getElementById("successVideo");
@@ -4034,6 +4141,7 @@
       const passViewedCookie = "ihocaig_trap_pass_run_wave_2_viewed";
       const trapPassNumberKey = "ihocaig-trap-pass-run-wave-2-number";
       const currentTrapPassLabel = "RUN WAVE 2: WHEN 3 DEER APPEAR";
+      let unlockSubmissionPending = false;
       const legacyAccessKeys = [
         "ihocaig-access-unlocked",
         "ihocaig-trap-pass-run-wave-1-claimed",
@@ -4063,6 +4171,7 @@
       let readerIndex = 0;
       let armedHotspot = null;
       let mothersDayPresented = false;
+      let tattooSubmissionPending = false;
 
       const actionMap = {
         youtube: () => openModal("youtubeModal"),
@@ -4556,11 +4665,12 @@
         signupEmail.removeAttribute("aria-invalid");
         emailError.textContent = "";
         emailSuccess.textContent = "";
+        unlockSubmissionPending = false;
         unlockButton.disabled = false;
         unlockButton.textContent = trapPassButtonText;
       }
 
-      function handleUnlockSubmit(event) {
+      async function handleUnlockSubmit(event) {
         const email = signupEmail.value.trim();
         signupEmail.value = email;
         signupEmail.classList.remove("is-invalid");
@@ -4577,16 +4687,45 @@
           return;
         }
 
-        setUnlockedAccess();
+        event.preventDefault();
+        if (unlockSubmissionPending) return;
+        unlockSubmissionPending = true;
+
+        if (replyToInput) {
+          replyToInput.value = email;
+        }
+        if (visitorCopyInput) {
+          visitorCopyInput.value = email;
+        }
+
         const entryNumber = getTemporaryEntryNumber();
         setEntryNumber(entryNumber);
-        if (emailCopyInput) {
-          // Static-site email copy: FormSubmit receives this as a cc target and
-          // includes the Trap Pass image URL in the submitted receipt fields.
-          emailCopyInput.value = email;
-        }
-        emailSuccess.textContent = "Trap Pass printed. Check your email, then save the card.";
         unlockButton.disabled = true;
+        unlockButton.textContent = "PRINTING PASS...";
+        emailSuccess.textContent = "Sending your Trap Pass claim...";
+
+        try {
+          const payload = new FormData(unlockForm);
+          const response = await fetch("https://formsubmit.co/ajax/imhighoncrackandihaveagun@gmail.com", {
+            method: "POST",
+            body: payload,
+            headers: {
+              Accept: "application/json"
+            }
+          });
+
+          if (!response.ok) {
+            throw new Error(`FormSubmit returned ${response.status}`);
+          }
+        } catch (error) {
+          // If the Ajax endpoint is blocked by an in-app browser, fall back to
+          // FormSubmit's normal POST so the signup is not silently lost.
+          unlockForm.submit();
+          return;
+        }
+
+        setUnlockedAccess();
+        emailSuccess.textContent = "Trap Pass printed. Check your email, then save the card.";
         unlockButton.textContent = "TRAP PASS PRINTED";
 
         window.setTimeout(() => {
@@ -4659,6 +4798,10 @@
           resetStoreCounter();
           updateShopTotals();
           updatePaymentInstructions();
+        }
+
+        if (id === "whoModal") {
+          resetTattooDropbox();
         }
 
         const focusTarget = options.focusSelector
@@ -4841,6 +4984,96 @@
         document.querySelectorAll("[data-payment-panel]").forEach((panel) => {
           panel.hidden = panel.dataset.paymentPanel !== selectedMethod;
         });
+      }
+
+      function resetTattooDropbox() {
+        if (!tattooSuggestionForm) return;
+
+        tattooSubmissionPending = false;
+        tattooSuggestionForm.reset();
+        tattooSuggestion?.classList.remove("is-invalid");
+        tattooSuggestion?.removeAttribute("aria-invalid");
+        tattooEmail?.classList.remove("is-invalid");
+        tattooEmail?.removeAttribute("aria-invalid");
+        if (tattooReplyToInput) tattooReplyToInput.value = "";
+        if (tattooError) tattooError.textContent = "";
+        if (tattooSuccess) tattooSuccess.textContent = "";
+        if (tattooSubmitButton) {
+          tattooSubmitButton.disabled = false;
+          tattooSubmitButton.textContent = "DROP IT IN THE BOX";
+        }
+        if (dropboxReceipt) dropboxReceipt.hidden = true;
+        if (dropboxVideo) {
+          dropboxVideo.pause();
+          try {
+            dropboxVideo.currentTime = 0;
+          } catch (error) {
+            /* Media may not have loaded yet. */
+          }
+        }
+      }
+
+      async function handleTattooSuggestionSubmit(event) {
+        if (!tattooSuggestionForm) return;
+        event.preventDefault();
+
+        const suggestion = tattooSuggestion.value.trim();
+        const email = tattooEmail.value.trim();
+        tattooSuggestion.value = suggestion;
+        tattooEmail.value = email;
+        tattooSuggestion.classList.remove("is-invalid");
+        tattooSuggestion.removeAttribute("aria-invalid");
+        tattooEmail.classList.remove("is-invalid");
+        tattooEmail.removeAttribute("aria-invalid");
+        tattooError.textContent = "";
+
+        if (!suggestion) {
+          tattooSuggestion.classList.add("is-invalid");
+          tattooSuggestion.setAttribute("aria-invalid", "true");
+          tattooError.textContent = "Drop an entry in the box first.";
+          tattooSuccess.textContent = "";
+          tattooSuggestion.focus({ preventScroll: false });
+          return;
+        }
+
+        if (email && !tattooEmail.checkValidity()) {
+          tattooEmail.classList.add("is-invalid");
+          tattooEmail.setAttribute("aria-invalid", "true");
+          tattooError.textContent = "Use a working email, or leave it blank.";
+          tattooSuccess.textContent = "";
+          tattooEmail.focus({ preventScroll: false });
+          return;
+        }
+
+        if (tattooSubmissionPending) return;
+        tattooSubmissionPending = true;
+        if (tattooReplyToInput) tattooReplyToInput.value = email;
+        tattooSubmitButton.disabled = true;
+        tattooSubmitButton.textContent = "DROPPING ENTRY...";
+        tattooSuccess.textContent = "Sending your entry to the dropbox...";
+
+        try {
+          const payload = new FormData(tattooSuggestionForm);
+          const response = await fetch("https://formsubmit.co/ajax/imhighoncrackandihaveagun@gmail.com", {
+            method: "POST",
+            body: payload,
+            headers: {
+              Accept: "application/json"
+            }
+          });
+
+          if (!response.ok) {
+            throw new Error(`FormSubmit returned ${response.status}`);
+          }
+        } catch (error) {
+          tattooSuggestionForm.submit();
+          return;
+        }
+
+        tattooSuccess.textContent = "Entry dropped. Check the receipt tape.";
+        tattooSubmitButton.textContent = "ENTRY DROPPED";
+        dropboxReceipt.hidden = false;
+        window.setTimeout(() => playMedia(dropboxVideo), 80);
       }
 
       function openWritingModal() {
@@ -5133,6 +5366,17 @@
 
         trapPassDiscount?.addEventListener("input", updateShopTotals);
         paymentMethod?.addEventListener("change", updatePaymentInstructions);
+        tattooSuggestionForm?.addEventListener("submit", handleTattooSuggestionSubmit);
+        tattooSuggestion?.addEventListener("input", () => {
+          tattooSuggestion.classList.remove("is-invalid");
+          tattooSuggestion.removeAttribute("aria-invalid");
+          tattooError.textContent = "";
+        });
+        tattooEmail?.addEventListener("input", () => {
+          tattooEmail.classList.remove("is-invalid");
+          tattooEmail.removeAttribute("aria-invalid");
+          tattooError.textContent = "";
+        });
         updateShopTotals();
         updatePaymentInstructions();
 
