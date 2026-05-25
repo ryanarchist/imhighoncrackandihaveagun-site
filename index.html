@@ -606,6 +606,7 @@
     .board-frame.board-missing .board-picture,
     .board-frame.board-missing .hotspot,
     .board-frame.board-missing .dock-link,
+    .board-frame.board-missing .board-spotify-card,
     .board-frame.board-missing .store-prop {
       display: none;
     }
@@ -703,6 +704,49 @@
       border-radius: 46% 46% 18px 18px;
       background: transparent;
       touch-action: manipulation;
+    }
+
+    .board-spotify-card {
+      position: absolute;
+      left: 39.2%;
+      top: 16.8%;
+      z-index: 5;
+      width: 20%;
+      min-width: 196px;
+      max-width: 320px;
+      padding: 8px;
+      border: 1px solid rgba(255, 214, 151, 0.32);
+      border-radius: 8px;
+      background:
+        linear-gradient(180deg, rgba(255, 214, 151, 0.12), transparent 28%),
+        linear-gradient(135deg, rgba(14, 9, 7, 0.88), rgba(67, 14, 18, 0.7), rgba(10, 7, 6, 0.92));
+      box-shadow:
+        inset 0 0 0 1px rgba(0, 0, 0, 0.54),
+        0 0 28px rgba(217, 67, 67, 0.24),
+        0 18px 34px rgba(0, 0, 0, 0.42);
+    }
+
+    .board-spotify-card::before {
+      display: block;
+      margin: 0 0 6px;
+      color: #ffe5b1;
+      font-family: var(--font-card);
+      font-size: clamp(0.58rem, 0.72vw, 0.72rem);
+      font-weight: 900;
+      letter-spacing: 0;
+      text-align: center;
+      text-shadow: 0 0 10px rgba(255, 214, 151, 0.35);
+      text-transform: uppercase;
+      content: "Spotify Artist File";
+    }
+
+    .board-spotify-card iframe {
+      display: block;
+      width: 100%;
+      height: 152px;
+      border: 0;
+      border-radius: 8px;
+      background: #111;
     }
 
     .shelf-back {
@@ -1782,6 +1826,33 @@
       min-height: 352px;
       border: 0;
       border-radius: 8px;
+    }
+
+    .embed-stack {
+      display: grid;
+      gap: 14px;
+    }
+
+    .instagram-shell {
+      display: grid;
+      justify-items: center;
+      overflow: hidden;
+      padding: 12px;
+      border: 1px solid rgba(255, 238, 202, 0.16);
+      border-radius: 8px;
+      background:
+        linear-gradient(135deg, rgba(255, 238, 202, 0.08), rgba(255, 238, 202, 0.02)),
+        rgba(5, 5, 5, 0.72);
+      box-shadow:
+        inset 0 0 0 1px rgba(0, 0, 0, 0.34),
+        0 18px 34px rgba(0, 0, 0, 0.32);
+    }
+
+    .instagram-shell .instagram-media {
+      width: 100% !important;
+      min-width: 0 !important;
+      max-width: 540px !important;
+      margin: 0 auto !important;
     }
 
     .soundtrack-cta {
@@ -2884,6 +2955,22 @@
         overflow: hidden;
       }
 
+      .board-spotify-card {
+        left: 39%;
+        top: 15.4%;
+        width: 21.5%;
+        min-width: 172px;
+        padding: 6px;
+      }
+
+      .board-spotify-card::before {
+        font-size: 0.56rem;
+      }
+
+      .board-spotify-card iframe {
+        height: 118px;
+      }
+
       .shelf-frame {
         width: max(900px, calc(100vh * 1.34587));
         width: max(900px, calc(100dvh * 1.34587));
@@ -3318,13 +3405,27 @@
           <img class="board-image" id="boardImage" data-src="action-figure-room.png" data-candidates="action-figure-room.png,corkboard-desktop.png,corkboard-mobile.png" alt="Action-figure archive room with eight clickable figures, a clickable bookshelf, and Chaz and Amelia near the store area" width="2001" height="1502" loading="lazy" decoding="async" fetchpriority="low">
         </picture>
 
-        <button class="hotspot is-primary" type="button" data-menu-hotspot data-figure="soundtrack" data-action="suno" aria-label="Open OG Crack Track sound figure">
-          <span class="figure-plaque" aria-hidden="true"><small>START HERE</small><strong>OG CRACK TRACK SOUND FIGURE</strong></span>
-          <span class="sr-only">OG Crack Track sound figure</span>
+        <div class="board-spotify-card" aria-label="Spotify artist player">
+          <iframe
+            id="boardSpotifyFrame"
+            data-testid="embed-iframe"
+            data-src="https://open.spotify.com/embed/artist/7GUAmAkkpLLESm0Fig1NWZ?utm_source=generator"
+            title="Spotify artist player for IHOCAIHAG"
+            width="100%"
+            height="152"
+            frameborder="0"
+            allowfullscreen
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy"></iframe>
+        </div>
+
+        <button class="hotspot is-primary" type="button" data-menu-hotspot data-figure="soundtrack" data-action="threads" aria-label="Open Threads of Our Lives project theme reel">
+          <span class="figure-plaque" aria-hidden="true"><small>START HERE</small><strong>THREADS OF OUR LIVES</strong></span>
+          <span class="sr-only">Threads of Our Lives project theme reel</span>
         </button>
-        <button class="hotspot" type="button" data-menu-hotspot data-figure="dopesick" data-action="dopesick" aria-label="Open Dopesick book file">
-          <span class="figure-plaque" aria-hidden="true"><strong>DOPESICK BOOK FILE</strong></span>
-          <span class="sr-only">Dopesick book file</span>
+        <button class="hotspot" type="button" data-menu-hotspot data-figure="dopesick" data-action="suno" aria-label="Open OG Crack Track music video">
+          <span class="figure-plaque" aria-hidden="true"><small>MUSIC VIDEO</small><strong>OG CRACK TRACK</strong></span>
+          <span class="sr-only">OG Crack Track music video</span>
         </button>
         <button class="hotspot" type="button" data-menu-hotspot data-figure="writing" data-action="writing" aria-label="Open sealed writing pack">
           <span class="figure-plaque" aria-hidden="true"><strong>SEALED WRITING PACK</strong></span>
@@ -3382,8 +3483,8 @@
           <h1>Display room asset missing.</h1>
           <p>Place action-figure-room.png beside this file. The collector slots are still open below.</p>
           <div class="fallback-actions">
-            <button type="button" data-action="suno">Sound Figure</button>
-            <button type="button" data-action="dopesick">Book File</button>
+            <button type="button" data-action="threads">Threads Reel</button>
+            <button type="button" data-action="suno">Music Video</button>
             <button type="button" data-action="writing">Writing Pack</button>
             <button type="button" data-action="teaser">Teaser Insert</button>
             <button type="button" data-action="shop">Store Counter</button>
@@ -3600,26 +3701,53 @@
     </div>
   </section>
 
-  <section class="modal" id="sunoModal" role="dialog" aria-modal="true" aria-labelledby="sunoTitle" hidden>
+  <section class="modal" id="threadsModal" role="dialog" aria-modal="true" aria-labelledby="threadsTitle" hidden>
     <div class="modal-panel soundtrack-panel">
       <header class="modal-header">
-        <h2 class="modal-title" id="sunoTitle">OG Crack Track</h2>
+        <h2 class="modal-title" id="threadsTitle">Threads Of Our Lives</h2>
         <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
       </header>
       <div class="modal-body soundtrack-body">
-        <div class="spotify-shell">
-          <iframe
-            class="spotify-embed"
-            data-testid="embed-iframe"
-            src="https://open.spotify.com/embed/track/1GmmWYruNlEuCx9sIilYFw?utm_source=generator"
-            title="Spotify player for ihocaihag - og crack track"
-            width="100%"
-            height="352"
-            frameborder="0"
-            allowfullscreen
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy"></iframe>
+        <p class="modal-copy">The project theme reel.</p>
+        <div class="instagram-shell">
+          <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/reel/DYv9KxotZ7i/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14">
+            <a href="https://www.instagram.com/reel/DYv9KxotZ7i/?utm_source=ig_embed&amp;utm_campaign=loading" target="_blank" rel="noopener noreferrer">View Threads Of Our Lives on Instagram</a>
+          </blockquote>
         </div>
+        <button class="plain-btn soundtrack-cta" type="button" data-close-modal>Back to Display Room</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="modal" id="sunoModal" role="dialog" aria-modal="true" aria-labelledby="sunoTitle" hidden>
+    <div class="modal-panel soundtrack-panel">
+      <header class="modal-header">
+        <h2 class="modal-title" id="sunoTitle">OG Crack Track Music Video</h2>
+        <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
+      </header>
+      <div class="modal-body soundtrack-body">
+        <p class="modal-copy">Music video and artist file.</p>
+        <div class="embed-stack">
+          <div class="instagram-shell">
+            <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/reel/DYn985BsNfV/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14">
+              <a href="https://www.instagram.com/reel/DYn985BsNfV/?utm_source=ig_embed&amp;utm_campaign=loading" target="_blank" rel="noopener noreferrer">View OG Crack Track music video on Instagram</a>
+            </blockquote>
+          </div>
+          <div class="spotify-shell">
+            <iframe
+              class="spotify-embed"
+              data-testid="embed-iframe"
+              src="https://open.spotify.com/embed/artist/7GUAmAkkpLLESm0Fig1NWZ?utm_source=generator"
+              title="Spotify artist player for IHOCAIHAG"
+              width="100%"
+              height="352"
+              frameborder="0"
+              allowfullscreen
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy"></iframe>
+          </div>
+        </div>
+        <a class="plain-btn soundtrack-cta" href="https://open.spotify.com/artist/7GUAmAkkpLLESm0Fig1NWZ" target="_blank" rel="noopener noreferrer">Open Spotify Artist Page</a>
         <button class="plain-btn soundtrack-cta" type="button" data-close-modal>Back to Display Room</button>
       </div>
     </div>
@@ -4093,6 +4221,7 @@
     <video id="transitionVideo" muted playsinline preload="none"></video>
   </button>
 
+  <script async src="https://www.instagram.com/embed.js"></script>
   <script>
     (() => {
       "use strict";
@@ -4114,6 +4243,7 @@
       const boardFrame = document.getElementById("boardFrame");
       const boardImage = document.getElementById("boardImage");
       const boardSource = document.querySelector(".board-picture source");
+      const boardSpotifyFrame = document.getElementById("boardSpotifyFrame");
       const shelfScene = document.getElementById("shelfScene");
       const shelfWrap = document.querySelector(".shelf-wrap");
       const shelfFrame = document.getElementById("shelfFrame");
@@ -4215,6 +4345,7 @@
         dopesick: () => openModal("dopesickModal"),
         writing: () => openWritingModal(),
         teaser: () => openReader("teaser"),
+        threads: () => openModal("threadsModal"),
         suno: () => openModal("sunoModal"),
         social: () => openModal("socialModal"),
         shop: () => openModal("shopModal", { focusSelector: "[data-store-enter]" }),
@@ -4327,6 +4458,10 @@
 
         boardImage.src = boardImage.dataset.src || "action-figure-room.png";
         boardImage.dataset.loaded = "true";
+
+        if (boardSpotifyFrame && !boardSpotifyFrame.getAttribute("src") && boardSpotifyFrame.dataset.src) {
+          boardSpotifyFrame.src = boardSpotifyFrame.dataset.src;
+        }
       }
 
       function prepareShelfImage() {
@@ -4348,7 +4483,7 @@
         }
 
         window.requestAnimationFrame(() => {
-          const startHotspot = boardFrame.querySelector('[data-action="suno"]');
+          const startHotspot = boardFrame.querySelector('[data-action="threads"]');
           if (!startHotspot) return;
 
           const targetLeft = Math.max(0, startHotspot.offsetLeft - Math.round(window.innerWidth * 0.24));
@@ -4839,6 +4974,10 @@
           resetTattooDropbox();
         }
 
+        if (id === "threadsModal" || id === "sunoModal") {
+          processInstagramEmbeds();
+        }
+
         const focusTarget = options.focusSelector
           ? modal.querySelector(options.focusSelector)
           : modal.querySelector("[data-close-modal], button, a, input, select, textarea, video, audio");
@@ -4849,6 +4988,19 @@
         } else if (id !== "emailModal") {
           window.setTimeout(() => focusTarget?.focus({ preventScroll: true }), 80);
         }
+      }
+
+      function processInstagramEmbeds(attempt = 0) {
+        window.setTimeout(() => {
+          if (window.instgrm?.Embeds?.process) {
+            window.instgrm.Embeds.process();
+            return;
+          }
+
+          if (attempt < 8) {
+            processInstagramEmbeds(attempt + 1);
+          }
+        }, attempt ? 220 : 80);
       }
 
       function closeModal(restoreFocus = true) {
