@@ -8,7 +8,7 @@
   <meta name="description" content="A hidden collector toy-display archive room for IMHIGHONCRACKANDIHAVEAGUN.COM.">
   <link rel="icon" href="data:,">
   <link rel="preload" as="image" href="mothers-day-card.webp" type="image/webp">
-  <link rel="preload" as="image" href="trap-pass-wave-2-main.webp" type="image/webp">
+  <link rel="preload" as="image" href="preorder-entry.webp" type="image/webp">
   <link rel="preload" as="image" href="trap-pass-run-wave-3.webp" type="image/webp">
   <link rel="preload" as="image" href="action-figure-room.webp" type="image/webp">
   <link rel="preload" as="font" href="fonts/impact-label-reversed.ttf" type="font/ttf" crossorigin>
@@ -108,11 +108,13 @@
       position: fixed;
       inset: 0;
       z-index: 50;
+      display: grid;
+      place-items: center;
       width: 100vw;
       height: 100vh;
       height: 100dvh;
       overflow: hidden;
-      background: #050403;
+      background: #050403 url("preorder-entry.webp") center / cover no-repeat;
       opacity: 1;
       transition: opacity 420ms ease;
     }
@@ -122,34 +124,19 @@
       pointer-events: none;
     }
 
-    .entry-hit {
-      position: absolute;
-      inset: 0;
-      display: block;
-      width: 100vw;
-      height: 100vh;
-      height: 100dvh;
-      margin: 0;
-      padding: 0;
-      cursor: pointer;
-      border: 0;
-      background: #050403;
-      color: var(--ink);
-    }
-
-    .entry-hit::before {
-      position: absolute;
-      inset: -18px;
-      z-index: 0;
-      content: "";
-      background: url("trap-pass-wave-2-main.webp") center / cover no-repeat;
-      filter: blur(10px) brightness(0.48);
-      transform: scale(1.04);
-    }
-
-    .entry-hit picture {
+    .entry-stage {
       position: relative;
       z-index: 1;
+      display: block;
+      width: min(100vw, calc(100dvh * 2306 / 1301));
+      height: min(100dvh, calc(100vw * 1301 / 2306));
+      aspect-ratio: 2306 / 1301;
+      overflow: hidden;
+      background: #050403;
+      box-shadow: 0 0 58px rgba(0, 0, 0, 0.72);
+    }
+
+    .entry-stage picture {
       display: block;
       width: 100%;
       height: 100%;
@@ -157,8 +144,8 @@
 
     .entry-image {
       display: block;
-      width: 100vw;
-      height: 100dvh;
+      width: 100%;
+      height: 100%;
       object-fit: contain;
       object-position: center;
       background: transparent;
@@ -166,6 +153,56 @@
       image-rendering: auto;
       user-select: none;
       -webkit-user-drag: none;
+    }
+
+    .entry-hotspot {
+      position: absolute;
+      z-index: 3;
+      display: block;
+      min-height: 48px;
+      margin: 0;
+      padding: 0;
+      cursor: pointer;
+      border: 0;
+      border-radius: 10px;
+      background: rgba(148, 31, 37, 0.001);
+      color: transparent;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .entry-hotspot::after {
+      content: "";
+      position: absolute;
+      inset: -3px;
+      border-radius: inherit;
+      opacity: 0;
+      pointer-events: none;
+      box-shadow:
+        0 0 0 2px rgba(255, 228, 176, 0.72),
+        0 0 26px rgba(214, 45, 38, 0.86),
+        inset 0 0 18px rgba(255, 219, 148, 0.28);
+      transition: opacity 180ms ease, transform 180ms ease;
+      transform: scale(0.988);
+    }
+
+    .entry-hotspot:hover::after,
+    .entry-hotspot:focus-visible::after {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .entry-preorder-hit {
+      left: 5%;
+      top: 54.5%;
+      width: 45%;
+      height: 22%;
+    }
+
+    .entry-main-hit {
+      left: 5.05%;
+      top: 76.8%;
+      width: 45%;
+      height: 16.2%;
     }
 
     #entryScene::before,
@@ -227,6 +264,66 @@
 
     #entryScene.asset-missing .entry-fallback {
       display: grid;
+    }
+
+    .entry-choice-panel {
+      max-width: 620px;
+    }
+
+    .entry-choice-copy {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: clamp(1rem, 2.4vw, 1.18rem);
+      line-height: 1.35;
+    }
+
+    .entry-choice-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .entry-choice-btn {
+      min-height: 96px;
+      padding: 18px;
+      cursor: pointer;
+      border: 1px solid rgba(255, 221, 166, 0.38);
+      border-radius: 10px;
+      background:
+        linear-gradient(135deg, rgba(168, 34, 36, 0.84), rgba(20, 10, 8, 0.96) 66%),
+        #130b09;
+      color: var(--ink);
+      text-align: left;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04), 0 14px 34px rgba(0, 0, 0, 0.34);
+      transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+    }
+
+    .entry-choice-btn:hover,
+    .entry-choice-btn:focus-visible {
+      border-color: rgba(255, 230, 174, 0.78);
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+        0 0 28px rgba(191, 39, 36, 0.54),
+        0 18px 46px rgba(0, 0, 0, 0.42);
+      transform: translateY(-1px);
+    }
+
+    .entry-choice-btn strong,
+    .entry-choice-btn span {
+      display: block;
+    }
+
+    .entry-choice-btn strong {
+      font-family: var(--font-display);
+      font-size: clamp(1.25rem, 4vw, 2rem);
+      text-transform: uppercase;
+    }
+
+    .entry-choice-btn span {
+      margin-top: 8px;
+      color: rgba(247, 239, 224, 0.8);
+      font-size: 0.92rem;
+      line-height: 1.3;
     }
 
     /* Mother's Day chapter scene */
@@ -3022,6 +3119,14 @@
         overflow: hidden;
       }
 
+      .entry-choice-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .entry-choice-btn {
+        min-height: 82px;
+      }
+
       .modal {
         place-items: center;
         padding: max(12px, env(safe-area-inset-top)) 14px max(16px, env(safe-area-inset-bottom));
@@ -3483,18 +3588,24 @@
 </head>
 <body class="entry-active">
   <section id="entryScene" aria-label="Entry">
-    <button class="entry-hit" id="entryHit" type="button" aria-label="Enter">
+    <div class="entry-stage">
       <picture>
-        <source srcset="trap-pass-wave-2-main.webp" type="image/webp">
-        <img class="entry-image" id="entryImage" src="trap-pass-wave-2-main.png" data-candidates="trap-pass-wave-2-main.png,entry-graphic.png" alt="Trap Pass Wave 2 entry screen" width="1322" height="1683" decoding="async" fetchpriority="high">
+        <source srcset="preorder-entry.webp" type="image/webp">
+        <img class="entry-image" id="entryImage" src="preorder-entry.png" data-candidates="preorder-entry.png,trap-pass-wave-2-main.png,entry-graphic.png" alt="Preorder entry screen with shirt and main site choices" width="2306" height="1301" decoding="async" fetchpriority="high">
       </picture>
+      <button class="entry-hotspot entry-preorder-hit" id="entryPreorderHit" type="button" aria-label="Open preorder choices">
+        <span class="sr-only">Open preorder choices</span>
+      </button>
+      <button class="entry-hotspot entry-main-hit" id="entryHit" type="button" aria-label="Continue to the main site">
+        <span class="sr-only">Continue to the main site</span>
+      </button>
       <span class="entry-fallback" aria-live="polite">
         <span>
           <strong>Entry card missing.</strong>
           <span>Continue to the display room.</span>
         </span>
       </span>
-    </button>
+    </div>
   </section>
 
   <section id="mothersDayScene" aria-label="Mother's Day chapter" hidden>
@@ -3526,6 +3637,28 @@
         <img class="trap-pass-image" id="trapPassImage" src="trap-pass-run-wave-3.png" data-candidates="trap-pass-run-wave-3.png,trap-pass-run-wave-2.png,trap-pass-run-wave-1.png" alt="Trap Pass Run Wave 3 All Hands On Deck" width="989" height="1773" decoding="async">
       </picture>
     </button>
+  </section>
+
+  <section class="modal" id="preorderChoiceModal" role="dialog" aria-modal="true" aria-labelledby="preorderChoiceTitle" hidden>
+    <div class="modal-panel entry-choice-panel">
+      <header class="modal-header">
+        <h2 class="modal-title" id="preorderChoiceTitle">Choose Your Preorder</h2>
+        <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
+      </header>
+      <div class="modal-body">
+        <p class="entry-choice-copy">As of 3:30 AM EST 5/31, only 18 black shirts are still up for grabs.</p>
+        <div class="entry-choice-grid">
+          <button class="entry-choice-btn" type="button" data-entry-preorder-choice="project">
+            <strong>Project Preorders</strong>
+            <span>Hardcover, documentary access, and OG Crack Pack reservations.</span>
+          </button>
+          <button class="entry-choice-btn" type="button" data-entry-preorder-choice="shirts">
+            <strong>Shirt Preorders</strong>
+            <span>Official shirts. Black stock is down to 18 remaining.</span>
+          </button>
+        </div>
+      </div>
+    </div>
   </section>
 
   <section id="boardScene" aria-label="Collector action-figure archive room" aria-hidden="true">
@@ -4530,6 +4663,7 @@
       const body = document.body;
       const entryScene = document.getElementById("entryScene");
       const entryHit = document.getElementById("entryHit");
+      const entryPreorderHit = document.getElementById("entryPreorderHit");
       const entryImage = document.getElementById("entryImage");
       const mothersDayScene = document.getElementById("mothersDayScene");
       const mothersDayImage = document.getElementById("mothersDayImage");
@@ -5267,6 +5401,46 @@
         openModal("emailModal", { focusSelector: "#signupEmail" });
       }
 
+      function leaveEntryForDirectStore(next) {
+        prepareBoardImage();
+        closeModal(false);
+
+        if (entryScene.hidden) {
+          if (boardScene.getAttribute("aria-hidden") === "true") {
+            revealBoard();
+          }
+          next();
+          return;
+        }
+
+        entryScene.classList.add("is-leaving");
+
+        window.setTimeout(() => {
+          entryScene.hidden = true;
+          clearMothersDayScene();
+          atmScene.hidden = true;
+          trapPassScene.hidden = true;
+          body.classList.remove("entry-active", "atm-active", "trap-pass-active");
+          revealBoard();
+          next();
+        }, entryFadeMs);
+      }
+
+      function openEntryPreorderChoices() {
+        openModal("preorderChoiceModal");
+      }
+
+      function openProjectPreordersFromEntry() {
+        leaveEntryForDirectStore(() => openModal("preorderModal"));
+      }
+
+      function openShirtPreordersFromEntry() {
+        leaveEntryForDirectStore(() => {
+          openModal("shopModal", { focusSelector: "[data-store-enter]" });
+          window.setTimeout(() => enterStoreCounter(), reducedMotion ? 0 : 120);
+        });
+      }
+
       function handleAtmClick() {
         if (hasUnlockedAccess()) {
           showTrapPassFromAtm();
@@ -5902,6 +6076,16 @@
 
       function initEvents() {
         entryHit.addEventListener("click", handleEntryClick);
+        entryPreorderHit.addEventListener("click", openEntryPreorderChoices);
+        document.querySelectorAll("[data-entry-preorder-choice]").forEach((button) => {
+          button.addEventListener("click", () => {
+            if (button.dataset.entryPreorderChoice === "shirts") {
+              openShirtPreordersFromEntry();
+            } else {
+              openProjectPreordersFromEntry();
+            }
+          });
+        });
         atmHit.addEventListener("click", handleAtmClick);
         trapPassHit.addEventListener("click", enterBoardFromTrapPass);
         unlockForm.addEventListener("submit", handleUnlockSubmit);
