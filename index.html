@@ -2543,6 +2543,94 @@
       white-space: normal;
     }
 
+    .cashapp-manual {
+      border-color: rgba(255, 214, 151, 0.28);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(217, 67, 67, 0.18), transparent 15rem),
+        rgba(255, 238, 202, 0.065);
+    }
+
+    .cashapp-handle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 52px;
+      padding: 12px 14px;
+      border: 1px solid rgba(255, 214, 151, 0.34);
+      border-radius: 8px;
+      color: #fff7df;
+      font-family: var(--font-display);
+      font-size: clamp(1.05rem, 3vw, 1.35rem);
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      background:
+        linear-gradient(135deg, rgba(124, 18, 18, 0.62), rgba(8, 6, 5, 0.96)),
+        rgba(18, 11, 8, 0.9);
+      box-shadow:
+        inset 0 0 0 1px rgba(0, 0, 0, 0.44),
+        0 0 24px rgba(217, 67, 67, 0.18);
+      overflow-wrap: anywhere;
+    }
+
+    .copy-handle-btn {
+      min-height: 48px;
+      width: 100%;
+      border-color: rgba(255, 214, 151, 0.38);
+      color: #fff7df;
+      background:
+        linear-gradient(180deg, rgba(170, 42, 39, 0.96), rgba(82, 10, 12, 0.98));
+      box-shadow:
+        inset 0 1px 0 rgba(255, 238, 202, 0.22),
+        0 8px 24px rgba(0, 0, 0, 0.34);
+    }
+
+    .copy-status {
+      min-height: 1.2em;
+      color: #ffe5b1 !important;
+      font-size: 0.9rem;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .qr-fallback {
+      display: grid;
+      gap: 10px;
+      border-top: 1px solid rgba(255, 238, 202, 0.12);
+      padding-top: 10px;
+    }
+
+    .qr-fallback summary {
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      color: #ffe5b1;
+      font-family: var(--font-display);
+      font-weight: 900;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .qr-fallback picture {
+      display: block;
+      width: min(100%, 340px);
+      margin: 0 auto;
+      overflow: hidden;
+      border-radius: 8px;
+      background: #fff;
+      aspect-ratio: 1;
+    }
+
+    .qr-fallback img {
+      display: block;
+      width: 100%;
+      height: 100% !important;
+      object-fit: contain;
+      object-position: center;
+      border-radius: 8px;
+      background: #fff;
+    }
+
     .qr-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -3990,12 +4078,20 @@
               </div>
             </div>
 
-            <div class="payment-card qr-scan" data-preorder-payment-panel="cashapp" hidden>
+            <div class="payment-card cashapp-manual" data-preorder-payment-panel="cashapp" hidden>
               <strong>Cash App</strong>
-              <p>Cash App: <code>$RyanHomanics</code></p>
-              <picture>
-                <img src="payment-cashapp.png?v=20260509" alt="Cash App QR for Ryan Homanics" width="765" height="987" loading="lazy" decoding="async">
-              </picture>
+              <p>Open the Cash App app directly and send the register total to this Cashtag. If your phone opens a web error, close it and use the Cashtag manually.</p>
+              <div class="cashapp-handle" aria-label="Cash App Cashtag">$RyanHomanics</div>
+              <button class="copy-handle-btn" type="button" data-copy-value="$RyanHomanics" data-copy-status="preorderCashappCopyStatus">Copy Cashtag</button>
+              <p class="copy-status" id="preorderCashappCopyStatus" aria-live="polite"></p>
+              <details class="qr-fallback">
+                <summary>Show QR backup</summary>
+                <p>If scanning opens a browser error, close it and search <code>$RyanHomanics</code> inside the Cash App app.</p>
+                <picture>
+                  <source srcset="payment-cashapp.webp" type="image/webp">
+                  <img src="payment-cashapp.png?v=20260509" alt="Cash App QR for Ryan Homanics" width="765" height="987" loading="lazy" decoding="async">
+                </picture>
+              </details>
             </div>
 
             <div class="payment-card qr-scan" data-preorder-payment-panel="chime" hidden>
@@ -4593,12 +4689,20 @@
               </div>
             </div>
 
-            <div class="payment-card qr-scan" data-payment-panel="cashapp" hidden>
+            <div class="payment-card cashapp-manual" data-payment-panel="cashapp" hidden>
               <strong>Cash App</strong>
-              <p>Cash App: <code>$RyanHomanics</code></p>
-              <picture>
-                <img src="payment-cashapp.png?v=20260509" alt="Cash App QR for Ryan Homanics" width="765" height="987" loading="eager" decoding="async" fetchpriority="low">
-              </picture>
+              <p>Open the Cash App app directly and send the register total to this Cashtag. If your phone opens a web error, close it and use the Cashtag manually.</p>
+              <div class="cashapp-handle" aria-label="Cash App Cashtag">$RyanHomanics</div>
+              <button class="copy-handle-btn" type="button" data-copy-value="$RyanHomanics" data-copy-status="shirtCashappCopyStatus">Copy Cashtag</button>
+              <p class="copy-status" id="shirtCashappCopyStatus" aria-live="polite"></p>
+              <details class="qr-fallback">
+                <summary>Show QR backup</summary>
+                <p>If scanning opens a browser error, close it and search <code>$RyanHomanics</code> inside the Cash App app.</p>
+                <picture>
+                  <source srcset="payment-cashapp.webp" type="image/webp">
+                  <img src="payment-cashapp.png?v=20260509" alt="Cash App QR for Ryan Homanics" width="765" height="987" loading="lazy" decoding="async">
+                </picture>
+              </details>
             </div>
 
             <div class="payment-card qr-scan" data-payment-panel="chime" hidden>
@@ -5737,6 +5841,55 @@
         });
       }
 
+      async function copyTextToClipboard(text) {
+        if (!text) return false;
+
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(text);
+          return true;
+        }
+
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        textArea.setAttribute("readonly", "");
+        textArea.style.position = "fixed";
+        textArea.style.top = "-999px";
+        textArea.style.opacity = "0";
+        document.body.appendChild(textArea);
+        textArea.select();
+
+        let copied = false;
+        try {
+          copied = document.execCommand("copy");
+        } finally {
+          textArea.remove();
+        }
+
+        return copied;
+      }
+
+      async function handleCopyButtonClick(button) {
+        const status = document.getElementById(button.dataset.copyStatus || "");
+        const originalText = button.textContent;
+
+        button.disabled = true;
+        if (status) status.textContent = "";
+
+        try {
+          const copied = await copyTextToClipboard(button.dataset.copyValue || "");
+          if (status) {
+            status.textContent = copied
+              ? "Cashtag copied. Open Cash App and paste it in."
+              : "Copy blocked. Type $RyanHomanics inside Cash App.";
+          }
+        } catch (error) {
+          if (status) status.textContent = "Copy blocked. Type $RyanHomanics inside Cash App.";
+        } finally {
+          button.textContent = originalText;
+          button.disabled = false;
+        }
+      }
+
       function resetTattooDropbox() {
         if (!tattooSuggestionForm) return;
 
@@ -6153,6 +6306,13 @@
 
           if (!menuHotspot && armedHotspot) {
             clearArmedHotspot();
+          }
+
+          const copyButton = event.target.closest("[data-copy-value]");
+          if (copyButton) {
+            event.preventDefault();
+            handleCopyButtonClick(copyButton);
+            return;
           }
 
           const closeButton = event.target.closest("[data-close-modal]");
