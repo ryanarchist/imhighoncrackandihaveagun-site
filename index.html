@@ -960,6 +960,7 @@
     }
 
     .hotspot.is-primary .figure-plaque {
+      min-width: min(320px, 48vw);
       opacity: 0.96;
       box-shadow:
         inset 0 0 0 1px rgba(0, 0, 0, 0.48),
@@ -2499,13 +2500,125 @@
     .payment-card.qr-scan > img,
     .tip-jar-image {
       height: 100% !important;
-      object-fit: cover;
+      object-fit: contain;
       object-position: center 52%;
     }
 
     .payment-card > picture img,
     .payment-card > img {
       max-width: 340px;
+    }
+
+    .preorder-panel {
+      width: min(100%, 1240px);
+      border-color: rgba(255, 214, 151, 0.28);
+      background:
+        radial-gradient(circle at 12% 0%, rgba(217, 67, 67, 0.2), transparent 28rem),
+        linear-gradient(180deg, rgba(10, 7, 5, 0.98), rgba(3, 2, 2, 0.98)),
+        #050403;
+    }
+
+    .preorder-panel .modal-title::before {
+      display: block;
+      margin-bottom: 4px;
+      color: rgba(255, 214, 151, 0.72);
+      content: "LIMITED COUNTER";
+      font-size: 0.58em;
+      line-height: 1;
+    }
+
+    .preorder-body {
+      display: grid;
+      gap: 16px;
+    }
+
+    .preorder-grid {
+      display: grid;
+      gap: clamp(14px, 2vw, 22px);
+      align-items: start;
+    }
+
+    .preorder-art {
+      position: relative;
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      overflow: hidden;
+      padding: clamp(8px, 1.1vw, 12px);
+      border: 1px solid rgba(255, 214, 151, 0.24);
+      border-radius: 8px;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(255, 214, 151, 0.12), transparent 24rem),
+        rgba(7, 5, 4, 0.9);
+      box-shadow:
+        0 22px 62px rgba(0, 0, 0, 0.42),
+        inset 0 0 0 1px rgba(0, 0, 0, 0.42);
+    }
+
+    .preorder-art picture {
+      display: block;
+      overflow: hidden;
+      border-radius: 6px;
+      background: #050403;
+    }
+
+    .preorder-art img {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: min(78dvh, 980px);
+      object-fit: contain;
+      object-position: center;
+      background: #050403;
+      image-rendering: auto;
+    }
+
+    .preorder-art figcaption {
+      color: #ffe5b1;
+      font-family: var(--font-display);
+      font-size: clamp(0.86rem, 1.35vw, 1.05rem);
+      font-weight: 900;
+      line-height: 1.2;
+      text-transform: uppercase;
+      text-shadow: 0 0 14px rgba(217, 67, 67, 0.28);
+    }
+
+    .preorder-menu {
+      display: grid;
+      gap: 9px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .preorder-menu li {
+      display: grid;
+      gap: 4px;
+      padding: 10px;
+      border: 1px solid rgba(255, 214, 151, 0.2);
+      border-radius: 6px;
+      background: rgba(255, 238, 202, 0.055);
+    }
+
+    .preorder-menu strong {
+      color: #ffe5b1;
+      font-family: var(--font-display);
+      font-size: 0.92rem;
+      line-height: 1.1;
+      text-transform: uppercase;
+    }
+
+    .preorder-menu span {
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.3;
+    }
+
+    .preorder-shipping-note {
+      margin: -2px 0 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.35;
     }
 
     .tip-jar-body {
@@ -2876,6 +2989,17 @@
       .store-layout {
         grid-template-columns: minmax(0, 1.9fr) minmax(330px, 0.66fr);
         align-items: start;
+      }
+
+      .preorder-grid {
+        grid-template-columns: minmax(0, 0.92fr) minmax(340px, 0.68fr);
+      }
+
+      .preorder-checkout {
+        position: sticky;
+        top: 74px;
+        max-height: calc(100dvh - 112px);
+        overflow: auto;
       }
 
       .store-checkout {
@@ -3327,6 +3451,14 @@
         grid-template-columns: 1fr;
       }
 
+      .preorder-art img {
+        max-height: none;
+      }
+
+      .hotspot.is-primary .figure-plaque {
+        min-width: min(300px, 78vw);
+      }
+
       .store-shot img {
         height: clamp(280px, 82vw, 430px);
       }
@@ -3419,9 +3551,9 @@
             loading="lazy"></iframe>
         </div>
 
-        <button class="hotspot is-primary" type="button" data-menu-hotspot data-figure="soundtrack" data-action="threads" aria-label="Open Threads of Our Lives project theme reel">
-          <span class="figure-plaque" aria-hidden="true"><small>START HERE</small><strong>THREADS OF OUR LIVES</strong></span>
-          <span class="sr-only">Threads of Our Lives project theme reel</span>
+        <button class="hotspot is-primary" type="button" data-menu-hotspot data-figure="soundtrack" data-action="preorders" aria-label="Open limited preorders and OG Crack Packs">
+          <span class="figure-plaque" aria-hidden="true"><small>PREORDERS LIVE</small><strong>LIMITED PREORDERS AND OG CRACK PACKS JUST WENT LIVE!</strong></span>
+          <span class="sr-only">Limited preorders and OG Crack Packs just went live</span>
         </button>
         <button class="hotspot" type="button" data-menu-hotspot data-figure="dopesick" data-action="suno" aria-label="Open OG Crack Track music video">
           <span class="figure-plaque" aria-hidden="true"><small>MUSIC VIDEO</small><strong>OG CRACK TRACK</strong></span>
@@ -3483,7 +3615,7 @@
           <h1>Display room asset missing.</h1>
           <p>Place action-figure-room.png beside this file. The collector slots are still open below.</p>
           <div class="fallback-actions">
-            <button type="button" data-action="threads">Threads Reel</button>
+            <button type="button" data-action="preorders">Preorders Live</button>
             <button type="button" data-action="suno">Music Video</button>
             <button type="button" data-action="writing">Writing Pack</button>
             <button type="button" data-action="teaser">Teaser Insert</button>
@@ -3586,6 +3718,175 @@
           </video>
         </div>
         <p class="asset-note" id="atmVideoNote" hidden>ATM_Video_with_Ticket_and_Effects.mp4 is missing or could not be loaded.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="modal" id="preorderModal" role="dialog" aria-modal="true" aria-labelledby="preorderTitle" hidden>
+    <div class="modal-panel preorder-panel">
+      <header class="modal-header">
+        <h2 class="modal-title" id="preorderTitle">Preorders Live</h2>
+        <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
+      </header>
+      <div class="modal-body preorder-body">
+        <div class="preorder-grid">
+          <figure class="preorder-art">
+            <picture>
+              <source srcset="preorders-live.webp" type="image/webp">
+              <img src="preorders-live.png" alt="Preorders Live limited drops book documentary archive preorder menu" width="926" height="1665" loading="lazy" decoding="async">
+            </picture>
+            <figcaption>Limited drops / book + documentary + archive.</figcaption>
+          </figure>
+
+          <form class="store-checkout preorder-checkout" id="preorderForm" action="https://formsubmit.co/imhighoncrackandihaveagun@gmail.com" method="POST">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="_subject" value="New Limited Preorder Request">
+            <input type="hidden" name="_next" value="https://imhighoncrackandihaveagun.com/?preorder=sent&scene=board">
+            <input type="hidden" id="preorderProductInput" name="preorder_product" value="50 Trap Passes - Signed Hardcover Preorder">
+            <input type="hidden" id="preorderSubtotalInput" name="subtotal" value="$39.99">
+            <input type="hidden" id="preorderTaxInput" name="estimated_sales_tax" value="$2.80">
+            <input type="hidden" id="preorderShippingInput" name="shipping" value="$5.00">
+            <input type="hidden" id="preorderTotalInput" name="estimated_total" value="$47.79">
+
+            <h3>Limited Preorder Counter</h3>
+
+            <div class="field">
+              <label for="preorderProduct">Choose Drop</label>
+              <select id="preorderProduct" name="preorder_selection" required>
+                <option value="hardcover">50 Trap Passes - Signed Hardcover Preorder / $39.99</option>
+                <option value="documentary">First Showing - Unedited Documentary Access / $9.99</option>
+                <option value="pack">50 OG Crack Packs - Archive Pack Preorder / $89.99</option>
+              </select>
+            </div>
+
+            <ul class="preorder-menu" aria-label="Preorder options">
+              <li>
+                <strong>50 Trap Passes</strong>
+                <span>Limited signed hardcover preorder. $39.99 plus shipping.</span>
+              </li>
+              <li>
+                <strong>First Showing</strong>
+                <span>Unedited documentary access before the public release. $9.99 digital access.</span>
+              </li>
+              <li>
+                <strong>50 OG Crack Packs</strong>
+                <span>Signed hardcover, ebook version, digital documentary download, numbered archive ticket, black tee, and handwritten note. $89.99 plus shipping.</span>
+              </li>
+            </ul>
+
+            <div class="store-fields two-up">
+              <div class="field">
+                <label for="preorderName">Collector Name</label>
+                <input id="preorderName" name="name" autocomplete="name" required>
+              </div>
+              <div class="field">
+                <label for="preorderEmail">Collector Email</label>
+                <input id="preorderEmail" name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="none" spellcheck="false" required>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="preorderTrapPass">Trap Pass Serial</label>
+              <input id="preorderTrapPass" name="trap_pass_number" autocomplete="off" placeholder="TRAP PASS #201-11FFP">
+            </div>
+
+            <p class="preorder-shipping-note" id="preorderShippingNote">Shipping is required for hardcover and archive pack orders. Documentary access is digital.</p>
+
+            <div class="field" data-preorder-shipping>
+              <label for="preorderShippingAddress">Ship-To Address</label>
+              <input id="preorderShippingAddress" name="shipping_address" autocomplete="street-address" required>
+            </div>
+
+            <div class="store-fields two-up">
+              <div class="field" data-preorder-shipping>
+                <label for="preorderShippingCity">City</label>
+                <input id="preorderShippingCity" name="shipping_city" autocomplete="address-level2" required>
+              </div>
+              <div class="field" data-preorder-shipping>
+                <label for="preorderShippingState">State</label>
+                <input id="preorderShippingState" name="shipping_state" autocomplete="address-level1" required>
+              </div>
+              <div class="field" data-preorder-shipping>
+                <label for="preorderShippingZip">ZIP</label>
+                <input id="preorderShippingZip" name="shipping_zip" inputmode="numeric" autocomplete="postal-code" required>
+              </div>
+              <div class="field">
+                <label for="preorderPaymentMethod">Payment Method</label>
+                <select id="preorderPaymentMethod" name="payment_method" required>
+                  <option value="">Select payment</option>
+                  <option value="paypal">PayPal</option>
+                  <option value="cashapp">Cash App</option>
+                  <option value="chime">Chime</option>
+                  <option value="zelle">Zelle</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="totals-card" aria-live="polite">
+              <h3>Register Total</h3>
+              <div class="total-line"><span>Preorder</span><strong id="preorderSubtotalText">$39.99</strong></div>
+              <div class="total-line"><span>Estimated sales tax</span><strong id="preorderTaxText">$2.80</strong></div>
+              <div class="total-line"><span>Shipping</span><strong id="preorderShippingText">$5.00</strong></div>
+              <div class="total-line is-grand"><span>Total</span><strong id="preorderTotalText">$47.79</strong></div>
+            </div>
+
+            <div class="payment-card" id="preorderPaymentPlaceholder">
+              <strong>Payment Details</strong>
+              <p>Choose a payment method to show the matching QR or address.</p>
+            </div>
+
+            <div class="payment-card" data-preorder-payment-panel="paypal" hidden>
+              <strong>PayPal</strong>
+              <p>Scan the seller code below, or confirm the PayPal profile before sending payment.</p>
+              <div class="qr-grid">
+                <span class="qr-card qr-scan">
+                  <picture>
+                    <source srcset="payment-paypal-seller.webp" type="image/webp">
+                    <img src="payment-paypal-seller.png" alt="PayPal seller QR for Ryan Homanics" width="771" height="904" loading="lazy" decoding="async">
+                  </picture>
+                  Seller code
+                </span>
+                <span class="qr-card">
+                  <picture>
+                    <source srcset="payment-paypal-profile.webp" type="image/webp">
+                    <img src="payment-paypal-profile.png" alt="PayPal profile for Ryan Homanics" width="567" height="400" loading="lazy" decoding="async">
+                  </picture>
+                  Profile card
+                </span>
+              </div>
+            </div>
+
+            <div class="payment-card qr-scan" data-preorder-payment-panel="cashapp" hidden>
+              <strong>Cash App</strong>
+              <p>Cash App: <code>$RyanHomanics</code></p>
+              <picture>
+                <img src="payment-cashapp.png?v=20260509" alt="Cash App QR for Ryan Homanics" width="765" height="987" loading="lazy" decoding="async">
+              </picture>
+            </div>
+
+            <div class="payment-card qr-scan" data-preorder-payment-panel="chime" hidden>
+              <strong>Chime</strong>
+              <p>Chime: <code>$Ryan-Homanics</code></p>
+              <picture>
+                <source srcset="payment-chime.webp" type="image/webp">
+                <img src="payment-chime.png" alt="Chime QR for Ryan Homanics" width="672" height="694" loading="lazy" decoding="async">
+              </picture>
+            </div>
+
+            <div class="payment-card" data-preorder-payment-panel="zelle" hidden>
+              <strong>Zelle</strong>
+              <p>Zelle address: <code>ryanhomanics@gmail.com</code></p>
+            </div>
+
+            <div class="field">
+              <label for="preorderNotes">Counter Notes</label>
+              <textarea id="preorderNotes" name="notes" placeholder="Shirt size for pack, delivery note, or anything the counter should know."></textarea>
+            </div>
+
+            <button class="primary-btn" type="submit">Reserve Preorder</button>
+          </form>
+        </div>
       </div>
     </div>
   </section>
@@ -4295,11 +4596,47 @@
       const shirtTaxInput = document.getElementById("shirtTaxInput");
       const shirtShippingInput = document.getElementById("shirtShippingInput");
       const shirtTotalInput = document.getElementById("shirtTotalInput");
+      const preorderForm = document.getElementById("preorderForm");
+      const preorderProduct = document.getElementById("preorderProduct");
+      const preorderPaymentMethod = document.getElementById("preorderPaymentMethod");
+      const preorderPaymentPlaceholder = document.getElementById("preorderPaymentPlaceholder");
+      const preorderShippingNote = document.getElementById("preorderShippingNote");
+      const preorderSubtotalText = document.getElementById("preorderSubtotalText");
+      const preorderTaxText = document.getElementById("preorderTaxText");
+      const preorderShippingText = document.getElementById("preorderShippingText");
+      const preorderTotalText = document.getElementById("preorderTotalText");
+      const preorderProductInput = document.getElementById("preorderProductInput");
+      const preorderSubtotalInput = document.getElementById("preorderSubtotalInput");
+      const preorderTaxInput = document.getElementById("preorderTaxInput");
+      const preorderShippingInput = document.getElementById("preorderShippingInput");
+      const preorderTotalInput = document.getElementById("preorderTotalInput");
+      const preorderShippingGroups = Array.from(document.querySelectorAll("[data-preorder-shipping]"));
       const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       const entryFadeMs = reducedMotion ? 10 : 430;
       const shirtPrice = 25;
       const shirtShipping = 5;
       const shirtTaxRate = 0.07;
+      const preorderTaxRate = 0.07;
+      const preorderProducts = {
+        hardcover: {
+          label: "50 Trap Passes - Signed Hardcover Preorder",
+          price: 39.99,
+          shipping: 5,
+          physical: true
+        },
+        documentary: {
+          label: "First Showing - Unedited Documentary Access",
+          price: 9.99,
+          shipping: 0,
+          physical: false
+        },
+        pack: {
+          label: "50 OG Crack Packs - Archive Pack Preorder",
+          price: 89.99,
+          shipping: 5,
+          physical: true
+        }
+      };
       const accessKey = "ihocaig-trap-pass-access-claimed";
       const accessCookie = "ihocaig_trap_pass_access_claimed";
       const passViewedKey = "ihocaig-trap-pass-run-wave-2-viewed";
@@ -4345,6 +4682,7 @@
         dopesick: () => openModal("dopesickModal"),
         writing: () => openWritingModal(),
         teaser: () => openReader("teaser"),
+        preorders: () => openModal("preorderModal"),
         threads: () => openModal("threadsModal"),
         suno: () => openModal("sunoModal"),
         social: () => openModal("socialModal"),
@@ -4483,7 +4821,7 @@
         }
 
         window.requestAnimationFrame(() => {
-          const startHotspot = boardFrame.querySelector('[data-action="threads"]');
+          const startHotspot = boardFrame.querySelector('[data-action="preorders"]');
           if (!startHotspot) return;
 
           const targetLeft = Math.max(0, startHotspot.offsetLeft - Math.round(window.innerWidth * 0.24));
@@ -4970,6 +5308,11 @@
           updatePaymentInstructions();
         }
 
+        if (id === "preorderModal") {
+          updatePreorderTotals();
+          updatePreorderPaymentInstructions();
+        }
+
         if (id === "whoModal") {
           resetTattooDropbox();
         }
@@ -5170,6 +5513,53 @@
         paymentPlaceholder.hidden = Boolean(selectedMethod);
         document.querySelectorAll("[data-payment-panel]").forEach((panel) => {
           panel.hidden = panel.dataset.paymentPanel !== selectedMethod;
+        });
+      }
+
+      function getPreorderSelection() {
+        return preorderProducts[preorderProduct?.value] || preorderProducts.hardcover;
+      }
+
+      function updatePreorderTotals() {
+        if (!preorderForm) return;
+
+        const selectedProduct = getPreorderSelection();
+        const tax = Math.round((selectedProduct.price * preorderTaxRate + Number.EPSILON) * 100) / 100;
+        const total = selectedProduct.price + tax + selectedProduct.shipping;
+
+        preorderSubtotalText.textContent = formatMoney(selectedProduct.price);
+        preorderTaxText.textContent = formatMoney(tax);
+        preorderShippingText.textContent = formatMoney(selectedProduct.shipping);
+        preorderTotalText.textContent = formatMoney(total);
+
+        preorderProductInput.value = selectedProduct.label;
+        preorderSubtotalInput.value = formatMoney(selectedProduct.price);
+        preorderTaxInput.value = formatMoney(tax);
+        preorderShippingInput.value = formatMoney(selectedProduct.shipping);
+        preorderTotalInput.value = formatMoney(total);
+
+        preorderShippingGroups.forEach((group) => {
+          group.hidden = !selectedProduct.physical;
+          group.querySelectorAll("input").forEach((input) => {
+            input.required = selectedProduct.physical;
+            input.disabled = !selectedProduct.physical;
+          });
+        });
+
+        if (preorderShippingNote) {
+          preorderShippingNote.textContent = selectedProduct.physical
+            ? "Shipping is required for this limited physical preorder."
+            : "Documentary access is digital. Shipping fields are not needed for this option.";
+        }
+      }
+
+      function updatePreorderPaymentInstructions() {
+        if (!preorderPaymentMethod) return;
+
+        const selectedMethod = preorderPaymentMethod.value;
+        preorderPaymentPlaceholder.hidden = Boolean(selectedMethod);
+        document.querySelectorAll("[data-preorder-payment-panel]").forEach((panel) => {
+          panel.hidden = panel.dataset.preorderPaymentPanel !== selectedMethod;
         });
       }
 
@@ -5553,6 +5943,8 @@
 
         trapPassDiscount?.addEventListener("input", updateShopTotals);
         paymentMethod?.addEventListener("change", updatePaymentInstructions);
+        preorderProduct?.addEventListener("change", updatePreorderTotals);
+        preorderPaymentMethod?.addEventListener("change", updatePreorderPaymentInstructions);
         tattooSuggestionForm?.addEventListener("submit", handleTattooSuggestionSubmit);
         tattooSuggestion?.addEventListener("input", () => {
           tattooSuggestion.classList.remove("is-invalid");
@@ -5566,6 +5958,8 @@
         });
         updateShopTotals();
         updatePaymentInstructions();
+        updatePreorderTotals();
+        updatePreorderPaymentInstructions();
 
         document.addEventListener("click", (event) => {
           const menuHotspot = event.target.closest("[data-menu-hotspot]");
