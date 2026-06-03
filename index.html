@@ -8,7 +8,6 @@
   <meta name="description" content="A hidden collector toy-display archive room for IMHIGHONCRACKANDIHAVEAGUN.COM.">
   <link rel="icon" href="data:,">
   <link rel="preload" as="image" href="mothers-day-card.webp" type="image/webp">
-  <link rel="preload" as="image" href="preorder-entry.webp" type="image/webp">
   <link rel="preload" as="image" href="trap-pass-run-wave-3.webp" type="image/webp">
   <link rel="preload" as="image" href="action-figure-room.webp" type="image/webp">
   <link rel="preload" as="font" href="fonts/impact-label-reversed.ttf" type="font/ttf" crossorigin>
@@ -114,7 +113,7 @@
       height: 100vh;
       height: 100dvh;
       overflow: hidden;
-      background: #050403 url("preorder-entry.webp") center / cover no-repeat;
+      background: #020101;
       opacity: 1;
       transition: opacity 420ms ease;
     }
@@ -128,9 +127,9 @@
       position: relative;
       z-index: 1;
       display: block;
-      width: min(100vw, calc(100dvh * 2306 / 1301));
-      height: min(100dvh, calc(100vw * 1301 / 2306));
-      aspect-ratio: 2306 / 1301;
+      width: min(100vw, calc(100dvh * 2309 / 1305));
+      height: min(100dvh, calc(100vw * 1305 / 2309));
+      aspect-ratio: 2309 / 1305;
       overflow: hidden;
       background: #050403;
       box-shadow: 0 0 58px rgba(0, 0, 0, 0.72);
@@ -153,6 +152,65 @@
       image-rendering: auto;
       user-select: none;
       -webkit-user-drag: none;
+    }
+
+    .entry-video-stage {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      overflow: hidden;
+      background: #000;
+    }
+
+    .entry-video-frame {
+      display: block;
+      width: min(100vw, calc(100dvh * 9 / 16));
+      height: 100vh;
+      height: 100dvh;
+      max-width: 540px;
+      border: 0;
+      background: #000;
+    }
+
+    .entry-video-continue {
+      position: absolute;
+      right: max(14px, env(safe-area-inset-right));
+      bottom: max(14px, env(safe-area-inset-bottom));
+      z-index: 5;
+      min-height: 52px;
+      padding: 0 18px;
+      cursor: pointer;
+      color: #fff3cf;
+      border: 1px solid rgba(255, 226, 174, 0.88);
+      border-radius: 8px;
+      background:
+        linear-gradient(135deg, rgba(177, 28, 33, 0.94), rgba(28, 10, 8, 0.96) 68%),
+        #180706;
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+        0 0 30px rgba(207, 34, 39, 0.48),
+        0 12px 28px rgba(0, 0, 0, 0.42);
+      font-family: var(--font-display);
+      font-size: clamp(0.86rem, 2.6vw, 1.28rem);
+      letter-spacing: 0.08em;
+      line-height: 1;
+      text-transform: uppercase;
+      text-shadow: 0 2px 0 rgba(0, 0, 0, 0.72);
+      touch-action: manipulation;
+    }
+
+    .entry-video-continue:hover,
+    .entry-video-continue:focus-visible {
+      border-color: #fff0bf;
+      outline: none;
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.18),
+        0 0 40px rgba(232, 46, 44, 0.74),
+        0 14px 32px rgba(0, 0, 0, 0.48);
     }
 
     .entry-hotspot {
@@ -191,22 +249,91 @@
       transform: scale(1);
     }
 
-    .entry-preorder-hit {
-      left: 5%;
-      top: 54.5%;
-      width: 45%;
-      height: 22%;
+    .entry-youtube-hit {
+      z-index: 4;
+      left: 5.2%;
+      top: 64.8%;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: center;
+      gap: clamp(8px, 1.5vw, 18px);
+      width: 55.4%;
+      height: 9.4%;
+      padding: 0 clamp(12px, 2.4vw, 32px);
+      color: #fff6dd;
+      border: 2px solid rgba(255, 232, 181, 0.92);
+      border-radius: 8px;
+      background:
+        linear-gradient(135deg, rgba(227, 18, 25, 0.92), rgba(113, 9, 13, 0.9) 48%, rgba(18, 8, 6, 0.92)),
+        #8f1116;
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+        0 0 34px rgba(226, 24, 31, 0.55),
+        0 16px 38px rgba(0, 0, 0, 0.48);
+      text-align: left;
+      text-transform: uppercase;
+      transform: translateZ(0);
+    }
+
+    .entry-youtube-hit::before {
+      content: "▶";
+      display: grid;
+      place-items: center;
+      width: clamp(34px, 4.2vw, 64px);
+      height: clamp(34px, 4.2vw, 64px);
+      color: #e4111c;
+      border-radius: 6px;
+      background: #fff7e8;
+      font-family: Arial, sans-serif;
+      font-size: clamp(1rem, 2.8vw, 2.1rem);
+      font-weight: 900;
+      line-height: 1;
+      box-shadow: 0 0 16px rgba(255, 247, 232, 0.46);
+    }
+
+    .entry-youtube-hit strong,
+    .entry-youtube-hit span {
+      display: block;
+      color: inherit;
+      font-family: var(--font-display);
+      letter-spacing: 0.05em;
+      line-height: 0.95;
+      text-shadow: 0 2px 0 rgba(0, 0, 0, 0.72);
+    }
+
+    .entry-youtube-hit strong {
+      font-size: clamp(1.05rem, 3.7vw, 4rem);
+    }
+
+    .entry-youtube-hit span {
+      margin-top: clamp(1px, 0.4vw, 5px);
+      color: #ffe3a4;
+      font-size: clamp(0.62rem, 1.55vw, 1.25rem);
+    }
+
+    .entry-youtube-hit:hover,
+    .entry-youtube-hit:focus-visible {
+      color: #fffaf0;
+      border-color: #fff0bf;
+      outline: none;
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.2),
+        0 0 46px rgba(235, 33, 39, 0.78),
+        0 18px 42px rgba(0, 0, 0, 0.54);
     }
 
     .entry-main-hit {
-      left: 5.05%;
-      top: 76.8%;
-      width: 45%;
-      height: 16.2%;
+      z-index: 2;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 0;
     }
 
     #entryScene::before,
     #entryScene::after {
+      display: none;
       content: "";
       position: absolute;
       inset: 0;
@@ -704,6 +831,7 @@
     .board-frame.board-missing .hotspot,
     .board-frame.board-missing .dock-link,
     .board-frame.board-missing .board-spotify-card,
+    .board-frame.board-missing .platform-alert-links,
     .board-frame.board-missing .store-prop {
       display: none;
     }
@@ -844,6 +972,68 @@
       border: 0;
       border-radius: 8px;
       background: #111;
+    }
+
+    .platform-alert-links {
+      position: absolute;
+      left: 67.6%;
+      top: 24.4%;
+      z-index: 8;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      width: 26%;
+      pointer-events: auto;
+    }
+
+    .platform-alert-link {
+      display: grid;
+      min-height: 52px;
+      padding: 9px 12px;
+      align-content: center;
+      color: #fff3cf;
+      text-decoration: none;
+      text-transform: uppercase;
+      border: 1px solid rgba(255, 218, 149, 0.72);
+      border-radius: 8px;
+      background:
+        linear-gradient(135deg, rgba(172, 23, 27, 0.92), rgba(18, 10, 7, 0.94) 62%),
+        #190706;
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+        0 0 22px rgba(188, 27, 31, 0.34),
+        0 12px 30px rgba(0, 0, 0, 0.36);
+      transition: transform 170ms ease, box-shadow 170ms ease, border-color 170ms ease;
+    }
+
+    .platform-alert-link:hover,
+    .platform-alert-link:focus-visible {
+      border-color: rgba(255, 236, 186, 0.96);
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.16),
+        0 0 34px rgba(218, 46, 41, 0.64),
+        0 16px 36px rgba(0, 0, 0, 0.45);
+      outline: none;
+      transform: translateY(-1px);
+    }
+
+    .platform-alert-link span,
+    .platform-alert-link strong {
+      display: block;
+      font-family: var(--font-display);
+      letter-spacing: 0.08em;
+      line-height: 1.02;
+      text-shadow: 0 2px 0 rgba(0, 0, 0, 0.55);
+    }
+
+    .platform-alert-link span {
+      color: #ffd690;
+      font-size: clamp(0.46rem, 0.9vw, 0.72rem);
+    }
+
+    .platform-alert-link strong {
+      margin-top: 3px;
+      font-size: clamp(0.72rem, 1.4vw, 1.14rem);
     }
 
     .shelf-back {
@@ -1270,7 +1460,7 @@
     }
 
     /* Bottom table/social dock coordinates. Kept above the image edge so mobile taps do not get clipped. */
-    .dock-link[data-dock="instagram"] {
+    .dock-link[data-dock="patreon"] {
       --x: 33.4%;
       --bottom: 1.25%;
       --w: 4%;
@@ -3288,6 +3478,30 @@
         height: 118px;
       }
 
+      .platform-alert-links {
+        position: fixed;
+        top: max(54px, calc(env(safe-area-inset-top) + 54px));
+        left: 12px;
+        right: 12px;
+        z-index: 12;
+        width: auto;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .platform-alert-link {
+        min-height: 42px;
+        padding: 8px 10px;
+        border-radius: 10px;
+      }
+
+      .platform-alert-link span {
+        font-size: 0.58rem;
+      }
+
+      .platform-alert-link strong {
+        font-size: 0.86rem;
+      }
+
       .shelf-frame {
         width: max(900px, calc(100vh * 1.34587));
         width: max(900px, calc(100dvh * 1.34587));
@@ -3365,23 +3579,24 @@
         display: none;
       }
 
-      .dock-link[data-dock="instagram"] {
+      .dock-link[data-dock="patreon"] {
         left: 12px;
+        width: 96px;
       }
 
       .dock-link[data-dock="links"] {
-        left: 66px;
-        width: 58px;
+        display: none;
       }
 
       .dock-link[data-dock="youtube"] {
-        left: 132px;
+        left: 116px;
+        width: 96px;
       }
 
       .dock-link[data-dock="scroll"] {
         right: 12px;
         left: auto;
-        width: 142px;
+        width: 126px;
       }
 
       .dock-icon {
@@ -3675,24 +3890,17 @@
   </style>
 </head>
 <body class="entry-active">
-  <section id="entryScene" aria-label="Entry">
-    <div class="entry-stage">
-      <picture>
-        <source srcset="preorder-entry.webp" type="image/webp">
-        <img class="entry-image" id="entryImage" src="preorder-entry.png" data-candidates="preorder-entry.png,trap-pass-wave-2-main.png,entry-graphic.png" alt="Preorder entry screen with shirt and main site choices" width="2306" height="1301" decoding="async" fetchpriority="high">
-      </picture>
-      <button class="entry-hotspot entry-preorder-hit" id="entryPreorderHit" type="button" aria-label="Open preorder choices">
-        <span class="sr-only">Open preorder choices</span>
-      </button>
-      <button class="entry-hotspot entry-main-hit" id="entryHit" type="button" aria-label="Continue to the main site">
-        <span class="sr-only">Continue to the main site</span>
-      </button>
-      <span class="entry-fallback" aria-live="polite">
-        <span>
-          <strong>Entry card missing.</strong>
-          <span>Continue to the display room.</span>
-        </span>
-      </span>
+  <section id="entryScene" aria-label="Video entry">
+    <div class="entry-video-stage">
+      <iframe
+        class="entry-video-frame"
+        id="entryVideoFrame"
+        src="https://www.youtube.com/embed/emn_W7tQP3o?autoplay=1&mute=1&playsinline=1&controls=1&rel=0&modestbranding=1"
+        title="YouTube Shorts entry video"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        allowfullscreen
+        loading="eager"></iframe>
+      <button class="entry-video-continue" id="entryHit" type="button" aria-label="Continue to site">Continue to site</button>
     </div>
   </section>
 
@@ -3772,6 +3980,17 @@
             loading="lazy"></iframe>
         </div>
 
+        <nav class="platform-alert-links" aria-label="Emergency platform links">
+          <a class="platform-alert-link is-youtube" href="https://www.youtube.com/@imhighoncrackandihaveagun" target="_blank" rel="noopener noreferrer">
+            <span>Join The</span>
+            <strong>YouTube</strong>
+          </a>
+          <a class="platform-alert-link is-patreon" href="https://www.patreon.com/imhighoncrackandihaveagun" target="_blank" rel="noopener noreferrer">
+            <span>Back The</span>
+            <strong>Patreon</strong>
+          </a>
+        </nav>
+
         <button class="hotspot is-primary" type="button" data-menu-hotspot data-figure="soundtrack" data-action="preorders" aria-label="Open limited preorders and OG Crack Packs">
           <span class="figure-plaque" aria-hidden="true"><small>PREORDERS LIVE</small><strong>LIMITED PREORDERS AND OG CRACK PACKS JUST WENT LIVE!</strong></span>
           <span class="sr-only">Limited preorders and OG Crack Packs just went live</span>
@@ -3800,18 +4019,18 @@
           <span class="figure-plaque" aria-hidden="true"><small>SUBMIT A TATTOO</small><strong>TATTOO DROPBOX</strong></span>
           <span class="sr-only">Tattoo suggestion dropbox</span>
         </button>
-        <a class="hotspot" data-menu-hotspot data-figure="reels" href="https://www.instagram.com/imhighoncrackandihaveagun/reels/" target="_blank" rel="noopener noreferrer" aria-label="Open Instagram Reels">
-          <span class="figure-plaque" aria-hidden="true"><strong>REELS</strong></span>
-          <span class="sr-only">Instagram Reels</span>
+        <a class="hotspot" data-menu-hotspot data-figure="reels" href="https://www.patreon.com/imhighoncrackandihaveagun" target="_blank" rel="noopener noreferrer" aria-label="Open Patreon">
+          <span class="figure-plaque" aria-hidden="true"><small>BACK THE PROJECT</small><strong>PATREON</strong></span>
+          <span class="sr-only">Patreon</span>
         </a>
         <button class="hotspot" type="button" data-menu-hotspot data-figure="bookshelf" data-action="bookshelf" aria-label="Open bookshelf archive">
           <span class="figure-plaque" aria-hidden="true"><strong>BOOKSHELF ARCHIVE</strong></span>
           <span class="sr-only">Bookshelf archive</span>
         </button>
-        <a class="dock-link" data-dock="instagram" href="https://www.instagram.com/imhighoncrackandihaveagun/" target="_blank" rel="noopener noreferrer" aria-label="Open Instagram">
-          <span class="dock-icon" aria-hidden="true">IG</span>
-          <span class="dock-plaque" aria-hidden="true"><strong>IG CARD</strong></span>
-          <span class="sr-only">Instagram</span>
+        <a class="dock-link" data-dock="patreon" href="https://www.patreon.com/imhighoncrackandihaveagun" target="_blank" rel="noopener noreferrer" aria-label="Open Patreon">
+          <span class="dock-icon" aria-hidden="true">Patreon</span>
+          <span class="dock-plaque" aria-hidden="true"><strong>PATREON CARD</strong></span>
+          <span class="sr-only">Patreon</span>
         </a>
         <button class="dock-link" type="button" data-dock="links" data-action="social" aria-label="Open all social links">
           <span class="dock-icon" aria-hidden="true">Links</span>
@@ -4295,9 +4514,9 @@
             <strong>TikTok Card</strong>
             <span>@bandanarchist</span>
           </a>
-          <a class="social-link" href="https://www.instagram.com/imhighoncrackandihaveagun/" target="_blank" rel="noopener noreferrer">
-            <strong>Instagram Card</strong>
-            <span>@imhighoncrackandihaveagun</span>
+          <a class="social-link" href="https://www.patreon.com/imhighoncrackandihaveagun" target="_blank" rel="noopener noreferrer">
+            <strong>Patreon Card</strong>
+            <span>patreon.com/imhighoncrackandihaveagun</span>
           </a>
           <a class="social-link" href="https://www.youtube.com/@imhighoncrackandihaveagun" target="_blank" rel="noopener noreferrer">
             <strong>YouTube Slot</strong>
@@ -6229,7 +6448,11 @@
 
       function initEvents() {
         entryHit.addEventListener("click", handleEntryClick);
-        entryPreorderHit.addEventListener("click", openEntryPreorderChoices);
+        if (entryPreorderHit) {
+          entryPreorderHit.addEventListener("click", () => {
+            window.open("https://www.youtube.com/@imhighoncrackandihaveagun", "_blank", "noopener,noreferrer");
+          });
+        }
         document.querySelectorAll("[data-entry-preorder-choice]").forEach((button) => {
           button.addEventListener("click", () => {
             if (button.dataset.entryPreorderChoice === "shirts") {
