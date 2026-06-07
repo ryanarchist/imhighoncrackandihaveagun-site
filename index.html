@@ -9,7 +9,7 @@
   <link rel="icon" href="data:,">
   <link rel="preload" as="image" href="mothers-day-card.webp" type="image/webp">
   <link rel="preload" as="image" href="trap-pass-run-wave-4.webp" type="image/webp">
-  <link rel="preload" as="image" href="action-figure-room.webp" type="image/webp">
+  <link rel="preload" as="image" href="action-figure-room.webp?v=20260607-sports-cards" type="image/webp">
   <link rel="preload" as="font" href="fonts/impact-label-reversed.ttf" type="font/ttf" crossorigin>
   <style>
     /* Base */
@@ -1368,6 +1368,21 @@
         0 10px 26px rgba(0, 0, 0, 0.58);
     }
 
+    .hotspot.is-sports-card {
+      border-radius: 16px;
+    }
+
+    .hotspot.is-sports-card .figure-plaque {
+      top: -48px;
+      min-width: min(260px, 42vw);
+      opacity: 0.97;
+      box-shadow:
+        inset 0 0 0 1px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 238, 202, 0.34),
+        0 0 26px rgba(217, 67, 67, 0.56),
+        0 12px 28px rgba(0, 0, 0, 0.58);
+    }
+
     @media (hover: hover) and (pointer: fine) {
       .hotspot:hover::before {
         border-color: rgba(255, 238, 202, 0.62);
@@ -1489,6 +1504,14 @@
         0 0 0 1px rgba(255, 238, 202, 0.28),
         0 0 26px rgba(217, 67, 67, 0.42),
         0 0 68px rgba(255, 181, 74, 0.28);
+    }
+
+    .hotspot[data-figure="sportsCards"] {
+      --x: 4.6%;
+      --y: 63.5%;
+      --w: 28.7%;
+      --h: 32.6%;
+      border-radius: 18px;
     }
 
     /* Bookshelf close-up hotspot coordinates.
@@ -3536,6 +3559,80 @@
       color: var(--muted);
     }
 
+    .sports-card-panel {
+      width: min(980px, 100%);
+    }
+
+    .sports-card-body {
+      display: grid;
+      gap: 16px;
+    }
+
+    .sports-card-stage {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(190px, 0.6fr);
+      gap: clamp(14px, 2.8vw, 24px);
+      align-items: stretch;
+    }
+
+    .sports-card-display,
+    .sports-card-detail {
+      margin: 0;
+      overflow: hidden;
+      border: 1px solid rgba(255, 214, 151, 0.32);
+      border-radius: 8px;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(255, 214, 151, 0.1), transparent 38%),
+        #090604;
+      box-shadow:
+        inset 0 0 0 1px rgba(0, 0, 0, 0.44),
+        0 18px 42px rgba(0, 0, 0, 0.42);
+    }
+
+    .sports-card-display img,
+    .sports-card-detail img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .sports-card-detail {
+      display: grid;
+      align-content: center;
+      padding: 10px;
+    }
+
+    .sports-card-detail img {
+      max-height: 380px;
+    }
+
+    .sports-card-copy {
+      display: grid;
+      gap: 8px;
+      padding: 14px;
+      border: 1px dashed rgba(255, 214, 151, 0.25);
+      border-radius: 8px;
+      background: rgba(9, 6, 4, 0.72);
+    }
+
+    .sports-card-copy h3,
+    .sports-card-copy p {
+      margin: 0;
+    }
+
+    .sports-card-copy h3 {
+      color: #ffe5b1;
+      font-family: var(--font-display);
+      font-size: clamp(1.25rem, 4vw, 2rem);
+      line-height: 0.98;
+      text-transform: uppercase;
+    }
+
+    .sports-card-copy p {
+      color: var(--muted);
+    }
+
     /* Toast */
     .toast {
       position: fixed;
@@ -3729,8 +3826,8 @@
       }
 
       .board-frame {
-        width: max(900px, calc(100vh * 1.332224));
-        width: max(900px, calc(100dvh * 1.332224));
+        width: max(900px, calc(100vh * 1.334445));
+        width: max(900px, calc(100dvh * 1.334445));
         min-width: 900px;
         height: 100vh;
         height: 100dvh;
@@ -3984,6 +4081,19 @@
         transform: translateX(-50%) translateY(-4px);
       }
 
+      .hotspot[data-figure="sportsCards"] {
+        --halo-top-mobile: 5%;
+        --halo-right-mobile: 5%;
+        --halo-bottom-mobile: 5%;
+        --halo-left-mobile: 5%;
+      }
+
+      .hotspot.is-sports-card .figure-plaque {
+        top: -42px;
+        min-width: 176px;
+        padding: 7px 10px;
+      }
+
       .hotspot[data-figure="reels"] {
         --halo-top-mobile: 4%;
         --halo-right-mobile: 10%;
@@ -4055,6 +4165,10 @@
       }
 
       .shelf-card-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sports-card-stage {
         grid-template-columns: 1fr;
       }
 
@@ -4251,8 +4365,8 @@
     <div class="board-wrap">
       <div class="board-frame" id="boardFrame">
         <picture class="board-picture">
-          <source data-srcset="action-figure-room.webp" type="image/webp">
-          <img class="board-image" id="boardImage" data-src="action-figure-room.png" data-candidates="action-figure-room.png,corkboard-desktop.png,corkboard-mobile.png" alt="Action-figure archive room with eight clickable figures, a clickable bookshelf, and Chaz and Amelia near the store area" width="2001" height="1502" loading="lazy" decoding="async" fetchpriority="low">
+          <source data-srcset="action-figure-room.webp?v=20260607-sports-cards" type="image/webp">
+          <img class="board-image" id="boardImage" data-src="action-figure-room.png?v=20260607-sports-cards" data-candidates="action-figure-room.png,corkboard-desktop.png,corkboard-mobile.png" alt="Action-figure archive room with eight clickable figures, a clickable bookshelf, Sass n Brass sports cards, and Chaz and Amelia near the store area" width="1600" height="1199" loading="lazy" decoding="async" fetchpriority="low">
         </picture>
 
         <div class="board-spotify-card" aria-label="Spotify artist player">
@@ -4316,6 +4430,10 @@
           <span class="figure-plaque" aria-hidden="true"><strong>BOOKSHELF ARCHIVE</strong></span>
           <span class="sr-only">Bookshelf archive</span>
         </button>
+        <button class="hotspot is-sports-card" type="button" data-menu-hotspot data-figure="sportsCards" data-action="sportsCards" aria-label="Open Sass n Brass sports cards">
+          <span class="figure-plaque" aria-hidden="true"><small>SPORTS CARDS</small><strong>SASS N BRASS LEAGUE</strong></span>
+          <span class="sr-only">Sass n Brass League sports cards</span>
+        </button>
         <a class="dock-link" data-dock="patreon" href="https://www.patreon.com/IMHIGHONCRACKANDIHAVEAGUN" target="_blank" rel="noopener noreferrer" aria-label="Open Patreon">
           <span class="dock-icon" aria-hidden="true">Patreon</span>
           <span class="dock-plaque" aria-hidden="true"><strong>PATREON CARD</strong></span>
@@ -4350,6 +4468,7 @@
             <button type="button" data-action="writing">Writing Pack</button>
             <button type="button" data-action="teaser">Teaser Insert</button>
             <button type="button" data-action="shop">Store Counter</button>
+            <button type="button" data-action="sportsCards">Sports Cards</button>
             <button type="button" data-action="dirt">Dirt Display</button>
             <button type="button" data-action="who">Tattoo Dropbox</button>
             <button type="button" data-action="social">Link Cards</button>
@@ -4912,6 +5031,35 @@
             </picture>
             <figcaption>Atlas study of a printed volume</figcaption>
           </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="modal" id="sportsCardsModal" role="dialog" aria-modal="true" aria-labelledby="sportsCardsTitle" hidden>
+    <div class="modal-panel sports-card-panel">
+      <header class="modal-header">
+        <h2 class="modal-title" id="sportsCardsTitle">Sass N Brass Sports Cards</h2>
+        <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
+      </header>
+      <div class="modal-body sports-card-body">
+        <div class="sports-card-stage">
+          <figure class="sports-card-display">
+            <picture>
+              <source srcset="sports-cards-display.webp" type="image/webp">
+              <img src="sports-cards-display.png" alt="A tabletop box of Sass n Brass League Crack Athlete sports cards" width="465" height="427" loading="lazy" decoding="async">
+            </picture>
+          </figure>
+          <figure class="sports-card-detail">
+            <picture>
+              <source srcset="sports-card-crack-athlete.webp" type="image/webp">
+              <img src="sports-card-crack-athlete.png" alt="Close-up of a Crack Athlete Sass n Brass League card" width="225" height="256" loading="lazy" decoding="async">
+            </picture>
+          </figure>
+        </div>
+        <div class="sports-card-copy">
+          <h3>Sport Glass Sass N Brass League</h3>
+          <p>Crack Athlete card stack from the room display. Card drops and collector inserts live here as the waves roll forward.</p>
         </div>
       </div>
     </div>
@@ -5486,6 +5634,7 @@
         social: () => openModal("socialModal"),
         shop: () => openModal("shopModal", { focusSelector: "[data-store-enter]" }),
         tipJar: () => openModal("tipJarModal"),
+        sportsCards: () => openModal("sportsCardsModal"),
         dirt: () => openModal("dirtShowModal"),
         who: () => openModal("whoModal"),
         bookshelf: () => openBookshelf(),
