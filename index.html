@@ -3560,19 +3560,19 @@
     }
 
     .sports-card-panel {
-      width: min(980px, 100%);
+      width: min(1180px, 100%);
     }
 
     .sports-card-body {
       display: grid;
-      gap: 16px;
+      gap: clamp(14px, 2vw, 22px);
     }
 
     .sports-card-stage {
       display: grid;
-      grid-template-columns: minmax(0, 1.4fr) minmax(190px, 0.6fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: clamp(14px, 2.8vw, 24px);
-      align-items: stretch;
+      align-items: start;
     }
 
     .sports-card-display,
@@ -3589,11 +3589,17 @@
         0 18px 42px rgba(0, 0, 0, 0.42);
     }
 
+    .sports-card-display.is-tall {
+      grid-column: 1 / -1;
+      justify-self: center;
+      width: min(680px, 100%);
+    }
+
     .sports-card-display img,
     .sports-card-detail img {
       display: block;
       width: 100%;
-      height: 100%;
+      height: auto;
       object-fit: contain;
     }
 
@@ -3624,7 +3630,7 @@
     .sports-card-copy h3 {
       color: #ffe5b1;
       font-family: var(--font-display);
-      font-size: clamp(1.25rem, 4vw, 2rem);
+      font-size: clamp(1.4rem, 4vw, 2.4rem);
       line-height: 0.98;
       text-transform: uppercase;
     }
@@ -4430,9 +4436,9 @@
           <span class="figure-plaque" aria-hidden="true"><strong>BOOKSHELF ARCHIVE</strong></span>
           <span class="sr-only">Bookshelf archive</span>
         </button>
-        <button class="hotspot is-sports-card" type="button" data-menu-hotspot data-figure="sportsCards" data-action="sportsCards" aria-label="Open Sass n Brass sports cards">
-          <span class="figure-plaque" aria-hidden="true"><small>SPORTS CARDS</small><strong>SASS N BRASS LEAGUE</strong></span>
-          <span class="sr-only">Sass n Brass League sports cards</span>
+        <button class="hotspot is-sports-card" type="button" data-menu-hotspot data-figure="sportsCards" data-action="sportsCards" aria-label="Open resourceful harm reduction information cards">
+          <span class="figure-plaque" aria-hidden="true"><small>RESOURCEFUL</small><strong>HARM REDUCTION INFO</strong></span>
+          <span class="sr-only">Resourceful harm reduction information cards</span>
         </button>
         <a class="dock-link" data-dock="patreon" href="https://www.patreon.com/IMHIGHONCRACKANDIHAVEAGUN" target="_blank" rel="noopener noreferrer" aria-label="Open Patreon">
           <span class="dock-icon" aria-hidden="true">Patreon</span>
@@ -4468,7 +4474,7 @@
             <button type="button" data-action="writing">Writing Pack</button>
             <button type="button" data-action="teaser">Teaser Insert</button>
             <button type="button" data-action="shop">Store Counter</button>
-            <button type="button" data-action="sportsCards">Sports Cards</button>
+            <button type="button" data-action="sportsCards">Harm Reduction Cards</button>
             <button type="button" data-action="dirt">Dirt Display</button>
             <button type="button" data-action="who">Tattoo Dropbox</button>
             <button type="button" data-action="social">Link Cards</button>
@@ -5039,27 +5045,33 @@
   <section class="modal" id="sportsCardsModal" role="dialog" aria-modal="true" aria-labelledby="sportsCardsTitle" hidden>
     <div class="modal-panel sports-card-panel">
       <header class="modal-header">
-        <h2 class="modal-title" id="sportsCardsTitle">Sass N Brass Sports Cards</h2>
+        <h2 class="modal-title" id="sportsCardsTitle">Resourceful Harm Reduction Information</h2>
         <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
       </header>
       <div class="modal-body sports-card-body">
         <div class="sports-card-stage">
           <figure class="sports-card-display">
             <picture>
-              <source srcset="sports-cards-display.webp" type="image/webp">
-              <img src="sports-cards-display.png" alt="A tabletop box of Sass n Brass League Crack Athlete sports cards" width="465" height="427" loading="lazy" decoding="async">
+              <source srcset="resourceful-harm-reduction-pack.webp" type="image/webp">
+              <img src="resourceful-harm-reduction-pack.png" alt="Global Resilience sports league harm reduction card and resource support pack" width="1003" height="706" loading="eager" decoding="async">
             </picture>
           </figure>
-          <figure class="sports-card-detail">
+          <figure class="sports-card-display">
             <picture>
-              <source srcset="sports-card-crack-athlete.webp" type="image/webp">
-              <img src="sports-card-crack-athlete.png" alt="Close-up of a Crack Athlete Sass n Brass League card" width="225" height="256" loading="lazy" decoding="async">
+              <source srcset="resourceful-harm-reduction-figure-card.webp" type="image/webp">
+              <img src="resourceful-harm-reduction-figure-card.png" alt="Sass n Brass League crack athlete harm reduction all-star collector card front and back" width="1589" height="1119" loading="eager" decoding="async">
+            </picture>
+          </figure>
+          <figure class="sports-card-display is-tall">
+            <picture>
+              <source srcset="resourceful-harm-reduction-stats-card.webp" type="image/webp">
+              <img src="resourceful-harm-reduction-stats-card.png" alt="Sport Glass Sass n Brass League resource card with harm reduction mission and support information" width="1136" height="1633" loading="eager" decoding="async">
             </picture>
           </figure>
         </div>
         <div class="sports-card-copy">
-          <h3>Sport Glass Sass N Brass League</h3>
-          <p>Crack Athlete card stack from the room display. Card drops and collector inserts live here as the waves roll forward.</p>
+          <h3>Resourceful Harm Reduction Information</h3>
+          <p>Education. Harm reduction. No judgement. Just dignity, support, and real options.</p>
         </div>
       </div>
     </div>
