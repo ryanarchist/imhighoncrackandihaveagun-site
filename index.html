@@ -1642,6 +1642,16 @@
       cursor: default;
     }
 
+    .transition-overlay.is-card-reveal {
+      background:
+        radial-gradient(circle at 50% 50%, rgba(171, 42, 26, 0.2), transparent 34rem),
+        #020202;
+    }
+
+    .transition-overlay.is-card-reveal video {
+      filter: drop-shadow(0 0 30px rgba(223, 55, 31, 0.28));
+    }
+
     .transition-overlay[hidden] {
       display: none;
     }
@@ -5659,7 +5669,13 @@
       const transitionMap = {
         youtube: "mp_.mp4",
         dopesick: "f_d_d_a_a_f_contentmp_.mp4",
-        social: "channmealsrr.mp4"
+        social: "channmealsrr.mp4",
+        sportsCards: {
+          src: "resourceful-harm-reduction-reveal.mp4",
+          className: "is-card-reveal",
+          locked: true,
+          maxMs: 16000
+        }
       };
 
       const readerSources = {
@@ -6365,13 +6381,15 @@
         const handler = actionMap[action];
         if (!handler) return;
 
-        const transitionSrc = transitionMap[action];
-        if (!transitionSrc) {
+        const transitionConfig = transitionMap[action];
+        if (!transitionConfig) {
           handler();
           return;
         }
 
-        playTransition(transitionSrc, handler);
+        const transitionSrc = typeof transitionConfig === "string" ? transitionConfig : transitionConfig.src;
+        const transitionOptions = typeof transitionConfig === "string" ? {} : transitionConfig;
+        playTransition(transitionSrc, handler, transitionOptions);
       }
 
       function playTransition(src, next, options = {}) {
@@ -6384,6 +6402,9 @@
         window.clearTimeout(transitionFallbackTimer);
         transitionCanSkip = !options.locked;
         transitionOverlay.classList.toggle("is-locked", !transitionCanSkip);
+        if (options.className) {
+          transitionOverlay.classList.add(options.className);
+        }
         transitionOverlay.setAttribute("aria-label", transitionCanSkip ? "Skip transition" : "Menu intro video");
         transitionOverlay.tabIndex = transitionCanSkip ? 0 : -1;
 
@@ -6396,6 +6417,9 @@
           transitionVideo.load();
           transitionOverlay.hidden = true;
           transitionOverlay.classList.remove("is-locked");
+          if (options.className) {
+            transitionOverlay.classList.remove(options.className);
+          }
           transitionOverlay.setAttribute("aria-label", "Skip transition");
           transitionOverlay.tabIndex = 0;
           transitionCanSkip = true;
