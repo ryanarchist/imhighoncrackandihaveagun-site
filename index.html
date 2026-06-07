@@ -940,12 +940,12 @@
 
     .store-prop {
       position: absolute;
-      left: 70.7%;
-      top: 69.6%;
+      left: 74.4%;
+      top: 68.4%;
       z-index: 20;
       display: block;
-      width: 13.4%;
-      height: 19.2%;
+      width: 11.6%;
+      height: 16.8%;
       min-width: 86px;
       min-height: 86px;
       padding: 0;
@@ -1128,6 +1128,71 @@
         0 0 82px rgba(255, 181, 74, 0.48);
     }
 
+    .store-prop-plaque {
+      position: absolute;
+      left: 50%;
+      top: calc(100% + 7px);
+      z-index: 3;
+      display: grid;
+      width: max(168px, 118%);
+      min-height: 36px;
+      padding: 8px 12px;
+      place-items: center;
+      color: #ffe5b1;
+      border: 1px solid rgba(255, 214, 151, 0.68);
+      border-radius: 2px;
+      background:
+        linear-gradient(180deg, rgba(255, 214, 151, 0.18), transparent 32%),
+        linear-gradient(135deg, rgba(164, 38, 38, 0.98), rgba(19, 9, 7, 0.98) 48%, rgba(119, 18, 20, 0.94)),
+        #150807;
+      box-shadow:
+        inset 0 0 0 1px rgba(0, 0, 0, 0.48),
+        inset 0 1px 0 rgba(255, 238, 202, 0.28),
+        0 0 22px rgba(217, 67, 67, 0.5),
+        0 10px 24px rgba(0, 0, 0, 0.56);
+      clip-path: polygon(8px 0, calc(100% - 8px) 0, 100% 8px, 100% calc(100% - 8px), calc(100% - 8px) 100%, 8px 100%, 0 calc(100% - 8px), 0 8px);
+      font-family: var(--font-card);
+      font-size: clamp(0.58rem, 0.92vw, 0.78rem);
+      font-weight: 900;
+      line-height: 1.1;
+      text-align: center;
+      text-shadow: 0 1px 0 #120705, 0 0 12px rgba(255, 214, 151, 0.38);
+      text-transform: uppercase;
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    .store-prop-plaque::before,
+    .store-prop-plaque::after {
+      position: absolute;
+      top: 50%;
+      width: 5px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: rgba(255, 214, 151, 0.86);
+      box-shadow: 0 0 8px rgba(255, 214, 151, 0.64);
+      content: "";
+      transform: translateY(-50%);
+    }
+
+    .store-prop-plaque::before {
+      left: 7px;
+    }
+
+    .store-prop-plaque::after {
+      right: 7px;
+    }
+
+    .store-prop:hover .store-prop-plaque,
+    .store-prop:focus-visible .store-prop-plaque {
+      border-color: rgba(255, 238, 202, 0.92);
+      box-shadow:
+        inset 0 0 0 1px rgba(0, 0, 0, 0.52),
+        inset 0 1px 0 rgba(255, 238, 202, 0.4),
+        0 0 34px rgba(217, 67, 67, 0.72),
+        0 12px 28px rgba(0, 0, 0, 0.62);
+    }
+
     .hotspot::before,
     .dock-link::before {
       position: absolute;
@@ -1283,7 +1348,7 @@
 
     .hotspot.is-dropbox::before {
       border-color: rgba(255, 238, 202, 0.46);
-      opacity: 0.36;
+      opacity: 0;
       box-shadow:
         inset 0 0 20px rgba(255, 214, 151, 0.1),
         0 0 0 1px rgba(255, 238, 202, 0.28),
@@ -1292,7 +1357,8 @@
     }
 
     .hotspot.is-dropbox .figure-plaque {
-      min-width: min(190px, 38vw);
+      left: -38%;
+      min-width: min(164px, 30vw);
       opacity: 0.96;
       transform: translateX(-50%) translateY(-2px);
       box-shadow:
@@ -1394,10 +1460,10 @@
     }
 
     .hotspot[data-figure="who"] {
-      --x: 66.2%;
-      --y: 34.2%;
-      --w: 9.5%;
-      --h: 48%;
+      --x: 65.6%;
+      --y: 34.3%;
+      --w: 8.7%;
+      --h: 47.4%;
     }
 
     .hotspot[data-figure="reels"] {
@@ -2654,6 +2720,135 @@
       text-shadow: 0 0 14px rgba(217, 67, 67, 0.26);
     }
 
+    .store-feature-wall {
+      display: grid;
+      gap: clamp(12px, 1.7vw, 18px);
+      align-items: stretch;
+    }
+
+    .store-feature-card {
+      position: relative;
+      display: grid;
+      gap: 10px;
+      align-content: start;
+      min-width: 0;
+      margin: 0;
+      padding: clamp(10px, 1.4vw, 14px);
+      overflow: hidden;
+      color: #ffe5b1;
+      border: 1px solid rgba(255, 214, 151, 0.28);
+      border-radius: 8px;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(255, 214, 151, 0.16), transparent 22rem),
+        linear-gradient(180deg, rgba(255, 238, 202, 0.075), rgba(0, 0, 0, 0.18)),
+        rgba(8, 5, 4, 0.92);
+      box-shadow:
+        0 20px 54px rgba(0, 0, 0, 0.38),
+        inset 0 0 0 1px rgba(0, 0, 0, 0.48);
+    }
+
+    .store-feature-card.is-cta {
+      appearance: none;
+      grid-column: 1 / -1;
+      width: 100%;
+      font: inherit;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .store-feature-card.is-cta:hover,
+    .store-feature-card.is-cta:focus-visible {
+      border-color: rgba(255, 238, 202, 0.74);
+      box-shadow:
+        0 0 0 2px rgba(255, 238, 202, 0.18),
+        0 0 34px rgba(217, 67, 67, 0.54),
+        0 22px 56px rgba(0, 0, 0, 0.48),
+        inset 0 0 0 1px rgba(0, 0, 0, 0.48);
+      outline: none;
+    }
+
+    .store-feature-card picture,
+    .store-feature-card img {
+      display: block;
+      width: 100%;
+    }
+
+    .store-feature-card picture {
+      overflow: hidden;
+      border-radius: 6px;
+      background: #f2f0eb;
+    }
+
+    .store-feature-card img {
+      height: clamp(300px, 34vw, 540px);
+      object-fit: contain;
+      object-position: center;
+      background: #f2f0eb;
+      image-rendering: auto;
+      filter: contrast(1.03) saturate(1.04);
+    }
+
+    .store-feature-card.is-ticket img,
+    .preorder-mini-card.is-ticket img {
+      height: clamp(150px, 14vw, 220px);
+      background: #090605;
+    }
+
+    .store-feature-card figcaption,
+    .store-feature-card strong {
+      color: #ffe5b1;
+      font-family: var(--font-display);
+      font-size: clamp(0.95rem, 1.5vw, 1.2rem);
+      font-weight: 900;
+      line-height: 1.1;
+      text-transform: uppercase;
+      text-shadow: 0 0 14px rgba(217, 67, 67, 0.28);
+    }
+
+    .store-feature-card span {
+      color: var(--muted);
+      font-size: clamp(0.86rem, 1.05vw, 0.96rem);
+      line-height: 1.35;
+    }
+
+    .store-preorder-tiles {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .store-preorder-tiles picture {
+      aspect-ratio: 1;
+      background: #090605;
+    }
+
+    .store-preorder-tiles img {
+      height: 100%;
+      object-fit: contain;
+      background: #090605;
+    }
+
+    .store-preorder-cta {
+      display: inline-grid;
+      min-height: 48px;
+      margin-top: 2px;
+      padding: 0 16px;
+      place-items: center;
+      justify-self: start;
+      color: #fff4d6;
+      border: 1px solid rgba(255, 214, 151, 0.52);
+      border-radius: 4px;
+      background:
+        linear-gradient(180deg, rgba(193, 44, 42, 0.98), rgba(89, 11, 14, 0.98));
+      box-shadow:
+        inset 0 1px 0 rgba(255, 238, 202, 0.22),
+        0 8px 24px rgba(0, 0, 0, 0.34);
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
     .store-checkout {
       display: grid;
       gap: 12px;
@@ -2981,6 +3176,55 @@
       line-height: 1.2;
       text-transform: uppercase;
       text-shadow: 0 0 14px rgba(217, 67, 67, 0.28);
+    }
+
+    .preorder-showcase-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .preorder-mini-card {
+      display: grid;
+      gap: 6px;
+      margin: 0;
+      padding: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 214, 151, 0.22);
+      border-radius: 8px;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(255, 214, 151, 0.1), transparent 12rem),
+        rgba(8, 5, 4, 0.9);
+      box-shadow:
+        0 14px 32px rgba(0, 0, 0, 0.32),
+        inset 0 0 0 1px rgba(0, 0, 0, 0.42);
+    }
+
+    .preorder-mini-card picture {
+      display: block;
+      overflow: hidden;
+      border-radius: 6px;
+      background: #090605;
+      aspect-ratio: 1;
+    }
+
+    .preorder-mini-card img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      background: #090605;
+    }
+
+    .preorder-mini-card figcaption {
+      color: #ffe5b1;
+      font-family: var(--font-card);
+      font-size: clamp(0.62rem, 1vw, 0.76rem);
+      font-weight: 900;
+      line-height: 1.1;
+      text-align: center;
+      text-transform: uppercase;
     }
 
     .preorder-menu {
@@ -3395,7 +3639,13 @@
         grid-template-columns: minmax(0, 0.92fr) minmax(340px, 0.68fr);
       }
 
+      .preorder-showcase-strip {
+        grid-column: 1;
+      }
+
       .preorder-checkout {
+        grid-column: 2;
+        grid-row: 1 / span 2;
         position: sticky;
         top: 74px;
         max-height: calc(100dvh - 112px);
@@ -3638,10 +3888,10 @@
       }
 
       .store-prop {
-        left: 70.5%;
-        top: 69.4%;
-        width: 14.8%;
-        height: 20.5%;
+        left: 74.2%;
+        top: 68.2%;
+        width: 12%;
+        height: 17.2%;
         min-width: 70px;
         min-height: 70px;
       }
@@ -3720,7 +3970,7 @@
       }
 
       .hotspot.is-dropbox::before {
-        opacity: 0.36;
+        opacity: 0;
         box-shadow:
           inset 0 0 22px rgba(255, 214, 151, 0.12),
           0 0 0 1px rgba(255, 238, 202, 0.3),
@@ -3729,7 +3979,8 @@
       }
 
       .hotspot.is-dropbox .figure-plaque {
-        min-width: 182px;
+        left: -36%;
+        min-width: 156px;
         transform: translateX(-50%) translateY(-4px);
       }
 
@@ -3789,6 +4040,14 @@
       .store-prop:focus-visible::before {
         opacity: 1;
         transform: none;
+      }
+
+      .store-prop-plaque {
+        top: calc(100% + 5px);
+        width: max(150px, 132%);
+        min-height: 34px;
+        padding: 7px 10px;
+        font-size: 0.58rem;
       }
 
       .figure-plaque {
@@ -3884,8 +4143,16 @@
         grid-template-columns: 1fr;
       }
 
+      .store-preorder-tiles {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
       .preorder-art img {
         max-height: none;
+      }
+
+      .preorder-showcase-strip {
+        grid-template-columns: 1fr;
       }
 
       .hotspot.is-primary .figure-plaque {
@@ -4070,6 +4337,7 @@
           <span class="sr-only">open bookshelf archive</span>
         </button>
         <button class="store-prop" type="button" data-action="shop" aria-label="Open Chaz n Amelia's Cocaina Pearl IHOCAIHAG Store">
+          <span class="store-prop-plaque" aria-hidden="true">Chaz & Amelia's Store</span>
           <span class="sr-only">Chaz n Amelia's Cocaina Pearl IHOCAIHAG Store</span>
         </button>
 
@@ -4194,11 +4462,35 @@
         <div class="preorder-grid">
           <figure class="preorder-art">
             <picture>
-              <source srcset="og-crack-pack-update.webp" type="image/webp">
-              <img src="og-crack-pack-update.png" alt="IG Account Update stay connected OG Crack Pack command card" width="2319" height="1303" loading="lazy" decoding="async">
+              <source srcset="preorders-live.webp" type="image/webp">
+              <img src="preorders-live.png" alt="Preorders Live limited drops book documentary and archive preorder screen" width="926" height="1665" loading="lazy" decoding="async">
             </picture>
-            <figcaption>OG Crack Pack command card / backup channels.</figcaption>
+            <figcaption>Limited drops / book + documentary + archive.</figcaption>
           </figure>
+
+          <div class="preorder-showcase-strip" aria-label="Preorder display assets">
+            <figure class="preorder-mini-card is-ticket">
+              <picture>
+                <source srcset="ticket.webp" type="image/webp">
+                <img src="ticket.png" alt="The OG Crackpack redemption ticket" width="1294" height="531" loading="lazy" decoding="async">
+              </picture>
+              <figcaption>OG Crackpack Ticket</figcaption>
+            </figure>
+            <figure class="preorder-mini-card">
+              <picture>
+                <source srcset="book-front-display.webp" type="image/webp">
+                <img src="book-front-display.png" alt="IHOCAIHAG book front display" width="1191" height="1634" loading="lazy" decoding="async">
+              </picture>
+              <figcaption>Signed Book</figcaption>
+            </figure>
+            <figure class="preorder-mini-card">
+              <picture>
+                <source srcset="shelf-dvd.webp" type="image/webp">
+                <img src="shelf-dvd.png" alt="Archive cut DVD display" width="285" height="309" loading="lazy" decoding="async">
+              </picture>
+              <figcaption>Archive Cut</figcaption>
+            </figure>
+          </div>
 
           <form class="store-checkout preorder-checkout" id="preorderForm" action="https://formsubmit.co/imhighoncrackandihaveagun@gmail.com" method="POST">
             <input type="hidden" name="_captcha" value="false">
@@ -4803,21 +5095,40 @@
           </div>
 
           <div class="store-layout">
-          <div class="store-gallery" aria-label="Store product photos">
-            <figure class="store-shot is-shirt">
+          <div class="store-gallery store-feature-wall" aria-label="Store product photos and preorder display">
+            <figure class="store-feature-card is-shirt">
               <picture>
                 <source srcset="store-shirt-black.webp" type="image/webp">
                 <img src="store-shirt-black.png" alt="Black IHOCAIHAG shirt front and back" width="1996" height="1481" loading="eager" decoding="async">
               </picture>
               <figcaption>Black shirt / front and back</figcaption>
             </figure>
-            <figure class="store-shot is-shirt">
+            <figure class="store-feature-card is-shirt">
               <picture>
                 <source srcset="store-shirt-red.webp" type="image/webp">
                 <img src="store-shirt-red.png" alt="Red IHOCAIHAG shirt front and back" width="1884" height="1565" loading="eager" decoding="async">
               </picture>
               <figcaption>Red shirt / front and back</figcaption>
             </figure>
+            <button class="store-feature-card is-cta" type="button" data-action="preorders" aria-label="Open project preorders">
+              <strong>Project Preorder Counter</strong>
+              <span>Hardcover, unedited documentary access, and the OG Crack Pack lane are live in the same register system.</span>
+              <div class="store-preorder-tiles" aria-hidden="true">
+                <picture>
+                  <source srcset="ticket.webp" type="image/webp">
+                  <img src="ticket.png" alt="" width="1294" height="531" loading="lazy" decoding="async">
+                </picture>
+                <picture>
+                  <source srcset="book-front-display.webp" type="image/webp">
+                  <img src="book-front-display.png" alt="" width="1191" height="1634" loading="lazy" decoding="async">
+                </picture>
+                <picture>
+                  <source srcset="shelf-dvd.webp" type="image/webp">
+                  <img src="shelf-dvd.png" alt="" width="285" height="309" loading="lazy" decoding="async">
+                </picture>
+              </div>
+              <span class="store-preorder-cta">Open Project Preorders</span>
+            </button>
           </div>
 
           <form class="store-checkout" id="shirtOrderForm" action="https://formsubmit.co/imhighoncrackandihaveagun@gmail.com" method="POST">
