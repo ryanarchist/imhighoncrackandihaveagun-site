@@ -166,6 +166,31 @@
       background: #000;
     }
 
+    .entry-instagram-shell {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: min(100vw, 560px);
+      height: 100vh;
+      height: 100dvh;
+      padding: max(12px, env(safe-area-inset-top)) 12px max(78px, calc(env(safe-area-inset-bottom) + 78px));
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .entry-instagram-shell .instagram-media {
+      width: 100% !important;
+      min-width: 0 !important;
+      max-width: 540px !important;
+      margin: 0 auto !important;
+    }
+
+    .entry-instagram-shell iframe {
+      max-width: 100% !important;
+      max-height: calc(100dvh - 104px) !important;
+    }
+
     .entry-video-frame {
       display: block;
       width: min(100vw, calc(100dvh * 9 / 16));
@@ -3892,15 +3917,11 @@
 <body class="entry-active">
   <section id="entryScene" aria-label="Video entry">
     <div class="entry-video-stage">
-      <iframe
-        class="entry-video-frame"
-        id="entryVideoFrame"
-        src="https://www.youtube.com/embed/7bpm7vjM9Fo?si=83NccEH123d0U4-B&amp;autoplay=1&amp;mute=1&amp;playsinline=1&amp;controls=1&amp;rel=0&amp;modestbranding=1"
-        title="YouTube entry video"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
-        referrerpolicy="strict-origin-when-cross-origin"
-        allowfullscreen
-        loading="eager"></iframe>
+      <div class="entry-instagram-shell">
+        <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/reel/DZRhpcST-S6/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14">
+          <a href="https://www.instagram.com/reel/DZRhpcST-S6/?utm_source=ig_embed&amp;utm_campaign=loading" target="_blank" rel="noopener noreferrer">View the intro reel on Instagram</a>
+        </blockquote>
+      </div>
       <button class="entry-video-continue" id="entryHit" type="button" aria-label="Continue to site">Continue to site</button>
     </div>
   </section>
