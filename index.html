@@ -940,18 +940,18 @@
 
     .store-prop {
       position: absolute;
-      left: 74.4%;
-      top: 68.4%;
+      left: 71.4%;
+      top: 70.4%;
       z-index: 20;
       display: block;
-      width: 11.6%;
-      height: 16.8%;
-      min-width: 86px;
-      min-height: 86px;
+      width: 12.8%;
+      height: 12.8%;
+      min-width: 70px;
+      min-height: 70px;
       padding: 0;
       cursor: pointer;
       border: 0;
-      border-radius: 46% 46% 18px 18px;
+      border-radius: 48% 48% 24px 24px;
       background: transparent;
       touch-action: manipulation;
     }
@@ -1094,10 +1094,10 @@
 
     .store-prop::before {
       position: absolute;
-      inset: -7% -9%;
+      inset: -13% -11% -10%;
       z-index: -1;
       border-radius: inherit;
-      border: 1px solid rgba(255, 221, 166, 0.42);
+      border: 2px solid rgba(255, 221, 166, 0.48);
       content: "";
       background:
         linear-gradient(180deg, rgba(255, 230, 177, 0.08), transparent 38%),
@@ -1122,19 +1122,19 @@
       opacity: 1;
       transform: scale(1.025);
       box-shadow:
-        inset 0 0 26px rgba(255, 214, 151, 0.16),
-        0 0 0 2px rgba(255, 238, 202, 0.58),
-        0 0 34px rgba(217, 67, 67, 0.72),
-        0 0 82px rgba(255, 181, 74, 0.48);
+        inset 0 0 32px rgba(255, 214, 151, 0.2),
+        0 0 0 3px rgba(255, 238, 202, 0.72),
+        0 0 44px rgba(217, 67, 67, 0.9),
+        0 0 104px rgba(255, 181, 74, 0.58);
     }
 
     .store-prop-plaque {
       position: absolute;
       left: 50%;
-      top: calc(100% + 7px);
+      bottom: calc(100% + 10px);
       z-index: 3;
       display: grid;
-      width: max(168px, 118%);
+      width: max(184px, 142%);
       min-height: 36px;
       padding: 8px 12px;
       place-items: center;
@@ -1155,10 +1155,12 @@
       font-size: clamp(0.58rem, 0.92vw, 0.78rem);
       font-weight: 900;
       line-height: 1.1;
+      opacity: 0;
       text-align: center;
       text-shadow: 0 1px 0 #120705, 0 0 12px rgba(255, 214, 151, 0.38);
       text-transform: uppercase;
       transform: translateX(-50%);
+      transition: opacity 160ms ease, box-shadow 160ms ease, transform 160ms ease;
       pointer-events: none;
     }
 
@@ -1185,6 +1187,8 @@
 
     .store-prop:hover .store-prop-plaque,
     .store-prop:focus-visible .store-prop-plaque {
+      opacity: 1;
+      transform: translateX(-50%) translateY(-2px);
       border-color: rgba(255, 238, 202, 0.92);
       box-shadow:
         inset 0 0 0 1px rgba(0, 0, 0, 0.52),
@@ -4001,10 +4005,10 @@
       }
 
       .store-prop {
-        left: 74.2%;
-        top: 68.2%;
-        width: 12%;
-        height: 17.2%;
+        left: 70.8%;
+        top: 70.2%;
+        width: 14.4%;
+        height: 12.2%;
         min-width: 70px;
         min-height: 70px;
       }
@@ -4142,9 +4146,9 @@
       }
 
       .store-prop::before {
-        inset: 7% 6% 14%;
+        inset: -9% -8% -8%;
         height: auto;
-        border: 2px solid rgba(255, 238, 202, 0.58);
+        border: 3px solid rgba(255, 238, 202, 0.68);
         border-radius: 999px 999px 22px 22px;
         background:
           linear-gradient(180deg, rgba(255, 232, 174, 0.035), transparent 38%),
@@ -4166,11 +4170,16 @@
       .store-prop:focus-visible::before {
         opacity: 1;
         transform: none;
+        box-shadow:
+          inset 0 0 26px rgba(255, 214, 151, 0.2),
+          0 0 0 3px rgba(255, 238, 202, 0.62),
+          0 0 42px rgba(217, 67, 67, 0.86),
+          0 0 98px rgba(255, 181, 74, 0.54);
       }
 
       .store-prop-plaque {
-        top: calc(100% + 5px);
-        width: max(150px, 132%);
+        bottom: calc(100% + 8px);
+        width: max(168px, 145%);
         min-height: 34px;
         padding: 7px 10px;
         font-size: 0.58rem;
@@ -7007,6 +7016,7 @@
             event.preventDefault();
             event.stopPropagation();
             clearArmedHotspot();
+            event.currentTarget.blur();
             action === "social" ? openModal("socialModal") : runAction(action);
           });
         });
