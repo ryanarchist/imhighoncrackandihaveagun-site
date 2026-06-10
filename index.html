@@ -5,8 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#080706">
   <title>IM HIGH ON CRACK AND I HAVE A GUN</title>
-  <meta name="description" content="A hidden collector toy-display archive room for IMHIGHONCRACKANDIHAVEAGUN.COM.">
+  <meta name="description" content="The room for IM HIGH ON CRACK AND I HAVE A GUN: book, raw documentary, soundtrack, Trap Passes, Patreon, merch, and the archive map.">
   <link rel="icon" href="data:,">
+  <link rel="preload" as="image" href="welcome-dirt-show-desktop.png" media="(orientation: landscape)">
+  <link rel="preload" as="image" href="welcome-dirt-show-mobile.png" media="(orientation: portrait), (max-width: 700px)">
   <link rel="preload" as="image" href="mothers-day-card.webp" type="image/webp">
   <link rel="preload" as="image" href="trap-pass-run-wave-4.webp" type="image/webp">
   <link rel="preload" as="image" href="action-figure-room.webp?v=20260607-sports-cards" type="image/webp">
@@ -127,9 +129,9 @@
       position: relative;
       z-index: 1;
       display: block;
-      width: min(100vw, calc(100dvh * 2309 / 1305));
-      height: min(100dvh, calc(100vw * 1305 / 2309));
-      aspect-ratio: 2309 / 1305;
+      width: min(100vw, calc(100dvh * 1353 / 764));
+      height: min(100dvh, calc(100vw * 764 / 1353));
+      aspect-ratio: 1353 / 764;
       overflow: hidden;
       background: #050403;
       box-shadow: 0 0 58px rgba(0, 0, 0, 0.72);
@@ -347,6 +349,10 @@
         0 18px 42px rgba(0, 0, 0, 0.54);
     }
 
+    .entry-youtube-hit::before {
+      content: "YT";
+    }
+
     .entry-main-hit {
       z-index: 2;
       left: 0;
@@ -354,6 +360,14 @@
       width: 100%;
       height: 100%;
       border-radius: 0;
+    }
+
+    @media (orientation: portrait), (max-width: 700px) {
+      .entry-stage {
+        width: min(100vw, calc(100dvh * 428 / 771));
+        height: min(100dvh, calc(100vw * 771 / 428));
+        aspect-ratio: 428 / 771;
+      }
     }
 
     #entryScene::before,
@@ -1001,13 +1015,13 @@
 
     .platform-alert-links {
       position: absolute;
-      left: 67.6%;
+      left: 57.8%;
       top: 24.4%;
       z-index: 8;
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 8px;
-      width: 26%;
+      width: 40%;
       pointer-events: auto;
     }
 
@@ -1015,8 +1029,10 @@
       display: grid;
       min-height: 52px;
       padding: 9px 12px;
+      cursor: pointer;
       align-content: center;
       color: #fff3cf;
+      font: inherit;
       text-decoration: none;
       text-transform: uppercase;
       border: 1px solid rgba(255, 218, 149, 0.72);
@@ -1029,6 +1045,18 @@
         0 0 22px rgba(188, 27, 31, 0.34),
         0 12px 30px rgba(0, 0, 0, 0.36);
       transition: transform 170ms ease, box-shadow 170ms ease, border-color 170ms ease;
+    }
+
+    .platform-alert-link.is-start {
+      background:
+        linear-gradient(135deg, rgba(255, 226, 143, 0.24), rgba(125, 19, 23, 0.92) 42%, rgba(13, 9, 7, 0.96)),
+        #190706;
+    }
+
+    .platform-alert-link.is-update {
+      background:
+        linear-gradient(135deg, rgba(227, 18, 25, 0.96), rgba(83, 8, 12, 0.94) 46%, rgba(13, 9, 7, 0.96)),
+        #8f1116;
     }
 
     .platform-alert-link:hover,
@@ -1350,7 +1378,7 @@
         0 10px 24px rgba(0, 0, 0, 0.55);
     }
 
-    .hotspot.is-dropbox::before {
+    .hotspot.is-submissions::before {
       border-color: rgba(255, 238, 202, 0.46);
       opacity: 0;
       box-shadow:
@@ -1360,7 +1388,7 @@
         0 0 70px rgba(255, 181, 74, 0.3);
     }
 
-    .hotspot.is-dropbox .figure-plaque {
+    .hotspot.is-submissions .figure-plaque {
       left: -38%;
       min-width: min(164px, 30vw);
       opacity: 0.96;
@@ -1690,12 +1718,14 @@
       justify-content: space-between;
       gap: 16px;
       padding: 14px 14px 12px;
+      padding-right: 70px;
       border-bottom: 1px solid var(--line);
       background: rgba(14, 11, 9, 0.96);
       backdrop-filter: blur(12px);
     }
 
     .modal-title {
+      min-width: 0;
       margin: 0;
       font-family: var(--font-display);
       font-size: clamp(1.05rem, 4.8vw, 1.6rem);
@@ -1703,6 +1733,7 @@
       line-height: 1.1;
       letter-spacing: 0;
       text-transform: uppercase;
+      overflow-wrap: anywhere;
     }
 
     .close-btn,
@@ -1730,7 +1761,10 @@
     }
 
     .close-btn {
-      flex: 0 0 auto;
+      position: fixed;
+      top: max(12px, env(safe-area-inset-top));
+      right: max(12px, env(safe-area-inset-right));
+      z-index: 120;
       width: 48px;
       padding: 0;
       font-size: 1.35rem;
@@ -1768,6 +1802,248 @@
       margin: 0 0 16px;
       color: var(--muted);
       line-height: 1.5;
+    }
+
+    .start-here-panel {
+      width: min(100%, 1060px);
+    }
+
+    .start-brief {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .start-brief p {
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(1rem, 2.2vw, 1.18rem);
+      line-height: 1.45;
+    }
+
+    .start-warning {
+      padding: 12px;
+      border: 1px solid rgba(255, 214, 151, 0.28);
+      border-radius: 8px;
+      color: #ffe5b1;
+      background:
+        linear-gradient(135deg, rgba(148, 31, 37, 0.18), transparent 42%),
+        rgba(255, 238, 202, 0.055);
+    }
+
+    .start-warning strong {
+      display: block;
+      margin-bottom: 4px;
+      color: #fff3cf;
+      font-family: var(--font-card);
+      text-transform: uppercase;
+    }
+
+    .start-door-grid,
+    .wave-grid,
+    .soundtrack-links {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin: 0 0 16px;
+    }
+
+    .media-frame + .start-door-grid,
+    .asset-note + .start-door-grid {
+      margin-top: 16px;
+    }
+
+    .start-door-grid .shop-card,
+    .wave-grid .shop-card {
+      min-height: 116px;
+    }
+
+    .status-stack {
+      display: grid;
+      gap: 10px;
+      margin: 0 0 16px;
+    }
+
+    .status-card {
+      padding: 12px;
+      border: 1px solid rgba(255, 238, 202, 0.15);
+      border-radius: 8px;
+      background: rgba(255, 238, 202, 0.055);
+    }
+
+    .status-card strong,
+    .status-card span {
+      display: block;
+    }
+
+    .status-card strong {
+      color: #fff3cf;
+      font-family: var(--font-card);
+      text-transform: uppercase;
+    }
+
+    .status-card span {
+      margin-top: 2px;
+      color: var(--muted);
+      line-height: 1.35;
+    }
+
+    .archive-note-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin: 0 0 16px;
+    }
+
+    .archive-note-card {
+      overflow: hidden;
+      margin: 0;
+      border: 1px solid rgba(255, 238, 202, 0.16);
+      border-radius: 8px;
+      background:
+        linear-gradient(180deg, rgba(255, 214, 151, 0.08), transparent 34%),
+        rgba(5, 4, 3, 0.74);
+    }
+
+    .archive-note-card img {
+      display: block;
+      width: 100%;
+      max-height: min(68vh, 760px);
+      object-fit: contain;
+      object-position: center top;
+      background:
+        radial-gradient(circle at 50% 22%, rgba(148, 31, 37, 0.16), transparent 46%),
+        #050403;
+    }
+
+    .archive-note-card figcaption {
+      display: grid;
+      gap: 4px;
+      padding: 10px;
+    }
+
+    .archive-note-card strong {
+      color: #fff3cf;
+      font-family: var(--font-card);
+      text-transform: uppercase;
+    }
+
+    .archive-note-card span {
+      color: var(--muted);
+      line-height: 1.32;
+    }
+
+    .archive-note-card.is-pencil img {
+      filter: contrast(1.08) saturate(0.92);
+    }
+
+    .archive-note-card.is-blue-pen img {
+      filter: contrast(1.04) saturate(1.05);
+    }
+
+    .wave-pass-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(14px, 2vw, 22px);
+      margin-bottom: 18px;
+    }
+
+    .wave-pass-card {
+      overflow: hidden;
+      border: 1px solid rgba(255, 238, 202, 0.16);
+      border-radius: 8px;
+      background:
+        linear-gradient(180deg, rgba(255, 214, 151, 0.08), transparent 34%),
+        rgba(5, 4, 3, 0.74);
+    }
+
+    .wave-pass-image {
+      position: relative;
+      overflow: hidden;
+      background: #050403;
+    }
+
+    .wave-pass-image::after {
+      content: "UNIQUE CODE HIDDEN";
+      position: absolute;
+      top: 7%;
+      right: 3.2%;
+      width: 12.4%;
+      height: 69%;
+      display: grid;
+      place-items: center;
+      padding: 6px 3px;
+      color: #160d08;
+      background:
+        repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.78) 0 3px, transparent 3px 8px),
+        linear-gradient(180deg, rgba(255, 232, 181, 0.96), rgba(188, 154, 94, 0.98));
+      border: 1px solid rgba(255, 238, 202, 0.55);
+      box-shadow:
+        inset 0 0 0 2px rgba(0, 0, 0, 0.16),
+        0 0 18px rgba(0, 0, 0, 0.38);
+      font-family: var(--font-display);
+      font-size: clamp(0.46rem, 1.1vw, 0.74rem);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: 0;
+      text-align: center;
+      text-transform: uppercase;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      transform: rotate(180deg);
+    }
+
+    .wave-pass-card img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 9 / 16;
+      object-fit: contain;
+      object-position: center top;
+      background: #050403;
+    }
+
+    .wave-pass-card figcaption {
+      display: grid;
+      gap: 8px;
+      padding: clamp(12px, 1.8vw, 16px);
+    }
+
+    .wave-pass-card strong {
+      color: #fff3cf;
+      font-family: var(--font-card);
+      font-size: clamp(1rem, 1.6vw, 1.28rem);
+      text-transform: uppercase;
+    }
+
+    .wave-pass-card span {
+      color: var(--muted);
+      font-size: clamp(0.95rem, 1.35vw, 1.08rem);
+      line-height: 1.28;
+    }
+
+    .wave-pass-card dl {
+      display: grid;
+      gap: 6px;
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(0.92rem, 1.25vw, 1.02rem);
+      line-height: 1.32;
+    }
+
+    .wave-pass-card dl > div {
+      display: grid;
+      gap: 2px;
+    }
+
+    .wave-pass-card dt {
+      color: #ffe5b1;
+      font-family: var(--font-display);
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .wave-pass-card dd {
+      margin: 0;
     }
 
     .media-frame {
@@ -3370,18 +3646,18 @@
       text-transform: uppercase;
     }
 
-    .dropbox-panel {
+    .submission-panel {
       width: min(100%, 1040px);
     }
 
-    .dropbox-body {
+    .submission-body {
       display: grid;
       grid-template-columns: minmax(0, 1.05fr) minmax(280px, 0.95fr);
       gap: clamp(14px, 2vw, 22px);
       align-items: start;
     }
 
-    .dropbox-card {
+    .submission-card {
       position: relative;
       margin: 0;
       overflow: hidden;
@@ -3393,7 +3669,7 @@
         0 0 0 1px rgba(255, 214, 151, 0.08);
     }
 
-    .dropbox-card img {
+    .submission-card img {
       display: block;
       width: 100%;
       max-height: min(74dvh, 780px);
@@ -3402,7 +3678,74 @@
       background: #090605;
     }
 
-    .dropbox-card figcaption {
+    .my-eyes-card-art {
+      position: relative;
+      display: grid;
+      min-height: min(74dvh, 650px);
+      padding: clamp(22px, 4vw, 38px);
+      overflow: hidden;
+      align-content: center;
+      gap: 12px;
+      color: #fff4dc;
+      background:
+        radial-gradient(circle at 20% 18%, rgba(255, 238, 202, 0.18), transparent 12rem),
+        radial-gradient(circle at 76% 78%, rgba(217, 67, 67, 0.34), transparent 15rem),
+        linear-gradient(135deg, rgba(17, 12, 9, 0.98), rgba(48, 20, 18, 0.92) 48%, rgba(9, 6, 5, 0.98)),
+        #090605;
+      isolation: isolate;
+    }
+
+    .my-eyes-card-art::before,
+    .my-eyes-card-art::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .my-eyes-card-art::before {
+      background:
+        linear-gradient(90deg, transparent 0 48%, rgba(255, 238, 202, 0.13) 49% 51%, transparent 52%),
+        repeating-linear-gradient(0deg, rgba(255, 238, 202, 0.05) 0 1px, transparent 1px 18px);
+      opacity: 0.42;
+    }
+
+    .my-eyes-card-art::after {
+      border: 1px solid rgba(255, 238, 202, 0.16);
+      box-shadow:
+        inset 0 0 60px rgba(0, 0, 0, 0.62),
+        inset 0 0 0 8px rgba(0, 0, 0, 0.16);
+    }
+
+    .my-eyes-card-art strong,
+    .my-eyes-card-art span {
+      display: block;
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 10vw, 6.5rem);
+      font-weight: 900;
+      line-height: 0.86;
+      text-transform: uppercase;
+      text-shadow: 0 3px 0 #160705, 0 0 24px rgba(217, 67, 67, 0.32);
+    }
+
+    .my-eyes-card-art strong {
+      color: #d94343;
+    }
+
+    .my-eyes-card-art em {
+      display: block;
+      max-width: 26ch;
+      color: #ffe5b1;
+      font-family: var(--font-display);
+      font-size: clamp(1.05rem, 3vw, 1.5rem);
+      font-style: normal;
+      font-weight: 900;
+      line-height: 1.1;
+      text-transform: uppercase;
+    }
+
+    .submission-card figcaption {
       position: absolute;
       left: 12px;
       right: 12px;
@@ -3424,13 +3767,13 @@
       text-shadow: 0 1px 0 #120705, 0 0 10px rgba(255, 214, 151, 0.26);
     }
 
-    .dropbox-controls {
+    .submission-controls {
       display: grid;
       gap: 14px;
       align-content: start;
     }
 
-    .dropbox-copy {
+    .submission-copy {
       margin: 0;
       color: #ffe5b1;
       font-family: var(--font-display);
@@ -3440,22 +3783,17 @@
       text-transform: uppercase;
     }
 
-    .dropbox-form textarea {
+    .submission-form textarea {
       min-height: 150px;
     }
 
-    .dropbox-receipt {
+    .submission-receipt {
       display: grid;
       gap: 10px;
     }
 
-    .dropbox-receipt[hidden] {
+    .submission-receipt[hidden] {
       display: none;
-    }
-
-    .dropbox-video {
-      border-color: rgba(255, 214, 151, 0.26);
-      box-shadow: 0 0 28px rgba(217, 67, 67, 0.22);
     }
 
     @keyframes smokeDrift {
@@ -4086,7 +4424,7 @@
         --halo-left-mobile: 12%;
       }
 
-      .hotspot.is-dropbox::before {
+      .hotspot.is-submissions::before {
         opacity: 0;
         box-shadow:
           inset 0 0 22px rgba(255, 214, 151, 0.12),
@@ -4095,7 +4433,7 @@
           0 0 72px rgba(255, 181, 74, 0.32);
       }
 
-      .hotspot.is-dropbox .figure-plaque {
+      .hotspot.is-submissions .figure-plaque {
         left: -36%;
         min-width: 156px;
         transform: translateX(-50%) translateY(-4px);
@@ -4269,12 +4607,16 @@
         transform: translateY(-2px);
       }
 
-      .dropbox-body {
+      .submission-body {
         grid-template-columns: 1fr;
       }
 
-      .dropbox-card img {
+      .submission-card img {
         max-height: 62dvh;
+      }
+
+      .my-eyes-card-art {
+        min-height: 430px;
       }
 
       .store-gallery,
@@ -4304,6 +4646,49 @@
 
     }
 
+    @media (max-width: 760px) {
+      .modal {
+        padding: 10px;
+      }
+
+      .modal-panel,
+      .start-here-panel,
+      .soundtrack-panel,
+      .sports-card-panel {
+        width: calc(100vw - 20px);
+      }
+
+      .modal-header {
+        gap: 10px;
+        min-height: 66px;
+        padding-right: 66px;
+      }
+
+      .modal-header .close-btn {
+        position: fixed;
+        top: max(12px, env(safe-area-inset-top));
+        right: max(12px, env(safe-area-inset-right));
+        z-index: 120;
+      }
+
+      .start-door-grid,
+      .wave-grid,
+      .soundtrack-links,
+      .archive-note-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .wave-pass-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .wave-pass-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       *,
       *::before,
@@ -4321,14 +4706,20 @@
   </style>
 </head>
 <body class="entry-active">
-  <section id="entryScene" aria-label="Video entry">
-    <div class="entry-video-stage">
-      <div class="entry-instagram-shell">
-        <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/reel/DZRhpcST-S6/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14">
-          <a href="https://www.instagram.com/reel/DZRhpcST-S6/?utm_source=ig_embed&amp;utm_campaign=loading" target="_blank" rel="noopener noreferrer">View the intro reel on Instagram</a>
-        </blockquote>
+  <section id="entryScene" aria-label="Project entry">
+    <div class="entry-stage">
+      <picture>
+        <source media="(orientation: portrait), (max-width: 700px)" srcset="welcome-dirt-show-mobile.png" type="image/png">
+        <source srcset="welcome-dirt-show-desktop.png" type="image/png">
+        <img class="entry-image" id="entryImage" src="welcome-dirt-show-desktop.png" data-candidates="welcome-dirt-show-desktop.png,welcome-dirt-show-mobile.png,entry-graphic.png,entry.jpg" alt="Warning welcome to the Dirt Show entry graphic" width="1353" height="764" decoding="async" fetchpriority="high">
+      </picture>
+      <button class="entry-hotspot entry-main-hit" id="entryHit" type="button" aria-label="Enter the project room"></button>
+      <div class="entry-fallback" role="status">
+        <span>
+          <strong>The room is still live.</strong>
+          <span>Entry graphic missing. Tap anywhere to continue.</span>
+        </span>
       </div>
-      <button class="entry-video-continue" id="entryHit" type="button" aria-label="Continue to site">Continue to site</button>
     </div>
   </section>
 
@@ -4408,7 +4799,15 @@
             loading="lazy"></iframe>
         </div>
 
-        <nav class="platform-alert-links" aria-label="Emergency platform links">
+        <nav class="platform-alert-links" aria-label="Room priority links">
+          <button class="platform-alert-link is-start" type="button" data-action="startHere">
+            <span>Start</span>
+            <strong>Here</strong>
+          </button>
+          <a class="platform-alert-link is-update" href="https://www.youtube.com/watch?v=auJrexmUqOY" target="_blank" rel="noopener noreferrer">
+            <span>3 AM</span>
+            <strong>Update</strong>
+          </a>
           <a class="platform-alert-link is-youtube" href="https://www.youtube.com/@imhighoncrackandihaveagun" target="_blank" rel="noopener noreferrer">
             <span>Join The</span>
             <strong>YouTube</strong>
@@ -4423,9 +4822,9 @@
           <span class="figure-plaque" aria-hidden="true"><small>PREORDERS LIVE</small><strong>LIMITED PREORDERS AND OG CRACK PACKS JUST WENT LIVE!</strong></span>
           <span class="sr-only">Limited preorders and OG Crack Packs just went live</span>
         </button>
-        <button class="hotspot" type="button" data-menu-hotspot data-figure="dopesick" data-action="suno" aria-label="Open OG Crack Track music video">
-          <span class="figure-plaque" aria-hidden="true"><small>MUSIC VIDEO</small><strong>OG CRACK TRACK</strong></span>
-          <span class="sr-only">OG Crack Track music video</span>
+        <button class="hotspot" type="button" data-menu-hotspot data-figure="dopesick" data-action="media" aria-label="Open YouTube video shelf">
+          <span class="figure-plaque" aria-hidden="true"><small>YOUTUBE</small><strong>3 AM UPDATE</strong></span>
+          <span class="sr-only">YouTube video shelf</span>
         </button>
         <button class="hotspot" type="button" data-menu-hotspot data-figure="writing" data-action="writing" aria-label="Open sealed writing pack">
           <span class="figure-plaque" aria-hidden="true"><strong>SEALED WRITING PACK</strong></span>
@@ -4443,9 +4842,9 @@
           <span class="figure-plaque" aria-hidden="true"><strong>THE DIRT SHOW DISPLAY</strong></span>
           <span class="sr-only">The Dirt Show display</span>
         </button>
-        <button class="hotspot is-dropbox" type="button" data-menu-hotspot data-figure="who" data-action="who" aria-label="Open tattoo suggestion dropbox">
-          <span class="figure-plaque" aria-hidden="true"><small>SUBMIT A TATTOO</small><strong>TATTOO DROPBOX</strong></span>
-          <span class="sr-only">Tattoo suggestion dropbox</span>
+        <button class="hotspot is-submissions" type="button" data-menu-hotspot data-figure="who" data-action="myEyes" aria-label="Open My Eyes / Your Eyes writing submissions">
+          <span class="figure-plaque" aria-hidden="true"><small>SUBMIT WRITING</small><strong>MY EYES / YOUR EYES</strong></span>
+          <span class="sr-only">My Eyes / Your Eyes writing submissions</span>
         </button>
         <a class="hotspot" data-menu-hotspot data-figure="reels" href="https://www.patreon.com/IMHIGHONCRACKANDIHAVEAGUN" target="_blank" rel="noopener noreferrer" aria-label="Open Patreon">
           <span class="figure-plaque" aria-hidden="true"><small>BACK THE PROJECT</small><strong>PATREON</strong></span>
@@ -4455,9 +4854,9 @@
           <span class="figure-plaque" aria-hidden="true"><strong>BOOKSHELF ARCHIVE</strong></span>
           <span class="sr-only">Bookshelf archive</span>
         </button>
-        <button class="hotspot is-sports-card" type="button" data-menu-hotspot data-figure="sportsCards" data-action="sportsCards" aria-label="Open resourceful harm reduction information cards">
-          <span class="figure-plaque" aria-hidden="true"><small>RESOURCEFUL</small><strong>HARM REDUCTION INFO</strong></span>
-          <span class="sr-only">Resourceful harm reduction information cards</span>
+        <button class="hotspot is-sports-card" type="button" data-menu-hotspot data-figure="sportsCards" data-action="sportsCards" aria-label="Open Trap Pass waves and lore thread">
+          <span class="figure-plaque" aria-hidden="true"><small>WAVE 1-4</small><strong>TRAP PASS LORE</strong></span>
+          <span class="sr-only">Trap Pass waves and lore thread</span>
         </button>
         <a class="dock-link" data-dock="patreon" href="https://www.patreon.com/IMHIGHONCRACKANDIHAVEAGUN" target="_blank" rel="noopener noreferrer" aria-label="Open Patreon">
           <span class="dock-icon" aria-hidden="true">Patreon</span>
@@ -4489,13 +4888,14 @@
           <p>Place action-figure-room.png beside this file. The collector slots are still open below.</p>
           <div class="fallback-actions">
             <button type="button" data-action="preorders">Preorders Live</button>
-            <button type="button" data-action="suno">Music Video</button>
+            <button type="button" data-action="startHere">Start Here</button>
+            <button type="button" data-action="media">Video Shelf</button>
             <button type="button" data-action="writing">Writing Pack</button>
             <button type="button" data-action="teaser">Teaser Insert</button>
             <button type="button" data-action="shop">Store Counter</button>
-            <button type="button" data-action="sportsCards">Harm Reduction Cards</button>
+            <button type="button" data-action="sportsCards">Trap Pass Waves</button>
             <button type="button" data-action="dirt">Dirt Display</button>
-            <button type="button" data-action="who">Tattoo Dropbox</button>
+            <button type="button" data-action="myEyes">My Eyes / Your Eyes</button>
             <button type="button" data-action="social">Link Cards</button>
           </div>
         </div>
@@ -4513,9 +4913,9 @@
           <img class="shelf-image" id="shelfImage" data-src="bookshelf-room.png" data-candidates="bookshelf-room.png" alt="Bookshelf archive close-up with collector figures, books, soundtrack CD, and archive DVD" width="2004" height="1489" loading="lazy" decoding="async" fetchpriority="low">
         </picture>
 
-        <button class="hotspot shelf-hotspot" type="button" data-menu-hotspot data-shelf-item="roofer" data-action="rooferShelf" aria-label="Open Ryan Homanics Roofer figure section">
+        <button class="hotspot shelf-hotspot" type="button" data-menu-hotspot data-shelf-item="roofer" data-action="rooferShelf" aria-label="Open my Roofer figure section">
           <span class="figure-plaque" aria-hidden="true"><strong>ROOFER FIGURE</strong></span>
-          <span class="sr-only">Ryan Homanics Roofer figure</span>
+          <span class="sr-only">My Roofer figure</span>
         </button>
         <button class="hotspot shelf-hotspot" type="button" data-menu-hotspot data-shelf-item="roon-poon" data-action="roonPoonShelf" aria-label="Open Roon n' Poon figure section">
           <span class="figure-plaque" aria-hidden="true"><strong>ROON N' POON</strong></span>
@@ -4533,9 +4933,9 @@
           <span class="figure-plaque" aria-hidden="true"><strong>IHOCAIHAG BOOK</strong></span>
           <span class="sr-only">IHOCAIHAG book</span>
         </button>
-        <button class="hotspot shelf-hotspot" type="button" data-menu-hotspot data-shelf-item="cd" data-action="suno" aria-label="Open soundtrack CD section">
-          <span class="figure-plaque" aria-hidden="true"><strong>SOUNDTRACK CD</strong></span>
-          <span class="sr-only">Soundtrack CD</span>
+        <button class="hotspot shelf-hotspot" type="button" data-menu-hotspot data-shelf-item="cd" data-action="media" aria-label="Open YouTube update shelf">
+          <span class="figure-plaque" aria-hidden="true"><strong>YOUTUBE UPDATE SHELF</strong></span>
+          <span class="sr-only">YouTube update shelf</span>
         </button>
         <button class="hotspot shelf-hotspot" type="button" data-menu-hotspot data-shelf-item="dvd" data-action="archiveCutShelf" aria-label="Open archive DVD section">
           <span class="figure-plaque" aria-hidden="true"><strong>ARCHIVE DVD</strong></span>
@@ -4551,9 +4951,198 @@
             <button type="button" data-action="streetArrestShelf">Street Arrest</button>
             <button type="button" data-action="dopesick">Dopesick</button>
             <button type="button" data-action="dirt">IHOCAIHAG Book</button>
-            <button type="button" data-action="suno">Soundtrack CD</button>
+            <button type="button" data-action="media">Video Shelf</button>
             <button type="button" data-action="archiveCutShelf">Archive DVD</button>
           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="modal" id="startHereModal" role="dialog" aria-modal="true" aria-labelledby="startHereTitle" hidden>
+    <div class="modal-panel start-here-panel">
+      <header class="modal-header">
+        <h2 class="modal-title" id="startHereTitle">Start Here: The Room</h2>
+        <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
+      </header>
+      <div class="modal-body">
+        <div class="start-brief">
+          <p><strong>IM HIGH ON CRACK AND I HAVE A GUN</strong> is a self-documented addiction archive becoming a book, raw documentary, soundtrack, and social experiment about addiction as an operating system.</p>
+          <p>This room is the project map. The figures, shelf, cards, music, store, Patreon, and YouTube slots are all doors into different parts of the same story.</p>
+          <p class="start-warning"><strong>About the title</strong> The title is the flare. The archive is the evidence. The story is what happens after you look closer.</p>
+        </div>
+
+        <div class="start-door-grid" aria-label="Project starting points">
+          <button class="shop-card" type="button" data-action="jan22">
+            <strong>January 22 Origin</strong>
+            <span>Start at the root video. The rest of the room grows outward from this first node.</span>
+          </button>
+          <a class="social-link" href="https://www.youtube.com/@imhighoncrackandihaveagun" target="_blank" rel="noopener noreferrer">
+            <strong>Watch</strong>
+            <span>YouTube is the main public screen for raw documentary clips, updates, video pieces, and the long-form build.</span>
+          </a>
+          <button class="shop-card" type="button" data-action="dirt">
+            <strong>Read</strong>
+            <span>The book, cover system, teaser inserts, Dopesick history, and writing fragments live through the shelf and book doors.</span>
+          </button>
+          <button class="shop-card" type="button" data-action="media">
+            <strong>Current Videos</strong>
+            <span>The 3 AM email update, the cat shirt car crash video, and the YouTube trail live here.</span>
+          </button>
+        </div>
+
+        <div class="status-stack">
+          <div class="status-card">
+            <strong>The account disappeared. The archive did not.</strong>
+            <span>Instagram and TikTok can scatter an audience overnight. This site, the email list, YouTube, and Patreon are the durable path home.</span>
+          </div>
+          <div class="status-card">
+            <strong>Patreon is the back room.</strong>
+            <span>The public feed gets sparks. Patreon gets raw cuts, early chapters, archive finds, extended scenes, soundtrack demos, and the documentary being assembled in real time.</span>
+          </div>
+          <div class="status-card">
+            <strong>Trap Passes are early-proof objects.</strong>
+            <span>Part collectible, part key, part receipt that you were here while the archive was still being built.</span>
+          </div>
+          <div class="status-card">
+            <strong>The sections are threads, not random rooms.</strong>
+            <span>The figures, books, cats, writing, music, bans, money, humor, and Trap Passes are recurring wires in the same system.</span>
+          </div>
+          <div class="status-card">
+            <strong>The origin has a paper trail.</strong>
+            <span>The Jan 22 pencil note and Jan 27 hospital aftermath page connect the origin video, grief/loss, writing, and hospital aftermath threads.</span>
+          </div>
+        </div>
+
+        <div class="start-door-grid" aria-label="Next actions">
+          <button class="shop-card" type="button" data-action="threads">
+            <strong>Open Thread Map</strong>
+            <span>See how the room doors cross into one project world.</span>
+          </button>
+          <button class="shop-card" type="button" data-action="originNotes">
+            <strong>Open Handwritten Notes</strong>
+            <span>Read the Jan 22 crisis page and Jan 27 hospital aftermath page.</span>
+          </button>
+          <button class="shop-card" type="button" data-action="sportsCards">
+            <strong>Open Trap Passes</strong>
+            <span>See Wave 1 through Wave 4 and what each wave means.</span>
+          </button>
+          <a class="social-link" href="https://www.patreon.com/IMHIGHONCRACKANDIHAVEAGUN" target="_blank" rel="noopener noreferrer">
+            <strong>Enter Patreon</strong>
+            <span>Join free or paid so the deeper trail does not disappear with another app.</span>
+          </a>
+        </div>
+
+        <div class="start-door-grid" aria-label="Dispatch actions">
+          <button class="shop-card" type="button" data-action="email">
+            <strong>Join Dispatch</strong>
+            <span>Get project updates, Trap Pass movement, and drop notices through email.</span>
+          </button>
+          <a class="social-link" href="https://www.youtube.com/@imhighoncrackandihaveagun" target="_blank" rel="noopener noreferrer">
+            <strong>Subscribe On YouTube</strong>
+            <span>The public video trail goes here before another platform can erase the orbit.</span>
+          </a>
+          <a class="social-link" href="https://www.youtube.com/watch?v=auJrexmUqOY" target="_blank" rel="noopener noreferrer">
+            <strong>3 AM Email Update</strong>
+            <span>The spoken-word trap pass/email video belongs in front.</span>
+          </a>
+          <button class="shop-card" type="button" data-action="social">
+            <strong>All Links</strong>
+            <span>Current socials, store, book, Patreon, and the home base.</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="modal" id="jan22Modal" role="dialog" aria-modal="true" aria-labelledby="jan22Title" hidden>
+    <div class="modal-panel start-here-panel">
+      <header class="modal-header">
+        <h2 class="modal-title" id="jan22Title">January 22 Origin</h2>
+        <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
+      </header>
+      <div class="modal-body">
+        <div class="start-brief">
+          <p><strong>January 22</strong> is the root node of the documentary world: the first door in the map, not a random clip floating by itself.</p>
+          <p>The archive, book, cats, writing, addiction footage, money math, platform bans, Trap Passes, and final convergence all grow outward from this origin point.</p>
+          <p class="start-warning"><strong>Watch it as the first wire.</strong> After this, the room starts reading less like separate sections and more like one connected system.</p>
+        </div>
+
+        <div class="media-frame">
+          <iframe
+            src="https://www.youtube.com/embed/etqV9snaQ2I?si=dXKddUMBtTy2Gg-o"
+            title="January 22 origin video"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen></iframe>
+        </div>
+
+        <div class="start-door-grid" aria-label="January 22 next doors">
+          <a class="social-link" href="https://www.youtube.com/watch?v=etqV9snaQ2I" target="_blank" rel="noopener noreferrer">
+            <strong>Open On YouTube</strong>
+            <span>Watch the origin video directly on the channel.</span>
+          </a>
+          <button class="shop-card" type="button" data-action="originNotes">
+            <strong>Handwritten Notes</strong>
+            <span>Open the Jan 22 crisis note and Jan 27 hospital aftermath page.</span>
+          </button>
+          <button class="shop-card" type="button" data-action="threads">
+            <strong>Open Thread Map</strong>
+            <span>See how January 22 connects to the rest of the project wiring.</span>
+          </button>
+          <a class="social-link" href="https://www.youtube.com/watch?v=auJrexmUqOY" target="_blank" rel="noopener noreferrer">
+            <strong>3 AM Email Update</strong>
+            <span>Jump from the origin to the current dispatch.</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="modal" id="originNotesModal" role="dialog" aria-modal="true" aria-labelledby="originNotesTitle" hidden>
+    <div class="modal-panel start-here-panel">
+      <header class="modal-header">
+        <h2 class="modal-title" id="originNotesTitle">Jan 22 / Jan 27 Notes</h2>
+        <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
+      </header>
+      <div class="modal-body">
+        <div class="start-brief">
+          <p><strong>These pages are the bridge between the origin video, the writing thread, and the grief/loss thread.</strong></p>
+          <p>The pencil page belongs to the Jan 22 crisis window. The blue pen page belongs to the hospital aftermath after waking up days later.</p>
+          <p class="start-warning"><strong>Content warning</strong> These are crisis-era handwritten pages tied to suicidal ideation, psychiatric hospitalization, and the collapse point that the project keeps returning to.</p>
+        </div>
+
+        <div class="archive-note-grid" aria-label="January handwritten archive notes">
+          <figure class="archive-note-card is-pencil">
+            <img src="jan22-pencil-note.jpg" alt="Pencil handwritten note written January 22 2026 at 3:40 AM" width="1013" height="1800" loading="lazy" decoding="async">
+            <figcaption>
+              <strong>Jan 22, 2026 / 3:40 AM</strong>
+              <span>Pencil note written roughly three hours before I made the decision to make the post and end my life.</span>
+            </figcaption>
+          </figure>
+
+          <figure class="archive-note-card is-blue-pen">
+            <img src="jan27-blue-pen-note.jpg" alt="Blue pen handwritten note written January 27 2026 after waking from three days sedated at Western Psych Presby Hospital in Pittsburgh" width="1013" height="1800" loading="lazy" decoding="async">
+            <figcaption>
+              <strong>Jan 27, 2026</strong>
+              <span>Blue pen note written after waking from a three-day sedation at Western Psych / Presby Hospital in Pittsburgh.</span>
+            </figcaption>
+          </figure>
+        </div>
+
+        <div class="start-door-grid" aria-label="Origin note thread doors">
+          <button class="shop-card" type="button" data-action="jan22">
+            <strong>Back To Jan 22</strong>
+            <span>Return to the origin video.</span>
+          </button>
+          <button class="shop-card" type="button" data-action="writing">
+            <strong>Writing Thread</strong>
+            <span>Follow the handwritten pages into the writing rack.</span>
+          </button>
+          <button class="shop-card" type="button" data-action="threads">
+            <strong>Thread Map</strong>
+            <span>See where the crisis and aftermath pages sit in the full system.</span>
+          </button>
         </div>
       </div>
     </div>
@@ -4741,14 +5330,14 @@
                 <span class="qr-card qr-scan">
                   <picture>
                     <source srcset="payment-paypal-seller.webp" type="image/webp">
-                    <img src="payment-paypal-seller.png" alt="PayPal seller QR for Ryan Homanics" width="771" height="904" loading="lazy" decoding="async">
+                    <img src="payment-paypal-seller.png" alt="PayPal seller QR code" width="771" height="904" loading="lazy" decoding="async">
                   </picture>
                   Seller code
                 </span>
                 <span class="qr-card">
                   <picture>
                     <source srcset="payment-paypal-profile.webp" type="image/webp">
-                    <img src="payment-paypal-profile.png" alt="PayPal profile for Ryan Homanics" width="567" height="400" loading="lazy" decoding="async">
+                    <img src="payment-paypal-profile.png" alt="PayPal profile card" width="567" height="400" loading="lazy" decoding="async">
                   </picture>
                   Profile card
                 </span>
@@ -4766,7 +5355,7 @@
                 <p>If scanning opens a browser error, close it and search <code>$ryanhomanics</code> inside the Cash App app.</p>
                 <picture>
                   <source srcset="payment-cashapp.webp" type="image/webp">
-                  <img src="payment-cashapp.png?v=20260509" alt="Cash App QR for Ryan Homanics" width="765" height="987" loading="lazy" decoding="async">
+                  <img src="payment-cashapp.png?v=20260509" alt="Cash App QR code" width="765" height="987" loading="lazy" decoding="async">
                 </picture>
               </details>
             </div>
@@ -4776,7 +5365,7 @@
               <p>Chime: <code>$Ryan-Homanics</code></p>
               <picture>
                 <source srcset="payment-chime.webp" type="image/webp">
-                <img src="payment-chime.png" alt="Chime QR for Ryan Homanics" width="672" height="694" loading="lazy" decoding="async">
+                <img src="payment-chime.png" alt="Chime QR code" width="672" height="694" loading="lazy" decoding="async">
               </picture>
             </div>
 
@@ -4805,7 +5394,7 @@
       </header>
       <div class="modal-body unlock-body">
         <p class="unlock-copy">Run Wave 4: Relax, Refresh, Reform, Bring The Storm.</p>
-        <p class="unlock-support">Enter email to claim your Trap Pass. Check your inbox for the pass link.</p>
+        <p class="unlock-support">Platforms disappear. The archive does not. Claim the pass and get the dispatch.</p>
         <div class="entry-number-card" aria-live="polite">
           <strong id="entryNumberLabel">TRAP PASS #PENDING</strong>
           <span id="entryNumberNote">Serial prints after signup.</span>
@@ -4876,6 +5465,20 @@
           </video>
         </div>
         <p class="asset-note" id="typewriterNote" hidden>Typewriter insert unavailable. Opening the writing rack.</p>
+        <div class="start-door-grid" aria-label="Writing archive doors">
+          <button class="shop-card" type="button" data-action="originNotes">
+            <strong>Jan 22 / Jan 27 Notes</strong>
+            <span>Open the handwritten crisis and hospital aftermath pages.</span>
+          </button>
+          <button class="shop-card" type="button" data-action="threads">
+            <strong>Thread Map</strong>
+            <span>Place the writing inside the full project wiring.</span>
+          </button>
+          <button class="shop-card" type="button" data-action="jan22">
+            <strong>Jan 22 Origin</strong>
+            <span>Return to the root video.</span>
+          </button>
+        </div>
       </div>
     </div>
   </section>
@@ -4909,36 +5512,119 @@
   </section>
 
   <section class="modal" id="threadsModal" role="dialog" aria-modal="true" aria-labelledby="threadsTitle" hidden>
-    <div class="modal-panel soundtrack-panel">
+    <div class="modal-panel start-here-panel">
       <header class="modal-header">
-        <h2 class="modal-title" id="threadsTitle">Threads Of Our Lives</h2>
+        <h2 class="modal-title" id="threadsTitle">The Threads</h2>
         <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
       </header>
-      <div class="modal-body soundtrack-body">
-        <p class="modal-copy">The project theme reel.</p>
-        <div class="instagram-shell">
-          <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/reel/DYv9KxotZ7i/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14">
-            <a href="https://www.instagram.com/reel/DYv9KxotZ7i/?utm_source=ig_embed&amp;utm_campaign=loading" target="_blank" rel="noopener noreferrer">View Threads Of Our Lives on Instagram</a>
-          </blockquote>
+      <div class="modal-body">
+        <div class="start-brief">
+          <p>A thread is not a topic or category. It is a recurring line of meaning that begins somewhere, shows up again in different forms, crosses other threads, disappears, mutates, and returns later with more weight.</p>
+          <p>This room is built like a thread map. The book, documentary, music, Trap Passes, archive, cats, writing, addiction footage, platform bans, and political theory are not separate lanes. They are different wires in the same system.</p>
+          <p class="start-warning"><strong>Root node: January 22.</strong> The figures are not random buttons. They are doors into the same project world: watch, read, listen, join, collect, and follow the trail home.</p>
         </div>
-        <button class="plain-btn soundtrack-cta" type="button" data-close-modal>Back to Display Room</button>
+
+        <div class="wave-grid" aria-label="Core project threads">
+          <div class="status-card">
+            <strong>January 22 Origin</strong>
+            <span>The documentary root: the beginning of the map and the first point every other thread grows away from and returns to.</span>
+          </div>
+          <div class="status-card">
+            <strong>Addiction Machine</strong>
+            <span>Time, money, supply, waiting, driving, hiding, surviving, repeating.</span>
+          </div>
+          <div class="status-card">
+            <strong>Writing Inside The Fire</strong>
+            <span>Typewriters, laptops, notes, voice memos, drafts, and trying to explain it while still inside it.</span>
+          </div>
+          <div class="status-card">
+            <strong>Jan 22 / Jan 27 Notes</strong>
+            <span>The handwritten hinge: crisis at 3:40 AM, then the hospital aftermath after waking from sedation days later.</span>
+          </div>
+          <div class="status-card">
+            <strong>Cats / Home / Tenderness</strong>
+            <span>Chaz, Amelia, Salem, the house, affection, absurdity, and proof there is still humanity inside the collapse.</span>
+          </div>
+          <div class="status-card">
+            <strong>Grief / Loss</strong>
+            <span>The wound underneath the bender: death, trauma, numbness, and the return of pain when chemicals stop working.</span>
+          </div>
+          <div class="status-card">
+            <strong>Crack Capitalism / System Mirror</strong>
+            <span>The same compulsive logic appears in billionaires, platforms, profit addiction, policing, and political power.</span>
+          </div>
+          <div class="status-card">
+            <strong>Money / Desperation</strong>
+            <span>Gas tank, book selling, preorders, hustle, debt, scarcity, survival math, and transaction logic.</span>
+          </div>
+          <div class="status-card">
+            <strong>Platform War / Ban</strong>
+            <span>Instagram bans, TikTok suppression, YouTube pivot, Patreon, website, rebuilding, and owning the audience.</span>
+          </div>
+          <div class="status-card">
+            <strong>Public Project</strong>
+            <span>Music drops, promo cards, thumbnails, reels, Trap Passes, documentary clips, and audience reaction.</span>
+          </div>
+          <div class="status-card">
+            <strong>Trap Pass / Lore</strong>
+            <span>The collectible access layer: keys, hidden rooms, perks, status, and future combinations.</span>
+          </div>
+          <div class="status-card">
+            <strong>Self-Destruction vs Creation</strong>
+            <span>The contradiction: I am destroying myself while building the biggest creative system of my life.</span>
+          </div>
+          <div class="status-card">
+            <strong>Ending / Convergence</strong>
+            <span>The point where the cats, writing, addiction, money, grief, bans, politics, music, and Trap Passes start reading as one world.</span>
+          </div>
+        </div>
+
+        <div class="start-door-grid" aria-label="Thread doors">
+          <button class="shop-card" type="button" data-action="jan22">
+            <strong>January 22 Origin</strong>
+            <span>Open the root video.</span>
+          </button>
+          <button class="shop-card" type="button" data-action="writing">
+            <strong>Writing Thread</strong>
+            <span>Open the sealed writing pack.</span>
+          </button>
+          <button class="shop-card" type="button" data-action="originNotes">
+            <strong>Handwritten Notes</strong>
+            <span>Open the Jan 22 crisis note and Jan 27 aftermath page.</span>
+          </button>
+          <button class="shop-card" type="button" data-action="sportsCards">
+            <strong>Trap Pass Thread</strong>
+            <span>Open the collectible/lore layer.</span>
+          </button>
+          <a class="social-link" href="https://www.youtube.com/@imhighoncrackandihaveagun" target="_blank" rel="noopener noreferrer">
+            <strong>Video Thread</strong>
+            <span>Watch the public documentary trail on YouTube.</span>
+          </a>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="modal" id="sunoModal" role="dialog" aria-modal="true" aria-labelledby="sunoTitle" hidden>
+  <section class="modal" id="mediaModal" role="dialog" aria-modal="true" aria-labelledby="mediaTitle" hidden>
     <div class="modal-panel soundtrack-panel">
       <header class="modal-header">
-        <h2 class="modal-title" id="sunoTitle">OG Crack Track Music Video</h2>
+        <h2 class="modal-title" id="mediaTitle">YouTube Update Shelf</h2>
         <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
       </header>
       <div class="modal-body soundtrack-body">
-        <p class="modal-copy">Music video and artist file.</p>
+        <p class="modal-copy">The public video trail goes here before another platform can erase the audience. Start with the 3 AM Trap Pass/email update.</p>
+        <div class="soundtrack-links">
+          <a class="plain-btn soundtrack-cta" href="https://www.youtube.com/watch?v=auJrexmUqOY" target="_blank" rel="noopener noreferrer">Open 3 AM Update</a>
+          <a class="plain-btn soundtrack-cta" href="https://www.youtube.com/watch?v=7bpm7vjM9Fo" target="_blank" rel="noopener noreferrer">Cat Shirt Crash Video</a>
+          <a class="plain-btn soundtrack-cta" href="https://www.youtube.com/@imhighoncrackandihaveagun" target="_blank" rel="noopener noreferrer">YouTube Channel</a>
+        </div>
         <div class="embed-stack">
-          <div class="instagram-shell">
-            <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/reel/DZO4XunT09Q/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14">
-              <a href="https://www.instagram.com/reel/DZO4XunT09Q/?utm_source=ig_embed&amp;utm_campaign=loading" target="_blank" rel="noopener noreferrer">View OG Crack Track music video on Instagram</a>
-            </blockquote>
+          <div class="media-frame">
+            <iframe
+              src="https://www.youtube.com/embed/auJrexmUqOY"
+              title="3 AM Trap Pass email update"
+              allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
           </div>
           <div class="spotify-shell">
             <iframe
@@ -4954,7 +5640,7 @@
               loading="lazy"></iframe>
           </div>
         </div>
-        <a class="plain-btn soundtrack-cta" href="https://open.spotify.com/artist/7GUAmAkkpLLESm0Fig1NWZ" target="_blank" rel="noopener noreferrer">Open Spotify Artist Page</a>
+        <p class="asset-note">The cat shirt car crash video may open on YouTube because it is age-restricted.</p>
         <button class="plain-btn soundtrack-cta" type="button" data-close-modal>Back to Display Room</button>
       </div>
     </div>
@@ -4972,31 +5658,42 @@
             <strong>Official Display Room</strong>
             <span>imhighoncrackandihaveagun.com</span>
           </a>
-          <a class="social-link" href="https://www.instagram.com/imhighoncrackandihaveagunagain/" target="_blank" rel="noopener noreferrer">
-            <strong>Instagram Backup</strong>
-            <span>@imhighoncrackandihaveagunagain</span>
+          <a class="social-link" href="https://www.youtube.com/@imhighoncrackandihaveagun" target="_blank" rel="noopener noreferrer">
+            <strong>YouTube Main Screen</strong>
+            <span>@imhighoncrackandihaveagun</span>
+          </a>
+          <a class="social-link" href="https://www.patreon.com/IMHIGHONCRACKANDIHAVEAGUN" target="_blank" rel="noopener noreferrer">
+            <strong>Patreon Back Room</strong>
+            <span>patreon.com/IMHIGHONCRACKANDIHAVEAGUN</span>
+          </a>
+          <a class="social-link" href="https://www.instagram.com/IHOCAIHAG/" target="_blank" rel="noopener noreferrer">
+            <strong>Instagram If Live</strong>
+            <span>@IHOCAIHAG</span>
           </a>
           <a class="social-link" href="https://www.tiktok.com/@ihocaihagofficial" target="_blank" rel="noopener noreferrer">
             <strong>TikTok Card</strong>
             <span>@ihocaihagofficial</span>
           </a>
-          <a class="social-link" href="https://www.youtube.com/@imhighoncrackandihaveagun" target="_blank" rel="noopener noreferrer">
-            <strong>YouTube Slot</strong>
-            <span>@imhighoncrackandihaveagun</span>
-          </a>
           <a class="social-link" href="https://x.com/comradejizzy" target="_blank" rel="noopener noreferrer">
             <strong>X Backup</strong>
             <span>@comradejizzy</span>
           </a>
-          <a class="social-link" href="https://www.patreon.com/IMHIGHONCRACKANDIHAVEAGUN" target="_blank" rel="noopener noreferrer">
-            <strong>Patreon Card</strong>
-            <span>patreon.com/IMHIGHONCRACKANDIHAVEAGUN</span>
+          <a class="social-link" href="https://www.youtube.com/watch?v=auJrexmUqOY" target="_blank" rel="noopener noreferrer">
+            <strong>3 AM Email Update</strong>
+            <span>Watch the Trap Pass/email video</span>
+          </a>
+          <a class="social-link" href="https://www.youtube.com/watch?v=7bpm7vjM9Fo" target="_blank" rel="noopener noreferrer">
+            <strong>Cat Shirt Crash Video</strong>
+            <span>Age-restricted on YouTube</span>
           </a>
           <a class="social-link" href="https://www.amazon.com/Dopesick-American-Addiction-Heroin-Profit/dp/1984338323/" target="_blank" rel="noopener noreferrer">
             <strong>Dopesick Book File</strong>
             <span>Amazon listing</span>
           </a>
-          <!-- TODO: Add confirmed Threads, Suno, Goodreads, and additional book links here when the exact URLs are available. -->
+          <button class="shop-card" type="button" data-action="threads">
+            <strong>Thread Map</strong>
+            <span>Project threads, room doors, and the path through the world.</span>
+          </button>
           <button class="shop-card" type="button" data-action="shop">
             <strong>Chaz & Amelia Store</strong>
             <span>Collector counter</span>
@@ -5062,12 +5759,105 @@
   </section>
 
   <section class="modal" id="sportsCardsModal" role="dialog" aria-modal="true" aria-labelledby="sportsCardsTitle" hidden>
-    <div class="modal-panel sports-card-panel">
+    <div class="modal-panel sports-card-panel start-here-panel">
       <header class="modal-header">
-        <h2 class="modal-title" id="sportsCardsTitle">Resourceful Harm Reduction Information</h2>
+        <h2 class="modal-title" id="sportsCardsTitle">Trap Pass / Lore Thread</h2>
         <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
       </header>
       <div class="modal-body sports-card-body">
+        <div class="start-brief">
+          <p>A Trap Pass is part collectible, part key, part receipt that you were here while the archive was still being built.</p>
+          <p>Each wave marks a different moment in the project. It can connect to hidden rooms, perks, discounts, early access, drops, and future combinations as the site opens up.</p>
+          <p class="start-warning"><strong>World object, not illegal access.</strong> Trap Passes are lore and supporter-status objects inside the IHOCAIHAG world.</p>
+          <p class="asset-note">Public preview note: barcode serial strips are masked here. Save your own pass privately if you have one.</p>
+        </div>
+
+        <div class="wave-pass-grid" aria-label="Trap Pass waves">
+          <figure class="wave-pass-card">
+            <div class="wave-pass-image">
+              <picture>
+                <source srcset="trap-pass-run-wave-1.webp" type="image/webp">
+                <img src="trap-pass-run-wave-1.png" alt="Trap Pass Run Wave 1 Ride Or Dies" width="981" height="1768" loading="lazy" decoding="async">
+              </picture>
+            </div>
+            <figcaption>
+              <strong>Wave 1: Ride Or Dies</strong>
+              <span>The first mark in the Trap Pass stack: the people who were here when the project first stepped out into the world.</span>
+              <dl>
+                <div><dt>Run line</dt><dd>Ride Or Dies.</dd></div>
+                <div><dt>Meaning</dt><dd>Original proof that you caught the room before it knew what it was becoming.</dd></div>
+                <div><dt>Rule</dt><dd>Save your pass. It becomes status, proof, and future access as the world opens.</dd></div>
+              </dl>
+            </figcaption>
+          </figure>
+          <figure class="wave-pass-card">
+            <div class="wave-pass-image">
+              <picture>
+                <source srcset="trap-pass-run-wave-2.webp" type="image/webp">
+                <img src="trap-pass-run-wave-2.png" alt="Trap Pass Run Wave 2 When 3 Deer Appear" width="981" height="1768" loading="lazy" decoding="async">
+              </picture>
+            </div>
+            <figcaption>
+              <strong>Wave 2: When 3 Deer Appear</strong>
+              <span>The second pass layer in the room timeline, where coincidence starts feeling like a signal.</span>
+              <dl>
+                <div><dt>Run line</dt><dd>When 3 deer appear.</dd></div>
+                <div><dt>Question</dt><dd>How many times until coincidences turn true?</dd></div>
+                <div><dt>Feeling</dt><dd>Shivers down your spine when you find your three deer too.</dd></div>
+              </dl>
+            </figcaption>
+          </figure>
+          <figure class="wave-pass-card">
+            <div class="wave-pass-image">
+              <picture>
+                <source srcset="trap-pass-run-wave-3.webp" type="image/webp">
+                <img src="trap-pass-run-wave-3.png" alt="Trap Pass Run Wave 3 All Hands On Deck" width="981" height="1768" loading="lazy" decoding="async">
+              </picture>
+            </div>
+            <figcaption>
+              <strong>Wave 3: All Hands On Deck</strong>
+              <span>The third pass layer: battle stations, momentum, and the project refusing to stop halfway through the dream.</span>
+              <dl>
+                <div><dt>Run line</dt><dd>All Hands On Deck.</dd></div>
+                <div><dt>Signal</dt><dd>Battle stations: all of you.</dd></div>
+                <div><dt>Promise</dt><dd>Not stopping until the dream comes true.</dd></div>
+              </dl>
+            </figcaption>
+          </figure>
+          <figure class="wave-pass-card">
+            <div class="wave-pass-image">
+              <picture>
+                <source srcset="trap-pass-run-wave-4.webp" type="image/webp">
+                <img src="trap-pass-run-wave-4.png" alt="Trap Pass Run Wave 4 Relax, Refresh, Reform, Bring The Storm" width="981" height="1768" loading="lazy" decoding="async">
+              </picture>
+            </div>
+            <figcaption>
+              <strong>Wave 4: Bring The Storm</strong>
+              <span>The current pass layer: rebuild the orbit through the site, YouTube, Patreon, and the room.</span>
+              <dl>
+                <div><dt>Run line</dt><dd>Relax, refresh, reform, bring the storm.</dd></div>
+                <div><dt>Status</dt><dd>Harm reduction all-star, sport glass, Sass n Brass League.</dd></div>
+                <div><dt>Poem</dt><dd>When you're a pro at catching bows, what is invaluable for you to know is what ammo u must reload.</dd></div>
+              </dl>
+            </figcaption>
+          </figure>
+        </div>
+
+        <div class="start-door-grid" aria-label="Trap Pass actions">
+          <button class="shop-card" type="button" data-action="email">
+            <strong>Claim / Join Dispatch</strong>
+            <span>Get the current pass and future wave updates by email.</span>
+          </button>
+          <a class="social-link" href="https://www.youtube.com/@imhighoncrackandihaveagun" target="_blank" rel="noopener noreferrer">
+            <strong>Follow YouTube</strong>
+            <span>The video thread and product updates move here before the apps can erase the audience again.</span>
+          </a>
+          <a class="social-link" href="https://www.patreon.com/IMHIGHONCRACKANDIHAVEAGUN" target="_blank" rel="noopener noreferrer">
+            <strong>Enter Patreon</strong>
+            <span>Back room access for raw cuts, archive pulls, early chapters, and deeper updates.</span>
+          </a>
+        </div>
+
         <div class="sports-card-stage">
           <figure class="sports-card-display">
             <picture>
@@ -5089,7 +5879,7 @@
           </figure>
         </div>
         <div class="sports-card-copy">
-          <h3>Resourceful Harm Reduction Information</h3>
+          <h3>Wave 4 Resource Card</h3>
           <p>Education. Harm reduction. No judgement. Just dignity, support, and real options.</p>
         </div>
       </div>
@@ -5107,12 +5897,12 @@
           <figure class="shelf-card-media">
             <picture>
               <source srcset="shelf-roofer.webp" type="image/webp">
-              <img src="shelf-roofer.png" alt="Ryan Homanics Roofer collector figure on the bookshelf" width="405" height="500" loading="lazy" decoding="async">
+              <img src="shelf-roofer.png" alt="My Roofer collector figure on the bookshelf" width="405" height="500" loading="lazy" decoding="async">
             </picture>
           </figure>
           <div class="shelf-card-copy">
             <p class="eyebrow">Collector's Series</p>
-            <h3>Ryan Homanics Roofer</h3>
+            <h3>My Roofer Figure</h3>
             <p>Standalone figure card from the shelf archive.</p>
           </div>
         </div>
@@ -5192,48 +5982,66 @@
     </div>
   </section>
 
-  <section class="modal" id="whoModal" role="dialog" aria-modal="true" aria-labelledby="tattooDropboxTitle" hidden>
-    <div class="modal-panel dropbox-panel">
+  <section class="modal" id="whoModal" role="dialog" aria-modal="true" aria-labelledby="myEyesTitle" hidden>
+    <div class="modal-panel submission-panel">
       <header class="modal-header">
-        <h2 class="modal-title" id="tattooDropboxTitle">Tattoo Dropbox</h2>
+        <h2 class="modal-title" id="myEyesTitle">My Eyes / Your Eyes</h2>
         <button class="close-btn" type="button" data-close-modal aria-label="Close">x</button>
       </header>
-      <div class="modal-body dropbox-body">
-        <figure class="dropbox-card">
-          <picture>
-            <source srcset="tattoo-dropbox-card.webp" type="image/webp">
-            <img src="tattoo-dropbox-card.png" alt="Tattoo suggestion dropbox figure scene" width="1322" height="1665" loading="lazy" decoding="async">
-          </picture>
-          <figcaption>Submit Your Entry</figcaption>
+      <div class="modal-body submission-body">
+        <figure class="submission-card">
+          <div class="my-eyes-card-art" aria-hidden="true">
+            <strong>My Eyes</strong>
+            <span>Your Eyes</span>
+            <em>writing that belongs somewhere in the thread map</em>
+          </div>
+          <figcaption>Writing Submissions</figcaption>
         </figure>
-        <div class="dropbox-controls">
-          <p class="dropbox-copy">Submit what this figure has to tattoo on himself next.</p>
-          <form class="form-grid dropbox-form" id="tattooSuggestionForm" action="https://formsubmit.co/imhighoncrackandihaveagun@gmail.com" method="POST" novalidate>
+        <div class="submission-controls">
+          <p class="submission-copy">Send writing, named or anonymous, that hits one of the threads hard enough that it feels like it could have happened through my eyes too.</p>
+          <form class="form-grid submission-form" id="writingSubmissionForm" action="https://formsubmit.co/imhighoncrackandihaveagun@gmail.com" method="POST" novalidate>
             <input type="hidden" name="_captcha" value="false">
             <input type="hidden" name="_template" value="table">
-            <input type="hidden" name="_subject" value="New Tattoo Dropbox Suggestion">
-            <input type="hidden" name="_next" value="https://imhighoncrackandihaveagun.com/?tattoo=sent&scene=board">
-            <input type="hidden" id="tattooReplyToInput" name="_replyto" value="">
-            <input type="hidden" name="source" value="Mystery Figure Tattoo Dropbox">
+            <input type="hidden" name="_subject" value="New My Eyes / Your Eyes Writing Submission">
+            <input type="hidden" name="_next" value="https://imhighoncrackandihaveagun.com/?myeyes=sent&scene=board">
+            <input type="hidden" id="submissionReplyToInput" name="_replyto" value="">
+            <input type="hidden" name="source" value="My Eyes / Your Eyes writing submissions">
             <div class="field">
-              <label for="tattooSuggestion">Your Entry</label>
-              <textarea id="tattooSuggestion" name="tattoo_suggestion" maxlength="900" placeholder="Type the tattoo suggestion here." required></textarea>
+              <label for="writingSubmission">Your Writing</label>
+              <textarea id="writingSubmission" name="writing_submission" maxlength="6500" placeholder="Paste a note, poem, memory, scene, confession, theory, question, or anything tied to any thread." required></textarea>
             </div>
             <div class="field">
-              <label for="tattooEmail">Email / Trap Pass</label>
-              <input id="tattooEmail" name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="none" spellcheck="false" placeholder="optional">
+              <label for="submissionThread">Thread</label>
+              <select id="submissionThread" name="thread">
+                <option value="Any / not sure">Any / not sure</option>
+                <option value="January 22 Origin">January 22 Origin</option>
+                <option value="Addiction Machine">Addiction Machine</option>
+                <option value="Writing Inside The Fire">Writing Inside The Fire</option>
+                <option value="Cats / Home / Tenderness">Cats / Home / Tenderness</option>
+                <option value="Grief / Loss">Grief / Loss</option>
+                <option value="Crack Capitalism / System Mirror">Crack Capitalism / System Mirror</option>
+                <option value="Money / Desperation">Money / Desperation</option>
+                <option value="Platform War / Ban">Platform War / Ban</option>
+                <option value="Public Project">Public Project</option>
+                <option value="Trap Pass / Lore">Trap Pass / Lore</option>
+                <option value="Self-Destruction vs Creation">Self-Destruction vs Creation</option>
+                <option value="Ending / Convergence">Ending / Convergence</option>
+              </select>
             </div>
-            <p class="form-error" id="tattooError" aria-live="polite"></p>
-            <p class="form-success" id="tattooSuccess" aria-live="polite"></p>
-            <button class="primary-btn" id="tattooSubmitButton" type="submit">Drop It In The Box</button>
+            <div class="field">
+              <label for="writerName">Name / Credit</label>
+              <input id="writerName" name="writer_name" type="text" autocomplete="name" placeholder="optional / anonymous is fine">
+            </div>
+            <div class="field">
+              <label for="submissionEmail">Contact Email / Trap Pass</label>
+              <input id="submissionEmail" name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="none" spellcheck="false" placeholder="optional">
+            </div>
+            <p class="form-error" id="submissionError" aria-live="polite"></p>
+            <p class="form-success" id="submissionSuccess" aria-live="polite"></p>
+            <button class="primary-btn" id="submissionSubmitButton" type="submit">Submit Writing</button>
           </form>
-          <div class="dropbox-receipt" id="dropboxReceipt" hidden>
-            <div class="media-frame dropbox-video">
-              <video id="dropboxVideo" controls playsinline preload="none">
-                <source src="dropbox.mp4" type="video/mp4">
-              </video>
-            </div>
-            <p class="asset-note">Entry dropped. Receipt tape playing.</p>
+          <div class="submission-receipt" id="submissionReceipt" hidden>
+            <p class="asset-note">Writing received. I will read it through the thread map.</p>
           </div>
         </div>
       </div>
@@ -5414,14 +6222,14 @@
                 <span class="qr-card qr-scan">
                   <picture>
                     <source srcset="payment-paypal-seller.webp" type="image/webp">
-                    <img src="payment-paypal-seller.png" alt="PayPal seller QR for Ryan Homanics" width="771" height="904" loading="lazy" decoding="async">
+                    <img src="payment-paypal-seller.png" alt="PayPal seller QR code" width="771" height="904" loading="lazy" decoding="async">
                   </picture>
                   Seller code
                 </span>
                 <span class="qr-card">
                   <picture>
                     <source srcset="payment-paypal-profile.webp" type="image/webp">
-                    <img src="payment-paypal-profile.png" alt="PayPal profile for Ryan Homanics" width="567" height="400" loading="lazy" decoding="async">
+                    <img src="payment-paypal-profile.png" alt="PayPal profile card" width="567" height="400" loading="lazy" decoding="async">
                   </picture>
                   Profile card
                 </span>
@@ -5439,7 +6247,7 @@
                 <p>If scanning opens a browser error, close it and search <code>$ryanhomanics</code> inside the Cash App app.</p>
                 <picture>
                   <source srcset="payment-cashapp.webp" type="image/webp">
-                  <img src="payment-cashapp.png?v=20260509" alt="Cash App QR for Ryan Homanics" width="765" height="987" loading="lazy" decoding="async">
+                  <img src="payment-cashapp.png?v=20260509" alt="Cash App QR code" width="765" height="987" loading="lazy" decoding="async">
                 </picture>
               </details>
             </div>
@@ -5449,7 +6257,7 @@
               <p>Chime: <code>$Ryan-Homanics</code></p>
               <picture>
                 <source srcset="payment-chime.webp" type="image/webp">
-                <img src="payment-chime.png" alt="Chime QR for Ryan Homanics" width="672" height="694" loading="lazy" decoding="async">
+                <img src="payment-chime.png" alt="Chime QR code" width="672" height="694" loading="lazy" decoding="async">
               </picture>
             </div>
 
@@ -5480,7 +6288,7 @@
       <div class="modal-body tip-jar-body">
         <picture>
           <source srcset="payment-paypal-tipjar.webp" type="image/webp">
-          <img class="tip-jar-image" src="payment-paypal-tipjar.png" alt="PayPal tip jar QR for Ryan Homanics" width="798" height="1072" loading="lazy" decoding="async">
+          <img class="tip-jar-image" src="payment-paypal-tipjar.png" alt="PayPal tip jar QR code" width="798" height="1072" loading="lazy" decoding="async">
         </picture>
         <p class="tip-jar-copy">Tips help keep the project moving at full speed through the home stretch.</p>
       </div>
@@ -5498,7 +6306,6 @@
     <video id="transitionVideo" muted playsinline preload="none"></video>
   </button>
 
-  <script async src="https://www.instagram.com/embed.js"></script>
   <script>
     (() => {
       "use strict";
@@ -5506,7 +6313,6 @@
       const body = document.body;
       const entryScene = document.getElementById("entryScene");
       const entryHit = document.getElementById("entryHit");
-      const entryPreorderHit = document.getElementById("entryPreorderHit");
       const entryImage = document.getElementById("entryImage");
       const mothersDayScene = document.getElementById("mothersDayScene");
       const mothersDayImage = document.getElementById("mothersDayImage");
@@ -5541,15 +6347,14 @@
       const entryNumberLabel = document.getElementById("entryNumberLabel");
       const entryNumberNote = document.getElementById("entryNumberNote");
       const entryNumberInput = document.getElementById("entryNumberInput");
-      const tattooSuggestionForm = document.getElementById("tattooSuggestionForm");
-      const tattooSuggestion = document.getElementById("tattooSuggestion");
-      const tattooEmail = document.getElementById("tattooEmail");
-      const tattooReplyToInput = document.getElementById("tattooReplyToInput");
-      const tattooError = document.getElementById("tattooError");
-      const tattooSuccess = document.getElementById("tattooSuccess");
-      const tattooSubmitButton = document.getElementById("tattooSubmitButton");
-      const dropboxReceipt = document.getElementById("dropboxReceipt");
-      const dropboxVideo = document.getElementById("dropboxVideo");
+      const writingSubmissionForm = document.getElementById("writingSubmissionForm");
+      const writingSubmission = document.getElementById("writingSubmission");
+      const submissionEmail = document.getElementById("submissionEmail");
+      const submissionReplyToInput = document.getElementById("submissionReplyToInput");
+      const submissionError = document.getElementById("submissionError");
+      const submissionSuccess = document.getElementById("submissionSuccess");
+      const submissionSubmitButton = document.getElementById("submissionSubmitButton");
+      const submissionReceipt = document.getElementById("submissionReceipt");
       const successToast = document.getElementById("successToast");
       const toastMessage = document.getElementById("toastMessage");
       const successVideo = document.getElementById("successVideo");
@@ -5638,7 +6443,6 @@
       ];
       const trapPassButtonText = "GET MY TRAP PASS";
       const transitionMaxMs = reducedMotion ? 10 : 9000;
-      const menuIntroSrc = "introsite.mp4";
 
       let activeModal = null;
       let lastFocus = null;
@@ -5650,9 +6454,14 @@
       let readerIndex = 0;
       let armedHotspot = null;
       let mothersDayPresented = false;
-      let tattooSubmissionPending = false;
+      let writingSubmissionPending = false;
 
       const actionMap = {
+        startHere: () => openModal("startHereModal"),
+        jan22: () => openModal("jan22Modal"),
+        origin: () => openModal("jan22Modal"),
+        originNotes: () => openModal("originNotesModal"),
+        notes: () => openModal("originNotesModal"),
         youtube: () => openModal("youtubeModal"),
         atm: () => openModal("videoModal"),
         email: () => openModal("emailModal"),
@@ -5661,12 +6470,14 @@
         teaser: () => openReader("teaser"),
         preorders: () => openModal("preorderModal"),
         threads: () => openModal("threadsModal"),
-        suno: () => openModal("sunoModal"),
+        media: () => openModal("mediaModal"),
         social: () => openModal("socialModal"),
         shop: () => openModal("shopModal", { focusSelector: "[data-store-enter]" }),
         tipJar: () => openModal("tipJarModal"),
         sportsCards: () => openModal("sportsCardsModal"),
         dirt: () => openModal("dirtShowModal"),
+        myEyes: () => openModal("whoModal"),
+        yourEyes: () => openModal("whoModal"),
         who: () => openModal("whoModal"),
         bookshelf: () => openBookshelf(),
         rooferShelf: () => openModal("rooferShelfModal"),
@@ -5977,7 +6788,7 @@
       }
 
       function playMenuIntroThen(next = revealBoard) {
-        playTransition(menuIntroSrc, next, { locked: true, maxMs: 12000 });
+        next();
       }
 
       function enterBoardFromMothersDay() {
@@ -6338,11 +7149,7 @@
         }
 
         if (id === "whoModal") {
-          resetTattooDropbox();
-        }
-
-        if (id === "threadsModal" || id === "sunoModal") {
-          processInstagramEmbeds();
+          resetWritingSubmission();
         }
 
         const focusTarget = options.focusSelector
@@ -6355,19 +7162,6 @@
         } else if (id !== "emailModal") {
           window.setTimeout(() => focusTarget?.focus({ preventScroll: true }), 80);
         }
-      }
-
-      function processInstagramEmbeds(attempt = 0) {
-        window.setTimeout(() => {
-          if (window.instgrm?.Embeds?.process) {
-            window.instgrm.Embeds.process();
-            return;
-          }
-
-          if (attempt < 8) {
-            processInstagramEmbeds(attempt + 1);
-          }
-        }, attempt ? 220 : 80);
       }
 
       function closeModal(restoreFocus = true) {
@@ -6644,74 +7438,66 @@
         }
       }
 
-      function resetTattooDropbox() {
-        if (!tattooSuggestionForm) return;
+      function resetWritingSubmission() {
+        if (!writingSubmissionForm) return;
 
-        tattooSubmissionPending = false;
-        tattooSuggestionForm.reset();
-        tattooSuggestion?.classList.remove("is-invalid");
-        tattooSuggestion?.removeAttribute("aria-invalid");
-        tattooEmail?.classList.remove("is-invalid");
-        tattooEmail?.removeAttribute("aria-invalid");
-        if (tattooReplyToInput) tattooReplyToInput.value = "";
-        if (tattooError) tattooError.textContent = "";
-        if (tattooSuccess) tattooSuccess.textContent = "";
-        if (tattooSubmitButton) {
-          tattooSubmitButton.disabled = false;
-          tattooSubmitButton.textContent = "DROP IT IN THE BOX";
+        writingSubmissionPending = false;
+        writingSubmissionForm.reset();
+        writingSubmission?.classList.remove("is-invalid");
+        writingSubmission?.removeAttribute("aria-invalid");
+        submissionEmail?.classList.remove("is-invalid");
+        submissionEmail?.removeAttribute("aria-invalid");
+        if (submissionReplyToInput) submissionReplyToInput.value = "";
+        if (submissionError) submissionError.textContent = "";
+        if (submissionSuccess) submissionSuccess.textContent = "";
+        if (submissionSubmitButton) {
+          submissionSubmitButton.disabled = false;
+          submissionSubmitButton.textContent = "SUBMIT WRITING";
         }
-        if (dropboxReceipt) dropboxReceipt.hidden = true;
-        if (dropboxVideo) {
-          dropboxVideo.pause();
-          try {
-            dropboxVideo.currentTime = 0;
-          } catch (error) {
-            /* Media may not have loaded yet. */
-          }
-        }
+        if (submissionReceipt) submissionReceipt.hidden = true;
       }
 
-      async function handleTattooSuggestionSubmit(event) {
-        if (!tattooSuggestionForm) return;
+      async function handleWritingSubmissionSubmit(event) {
+        if (!writingSubmissionForm) return;
         event.preventDefault();
 
-        const suggestion = tattooSuggestion.value.trim();
-        const email = tattooEmail.value.trim();
-        tattooSuggestion.value = suggestion;
-        tattooEmail.value = email;
-        tattooSuggestion.classList.remove("is-invalid");
-        tattooSuggestion.removeAttribute("aria-invalid");
-        tattooEmail.classList.remove("is-invalid");
-        tattooEmail.removeAttribute("aria-invalid");
-        tattooError.textContent = "";
+        const submission = writingSubmission.value.trim();
+        const email = submissionEmail.value.trim();
+        writingSubmission.value = submission;
+        submissionEmail.value = email;
+        writingSubmission.classList.remove("is-invalid");
+        writingSubmission.removeAttribute("aria-invalid");
+        submissionEmail.classList.remove("is-invalid");
+        submissionEmail.removeAttribute("aria-invalid");
+        submissionError.textContent = "";
 
-        if (!suggestion) {
-          tattooSuggestion.classList.add("is-invalid");
-          tattooSuggestion.setAttribute("aria-invalid", "true");
-          tattooError.textContent = "Drop an entry in the box first.";
-          tattooSuccess.textContent = "";
-          tattooSuggestion.focus({ preventScroll: false });
+        if (!submission) {
+          writingSubmission.classList.add("is-invalid");
+          writingSubmission.setAttribute("aria-invalid", "true");
+          submissionError.textContent = "Add the writing first.";
+          submissionSuccess.textContent = "";
+          writingSubmission.focus({ preventScroll: false });
           return;
         }
 
-        if (email && !tattooEmail.checkValidity()) {
-          tattooEmail.classList.add("is-invalid");
-          tattooEmail.setAttribute("aria-invalid", "true");
-          tattooError.textContent = "Use a working email, or leave it blank.";
-          tattooSuccess.textContent = "";
-          tattooEmail.focus({ preventScroll: false });
+        if (email && !submissionEmail.checkValidity()) {
+          submissionEmail.classList.add("is-invalid");
+          submissionEmail.setAttribute("aria-invalid", "true");
+          submissionError.textContent = "Use a working email, or leave it blank.";
+          submissionSuccess.textContent = "";
+          submissionEmail.focus({ preventScroll: false });
           return;
         }
 
-        if (tattooSubmissionPending) return;
-        tattooSubmissionPending = true;
-        if (tattooReplyToInput) tattooReplyToInput.value = email;
-        tattooSubmitButton.disabled = true;
-        tattooSubmitButton.textContent = "DROPPING ENTRY...";
-        tattooSuccess.textContent = "Sending your entry to the dropbox...";
+        if (writingSubmissionPending) return;
+        writingSubmissionPending = true;
+        if (submissionReplyToInput) submissionReplyToInput.value = email;
+        submissionSubmitButton.disabled = true;
+        submissionSubmitButton.textContent = "SENDING WRITING...";
+        submissionSuccess.textContent = "Sending your writing...";
 
         try {
-          const payload = new FormData(tattooSuggestionForm);
+          const payload = new FormData(writingSubmissionForm);
           const response = await fetch("https://formsubmit.co/ajax/imhighoncrackandihaveagun@gmail.com", {
             method: "POST",
             body: payload,
@@ -6724,14 +7510,13 @@
             throw new Error(`FormSubmit returned ${response.status}`);
           }
         } catch (error) {
-          tattooSuggestionForm.submit();
+          writingSubmissionForm.submit();
           return;
         }
 
-        tattooSuccess.textContent = "Entry dropped. Check the receipt tape.";
-        tattooSubmitButton.textContent = "ENTRY DROPPED";
-        dropboxReceipt.hidden = false;
-        window.setTimeout(() => playMedia(dropboxVideo), 80);
+        submissionSuccess.textContent = "Writing received. I will read it through the threads.";
+        submissionSubmitButton.textContent = "WRITING SENT";
+        submissionReceipt.hidden = false;
       }
 
       function openWritingModal() {
@@ -6983,11 +7768,6 @@
 
       function initEvents() {
         entryHit.addEventListener("click", handleEntryClick);
-        if (entryPreorderHit) {
-          entryPreorderHit.addEventListener("click", () => {
-            window.open("https://www.youtube.com/@imhighoncrackandihaveagun", "_blank", "noopener,noreferrer");
-          });
-        }
         document.querySelectorAll("[data-entry-preorder-choice]").forEach((button) => {
           button.addEventListener("click", () => {
             if (button.dataset.entryPreorderChoice === "shirts") {
@@ -7041,16 +7821,16 @@
         paymentMethod?.addEventListener("change", updatePaymentInstructions);
         preorderProduct?.addEventListener("change", updatePreorderTotals);
         preorderPaymentMethod?.addEventListener("change", updatePreorderPaymentInstructions);
-        tattooSuggestionForm?.addEventListener("submit", handleTattooSuggestionSubmit);
-        tattooSuggestion?.addEventListener("input", () => {
-          tattooSuggestion.classList.remove("is-invalid");
-          tattooSuggestion.removeAttribute("aria-invalid");
-          tattooError.textContent = "";
+        writingSubmissionForm?.addEventListener("submit", handleWritingSubmissionSubmit);
+        writingSubmission?.addEventListener("input", () => {
+          writingSubmission.classList.remove("is-invalid");
+          writingSubmission.removeAttribute("aria-invalid");
+          submissionError.textContent = "";
         });
-        tattooEmail?.addEventListener("input", () => {
-          tattooEmail.classList.remove("is-invalid");
-          tattooEmail.removeAttribute("aria-invalid");
-          tattooError.textContent = "";
+        submissionEmail?.addEventListener("input", () => {
+          submissionEmail.classList.remove("is-invalid");
+          submissionEmail.removeAttribute("aria-invalid");
+          submissionError.textContent = "";
         });
         updateShopTotals();
         updatePaymentInstructions();
@@ -7170,7 +7950,30 @@
         const trapPassSuccess = params.get("trap_pass") === "success";
         const waitlistJoined = params.get("waitlist") === "joined";
         const shopSent = params.get("shop") === "sent";
-        const shouldOpenBoard = waitlistJoined || shopSent;
+        const myEyesSent = params.get("myeyes") === "sent";
+        const scene = params.get("scene");
+        const modal = params.get("modal");
+        const modalMap = {
+          startHere: "startHereModal",
+          jan22: "jan22Modal",
+          origin: "jan22Modal",
+          originNotes: "originNotesModal",
+          notes: "originNotesModal",
+          threads: "threadsModal",
+          media: "mediaModal",
+          video: "mediaModal",
+          trapPasses: "sportsCardsModal",
+          trap: "sportsCardsModal",
+          youtube: "youtubeModal",
+          links: "socialModal",
+          social: "socialModal",
+          preorders: "preorderModal",
+          store: "shopModal",
+          myEyes: "whoModal",
+          yourEyes: "whoModal",
+          submissions: "whoModal"
+        };
+        const shouldOpenBoard = waitlistJoined || shopSent || myEyesSent || scene === "board" || Boolean(modalMap[modal]);
 
         if (shouldOpenBoard) {
           setUnlockedAccess();
@@ -7184,6 +7987,14 @@
 
         if (waitlistJoined || shopSent) {
           showToast("Collector request received.", false);
+        }
+
+        if (myEyesSent) {
+          showToast("Writing received.", false);
+        }
+
+        if (modalMap[modal]) {
+          window.setTimeout(() => openModal(modalMap[modal]), reducedMotion ? 0 : 80);
         }
       }
 
