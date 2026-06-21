@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trap House Roll Call | The Trap House</title>
+  <link rel="stylesheet" href="/styles.css?v=launch-ready-3" />
+</head>
+<body>
+  <header class="topbar">
+    <nav class="site-shell nav">
+      <a class="brand" href="/"><strong>Trap House Roll Call</strong><span>Public holder wall</span></a>
+      <div class="nav-links">
+        <a href="/threads/">Threads</a>
+        <a href="/trap-pass-phases/">Phases</a>
+        <a href="/trap-pass/">Trap Pass</a>
+        <a href="/check-pass/">Check Pass</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="site-shell">
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Proof You Were Here</span>
+          <h1>Trap House Roll Call</h1>
+        </div>
+        <p>Public wall for holder display names, pass IDs, waves, roles, mission counts, and unlock levels. Email stays private.</p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Display Name</th>
+              <th>Trap Pass ID</th>
+              <th>Wave</th>
+              <th>Role</th>
+              <th>Phase</th>
+              <th>Threads</th>
+              <th>Missions</th>
+              <th>Unlock</th>
+            </tr>
+          </thead>
+          <tbody id="rollCallBody"></tbody>
+        </table>
+      </div>
+      <div id="emptyRollCall" class="notice"></div>
+    </section>
+  </main>
+
+  <script src="/config.js"></script>
+  <script src="/trap-pass-system.js"></script>
+  <script>
+    const registry = TrapHouse.getRegistry().map(TrapHouse.publicPass);
+    const body = document.getElementById("rollCallBody");
+    const empty = document.getElementById("emptyRollCall");
+    if (!registry.length) {
+      empty.className = "notice active";
+      empty.innerHTML = "<strong>No holders yet.</strong><p>Claim a Trap Pass to step onto the Roll Call.</p>";
+    }
+    body.innerHTML = registry.map((pass) => `
+      <tr>
+        <td>${TrapHouse.escapeHTML(pass.display_name)}</td>
+        <td><a href="/pass/?id=${encodeURIComponent(pass.trap_pass_id)}">${TrapHouse.escapeHTML(pass.trap_pass_id)}</a></td>
+        <td>Wave ${TrapHouse.escapeHTML(pass.wave_number)} - ${TrapHouse.escapeHTML(pass.wave_name)}</td>
+        <td>${TrapHouse.escapeHTML(pass.discord_role)}</td>
+        <td>${TrapHouse.escapeHTML(pass.phase_name)}</td>
+        <td>${TrapHouse.escapeHTML((pass.thread_keys || []).join(", "))}</td>
+        <td>${TrapHouse.escapeHTML(pass.missions_completed)}</td>
+        <td>Level ${TrapHouse.escapeHTML(pass.unlock_level)}</td>
+      </tr>
+    `).join("");
+  </script>
+</body>
+</html>

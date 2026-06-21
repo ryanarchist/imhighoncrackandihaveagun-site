@@ -1,0 +1,172 @@
+{
+  "server": {
+    "name": "The Trap House",
+    "guild_id": "1515763346790420680",
+    "verified_invite": "https://discord.gg/64MKTrGGsD",
+    "motto": "The website is the map. The Discord is the room. The Trap Pass gets you deeper inside.",
+    "rules_version": "grimey house rules",
+    "rules_summary": "Low-friction, real-talk server culture. Raw is welcome; reckless is not. No sourcing, plugs, threats, doxxing, minors, exploitation, spam floods, unsafe instructions, or anything that puts members or the project at risk.",
+    "manual_role_notes": {
+      "trusted_mods": ["Amelia the Plug"],
+      "heavy_content_ok": "Approved for manual opt-in or later reaction-role assignment."
+    },
+    "identity_assets": {
+      "logo": "/assets/trap-house/trap-house-discord-logo-512.png",
+      "banner": "/assets/trap-house/trap-house-discord-banner-960.jpg",
+      "launch_poster": "/assets/trap-house/trap-house-door-opening.png",
+      "official_links_poster": "/assets/trap-house/trap-house-url-poster.png",
+      "live_invite_poster": "/assets/trap-house/trap-house-live-invite-poster.png",
+      "thread_map": "/assets/trap-house/threads-map-board.png"
+    }
+  },
+  "roles": [
+    { "name": "New Arrival", "purpose": "Default arrival role with front-door access." },
+    { "name": "Trashcan Fam", "purpose": "Base community role once someone settles in." },
+    { "name": "Day One Dirt Witness", "purpose": "Early witness and founding-support status." },
+    { "name": "Trap Pass Holder", "purpose": "Verified pass holder with mapped access." },
+    { "name": "Patreon Back Room", "purpose": "Back-room access for Patreon/manual supporters." },
+    { "name": "Archivist", "purpose": "Trusted archive sorter and evidence label helper." },
+    { "name": "Clip Hunter", "purpose": "Votes on reels, clips, frames, and shorts." },
+    { "name": "Quote Miner", "purpose": "Pulls hard lines, captions, and book fragments." },
+    { "name": "Fan Artist", "purpose": "Member art/edit contributor status." },
+    { "name": "Heavy Content OK", "purpose": "Opt-in access for heavy documentary context rooms." },
+    { "name": "Spoilers OK", "purpose": "Opt-in role for documentary/book spoilers." },
+    { "name": "No DMs / Boundaries", "purpose": "Visible boundary role for members who do not want DMs." },
+    { "name": "Mod", "purpose": "House keys for setup, cleanup, approvals, and safety calls." }
+  ],
+  "categories": [
+    {
+      "name": "FRONT DOOR",
+      "purpose": "Entry, orientation, official links, and house-wide announcements.",
+      "channels": [
+        { "name": "knock-first", "type": "text", "purpose": "Landing channel and gritty welcome.", "visibility": "everyone", "posting": "staff", "pin": "start-here" },
+        { "name": "house-rules", "type": "text", "purpose": "Grimey rules with the safety spine.", "visibility": "everyone", "posting": "staff", "pin": "rules" },
+        { "name": "official-stash", "type": "text", "purpose": "Website, socials, Patreon, Spotify, YouTube, and approved links.", "visibility": "everyone", "posting": "staff", "pin": "official-links" },
+        { "name": "announcements-from-the-couch", "type": "text", "purpose": "Drops, launches, site updates, Discord updates, and major notices.", "visibility": "everyone", "posting": "staff" }
+      ]
+    },
+    {
+      "name": "THE MAIN FLOOR",
+      "purpose": "The active living room of the server.",
+      "channels": [
+        { "name": "living-room", "type": "text", "purpose": "Main talk room for the project and daily conversation.", "visibility": "members", "posting": "members" },
+        { "name": "new-faces-at-the-door", "type": "text", "purpose": "Introductions and first posts.", "visibility": "members", "posting": "members" },
+        { "name": "tap-in", "type": "text", "purpose": "Daily signal, status, and quick check-ins.", "visibility": "members", "posting": "members" },
+        { "name": "clip-reactions", "type": "media", "purpose": "React to clips, stills, Shorts, and archive drops.", "visibility": "members", "posting": "members" },
+        { "name": "quote-the-madness", "type": "text", "purpose": "Pull quotes, captions, book lines, and hard sentences.", "visibility": "members", "posting": "members" }
+      ]
+    },
+    {
+      "name": "THE DIRT SHOW",
+      "purpose": "Project drops and core story rooms.",
+      "channels": [
+        { "name": "new-drops", "type": "media", "purpose": "Approved new media, video, page, and project drops.", "visibility": "members", "posting": "staff" },
+        { "name": "roof-at-5am", "type": "text", "purpose": "Heavy story context around rooftop/archive moments.", "visibility": "heavy", "posting": "heavy", "nsfw": true, "slowmode_seconds": 60 },
+        { "name": "the-addiction-machine", "type": "text", "purpose": "Addiction machine thread discussion.", "visibility": "members", "posting": "members" },
+        { "name": "writing-in-the-fire", "type": "text", "purpose": "Book, notes, captions, and documentary writing.", "visibility": "members", "posting": "members" },
+        { "name": "crack-capitalism", "type": "text", "purpose": "System mirror and social logic thread.", "visibility": "members", "posting": "members" },
+        { "name": "cats-in-the-trap", "type": "media", "purpose": "Cats, home, tenderness, and proof love survived.", "visibility": "members", "posting": "members" }
+      ]
+    },
+    {
+      "name": "THE BACK ROOMS",
+      "purpose": "Archive work, pass counting, and the map on the wall.",
+      "channels": [
+        { "name": "doc-war-room", "type": "text", "purpose": "Documentary build notes and scene strategy.", "visibility": "trap-pass", "posting": "members" },
+        { "name": "archive-dives", "type": "media", "purpose": "Stills, evidence sorting, keyframe notes, and archive context.", "visibility": "trap-pass", "posting": "members" },
+        { "name": "trap-pass-counter", "type": "text", "purpose": "Pass verification, role mapping, holder counts, and wave status.", "visibility": "trap-pass", "posting": "members" },
+        { "name": "the-map-on-the-wall", "type": "text", "purpose": "Read-only thread map and project wiring explanation.", "visibility": "members", "posting": "staff", "pin": "thread-map" }
+      ]
+    },
+    {
+      "name": "THE THREAD MAP",
+      "purpose": "The project wires separated into rooms.",
+      "channels": [
+        { "name": "thread-january-22", "type": "text", "purpose": "Origin/blast crater thread.", "visibility": "members", "posting": "members" },
+        { "name": "thread-addiction-machine", "type": "text", "purpose": "Ritual, time, survival, compulsion.", "visibility": "members", "posting": "members" },
+        { "name": "thread-psychosis-loop", "type": "text", "purpose": "No sleep, pattern hunting, reality bending.", "visibility": "heavy", "posting": "heavy", "nsfw": true, "slowmode_seconds": 60 },
+        { "name": "thread-grief-loss", "type": "text", "purpose": "The locked room underneath everything.", "visibility": "heavy", "posting": "heavy", "nsfw": true, "slowmode_seconds": 60 },
+        { "name": "thread-cats-home", "type": "media", "purpose": "Home, cats, tenderness, clean place.", "visibility": "members", "posting": "members" },
+        { "name": "thread-writing-fire", "type": "text", "purpose": "Writing inside the collapse.", "visibility": "members", "posting": "members" },
+        { "name": "thread-money-desperation", "type": "text", "purpose": "Survival math, next 24 hours, and pressure.", "visibility": "members", "posting": "members" },
+        { "name": "thread-crack-capitalism", "type": "text", "purpose": "System mirror and social logic.", "visibility": "members", "posting": "members" },
+        { "name": "thread-platform-war", "type": "text", "purpose": "Bans, rebuilds, algorithms, migration.", "visibility": "members", "posting": "members" },
+        { "name": "thread-trap-pass-lore", "type": "text", "purpose": "Keys, hidden rooms, drops, participation.", "visibility": "trap-pass", "posting": "members" },
+        { "name": "thread-self-destruction", "type": "text", "purpose": "Burn it down versus build something permanent.", "visibility": "heavy", "posting": "heavy", "nsfw": true, "slowmode_seconds": 60 },
+        { "name": "thread-public-witness", "type": "text", "purpose": "Audience enters, reacts, shares, joins, and changes the archive.", "visibility": "members", "posting": "members" },
+        { "name": "thread-ending-convergence", "type": "text", "purpose": "Where every wire comes back together.", "visibility": "members", "posting": "members" }
+      ]
+    },
+    {
+      "name": "THE BASEMENT",
+      "purpose": "Heavy rooms and resource cabinet.",
+      "channels": [
+        { "name": "heavy-room", "type": "text", "purpose": "Heavy documentary context with opt-in access.", "visibility": "heavy", "posting": "heavy", "nsfw": true, "slowmode_seconds": 60 },
+        { "name": "not-a-challenge", "type": "text", "purpose": "Boundary room: documentary context, not imitation or instruction.", "visibility": "heavy", "posting": "heavy", "nsfw": true, "slowmode_seconds": 90 },
+        { "name": "resources-in-the-cabinet", "type": "text", "purpose": "Support resources and practical links.", "visibility": "everyone", "posting": "staff" }
+      ]
+    },
+    {
+      "name": "THE WORKBENCH",
+      "purpose": "Audience labor that can become public artifacts.",
+      "channels": [
+        { "name": "thumbnail-court", "type": "media", "purpose": "Thumbnail and frame voting.", "visibility": "trap-pass", "posting": "members" },
+        { "name": "caption-lab", "type": "text", "purpose": "Caption, title, and hook building.", "visibility": "trap-pass", "posting": "members" },
+        { "name": "fan-art-and-edits", "type": "media", "purpose": "Fan art, edits, and image experiments.", "visibility": "members", "posting": "members" },
+        { "name": "music-lab", "type": "media", "purpose": "Soundtrack drops and music direction.", "visibility": "members", "posting": "members" }
+      ]
+    },
+    {
+      "name": "LOCKED / SPECIAL",
+      "purpose": "Manual or role-gated rooms.",
+      "channels": [
+        { "name": "day-one-dirt-witnesses", "type": "text", "purpose": "Day One role room.", "visibility": "day-one", "posting": "role" },
+        { "name": "patreon-back-room", "type": "text", "purpose": "Patreon/manual supporter room.", "visibility": "patreon", "posting": "role" },
+        { "name": "mod-basement", "type": "text", "purpose": "Staff-only mod room.", "visibility": "mod", "posting": "mod" },
+        { "name": "broken-glass-report", "type": "text", "purpose": "Private report/escalation room for issues.", "visibility": "mod", "posting": "mod" }
+      ]
+    }
+  ],
+  "starter_messages": {
+    "knock-first": "Welcome to The Trap House. This is 18+ documentary/archive space: website is the map, Discord is the room, Trap Pass gets you deeper. This is not instructions, a challenge, medical advice, or a place to source anything. Pull up, read the rules, grab a pass if you want keys, and start with the map. Welcome to the dirt show.",
+    "house-rules": "Grimey house rules: keep it raw, keep it useful. No sourcing, selling, plugs, instructions, threats, doxxing, minors, reposting private material, spam floods, or telling people to imitate dangerous footage. Heavy material goes in heavy rooms. Mods can clean risky stuff so the house stays standing.",
+    "the-map-on-the-wall": "The Threads are how the whole project connects. January 22 is the blast crater. Grief feeds addiction. Addiction feeds money desperation and psychosis loops. Cats/home interrupt collapse. Writing turns collapse into evidence. Platform war forces migration. Trap Passes turn viewers into participants. In the end, all threads converge.",
+    "official-stash": "Official links: Discord discord.gg/64MKTrGGsD, website imhighoncrackandihaveagun.com, Instagram instagram.com/ihocaihag, TikTok tiktok.com/@ihocaihagofficial, YouTube youtube.com/@imhighoncrackandihaveagun, X x.com/comradejizzy, Patreon patreon.com/c/IMHIGHONCRACKANDIHAVEAGUN, Spotify open.spotify.com/artist/7GUAmAkkpLLESm0Fig1NWZ."
+  },
+  "starter_content_files": {
+    "knock-first": "content/start-here.md",
+    "house-rules": "content/rules.md",
+    "official-stash": "content/official-links.md",
+    "announcements-from-the-couch": "content/launch-announcement.md",
+    "new-drops": "content/new-drops.md",
+    "the-map-on-the-wall": "content/thread-map.md",
+    "resources-in-the-cabinet": "content/resources.md"
+  },
+  "starter_channel_file": "content/channel-starters.json",
+  "starter_assets": {
+    "knock-first": ["/assets/trap-house/trap-house-door-opening.png"],
+    "house-rules": ["/assets/trap-house/ihocaihag-disclaimer-poster.png"],
+    "official-stash": ["/assets/trap-house/trap-house-url-poster.png", "/assets/trap-house/trap-house-live-invite-poster.png"],
+    "announcements-from-the-couch": ["/assets/trap-house/trap-house-door-opening.png"],
+    "new-drops": ["/assets/trap-house/ihocaihag-cover-masked-red.png"],
+    "the-map-on-the-wall": ["/assets/trap-house/threads-map-board.png"],
+    "resources-in-the-cabinet": ["/assets/trap-house/ihocaihag-disclaimer-poster.png"]
+  },
+  "bot_commands": [
+    { "command": "/trap-pass verify", "purpose": "Verify a Trap Pass ID and apply role/access mappings." },
+    { "command": "/trap-pass profile", "purpose": "Return a public pass summary without exposing private account fields." },
+    { "command": "/mission drop", "purpose": "Post the current website mission into Discord." },
+    { "command": "/mission proof", "purpose": "Record member proof and queue it for review." },
+    { "command": "/archive status", "purpose": "Post the latest archive stats from the site data feed." },
+    { "command": "/clip vote", "purpose": "Start a clip or thumbnail vote with buttons." },
+    { "command": "/thread map", "purpose": "Post the thread map and explain how a clip ties to the project wires." }
+  ],
+  "site_integrations": [
+    "Discord invite URL stays manual until approved for public site display.",
+    "Trap Pass IDs map to Discord roles through the same public-safe summary used by pass inventory.",
+    "Threads data powers site route copy, Discord thread rooms, and Trap Pass affinity.",
+    "Mission Board can mirror mission drops into #caption-lab, #thumbnail-court, and #clip-reactions.",
+    "AI Archive Terminal can post batch status into #archive-dives and the archive status lane.",
+    "Approved Discord submissions can become website story objects after human review."
+  ]
+}

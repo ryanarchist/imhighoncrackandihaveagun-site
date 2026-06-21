@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trap Pass Phases | The Trap House</title>
+  <link rel="stylesheet" href="/styles.css?v=launch-ready-3" />
+</head>
+<body>
+  <header class="topbar">
+    <nav class="site-shell nav">
+      <a class="brand with-mark" href="/trap-pass/">
+        <img class="nav-logo" src="/assets/trap-house/trap-house-discord-logo.png" alt="" />
+        <span><strong>Trap Pass Phases</strong><span>Access / rooms / unlock data</span></span>
+      </a>
+      <div class="nav-links">
+        <a href="/project/">Project</a>
+        <a href="/threads/">Threads</a>
+        <a href="/documentary/">Documentary</a>
+        <a href="/book/">Book</a>
+        <a href="/dopesick/">Dopesick</a>
+        <a href="/archive-terminal/">Archive</a>
+        <a href="/trap-pass/">Trap Pass</a>
+        <a href="/trap-pass-phases/" aria-current="page">Phases</a>
+        <a href="/preorders/">Preorders</a>
+        <a href="/check-pass/">Check Pass</a>
+        <a href="/discord/">Discord</a>
+      </div>
+    </nav>
+  </header>
+
+  <section class="page-hero pass-phase-hero">
+    <img src="/assets/trap-house/trap-house-url-poster.png" alt="Pull up to The Trap House poster with URLs" />
+    <div class="site-shell page-hero-lockup">
+      <span class="eyebrow">The Key Gets Deeper</span>
+      <h1>Trap Pass Phases</h1>
+      <p class="lead">A Trap Pass is not just a ticket. It is a staged access object: role, room, thread, baggie, future access status, and public proof.</p>
+      <div class="cta-row">
+        <a class="button primary" href="/trap-pass/">Claim Pass</a>
+        <a class="button" href="/check-pass/">Check Your Phase</a>
+        <a class="button danger" href="/threads/">Thread Map</a>
+      </div>
+    </div>
+  </section>
+
+  <main class="site-shell">
+    <section class="section">
+      <div class="section-head">
+        <div><span class="eyebrow">Active Key</span><h2>Current Phase</h2></div>
+        <p>This reads the active pass and shows what phase it has reached. The shareable summary can map Discord roles without exposing private fields.</p>
+      </div>
+      <div class="grid two">
+        <div data-current-phase></div>
+        <div class="terminal">
+          <p>&gt; pass.summary = public fields only</p>
+          <p>&gt; email = never exposed</p>
+          <p>&gt; private_unlocks = never exposed in public summary</p>
+          <p>&gt; role_mapping = Discord-ready</p>
+          <p>&gt; role_path = shareable summary</p>
+        </div>
+      </div>
+      <div data-phase-error></div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div><span class="eyebrow">Access Ladder</span><h2>All Phases</h2></div>
+        <p>Each phase shows what it means, which role it maps to, which rooms it touches, and what unlocks it.</p>
+      </div>
+      <div class="phase-grid" data-phase-list></div>
+    </section>
+
+    <section class="section split-feature">
+      <div class="asset-frame poster-fit">
+        <img src="/assets/trap-house/trap-pass-wave3-blister.png" alt="Wave 3 Trap Pass blister card" />
+      </div>
+      <div class="panel feature-copy">
+        <span class="eyebrow">Physical Feeling / Digital Logic</span>
+        <h2>Collectible On The Outside, Mapped On The Inside</h2>
+        <p class="lead">The pass art sells the feeling. The key carries the state: wave, serial, thread keys, missions, unlock level, Discord roles, rooms, and baggies.</p>
+        <p class="sublead">That is the bridge from visitor to holder to deeper rooms.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div><span class="eyebrow">Public Pass Summary</span><h2>No Private Fields</h2></div>
+        <p>Public pass views never expose private account fields. Emails, private unlock codes, private notes, and private system data stay hidden.</p>
+      </div>
+      <pre class="metadata-preview" data-metadata-preview>Loading public pass summary...</pre>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="site-shell">
+      <span>The key gets deeper as the project opens. Each phase explains what changes.</span>
+      <span>Public pass summaries. Private fields stay hidden.</span>
+    </div>
+  </footer>
+
+  <script src="/config.js?v=launch-ready-3"></script>
+  <script src="/trap-pass-system.js?v=launch-ready-3"></script>
+  <script src="/trap-pass-phases.js?v=launch-ready-3"></script>
+</body>
+</html>

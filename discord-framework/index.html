@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>Discord House Map | The Trap House</title>
+  <script>
+    (function () {
+      const localHosts = new Set(["localhost", "127.0.0.1", "::1", ""]);
+      if (!localHosts.has(window.location.hostname)) {
+        window.location.replace("/discord/");
+      }
+    })();
+  </script>
+  <link rel="stylesheet" href="/styles.css?v=launch-ready-3" />
+</head>
+<body>
+  <header class="topbar">
+    <nav class="site-shell nav">
+      <a class="brand with-mark" href="/discord/">
+        <img class="nav-logo" src="/assets/trap-house/trap-house-discord-logo.png" alt="" />
+        <span><strong>Discord House Map</strong><span>Roles / rooms / pass access</span></span>
+      </a>
+      <div class="nav-links">
+        <a href="/project/">Project</a>
+        <a href="/threads/">Threads</a>
+        <a href="/book/">Book</a>
+        <a href="/dopesick/">Dopesick</a>
+        <a href="/documentary/">Documentary</a>
+        <a href="/archive-terminal/">Archive</a>
+        <a href="/trap-pass/">Trap Pass</a>
+        <a href="/trap-pass-phases/">Phases</a>
+        <a href="/preorders/">Preorders</a>
+        <a href="/check-pass/">Check Pass</a>
+        <a href="/wallet/">Pass Terminal</a>
+        <a href="/discord/">Discord</a>
+      </div>
+    </nav>
+  </header>
+
+  <section class="discord-masthead">
+    <div class="site-shell discord-lockup">
+      <img class="discord-logo" src="/assets/trap-house/trap-house-discord-logo.png" alt="The Trap House Discord logo" />
+      <div>
+        <span class="eyebrow">The Room Map</span>
+        <h1>The Discord House</h1>
+        <p class="lead">A complete channel, role, thread, pass, and house-rule map for The Trap House.</p>
+      </div>
+    </div>
+  </section>
+
+  <main class="site-shell">
+    <section class="section">
+      <div class="section-head">
+        <div><span class="eyebrow">House Rules</span><h2 id="serverName">The Trap House</h2></div>
+        <p id="rulesSummary">Loading the grimey house rules...</p>
+      </div>
+      <div class="terminal" id="serverTerminal"></div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div><span class="eyebrow">Categories</span><h2>Rooms Inside The Room</h2></div>
+        <p>Each category is meant to match a place or function on the website so the server never feels disconnected from the map.</p>
+      </div>
+      <div id="categoryMount" class="framework-list"></div>
+    </section>
+
+    <section class="section split-feature">
+      <div class="asset-frame poster-fit">
+        <img src="/assets/trap-house/trap-house-door-opening.png" alt="The Trap House door is opening poster" />
+      </div>
+      <div class="panel feature-copy">
+        <span class="eyebrow">Launch Bridge</span>
+        <h2>The Door Opens From Discord Into The Site</h2>
+        <p class="lead">Discord launch, new website, revamped Trap Passes, hidden rooms, early drops, and archive access all meet at this door.</p>
+        <p class="sublead">This is the public announcement piece for the moment the house opens.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div><span class="eyebrow">Roles</span><h2>Keys And Status</h2></div>
+        <p>Roles unlock rooms, identify waves, and make each member feel like part of a living archive.</p>
+      </div>
+      <div id="roleMount" class="grid four"></div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div><span class="eyebrow">Pass Verifier</span><h2>Verify Trap Pass</h2></div>
+        <p>Verify a Trap Pass ID, map roles and rooms, and return a public summary without exposing private account fields.</p>
+      </div>
+      <div class="grid two">
+        <div class="panel" style="padding: 18px;">
+          <form class="form-grid" data-discord-verify-form>
+            <div class="field full">
+              <label for="verifyTrapPass">Trap Pass ID Or Email</label>
+              <input id="verifyTrapPass" type="text" placeholder="W3-00001" autocomplete="off" />
+            </div>
+            <div class="field full">
+              <button class="primary" type="submit">Verify Pass Access</button>
+            </div>
+          </form>
+          <p class="fineprint" style="margin-top: 12px;">Public summaries hide private account fields and private system data.</p>
+        </div>
+        <div class="terminal">
+          <p>&gt; /trap-pass verify = roles + channels + website rooms</p>
+          <p>&gt; /trap-pass profile = public fields only</p>
+          <p>&gt; private_data = withheld</p>
+          <p>&gt; discord_roles = ready to map</p>
+        </div>
+      </div>
+      <div data-discord-verify-output style="margin-top: 18px;"></div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div><span class="eyebrow">House Commands</span><h2>Room Automation</h2></div>
+        <p>Trap Pass verification, mission drops, archive status, clip voting, and thread map posts all connect the room back to the site.</p>
+      </div>
+      <div id="commandMount" class="framework-list"></div>
+    </section>
+
+    <section class="section split-feature reverse">
+      <div class="panel feature-copy">
+        <span class="eyebrow">Pinned Starter Messages</span>
+        <h2>First Words In The House</h2>
+        <div id="starterMount" class="framework-list"></div>
+      </div>
+      <div class="asset-frame">
+        <img src="/assets/trap-house/threads-map-board-new.png" alt="The Threads map for Discord" />
+      </div>
+    </section>
+
+    <section class="section split-feature">
+      <div class="asset-frame">
+        <img src="/assets/trap-house/author-desk-follow-wide.png" alt="Project spread with writing desk and social links" />
+      </div>
+      <div class="panel feature-copy">
+        <span class="eyebrow">Integration Notes</span>
+        <h2>Site To Discord Loop</h2>
+        <div id="integrationMount" class="framework-list"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="/config.js?v=launch-ready-3"></script>
+  <script src="/trap-pass-system.js?v=launch-ready-3"></script>
+  <script src="/discord-verifier.js?v=launch-ready-3"></script>
+  <script>
+    function row(left, middle, right) {
+      return `
+        <div class="framework-row">
+          <strong>${TrapHouse.escapeHTML(left)}</strong>
+          <span>${TrapHouse.escapeHTML(middle)}</span>
+          <span>${TrapHouse.escapeHTML(right || "")}</span>
+        </div>
+      `;
+    }
+
+    function render(framework) {
+      document.getElementById("serverName").textContent = framework.server.name;
+      document.getElementById("rulesSummary").textContent = framework.server.rules_summary;
+      document.getElementById("serverTerminal").innerHTML = `
+        <p>&gt; server = ${TrapHouse.escapeHTML(framework.server.name)}</p>
+        <p>&gt; motto = ${TrapHouse.escapeHTML(framework.server.motto)}</p>
+        <p>&gt; rules_version = ${TrapHouse.escapeHTML(framework.server.rules_version)}</p>
+        <p>&gt; house_map = roles + rooms + threads</p>
+      `;
+      document.getElementById("categoryMount").innerHTML = framework.categories.map((category) => `
+        <article class="panel" style="padding: 18px;">
+          <span class="eyebrow">${TrapHouse.escapeHTML(category.name)}</span>
+          <h3>${TrapHouse.escapeHTML(category.purpose)}</h3>
+          <div class="framework-list" style="margin-top: 14px;">
+            ${category.channels.map((channel) => row(`#${channel.name}`, channel.purpose, `${channel.visibility} / ${channel.posting}`)).join("")}
+          </div>
+        </article>
+      `).join("");
+      document.getElementById("roleMount").innerHTML = framework.roles.map((role) => `
+        <article class="card">
+          <span class="tag">Role</span>
+          <h3>${TrapHouse.escapeHTML(role.name)}</h3>
+          <p>${TrapHouse.escapeHTML(role.purpose)}</p>
+        </article>
+      `).join("");
+      document.getElementById("commandMount").innerHTML = framework.bot_commands.map((command) => row(command.command, command.purpose, "planned")).join("");
+      document.getElementById("starterMount").innerHTML = Object.entries(framework.starter_messages || {}).map(([channel, message]) => row(`#${channel}`, message, "pin")).join("");
+      document.getElementById("integrationMount").innerHTML = framework.site_integrations.map((item) => `
+        <div class="framework-row"><strong>Loop</strong><span>${TrapHouse.escapeHTML(item)}</span><span>planned</span></div>
+      `).join("");
+    }
+
+    fetch("/data/discord-framework.json", { cache: "no-store" })
+      .then((response) => response.json())
+      .then(render)
+      .catch((error) => {
+        document.getElementById("serverTerminal").innerHTML = `<p>&gt; room_map_status = unavailable</p>`;
+      });
+  </script>
+</body>
+</html>

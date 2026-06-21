@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trap Pass Terminal | The Trap House</title>
+  <link rel="stylesheet" href="/styles.css?v=launch-ready-3" />
+</head>
+<body>
+  <header class="topbar">
+    <nav class="site-shell nav">
+      <a class="brand" href="/"><strong>Trap Pass Terminal</strong><span>Digital access key</span></a>
+      <div class="nav-links">
+        <a href="/project/">Project</a>
+        <a href="/threads/">Threads</a>
+        <a href="/documentary/">Documentary</a>
+        <a href="/book/">Book</a>
+        <a href="/dopesick/">Dopesick</a>
+        <a href="/archive-terminal/">Archive</a>
+        <a href="/trap-pass/" aria-current="page">Trap Pass</a>
+        <a href="/trap-pass-phases/">Phases</a>
+        <a href="/preorders/">Preorders</a>
+        <a href="/check-pass/">Check Pass</a>
+        <a href="/discord/">Discord</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="site-shell">
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Claim The Key</span>
+          <h1>Get Your Digital Trap Pass</h1>
+        </div>
+        <p>Trap Passes are collectible access keys tied to waves of the project. They mark when someone entered the house and can unlock hidden rooms, early drops, discounts, Discord roles, lore, missions, and deeper archive access.</p>
+      </div>
+      <div class="grid two">
+        <div class="panel" style="padding: 18px;">
+          <form id="trapPassForm" class="form-grid">
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" autocomplete="email" required placeholder="you@example.com" />
+            </div>
+            <div class="field">
+              <label for="displayName">Display Name</label>
+              <input id="displayName" name="displayName" type="text" autocomplete="nickname" placeholder="Archive Witness" />
+            </div>
+            <div class="field">
+              <label for="discordUsername">Discord Username</label>
+              <input id="discordUsername" name="discordUsername" type="text" placeholder="@username" />
+            </div>
+            <div class="field full">
+              <label for="threadKeys">Thread Keys Optional</label>
+              <input id="threadKeys" name="threadKeys" type="text" placeholder="trap-pass-lore, public-project-witness" />
+            </div>
+            <div class="field full">
+              <button class="primary" type="submit">Claim Trap Pass</button>
+            </div>
+          </form>
+          <div class="pass-bullets">
+            <strong>A Trap Pass can carry:</strong>
+            <span>wave / serial / holder role</span>
+            <span>Discord room alignment</span>
+            <span>hidden room and mission access</span>
+          </div>
+          <div id="passNotice" class="notice"></div>
+        </div>
+        <div class="pass-card">
+          <span class="pass-stamp">Current Wave</span>
+          <div class="pass-id">G2W1</div>
+          <p class="lead">Gen 2 Wave 1 - No Brakes</p>
+          <div class="meta-list">
+            <div><span>Default Role</span><strong>No Brakes</strong></div>
+            <div><span>Status</span><strong>Active</strong></div>
+            <div><span>Unlock</span><strong>Level 1</strong></div>
+          <div><span>Access Data</span><strong>Shareable</strong></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section split-feature">
+      <div class="asset-frame poster-fit">
+        <img src="/assets/trap-house/trap-pass-gen2-wave1-no-brakes.png" alt="Gen 2 Wave 1 No Brakes Trap Pass card" />
+      </div>
+      <div class="panel feature-copy">
+        <span class="eyebrow">Physical Feel / Digital Key</span>
+        <h2>No Brakes Is Proof You Were Here</h2>
+        <p class="lead">Gen 2 Wave 1 is built to feel like proof you were here when the next wave opened.</p>
+        <p class="sublead">The digital pass carries the same logic as the physical object: wave, serial, role, unlock level, thread keys, missions, room access, and proof badges.</p>
+        <div class="cta-row">
+          <a class="button primary" href="/check-pass/">Check Your Pass</a>
+          <a class="button" href="/threads/">See The Threads</a>
+          <a class="button" href="/trap-pass-phases/">See Phase Ladder</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="notice active">
+        <strong>No Private Fields</strong>
+        <span>Public pass views never expose private account fields. Emails, wallet addresses, private notes, and private system data stay hidden.</span>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Confirmation Output</span>
+          <h2>Your Pass Appears Here</h2>
+        </div>
+        <p>Save the ID, then use Check Your Pass, the Pass Terminal, or the public summary page. Public pass views never expose private account fields.</p>
+      </div>
+      <div id="createdPassOutput" class="panel" style="padding: 18px;">
+        <p class="fineprint">No pass claimed yet in this session.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="site-shell">
+      <span>Private fields stay private. Public pass pages show only the access summary.</span>
+      <a href="/trap-pass-phases/">How The Key Works</a>
+    </div>
+  </footer>
+
+  <script src="/config.js?v=launch-ready-3"></script>
+  <script src="/trap-pass-system.js?v=launch-ready-3"></script>
+  <script>
+    const output = document.getElementById("createdPassOutput");
+    const current = TrapHouse.getCurrentPass();
+    if (current) output.innerHTML = TrapHouse.renderPassCard(current);
+
+    function publicClaimError(error) {
+      const message = String(error?.message || "");
+      if (/valid email|claims open|browser blocked|not saved/i.test(message)) {
+        return TrapHouse.escapeHTML(message);
+      }
+      return "Something blocked the claim. Try again in a minute or use Check Your Pass if you already claimed one.";
+    }
+
+    document.getElementById("trapPassForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const form = new FormData(event.currentTarget);
+      const notice = document.getElementById("passNotice");
+      try {
+        const result = await TrapHouse.createTrapPassAsync({
+          email: form.get("email"),
+          displayName: form.get("displayName"),
+          discordUsername: form.get("discordUsername"),
+          threadKeys: form.get("threadKeys")
+        });
+        notice.className = "notice active";
+        notice.innerHTML = result.existed
+          ? "<strong>Existing pass found.</strong><p>Your Trap Pass is selected. Join The Trap House to unlock your role.</p>"
+          : "<strong>Your Trap Pass is active.</strong><p>Join The Trap House to unlock your role. Save your Trap Pass ID.</p>";
+        output.innerHTML = `${TrapHouse.renderPassCard(result.pass)}<div class="cta-row"><a class="button primary" href="/check-pass/">Check Your Pass</a></div>`;
+      } catch (error) {
+        notice.className = "notice error active";
+        notice.innerHTML = `<strong>Could not claim pass.</strong><p>${publicClaimError(error)}</p>`;
+      }
+    });
+  </script>
+</body>
+</html>

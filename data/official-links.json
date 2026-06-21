@@ -1,0 +1,43 @@
+{
+  "status": "official_links_confirmed_by_ryan_2026-06-18",
+  "website": {
+    "label": "Website",
+    "url": "https://imhighoncrackandihaveagun.com",
+    "confidence": "repo_cname"
+  },
+  "discord": {
+    "label": "Discord",
+    "url": "https://discord.gg/64MKTrGGsD",
+    "confidence": "verified_public_invite_2026-06-17"
+  },
+  "instagram": {
+    "label": "Instagram",
+    "url": "https://www.instagram.com/ihocaihag/",
+    "confidence": "confirmed_by_ryan_2026-06-18"
+  },
+  "tiktok": {
+    "label": "TikTok",
+    "url": "https://www.tiktok.com/@ihocaihagofficial",
+    "confidence": "confirmed_by_ryan_2026-06-18"
+  },
+  "youtube": {
+    "label": "YouTube",
+    "url": "https://www.youtube.com/@imhighoncrackandihaveagun",
+    "confidence": "confirmed_by_ryan_2026-06-18"
+  },
+  "x": {
+    "label": "X",
+    "url": "https://x.com/comradejizzy",
+    "confidence": "confirmed_by_ryan_2026-06-18"
+  },
+  "patreon": {
+    "label": "Patreon",
+    "url": "https://www.patreon.com/c/IMHIGHONCRACKANDIHAVEAGUN",
+    "confidence": "confirmed_by_ryan_2026-06-18"
+  },
+  "spotify": {
+    "label": "Spotify",
+    "url": "https://open.spotify.com/artist/7GUAmAkkpLLESm0Fig1NWZ",
+    "confidence": "confirmed_by_ryan_2026-06-18"
+  }
+}

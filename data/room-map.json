@@ -1,0 +1,266 @@
+{
+  "title": "The Room Map",
+  "motto": "The website is the map. The Discord is the room. The Trap Pass gets you deeper inside.",
+  "scenes": [
+    {
+      "id": "lineup",
+      "name": "Author Profile Room",
+      "image": "/assets/trap-house/author-profile-room-paradise-oblivion.png",
+      "aspect": "1607 / 1204",
+      "alt": "Author profile room with figure stations, shelves, flags, cats, a notebook reading Paradise or Oblivion, and project objects.",
+      "description": "The room is the author profile: each figure is a different shareable part of Ryan's story, surrounded by the archive, the cats, the shelves, the pressure, and the floor-note fork between paradise and oblivion.",
+      "hotspots": [
+        {
+          "id": "shock-title-figure",
+          "label": "Shock Title Figure",
+          "x": 6,
+          "y": 47,
+          "story": "The left-edge figure carries the title shock. Its job is to open attention, then immediately route people into context: book, documentary, archive, and witness material.",
+          "route": "/project/",
+          "discord": "#start-here-then-go-deeper",
+          "unlock": "Public"
+        },
+        {
+          "id": "archive-spark",
+          "label": "Archive Spark",
+          "x": 17,
+          "y": 47,
+          "story": "This station turns spectacle into record: the strange outfit, the cats, the visual joke, and the evidence-machine energy of building a project out of scattered footage.",
+          "route": "/archive-terminal/",
+          "discord": "#archive-drops",
+          "unlock": "Public"
+        },
+        {
+          "id": "platform-war-figure",
+          "label": "Platform War Figure",
+          "x": 28,
+          "y": 49,
+          "story": "The masked jersey figure represents bans, rebuilds, audience migration, and the move from disposable feeds into a website, Discord, email list, and owned archive.",
+          "route": "/threads/",
+          "discord": "#thread-platform-war",
+          "unlock": "Public"
+        },
+        {
+          "id": "labor-survival-figure",
+          "label": "Labor / Survival Figure",
+          "x": 40,
+          "y": 48,
+          "story": "This station holds work, exhaustion, survival math, and the practical life underneath the bigger mythology. The archive stays grounded because real pressure keeps showing up.",
+          "route": "/book/",
+          "discord": "#my-eyes-your-eyes",
+          "unlock": "Public"
+        },
+        {
+          "id": "hockey-body-figure",
+          "label": "Hockey Body Figure",
+          "x": 50,
+          "y": 48,
+          "story": "The goalie-body station is about impact, performance, armor, injury, and control. It is the body trying to hold the line while the rest of the map keeps moving.",
+          "route": "/documentary/",
+          "discord": "#archive-drops",
+          "unlock": "Public"
+        },
+        {
+          "id": "exposure-loop",
+          "label": "Exposure Loop",
+          "x": 61,
+          "y": 49,
+          "story": "This uncomfortable station is about self-documenting in public: embarrassment, collapse, humor, shame, performance, and the risk of becoming evidence before you understand yourself.",
+          "route": "/documentary/",
+          "discord": "#my-eyes-your-eyes",
+          "unlock": "Public"
+        },
+        {
+          "id": "system-mirror-jersey",
+          "label": "System Mirror Jersey",
+          "x": 76,
+          "y": 49,
+          "story": "The jersey figure points to Crack Capitalism as a system mirror: private compulsion, public reward loops, platform pressure, and a culture built around never enough.",
+          "route": "/threads/",
+          "discord": "#thread-crack-capitalism",
+          "unlock": "Public"
+        },
+        {
+          "id": "black-mask-figure",
+          "label": "Back Room Figure",
+          "x": 91,
+          "y": 48,
+          "story": "The black-mask station is the deeper-house route: hidden rooms, Discord missions, archive witnesses, and the parts that only make sense after someone understands the map.",
+          "route": "/discord/",
+          "discord": "#the-real-situation-room",
+          "unlock": "Public"
+        },
+        {
+          "id": "cats-home-signal",
+          "label": "Cats / Home Signal",
+          "x": 88,
+          "y": 61,
+          "story": "The cats are not decoration. They are the home signal, the tenderness thread, and the proof that softness survived inside a room built from hard material.",
+          "route": "/threads/",
+          "discord": "#my-eyes-your-eyes",
+          "unlock": "Public"
+        },
+        {
+          "id": "spoken-word-tv",
+          "label": "Spoken-Word TV",
+          "x": 50,
+          "y": 14,
+          "story": "The background screen is reserved for the spoken-word room intro. Once Ryan drops the clip, it becomes the room's voice before visitors start picking up the figures.",
+          "route": "/documentary/",
+          "discord": "#archive-drops",
+          "unlock": "Public"
+        },
+        {
+          "id": "trap-pass-crates",
+          "label": "Crack Athlete Crates",
+          "x": 16,
+          "y": 78,
+          "story": "The crates are the collectible layer: passes, waves, roles, badges, drops, and member status as proof that someone was here while the house opened.",
+          "route": "/trap-pass/",
+          "discord": "#trap-pass-check-in",
+          "unlock": "Trap Pass"
+        },
+        {
+          "id": "paradise-oblivion-notebook",
+          "label": "Paradise Or Oblivion Notebook",
+          "x": 47,
+          "y": 83,
+          "story": "The floor notebook is the thesis in object form: every room asks whether the same evidence becomes collapse or construction, oblivion or something built to last.",
+          "route": "/threads/",
+          "discord": "#thread-self-destruction",
+          "unlock": "Public"
+        }
+      ]
+    },
+    {
+      "id": "command",
+      "name": "Profile Control Room",
+      "image": "/assets/trap-house/action-figure-room-command.png",
+      "aspect": "2774 / 1783",
+      "alt": "Wider author profile room with record crates, support button, and project UI panels.",
+      "description": "The wider room shot shows the author stations inside the larger interface: music, support, drops, links, the profile lineup, and the next doors.",
+      "hotspots": [
+        {
+          "id": "harm-reduction",
+          "label": "Harm Reduction Info",
+          "x": 22,
+          "y": 57,
+          "story": "This stays practical and human: resources, hotline-style links, and low-judgment support. The room can be raw without being careless.",
+          "route": "/discord/",
+          "discord": "#exposed-wires-mutual-support",
+          "unlock": "Public"
+        },
+        {
+          "id": "preorder-crates",
+          "label": "Crack Athlete Crates",
+          "x": 19,
+          "y": 82,
+          "story": "The crates turn merch, books, collector cards, and limited drops into one physical station. This is the pass-holder drop mechanic as the house opens.",
+          "route": "/mission-board/",
+          "discord": "#mission-board",
+          "unlock": "Trap Pass"
+        },
+        {
+          "id": "figure-line",
+          "label": "Profile Lineup",
+          "x": 53,
+          "y": 52,
+          "story": "Each figure is a version, role, mask, or chapter of the same author. The lineup works like character-select navigation without inventing unrelated characters.",
+          "route": "/room/",
+          "discord": "#the-real-situation-room",
+          "unlock": "Unlock Level 1"
+        },
+        {
+          "id": "youtube-box",
+          "label": "Join The YouTube",
+          "x": 79,
+          "y": 26,
+          "story": "The public video pipe: trailers, shorts, archive clips, channel updates, and the main funnel back to the room.",
+          "route": "/archive-terminal/",
+          "discord": "#archive-drops",
+          "unlock": "Public"
+        }
+      ]
+    },
+    {
+      "id": "bookshelf",
+      "name": "Collector Bookshelf",
+      "image": "/assets/trap-house/collector-bookshelf-room.png",
+      "aspect": "2320 / 2014",
+      "alt": "Bookshelf with author-profile figure packages, Dopesick books, and project collectibles.",
+      "description": "The bookshelf is the physical archive: author-profile packages, books, evidence labels, collector objects, and proof the project has a history.",
+      "hotspots": [
+        {
+          "id": "roon-poon",
+          "label": "Roon N' Poon",
+          "x": 49,
+          "y": 24,
+          "story": "The boxed figure shelf gives the profile room a collector's logic: story cards, shelf objects, and unlockable proof from the same archive.",
+          "route": "/evidence-locker/",
+          "discord": "#archive-drops",
+          "unlock": "Unlock Level 2"
+        },
+        {
+          "id": "dopesick",
+          "label": "Dopesick Shelf",
+          "x": 42,
+          "y": 58,
+          "story": "The books anchor the whole project in authorship instead of spectacle. The shelf can become a chapter map, excerpt vault, and proof wall.",
+          "route": "/archive-terminal/",
+          "discord": "#book-lines",
+          "unlock": "Trap Pass"
+        },
+        {
+          "id": "crack-book",
+          "label": "IHOCAIHAG Book",
+          "x": 62,
+          "y": 63,
+          "story": "The main book object routes to excerpts, chapter status, preorder drops, and pass-holder reading rooms.",
+          "route": "/mission-board/",
+          "discord": "#book-lines",
+          "unlock": "Trap Pass"
+        },
+        {
+          "id": "evidence-label",
+          "label": "Evidence Label",
+          "x": 9,
+          "y": 65,
+          "story": "The evidence label is the archive taxonomy: date, clip, transcript, frame, and story context.",
+          "route": "/evidence-locker/",
+          "discord": "#ai-archive-status",
+          "unlock": "Unlock Level 2"
+        }
+      ]
+    },
+    {
+      "id": "author-frame",
+      "name": "Author Frame",
+      "image": "/assets/trap-house/author-child-frame.png",
+      "aspect": "1479 / 1451",
+      "alt": "Ryan holding a framed childhood photo in the room.",
+      "description": "The author image with the framed childhood photo brings the room back to the human center: memory, origin, family, and why the archive matters.",
+      "hotspots": [
+        {
+          "id": "origin-frame",
+          "label": "Origin Frame",
+          "x": 68,
+          "y": 43,
+          "story": "The framed photo becomes an origin object: childhood, memory, inheritance, damage, humor, and why the story keeps looping back.",
+          "route": "/the-loop/",
+          "discord": "#my-eyes-your-eyes",
+          "unlock": "Unlock Level 5"
+        },
+        {
+          "id": "pink-hoodie",
+          "label": "Pink Hoodie Figure",
+          "x": 31,
+          "y": 67,
+          "story": "This connects the hoodie figure in the lineup to the real person. It makes the toy aesthetic feel personal instead of generic.",
+          "route": "/room/",
+          "discord": "#the-real-situation-room",
+          "unlock": "Unlock Level 1"
+        }
+      ]
+    }
+  ]
+}

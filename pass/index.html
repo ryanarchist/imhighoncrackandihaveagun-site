@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trap Pass Profile | The Trap House</title>
+  <link rel="stylesheet" href="/styles.css?v=launch-ready-3" />
+</head>
+<body>
+  <header class="topbar">
+    <nav class="site-shell nav">
+      <a class="brand" href="/"><strong>Public Pass Profile</strong><span>No private email shown</span></a>
+      <div class="nav-links">
+        <a href="/project/">Project</a>
+        <a href="/threads/">Threads</a>
+        <a href="/documentary/">Documentary</a>
+        <a href="/book/">Book</a>
+        <a href="/dopesick/">Dopesick</a>
+        <a href="/archive-terminal/">Archive</a>
+        <a href="/trap-pass/">Trap Pass</a>
+        <a href="/trap-pass-phases/">Phases</a>
+        <a href="/preorders/">Preorders</a>
+        <a href="/check-pass/">Check Pass</a>
+        <a href="/discord/">Discord</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="site-shell">
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Verified Pass</span>
+          <h1>Trap Pass Summary</h1>
+        </div>
+        <p>Public Trap Pass summary. Private account fields and private system data stay hidden.</p>
+      </div>
+      <div id="passProfile"></div>
+    </section>
+  </main>
+
+  <script src="/config.js?v=launch-ready-3"></script>
+  <script src="/trap-pass-system.js?v=launch-ready-3"></script>
+  <script>
+    async function renderProfile() {
+      const params = new URLSearchParams(window.location.search);
+      const pathParts = window.location.pathname.split("/").filter(Boolean);
+      const currentPass = TrapHouse.getCurrentPass();
+      const id = params.get("id") || pathParts[1] || currentPass?.trap_pass_id;
+      const pass = id ? await TrapHouse.setCurrentPassAsync(id) : currentPass;
+      document.getElementById("passProfile").innerHTML = pass
+        ? TrapHouse.renderPassCard(pass, { hideLink: true })
+        : "<div class='notice error active'><strong>No public pass found.</strong><p>Claim a pass first, then open its profile link.</p></div>";
+    }
+
+    renderProfile().catch(() => {
+      document.getElementById("passProfile").innerHTML = "<div class='notice error active'><strong>Profile lookup failed.</strong><p>The public pass summary could not load. Try again in a minute.</p></div>";
+    });
+  </script>
+</body>
+</html>

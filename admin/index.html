@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>Review Console | The Trap House</title>
+  <link rel="stylesheet" href="/styles.css?v=launch-ready-3" />
+  <script>
+    (function () {
+      const localHosts = new Set(["localhost", "127.0.0.1", "::1", ""]);
+      if (!localHosts.has(window.location.hostname)) {
+        window.location.replace("/");
+      }
+    })();
+  </script>
+</head>
+<body>
+  <header class="topbar">
+    <nav class="site-shell nav">
+      <a class="brand" href="/"><strong>Review Console</strong><span>Private build tools</span></a>
+      <div class="nav-links">
+        <a href="/threads/">Threads</a>
+        <a href="/trap-pass-phases/">Phases</a>
+        <a href="/trap-house-roll-call/">Roll Call</a>
+        <a href="/trap-pass/">Trap Pass</a>
+        <a href="/">Map</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="site-shell">
+    <section class="section">
+      <div class="section-head">
+        <div><span class="eyebrow">Private Review Data</span><h1>Review Console</h1></div>
+        <p>This page is for Ryan's review build only. It manages pass records, exports framework files, and keeps launch setup away from the public navigation.</p>
+      </div>
+      <div class="grid two">
+        <div class="panel" style="padding: 18px;">
+          <h2>Registry Controls</h2>
+          <p class="sublead">Export the Trap Pass registry, mission list, or hidden room map as JSON.</p>
+          <div class="form-actions">
+            <button class="primary" id="exportRegistry" type="button">Export Registry JSON</button>
+            <button id="exportMissions" type="button">Export Missions JSON</button>
+            <button id="exportRooms" type="button">Export Hidden Rooms JSON</button>
+            <button id="exportDiscord" type="button">Export Discord Framework JSON</button>
+            <button id="exportThreads" type="button">Export Threads JSON</button>
+            <button id="exportPhases" type="button">Export Pass Phases JSON</button>
+          </div>
+        </div>
+        <div class="panel" style="padding: 18px;">
+          <h2>Import Registry</h2>
+          <p class="sublead">Imported records are sanitized before saving into the review build.</p>
+          <input id="importFile" type="file" accept="application/json" />
+          <div id="adminNotice" class="notice"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="grid two">
+        <div class="panel" style="padding: 18px;">
+          <h2>Discord Invite Config</h2>
+          <p class="sublead">Set the invite URL for this review browser without hardcoding it into public pages.</p>
+          <form id="discordConfigForm" class="form-grid">
+            <div class="field full">
+              <label for="discordInvite">Discord Invite URL</label>
+              <input id="discordInvite" type="url" placeholder="https://discord.gg/..." />
+            </div>
+            <div class="field full"><button class="primary" type="submit">Save Invite URL</button></div>
+          </form>
+        </div>
+        <div class="terminal">
+          <p>&gt; storage = review browser data</p>
+          <p>&gt; live_database = not connected</p>
+          <p>&gt; secrets = none hardcoded</p>
+          <p>&gt; publish_status = review build</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Pass ID</th>
+              <th>Email</th>
+              <th>Display</th>
+              <th>Discord</th>
+              <th>Role</th>
+              <th>Unlock</th>
+            </tr>
+          </thead>
+          <tbody id="adminRegistryBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="/config.js"></script>
+  <script src="/trap-pass-system.js"></script>
+  <script>
+    const notice = document.getElementById("adminNotice");
+    const body = document.getElementById("adminRegistryBody");
+    function renderTable() {
+      const registry = TrapHouse.getRegistry();
+      body.innerHTML = registry.map((pass) => `
+        <tr>
+          <td>${TrapHouse.escapeHTML(pass.trap_pass_id)}</td>
+          <td>${TrapHouse.escapeHTML(pass.email)}</td>
+          <td>${TrapHouse.escapeHTML(pass.display_name)}</td>
+          <td>${TrapHouse.escapeHTML(pass.discord_username)}</td>
+          <td>${TrapHouse.escapeHTML(pass.discord_role)}</td>
+          <td>Level ${TrapHouse.escapeHTML(pass.unlock_level)}</td>
+        </tr>
+      `).join("");
+    }
+    renderTable();
+
+    document.getElementById("exportRegistry").addEventListener("click", () => {
+      TrapHouse.downloadJSON("trap-pass-registry.json", TrapHouse.getRegistry());
+    });
+    document.getElementById("exportMissions").addEventListener("click", () => {
+      TrapHouse.downloadJSON("trap-house-missions.json", TrapHouse.missions);
+    });
+    document.getElementById("exportRooms").addEventListener("click", () => {
+      TrapHouse.downloadJSON("trap-house-hidden-rooms.json", TrapHouse.hiddenRooms);
+    });
+    document.getElementById("exportDiscord").addEventListener("click", async () => {
+      try {
+        const response = await fetch("/data/discord-framework.json", { cache: "no-store" });
+        if (!response.ok) throw new Error("Discord framework file not found.");
+        TrapHouse.downloadJSON("trap-house-discord-framework.json", await response.json());
+      } catch (error) {
+        notice.className = "notice error active";
+        notice.innerHTML = `<strong>Export failed.</strong><p>${TrapHouse.escapeHTML(error.message)}</p>`;
+      }
+    });
+    document.getElementById("exportThreads").addEventListener("click", async () => {
+      try {
+        const response = await fetch("/data/threads.json", { cache: "no-store" });
+        if (!response.ok) throw new Error("Threads file not found.");
+        TrapHouse.downloadJSON("trap-house-threads.json", await response.json());
+      } catch (error) {
+        notice.className = "notice error active";
+        notice.innerHTML = `<strong>Export failed.</strong><p>${TrapHouse.escapeHTML(error.message)}</p>`;
+      }
+    });
+    document.getElementById("exportPhases").addEventListener("click", async () => {
+      try {
+        const response = await fetch("/data/trap-pass-phases.json", { cache: "no-store" });
+        if (!response.ok) throw new Error("Trap Pass phases file not found.");
+        TrapHouse.downloadJSON("trap-house-pass-phases.json", await response.json());
+      } catch (error) {
+        notice.className = "notice error active";
+        notice.innerHTML = `<strong>Export failed.</strong><p>${TrapHouse.escapeHTML(error.message)}</p>`;
+      }
+    });
+    document.getElementById("importFile").addEventListener("change", async (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+      try {
+        const text = await file.text();
+        const records = TrapHouse.importRegistry(JSON.parse(text));
+        notice.className = "notice active";
+        notice.innerHTML = `<strong>Imported.</strong><p>${records.length} Trap Pass records saved into the review build.</p>`;
+        renderTable();
+      } catch (error) {
+        notice.className = "notice error active";
+        notice.innerHTML = `<strong>Import failed.</strong><p>${TrapHouse.escapeHTML(error.message)}</p>`;
+      }
+    });
+    function getStoredInvite() {
+      try { return localStorage.getItem("iho_discord_invite_url") || ""; } catch (error) { return ""; }
+    }
+
+    function setStoredInvite(value) {
+      try {
+        localStorage.setItem("iho_discord_invite_url", value);
+        return true;
+      } catch (error) {
+        return false;
+      }
+    }
+
+    document.getElementById("discordInvite").value = getStoredInvite();
+    document.getElementById("discordConfigForm").addEventListener("submit", (event) => {
+      event.preventDefault();
+      const value = TrapHouse.sanitize(document.getElementById("discordInvite").value, 300);
+      const saved = setStoredInvite(value);
+      notice.className = saved ? "notice active" : "notice error active";
+      notice.innerHTML = saved
+        ? "<strong>Saved.</strong><p>Reload pages to use the updated invite URL.</p>"
+        : "<strong>Invite not saved.</strong><p>This browser blocked saving.</p>";
+    });
+  </script>
+</body>
+</html>

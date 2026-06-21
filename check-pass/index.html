@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Check Your Trap Pass | The Trap House</title>
+  <link rel="stylesheet" href="/styles.css?v=launch-ready-3" />
+</head>
+<body>
+  <header class="topbar">
+    <nav class="site-shell nav">
+      <a class="brand" href="/"><strong>Check Your Pass</strong><span>Recover your key</span></a>
+      <div class="nav-links">
+        <a href="/project/">Project</a>
+        <a href="/threads/">Threads</a>
+        <a href="/documentary/">Documentary</a>
+        <a href="/book/">Book</a>
+        <a href="/dopesick/">Dopesick</a>
+        <a href="/archive-terminal/">Archive</a>
+        <a href="/trap-pass/">Trap Pass</a>
+        <a href="/trap-pass-phases/">Phases</a>
+        <a href="/preorders/">Preorders</a>
+        <a href="/check-pass/" aria-current="page">Check Pass</a>
+        <a href="/discord/">Discord</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="site-shell">
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Lookup</span>
+          <h1>Check Your Trap Pass</h1>
+        </div>
+        <p>Enter a Trap Pass ID or the email used to claim it. Email is only used to find your pass and never appears on public pass profiles.</p>
+      </div>
+      <div class="grid two">
+        <div class="panel" style="padding: 18px;">
+          <form id="lookupForm" class="form-grid">
+            <div class="field full">
+              <label for="lookup">Trap Pass ID Or Email</label>
+              <input id="lookup" name="lookup" type="text" required placeholder="W3-00001 or you@example.com" />
+            </div>
+            <div class="field full">
+              <button class="primary" type="submit">Check Pass</button>
+            </div>
+          </form>
+          <div id="lookupNotice" class="notice"></div>
+        </div>
+        <div id="lookupOutput" class="panel" style="padding: 18px;">
+          <p class="fineprint">Lookup result appears here.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="/config.js?v=launch-ready-3"></script>
+  <script src="/trap-pass-system.js?v=launch-ready-3"></script>
+  <script>
+    document.getElementById("lookupForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const query = new FormData(event.currentTarget).get("lookup");
+      const output = document.getElementById("lookupOutput");
+      const notice = document.getElementById("lookupNotice");
+      let pass = null;
+      try {
+        pass = await TrapHouse.setCurrentPassAsync(query);
+      } catch (error) {
+        notice.className = "notice error active";
+        notice.innerHTML = "<strong>Lookup failed.</strong><p>The pass terminal could not check storage. Try again in a minute.</p>";
+        output.innerHTML = "<p class='fineprint'>Try again or check the ID.</p>";
+        return;
+      }
+      if (!pass) {
+        notice.className = "notice error active";
+        notice.innerHTML = "<strong>No pass found.</strong><p>Claim one first or check the ID again.</p>";
+        output.innerHTML = "<p class='fineprint'>No matching Trap Pass found.</p>";
+        return;
+      }
+      notice.className = "notice active";
+      notice.innerHTML = "<strong>Trap Pass found.</strong><p>This pass is now selected for hidden-room checks and the Pass Terminal.</p>";
+      output.innerHTML = `${TrapHouse.renderPassCard(pass)}<div class="cta-row"><a class="button primary" href="/wallet/">Open Pass Terminal</a></div>`;
+    });
+  </script>
+</body>
+</html>

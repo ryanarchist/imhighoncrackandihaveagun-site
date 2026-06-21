@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Preorders | IHOCAIHAG</title>
+  <link rel="stylesheet" href="/styles.css?v=stripe-sessions-1" />
+</head>
+<body>
+  <header class="topbar">
+    <nav class="site-shell nav">
+      <a class="brand" href="/"><strong>Preorders</strong><span>Passes / packs / shirts</span></a>
+      <div class="nav-links">
+        <a href="/project/">Project</a>
+        <a href="/threads/">Threads</a>
+        <a href="/documentary/">Documentary</a>
+        <a href="/book/">Book</a>
+        <a href="/dopesick/">Dopesick</a>
+        <a href="/archive-terminal/">Archive</a>
+        <a href="/trap-pass/">Trap Pass</a>
+        <a href="/trap-pass-phases/">Phases</a>
+        <a href="/preorders/" aria-current="page">Preorders</a>
+        <a href="/check-pass/">Check Pass</a>
+        <a href="/discord/">Discord</a>
+      </div>
+    </nav>
+  </header>
+
+  <section class="page-hero preorder-hero">
+    <img src="/assets/trap-house/trap-pass-system-3-ways.png" alt="The new Trap Pass system: free, paid, and physical access" />
+    <div class="site-shell page-hero-lockup">
+      <span class="eyebrow">Direct Store / Trap Pass Access</span>
+      <h1>Preorders Live Here</h1>
+      <p class="lead">Pick your entry point: digital access, book object, merch, physical pass, monthly membership, or the full collector pack.</p>
+      <div class="cta-row">
+        <a class="button primary" href="#store">Open Store</a>
+        <a class="button" href="/trap-pass/">Check Trap Pass</a>
+        <a class="button danger" href="/discord/">Enter Discord</a>
+      </div>
+    </div>
+  </section>
+
+  <main class="site-shell">
+    <section class="section">
+      <div class="checkout-note">
+        <div>
+          <span class="eyebrow">Secure Checkout</span>
+          <h2>Stripe Handles Payment. The Site Handles Access.</h2>
+          <p>Purchases open in Stripe Checkout. Trap Pass ownership, serials, archive unlocks, subscription status, and shipping records are granted only after the verified Stripe webhook reports payment.</p>
+        </div>
+        <label class="checkout-email">
+          <span>Email for receipt and access</span>
+          <input data-checkout-email type="email" autocomplete="email" placeholder="you@example.com" />
+        </label>
+      </div>
+      <p class="checkout-status" data-checkout-status aria-live="polite"></p>
+    </section>
+
+    <section class="section" id="store">
+      <div class="section-head">
+        <div><span class="eyebrow">Pick Your Entry Point</span><h2>The Store Ladder</h2></div>
+        <p>One project, one official store path. Purchases become archive records only after payment is verified.</p>
+      </div>
+
+      <div class="checkout-grid">
+        <article class="checkout-card premium">
+          <span class="store-number">01</span>
+          <h3>THE og cRaCk paCk</h3>
+          <p>Physical preorder bundle for the collector layer: book, documentary access, physical proof, and project extras.</p>
+          <strong class="price-tag">$99.99</strong>
+          <ul class="fulfillment-list">
+            <li>Physical preorder bundle</li>
+            <li>Shipping address required</li>
+            <li>Limit 1 per checkout</li>
+          </ul>
+          <button class="button primary" data-checkout-product="og_crack_pack">Preorder Pack</button>
+        </article>
+
+        <article class="checkout-card">
+          <span class="store-number">02</span>
+          <h3>Raw Documentary First-Day Access</h3>
+          <p>Digital access to selected first-day raw documentary material tied to the archive and pass system.</p>
+          <strong class="price-tag">$9.99</strong>
+          <ul class="fulfillment-list">
+            <li>Digital access</li>
+            <li>No shipping required</li>
+            <li>Unlocks after webhook verification</li>
+          </ul>
+          <button class="button" data-checkout-product="raw_doc_preorder">Get Access</button>
+        </article>
+
+        <article class="checkout-card">
+          <span class="store-number">03</span>
+          <h3>Signature Official ihocaihag Black Tee</h3>
+          <p>The official black project shirt, built from the same stark red, white, and black visual language.</p>
+          <strong class="price-tag">$27.99</strong>
+          <ul class="fulfillment-list">
+            <li>Physical merch</li>
+            <li>Shipping address required</li>
+            <li>Quantity 1-5 in checkout</li>
+          </ul>
+          <button class="button" data-checkout-product="black_tee">Order Shirt</button>
+        </article>
+
+        <article class="checkout-card">
+          <span class="store-number">04</span>
+          <h3>Hardcover Book Preorder</h3>
+          <p>The book as the permanent object: a written companion carved from the archive, not cleaned up after it.</p>
+          <strong class="price-tag">$39.99</strong>
+          <ul class="fulfillment-list">
+            <li>Hardcover preorder</li>
+            <li>Shipping address required</li>
+            <li>Quantity 1-3 in checkout</li>
+          </ul>
+          <button class="button" data-checkout-product="hardcover_preorder">Preorder Book</button>
+        </article>
+
+        <article class="checkout-card premium">
+          <span class="store-number">05</span>
+          <h3>Handy Sass Trap Pass</h3>
+          <p>Physical Trap Pass holder status with a mailed collectible card and pass-linked archive identity.</p>
+          <strong class="price-tag">$39.99</strong>
+          <ul class="fulfillment-list">
+            <li>Physical Trap Pass</li>
+            <li>Shipping address required</li>
+            <li>Serial generated after payment</li>
+          </ul>
+          <button class="button primary" data-checkout-product="handy_sass_pass">Get Physical Pass</button>
+        </article>
+
+        <article class="checkout-card premium">
+          <span class="store-number">06</span>
+          <h3>Cash for Trash Trap Pass</h3>
+          <p>Monthly digital member status for ongoing archive drops, hidden room access, and live project updates.</p>
+          <strong class="price-tag">$4.99 / month</strong>
+          <ul class="fulfillment-list">
+            <li>Digital membership</li>
+            <li>No shipping required</li>
+            <li>Access follows subscription status</li>
+          </ul>
+          <button class="button primary" data-checkout-product="cash_for_trash_monthly">Start Monthly Pass</button>
+        </article>
+      </div>
+    </section>
+
+    <section class="section split-feature">
+      <div class="asset-frame poster-fit">
+        <img src="/assets/trap-house/trap-pass-gen2-wave1-no-brakes.png" alt="Gen 2 Wave 1 No Brakes Trap Pass" />
+      </div>
+      <div class="panel feature-copy">
+        <span class="eyebrow">Template, Not Random Generation</span>
+        <h2>Every Pass Is Unique Without Mutating The Art</h2>
+        <p class="lead">Each wave uses one official pass design. The site overlays the holder data: serial, QR target, tier, claim date, and unlock status.</p>
+        <p class="sublead">That keeps the pass collectible, readable, printable, and verifiable while still making each holder's record their own.</p>
+      </div>
+    </section>
+
+    <section class="section split-feature reverse">
+      <div class="panel feature-copy">
+        <span class="eyebrow">Book / Documentary / Pass</span>
+        <h2>The Objects All Point Back To The Same Archive</h2>
+        <p class="lead">The preorder layer is not separate from the story. It is how the book, documentary, Discord room, and pass system become one access path.</p>
+        <p class="sublead">Physical products collect shipping. Digital access unlocks in the backend. Monthly access stays active only while the subscription stays active.</p>
+      </div>
+      <div class="asset-frame poster-fit">
+        <img src="/assets/trap-house/book-full-spread.png" alt="Full book spread for IM HIGH ON CRACK AND I HAVE A GUN" />
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="notice active launch-warning">
+        <strong>DISCLAIMER</strong>
+        <p>This is documentary/art/archive material about addiction, psychosis, grief, survival, systems, and unsafe behavior. It is not instruction, not medical advice, not a challenge, and not encouragement to imitate anything shown.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="site-shell">
+      <span>The Trap Pass gets you deeper inside.</span>
+      <span>Secure checkout. Webhook-verified access.</span>
+    </div>
+  </footer>
+
+  <script src="/config.js?v=stripe-sessions-1"></script>
+  <script src="/checkout.js?v=stripe-sessions-1"></script>
+</body>
+</html>

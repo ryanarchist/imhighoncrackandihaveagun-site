@@ -1,0 +1,13 @@
+{
+  "name": "ihocaihag-site",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "supabase:verify": "node scripts/supabase/verify-live.mjs",
+    "stripe:list-prices": "node scripts/stripe/list-prices.mjs",
+    "stripe:sync-products": "node scripts/stripe/sync-products.mjs"
+  },
+  "dependencies": {
+    "stripe": "^17.7.0"
+  }
+}

@@ -1,0 +1,255 @@
+{
+  "title": "The Threads",
+  "subtitle": "How the whole project connects",
+  "hero_asset": "/assets/trap-house/threads-map-board-new.png",
+  "manifesto": "A thread is not a tag. A tag tells you what something is about. A thread tells you why it keeps coming back. Every clip, chapter, room, note, song, object, pass, and memory can carry more than one wire. The project only starts making sense when those wires cross. This is the board behind the whole house.",
+  "short_explainer": "Threads are the book's nervous system. They are how one clip becomes part of a chapter, how one room becomes part of the archive, how one pass carries more than a serial number, and how the audience learns where they entered the story.",
+  "research_frame": {
+    "thread_theory": "Threads are the project's artistic and intellectual model for recurring patterns: events, objects, memories, systems, and reactions that return, cross, stabilize, and reshape meaning over time.",
+    "crack_capitalism": "The system mirror is structural: reward loops, status pressure, scarcity, platform pressure, and the culture of never enough. The claim is about social logic and documented experience, not fake certainty.",
+    "media_strategy": "Website as map, Discord as live room, YouTube as public documentary spine, Patreon as back room, Trap Passes as access identity, and the book/soundtrack as permanent objects."
+  },
+  "theory_cards": [
+    {
+      "number": "01",
+      "title": "Evidence",
+      "summary": "A clip, object, room, or caption can belong to more than one thread at once. Nothing in this project lives alone."
+    },
+    {
+      "number": "02",
+      "title": "Return",
+      "summary": "A thread gains weight when the same pattern keeps coming back in a new form. The repetition is the clue."
+    },
+    {
+      "number": "03",
+      "title": "Crossing",
+      "summary": "The strongest story moments happen where two wires hit each other: grief and money, addiction and writing, platform war and public witness."
+    },
+    {
+      "number": "04",
+      "title": "Limits",
+      "summary": "The map is an artistic and intellectual framework. It shows how lived experience repeats, mutates, and builds meaning over time."
+    }
+  ],
+  "rules": [
+    {
+      "label": "Origin",
+      "title": "January 22",
+      "summary": "The blast crater every wire routes back through."
+    },
+    {
+      "label": "Pressure",
+      "title": "Loops",
+      "summary": "Addiction, grief, money, platform systems, and psychosis create repeated motion."
+    },
+    {
+      "label": "Proof",
+      "title": "Objects",
+      "summary": "Rooms, notes, clips, shelves, figures, cats, and passes turn memory into evidence."
+    },
+    {
+      "label": "Access",
+      "title": "Trap Pass",
+      "summary": "The pass records which wires, missions, rooms, and roles a holder is carrying."
+    }
+  ],
+  "origin": {
+    "id": "january-22",
+    "title": "January 22 / The Origin / Blast Crater",
+    "channel": "thread-january-22",
+    "summary": "January 22 is the fracture point. Everything routes back through this day: grief, collapse, money panic, addiction logic, public witness, and the decision to build instead of disappear. This is not just a date. It is the first knot in the map.",
+    "image": "/assets/trap-house/threads-map-board-new.png"
+  },
+  "book": {
+    "asset": "/assets/trap-house/book-full-spread.png",
+    "title": "The Book",
+    "headline": "Real stories. The book.",
+    "summary": "IM HIGH ON CRACK AND I HAVE A GUN is not a repetitive recovery slogan, not a cautionary poster, and not another polished addiction memoir cleaned up enough to make everyone comfortable.",
+    "body": "It is a documentary-book experience carved from inside the wreckage: part memoir, part field report, part confession, part indictment, and part archive object. The clips, notes, rooms, grief, money panic, systems, broken bodies, and broken timelines get dragged into the light without being softened into something fake.",
+    "footer": "This is not fiction. This is not glamorous. This is the evidence. This is the diagnosis. This is what happens when a breaking point becomes a thread."
+  },
+  "author": {
+    "asset": "/assets/trap-house/author-bio-poster.png",
+    "name": "Ryan Homanics",
+    "title": "Author / Documentarian",
+    "summary": "Ryan Homanics is a Pittsburgh writer, documentarian, and author of Dopesick: The American Addiction to Heroin and Profit.",
+    "body": "His work moves between memoir, social indictment, field report, and underground archive, dragging addiction, class, grief, psychosis, survival, and systemic collapse into plain view.",
+    "footer": "With a voice that is educated, damaged, furious, and strangely devotional, Homanics writes from inside the wreckage, turning personal ruin into evidence, diagnosis, and thread."
+  },
+  "threads": [
+    {
+      "number": 1,
+      "id": "addiction-machine",
+      "title": "Addiction Machine",
+      "channel": "thread-addiction-machine",
+      "summary": "The engine: ritual, survival, time, compulsion, repetition, and the way the machine keeps asking for another loop.",
+      "feeds": ["money-desperation", "psychosis-loop", "system-mirror"],
+      "pass_phase": 2
+    },
+    {
+      "number": 2,
+      "id": "psychosis-loop",
+      "title": "Psychosis Loop",
+      "channel": "thread-psychosis-loop",
+      "summary": "No sleep. Pattern hunting. Rooftop logic. Reality bending. The dangerous feeling that every coincidence has teeth.",
+      "feeds": ["writing-inside-the-fire", "grief-loss"],
+      "pass_phase": 5,
+      "heavy": true
+    },
+    {
+      "number": 3,
+      "id": "grief-loss",
+      "title": "Grief / Loss",
+      "channel": "thread-grief-loss",
+      "summary": "The locked room underneath everything. The room does not open cleanly. It bleeds into the rest of the map.",
+      "feeds": ["addiction-machine", "cats-home-tenderness", "writing-inside-the-fire"],
+      "pass_phase": 2
+    },
+    {
+      "number": 4,
+      "id": "cats-home-tenderness",
+      "title": "Cats / Home / Tenderness",
+      "channel": "thread-cats-home",
+      "summary": "Proof that love survived inside the wreckage. The only clean place, the interruption, the home signal.",
+      "feeds": ["writing-inside-the-fire", "ending-convergence"],
+      "pass_phase": 2
+    },
+    {
+      "number": 5,
+      "id": "writing-inside-the-fire",
+      "title": "Writing Inside The Fire",
+      "channel": "thread-writing-fire",
+      "summary": "Book, documentary, songs, notes, evidence, and the act of turning collapse into a permanent object.",
+      "feeds": ["public-project-witness", "self-destruction-vs-creation"],
+      "pass_phase": 3
+    },
+    {
+      "number": 6,
+      "id": "money-desperation",
+      "title": "Money Desperation",
+      "channel": "thread-money-desperation",
+      "summary": "Survival math. Gas money. Rent logic. Next 24 hours. The pressure that makes the machine louder.",
+      "feeds": ["system-mirror", "platform-war"],
+      "pass_phase": 3
+    },
+    {
+      "number": 7,
+      "id": "system-mirror",
+      "title": "System Mirror",
+      "channel": "thread-crack-capitalism",
+      "summary": "Crack capitalism as a public mirror. More-more-more. Addiction as private spiral and social logic at the same time.",
+      "feeds": ["addiction-machine", "money-desperation", "platform-war"],
+      "pass_phase": 4
+    },
+    {
+      "number": 8,
+      "id": "platform-war",
+      "title": "Platform War",
+      "channel": "thread-platform-war",
+      "summary": "Bans, rebuilds, algorithm pressure, migration, Discord as home base, and the move from channel to world.",
+      "feeds": ["public-project-witness", "trap-pass-lore"],
+      "pass_phase": 4
+    },
+    {
+      "number": 9,
+      "id": "trap-pass-lore",
+      "title": "Trap Pass Lore",
+      "channel": "thread-trap-pass-lore",
+      "summary": "Keys to hidden rooms, drops, participation, proof, holder status, and the moment the audience starts carrying the map.",
+      "feeds": ["public-project-witness", "ending-convergence"],
+      "pass_phase": 1
+    },
+    {
+      "number": 10,
+      "id": "self-destruction-vs-creation",
+      "title": "Self-Destruction vs Creation",
+      "channel": "thread-self-destruction",
+      "summary": "Burn it down versus build something permanent. The fork in the road that decides whether the archive becomes ash or architecture.",
+      "feeds": ["writing-inside-the-fire", "ending-convergence"],
+      "pass_phase": 4
+    },
+    {
+      "number": 11,
+      "id": "public-project-witness",
+      "title": "Public Project / Witness",
+      "channel": "thread-public-witness",
+      "summary": "Audience enters, reacts, shares, joins, votes, and watches the building happen. The witness becomes part of the evidence trail.",
+      "feeds": ["trap-pass-lore", "ending-convergence"],
+      "pass_phase": 3
+    },
+    {
+      "number": 12,
+      "id": "ending-convergence",
+      "title": "Ending Convergence",
+      "channel": "thread-ending-convergence",
+      "summary": "All threads collide and come back together. The map stops being separate rooms and becomes one house.",
+      "feeds": [],
+      "pass_phase": 6,
+      "role": "Final convergence"
+    }
+  ],
+  "crossings": [
+    {
+      "ids": ["january-22", "writing-inside-the-fire"],
+      "title": "January 22 x Writing Inside The Fire",
+      "lead": "January 22 feeds Writing Inside The Fire.",
+      "body": "The fracture point becomes the furnace. Everything after it routes through grief, collapse, money panic, addiction logic, and the decision to turn the wreckage into a book, documentary, song, archive, and permanent object.",
+      "relationship": "January 22 crosses Writing Inside The Fire",
+      "discord": "#thread-january-22 / #thread-writing-fire",
+      "pass_phase": "origin / 3",
+      "feeds": "Book, documentary, notes, evidence, public witness"
+    },
+    {
+      "ids": ["grief-loss", "trap-pass-lore"],
+      "title": "Grief / Loss x Trap Pass Lore",
+      "lead": "Grief / Loss and Trap Pass Lore are not directly wired yet, but both route through the origin and the ending convergence.",
+      "body": "The locked room underneath everything eventually becomes access logic: keys to hidden rooms, drops, participation, proof, holder status, and the moment the audience starts carrying the map.",
+      "relationship": "Indirect crossing through origin and convergence",
+      "discord": "#thread-grief-loss / #thread-trap-pass-lore",
+      "pass_phase": "2 / 1",
+      "feeds": "Hidden rooms, public witness, archive proof"
+    },
+    {
+      "ids": ["addiction-machine", "money-desperation"],
+      "title": "Addiction Machine x Money Desperation",
+      "lead": "This is the survival math loop.",
+      "body": "The machine needs time, money, fuel, movement, panic, and one more bad calculation. Money desperation does not sit beside addiction. It feeds the engine.",
+      "relationship": "Pressure loop",
+      "discord": "#thread-addiction-machine / #thread-money-desperation",
+      "pass_phase": "2 / 3",
+      "feeds": "System Mirror, Psychosis Loop, Platform War"
+    },
+    {
+      "ids": ["psychosis-loop", "platform-war"],
+      "title": "Psychosis Loop x Platform War",
+      "lead": "Private reality bends. Public systems react.",
+      "body": "The same mind that starts seeing signs everywhere eventually meets algorithms, bans, reporting systems, platform pressure, and forced migration. The loop leaves the room and becomes a distribution problem.",
+      "relationship": "Private distortion meets public system",
+      "discord": "#thread-psychosis-loop / #thread-platform-war",
+      "pass_phase": "5 / 4",
+      "feeds": "Archive, Discord, public witness, safety framing"
+    },
+    {
+      "ids": ["cats-home-tenderness", "ending-convergence"],
+      "title": "Cats / Home / Tenderness x Ending Convergence",
+      "lead": "The softest thread becomes one of the strongest.",
+      "body": "The cats, the room, the home signal, and the moments of tenderness prove the project is not only destruction. They are what survives long enough to pull the map back together.",
+      "relationship": "Tenderness as convergence",
+      "discord": "#thread-cats-home / #thread-ending-convergence",
+      "pass_phase": "2 / 6",
+      "feeds": "Home, witness, final chapter, public memory"
+    }
+  ],
+  "flow": [
+    "January 22 fractures everything.",
+    "Grief feeds addiction.",
+    "Addiction feeds money desperation and psychosis loops.",
+    "Cats and home push back against collapse.",
+    "Writing turns collapse into evidence.",
+    "The system mirror turns private pain into social critique.",
+    "Platform war forces migration.",
+    "Trap Passes make the audience participants.",
+    "Public witness pulls everyone inside.",
+    "In the end, all threads converge."
+  ]
+}

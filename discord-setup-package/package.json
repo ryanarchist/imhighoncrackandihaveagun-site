@@ -1,0 +1,16 @@
+{
+  "name": "trap-house-discord-setup",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Rerunnable Discord setup package for The Trap House.",
+  "scripts": {
+    "setup": "node setup_discord.js",
+    "setup:rest": "node setup_discord_rest.mjs",
+    "check": "node check_discord_package.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.15.3",
+    "dotenv": "^16.4.5"
+  }
+}

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Room | The Trap House</title>
+  <link rel="stylesheet" href="/styles.css?v=launch-ready-3" />
+</head>
+<body>
+  <header class="topbar">
+    <nav class="site-shell nav">
+      <a class="brand" href="/"><strong data-room-title>The Room</strong><span>Hidden route</span></a>
+      <div class="nav-links"><a href="/trap-pass/">Trap Pass</a><a href="/check-pass/">Check Pass</a><a href="/discord/">Discord</a></div>
+    </nav>
+  </header>
+  <main class="site-shell">
+    <section class="section room-gate locked" data-room-key="room">
+      <div class="panel" style="padding: 18px;">
+        <span class="eyebrow" data-room-requirement></span>
+        <h1 data-room-title>The Room</h1>
+        <p class="lead" data-room-body></p>
+        <div class="notice active" data-room-status></div>
+        <form data-room-check-form class="form-grid" style="margin-top: 18px;">
+          <div class="field full"><label>Trap Pass ID Or Email</label><input type="text" placeholder="W3-00001" /></div>
+          <div class="field full"><button class="primary" type="submit">Use This Pass</button></div>
+        </form>
+      </div>
+      <div data-current-pass></div>
+    </section>
+    <section class="section split-feature">
+      <div class="room-preview"></div>
+      <div class="panel feature-copy">
+        <span class="eyebrow">Room Surface</span>
+        <h2>Room Map</h2>
+        <p class="lead">Inspect the author-profile room, bookshelf, and object-story map before the deeper pass-gated content opens.</p>
+        <div class="cta-row">
+          <a class="button primary" href="/room-map/">Open Room Map</a>
+          <a class="button" href="/discord/">Report In Discord</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script src="/config.js"></script><script src="/trap-pass-system.js"></script><script src="/hidden-room.js"></script>
+</body>
+</html>

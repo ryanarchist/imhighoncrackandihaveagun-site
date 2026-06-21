@@ -1,0 +1,330 @@
+{
+  "project": {
+    "title": "IM HIGH ON CRACK AND I HAVE A GUN",
+    "tagline": "The website is the map. The Discord is the room. The Trap Pass gets you deeper inside.",
+    "status": "static_launch_approved",
+    "public_launch_ready": true,
+    "local_launch_package_ready": true,
+    "content_warning": "Archive media is documentary, educational, and lived-experience based. It documents unsafe behavior without endorsing or encouraging it."
+  },
+  "launch_readiness": {
+    "site_publish_status": "approved_for_static_public_launch",
+    "local_build_status": "ready_for_static_deploy",
+    "discord_status": "public_server_invite_verified_and_wired_locally",
+    "can_go_live_after": [
+      "serverless checkout deployment",
+      "Stripe webhook secret",
+      "Stripe product sync",
+      "final fulfillment policy"
+    ]
+  },
+  "featured_assets": [
+    {
+      "id": "raw-split-brick",
+      "title": "Raw Split Banner",
+      "path": "/assets/trap-house/raw-split-brick-banner.png",
+      "use": "project, documentary, archive hero",
+      "ratio": "wide"
+    },
+    {
+      "id": "disclaimer",
+      "title": "IHOCAIHAG Disclaimer",
+      "path": "/assets/trap-house/ihocaihag-disclaimer-poster.png",
+      "use": "entry gate, about page, safety context",
+      "ratio": "poster"
+    },
+    {
+      "id": "documentary-dvd",
+      "title": "Documentary Cover",
+      "path": "/assets/trap-house/documentary-dvd-cover.png",
+      "use": "documentary page and media kit",
+      "ratio": "poster"
+    },
+    {
+      "id": "trap-pass-gen2-wave1",
+      "title": "Gen 2 Wave 1 Trap Pass",
+      "path": "/assets/trap-house/trap-pass-gen2-wave1-no-brakes.png",
+      "use": "Trap Pass page and Pass Terminal",
+      "ratio": "poster"
+    },
+    {
+      "id": "preorders-live",
+      "title": "Preorders Live",
+      "path": "/assets/trap-house/preorders-live-tall.png",
+      "use": "preorder route",
+      "ratio": "poster"
+    },
+    {
+      "id": "og-shirts",
+      "title": "OG Shirts Wide",
+      "path": "/assets/trap-house/preorder-og-shirts-wide.png",
+      "use": "merch/preorder section",
+      "ratio": "wide"
+    },
+    {
+      "id": "shirt-proof-white",
+      "title": "White Shirt Proof",
+      "path": "/assets/trap-house/ihocaihag-shirt-proof-white.png",
+      "use": "merch proof and preorder detail",
+      "ratio": "poster"
+    },
+    {
+      "id": "archive-collage",
+      "title": "Ruin Comes Archive Collage",
+      "path": "/assets/trap-house/ruin-comes-archive-collage.png",
+      "use": "archive route and project proof",
+      "ratio": "wide"
+    },
+    {
+      "id": "ideas-badge",
+      "title": "High On Ideas Badge",
+      "path": "/assets/trap-house/high-on-ideas-badge.png",
+      "use": "about/build-process card",
+      "ratio": "poster"
+    },
+    {
+      "id": "masked-author-child",
+      "title": "Masked Author And Child Frame",
+      "path": "/assets/trap-house/masked-author-child-poster.png",
+      "use": "documentary/about anchor",
+      "ratio": "poster"
+    },
+    {
+      "id": "masked-closeup",
+      "title": "Masked Author Closeup",
+      "path": "/assets/trap-house/masked-author-closeup.png",
+      "use": "profile, pass, Discord identity",
+      "ratio": "square"
+    },
+    {
+      "id": "cover-masked-red",
+      "title": "Masked Red Cover",
+      "path": "/assets/trap-house/ihocaihag-cover-masked-red.png",
+      "use": "book cover, project hero, documentary identity",
+      "ratio": "poster"
+    },
+    {
+      "id": "threads-board",
+      "title": "The Threads Board",
+      "path": "/assets/trap-house/threads-map-board-new.png",
+      "use": "threads route, Trap Pass lore, Discord map",
+      "ratio": "wide"
+    },
+    {
+      "id": "door-opening",
+      "title": "The Door Is Opening",
+      "path": "/assets/trap-house/trap-house-door-opening.png",
+      "use": "Discord launch bridge, Trap Pass access, hidden room tease",
+      "ratio": "poster"
+    },
+    {
+      "id": "url-poster",
+      "title": "Pull Up To The Trap House",
+      "path": "/assets/trap-house/trap-house-url-poster.png",
+      "use": "official links, launch flyer, Discord and site bridge",
+      "ratio": "poster"
+    },
+    {
+      "id": "trap-house-live-invite",
+      "title": "The Trap House Is Live",
+      "path": "/assets/trap-house/trap-house-live-invite-poster.png",
+      "use": "Discord launch invite and public room bridge",
+      "ratio": "poster"
+    },
+    {
+      "id": "welcome-room-desktop",
+      "title": "Welcome Room Desktop",
+      "path": "/assets/trap-house/welcome-room-desktop.png",
+      "use": "desktop entry gate",
+      "ratio": "wide"
+    },
+    {
+      "id": "welcome-room-mobile",
+      "title": "Welcome Room Mobile",
+      "path": "/assets/trap-house/welcome-room-mobile.png",
+      "use": "mobile entry gate",
+      "ratio": "poster"
+    },
+    {
+      "id": "author-profile-room-paradise-oblivion",
+      "title": "Author Profile Room - Paradise Or Oblivion",
+      "path": "/assets/trap-house/author-profile-room-paradise-oblivion.png",
+      "use": "author-profile room map, spoken-word TV backdrop, room preview",
+      "ratio": "wide"
+    },
+    {
+      "id": "welcome-archive-desk",
+      "title": "Former Welcome Desk",
+      "path": "/assets/trap-house/welcome-desktop-archive-desk.png",
+      "use": "inner room section after entry",
+      "ratio": "wide"
+    },
+    {
+      "id": "ihocaihag-book-object",
+      "title": "IHOCAIHAG Book Object",
+      "path": "/assets/trap-house/ihocaihag-book-object.png",
+      "use": "book route and project proof wall",
+      "ratio": "poster"
+    },
+    {
+      "id": "dopesick-definitive",
+      "title": "Dopesick Definitive Edition",
+      "path": "/assets/trap-house/dopesick-definitive-edition.png",
+      "use": "Dopesick room and previous-book shelf",
+      "ratio": "poster"
+    },
+    {
+      "id": "dopesick-standing",
+      "title": "Dopesick Shelf Object",
+      "path": "/assets/trap-house/dopesick-standing-book.png",
+      "use": "Dopesick hero",
+      "ratio": "poster"
+    }
+  ],
+  "routes": [
+    {
+      "path": "/",
+      "label": "The Map",
+      "purpose": "Public project map and conversion spine."
+    },
+    {
+      "path": "/start-here/",
+      "label": "Start Here",
+      "purpose": "First-time visitor route that explains the project without making the title do all the work."
+    },
+    {
+      "path": "/project/",
+      "label": "The Project",
+      "purpose": "One-page explanation of the book, documentary, soundtrack, archive, Trap Pass, and Discord loop."
+    },
+    {
+      "path": "/documentary/",
+      "label": "Documentary",
+      "purpose": "Raw doc identity, safety framing, trailers, clips, and first-look access."
+    },
+    {
+      "path": "/book/",
+      "label": "Book",
+      "purpose": "Permanent object route for the written project, book-room framing, and preorder path."
+    },
+    {
+      "path": "/dopesick/",
+      "label": "Dopesick",
+      "purpose": "Previous-book origin shelf connected to the new archive without inventing unconfirmed claims."
+    },
+    {
+      "path": "/archive-terminal/",
+      "label": "Archive",
+      "purpose": "Evidence-machine dashboard for transcripts, clip candidates, visual samples, and scene-change frames."
+    },
+    {
+      "path": "/preorders/",
+      "label": "Preorders",
+      "purpose": "Drop stack for passes, shirts, packs, and checkout-ready offer details."
+    },
+    {
+      "path": "/trap-pass/",
+      "label": "Trap Pass",
+      "purpose": "Pass claim, public summary, Pass Terminal, and role mapping."
+    },
+    {
+      "path": "/trap-pass-phases/",
+      "label": "Trap Pass Phases",
+      "purpose": "Phase-by-phase access ladder for roles, rooms, threads, future access, and pass display."
+    },
+    {
+      "path": "/wallet/",
+      "label": "Pass Terminal",
+      "purpose": "Shareable terminal for selected passes and proof baggies."
+    },
+    {
+      "path": "/check-pass/",
+      "label": "Check Pass",
+      "purpose": "Shareable Trap Pass lookup and summary route."
+    },
+    {
+      "path": "/room-map/",
+      "label": "Room Map",
+      "purpose": "Clickable author-profile room where figures, shelves, objects, and the spoken-word TV slot route visitors through the story."
+    },
+    {
+      "path": "/mission-board/",
+      "label": "Mission Board",
+      "purpose": "Trap Pass mission proof and proof-baggie route."
+    },
+    {
+      "path": "/threads/",
+      "label": "The Threads",
+      "purpose": "The project wiring map connecting origin, grief, addiction, psychosis, writing, platform war, Trap Pass lore, and convergence."
+    },
+    {
+      "path": "/discord/",
+      "label": "Discord",
+      "purpose": "The public Trap House lobby for announcements, drop reactions, threads, pass roles, and archive work."
+    }
+  ],
+  "drops": [
+    {
+      "id": "fifty-trap-passes",
+      "name": "50 Trap Passes",
+      "status": "limited",
+      "limit": 50,
+      "integration": "Trap Pass access",
+      "notes": "Limited access pass tied to holder status, hidden rooms, drops, and Discord role mapping."
+    },
+    {
+      "id": "first-showing",
+      "name": "First Showing",
+      "status": "limited",
+      "limit": 50,
+      "integration": "First showing access",
+      "notes": "Early documentary viewing access tied to Trap Pass holder status."
+    },
+    {
+      "id": "og-crack-pack",
+      "name": "OG Pack",
+      "status": "collector",
+      "limit": 50,
+      "integration": "Physical collector pack",
+      "notes": "Physical/evidence-inspired package connected to the online pass and archive world."
+    },
+    {
+      "id": "og-shirts",
+      "name": "OG Shirts",
+      "status": "limited",
+      "limit": 40,
+      "integration": "Limited merch",
+      "notes": "Limited shirt drop tied to the same project identity and pass world."
+    }
+  ],
+  "launch_checklist": [
+    {
+      "item": "Add final Discord invite to local config.",
+      "done": true
+    },
+    {
+      "item": "Confirm which preorder products are real, reserved, or hidden.",
+      "done": false
+    },
+    {
+      "item": "Use direct Stripe Checkout Sessions with server-side product lookup and webhook fulfillment.",
+      "done": true
+    },
+    {
+      "item": "Trap Pass and entry email storage use the live project database when available, while public pages show only safe summaries.",
+      "done": true
+    },
+    {
+      "item": "Reset review passes and counters before real traffic.",
+      "done": false
+    },
+    {
+      "item": "Review all safety/disclaimer copy before public launch.",
+      "done": false
+    },
+    {
+      "item": "Verify mobile, desktop, and accessibility basics on every public route.",
+      "done": true
+    }
+  ]
+}

@@ -1,0 +1,115 @@
+{
+  "version": "launch-ready-1",
+  "purpose": "Canonical tagging system for videos, captions, screenshots, songs, object stories, Discord drops, and episode reports.",
+  "thread_keys": [
+    "january-22",
+    "addiction-machine",
+    "psychosis-loop",
+    "grief-loss",
+    "cats-home-tenderness",
+    "writing-inside-the-fire",
+    "money-desperation",
+    "system-mirror",
+    "platform-war",
+    "trap-pass-lore",
+    "self-destruction-vs-creation",
+    "public-project-witness",
+    "ending-convergence"
+  ],
+  "safety_tiers": [
+    {
+      "id": "tier_0_public_safe",
+      "label": "Public Safe",
+      "meaning": "Can be public with normal context."
+    },
+    {
+      "id": "tier_1_organic_public",
+      "label": "Organic Public",
+      "meaning": "Can be public when framed as documentary/archive material."
+    },
+    {
+      "id": "tier_2_context_required",
+      "label": "Context Required",
+      "meaning": "Needs warning, thread framing, or surrounding explanation."
+    },
+    {
+      "id": "tier_3_patreon_owned",
+      "label": "Back Room",
+      "meaning": "Better for Patreon, Discord role-gated rooms, or owned-site context."
+    },
+    {
+      "id": "tier_4_private_review",
+      "label": "Private Review",
+      "meaning": "Do not publish until Ryan reviews redactions, third-party risk, and platform risk."
+    }
+  ],
+  "platform_destinations": [
+    "website_public",
+    "website_hidden_room",
+    "discord_public_lobby",
+    "discord_role_gated",
+    "youtube_public",
+    "youtube_members_or_unlisted",
+    "instagram_reel",
+    "tiktok_short",
+    "patreon_back_room",
+    "email_list",
+    "private_review_only"
+  ],
+  "documentary_roles": [
+    "cold_open",
+    "act_1_confusion",
+    "act_2_machine",
+    "act_3_human",
+    "act_4_system_mirror",
+    "act_5_public_project",
+    "act_6_unresolved",
+    "chapter_bridge",
+    "montage_texture",
+    "patreon_extended",
+    "trailer_candidate",
+    "ending_convergence"
+  ],
+  "redaction_flags": [
+    "third_party_face",
+    "minor_or_family_image",
+    "license_plate",
+    "address_or_location",
+    "medical_document",
+    "payment_handle",
+    "private_phone_or_email",
+    "legal_or_case_detail",
+    "weapon_or_drug_context",
+    "platform_sensitive_language"
+  ],
+  "episode_report_fields": [
+    "episode_summary",
+    "overarching_themes",
+    "a_v_script",
+    "editors_hitlist",
+    "safety_platform_notes",
+    "thread_connections",
+    "public_title_options",
+    "patreon_archive_title",
+    "recommended_destination",
+    "redaction_required",
+    "follow_up_questions_for_ryan"
+  ],
+  "title_rules": {
+    "avoid": [
+      "self-incriminating framing",
+      "imitation language",
+      "instructional language",
+      "drug sourcing language",
+      "glamor framing",
+      "unnecessary medical/location/legal specifics"
+    ],
+    "prefer": [
+      "documentary framing",
+      "thread-based titles",
+      "specific scene/object titles",
+      "absurdity without instruction",
+      "clear cautionary context"
+    ]
+  }
+}

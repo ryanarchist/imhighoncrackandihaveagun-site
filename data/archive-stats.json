@@ -1,0 +1,16 @@
+{
+  "transcripts_analyzed": 2029,
+  "clip_candidates_retained": 1184,
+  "visual_samples_indexed": 476,
+  "scene_change_frames_indexed": 142,
+  "public_candidates": 246,
+  "patreon_candidates": 588,
+  "documentary_candidates": 616,
+  "private_review_required": 31,
+  "current_hunter": "public candidates, cold opens, and thread convergence",
+  "latest_batch": "thread, clip, transcript, and visual indexing",
+  "next_pass": "Ryan review of public candidates, cold opens, and locked review material",
+  "discord_channel": "#ai-archive-status",
+  "source_notes": "Archive processing verified from recent transcript, clip, thread, and visual-indexing summaries.",
+  "updated_at": "2026-06-12T19:50:19-04:00"
+}

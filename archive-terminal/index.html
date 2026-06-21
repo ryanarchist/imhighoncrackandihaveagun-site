@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Archive Terminal | The Trap House</title>
+  <link rel="stylesheet" href="/styles.css?v=launch-ready-3" />
+</head>
+<body>
+  <header class="topbar">
+    <nav class="site-shell nav">
+      <a class="brand" href="/"><strong>AI Archive Terminal</strong><span>Evidence machine</span></a>
+      <div class="nav-links">
+        <a href="/project/">Project</a>
+        <a href="/threads/">Threads</a>
+        <a href="/documentary/">Documentary</a>
+        <a href="/book/">Book</a>
+        <a href="/dopesick/">Dopesick</a>
+        <a href="/archive-terminal/" aria-current="page">Archive</a>
+        <a href="/trap-pass/">Trap Pass</a>
+        <a href="/trap-pass-phases/">Phases</a>
+        <a href="/preorders/">Preorders</a>
+        <a href="/check-pass/">Check Pass</a>
+        <a href="/discord/">Discord</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="site-shell">
+    <section class="section">
+      <div class="asset-frame" style="margin-bottom: 18px;">
+        <img src="/assets/trap-house/archive-channel-spread.png" alt="Archive channel spread visual" />
+      </div>
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Archive Room</span>
+          <h1>AI Archive Terminal</h1>
+        </div>
+      <p>This is the room where the raw material gets sorted into the story: transcripts, clip candidates, visual samples, scene-change frames, and the next review path.</p>
+      </div>
+      <div class="grid four">
+        <article class="stat-card"><strong id="transcriptsAnalyzed">--</strong><p>Transcripts analyzed</p></article>
+        <article class="stat-card"><strong id="clipCandidates">--</strong><p>Clip candidates retained</p></article>
+        <article class="stat-card"><strong id="visualSamples">--</strong><p>Visual samples indexed</p></article>
+        <article class="stat-card"><strong id="sceneChanges">--</strong><p>Scene-change frames</p></article>
+      </div>
+      <p class="fineprint" style="margin-top: 12px;">These numbers are the processing pulse of the archive: transcripts, clip candidates, visual samples, and scene-change frames being organized into the documentary map.</p>
+      <p class="fineprint" id="statsStatus" style="margin-top: 8px;">Loading archive stats...</p>
+    </section>
+
+    <section class="section">
+      <div class="grid two">
+        <div class="terminal">
+          <p>&gt; current_hunter = <span id="currentHunter">loading</span></p>
+          <p>&gt; latest_batch = <span id="latestBatch">loading</span></p>
+          <p>&gt; next_pass = <span id="nextPass">loading</span></p>
+          <p>&gt; discord_channel = <span id="discordChannel">#ai-archive-status</span></p>
+        </div>
+        <div class="panel" style="padding: 18px;">
+          <h2>Inner Archive Lock</h2>
+          <p class="sublead">Pass-locked archive rooms can reveal batch notes, raw contact sheets, review queues, clip candidates, and evidence walls as the archive gets organized.</p>
+          <div class="cta-row">
+            <a class="button primary" href="/all-hands-on-deck/">Try Current Wave Room</a>
+            <a class="button" href="/threads/">Open Thread Map</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section split-feature">
+      <div class="bookshelf-preview"></div>
+      <div class="panel feature-copy">
+        <span class="eyebrow">Collector Shelf</span>
+        <h2>The Archive Is Becoming Physical</h2>
+        <p class="lead">The archive is becoming physical: books, passes, figures, evidence labels, shelves, and collector files.</p>
+        <p class="sublead">This makes the archive feel touchable: shelves, cases, passes, files, and objects that carry story weight.</p>
+        <div class="cta-row">
+          <a class="button primary" href="/room-map/">Open Room Map</a>
+          <a class="button" href="/evidence-locker/">Evidence Locker</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="/config.js"></script>
+  <script src="/trap-pass-system.js"></script>
+  <script>
+    const fallbackStats = {
+      transcripts_analyzed: 2029,
+      clip_candidates_retained: 1184,
+      visual_samples_indexed: 476,
+      scene_change_frames_indexed: 142,
+      current_hunter: "public candidates, cold opens, and thread convergence",
+      latest_batch: "thread, clip, transcript, and visual indexing",
+      next_pass: "Ryan review of public candidates, cold opens, and locked review material",
+      discord_channel: "#ai-archive-status"
+    };
+
+    function formatNumber(value) {
+      return Number(value || 0).toLocaleString();
+    }
+
+    function renderArchiveStats(stats, source) {
+      document.getElementById("transcriptsAnalyzed").textContent = formatNumber(stats.transcripts_analyzed);
+      document.getElementById("clipCandidates").textContent = formatNumber(stats.clip_candidates_retained);
+      document.getElementById("visualSamples").textContent = formatNumber(stats.visual_samples_indexed);
+      document.getElementById("sceneChanges").textContent = formatNumber(stats.scene_change_frames_indexed);
+      document.getElementById("currentHunter").textContent = stats.current_hunter || fallbackStats.current_hunter;
+      document.getElementById("latestBatch").textContent = stats.latest_batch || fallbackStats.latest_batch;
+      document.getElementById("nextPass").textContent = stats.next_pass || fallbackStats.next_pass;
+      document.getElementById("discordChannel").textContent = stats.discord_channel || fallbackStats.discord_channel;
+      document.getElementById("statsStatus").textContent = `Archive pulse: ${source}`;
+    }
+
+    fetch(window.TrapHouse?.cfg?.archiveStatsPath || "/data/archive-stats.json", { cache: "no-store" })
+      .then((response) => response.ok ? response.json() : Promise.reject(new Error("stats file missing")))
+      .then((stats) => renderArchiveStats({ ...fallbackStats, ...stats }, "current data feed"))
+      .catch(() => renderArchiveStats(fallbackStats, "archive status"));
+  </script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+# Official Stash
+
+Website:
+https://imhighoncrackandihaveagun.com
+
+Discord:
+https://discord.gg/64MKTrGGsD
+
+Instagram:
+https://www.instagram.com/ihocaihag/
+
+TikTok:
+https://www.tiktok.com/@ihocaihagofficial
+
+YouTube:
+https://www.youtube.com/@imhighoncrackandihaveagun
+
+X:
+https://x.com/comradejizzy
+
+Patreon:
+https://www.patreon.com/c/IMHIGHONCRACKANDIHAVEAGUN
+
+Spotify:
+https://open.spotify.com/artist/7GUAmAkkpLLESm0Fig1NWZ
+
+Use official links only. If a link is not here or posted by staff, treat it like a fake door.
