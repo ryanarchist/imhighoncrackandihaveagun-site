@@ -1,9 +1,11 @@
 (function () {
   const config = window.TRAP_HOUSE_CONFIG || {};
   const endpoint = config.stripeCheckoutSessionEndpoint || "/api/stripe/create-checkout-session";
+  const healthEndpoint = config.stripeCheckoutHealthEndpoint || "/api/stripe/health";
   const buttons = Array.from(document.querySelectorAll("[data-checkout-product]"));
   const statusNodes = Array.from(document.querySelectorAll("[data-checkout-status]"));
   const emailInput = document.querySelector("[data-checkout-email]");
+  const stagedMessage = "Checkout is staged for the next opening. Trap Pass claiming and pass checks are live; paid checkout opens when the payment room is connected.";
 
   function setStatus(message, tone) {
     statusNodes.forEach((node) => {
@@ -30,13 +32,46 @@
     });
   }
 
-  if (!config.preorderCheckoutEnabled || !config.stripeCheckoutReady) {
+  function disableCheckout(message, tone) {
     buttons.forEach((button) => {
       button.disabled = true;
       button.setAttribute("aria-disabled", "true");
+      button.setAttribute("aria-busy", "false");
     });
-    setStatus("Checkout is staged for the next opening. Trap Pass claiming and pass checks are live; paid checkout opens when the payment room is connected.", "pending");
-    return;
+    setStatus(message || stagedMessage, tone || "pending");
+  }
+
+  function enableCheckout() {
+    buttons.forEach((button) => {
+      button.disabled = false;
+      button.removeAttribute("aria-disabled");
+      button.setAttribute("aria-busy", "false");
+    });
+    setStatus("Secure Stripe checkout is open. Trap Pass access is granted after verified payment.", "ready");
+  }
+
+  async function refreshCheckoutReadiness() {
+    if (!healthEndpoint && config.preorderCheckoutEnabled && config.stripeCheckoutReady) {
+      enableCheckout();
+      return true;
+    }
+
+    disableCheckout("Checking whether secure checkout is open.", "working");
+
+    try {
+      const response = await fetch(healthEndpoint, { cache: "no-store" });
+      const data = await response.json().catch(() => ({}));
+
+      if (response.ok && data.ready) {
+        enableCheckout();
+        return true;
+      }
+    } catch (error) {
+      console.warn("Checkout health check failed:", error);
+    }
+
+    disableCheckout(stagedMessage, "pending");
+    return false;
   }
 
   async function startCheckout(button) {
@@ -78,4 +113,6 @@
   buttons.forEach((button) => {
     button.addEventListener("click", () => startCheckout(button));
   });
+
+  refreshCheckoutReadiness();
 })();

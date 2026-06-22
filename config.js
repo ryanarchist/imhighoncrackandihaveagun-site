@@ -12,7 +12,7 @@
   const supabaseUrl = "https://xpmozqmqzrljvnubnnxs.supabase.co";
   const supabasePublishableKey = "sb_publishable_DgXeNsqvkt4NuFX6-97UuQ_QG3FDYZ7";
   const hasSupabase = Boolean(supabaseUrl && supabasePublishableKey);
-  const stripePublishableKey = "pk_test_51Tjrqy3PVB4MWwrzae7Fy03NAOWf2iMF04LO1FyxLope7l2cZTRIJkBVoyiar5dMRCbiG1jpvIGMx1turPCqn0rh00MvtZFW4U";
+  const stripePublishableKey = "pk_live_51Tjrqm3iX61YIuk6dkq0RAt61pF3XVBvTrT7zD7ZWUBIAZ7M9D0nDRov6G6myFPJXvJj3Yuuy11WmmKrGVzQEKT300WoPXQtlD";
   const stripeMode = stripePublishableKey.startsWith("pk_live_") ? "live" : "test";
   const checkoutPreviewEnabled = getLocalValue("iho_preorder_checkout_enabled") === "1";
 
@@ -36,6 +36,7 @@
     stripePublishableKey,
     stripeMode,
     stripeCheckoutReady: checkoutPreviewEnabled,
+    stripeCheckoutHealthEndpoint: "/api/stripe/health",
     stripeCheckoutSessionEndpoint: "/api/stripe/create-checkout-session",
     instagramUrl: "https://www.instagram.com/ihocaihag/",
     tiktokUrl: "https://www.tiktok.com/@ihocaihagofficial",

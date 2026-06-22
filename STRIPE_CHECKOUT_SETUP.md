@@ -79,11 +79,19 @@ Cancel:
 https://imhighoncrackandihaveagun.com/shop
 ```
 
-Webhook:
+Webhook on the Vercel deployment:
+
+```text
+https://imhighoncrackandihaveagun-site.vercel.app/api/stripe/webhook
+```
+
+Webhook after the custom domain is moved to Vercel:
 
 ```text
 https://imhighoncrackandihaveagun.com/api/stripe/webhook
 ```
+
+Stripe must send events to `/api/stripe/webhook`, not the homepage.
 
 ## Static Launch Guard
 
