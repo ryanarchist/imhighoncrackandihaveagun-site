@@ -10,7 +10,7 @@
 <body>
   <header class="topbar">
     <nav class="site-shell nav canonical-nav">
-      <a class="brand" href="/"><strong>IHOCAIHAG</strong><span>Your Trap Pass.</span></a>
+      <a class="brand" href="/"><strong>IHOCAIHAG</strong><span>Your key in the drawer.</span></a>
       <div class="nav-links">
         <a href="/">Home</a>
         <a href="/map/">Map</a>
@@ -36,9 +36,9 @@
       <div class="section-head">
         <div>
           <span class="eyebrow">Your Trap Pass</span>
-          <h1>One Clean Pass Dashboard</h1>
+          <h1>Your Trap Pass</h1>
         </div>
-        <p>This page shows your selected pass without exposing email, Stripe IDs, shipping, internal database IDs, private Discord metadata, or webhook state.</p>
+        <p>Open your card, check the public proof, and head back into the house.</p>
       </div>
       <div class="grid two">
         <div class="panel" style="padding: 18px;">
@@ -66,13 +66,13 @@
     <section class="section">
       <div class="section-head">
         <div><span class="eyebrow">Actions</span><h2>What You Can Do Next</h2></div>
-        <p>The private account model is still staged, so this page keeps actions simple and routes into existing working surfaces.</p>
+        <p>The pass is the receipt. The rest of the house opens from here.</p>
       </div>
       <div class="grid four">
         <a class="card" href="/map/"><span class="tag">Map</span><h3>Open Map</h3><p>Follow the threads attached to the project.</p></a>
         <a class="card" href="/trap-house/"><span class="tag">Room</span><h3>Join Trap House</h3><p>Enter the live room when you are ready.</p></a>
-        <a class="card" href="/store/#cash-for-trash"><span class="tag">Upgrade</span><h3>Upgrade Pass</h3><p>Open the Stripe-backed store path.</p></a>
-        <a class="card" href="/billing/"><span class="tag">Billing</span><h3>Manage Billing</h3><p>Use Stripe for billing self-service when the portal endpoint is connected.</p></a>
+        <a class="card" href="/store/#cash-for-trash"><span class="tag">Upgrade</span><h3>Upgrade Pass</h3><p>Open paid pass options and first-run drops.</p></a>
+        <a class="card" href="/billing/"><span class="tag">Billing</span><h3>Manage Billing</h3><p>Receipts, payment changes, and paid-pass help live here.</p></a>
       </div>
     </section>
   </main>
@@ -106,11 +106,11 @@
           return;
         }
         notice.className = "notice active";
-        notice.innerHTML = "<strong>Trap Pass selected.</strong><p>Your public-safe pass dashboard is loaded.</p>";
+        notice.innerHTML = "<strong>Trap Pass selected.</strong><p>Your shareable pass card is loaded.</p>";
         renderPass(pass);
       } catch (error) {
         notice.className = "notice error active";
-        notice.innerHTML = "<strong>Lookup failed.</strong><p>The pass system could not check storage. Try again in a minute.</p>";
+        notice.innerHTML = "<strong>Lookup failed.</strong><p>Your pass could not be checked. Try again in a minute.</p>";
       }
     });
   </script>

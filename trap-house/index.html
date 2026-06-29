@@ -10,7 +10,7 @@
 <body>
   <header class="topbar">
     <nav class="site-shell nav canonical-nav">
-      <a class="brand" href="/"><strong>IHOCAIHAG</strong><span>The live room.</span></a>
+      <a class="brand" href="/"><strong>IHOCAIHAG</strong><span>Pull up inside.</span></a>
       <div class="nav-links">
         <a href="/">Home</a>
         <a href="/map/">Map</a>
@@ -36,12 +36,13 @@
       <img class="discord-logo" src="/assets/trap-house/trap-house-discord-logo.png" alt="The Trap House Discord logo" />
       <div>
         <span class="eyebrow">The Trap House</span>
-        <h1>The Trap House Is The Live Room</h1>
-        <p class="lead">The site keeps the map organized. Discord is where pass holders, readers, watchers, and archive witnesses gather while the project unfolds.</p>
+        <h1>The Trap House Is Open</h1>
+        <p class="lead">The site holds the archive. The Trap House is where the people inside it talk back.</p>
+        <p class="sublead">Drop reactions, thread rooms, pass roles, archive work, and the kind of conversations that do not fit in a caption.</p>
         <div class="cta-row">
           <a class="button danger" data-discord-link href="/discord/">Join Discord</a>
           <a class="button primary" href="/trap-pass/">Claim Pass First</a>
-          <a class="button" href="/my-pass/">My Pass</a>
+          <a class="button" data-pass-only hidden href="/my-pass/">My Pass</a>
         </div>
       </div>
     </div>
@@ -51,7 +52,7 @@
     <section class="section">
       <div class="section-head">
         <div><span class="eyebrow">Room Categories</span><h2>What Happens Inside</h2></div>
-        <p>Discord is optional for launch. The basic site and pass flow still work without making people connect Discord first.</p>
+        <p>The front room is for people who watched the clip and wanted the rest of the story.</p>
       </div>
       <div class="system-board">
         <article><span>01</span><h3>Announcements</h3><p>Major drops, site changes, pass waves, and project updates.</p></article>
@@ -65,10 +66,10 @@
 
     <section class="section split-feature reverse">
       <div class="panel feature-copy">
-        <span class="eyebrow">Phase 1</span>
-        <h2>Discord Complexity Does Not Block Launch</h2>
-        <p class="lead">Claim a pass without Discord. Add a Discord username optionally. Connect OAuth and automated role mapping later.</p>
-        <p class="sublead">The public route is simple: join the room, claim a pass, open the map.</p>
+        <span class="eyebrow">Front Door</span>
+        <h2>Knock, Then Come In</h2>
+        <p class="lead">Announcements on the wall. People on the couch. Clips getting argued over before they become official drops.</p>
+        <p class="sublead">Bring a pass if you have one. Pull up anyway if you do not.</p>
       </div>
       <div class="asset-frame">
         <img src="/assets/trap-house/trap-house-live-invite-poster.png" alt="The Trap House live invite poster" />
@@ -84,10 +85,14 @@
   <script src="/trap-pass-system.js?v=emergency-rescue-1"></script>
   <script>
     const utility = document.querySelector("[data-pass-utility]");
-    if (utility && window.TrapHouse?.getCurrentPass?.()) {
+    const currentPass = window.TrapHouse?.getCurrentPass?.();
+    if (utility && currentPass) {
       utility.textContent = "My Pass";
       utility.href = "/my-pass/";
     }
+    document.querySelectorAll("[data-pass-only]").forEach((link) => {
+      link.hidden = !currentPass;
+    });
   </script>
 </body>
 </html>

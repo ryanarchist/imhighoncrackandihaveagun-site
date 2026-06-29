@@ -5,7 +5,7 @@
   const buttons = Array.from(document.querySelectorAll("[data-checkout-product]"));
   const statusNodes = Array.from(document.querySelectorAll("[data-checkout-status]"));
   const emailInput = document.querySelector("[data-checkout-email]");
-  const stagedMessage = "Checkout is staged for the next opening. Trap Pass claiming and pass checks are live; paid checkout opens when the payment room is connected.";
+  const stagedMessage = "Paid checkout is not open yet. Free Trap Pass claiming and pass checks are live.";
 
   function setStatus(message, tone) {
     statusNodes.forEach((node) => {
@@ -47,7 +47,7 @@
       button.removeAttribute("aria-disabled");
       button.setAttribute("aria-busy", "false");
     });
-    setStatus("Secure Stripe checkout is open. Trap Pass access is granted after verified payment.", "ready");
+    setStatus("Secure checkout through Stripe. Access and pass status update after payment is verified.", "ready");
   }
 
   async function refreshCheckoutReadiness() {
@@ -104,7 +104,7 @@
       window.location.assign(data.url);
     } catch (error) {
       console.error("Checkout failed:", error);
-      setStatus("Checkout is not open yet. Trap Pass claiming and pass checks are live while the payment room is being connected.", "error");
+      setStatus("Paid checkout is not open yet. Free Trap Pass claiming and pass checks are live.", "error");
       button.textContent = label;
       lockButtons(false);
     }
