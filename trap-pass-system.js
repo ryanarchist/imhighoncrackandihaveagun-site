@@ -565,27 +565,27 @@
 
   function getTrapPassPhase(pass) {
     if (!pass) {
-      return { level: 0, id: "front-door", title: "Front Door" };
+      return { level: 0, id: "no-pass", title: "No Pass" };
     }
-    const unlock = Number(pass.unlock_level) || 0;
-    const missions = Number(pass.missions_completed) || 0;
-    const threads = getThreadDetails(pass);
-    if (unlock >= 5) {
-      return { level: 6, id: "metadata-ready", title: "Metadata Ready" };
+    const templateId = sanitize(pass.template_id, 90);
+    const waveName = sanitize(pass.wave_name, 90).toLowerCase();
+    const waveNumber = Number(pass.wave_number) || 0;
+    if (templateId === "gen_2_wave_1_no_brakes" || waveName.includes("no brakes")) {
+      return { level: 5, id: "gen-2-wave-1-no-brakes", title: "No Brakes" };
     }
-    if (unlock >= 4) {
-      return { level: 5, id: "back-rooms", title: "Back Rooms" };
+    if (waveName.includes("bring the storm")) {
+      return { level: 4, id: "gen-1-wave-4-bring-the-storm", title: "Bring The Storm" };
     }
-    if (unlock >= 2) {
-      return { level: 4, id: "archive-witness", title: "Archive Witness" };
+    if (waveName.includes("all hands on deck") || templateId === "artifact_pass") {
+      return { level: 3, id: "gen-1-wave-3-all-hands-on-deck", title: "All Hands On Deck" };
     }
-    if (missions >= 1) {
-      return { level: 3, id: "mission-proof", title: "Mission Proof" };
+    if (waveName.includes("when 3 deer appear")) {
+      return { level: 2, id: "gen-1-wave-2-when-3-deer-appear", title: "When 3 Deer Appear" };
     }
-    if (threads.length) {
-      return { level: 2, id: "thread-affinity", title: "Thread Witness" };
+    if (waveName.includes("ride or dies") || waveName.includes("original entry") || templateId === "crack_pack_holder" || waveNumber === 1) {
+      return { level: 1, id: "gen-1-wave-1-ride-or-dies", title: "Ride Or Dies" };
     }
-    return { level: 1, id: "claim-pass", title: "Claim The Key" };
+    return { level: 5, id: "gen-2-wave-1-no-brakes", title: "No Brakes" };
   }
 
   function publicPass(pass) {
@@ -1213,7 +1213,7 @@
     const template = getTemplateById(safe.template_id);
     const date = safe.claimed_at || safe.created_at;
     const entered = date ? new Date(date).toLocaleDateString() : "Pending";
-    const target = options.privateView && pass?.qr_url ? pass.qr_url : safe.qr_target;
+    const target = safe.qr_target;
     const perks = safe.perks.length ? safe.perks : template.unlocks;
     return `
       <div class="trap-pass-visual" data-template="${escapeHTML(template.id)}">
@@ -1224,15 +1224,15 @@
             <strong>${escapeHTML(safe.trap_pass_id)}</strong>
           </div>
           <div class="trap-pass-chip phrase">
-            <span>Pass Phrase</span>
-            <strong>${escapeHTML(safe.pass_phrase)}</strong>
+            <span>Tier</span>
+            <strong>${escapeHTML(safe.tier)}</strong>
           </div>
           <div class="trap-pass-qr" title="Verification target">
             <img src="${escapeHTML(qrImageUrl(target))}" alt="Verification QR for ${escapeHTML(safe.trap_pass_id)}" loading="lazy" />
             <span>VERIFY</span>
           </div>
           <div class="trap-pass-strip">
-            <strong>${escapeHTML(safe.tier)}</strong>
+            <strong>${escapeHTML(safe.wave_name)}</strong>
             <span>${escapeHTML(template.badge)} / ${escapeHTML(entered)}</span>
           </div>
           <div class="trap-pass-perks" aria-label="Pass unlock summary">
@@ -1273,19 +1273,55 @@
         <div class="pass-id">${escapeHTML(safe.trap_pass_id)}</div>
         <p class="lead">${escapeHTML(safe.tier)} / Wave ${escapeHTML(safe.wave_number)} - ${escapeHTML(safe.wave_name)}</p>
         <div class="meta-list">
+          <div><span>Pass ID</span><strong>${escapeHTML(safe.trap_pass_id)}</strong></div>
+          <div><span>Wave</span><strong>Wave ${escapeHTML(safe.wave_number)} - ${escapeHTML(safe.wave_name)}</strong></div>
+          <div><span>Tier</span><strong>${escapeHTML(safe.tier)}</strong></div>
           <div><span>Holder</span><strong>${escapeHTML(safe.display_name)}</strong></div>
-          <div><span>Pass Phrase</span><strong>${escapeHTML(safe.pass_phrase)}</strong></div>
           <div><span>Status</span><strong>${escapeHTML(safe.status)}</strong></div>
-          <div><span>Discord Role</span><strong>${escapeHTML(safe.discord_role)}</strong></div>
-          <div><span>Missions</span><strong>${escapeHTML(safe.missions_completed)} complete</strong></div>
+          <div><span>Role</span><strong>${escapeHTML(safe.discord_role)}</strong></div>
           <div><span>Access</span><strong>Level ${escapeHTML(safe.unlock_level)}</strong></div>
-          <div><span>Key Status</span><strong>${escapeHTML(safe.phase_name)}</strong></div>
-          <div><span>Threads</span><strong>${escapeHTML(threads)}</strong></div>
+          <div><span>Missions</span><strong>${escapeHTML(safe.missions_completed)} complete</strong></div>
           <div><span>Date Entered</span><strong>${escapeHTML(date)}</strong></div>
+          ${options.publicView ? `<div><span>Public Thread Tags</span><strong>${escapeHTML(threads || "Trap Pass Lore")}</strong></div>` : ""}
         </div>
-        ${options.hideLink ? "" : `<div class="cta-row"><a class="button primary" href="${profileLink}">Open Pass Profile</a><a class="button" href="/trap-house/">Join The Trap House</a></div>`}
+        ${options.hideLink ? "" : `<div class="cta-row"><a class="button primary" href="${profileLink}">View Public Pass</a><a class="button" href="/trap-house/">Join Trap House</a></div>`}
       </article>
     `;
+  }
+
+  function renderPublicFooter() {
+    return `
+      <div class="site-shell footer-grid">
+        <div>
+          <strong>IHOCAIHAG</strong>
+          <span>The raw doc. The book. The soundtrack. The archive.</span>
+          <span>imhighoncrackandihaveagun.com</span>
+        </div>
+        <div class="footer-links">
+          <a data-official-link="instagram" href="${escapeHTML(officialLinks.instagram)}">Instagram @ihocaihag</a>
+          <a data-official-link="tiktok" href="${escapeHTML(officialLinks.tiktok)}">TikTok @ihocaihagofficial</a>
+          <a data-official-link="threads" href="${escapeHTML(officialLinks.threads)}">Threads @ihocaihag</a>
+          <a data-official-link="youtube" href="${escapeHTML(officialLinks.youtube)}">YouTube @imhighoncrackandihaveagun</a>
+          <a data-official-link="x" href="${escapeHTML(officialLinks.x)}">X @comradejizzy</a>
+          <a data-official-link="patreon" href="${escapeHTML(officialLinks.patreon)}">Patreon</a>
+          <a data-official-link="spotify" href="${escapeHTML(officialLinks.spotify)}">Spotify IHOCAIHAG</a>
+          <a data-official-link="appleMusic" href="${escapeHTML(officialLinks.appleMusic)}">Apple Music IHOCAIHAG</a>
+        </div>
+        <div class="footer-disclaimer">
+          <strong>DISCLAIMER</strong>
+          <span>This is documentary/art/archive material about addiction, psychosis, grief, survival, systems, and unsafe behavior. It is not instruction, not medical advice, not a challenge, and not encouragement to imitate anything shown.</span>
+          <span>SAMHSA National Helpline: 1-800-662-4357</span>
+        </div>
+      </div>
+    `;
+  }
+
+  function wirePublicFooter() {
+    const footer = document.querySelector(".footer");
+    if (!footer || footer.dataset.footerEnhanced === "true") return;
+    footer.dataset.footerEnhanced = "true";
+    footer.innerHTML = renderPublicFooter();
+    wireOfficialLinks();
   }
 
   function downloadJSON(filename, data) {
@@ -1462,6 +1498,7 @@
     importRegistry,
     wireDiscordLinks,
     wireOfficialLinks,
+    wirePublicFooter,
     officialLinks
   };
 
@@ -1469,5 +1506,6 @@
     wireDiscordLinks();
     wireOfficialLinks();
     wirePassClaimState();
+    wirePublicFooter();
   });
 })();

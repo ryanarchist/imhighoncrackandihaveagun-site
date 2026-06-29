@@ -48,7 +48,7 @@ function initDiscordVerifier() {
             <div><span>Threads</span><strong>${safe(threadLabels)}</strong></div>
           </div>
           <p class="fineprint" style="margin-top: 14px;">Private data withheld: email, private notes, system IDs, and account-only details.</p>
-          <div class="cta-row"><a class="button" href="/trap-pass-phases/">See Pass History</a><a class="button" href="/threads/">Open Threads</a></div>
+          <div class="cta-row"><a class="button" href="/trap-pass/#pass-history">See Pass History</a><a class="button" href="/threads/">Open Threads</a></div>
         </article>
         <div class="panel feature-copy">
           <span class="eyebrow">Roles To Apply</span>

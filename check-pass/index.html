@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Check Your Trap Pass | The Trap House</title>
-  <link rel="stylesheet" href="/styles.css?v=public-clean-2" />
+  <title>Check Your Trap Pass | IHOCAIHAG</title>
+  <link rel="stylesheet" href="/styles.css?v=emergency-rescue-2" />
 </head>
 <body>
   <header class="topbar">
-    <nav class="site-shell nav">
-      <a class="brand" href="/"><strong>Check Your Pass</strong><span>Recover your key</span></a>
+    <nav class="site-shell nav canonical-nav">
+      <a class="brand" href="/"><strong>IHOCAIHAG</strong><span>Recover your key.</span></a>
       <div class="nav-links">
         <a href="/">Home</a>
         <a href="/map/">Map</a>
@@ -19,6 +19,7 @@
         <a href="/store/">Store</a>
         <a href="/about/">About</a>
       </div>
+      <a class="button danger nav-utility" data-pass-utility href="/trap-pass/">Get Trap Pass</a>
     </nav>
   </header>
 
@@ -51,9 +52,17 @@
     </section>
   </main>
 
-  <script src="/config.js?v=public-clean-2"></script>
-  <script src="/trap-pass-system.js?v=public-clean-2"></script>
+  <footer class="footer"></footer>
+
+  <script src="/config.js?v=emergency-rescue-2"></script>
+  <script src="/trap-pass-system.js?v=emergency-rescue-2"></script>
   <script>
+    const utility = document.querySelector("[data-pass-utility]");
+    if (utility && window.TrapHouse?.getCurrentPass?.()) {
+      utility.textContent = "My Pass";
+      utility.href = "/my-pass/";
+    }
+
     document.getElementById("lookupForm").addEventListener("submit", async (event) => {
       event.preventDefault();
       const query = new FormData(event.currentTarget).get("lookup");
@@ -64,7 +73,7 @@
         pass = await TrapHouse.setCurrentPassAsync(query);
       } catch (error) {
         notice.className = "notice error active";
-        notice.innerHTML = "<strong>Lookup failed.</strong><p>The Trap Pass Wallet could not check storage. Try again in a minute.</p>";
+        notice.innerHTML = "<strong>Lookup failed.</strong><p>My Pass could not check storage. Try again in a minute.</p>";
         output.innerHTML = "<p class='fineprint'>Try again or check the ID.</p>";
         return;
       }
@@ -75,8 +84,8 @@
         return;
       }
       notice.className = "notice active";
-          notice.innerHTML = "<strong>Trap Pass found.</strong><p>This pass is now selected for your Trap Pass Wallet.</p>";
-      output.innerHTML = `${TrapHouse.renderPassCard(pass)}<div class="cta-row"><a class="button primary" href="/wallet/">Open Trap Pass Wallet</a></div>`;
+      notice.innerHTML = "<strong>Trap Pass found.</strong><p>This pass is now selected for My Pass.</p>";
+      output.innerHTML = `${TrapHouse.renderPassCard(pass, { hideLink: true })}<div class="cta-row"><a class="button primary" href="/my-pass/">Open My Pass</a><a class="button" href="/pass/?id=${encodeURIComponent(pass.trap_pass_id)}">View Public Pass</a></div>`;
     });
   </script>
 </body>

@@ -1144,6 +1144,19 @@ td {
   color: var(--paper);
 }
 
+.footer-disclaimer {
+  grid-column: 1 / -1;
+  margin-top: 10px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.footer-disclaimer strong {
+  color: var(--paper);
+  font-family: var(--font-condensed);
+  text-transform: uppercase;
+}
+
 .entry-cover {
   position: fixed;
   inset: 0;

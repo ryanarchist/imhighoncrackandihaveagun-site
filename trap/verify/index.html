@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Verify Trap Pass | The Trap House</title>
-  <link rel="stylesheet" href="/styles.css?v=launch-ready-3" />
+  <title>Verify Trap Pass | IHOCAIHAG</title>
+  <link rel="stylesheet" href="/styles.css?v=emergency-rescue-2" />
 </head>
 <body>
   <header class="topbar">
-    <nav class="site-shell nav">
-      <a class="brand" href="/"><strong>Verify Trap Pass</strong><span>Public summary only</span></a>
+    <nav class="site-shell nav canonical-nav">
+      <a class="brand" href="/"><strong>IHOCAIHAG</strong><span>Public summary only.</span></a>
       <div class="nav-links">
         <a href="/">Home</a>
         <a href="/map/">Map</a>
@@ -19,6 +19,7 @@
         <a href="/store/">Store</a>
         <a href="/about/">About</a>
       </div>
+      <a class="button danger nav-utility" data-pass-utility href="/trap-pass/">Get Trap Pass</a>
     </nav>
   </header>
 
@@ -37,9 +38,17 @@
     </section>
   </main>
 
-  <script src="/config.js?v=launch-ready-3"></script>
-  <script src="/trap-pass-system.js?v=launch-ready-3"></script>
+  <footer class="footer"></footer>
+
+  <script src="/config.js?v=emergency-rescue-2"></script>
+  <script src="/trap-pass-system.js?v=emergency-rescue-2"></script>
   <script>
+    const utility = document.querySelector("[data-pass-utility]");
+    if (utility && window.TrapHouse?.getCurrentPass?.()) {
+      utility.textContent = "My Pass";
+      utility.href = "/my-pass/";
+    }
+
     async function renderVerification() {
       const output = document.getElementById("verifyOutput");
       const params = new URLSearchParams(window.location.search);
@@ -49,7 +58,7 @@
       if (passId) {
         const pass = await TrapHouse.setCurrentPassAsync(passId);
         output.innerHTML = pass
-          ? `${TrapHouse.renderPassCard(pass, { hideLink: true })}<div class="cta-row"><a class="button primary" href="/my-pass/">Open My Pass</a></div>`
+          ? `${TrapHouse.renderPassCard(pass, { hideLink: true, publicView: true })}<div class="cta-row"><a class="button primary" href="/my-pass/">Open My Pass</a><a class="button" href="/map/">Open Map</a></div>`
           : "<div class='notice error active'><strong>No pass found.</strong><p>Use Check Pass to look it up by Trap Pass ID or email.</p></div>";
         return;
       }
@@ -67,7 +76,7 @@
       }
 
       output.innerHTML = result?.verified && result.public_summary
-        ? `${TrapHouse.renderPassCard(result.public_summary, { hideLink: true })}<div class="cta-row"><a class="button primary" href="/my-pass/">Open My Pass</a></div>`
+        ? `${TrapHouse.renderPassCard(result.public_summary, { hideLink: true, publicView: true })}<div class="cta-row"><a class="button primary" href="/my-pass/">Open My Pass</a><a class="button" href="/map/">Open Map</a></div>`
         : "<div class='notice error active'><strong>Pass token was not verified.</strong><p>The public profile may still be available by Trap Pass ID. No private account fields were exposed.</p></div><div class='cta-row'><a class='button primary' href='/check-pass/'>Check Pass</a></div>";
     }
 

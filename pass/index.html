@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Trap Pass Profile | The Trap House</title>
-  <link rel="stylesheet" href="/styles.css?v=launch-ready-3" />
+  <title>Trap Pass Verified | IHOCAIHAG</title>
+  <meta name="description" content="Public Trap Pass verification without private account details." />
+  <link rel="stylesheet" href="/styles.css?v=emergency-rescue-2" />
 </head>
 <body>
   <header class="topbar">
-    <nav class="site-shell nav">
-      <a class="brand" href="/"><strong>Public Pass Profile</strong><span>No private email shown</span></a>
+    <nav class="site-shell nav canonical-nav">
+      <a class="brand" href="/"><strong>IHOCAIHAG</strong><span>Public pass verification.</span></a>
       <div class="nav-links">
         <a href="/">Home</a>
         <a href="/map/">Map</a>
@@ -19,6 +20,7 @@
         <a href="/store/">Store</a>
         <a href="/about/">About</a>
       </div>
+      <a class="button danger nav-utility" data-pass-utility href="/trap-pass/">Get Trap Pass</a>
     </nav>
   </header>
 
@@ -27,16 +29,18 @@
       <div class="section-head">
         <div>
           <span class="eyebrow">Verified Pass</span>
-          <h1>Trap Pass Summary</h1>
+          <h1>Trap Pass Verified</h1>
         </div>
-        <p>Public Trap Pass summary. Email, private notes, and account-only details stay hidden.</p>
+        <p>This page verifies the pass without showing private account details.</p>
       </div>
       <div id="passProfile"></div>
     </section>
   </main>
 
-  <script src="/config.js?v=launch-ready-3"></script>
-  <script src="/trap-pass-system.js?v=launch-ready-3"></script>
+  <footer class="footer"></footer>
+
+  <script src="/config.js?v=emergency-rescue-2"></script>
+  <script src="/trap-pass-system.js?v=emergency-rescue-2"></script>
   <script>
     async function renderProfile() {
       const params = new URLSearchParams(window.location.search);
@@ -45,8 +49,14 @@
       const id = params.get("id") || pathParts[1] || currentPass?.trap_pass_id;
       const pass = id ? await TrapHouse.setCurrentPassAsync(id) : currentPass;
       document.getElementById("passProfile").innerHTML = pass
-        ? TrapHouse.renderPassCard(pass, { hideLink: true })
+        ? `${TrapHouse.renderPassCard(pass, { hideLink: true, publicView: true })}<div class="cta-row"><a class="button primary" href="/map/">Open Map</a><a class="button" href="/trap-pass/">Get Your Pass</a><a class="button danger" href="/trap-house/">Join Trap House</a></div>`
         : "<div class='notice error active'><strong>No public pass found.</strong><p>Claim a pass first, then open its profile link.</p></div>";
+
+      const utility = document.querySelector("[data-pass-utility]");
+      if (utility && TrapHouse.getCurrentPass()) {
+        utility.textContent = "My Pass";
+        utility.href = "/my-pass/";
+      }
     }
 
     renderProfile().catch(() => {

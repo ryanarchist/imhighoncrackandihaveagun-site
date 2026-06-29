@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>My Pass | IHOCAIHAG</title>
   <meta name="description" content="Your Trap Pass dashboard for selected pass details, public pass link, map, Trap House, upgrades, and billing path." />
-  <link rel="stylesheet" href="/styles.css?v=emergency-rescue-1" />
+  <link rel="stylesheet" href="/styles.css?v=emergency-rescue-2" />
 </head>
 <body>
   <header class="topbar">
@@ -38,7 +38,7 @@
           <span class="eyebrow">Your Trap Pass</span>
           <h1>Your Trap Pass</h1>
         </div>
-        <p>Open your card, check the public proof, and head back into the house.</p>
+        <p>This is your key. Keep it close.</p>
       </div>
       <div class="grid two">
         <div class="panel" style="padding: 18px;">
@@ -54,7 +54,7 @@
           <div id="myPassNotice" class="notice"></div>
           <div class="cta-row" style="margin-top: 18px;">
             <a class="button" href="/trap-pass/">Claim Pass</a>
-            <a class="button" href="/wallet/">Legacy Wallet</a>
+            <a class="button" href="/map/">Open Map</a>
           </div>
         </div>
         <div id="myPassOutput" class="panel" style="padding: 18px;">
@@ -77,8 +77,10 @@
     </section>
   </main>
 
-  <script src="/config.js?v=emergency-rescue-1"></script>
-  <script src="/trap-pass-system.js?v=emergency-rescue-1"></script>
+  <footer class="footer"></footer>
+
+  <script src="/config.js?v=emergency-rescue-2"></script>
+  <script src="/trap-pass-system.js?v=emergency-rescue-2"></script>
   <script>
     const output = document.getElementById("myPassOutput");
     const notice = document.getElementById("myPassNotice");
@@ -89,7 +91,23 @@
         return;
       }
       const safe = TrapHouse.publicPass(pass);
-      output.innerHTML = `${TrapHouse.renderPassCard(pass)}<div class="cta-row"><a class="button primary" href="${safe.public_url}">View Public Pass</a><a class="button" href="/trap-house/">Join Trap House</a><a class="button" href="/store/#cash-for-trash">Upgrade Pass</a></div>`;
+        output.innerHTML = `
+          ${TrapHouse.renderPassCard(pass, { hideLink: true })}
+          <div class="cta-row">
+            <a class="button primary" href="${safe.public_url}">View Public Pass</a>
+            <button class="button" type="button" data-copy-pass-id="${safe.trap_pass_id}">Copy Pass ID</button>
+            <a class="button" href="/trap-house/">Join Trap House</a>
+            <a class="button" href="/map/">Open Map</a>
+            <a class="button" href="/store/#cash-for-trash">Upgrade Pass</a>
+            <a class="button" href="/trap-pass/#claim">Edit Display Name</a>
+            <a class="button" href="/billing/">Manage Billing</a>
+          </div>
+        `;
+        output.querySelector("[data-copy-pass-id]")?.addEventListener("click", async (event) => {
+          const button = event.currentTarget;
+          await navigator.clipboard?.writeText(button.dataset.copyPassId || "");
+          button.textContent = "Pass ID Copied";
+        });
     }
 
     renderPass(TrapHouse.getCurrentPass());
