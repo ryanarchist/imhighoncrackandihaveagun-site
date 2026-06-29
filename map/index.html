@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Map | IHOCAIHAG</title>
+  <meta name="description" content="The IHOCAIHAG map turns clips, rooms, chapters, songs, objects, passes, and drops into connected story threads." />
+  <link rel="stylesheet" href="/styles.css?v=emergency-rescue-1" />
+</head>
+<body>
+  <header class="topbar">
+    <nav class="site-shell nav canonical-nav">
+      <a class="brand" href="/"><strong>IHOCAIHAG</strong><span>The website is the map.</span></a>
+      <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/map/" aria-current="page">Map</a>
+        <a href="/drops/">Official Drops</a>
+        <a href="/trap-pass/">Trap Pass</a>
+        <a href="/trap-house/">Trap House</a>
+        <a href="/store/">Store</a>
+        <a href="/about/">About</a>
+      </div>
+      <a class="button danger nav-utility" data-pass-utility href="/trap-pass/">Get Trap Pass</a>
+    </nav>
+  </header>
+
+  <nav class="mobile-bottom-nav" aria-label="Mobile quick navigation">
+    <a href="/map/" aria-current="page">Map</a>
+    <a href="/drops/">Drops</a>
+    <a href="/trap-pass/">Pass</a>
+    <a href="/trap-house/">Trap House</a>
+  </nav>
+
+  <section class="page-hero threads-hero">
+    <img src="/assets/trap-house/threads-map-board-new.png" alt="Thread map board showing the project connections" />
+    <div class="site-shell page-hero-lockup">
+      <span class="eyebrow">The Map</span>
+      <h1>Every Room Is Connected By A Wire</h1>
+      <p class="lead">Every clip, object, chapter, song, room, and pass connects to a thread. The map turns the archive from scattered chaos into a story engine.</p>
+      <div class="cta-row">
+        <a class="button primary" href="/threads/">Open Thread Board</a>
+        <a class="button" href="/room-map/">Open Room Map</a>
+        <a class="button danger" href="/trap-pass/">Get Trap Pass</a>
+      </div>
+    </div>
+  </section>
+
+  <main class="site-shell">
+    <section class="section">
+      <div class="section-head">
+        <div><span class="eyebrow">Major Thread Zones</span><h2>The Board</h2></div>
+        <p>Unfinished rooms should feel like sealed evidence folders, not broken pages.</p>
+      </div>
+      <div class="grid four">
+        <article class="card"><span class="tag">00</span><h3>January 22 / Origin</h3><p>The blast crater every wire keeps routing back through.</p><a class="button" href="/threads/#january-22">Open Thread</a></article>
+        <article class="card"><span class="tag">01</span><h3>Addiction Machine</h3><p>Ritual, money, shame, panic, time, repetition, and compulsion.</p><a class="button" href="/threads/#addiction-machine">Open Thread</a></article>
+        <article class="card"><span class="tag">02</span><h3>Psychosis / Pattern Loop</h3><p>Signs, roof logic, fear, sleep loss, and reality bending.</p><a class="button" href="/threads/#psychosis-loop">Open Thread</a></article>
+        <article class="card"><span class="tag">03</span><h3>Grief / Loss</h3><p>The locked room underneath everything.</p><a class="button" href="/threads/#grief-loss">Open Thread</a></article>
+        <article class="card"><span class="tag">04</span><h3>Cats / Home / Tenderness</h3><p>Proof that love survived inside the wreckage.</p><a class="button" href="/threads/#cats-home-tenderness">Open Thread</a></article>
+        <article class="card"><span class="tag">05</span><h3>Writing Inside The Fire</h3><p>The book, captions, notes, songs, and documentary being made from inside the collapse.</p><a class="button" href="/threads/#writing-inside-the-fire">Open Thread</a></article>
+        <article class="card"><span class="tag">06</span><h3>System Mirror</h3><p>Addiction-like reward logic scaled into platforms, money, power, and more-more-more.</p><a class="button" href="/threads/#system-mirror">Open Thread</a></article>
+        <article class="card"><span class="tag">07</span><h3>Trap Pass Lore</h3><p>The access key, receipt, holder status, and proof layer.</p><a class="button" href="/threads/#trap-pass-lore">Open Thread</a></article>
+      </div>
+    </section>
+
+    <section class="section split-feature reverse">
+      <div class="panel feature-copy">
+        <span class="eyebrow">Thread Pages</span>
+        <h2>Open The Full Board</h2>
+        <p class="lead">The existing interactive thread board remains the working map engine.</p>
+        <p class="sublead">This canonical route gives new visitors a clear front door before they hit deeper thread logic.</p>
+        <div class="cta-row">
+          <a class="button primary" href="/threads/">Open Full Thread Board</a>
+          <a class="button" href="/drops/">Watch Official Drops</a>
+        </div>
+      </div>
+      <div class="asset-frame">
+        <img src="/assets/trap-house/threads-map-board.png" alt="Alternate thread board archive visual" />
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="site-shell"><span>The website is the map.</span><a href="/trap-pass/">Get Trap Pass</a></div>
+  </footer>
+
+  <script src="/config.js?v=emergency-rescue-1"></script>
+  <script src="/trap-pass-system.js?v=emergency-rescue-1"></script>
+  <script>
+    const utility = document.querySelector("[data-pass-utility]");
+    if (utility && window.TrapHouse?.getCurrentPass?.()) {
+      utility.textContent = "My Pass";
+      utility.href = "/my-pass/";
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About | IHOCAIHAG</title>
+  <meta name="description" content="About IHOCAIHAG, a self-documented addiction archive becoming a book, raw documentary, soundtrack, website, Trap House, and Trap Pass system." />
+  <link rel="stylesheet" href="/styles.css?v=emergency-rescue-1" />
+</head>
+<body>
+  <header class="topbar">
+    <nav class="site-shell nav canonical-nav">
+      <a class="brand" href="/"><strong>IHOCAIHAG</strong><span>About the project.</span></a>
+      <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/map/">Map</a>
+        <a href="/drops/">Official Drops</a>
+        <a href="/trap-pass/">Trap Pass</a>
+        <a href="/trap-house/">Trap House</a>
+        <a href="/store/">Store</a>
+        <a href="/about/" aria-current="page">About</a>
+      </div>
+      <a class="button danger nav-utility" data-pass-utility href="/trap-pass/">Get Trap Pass</a>
+    </nav>
+  </header>
+
+  <nav class="mobile-bottom-nav" aria-label="Mobile quick navigation">
+    <a href="/map/">Map</a>
+    <a href="/drops/">Drops</a>
+    <a href="/trap-pass/">Pass</a>
+    <a href="/trap-house/">Trap House</a>
+  </nav>
+
+  <section class="page-hero project-hero">
+    <img src="/assets/trap-house/author-bio-poster.png" alt="Ryan Homanics author and documentarian bio poster" />
+    <div class="site-shell page-hero-lockup">
+      <span class="eyebrow">About</span>
+      <h1>This Is Not A Recovery Commercial</h1>
+      <p class="lead">This is a self-documented addiction archive. It became a book, raw documentary, soundtrack, website, Trap House, and Trap Pass system.</p>
+      <div class="cta-row">
+        <a class="button primary" href="/map/">Open The Map</a>
+        <a class="button danger" href="/drops/">Watch Official Drops</a>
+      </div>
+    </div>
+  </section>
+
+  <main class="site-shell">
+    <section class="section">
+      <div class="section-head">
+        <div><span class="eyebrow">Plain English</span><h2>What Is IHOCAIHAG?</h2></div>
+        <p>A raw documentary/art/archive project about addiction, psychosis, grief, survival, systems, unsafe behavior, and trying to build something permanent out of the wreckage.</p>
+      </div>
+      <div class="system-board">
+        <article><span>01</span><h3>Why It Is Raw</h3><p>The archive comes from inside the mess, not from a clean room afterward.</p></article>
+        <article><span>02</span><h3>Why It Exists</h3><p>To make people understand addiction from the inside, then recognize the same logic everywhere.</p></article>
+        <article><span>03</span><h3>Where To Start</h3><p>Watch the official drops, open the map, then claim a Trap Pass if you want to carry a key.</p></article>
+        <article><span>04</span><h3>What It Is Not</h3><p>Not a threat, not a drug-use endorsement, not a firearm-use endorsement, not a how-to, and not a challenge.</p></article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="notice active launch-warning">
+        <strong>DISCLAIMER</strong>
+        <p>This is documentary/art/archive material about addiction, psychosis, grief, survival, systems, and unsafe behavior. It is not instruction, not medical advice, not a challenge, and not encouragement to imitate anything shown.</p>
+        <p>SAMHSA National Helpline: 1-800-662-4357</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="site-shell"><span>Real people. Real pain. Real story.</span><a href="/trap-pass/">Get Trap Pass</a></div>
+  </footer>
+
+  <script src="/config.js?v=emergency-rescue-1"></script>
+  <script src="/trap-pass-system.js?v=emergency-rescue-1"></script>
+  <script>
+    const utility = document.querySelector("[data-pass-utility]");
+    if (utility && window.TrapHouse?.getCurrentPass?.()) {
+      utility.textContent = "My Pass";
+      utility.href = "/my-pass/";
+    }
+  </script>
+</body>
+</html>

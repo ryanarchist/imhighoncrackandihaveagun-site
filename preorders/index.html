@@ -3,39 +3,43 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Preorders | IHOCAIHAG</title>
-  <link rel="stylesheet" href="/styles.css?v=stripe-sessions-1" />
+  <title>Store | IHOCAIHAG</title>
+  <link rel="stylesheet" href="/styles.css?v=emergency-rescue-1" />
 </head>
 <body>
   <header class="topbar">
-    <nav class="site-shell nav">
-      <a class="brand" href="/"><strong>Preorders</strong><span>Passes / packs / shirts</span></a>
+    <nav class="site-shell nav canonical-nav">
+      <a class="brand" href="/"><strong>Store</strong><span>Proof / passes / drops</span></a>
       <div class="nav-links">
-        <a href="/project/">Project</a>
-        <a href="/threads/">Threads</a>
-        <a href="/documentary/">Documentary</a>
+        <a href="/">Home</a>
+        <a href="/map/">Map</a>
+        <a href="/drops/">Official Drops</a>
         <a href="/book/">Book</a>
-        <a href="/dopesick/">Dopesick</a>
-        <a href="/archive-terminal/">Archive</a>
         <a href="/trap-pass/">Trap Pass</a>
-        <a href="/trap-pass-phases/">Phases</a>
-        <a href="/preorders/" aria-current="page">Preorders</a>
-        <a href="/check-pass/">Check Pass</a>
-        <a href="/discord/">Discord</a>
+        <a href="/trap-house/">Trap House</a>
+        <a href="/store/" aria-current="page">Store</a>
+        <a href="/about/">About</a>
       </div>
     </nav>
   </header>
+
+  <nav class="mobile-bottom-nav" aria-label="Mobile quick navigation">
+    <a href="/map/">Map</a>
+    <a href="/drops/">Drops</a>
+    <a href="/trap-pass/">Pass</a>
+    <a href="/trap-house/">Trap House</a>
+  </nav>
 
   <section class="page-hero preorder-hero">
     <img src="/assets/trap-house/trap-pass-system-3-ways.png" alt="The new Trap Pass system: free, paid, and physical access" />
     <div class="site-shell page-hero-lockup">
       <span class="eyebrow">Direct Store / Trap Pass Access</span>
-      <h1>Preorders Live Here</h1>
-      <p class="lead">Pick your entry point: digital access, book object, merch, physical pass, monthly membership, or the full collector pack.</p>
+      <h1>The Store</h1>
+      <p class="lead">Physical proof, first-run access, archive bundles, shirts, passes, books, and official drops.</p>
       <div class="cta-row">
         <a class="button primary" href="#store">Open Store</a>
         <a class="button" href="/trap-pass/">Check Trap Pass</a>
-        <a class="button danger" href="/discord/">Enter Discord</a>
+        <a class="button danger" href="/trap-house/">Enter Trap House</a>
       </div>
     </div>
   </section>
@@ -63,7 +67,7 @@
       </div>
 
       <div class="checkout-grid">
-        <article class="checkout-card premium">
+        <article class="checkout-card premium" id="handy-sass">
           <span class="store-number">01</span>
           <h3>THE og cRaCk paCk</h3>
           <p>Physical preorder bundle for the collector layer: book, documentary access, physical proof, and project extras.</p>
@@ -115,7 +119,7 @@
           <button class="button" data-checkout-product="hardcover_preorder">Preorder Book</button>
         </article>
 
-        <article class="checkout-card premium">
+        <article class="checkout-card premium" id="cash-for-trash">
           <span class="store-number">05</span>
           <h3>Handy Sass Trap Pass</h3>
           <p>Physical Trap Pass holder status with a mailed collectible card and pass-linked archive identity.</p>
@@ -182,7 +186,7 @@
     </div>
   </footer>
 
-  <script src="/config.js?v=stripe-sessions-1"></script>
-  <script src="/checkout.js?v=stripe-sessions-1"></script>
+  <script src="/config.js?v=emergency-rescue-1"></script>
+  <script src="/checkout.js?v=emergency-rescue-1"></script>
 </body>
 </html>

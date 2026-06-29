@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Pass | IHOCAIHAG</title>
+  <meta name="description" content="Your Trap Pass dashboard for selected pass details, public pass link, map, Trap House, upgrades, and billing path." />
+  <link rel="stylesheet" href="/styles.css?v=emergency-rescue-1" />
+</head>
+<body>
+  <header class="topbar">
+    <nav class="site-shell nav canonical-nav">
+      <a class="brand" href="/"><strong>IHOCAIHAG</strong><span>Your Trap Pass.</span></a>
+      <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/map/">Map</a>
+        <a href="/drops/">Official Drops</a>
+        <a href="/trap-pass/">Trap Pass</a>
+        <a href="/trap-house/">Trap House</a>
+        <a href="/store/">Store</a>
+        <a href="/about/">About</a>
+      </div>
+      <a class="button danger nav-utility" href="/my-pass/" aria-current="page">My Pass</a>
+    </nav>
+  </header>
+
+  <nav class="mobile-bottom-nav" aria-label="Mobile quick navigation">
+    <a href="/map/">Map</a>
+    <a href="/drops/">Drops</a>
+    <a href="/trap-pass/" aria-current="page">Pass</a>
+    <a href="/trap-house/">Trap House</a>
+  </nav>
+
+  <main class="site-shell">
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Your Trap Pass</span>
+          <h1>One Clean Pass Dashboard</h1>
+        </div>
+        <p>This page shows your selected pass without exposing email, Stripe IDs, shipping, internal database IDs, private Discord metadata, or webhook state.</p>
+      </div>
+      <div class="grid two">
+        <div class="panel" style="padding: 18px;">
+          <form id="myPassLookupForm" class="form-grid">
+            <div class="field full">
+              <label for="myPassLookup">Trap Pass ID Or Email</label>
+              <input id="myPassLookup" name="lookup" type="text" placeholder="NB-0100 or you@example.com" autocomplete="off" />
+            </div>
+            <div class="field full">
+              <button class="primary" type="submit">Find My Pass</button>
+            </div>
+          </form>
+          <div id="myPassNotice" class="notice"></div>
+          <div class="cta-row" style="margin-top: 18px;">
+            <a class="button" href="/trap-pass/">Claim Pass</a>
+            <a class="button" href="/wallet/">Legacy Wallet</a>
+          </div>
+        </div>
+        <div id="myPassOutput" class="panel" style="padding: 18px;">
+          <p class="fineprint">Your selected Trap Pass appears here.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div><span class="eyebrow">Actions</span><h2>What You Can Do Next</h2></div>
+        <p>The private account model is still staged, so this page keeps actions simple and routes into existing working surfaces.</p>
+      </div>
+      <div class="grid four">
+        <a class="card" href="/map/"><span class="tag">Map</span><h3>Open Map</h3><p>Follow the threads attached to the project.</p></a>
+        <a class="card" href="/trap-house/"><span class="tag">Room</span><h3>Join Trap House</h3><p>Enter the live room when you are ready.</p></a>
+        <a class="card" href="/store/#cash-for-trash"><span class="tag">Upgrade</span><h3>Upgrade Pass</h3><p>Open the Stripe-backed store path.</p></a>
+        <a class="card" href="/billing/"><span class="tag">Billing</span><h3>Manage Billing</h3><p>Use Stripe for billing self-service when the portal endpoint is connected.</p></a>
+      </div>
+    </section>
+  </main>
+
+  <script src="/config.js?v=emergency-rescue-1"></script>
+  <script src="/trap-pass-system.js?v=emergency-rescue-1"></script>
+  <script>
+    const output = document.getElementById("myPassOutput");
+    const notice = document.getElementById("myPassNotice");
+
+    function renderPass(pass) {
+      if (!pass) {
+        output.innerHTML = "<p class='fineprint'>No pass selected yet.</p>";
+        return;
+      }
+      const safe = TrapHouse.publicPass(pass);
+      output.innerHTML = `${TrapHouse.renderPassCard(pass)}<div class="cta-row"><a class="button primary" href="${safe.public_url}">View Public Pass</a><a class="button" href="/trap-house/">Join Trap House</a><a class="button" href="/store/#cash-for-trash">Upgrade Pass</a></div>`;
+    }
+
+    renderPass(TrapHouse.getCurrentPass());
+
+    document.getElementById("myPassLookupForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const query = new FormData(event.currentTarget).get("lookup");
+      try {
+        const pass = await TrapHouse.setCurrentPassAsync(query);
+        if (!pass) {
+          notice.className = "notice error active";
+          notice.innerHTML = "<strong>No pass found.</strong><p>Claim one first or check the ID again.</p>";
+          renderPass(null);
+          return;
+        }
+        notice.className = "notice active";
+        notice.innerHTML = "<strong>Trap Pass selected.</strong><p>Your public-safe pass dashboard is loaded.</p>";
+        renderPass(pass);
+      } catch (error) {
+        notice.className = "notice error active";
+        notice.innerHTML = "<strong>Lookup failed.</strong><p>The pass system could not check storage. Try again in a minute.</p>";
+      }
+    });
+  </script>
+</body>
+</html>

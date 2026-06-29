@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Official Drops | IHOCAIHAG</title>
+  <meta name="description" content="Official IHOCAIHAG drops live on YouTube: mini docs, archive cuts, trailers, soundtrack pieces, and documentary drops." />
+  <link rel="stylesheet" href="/styles.css?v=emergency-rescue-1" />
+</head>
+<body>
+  <header class="topbar">
+    <nav class="site-shell nav canonical-nav">
+      <a class="brand" href="/"><strong>IHOCAIHAG</strong><span>Official drop zone.</span></a>
+      <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/map/">Map</a>
+        <a href="/drops/" aria-current="page">Official Drops</a>
+        <a href="/trap-pass/">Trap Pass</a>
+        <a href="/trap-house/">Trap House</a>
+        <a href="/store/">Store</a>
+        <a href="/about/">About</a>
+      </div>
+      <a class="button danger nav-utility" data-pass-utility href="/trap-pass/">Get Trap Pass</a>
+    </nav>
+  </header>
+
+  <nav class="mobile-bottom-nav" aria-label="Mobile quick navigation">
+    <a href="/map/">Map</a>
+    <a href="/drops/" aria-current="page">Drops</a>
+    <a href="/trap-pass/">Pass</a>
+    <a href="/trap-house/">Trap House</a>
+  </nav>
+
+  <section class="page-hero doc-hero">
+    <img src="/assets/trap-house/documentary-dvd-cover.png" alt="IHOCAIHAG documentary DVD style cover" />
+    <div class="site-shell page-hero-lockup">
+      <span class="eyebrow">Official Drops</span>
+      <h1>Official Drops Live On YouTube</h1>
+      <p class="lead">Mini docs, archive cuts, trailers, soundtrack pieces, and documentary drops live here first.</p>
+      <div class="cta-row">
+        <a class="button danger" data-official-link="youtube" href="https://www.youtube.com/@imhighoncrackandihaveagun">Subscribe On YouTube</a>
+        <a class="button primary" href="/map/">Open The Map</a>
+        <a class="button" href="/trap-pass/">Get Trap Pass</a>
+      </div>
+    </div>
+  </section>
+
+  <main class="site-shell">
+    <section class="section">
+      <div class="section-head">
+        <div><span class="eyebrow">Broadcast Tower</span><h2>What Drops Here</h2></div>
+        <p>Each drop routes back into the map so clips do not become disconnected shock fragments.</p>
+      </div>
+      <div class="media-grid">
+        <article class="media-card"><span class="tag">Mini Doc</span><h3>Mini Doc 1</h3><p>Dropping soon. The first public documentary cut should point new viewers back to the map.</p><strong>soon</strong></article>
+        <article class="media-card"><span class="tag">Archive Cut</span><h3>Evidence Clips</h3><p>Short cuts with thread tags, safety framing, and clear context.</p><strong>thread tagged</strong></article>
+        <article class="media-card"><span class="tag">Soundtrack</span><h3>Soundtrack Pieces</h3><p>Music, score, sketches, and audio memory from inside the project.</p><strong>IHOCAIHAG</strong></article>
+        <article class="media-card"><span class="tag">Trailer</span><h3>Trailer Path</h3><p>The public entrance for the book, raw documentary, soundtrack, and archive world.</p><strong>public</strong></article>
+      </div>
+    </section>
+
+    <section class="section split-feature">
+      <div class="asset-frame">
+        <img src="/assets/trap-house/archive-channel-spread.png" alt="Archive channel spread for official drops" />
+      </div>
+      <div class="panel feature-copy">
+        <span class="eyebrow">Drop Logic</span>
+        <h2>Watch, Then Follow The Wire</h2>
+        <p class="lead">The video is the spark. The map is where the spark becomes a story.</p>
+        <p class="sublead">Every drop should carry a thread tag and a next action: open the map, claim a pass, or enter the Trap House.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="site-shell"><span>YouTube is the official drop zone.</span><a data-official-link="youtube" href="https://www.youtube.com/@imhighoncrackandihaveagun">Subscribe</a></div>
+  </footer>
+
+  <script src="/config.js?v=emergency-rescue-1"></script>
+  <script src="/trap-pass-system.js?v=emergency-rescue-1"></script>
+  <script>
+    const utility = document.querySelector("[data-pass-utility]");
+    if (utility && window.TrapHouse?.getCurrentPass?.()) {
+      utility.textContent = "My Pass";
+      utility.href = "/my-pass/";
+    }
+  </script>
+</body>
+</html>

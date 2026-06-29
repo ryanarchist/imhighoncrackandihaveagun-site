@@ -3,37 +3,74 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Trap Pass Terminal | The Trap House</title>
-  <link rel="stylesheet" href="/styles.css?v=launch-ready-3" />
+  <title>Trap Pass | The Trap House</title>
+  <link rel="stylesheet" href="/styles.css?v=emergency-rescue-1" />
 </head>
 <body>
   <header class="topbar">
-    <nav class="site-shell nav">
-      <a class="brand" href="/"><strong>Trap Pass Terminal</strong><span>Digital access key</span></a>
+    <nav class="site-shell nav canonical-nav">
+      <a class="brand" href="/"><strong>IHOCAIHAG</strong><span>Trap Pass key.</span></a>
       <div class="nav-links">
-        <a href="/project/">Project</a>
-        <a href="/threads/">Threads</a>
-        <a href="/documentary/">Documentary</a>
-        <a href="/book/">Book</a>
-        <a href="/dopesick/">Dopesick</a>
-        <a href="/archive-terminal/">Archive</a>
+        <a href="/">Home</a>
+        <a href="/map/">Map</a>
+        <a href="/drops/">Official Drops</a>
         <a href="/trap-pass/" aria-current="page">Trap Pass</a>
-        <a href="/trap-pass-phases/">Phases</a>
-        <a href="/preorders/">Preorders</a>
-        <a href="/check-pass/">Check Pass</a>
-        <a href="/discord/">Discord</a>
+        <a href="/trap-house/">Trap House</a>
+        <a href="/store/">Store</a>
+        <a href="/about/">About</a>
       </div>
+      <a class="button danger nav-utility" href="/my-pass/">My Pass</a>
     </nav>
   </header>
+
+  <nav class="mobile-bottom-nav" aria-label="Mobile quick navigation">
+    <a href="/map/">Map</a>
+    <a href="/drops/">Drops</a>
+    <a href="/trap-pass/" aria-current="page">Pass</a>
+    <a href="/trap-house/">Trap House</a>
+  </nav>
 
   <main class="site-shell">
     <section class="section">
       <div class="section-head">
         <div>
-          <span class="eyebrow">Claim The Key</span>
-          <h1>Get Your Digital Trap Pass</h1>
+          <span class="eyebrow">Current Wave: Gen 2 Wave 1 - No Brakes</span>
+          <h1>Get Your Trap Pass</h1>
         </div>
-        <p>Trap Passes are collectible access keys tied to waves of the project. They mark when someone entered the house and can unlock hidden rooms, early drops, discounts, Discord roles, lore, missions, and deeper archive access.</p>
+        <p>Choose how you want to enter. Wave is when you entered. Tier is how deep you can go. The pass is your key.</p>
+      </div>
+      <div class="grid three">
+        <article class="checkout-card">
+          <span class="store-number">Free</span>
+          <h3>Free Pass</h3>
+          <p>Step inside. Email updates, first access to announcements, and proof you entered the map.</p>
+          <strong class="price-tag">$0</strong>
+          <a class="button primary" href="#claim">Claim Free Pass</a>
+        </article>
+        <article class="checkout-card premium">
+          <span class="store-number">CFT</span>
+          <h3>Cash For Trash Trap Pass</h3>
+          <p>Exclusive drops, deeper archive access, early content, collectible status, voting, and private Discord channel access.</p>
+          <strong class="price-tag">$4.99 / month</strong>
+          <a class="button primary" href="/store/#cash-for-trash">Upgrade To Cash For Trash</a>
+        </article>
+        <article class="checkout-card premium">
+          <span class="store-number">HS</span>
+          <h3>Handy Sass Trap Pass</h3>
+          <p>Mailed collectible card, physical proof you were here, serialized holder status, autograph path, and premium access identity.</p>
+          <strong class="price-tag">$39.99</strong>
+          <a class="button primary" href="/store/#handy-sass">Get Handy Sass</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="claim">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Claim Form</span>
+          <h2>Claim Free Pass</h2>
+        </div>
+        <p>Only email is required. Display name and Discord username are optional. No thread keys, admin codes, pass phrases, or backend IDs.</p>
       </div>
       <div class="grid two">
         <div class="panel" style="padding: 18px;">
@@ -49,10 +86,6 @@
             <div class="field">
               <label for="discordUsername">Discord Username</label>
               <input id="discordUsername" name="discordUsername" type="text" placeholder="@username" />
-            </div>
-            <div class="field full">
-              <label for="threadKeys">Thread Keys Optional</label>
-              <input id="threadKeys" name="threadKeys" type="text" placeholder="trap-pass-lore, public-project-witness" />
             </div>
             <div class="field full">
               <button class="primary" type="submit">Claim Trap Pass</button>
@@ -73,8 +106,8 @@
           <div class="meta-list">
             <div><span>Default Role</span><strong>No Brakes</strong></div>
             <div><span>Status</span><strong>Active</strong></div>
-            <div><span>Unlock</span><strong>Level 1</strong></div>
-          <div><span>Access Data</span><strong>Shareable</strong></div>
+            <div><span>Access</span><strong>Level 1</strong></div>
+            <div><span>Public View</span><strong>Shareable</strong></div>
           </div>
         </div>
       </div>
@@ -88,7 +121,7 @@
         <span class="eyebrow">Physical Feel / Digital Key</span>
         <h2>No Brakes Is Proof You Were Here</h2>
         <p class="lead">Gen 2 Wave 1 is built to feel like proof you were here when the next wave opened.</p>
-        <p class="sublead">The digital pass carries the same logic as the physical object: wave, serial, role, unlock level, thread keys, missions, room access, and proof badges.</p>
+        <p class="sublead">The digital pass carries the same logic as the physical object: wave, serial, role, access level, thread routes, missions, room access, and proof badges.</p>
         <div class="cta-row">
           <a class="button primary" href="/check-pass/">Check Your Pass</a>
           <a class="button" href="/threads/">See The Threads</a>
@@ -100,7 +133,7 @@
     <section class="section">
       <div class="notice active">
         <strong>No Private Fields</strong>
-        <span>Public pass views never expose private account fields. Emails, wallet addresses, private notes, and private system data stay hidden.</span>
+        <span>Public pass views show only shareable details: pass ID, wave, role, rooms, proof badges, and phase. Emails, wallet addresses, private notes, and account-only details stay hidden.</span>
       </div>
     </section>
 
@@ -110,7 +143,7 @@
           <span class="eyebrow">Confirmation Output</span>
           <h2>Your Pass Appears Here</h2>
         </div>
-        <p>Save the ID, then use Check Your Pass, the Pass Terminal, or the public summary page. Public pass views never expose private account fields.</p>
+        <p>Save the ID, then use Check Your Pass, the Trap Pass Wallet, or the public summary page. Public pass views stay shareable.</p>
       </div>
       <div id="createdPassOutput" class="panel" style="padding: 18px;">
         <p class="fineprint">No pass claimed yet in this session.</p>
@@ -125,8 +158,8 @@
     </div>
   </footer>
 
-  <script src="/config.js?v=launch-ready-3"></script>
-  <script src="/trap-pass-system.js?v=launch-ready-3"></script>
+  <script src="/config.js?v=emergency-rescue-1"></script>
+  <script src="/trap-pass-system.js?v=emergency-rescue-1"></script>
   <script>
     const output = document.getElementById("createdPassOutput");
     const current = TrapHouse.getCurrentPass();
@@ -148,8 +181,7 @@
         const result = await TrapHouse.createTrapPassAsync({
           email: form.get("email"),
           displayName: form.get("displayName"),
-          discordUsername: form.get("discordUsername"),
-          threadKeys: form.get("threadKeys")
+          discordUsername: form.get("discordUsername")
         });
         notice.className = "notice active";
         notice.innerHTML = result.existed

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Trap House | IHOCAIHAG</title>
+  <meta name="description" content="The Trap House is the live room for IHOCAIHAG: Discord, pass roles, drop reactions, archive work, and thread rooms." />
+  <link rel="stylesheet" href="/styles.css?v=emergency-rescue-1" />
+</head>
+<body>
+  <header class="topbar">
+    <nav class="site-shell nav canonical-nav">
+      <a class="brand" href="/"><strong>IHOCAIHAG</strong><span>The live room.</span></a>
+      <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/map/">Map</a>
+        <a href="/drops/">Official Drops</a>
+        <a href="/trap-pass/">Trap Pass</a>
+        <a href="/trap-house/" aria-current="page">Trap House</a>
+        <a href="/store/">Store</a>
+        <a href="/about/">About</a>
+      </div>
+      <a class="button danger nav-utility" data-pass-utility href="/trap-pass/">Get Trap Pass</a>
+    </nav>
+  </header>
+
+  <nav class="mobile-bottom-nav" aria-label="Mobile quick navigation">
+    <a href="/map/">Map</a>
+    <a href="/drops/">Drops</a>
+    <a href="/trap-pass/">Pass</a>
+    <a href="/trap-house/" aria-current="page">Trap House</a>
+  </nav>
+
+  <section class="discord-masthead">
+    <div class="site-shell discord-lockup">
+      <img class="discord-logo" src="/assets/trap-house/trap-house-discord-logo.png" alt="The Trap House Discord logo" />
+      <div>
+        <span class="eyebrow">The Trap House</span>
+        <h1>The Trap House Is The Live Room</h1>
+        <p class="lead">The site keeps the map organized. Discord is where pass holders, readers, watchers, and archive witnesses gather while the project unfolds.</p>
+        <div class="cta-row">
+          <a class="button danger" data-discord-link href="/discord/">Join Discord</a>
+          <a class="button primary" href="/trap-pass/">Claim Pass First</a>
+          <a class="button" href="/my-pass/">My Pass</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main class="site-shell">
+    <section class="section">
+      <div class="section-head">
+        <div><span class="eyebrow">Room Categories</span><h2>What Happens Inside</h2></div>
+        <p>Discord is optional for launch. The basic site and pass flow still work without making people connect Discord first.</p>
+      </div>
+      <div class="system-board">
+        <article><span>01</span><h3>Announcements</h3><p>Major drops, site changes, pass waves, and project updates.</p></article>
+        <article><span>02</span><h3>Drop Reactions</h3><p>People react to clips, covers, merch, and documentary moments as they happen.</p></article>
+        <article><span>03</span><h3>Thread Rooms</h3><p>Each major story wire gets a room so reactions feed the map.</p></article>
+        <article><span>04</span><h3>Pass Roles</h3><p>Trap Pass holders can verify status and map roles later.</p></article>
+        <article><span>05</span><h3>Archive Work</h3><p>Clips, transcript pulls, contact sheets, and evidence walls get sorted.</p></article>
+        <article><span>06</span><h3>Heavy Rooms</h3><p>Rawer material stays behind clearer rules and context.</p></article>
+      </div>
+    </section>
+
+    <section class="section split-feature reverse">
+      <div class="panel feature-copy">
+        <span class="eyebrow">Phase 1</span>
+        <h2>Discord Complexity Does Not Block Launch</h2>
+        <p class="lead">Claim a pass without Discord. Add a Discord username optionally. Connect OAuth and automated role mapping later.</p>
+        <p class="sublead">The public route is simple: join the room, claim a pass, open the map.</p>
+      </div>
+      <div class="asset-frame">
+        <img src="/assets/trap-house/trap-house-live-invite-poster.png" alt="The Trap House live invite poster" />
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="site-shell"><span>The Trap House is the live room.</span><a href="/discord/">Open legacy Discord page</a></div>
+  </footer>
+
+  <script src="/config.js?v=emergency-rescue-1"></script>
+  <script src="/trap-pass-system.js?v=emergency-rescue-1"></script>
+  <script>
+    const utility = document.querySelector("[data-pass-utility]");
+    if (utility && window.TrapHouse?.getCurrentPass?.()) {
+      utility.textContent = "My Pass";
+      utility.href = "/my-pass/";
+    }
+  </script>
+</body>
+</html>
