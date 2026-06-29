@@ -4,24 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Check Your Trap Pass | The Trap House</title>
-  <link rel="stylesheet" href="/styles.css?v=launch-ready-3" />
+  <link rel="stylesheet" href="/styles.css?v=public-clean-2" />
 </head>
 <body>
   <header class="topbar">
     <nav class="site-shell nav">
       <a class="brand" href="/"><strong>Check Your Pass</strong><span>Recover your key</span></a>
       <div class="nav-links">
-        <a href="/project/">Project</a>
-        <a href="/threads/">Threads</a>
-        <a href="/documentary/">Documentary</a>
-        <a href="/book/">Book</a>
-        <a href="/dopesick/">Dopesick</a>
-        <a href="/archive-terminal/">Archive</a>
+        <a href="/">Home</a>
+        <a href="/map/">Map</a>
+        <a href="/drops/">Official Drops</a>
         <a href="/trap-pass/">Trap Pass</a>
-        <a href="/trap-pass-phases/">Phases</a>
-        <a href="/preorders/">Preorders</a>
-        <a href="/check-pass/" aria-current="page">Check Pass</a>
-        <a href="/discord/">Discord</a>
+        <a href="/trap-house/">Trap House</a>
+        <a href="/store/">Store</a>
+        <a href="/about/">About</a>
       </div>
     </nav>
   </header>
@@ -55,8 +51,8 @@
     </section>
   </main>
 
-  <script src="/config.js?v=launch-ready-3"></script>
-  <script src="/trap-pass-system.js?v=launch-ready-3"></script>
+  <script src="/config.js?v=public-clean-2"></script>
+  <script src="/trap-pass-system.js?v=public-clean-2"></script>
   <script>
     document.getElementById("lookupForm").addEventListener("submit", async (event) => {
       event.preventDefault();
@@ -68,7 +64,7 @@
         pass = await TrapHouse.setCurrentPassAsync(query);
       } catch (error) {
         notice.className = "notice error active";
-        notice.innerHTML = "<strong>Lookup failed.</strong><p>The pass terminal could not check storage. Try again in a minute.</p>";
+        notice.innerHTML = "<strong>Lookup failed.</strong><p>The Trap Pass Wallet could not check storage. Try again in a minute.</p>";
         output.innerHTML = "<p class='fineprint'>Try again or check the ID.</p>";
         return;
       }
@@ -79,8 +75,8 @@
         return;
       }
       notice.className = "notice active";
-      notice.innerHTML = "<strong>Trap Pass found.</strong><p>This pass is now selected for hidden-room checks and the Pass Terminal.</p>";
-      output.innerHTML = `${TrapHouse.renderPassCard(pass)}<div class="cta-row"><a class="button primary" href="/wallet/">Open Pass Terminal</a></div>`;
+          notice.innerHTML = "<strong>Trap Pass found.</strong><p>This pass is now selected for your Trap Pass Wallet.</p>";
+      output.innerHTML = `${TrapHouse.renderPassCard(pass)}<div class="cta-row"><a class="button primary" href="/wallet/">Open Trap Pass Wallet</a></div>`;
     });
   </script>
 </body>

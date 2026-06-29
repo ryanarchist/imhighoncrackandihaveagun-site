@@ -4,21 +4,22 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Checkout Complete | IHOCAIHAG</title>
-  <link rel="stylesheet" href="/styles.css?v=stripe-sessions-1" />
+  <link rel="stylesheet" href="/styles.css?v=emergency-rescue-1" />
 </head>
 <body>
   <header class="topbar">
-    <nav class="site-shell nav">
+    <nav class="site-shell nav canonical-nav">
       <a class="brand" href="/"><strong>Checkout</strong><span>Receipt / access / status</span></a>
       <div class="nav-links">
-        <a href="/project/">Project</a>
-        <a href="/threads/">Threads</a>
-        <a href="/archive-terminal/">Archive</a>
+        <a href="/">Home</a>
+        <a href="/map/">Map</a>
+        <a href="/drops/">Official Drops</a>
         <a href="/trap-pass/">Trap Pass</a>
-        <a href="/preorders/">Preorders</a>
-        <a href="/check-pass/">Check Pass</a>
-        <a href="/discord/">Discord</a>
+        <a href="/trap-house/">Trap House</a>
+        <a href="/store/">Store</a>
+        <a href="/about/">About</a>
       </div>
+      <a class="button danger nav-utility" href="/trap-pass/">Get Trap Pass</a>
     </nav>
   </header>
 
@@ -26,13 +27,13 @@
     <section class="section split-feature">
       <div class="panel feature-copy">
         <span class="eyebrow">Checkout Complete</span>
-        <h1>Receipt Logged. Access Is Being Verified.</h1>
-        <p class="lead">Stripe received the checkout. The site grants digital access, serials, shipping records, and subscription status from the verified webhook, not from the browser.</p>
-        <p class="sublead">Your Stripe receipt should arrive by email. If this was a Trap Pass purchase, the pass record is created after payment verification finishes.</p>
+        <h1>Payment Received. Your Receipt Is On The Way.</h1>
+        <p class="lead">Stripe received the checkout. Digital access and pass status update after payment is verified.</p>
+        <p class="sublead">Your Stripe receipt should arrive by email. If this was a Trap Pass purchase, check your pass again in a minute.</p>
         <div class="cta-row">
           <a class="button primary" href="/check-pass/">Check Pass</a>
-          <a class="button" href="/preorders/">Back To Store</a>
-          <a class="button danger" href="/discord/">Enter Discord</a>
+          <a class="button" href="/store/">Back To Store</a>
+          <a class="button danger" href="/trap-house/">Enter Trap House</a>
         </div>
       </div>
       <div class="asset-frame poster-fit">
@@ -43,7 +44,7 @@
 
   <footer class="footer">
     <div class="site-shell">
-      <span>Webhook-verified access only.</span>
+      <span>Payment-verified access only.</span>
       <span>Keep your receipt email.</span>
     </div>
   </footer>

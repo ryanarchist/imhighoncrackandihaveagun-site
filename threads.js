@@ -30,7 +30,7 @@
         <p>${safe(thread.summary)}</p>
         <p class="thread-role">${safe((thread.feeds || []).length ? `Feeds: ${thread.feeds.map((id) => nodesById.get(id)?.title || id).join(", ")}` : "Role: ending convergence")}</p>
         <div class="chip-list">
-          <span class="role-chip">Phase ${safe(thread.pass_phase)}</span>
+          <span class="role-chip">Signal ${safe(thread.pass_phase)}</span>
           ${thread.heavy ? '<span class="role-chip">Heavy Context</span>' : ""}
         </div>
       </article>
@@ -81,7 +81,7 @@
       <p class="lead">${safe(model.origin.summary)}</p>
       <div class="cta-row">
         <a class="button primary" href="/trap-pass/">Get Trap Pass</a>
-        <a class="button" href="/trap-pass-phases/">Pass Phases</a>
+        <a class="button" href="/trap-pass/">Trap Pass</a>
         <a class="button" href="/discord/">Enter Discord</a>
       </div>
     `;
@@ -97,8 +97,8 @@
       <p class="sublead">${safe(model.book.body)}</p>
       <p class="sublead">${safe(model.book.footer)}</p>
       <div class="cta-row">
-        <a class="button primary" href="/book/">Open The Book Room</a>
-        <a class="button" href="/preorders/">Preorders</a>
+        <a class="button primary" href="/book/">Open The Book</a>
+        <a class="button" href="/store/">Store</a>
       </div>
     `;
   }
@@ -215,7 +215,7 @@
         <p class="lead">Select one thread to inspect it. Select a second thread to cross them.</p>
         <p class="sublead">${safe(model.manifesto)}</p>
         <div class="thread-inspector-meter">
-          <span>System Status</span>
+          <span>Board Status</span>
           <strong>12 wires loaded</strong>
         </div>
       `;
@@ -227,7 +227,7 @@
     const body = special?.body || (second ? `${first.summary} ${second.summary}` : "");
     const relationship = special?.relationship || (second ? `${nodeTitle(first)} crosses ${nodeTitle(second)}` : nodeTitle(first));
     const discord = special?.discord || `#${first.channel || model.origin.channel}${second ? ` / #${second.channel || model.origin.channel}` : ""}`;
-    const passPhase = special?.pass_phase || `${first.pass_phase || "origin"}${second ? ` / ${second.pass_phase || "origin"}` : ""}`;
+    const passSignal = special?.pass_phase || `${first.pass_phase || "origin"}${second ? ` / ${second.pass_phase || "origin"}` : ""}`;
     const feeds = special?.feeds || (directFeeds.map((thread) => thread.title).join(", ") || "Ending convergence");
     mount.innerHTML = `
       <span class="eyebrow">${second ? "Crossing" : "Selected Thread"}</span>
@@ -241,7 +241,7 @@
       <div class="framework-list">
         <div class="framework-row meta-row"><strong>Relationship</strong><span>${safe(relationship)}</span></div>
         <div class="framework-row meta-row"><strong>Discord</strong><span>${safe(discord)}</span></div>
-        <div class="framework-row meta-row"><strong>Pass Phase</strong><span>${safe(passPhase)}</span></div>
+        <div class="framework-row meta-row"><strong>Pass Signal</strong><span>${safe(passSignal)}</span></div>
         <div class="framework-row meta-row"><strong>Feeds</strong><span>${safe(feeds)}</span></div>
       </div>
     `;

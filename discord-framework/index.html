@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex,nofollow" />
-  <title>Discord House Map | The Trap House</title>
+  <title>Trap House Setup | IHOCAIHAG</title>
   <script>
     (function () {
       const localHosts = new Set(["localhost", "127.0.0.1", "::1", ""]);
@@ -13,29 +13,25 @@
       }
     })();
   </script>
-  <link rel="stylesheet" href="/styles.css?v=launch-ready-3" />
+  <link rel="stylesheet" href="/styles.css?v=emergency-rescue-1" />
 </head>
 <body>
   <header class="topbar">
-    <nav class="site-shell nav">
-      <a class="brand with-mark" href="/discord/">
+    <nav class="site-shell nav canonical-nav">
+      <a class="brand with-mark" href="/trap-house/">
         <img class="nav-logo" src="/assets/trap-house/trap-house-discord-logo.png" alt="" />
-        <span><strong>Discord House Map</strong><span>Roles / rooms / pass access</span></span>
+        <span><strong>Trap House Setup</strong><span>Roles / channels / pass access</span></span>
       </a>
       <div class="nav-links">
-        <a href="/project/">Project</a>
-        <a href="/threads/">Threads</a>
-        <a href="/book/">Book</a>
-        <a href="/dopesick/">Dopesick</a>
-        <a href="/documentary/">Documentary</a>
-        <a href="/archive-terminal/">Archive</a>
+        <a href="/">Home</a>
+        <a href="/map/">Map</a>
+        <a href="/drops/">Official Drops</a>
         <a href="/trap-pass/">Trap Pass</a>
-        <a href="/trap-pass-phases/">Phases</a>
-        <a href="/preorders/">Preorders</a>
-        <a href="/check-pass/">Check Pass</a>
-        <a href="/wallet/">Pass Terminal</a>
-        <a href="/discord/">Discord</a>
+        <a href="/trap-house/">Trap House</a>
+        <a href="/store/">Store</a>
+        <a href="/about/">About</a>
       </div>
+      <a class="button danger nav-utility" href="/trap-pass/">Get Trap Pass</a>
     </nav>
   </header>
 
@@ -43,9 +39,9 @@
     <div class="site-shell discord-lockup">
       <img class="discord-logo" src="/assets/trap-house/trap-house-discord-logo.png" alt="The Trap House Discord logo" />
       <div>
-        <span class="eyebrow">The Room Map</span>
+        <span class="eyebrow">Trap House Setup</span>
         <h1>The Discord House</h1>
-        <p class="lead">A complete channel, role, thread, pass, and house-rule map for The Trap House.</p>
+        <p class="lead">A complete channel, role, thread, pass, and house-rule guide for The Trap House.</p>
       </div>
     </div>
   </section>
@@ -56,13 +52,13 @@
         <div><span class="eyebrow">House Rules</span><h2 id="serverName">The Trap House</h2></div>
         <p id="rulesSummary">Loading the grimey house rules...</p>
       </div>
-      <div class="terminal" id="serverTerminal"></div>
+      <div class="panel" id="serverPanel" style="padding: 18px;"></div>
     </section>
 
     <section class="section">
       <div class="section-head">
-        <div><span class="eyebrow">Categories</span><h2>Rooms Inside The Room</h2></div>
-        <p>Each category is meant to match a place or function on the website so the server never feels disconnected from the map.</p>
+        <div><span class="eyebrow">Categories</span><h2>Trap House Categories</h2></div>
+        <p>Each category gives the community a clear place for drops, reactions, pass roles, and archive work.</p>
       </div>
       <div id="categoryMount" class="framework-list"></div>
     </section>
@@ -74,7 +70,7 @@
       <div class="panel feature-copy">
         <span class="eyebrow">Launch Bridge</span>
         <h2>The Door Opens From Discord Into The Site</h2>
-        <p class="lead">Discord launch, new website, revamped Trap Passes, hidden rooms, early drops, and archive access all meet at this door.</p>
+        <p class="lead">Discord launch, new website, revamped Trap Passes, locked drops, early drops, and archive access all meet at this door.</p>
         <p class="sublead">This is the public announcement piece for the moment the house opens.</p>
       </div>
     </section>
@@ -82,7 +78,7 @@
     <section class="section">
       <div class="section-head">
         <div><span class="eyebrow">Roles</span><h2>Keys And Status</h2></div>
-        <p>Roles unlock rooms, identify waves, and make each member feel like part of a living archive.</p>
+        <p>Roles mark access, identify waves, and make each member feel like part of a living archive.</p>
       </div>
       <div id="roleMount" class="grid four"></div>
     </section>
@@ -90,7 +86,7 @@
     <section class="section">
       <div class="section-head">
         <div><span class="eyebrow">Pass Verifier</span><h2>Verify Trap Pass</h2></div>
-        <p>Verify a Trap Pass ID, map roles and rooms, and return a public summary without exposing private account fields.</p>
+        <p>Verify a Trap Pass ID, map roles and access, and return a public summary without exposing private account fields.</p>
       </div>
       <div class="grid two">
         <div class="panel" style="padding: 18px;">
@@ -105,11 +101,11 @@
           </form>
           <p class="fineprint" style="margin-top: 12px;">Public summaries hide private account fields and private system data.</p>
         </div>
-        <div class="terminal">
-          <p>&gt; /trap-pass verify = roles + channels + website rooms</p>
-          <p>&gt; /trap-pass profile = public fields only</p>
-          <p>&gt; private_data = withheld</p>
-          <p>&gt; discord_roles = ready to map</p>
+        <div class="panel" style="padding: 18px;">
+          <p>Trap Pass verify: roles, channels, and website drops.</p>
+          <p>Trap Pass profile: public fields only.</p>
+          <p>Private account details stay withheld.</p>
+          <p>Discord roles are ready to map.</p>
         </div>
       </div>
       <div data-discord-verify-output style="margin-top: 18px;"></div>
@@ -117,8 +113,8 @@
 
     <section class="section">
       <div class="section-head">
-        <div><span class="eyebrow">House Commands</span><h2>Room Automation</h2></div>
-        <p>Trap Pass verification, mission drops, archive status, clip voting, and thread map posts all connect the room back to the site.</p>
+        <div><span class="eyebrow">House Commands</span><h2>House Automation</h2></div>
+        <p>Trap Pass verification, mission drops, archive status, clip voting, and thread map posts all tie Trap House activity back to the project.</p>
       </div>
       <div id="commandMount" class="framework-list"></div>
     </section>
@@ -146,9 +142,9 @@
     </section>
   </main>
 
-  <script src="/config.js?v=launch-ready-3"></script>
-  <script src="/trap-pass-system.js?v=launch-ready-3"></script>
-  <script src="/discord-verifier.js?v=launch-ready-3"></script>
+  <script src="/config.js?v=emergency-rescue-1"></script>
+  <script src="/trap-pass-system.js?v=emergency-rescue-1"></script>
+  <script src="/discord-verifier.js?v=emergency-rescue-1"></script>
   <script>
     function row(left, middle, right) {
       return `
@@ -163,11 +159,11 @@
     function render(framework) {
       document.getElementById("serverName").textContent = framework.server.name;
       document.getElementById("rulesSummary").textContent = framework.server.rules_summary;
-      document.getElementById("serverTerminal").innerHTML = `
-        <p>&gt; server = ${TrapHouse.escapeHTML(framework.server.name)}</p>
-        <p>&gt; motto = ${TrapHouse.escapeHTML(framework.server.motto)}</p>
-        <p>&gt; rules_version = ${TrapHouse.escapeHTML(framework.server.rules_version)}</p>
-        <p>&gt; house_map = roles + rooms + threads</p>
+      document.getElementById("serverPanel").innerHTML = `
+        <p><strong>${TrapHouse.escapeHTML(framework.server.name)}</strong></p>
+        <p>${TrapHouse.escapeHTML(framework.server.motto)}</p>
+        <p>Rules version: ${TrapHouse.escapeHTML(framework.server.rules_version)}</p>
+        <p>House guide: roles, channels, and threads.</p>
       `;
       document.getElementById("categoryMount").innerHTML = framework.categories.map((category) => `
         <article class="panel" style="padding: 18px;">
@@ -196,7 +192,7 @@
       .then((response) => response.json())
       .then(render)
       .catch((error) => {
-        document.getElementById("serverTerminal").innerHTML = `<p>&gt; room_map_status = unavailable</p>`;
+        document.getElementById("serverPanel").innerHTML = `<p>Trap House setup is unavailable.</p>`;
       });
   </script>
 </body>

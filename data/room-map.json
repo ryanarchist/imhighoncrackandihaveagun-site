@@ -1,14 +1,14 @@
 {
-  "title": "The Room Map",
-  "motto": "The website is the map. The Discord is the room. The Trap Pass gets you deeper inside.",
+  "title": "The Thread Map",
+  "motto": "The website is the map. The Trap House is the live room. The Trap Pass gets you deeper inside.",
   "scenes": [
     {
       "id": "lineup",
-      "name": "Author Profile Room",
+      "name": "Author Profile Map",
       "image": "/assets/trap-house/author-profile-room-paradise-oblivion.png",
       "aspect": "1607 / 1204",
-      "alt": "Author profile room with figure stations, shelves, flags, cats, a notebook reading Paradise or Oblivion, and project objects.",
-      "description": "The room is the author profile: each figure is a different shareable part of Ryan's story, surrounded by the archive, the cats, the shelves, the pressure, and the floor-note fork between paradise and oblivion.",
+      "alt": "Author profile map with figure stations, shelves, flags, cats, a notebook reading Paradise or Oblivion, and project objects.",
+      "description": "The profile map collects different shareable parts of Ryan's story, surrounded by the archive, the cats, the shelves, the pressure, and the floor-note fork between paradise and oblivion.",
       "hotspots": [
         {
           "id": "shock-title-figure",
@@ -25,8 +25,8 @@
           "label": "Archive Spark",
           "x": 17,
           "y": 47,
-          "story": "This station turns spectacle into record: the strange outfit, the cats, the visual joke, and the evidence-machine energy of building a project out of scattered footage.",
-          "route": "/archive-terminal/",
+          "story": "This station turns spectacle into record: the strange outfit, the cats, the visual joke, and the energy of building a project out of scattered footage.",
+          "route": "/archive/",
           "discord": "#archive-drops",
           "unlock": "Public"
         },
@@ -82,10 +82,10 @@
         },
         {
           "id": "black-mask-figure",
-          "label": "Back Room Figure",
+          "label": "Deep File Figure",
           "x": 91,
           "y": 48,
-          "story": "The black-mask station is the deeper-house route: hidden rooms, Discord missions, archive witnesses, and the parts that only make sense after someone understands the map.",
+          "story": "The black-mask station is the deeper-house route: locked drops, Trap House work, archive witnesses, and the parts that only make sense after someone understands the map.",
           "route": "/discord/",
           "discord": "#the-real-situation-room",
           "unlock": "Public"
@@ -95,7 +95,7 @@
           "label": "Cats / Home Signal",
           "x": 88,
           "y": 61,
-          "story": "The cats are not decoration. They are the home signal, the tenderness thread, and the proof that softness survived inside a room built from hard material.",
+          "story": "The cats are not decoration. They are the home signal, the tenderness thread, and the proof that softness survived inside hard material.",
           "route": "/threads/",
           "discord": "#my-eyes-your-eyes",
           "unlock": "Public"
@@ -105,7 +105,7 @@
           "label": "Spoken-Word TV",
           "x": 50,
           "y": 14,
-          "story": "The background screen is reserved for the spoken-word room intro. Once Ryan drops the clip, it becomes the room's voice before visitors start picking up the figures.",
+          "story": "The background screen is reserved for the spoken-word intro. Once Ryan drops the clip, it becomes the voice before visitors start picking up the figures.",
           "route": "/documentary/",
           "discord": "#archive-drops",
           "unlock": "Public"
@@ -125,7 +125,7 @@
           "label": "Paradise Or Oblivion Notebook",
           "x": 47,
           "y": 83,
-          "story": "The floor notebook is the thesis in object form: every room asks whether the same evidence becomes collapse or construction, oblivion or something built to last.",
+          "story": "The floor notebook is the thesis in object form: every thread asks whether the same evidence becomes collapse or construction, oblivion or something built to last.",
           "route": "/threads/",
           "discord": "#thread-self-destruction",
           "unlock": "Public"
@@ -176,7 +176,7 @@
           "x": 79,
           "y": 26,
           "story": "The public video pipe: trailers, shorts, archive clips, channel updates, and the main funnel back to the room.",
-          "route": "/archive-terminal/",
+          "route": "/archive/",
           "discord": "#archive-drops",
           "unlock": "Public"
         }
@@ -206,7 +206,7 @@
           "x": 42,
           "y": 58,
           "story": "The books anchor the whole project in authorship instead of spectacle. The shelf can become a chapter map, excerpt vault, and proof wall.",
-          "route": "/archive-terminal/",
+          "route": "/archive/",
           "discord": "#book-lines",
           "unlock": "Trap Pass"
         },

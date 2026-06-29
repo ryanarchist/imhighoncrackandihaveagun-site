@@ -1,5 +1,5 @@
 {
-  "title": "Trap Pass Phases",
+  "title": "Trap Pass Guide",
   "summary": "The Trap Pass starts as a key, then becomes a role mapper, thread tracker, mission proof object, public summary, and future access signal.",
   "hero_asset": "/assets/trap-house/trap-house-url-poster.png",
   "phases": [
@@ -20,7 +20,7 @@
       "title": "Claim The Key",
       "status": "built",
       "primary_role": "Trap Pass Holder",
-      "summary": "Trap Pass ID, wave, serial, public summary, Pass Terminal, role mapping, and hidden-room checks.",
+      "summary": "Trap Pass ID, wave, serial, public summary, proof status, and holder role.",
       "channels": ["living-room", "trap-pass-counter", "the-map-on-the-wall"],
       "site_routes": ["/trap-pass/", "/check-pass/", "/pass/"],
       "unlock_signal": "Create or recover a Trap Pass."
@@ -33,7 +33,7 @@
       "primary_role": "Trashcan Fam",
       "summary": "The pass carries thread affinity so the holder is not just a member; they are tied to a force inside the project.",
       "channels": ["thread-trap-pass-lore", "thread-addiction-machine", "thread-cats-home"],
-      "site_routes": ["/threads/", "/trap-pass-phases/"],
+      "site_routes": ["/threads/", "/trap-pass/"],
       "unlock_signal": "Choose or inherit thread keys on the pass."
     },
     {
@@ -44,7 +44,7 @@
       "primary_role": "Clip Hunter",
       "summary": "Missions, quote pulls, clip votes, proof posts, and proof baggies begin changing the pass state.",
       "channels": ["clip-reactions", "quote-the-madness", "thumbnail-court", "caption-lab"],
-      "site_routes": ["/mission-board/", "/check-pass/", "/archive-terminal/"],
+      "site_routes": ["/mission-board/", "/check-pass/", "/archive/"],
       "unlock_signal": "Complete at least one mission."
     },
     {
@@ -53,18 +53,18 @@
       "title": "Archive Witness",
       "status": "built",
       "primary_role": "Archivist",
-      "summary": "Higher-trust holders help sort evidence, thread clips, room objects, and archive drops into the correct story wires.",
+      "summary": "Higher-trust holders help sort evidence, thread clips, archive objects, and drops into the correct story wires.",
       "channels": ["archive-dives", "doc-war-room", "new-drops"],
-      "site_routes": ["/archive-terminal/", "/evidence-locker/", "/room-map/"],
+      "site_routes": ["/archive/", "/evidence-locker/", "/map/"],
       "unlock_signal": "Unlock Level 2 or higher."
     },
     {
       "level": 5,
-      "id": "back-rooms",
-      "title": "Back Rooms",
+      "id": "proof-ready",
+      "title": "Proof Ready",
       "status": "mapped",
       "primary_role": "Patreon Back Room",
-      "summary": "Special rooms for Day One witnesses, Patreon back-room access, heavier context, early drops, and deeper archive notes.",
+      "summary": "Special access for Day One witnesses, Patreon supporters, heavier context, early drops, and deeper archive notes.",
       "channels": ["day-one-dirt-witnesses", "patreon-back-room", "heavy-room", "not-a-challenge"],
       "site_routes": ["/og-scum-file/", "/the-loop/"],
       "unlock_signal": "Manual role, Patreon role, or high unlock level."
@@ -72,13 +72,13 @@
     {
       "level": 6,
       "id": "metadata-ready",
-      "title": "Metadata Ready",
+      "title": "Proof Ready",
       "status": "mapped",
-      "primary_role": "Inner Room",
-      "summary": "Shareable pass summary for bots, role mapping, profiles, and future access without exposing email or private account fields.",
+      "primary_role": "Inner Circle",
+      "summary": "Shareable pass summary for profiles and future access without exposing email or account-only details.",
       "channels": ["trap-pass-counter", "broken-glass-report"],
-      "site_routes": ["/trap-pass-phases/", "/check-pass/"],
-      "unlock_signal": "Public summary can feed role mapping, profiles, and future access."
+      "site_routes": ["/trap-pass/", "/check-pass/"],
+      "unlock_signal": "Public summary can support profiles and future access."
     }
   ]
 }

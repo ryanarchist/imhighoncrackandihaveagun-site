@@ -7,10 +7,10 @@
   "patreon_candidates": 588,
   "documentary_candidates": 616,
   "private_review_required": 31,
-  "current_hunter": "public candidates, cold opens, and thread convergence",
-  "latest_batch": "thread, clip, transcript, and visual indexing",
-  "next_pass": "Ryan review of public candidates, cold opens, and locked review material",
-  "discord_channel": "#ai-archive-status",
-  "source_notes": "Archive processing verified from recent transcript, clip, thread, and visual-indexing summaries.",
+  "active_focus": "public candidates, cold opens, and thread convergence",
+  "recent_sort": "thread, clip, transcript, and visual indexing",
+  "next_review": "Ryan review of public candidates, cold opens, and held review material",
+  "community_note": "archive status updates are shared inside the Trap House",
+  "source_notes": "Archive sorting verified from recent transcript, clip, thread, and visual-indexing summaries.",
   "updated_at": "2026-06-12T19:50:19-04:00"
 }

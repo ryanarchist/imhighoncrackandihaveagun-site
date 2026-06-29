@@ -3,46 +3,106 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="refresh" content="0; url=/archive-terminal/" />
-  <link rel="canonical" href="/archive-terminal/" />
-  <title>Archive | The Trap House</title>
-  <link rel="stylesheet" href="/styles.css?v=launch-ready-3" />
+  <title>The Archive | IHOCAIHAG</title>
+  <meta name="description" content="The IHOCAIHAG archive gathers footage, transcripts, screenshots, notes, scene changes, captions, songs, and visual fragments." />
+  <link rel="stylesheet" href="/styles.css?v=emergency-rescue-1" />
 </head>
 <body>
   <header class="topbar">
-    <nav class="site-shell nav">
-      <a class="brand" href="/"><strong>Archive</strong><span>Evidence machine</span></a>
+    <nav class="site-shell nav canonical-nav">
+      <a class="brand" href="/"><strong>IHOCAIHAG</strong><span>Footage / notes / clips / proof.</span></a>
       <div class="nav-links">
-        <a href="/project/">Project</a>
-        <a href="/threads/">Threads</a>
-        <a href="/documentary/">Documentary</a>
-        <a href="/book/">Book</a>
-        <a href="/dopesick/">Dopesick</a>
-        <a href="/archive-terminal/" aria-current="page">Archive</a>
+        <a href="/">Home</a>
+        <a href="/map/">Map</a>
+        <a href="/drops/">Official Drops</a>
         <a href="/trap-pass/">Trap Pass</a>
-        <a href="/trap-pass-phases/">Phases</a>
-        <a href="/preorders/">Preorders</a>
-        <a href="/check-pass/">Check Pass</a>
-        <a href="/discord/">Discord</a>
+        <a href="/trap-house/">Trap House</a>
+        <a href="/store/">Store</a>
+        <a href="/about/">About</a>
       </div>
+      <a class="button danger nav-utility" data-pass-utility href="/trap-pass/">Get Trap Pass</a>
     </nav>
   </header>
 
+  <nav class="mobile-bottom-nav" aria-label="Mobile quick navigation">
+    <a href="/map/">Map</a>
+    <a href="/drops/">Drops</a>
+    <a href="/trap-pass/">Pass</a>
+    <a href="/trap-house/">Trap House</a>
+  </nav>
+
+  <section class="page-hero archive-hero">
+    <img src="/assets/trap-house/archive-channel-spread.png" alt="Archive spread for IHOCAIHAG footage, notes, and proof" />
+    <div class="site-shell page-hero-lockup">
+      <span class="eyebrow">The Archive</span>
+      <h1>The Evidence Did Not Disappear</h1>
+      <p class="lead">Footage, transcripts, screenshots, notes, scene changes, captions, songs, and visual fragments are being sorted into the threads that keep coming back.</p>
+      <div class="cta-row">
+        <a class="button primary" href="/map/">Open The Map</a>
+        <a class="button danger" href="/drops/">Watch Official Drops</a>
+        <a class="button" href="/trap-pass/">Get Trap Pass</a>
+      </div>
+    </div>
+  </section>
+
   <main class="site-shell">
     <section class="section">
-      <div class="terminal">
-        <p>&gt; archive_route = opening evidence machine</p>
-        <p>&gt; destination = /archive-terminal/</p>
-        <p>&gt; status = redirecting</p>
+      <div class="section-head">
+        <div><span class="eyebrow">Footage / Notes / Clips / Proof</span><h2>The Archive Is Being Sorted Piece By Piece</h2></div>
+        <p>The archive is being sorted piece by piece: transcripts, clip pulls, visual samples, scene changes, notes, and the fragments that keep pointing back to the same story.</p>
       </div>
-      <div class="cta-row" style="margin-top: 18px;">
-        <a class="button primary" href="/archive-terminal/">Open Archive Terminal</a>
+      <div class="stats-grid">
+        <article><strong>2,029</strong><span>Transcripts scanned</span></article>
+        <article><strong>1,184</strong><span>Clip candidates pulled</span></article>
+        <article><strong>476</strong><span>Visual samples indexed</span></article>
+        <article><strong>142</strong><span>Scene-change frames marked</span></article>
+      </div>
+    </section>
+
+    <section class="section split-feature reverse">
+      <div class="panel feature-copy">
+        <span class="eyebrow">Deeper Files</span>
+        <h2>Some Pulls Stay Behind The Pass</h2>
+        <p class="lead">Some raw pulls, unfinished cuts, and behind-the-build drops are held for pass holders while the archive keeps getting sorted.</p>
+        <div class="cta-row">
+          <a class="button primary" href="/trap-pass/">Get Trap Pass</a>
+          <a class="button" href="/map/">Open The Map</a>
+        </div>
+      </div>
+      <div class="asset-frame poster-fit">
+        <img src="/assets/trap-house/trap-pass-gen2-wave1-no-brakes.png" alt="No Brakes Trap Pass card on the archive table" />
+      </div>
+    </section>
+
+    <section class="section split-feature">
+      <div class="asset-frame">
+        <img src="/assets/trap-house/book-full-spread.png" alt="Book, pass, and archive objects becoming physical proof" />
+      </div>
+      <div class="panel feature-copy">
+        <span class="eyebrow">Physical Archive</span>
+        <h2>The Evidence Becomes Physical</h2>
+        <p class="lead">Books, passes, shirts, figures, labels, shelf pieces, and collector files turn the archive into something you can hold.</p>
+        <p class="sublead">Not random merch. Proof from the same dirt pile.</p>
+        <div class="cta-row">
+          <a class="button primary" href="/store/">Open Store</a>
+          <a class="button" href="/trap-pass/">Get Trap Pass</a>
+        </div>
       </div>
     </section>
   </main>
 
+  <footer class="footer">
+    <div class="site-shell"><span>Footage, notes, clips, proof.</span><a href="/map/">Open The Map</a></div>
+  </footer>
+
+  <script src="/config.js?v=emergency-rescue-1"></script>
+  <script src="/trap-pass-system.js?v=emergency-rescue-1"></script>
   <script>
-    window.location.replace("/archive-terminal/" + window.location.search + window.location.hash);
+    const utility = document.querySelector("[data-pass-utility]");
+    if (utility && window.TrapHouse?.getCurrentPass?.()) {
+      utility.textContent = "My Pass";
+      utility.href = "/my-pass/";
+    }
   </script>
 </body>
 </html>

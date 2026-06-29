@@ -1,5 +1,5 @@
 {
-  "status": "official_links_confirmed_by_ryan_2026-06-18",
+  "status": "official_links_confirmed_by_ryan_2026-06-27",
   "website": {
     "label": "Website",
     "url": "https://imhighoncrackandihaveagun.com",
@@ -12,32 +12,50 @@
   },
   "instagram": {
     "label": "Instagram",
+    "handle": "@ihocaihag",
     "url": "https://www.instagram.com/ihocaihag/",
-    "confidence": "confirmed_by_ryan_2026-06-18"
+    "confidence": "confirmed_by_ryan_2026-06-27"
   },
   "tiktok": {
     "label": "TikTok",
+    "handle": "@ihocaihagofficial",
     "url": "https://www.tiktok.com/@ihocaihagofficial",
-    "confidence": "confirmed_by_ryan_2026-06-18"
+    "confidence": "confirmed_by_ryan_2026-06-27"
+  },
+  "threads": {
+    "label": "Threads",
+    "handle": "@ihocaihag",
+    "url": "https://www.threads.net/@ihocaihag",
+    "confidence": "confirmed_by_ryan_2026-06-27"
   },
   "youtube": {
     "label": "YouTube",
+    "handle": "@imhighoncrackandihaveagun",
     "url": "https://www.youtube.com/@imhighoncrackandihaveagun",
-    "confidence": "confirmed_by_ryan_2026-06-18"
+    "confidence": "confirmed_by_ryan_2026-06-27"
   },
   "x": {
     "label": "X",
+    "handle": "@comradejizzy",
     "url": "https://x.com/comradejizzy",
-    "confidence": "confirmed_by_ryan_2026-06-18"
+    "confidence": "confirmed_by_ryan_2026-06-27"
   },
   "patreon": {
     "label": "Patreon",
-    "url": "https://www.patreon.com/c/IMHIGHONCRACKANDIHAVEAGUN",
-    "confidence": "confirmed_by_ryan_2026-06-18"
+    "handle": "patreon.com/IMHIGHONCRACKANDIHAVEAGUN",
+    "url": "https://www.patreon.com/IMHIGHONCRACKANDIHAVEAGUN",
+    "confidence": "confirmed_by_ryan_2026-06-27"
   },
   "spotify": {
     "label": "Spotify",
+    "handle": "IHOCAIHAG",
     "url": "https://open.spotify.com/artist/7GUAmAkkpLLESm0Fig1NWZ",
     "confidence": "confirmed_by_ryan_2026-06-18"
+  },
+  "appleMusic": {
+    "label": "Apple Music",
+    "handle": "IHOCAIHAG",
+    "url": "https://music.apple.com/search?term=IHOCAIHAG",
+    "confidence": "artist_name_confirmed_by_ryan_2026-06-27"
   }
 }

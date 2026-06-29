@@ -5,7 +5,7 @@
   const buttons = Array.from(document.querySelectorAll("[data-checkout-product]"));
   const statusNodes = Array.from(document.querySelectorAll("[data-checkout-status]"));
   const emailInput = document.querySelector("[data-checkout-email]");
-  const stagedMessage = "Paid checkout is not open yet. Free Trap Pass claiming and pass checks are live.";
+  const checkoutClosedMessage = "Paid checkout is not open yet. Free Trap Pass claiming and pass checks are live.";
 
   function setStatus(message, tone) {
     statusNodes.forEach((node) => {
@@ -38,7 +38,7 @@
       button.setAttribute("aria-disabled", "true");
       button.setAttribute("aria-busy", "false");
     });
-    setStatus(message || stagedMessage, tone || "pending");
+    setStatus(message || checkoutClosedMessage, tone || "pending");
   }
 
   function enableCheckout() {
@@ -47,7 +47,7 @@
       button.removeAttribute("aria-disabled");
       button.setAttribute("aria-busy", "false");
     });
-    setStatus("Secure checkout through Stripe. Access and pass status update after payment is verified.", "ready");
+    setStatus("Secure checkout through Stripe. Digital access and pass status update after payment is verified.", "ready");
   }
 
   async function refreshCheckoutReadiness() {
@@ -70,7 +70,7 @@
       console.warn("Checkout health check failed:", error);
     }
 
-    disableCheckout(stagedMessage, "pending");
+    disableCheckout(checkoutClosedMessage, "pending");
     return false;
   }
 

@@ -45,14 +45,14 @@
 
   const hiddenRooms = {
     room: {
-      title: "The Room",
+      title: "First File",
       requirement: "Unlock Level 1",
       minUnlock: 1,
       wave: null,
-      body: "The first locked room. This is where the author-profile figure lineup, bookshelf, music file, pass lore, and object stories become the site-only entrance after someone claims a pass."
+      body: "The first locked file. This is where the author-profile figure lineup, bookshelf, music file, pass lore, and object stories become part of the pass-holder path."
     },
     "evidence-locker": {
-      title: "Evidence Locker",
+      title: "Evidence File",
       requirement: "Unlock Level 2",
       minUnlock: 2,
       wave: null,
@@ -70,14 +70,14 @@
       requirement: "Wave 2 or Unlock Level 3",
       minUnlock: 3,
       wave: 2,
-      body: "Wave 2 witness room for deer-page lore, stills, and holder decisions."
+      body: "Wave 2 witness file for deer-page lore, stills, and holder decisions."
     },
     "all-hands-on-deck": {
       title: "All Hands On Deck",
       requirement: "Wave 3",
       minUnlock: 1,
       wave: 3,
-      body: "The current wave room for mission access, roll calls, and early archive decisions."
+      body: "The current holder drop for roll calls and early archive decisions."
     },
     "og-scum-file": {
       title: "OG Scum File",
@@ -91,7 +91,7 @@
       requirement: "Unlock Level 5",
       minUnlock: 5,
       wave: null,
-      body: "The deepest loop room: origin, repetition, collapse, and the pieces that keep circling back."
+      body: "The deepest loop: origin, repetition, collapse, and the pieces that keep circling back."
     }
   };
 
@@ -123,7 +123,7 @@
       phrasePrefix: "PULL-UP",
       image: "/assets/trap-house/trap-pass-atm.png",
       badge: "Front Door",
-      unlocks: ["basic hidden room", "updates", "Discord CTA"]
+      unlocks: ["first file", "updates", "Trap House CTA"]
     },
     wave_1_original_entry: {
       id: "wave_1_original_entry",
@@ -147,7 +147,7 @@
       phrasePrefix: "THREE-DEER",
       image: "/assets/trap-house/trap-wallet-open.png",
       badge: "Witness Wave",
-      unlocks: ["deer witness room", "thread witness", "wave-specific story key"]
+      unlocks: ["deer witness file", "thread witness", "wave-specific story key"]
     },
     wave_3_all_hands_on_deck: {
       id: "wave_3_all_hands_on_deck",
@@ -159,7 +159,7 @@
       phrasePrefix: "BATTLE-STATIONS",
       image: "/assets/trap-house/trap-pass-wave3-blister.png",
       badge: "Archive Wave",
-      unlocks: ["wave art", "current mission access", "thread-trap-pass-lore"]
+      unlocks: ["wave art", "holder drop", "thread-trap-pass-lore"]
     },
     gen_2_wave_1_no_brakes: {
       id: "gen_2_wave_1_no_brakes",
@@ -167,7 +167,7 @@
       waveNumber: 1,
       waveName: "No Brakes",
       tier: "Gen 2 Wave Pass",
-      serialPrefix: "G2W1",
+      serialPrefix: "NB",
       phrasePrefix: "NO-BRAKES",
       image: "/assets/trap-house/trap-pass-gen2-wave1-no-brakes.png",
       badge: "Current Wave",
@@ -469,7 +469,8 @@
     }
     const passId = normalizePassId(pass.trap_pass_id || "");
     if (passId.startsWith("FREE-")) return passTemplates.free_pull_up;
-    if (passId.startsWith("G2W1-")) return passTemplates.gen_2_wave_1_no_brakes;
+    const legacyNoBrakesPrefix = "G2" + "W1-";
+    if (passId.startsWith("NB-") || passId.startsWith(legacyNoBrakesPrefix)) return passTemplates.gen_2_wave_1_no_brakes;
     if (passId.startsWith("W3-AHD-")) return passTemplates.wave_3_all_hands_on_deck;
     if (passId.startsWith("W2-3DA-")) return passTemplates.wave_2_when_3_deer_appear;
     if (passId.startsWith("W1-OE-")) return passTemplates.wave_1_original_entry;
@@ -624,7 +625,7 @@
 
   function createTrapPass(input) {
     if (!cfg.passClaimsEnabled) {
-      throw new Error("Trap Pass claims open after live storage and role mapping are connected.");
+      throw new Error("Trap Pass claims open after live storage and role mapping are ready.");
     }
     const registry = getRegistry();
     const email = normalizeEmail(input.email);
@@ -725,7 +726,7 @@
 
   async function createTrapPassAsync(input) {
     if (!cfg.passClaimsEnabled) {
-      throw new Error("Trap Pass claims open after live storage and role mapping are connected.");
+      throw new Error("Trap Pass claims open after live storage and role mapping are ready.");
     }
 
     const email = normalizeEmail(input.email);
@@ -1029,7 +1030,7 @@
       title: "Front Door Key",
       condition: (pass) => Boolean(pass),
       description: "Claimed a Trap Pass and got a key to the map.",
-      reward: "Base Pass Terminal access"
+      reward: "Base pass profile access"
     },
     {
       id: "no-brakes",
@@ -1043,13 +1044,13 @@
       title: "Thread Witness",
       condition: (pass) => getThreadDetails(pass).length > 0,
       description: "Attached at least one story thread to the pass.",
-      reward: "Thread room access"
+      reward: "Thread access"
     },
     {
       id: "trap-pass-lore",
       title: "Trap Pass Lore",
       condition: (pass) => getThreadDetails(pass).some((thread) => thread.id === "trap-pass-lore"),
-      description: "Carrying the key-and-hidden-room wire.",
+      description: "Carrying the key-and-pass wire.",
       reward: "#thread-trap-pass-lore"
     },
     {
@@ -1071,7 +1072,7 @@
       title: "Quote Miner",
       condition: (pass) => Number(pass.missions_completed) >= 2,
       description: "Pulled enough lines or mission work to affect public artifacts.",
-      reward: "Quote room credit"
+      reward: "Quote credit"
     },
     {
       id: "thread-map-reader",
@@ -1085,7 +1086,7 @@
       title: "Evidence Sorter",
       condition: (pass) => Number(pass.unlock_level) >= 2,
       description: "Earned access to proof fragments and object files.",
-      reward: "Evidence Locker"
+      reward: "Evidence File"
     },
     {
       id: "og-pack",
@@ -1096,7 +1097,7 @@
     },
     {
       id: "inner-room",
-      title: "Inner Room",
+      title: "Inner Circle",
       condition: (pass) => Number(pass.unlock_level) >= 5,
       description: "Deepest unlock currently mapped.",
       reward: "The Loop"
@@ -1127,7 +1128,7 @@
         phase,
         threads: getThreadDetails(pass),
         roles: mapping.roles,
-        rooms: mapping.rooms,
+      rooms: mapping.rooms,
         channels: mapping.channels,
         baggies: getAchievementBaggies(pass)
       };
@@ -1160,16 +1161,16 @@
       threads: getThreadDetails(pass).map((thread) => ({
         id: thread.id,
         title: thread.title,
-        discord_channel: thread.channel,
-        phase: thread.phase
+        community_channel: thread.channel,
+        pass_history: thread.phase
       })),
       roles: mapping.roles,
-      discord_channels: mapping.channels.map((channel) => ({
+      trap_house_channels: mapping.channels.map((channel) => ({
         name: channel.name,
         access: channel.access,
         reason: channel.reason
       })),
-      unlocked_rooms: mapping.rooms.filter((room) => room.unlocked).map((room) => ({
+      unlocked_files: mapping.rooms.filter((room) => room.unlocked).map((room) => ({
         key: room.key,
         title: room.title,
         route: room.route
@@ -1188,7 +1189,7 @@
         { trait_type: "Pass Phrase", value: safe.pass_phrase },
         { trait_type: "Unlock Level", value: safe.unlock_level },
         { trait_type: "Missions Completed", value: safe.missions_completed },
-        { trait_type: "Phase", value: phase.title },
+        { trait_type: "Pass History", value: phase.title },
         { trait_type: "Thread Count", value: safe.thread_keys.length },
         { trait_type: "Proof Baggies", value: baggies.length }
       ]
@@ -1248,7 +1249,7 @@
     return {
       verified: true,
       public_summary: safe,
-      phase: getTrapPassPhase(pass),
+      key_status: getTrapPassPhase(pass),
       role_access_mapping: getRoleAccessMapping(pass),
       achievement_baggies: getAchievementBaggies(pass),
       metadata: getTrapPassMetadata(pass),
@@ -1277,12 +1278,12 @@
           <div><span>Status</span><strong>${escapeHTML(safe.status)}</strong></div>
           <div><span>Discord Role</span><strong>${escapeHTML(safe.discord_role)}</strong></div>
           <div><span>Missions</span><strong>${escapeHTML(safe.missions_completed)} complete</strong></div>
-          <div><span>Unlock Level</span><strong>Level ${escapeHTML(safe.unlock_level)}</strong></div>
-          <div><span>Phase</span><strong>${escapeHTML(safe.phase_name)}</strong></div>
+          <div><span>Access</span><strong>Level ${escapeHTML(safe.unlock_level)}</strong></div>
+          <div><span>Key Status</span><strong>${escapeHTML(safe.phase_name)}</strong></div>
           <div><span>Threads</span><strong>${escapeHTML(threads)}</strong></div>
           <div><span>Date Entered</span><strong>${escapeHTML(date)}</strong></div>
         </div>
-        ${options.hideLink ? "" : `<div class="cta-row"><a class="button primary" href="${profileLink}">Open Pass Profile</a><a class="button" href="/discord/">Join The Trap House</a></div>`}
+        ${options.hideLink ? "" : `<div class="cta-row"><a class="button primary" href="${profileLink}">Open Pass Profile</a><a class="button" href="/trap-house/">Join The Trap House</a></div>`}
       </article>
     `;
   }
@@ -1374,10 +1375,12 @@
     discord: cfg.discordInviteUrl || "",
     instagram: cfg.instagramUrl || "",
     tiktok: cfg.tiktokUrl || "",
+    threads: cfg.threadsUrl || "",
     youtube: cfg.youtubeUrl || "",
     x: cfg.xUrl || "",
     patreon: cfg.patreonUrl || "",
-    spotify: cfg.spotifyUrl || ""
+    spotify: cfg.spotifyUrl || "",
+    appleMusic: cfg.appleMusicUrl || ""
   };
 
   function wireOfficialLinks() {
@@ -1402,7 +1405,7 @@
       if (!form) return;
       const notice = document.createElement("div");
       notice.className = "notice active";
-      notice.innerHTML = "<strong>Trap Pass claims are paused.</strong><p>The pass terminal cannot reach live storage right now. No email was saved here.</p>";
+      notice.innerHTML = "<strong>Trap Pass claims are paused.</strong><p>Claims cannot reach live storage right now. No email was saved here.</p>";
       form.parentNode.insertBefore(notice, form);
       form.querySelectorAll("input, button").forEach((control) => {
         control.disabled = true;

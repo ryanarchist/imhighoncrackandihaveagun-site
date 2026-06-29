@@ -21,7 +21,7 @@
       <a class="brand" href="/"><strong>Review Console</strong><span>Private build tools</span></a>
       <div class="nav-links">
         <a href="/threads/">Threads</a>
-        <a href="/trap-pass-phases/">Phases</a>
+        <a href="/trap-pass-phases/">Pass History</a>
         <a href="/trap-house-roll-call/">Roll Call</a>
         <a href="/trap-pass/">Trap Pass</a>
         <a href="/">Map</a>
@@ -33,19 +33,19 @@
     <section class="section">
       <div class="section-head">
         <div><span class="eyebrow">Private Review Data</span><h1>Review Console</h1></div>
-        <p>This page is for Ryan's review build only. It manages pass records, exports framework files, and keeps launch setup away from the public navigation.</p>
+        <p>Ryan's review build manages pass records, exports framework files, and keeps launch setup away from the public navigation.</p>
       </div>
       <div class="grid two">
         <div class="panel" style="padding: 18px;">
           <h2>Registry Controls</h2>
-          <p class="sublead">Export the Trap Pass registry, mission list, or hidden room map as JSON.</p>
+          <p class="sublead">Export the Trap Pass registry, mission list, or locked-drop map as JSON.</p>
           <div class="form-actions">
             <button class="primary" id="exportRegistry" type="button">Export Registry JSON</button>
             <button id="exportMissions" type="button">Export Missions JSON</button>
-            <button id="exportRooms" type="button">Export Hidden Rooms JSON</button>
+            <button id="exportRooms" type="button">Export Locked Drops JSON</button>
             <button id="exportDiscord" type="button">Export Discord Framework JSON</button>
             <button id="exportThreads" type="button">Export Threads JSON</button>
-            <button id="exportPhases" type="button">Export Pass Phases JSON</button>
+            <button id="exportPhases" type="button">Export Pass History JSON</button>
           </div>
         </div>
         <div class="panel" style="padding: 18px;">
@@ -70,11 +70,11 @@
             <div class="field full"><button class="primary" type="submit">Save Invite URL</button></div>
           </form>
         </div>
-        <div class="terminal">
-          <p>&gt; storage = review browser data</p>
-          <p>&gt; live_database = not connected</p>
-          <p>&gt; secrets = none hardcoded</p>
-          <p>&gt; publish_status = review build</p>
+        <div class="panel" style="padding: 18px;">
+          <p>Storage: review browser data</p>
+          <p>Live database: unavailable in this local view</p>
+          <p>Secrets: none hardcoded</p>
+          <p>Publish status: review build</p>
         </div>
       </div>
     </section>
@@ -150,7 +150,7 @@
     document.getElementById("exportPhases").addEventListener("click", async () => {
       try {
         const response = await fetch("/data/trap-pass-phases.json", { cache: "no-store" });
-        if (!response.ok) throw new Error("Trap Pass phases file not found.");
+        if (!response.ok) throw new Error("Trap Pass history file not found.");
         TrapHouse.downloadJSON("trap-house-pass-phases.json", await response.json());
       } catch (error) {
         notice.className = "notice error active";

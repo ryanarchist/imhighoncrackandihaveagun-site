@@ -44,16 +44,16 @@ function initDiscordVerifier() {
             <div><span>Discord Role</span><strong>${safe(pass.discord_role)}</strong></div>
             <div><span>Unlock Level</span><strong>Level ${safe(pass.unlock_level)}</strong></div>
             <div><span>Missions</span><strong>${safe(pass.missions_completed)} complete</strong></div>
-            <div><span>Phase</span><strong>${safe(pass.phase_name)}</strong></div>
+            <div><span>Key Status</span><strong>${safe(pass.phase_name)}</strong></div>
             <div><span>Threads</span><strong>${safe(threadLabels)}</strong></div>
           </div>
           <p class="fineprint" style="margin-top: 14px;">Private data withheld: email, private notes, system IDs, and account-only details.</p>
-          <div class="cta-row"><a class="button" href="/trap-pass-phases/">Open Phase Ladder</a><a class="button" href="/threads/">Open Threads</a></div>
+          <div class="cta-row"><a class="button" href="/trap-pass-phases/">See Pass History</a><a class="button" href="/threads/">Open Threads</a></div>
         </article>
         <div class="panel feature-copy">
           <span class="eyebrow">Roles To Apply</span>
           <div class="chip-list">${result.roles.map((role) => `<span class="role-chip">${safe(role)}</span>`).join("")}</div>
-          <span class="eyebrow" style="margin-top: 18px;">Unlocked Website Rooms</span>
+          <span class="eyebrow" style="margin-top: 18px;">Unlocked Website Drops</span>
           <div class="framework-list">
             ${unlockedRooms.map((room) => `
               <div class="framework-row">

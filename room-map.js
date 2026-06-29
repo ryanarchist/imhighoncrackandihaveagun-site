@@ -76,6 +76,6 @@ document.addEventListener("DOMContentLoaded", () => {
     .then((response) => response.json())
     .then(render)
     .catch((error) => {
-      story.innerHTML = `<div class="notice error active"><strong>Room map failed to load.</strong><p>${safe(error.message)}</p></div>`;
+      story.innerHTML = `<div class="notice error active"><strong>Thread map failed to load.</strong><p>${safe(error.message)}</p></div>`;
     });
 });

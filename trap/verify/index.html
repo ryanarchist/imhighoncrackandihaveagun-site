@@ -11,17 +11,13 @@
     <nav class="site-shell nav">
       <a class="brand" href="/"><strong>Verify Trap Pass</strong><span>Public summary only</span></a>
       <div class="nav-links">
-        <a href="/project/">Project</a>
-        <a href="/threads/">Threads</a>
-        <a href="/book/">Book</a>
-        <a href="/dopesick/">Dopesick</a>
-        <a href="/documentary/">Documentary</a>
-        <a href="/archive-terminal/">Archive</a>
+        <a href="/">Home</a>
+        <a href="/map/">Map</a>
+        <a href="/drops/">Official Drops</a>
         <a href="/trap-pass/">Trap Pass</a>
-        <a href="/trap-pass-phases/">Phases</a>
-        <a href="/preorders/">Preorders</a>
-        <a href="/check-pass/">Check Pass</a>
-        <a href="/discord/">Discord</a>
+        <a href="/trap-house/">Trap House</a>
+        <a href="/store/">Store</a>
+        <a href="/about/">About</a>
       </div>
     </nav>
   </header>
@@ -33,7 +29,7 @@
           <span class="eyebrow">Verification</span>
           <h1>Trap Pass Checkpoint</h1>
         </div>
-        <p>This page verifies a Trap Pass token when one is present. It only returns the public pass summary: no email, wallet, private notes, or backend-only fields.</p>
+        <p>Trap Pass verification only returns the public pass summary: no email, private notes, or account-only details.</p>
       </div>
       <div id="verifyOutput" class="panel" style="padding: 18px;">
         <p class="fineprint">Checking pass...</p>
@@ -53,7 +49,7 @@
       if (passId) {
         const pass = await TrapHouse.setCurrentPassAsync(passId);
         output.innerHTML = pass
-          ? `${TrapHouse.renderPassCard(pass, { hideLink: true })}<div class="cta-row"><a class="button primary" href="/wallet/">Open Pass Terminal</a></div>`
+          ? `${TrapHouse.renderPassCard(pass, { hideLink: true })}<div class="cta-row"><a class="button primary" href="/my-pass/">Open My Pass</a></div>`
           : "<div class='notice error active'><strong>No pass found.</strong><p>Use Check Pass to look it up by Trap Pass ID or email.</p></div>";
         return;
       }
@@ -71,7 +67,7 @@
       }
 
       output.innerHTML = result?.verified && result.public_summary
-        ? `${TrapHouse.renderPassCard(result.public_summary, { hideLink: true })}<div class="cta-row"><a class="button primary" href="/wallet/">Open Pass Terminal</a></div>`
+        ? `${TrapHouse.renderPassCard(result.public_summary, { hideLink: true })}<div class="cta-row"><a class="button primary" href="/my-pass/">Open My Pass</a></div>`
         : "<div class='notice error active'><strong>Pass token was not verified.</strong><p>The public profile may still be available by Trap Pass ID. No private account fields were exposed.</p></div><div class='cta-row'><a class='button primary' href='/check-pass/'>Check Pass</a></div>";
     }
 

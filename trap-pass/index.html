@@ -19,7 +19,7 @@
         <a href="/store/">Store</a>
         <a href="/about/">About</a>
       </div>
-      <a class="button danger nav-utility" href="/my-pass/">My Pass</a>
+      <a class="button danger nav-utility" data-pass-utility href="/trap-pass/">Get Trap Pass</a>
     </nav>
   </header>
 
@@ -34,7 +34,7 @@
     <section class="section">
       <div class="section-head">
         <div>
-          <span class="eyebrow">GEN 2 WAVE 1 - NO BRAKES</span>
+          <span class="eyebrow">Trap Pass</span>
           <h1>Get Your Trap Pass</h1>
         </div>
         <p>A Trap Pass is part key, part receipt, part proof you stepped inside before the whole thing was finished.</p>
@@ -51,7 +51,7 @@
         <article class="checkout-card premium">
           <span class="store-number">CASH FOR TRASH TRAP PASS</span>
           <h3>Go Deeper</h3>
-          <p>Extra drops, deeper archive access, bonus material, project votes, and private room access.</p>
+          <p>Extra drops, deeper archive access, bonus material, project votes, and private access.</p>
           <strong class="price-tag">$4.99 / MONTH</strong>
           <a class="button primary" href="/store/#cash-for-trash">Upgrade To Cash For Trash</a>
         </article>
@@ -94,21 +94,25 @@
           </form>
           <div class="pass-bullets">
             <strong>A Trap Pass can carry:</strong>
-            <span>wave / serial / holder role</span>
-            <span>Discord room key</span>
-            <span>hidden room and mission access</span>
+            <span>Public pass ID</span>
+            <span>Wave</span>
+            <span>Tier</span>
+            <span>Holder name</span>
+            <span>Role</span>
+            <span>Unlock status</span>
           </div>
           <div id="passNotice" class="notice"></div>
         </div>
         <div class="pass-card">
           <span class="pass-stamp">Current Wave</span>
-          <div class="pass-id">G2W1</div>
-          <p class="lead">Gen 2 Wave 1 - No Brakes</p>
+          <div class="pass-id">NO BRAKES</div>
+          <p class="lead">Gen 2 Wave 1</p>
           <div class="meta-list">
             <div><span>Default Role</span><strong>No Brakes</strong></div>
             <div><span>Status</span><strong>Active</strong></div>
             <div><span>Access</span><strong>Level 1</strong></div>
             <div><span>Public View</span><strong>Shareable</strong></div>
+            <div><span>Sample ID</span><strong>NB-0100</strong></div>
           </div>
         </div>
       </div>
@@ -120,13 +124,12 @@
       </div>
       <div class="panel feature-copy">
         <span class="eyebrow">Physical Feel / Digital Key</span>
-        <h2>No Brakes Is Proof You Were Here</h2>
-        <p class="lead">Gen 2 Wave 1 is proof you were here when the next door opened.</p>
-        <p class="sublead">A serial, a card, a role, a room key, a little proof that you were here before the walls were finished.</p>
+        <h2>No Brakes Means You Got In Before The Next Door Opened</h2>
+        <p class="lead">A serial, a card, a role, and a little proof that you were here before the walls were finished.</p>
         <div class="cta-row">
           <a class="button primary" href="/check-pass/">Check Your Pass</a>
-          <a class="button" href="/threads/">See The Threads</a>
-          <a class="button" href="/trap-pass-phases/">See The Waves</a>
+          <a class="button" href="/map/">Open The Map</a>
+          <a class="button" href="/trap-pass-phases/">See Pass History</a>
         </div>
       </div>
     </section>
@@ -134,7 +137,7 @@
     <section class="section">
       <div class="notice active">
         <strong>No Private Fields</strong>
-        <span>Public pass views show only what belongs on the card: pass ID, wave, role, rooms, and proof badges. Email and private notes stay off the wall.</span>
+        <span>Public pass views show only what belongs on the card: pass ID, wave, role, and proof badges. Email and private notes stay off the wall.</span>
       </div>
     </section>
 
@@ -155,13 +158,19 @@
   <footer class="footer">
     <div class="site-shell">
       <span>Private fields stay private. Public pass pages show only the access summary.</span>
-      <a href="/trap-pass-phases/">How The Key Works</a>
+      <a href="/trap-pass-phases/">See Pass History</a>
     </div>
   </footer>
 
   <script src="/config.js?v=emergency-rescue-1"></script>
   <script src="/trap-pass-system.js?v=emergency-rescue-1"></script>
   <script>
+    const utility = document.querySelector("[data-pass-utility]");
+    if (utility && window.TrapHouse?.getCurrentPass?.()) {
+      utility.textContent = "My Pass";
+      utility.href = "/my-pass/";
+    }
+
     const output = document.getElementById("createdPassOutput");
     const current = TrapHouse.getCurrentPass();
     if (current) output.innerHTML = TrapHouse.renderPassCard(current);

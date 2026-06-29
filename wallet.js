@@ -34,14 +34,14 @@ function initTrapWallet() {
           <div><span>Holder</span><strong>${safe(pass.display_name)}</strong></div>
           <div><span>Role</span><strong>${safe(pass.discord_role)}</strong></div>
           <div><span>Unlock</span><strong>Level ${safe(pass.unlock_level)}</strong></div>
-          <div><span>Phase</span><strong>${safe(pass.phase_name)}</strong></div>
+          <div><span>Key Status</span><strong>${safe(pass.phase_name)}</strong></div>
           <div><span>Threads</span><strong>${safe(threads)}</strong></div>
           <div><span>Proof</span><strong>${earned}/${item.baggies.length} baggies</strong></div>
         </div>
         <div class="cta-row">
           <button type="button" data-select-pass="${safe(pass.trap_pass_id)}">Select Pass</button>
           <a class="button" href="/pass/?id=${encodeURIComponent(pass.trap_pass_id)}">Public Summary</a>
-          <a class="button" href="/trap-pass-phases/">Phase Ladder</a>
+          <a class="button" href="/trap-pass/">Trap Pass</a>
         </div>
       </article>
     `;
@@ -67,12 +67,12 @@ function initTrapWallet() {
       <div><strong>${safe(inventory.total_passes)}</strong><span>Selected Passes</span></div>
       <div><strong>${safe(inventory.total_baggies_earned)}</strong><span>Proof Baggies</span></div>
       <div><strong>${safe(selected?.roles.length || 0)}</strong><span>Role Maps</span></div>
-      <div><strong>${safe(selected?.pass.phase_level || 0)}</strong><span>Phase</span></div>
+      <div><strong>${safe(selected?.pass.phase_level || 0)}</strong><span>Key Status</span></div>
     `;
 
     if (!inventory.passes.length) {
       empty.className = "notice active";
-      empty.innerHTML = '<strong>No pass selected.</strong><p>Claim a Trap Pass or check an existing ID to open the terminal.</p><div class="cta-row"><a class="button primary" href="/trap-pass/">Claim Trap Pass</a><a class="button" href="/check-pass/">Check Pass</a></div>';
+      empty.innerHTML = '<strong>No pass selected.</strong><p>Claim a Trap Pass or check an existing ID to open your card.</p><div class="cta-row"><a class="button primary" href="/trap-pass/">Claim Trap Pass</a><a class="button" href="/check-pass/">Check Pass</a></div>';
       passMount.innerHTML = "";
       baggieMount.innerHTML = "";
       return;
@@ -92,7 +92,7 @@ function initTrapWallet() {
       render();
     } catch (error) {
       empty.className = "notice error active";
-      empty.innerHTML = "<strong>Pass lookup failed.</strong><p>The pass terminal could not check storage. Try again in a minute.</p>";
+      empty.innerHTML = "<strong>Pass lookup failed.</strong><p>Your pass could not be checked. Try again in a minute.</p>";
     }
   });
 

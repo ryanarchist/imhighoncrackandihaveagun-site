@@ -3,115 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pass Terminal | The Trap House</title>
-  <link rel="stylesheet" href="/styles.css?v=launch-ready-3" />
+  <title>My Pass | IHOCAIHAG</title>
+  <meta http-equiv="refresh" content="0; url=/my-pass/" />
+  <link rel="canonical" href="/my-pass/" />
+  <link rel="stylesheet" href="/styles.css?v=emergency-rescue-1" />
 </head>
 <body>
-  <header class="topbar">
-    <nav class="site-shell nav">
-      <a class="brand with-mark" href="/">
-        <img class="nav-logo" src="/assets/trap-house/trap-house-discord-logo.png" alt="" />
-        <span><strong>Pass Terminal</strong><span>Passes / baggies / access</span></span>
-      </a>
-      <div class="nav-links">
-        <a href="/project/">Project</a>
-        <a href="/threads/">Threads</a>
-        <a href="/book/">Book</a>
-        <a href="/dopesick/">Dopesick</a>
-        <a href="/documentary/">Documentary</a>
-        <a href="/archive-terminal/">Archive</a>
-        <a href="/trap-pass/">Trap Pass</a>
-        <a href="/trap-pass-phases/">Phases</a>
-        <a href="/preorders/">Preorders</a>
-        <a href="/check-pass/">Check Pass</a>
-        <a href="/wallet/" aria-current="page">Pass Terminal</a>
-        <a href="/discord/">Discord</a>
-      </div>
-    </nav>
-  </header>
-
-  <section class="wallet-hero">
-    <img class="wallet-hero-image" src="/assets/trap-house/trap-wallet-open.png" alt="Open wallet with Trap Pass and achievement ticket" />
-    <div class="site-shell wallet-lockup">
-      <span class="eyebrow">Pass Terminal</span>
-      <h1>Open The Wallet. Check The Proof.</h1>
-      <p class="lead">One clean place to inspect your selected Trap Pass, mapped rooms, thread keys, Discord role path, and earned proof baggies.</p>
-      <div class="cta-row">
-        <a class="button primary" href="/trap-pass/">Claim Trap Pass</a>
-        <a class="button" href="/check-pass/">Check Pass</a>
-        <a class="button" href="/discord/">Enter Discord</a>
-      </div>
-    </div>
-  </section>
-
-  <main class="site-shell">
+  <main class="site-shell checkout-success">
     <section class="section">
-      <div class="wallet-stats" data-wallet-stats></div>
-      <div id="walletEmpty" data-wallet-empty class="notice"></div>
-    </section>
-
-    <section class="section split-feature reverse">
       <div class="panel feature-copy">
-        <span class="eyebrow">What This Room Does</span>
-        <h2>The Pass Carries The House Key</h2>
-        <p class="lead">The terminal turns the collectible pass into a readable profile: who it belongs to publicly, what it unlocks, which threads it follows, and what proof it has earned.</p>
-        <p class="sublead">Public summaries stay clean. Emails, private unlock codes, private notes, and private system data stay hidden.</p>
-        <div class="cta-row">
-          <a class="button primary" href="/check-pass/">Check Access</a>
-          <a class="button" href="/trap-pass-phases/">Phase Ladder</a>
-          <a class="button" href="/preorders/">View Preorders</a>
-        </div>
+        <span class="eyebrow">My Pass</span>
+        <h1>Your Trap Pass</h1>
+        <p class="lead">Open your card, check the public proof, and head back into the house.</p>
+        <a class="button primary" href="/my-pass/">Open My Pass</a>
       </div>
-      <div class="asset-frame poster-fit">
-        <img src="/assets/trap-house/trap-pass-gen2-wave1-no-brakes.png" alt="Gen 2 Wave 1 No Brakes Trap Pass collectible art" />
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="section-head">
-        <div><span class="eyebrow">Check Pass</span><h2>Find A Pass</h2></div>
-        <p>Enter a Trap Pass ID or email to select the active pass. The screen only shows shareable pass details.</p>
-      </div>
-      <div class="grid two">
-        <div class="panel" style="padding: 18px;">
-          <form class="form-grid" data-wallet-open-form>
-            <div class="field full">
-              <label for="walletLookup">Trap Pass ID Or Email</label>
-              <input id="walletLookup" type="text" placeholder="W3-00001" autocomplete="off" />
-            </div>
-            <div class="field full">
-              <button class="primary" type="submit">Check Pass</button>
-            </div>
-          </form>
-        </div>
-        <div class="terminal">
-          <p>&gt; pass_stack = selected passes</p>
-          <p>&gt; private_data = hidden</p>
-          <p>&gt; proof_baggies = earned markers</p>
-          <p>&gt; next_click = inspect the key</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="section-head">
-        <div><span class="eyebrow">Trap Pass Terminal</span><h2>Your Pass Stack</h2></div>
-        <p>Every selected pass appears here. Open one to inspect its proof baggies, mapped rooms, and role path.</p>
-      </div>
-      <div class="wallet-pass-grid" data-wallet-passes></div>
-    </section>
-
-    <section class="section">
-      <div class="section-head">
-        <div><span class="eyebrow">Proof Baggies</span><h2>Proof In The Pocket</h2></div>
-        <p>Virtual proof baggies mark waves, missions, archive access, and hidden-room depth without exposing private account data.</p>
-      </div>
-      <div class="baggie-grid" data-wallet-baggies></div>
     </section>
   </main>
-
-  <script src="/config.js?v=launch-ready-3"></script>
-  <script src="/trap-pass-system.js?v=launch-ready-3"></script>
-  <script src="/wallet.js?v=launch-ready-3"></script>
+  <script>window.location.replace("/my-pass/" + (window.location.hash || ""));</script>
 </body>
 </html>

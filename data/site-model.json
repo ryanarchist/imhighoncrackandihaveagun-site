@@ -44,7 +44,7 @@
       "id": "trap-pass-gen2-wave1",
       "title": "Gen 2 Wave 1 Trap Pass",
       "path": "/assets/trap-house/trap-pass-gen2-wave1-no-brakes.png",
-      "use": "Trap Pass page and Pass Terminal",
+      "use": "Trap Pass page and My Pass",
       "ratio": "poster"
     },
     {
@@ -114,7 +114,7 @@
       "id": "door-opening",
       "title": "The Door Is Opening",
       "path": "/assets/trap-house/trap-house-door-opening.png",
-      "use": "Discord launch bridge, Trap Pass access, hidden room tease",
+      "use": "Discord launch bridge, Trap Pass access, locked drop tease",
       "ratio": "poster"
     },
     {
@@ -149,7 +149,7 @@
       "id": "author-profile-room-paradise-oblivion",
       "title": "Author Profile Room - Paradise Or Oblivion",
       "path": "/assets/trap-house/author-profile-room-paradise-oblivion.png",
-      "use": "author-profile room map, spoken-word TV backdrop, room preview",
+      "use": "author-profile map, spoken-word TV backdrop, preview",
       "ratio": "wide"
     },
     {
@@ -210,10 +210,10 @@
     {
       "path": "/dopesick/",
       "label": "Dopesick",
-      "purpose": "Previous-book origin shelf connected to the new archive without inventing unconfirmed claims."
+      "purpose": "Previous-book origin shelf tied to the new archive without inventing unconfirmed claims."
     },
     {
-      "path": "/archive-terminal/",
+      "path": "/archive/",
       "label": "Archive",
       "purpose": "Evidence-machine dashboard for transcripts, clip candidates, visual samples, and scene-change frames."
     },
@@ -225,17 +225,17 @@
     {
       "path": "/trap-pass/",
       "label": "Trap Pass",
-      "purpose": "Pass claim, public summary, Pass Terminal, and role mapping."
+      "purpose": "Pass claim, public summary, holder profile, and role display."
     },
     {
-      "path": "/trap-pass-phases/",
-      "label": "Trap Pass Phases",
-      "purpose": "Phase-by-phase access ladder for roles, rooms, threads, future access, and pass display."
+      "path": "/trap-pass/",
+      "label": "Trap Pass History",
+      "purpose": "Pass access ladder for roles, thread paths, future access, and pass display."
     },
     {
       "path": "/wallet/",
-      "label": "Pass Terminal",
-      "purpose": "Shareable terminal for selected passes and proof baggies."
+      "label": "My Pass",
+      "purpose": "Shareable holder view for selected passes and proof baggies."
     },
     {
       "path": "/check-pass/",
@@ -244,8 +244,8 @@
     },
     {
       "path": "/room-map/",
-      "label": "Room Map",
-      "purpose": "Clickable author-profile room where figures, shelves, objects, and the spoken-word TV slot route visitors through the story."
+      "label": "Thread Map",
+      "purpose": "Clickable author-profile map where figures, shelves, objects, and the spoken-word TV slot route visitors through the story."
     },
     {
       "path": "/mission-board/",
@@ -270,7 +270,7 @@
       "status": "limited",
       "limit": 50,
       "integration": "Trap Pass access",
-      "notes": "Limited access pass tied to holder status, hidden rooms, drops, and Discord role mapping."
+      "notes": "Limited access pass tied to holder status, locked drops, and Trap House role display."
     },
     {
       "id": "first-showing",
@@ -286,7 +286,7 @@
       "status": "collector",
       "limit": 50,
       "integration": "Physical collector pack",
-      "notes": "Physical/evidence-inspired package connected to the online pass and archive world."
+      "notes": "Physical/evidence-inspired package tied to the online pass and archive world."
     },
     {
       "id": "og-shirts",

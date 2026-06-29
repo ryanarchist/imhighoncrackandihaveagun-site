@@ -23,8 +23,8 @@ document.addEventListener("DOMContentLoaded", () => {
     app.classList.toggle("unlocked", Boolean(unlocked));
     app.classList.toggle("locked", !unlocked);
     status.innerHTML = unlocked
-      ? "<strong>Unlocked.</strong><p>This pass has enough access for this room. Step inside and keep the key close.</p>"
-      : "<strong>This room is locked unless your Trap Pass has the right access level.</strong><p>Claim or check a pass, then come back with the key.</p>";
+      ? "<strong>Unlocked.</strong><p>This pass has enough access for this drop. Keep the key close.</p>"
+      : "<strong>This drop is locked unless your Trap Pass has the right access level.</strong><p>Claim or check a pass, then come back with the key.</p>";
     passMount.innerHTML = pass
       ? window.TrapHouse.renderPassCard(pass, { hideLink: true })
       : "<p class='fineprint'>No active Trap Pass is selected.</p>";
