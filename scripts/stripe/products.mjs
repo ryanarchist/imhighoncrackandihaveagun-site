@@ -1,7 +1,7 @@
 export const CHECKOUT_SUCCESS_URL =
   "https://imhighoncrackandihaveagun.com/checkout/success?session_id={CHECKOUT_SESSION_ID}";
 
-export const CHECKOUT_CANCEL_URL = "https://imhighoncrackandihaveagun.com/shop";
+export const CHECKOUT_CANCEL_URL = "https://imhighoncrackandihaveagun.com/store/";
 
 export const REQUIRED_ENV_LINES = [
   "STRIPE_PRICE_OG_CRACK_PACK",
