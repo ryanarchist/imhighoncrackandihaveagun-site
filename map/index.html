@@ -1,97 +1,75 @@
-<!DOCTYPE html>
+﻿<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Map | IHOCAIHAG</title>
-  <meta name="description" content="The IHOCAIHAG thread map turns clips, chapters, songs, objects, passes, and drops into interlaced story wires." />
-  <link rel="stylesheet" href="/styles.css?v=emergency-rescue-2" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>IHOCAIHAG | Site Upgrade</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      background: #030303;
+      color: #f3eee6;
+    }
+
+    body {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      overflow-x: hidden;
+    }
+
+    main {
+      width: min(100%, 1900px);
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(10px, 1.6vw, 28px);
+      align-items: center;
+      justify-items: center;
+      padding: clamp(10px, 2vw, 32px);
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      max-width: min(760px, 48vw);
+      max-height: calc(100vh - clamp(20px, 4vw, 64px));
+      object-fit: contain;
+      filter: drop-shadow(0 22px 38px rgba(0, 0, 0, 0.72));
+    }
+
+    @media (max-width: 820px) {
+      body {
+        place-items: start center;
+      }
+
+      main {
+        grid-template-columns: 1fr;
+        min-height: auto;
+        padding: 0;
+        gap: 0;
+      }
+
+      img {
+        max-width: 100%;
+        max-height: none;
+        width: 100%;
+        filter: none;
+      }
+    }
+  </style>
 </head>
 <body>
-  <header class="topbar">
-    <nav class="site-shell nav canonical-nav">
-      <a class="brand" href="/"><strong>IHOCAIHAG</strong><span>Threads in the wall.</span></a>
-      <div class="nav-links">
-        <a href="/">Home</a>
-        <a href="/map/" aria-current="page">Map</a>
-        <a href="/drops/">Official Drops</a>
-        <a href="/trap-pass/">Trap Pass</a>
-        <a href="/trap-house/">Trap House</a>
-        <a href="/store/">Store</a>
-        <a href="/about/">About</a>
-      </div>
-      <a class="button danger nav-utility" data-pass-utility href="/trap-pass/">Get Trap Pass</a>
-    </nav>
-  </header>
-
-  <nav class="mobile-bottom-nav" aria-label="Mobile quick navigation">
-    <a href="/map/" aria-current="page">Map</a>
-    <a href="/drops/">Drops</a>
-    <a href="/trap-pass/">Pass</a>
-    <a href="/trap-house/">Trap House</a>
-  </nav>
-
-  <section class="page-hero threads-hero">
-    <img src="/assets/trap-house/threads-map-board-new.png" alt="Thread map board showing the project connections" />
-    <div class="site-shell page-hero-lockup">
-      <span class="eyebrow">Thread Map</span>
-      <h1>Start At The Blast Crater</h1>
-      <p class="lead">The archive is not one straight line. It is a board of loops, losses, jokes, receipts, songs, screenshots, and footage that keep crossing each other.</p>
-      <p class="sublead">Pick a wire. Follow it until it bites.</p>
-      <div class="cta-row">
-        <a class="button primary" href="/threads/">Open Full Thread Board</a>
-        <a class="button" href="/drops/">Watch Official Drops</a>
-      </div>
-    </div>
-  </section>
-
-  <main class="site-shell">
-    <section class="section">
-      <div class="section-head">
-        <div><span class="eyebrow">Major Thread Zones</span><h2>The Board</h2></div>
-        <p>Some folders are open. Some are still sealed. All of them lead back into the same basement.</p>
-      </div>
-      <div class="grid four">
-        <article class="card"><span class="tag">00</span><h3>January 22 / Origin</h3><p>The blast crater every wire keeps routing back through.</p><a class="button" href="/threads/#january-22">Open Thread</a></article>
-        <article class="card"><span class="tag">01</span><h3>Addiction Machine</h3><p>Ritual, money, shame, panic, time, repetition, and compulsion.</p><a class="button" href="/threads/#addiction-machine">Open Thread</a></article>
-        <article class="card"><span class="tag">02</span><h3>Psychosis / Pattern Loop</h3><p>Signs, roof logic, fear, sleep loss, and reality bending.</p><a class="button" href="/threads/#psychosis-loop">Open Thread</a></article>
-        <article class="card"><span class="tag">03</span><h3>Grief / Loss</h3><p>The locked grief underneath everything.</p><a class="button" href="/threads/#grief-loss">Open Thread</a></article>
-        <article class="card"><span class="tag">04</span><h3>Cats / Home / Tenderness</h3><p>Proof that love survived inside the wreckage.</p><a class="button" href="/threads/#cats-home-tenderness">Open Thread</a></article>
-        <article class="card"><span class="tag">05</span><h3>Writing Inside The Fire</h3><p>The book, captions, notes, songs, and documentary being made from inside the collapse.</p><a class="button" href="/threads/#writing-inside-the-fire">Open Thread</a></article>
-        <article class="card"><span class="tag">06</span><h3>System Mirror</h3><p>Addiction-like reward logic scaled into platforms, money, power, and more-more-more.</p><a class="button" href="/threads/#system-mirror">Open Thread</a></article>
-        <article class="card"><span class="tag">07</span><h3>Trap Pass Lore</h3><p>The access key, receipt, holder status, and proof layer.</p><a class="button" href="/threads/#trap-pass-lore">Open Thread</a></article>
-      </div>
-    </section>
-
-    <section class="section split-feature reverse">
-      <div class="panel feature-copy">
-        <span class="eyebrow">Thread Pages</span>
-        <h2>Open The Full Board</h2>
-        <p class="lead">The bigger board is already lit up: origin, grief, addiction, psychosis, cats, writing, platform war, and the pass lore crossing over itself.</p>
-        <p class="sublead">Pick a wire. Follow it until it bites.</p>
-        <div class="cta-row">
-          <a class="button primary" href="/threads/">Open Full Thread Board</a>
-          <a class="button" href="/drops/">Watch Official Drops</a>
-        </div>
-      </div>
-      <div class="asset-frame">
-        <img src="/assets/trap-house/threads-map-board.png" alt="Alternate thread board archive visual" />
-      </div>
-    </section>
+  <main aria-label="IHOCAIHAG temporary public placeholder">
+    <img src="/assets/placeholders/site-upgrade.png" alt="IM HIGH ON CRACK AND I HAVE A GUN site upgrade deploying imminently" />
+    <img src="/assets/placeholders/tap-in.png" alt="IHOCAIHAG tap in and follow the project placeholder" />
   </main>
-
-  <footer class="footer">
-    <div class="site-shell"><span>Start at the blast crater. Follow what keeps showing up.</span><a href="/trap-pass/">Get Trap Pass</a></div>
-  </footer>
-
-  <script src="/config.js?v=emergency-rescue-2"></script>
-  <script src="/trap-pass-system.js?v=emergency-rescue-2"></script>
-  <script>
-    const utility = document.querySelector("[data-pass-utility]");
-    if (utility && window.TrapHouse?.getCurrentPass?.()) {
-      utility.textContent = "My Pass";
-      utility.href = "/my-pass/";
-    }
-  </script>
 </body>
 </html>

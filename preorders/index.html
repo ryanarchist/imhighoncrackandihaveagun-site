@@ -1,190 +1,75 @@
-<!DOCTYPE html>
+﻿<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Store | IHOCAIHAG</title>
-  <link rel="stylesheet" href="/styles.css?v=emergency-rescue-2" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>IHOCAIHAG | Site Upgrade</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      background: #030303;
+      color: #f3eee6;
+    }
+
+    body {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      overflow-x: hidden;
+    }
+
+    main {
+      width: min(100%, 1900px);
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(10px, 1.6vw, 28px);
+      align-items: center;
+      justify-items: center;
+      padding: clamp(10px, 2vw, 32px);
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      max-width: min(760px, 48vw);
+      max-height: calc(100vh - clamp(20px, 4vw, 64px));
+      object-fit: contain;
+      filter: drop-shadow(0 22px 38px rgba(0, 0, 0, 0.72));
+    }
+
+    @media (max-width: 820px) {
+      body {
+        place-items: start center;
+      }
+
+      main {
+        grid-template-columns: 1fr;
+        min-height: auto;
+        padding: 0;
+        gap: 0;
+      }
+
+      img {
+        max-width: 100%;
+        max-height: none;
+        width: 100%;
+        filter: none;
+      }
+    }
+  </style>
 </head>
 <body>
-  <header class="topbar">
-    <nav class="site-shell nav canonical-nav">
-      <a class="brand" href="/"><strong>Store</strong><span>The drop table.</span></a>
-      <div class="nav-links">
-        <a href="/">Home</a>
-        <a href="/map/">Map</a>
-        <a href="/drops/">Official Drops</a>
-        <a href="/trap-pass/">Trap Pass</a>
-        <a href="/trap-house/">Trap House</a>
-        <a href="/store/" aria-current="page">Store</a>
-        <a href="/about/">About</a>
-      </div>
-      <a class="button danger nav-utility" data-pass-utility href="/trap-pass/">Get Trap Pass</a>
-    </nav>
-  </header>
-
-  <nav class="mobile-bottom-nav" aria-label="Mobile quick navigation">
-    <a href="/map/">Map</a>
-    <a href="/drops/">Drops</a>
-    <a href="/trap-pass/">Pass</a>
-    <a href="/trap-house/">Trap House</a>
-  </nav>
-
-  <section class="page-hero preorder-hero">
-    <img src="/assets/trap-house/trap-pass-system-3-ways.png" alt="Free, paid, and physical Trap Pass cards on the archive table" />
-    <div class="site-shell page-hero-lockup">
-      <span class="eyebrow">Store / Preorders</span>
-      <h1>The Drop Table</h1>
-      <p class="lead">Books, passes, shirts, bundles, first-run access, and physical proof from the archive.</p>
-      <p class="sublead">The object points back to the story.</p>
-      <div class="cta-row">
-        <a class="button primary" href="#store">Open Store</a>
-        <a class="button" href="/trap-pass/">Check Trap Pass</a>
-        <a class="button danger" href="/trap-house/">Enter Trap House</a>
-      </div>
-    </div>
-  </section>
-
-  <main class="site-shell">
-    <section class="section checkout-status-band">
-      <p class="checkout-status" data-checkout-status aria-live="polite"></p>
-    </section>
-
-    <section class="section" id="store">
-      <div class="section-head">
-        <div><span class="eyebrow">Start Here / Go Deeper / Hold The Proof</span><h2>The Drop Table</h2></div>
-        <p>This is not random merch. It is the evidence table with price tags.</p>
-      </div>
-
-      <div class="checkout-grid">
-        <article class="checkout-card premium">
-          <span class="store-number">01</span>
-          <h3>THE OG CRACK PACK</h3>
-          <p>The collector bundle: signed book, documentary access, Trap Pass, shirt, physical proof, and extras from the archive.</p>
-          <strong class="price-tag">$99.99</strong>
-          <ul class="fulfillment-list">
-            <li>Collector bundle</li>
-            <li>Physical proof</li>
-            <li>First-run extras</li>
-          </ul>
-          <button class="button primary" data-checkout-product="og_crack_pack">Preorder Pack</button>
-        </article>
-
-        <article class="checkout-card">
-          <span class="store-number">02</span>
-          <h3>RAW DOCUMENTARY FIRST-DAY ACCESS</h3>
-          <p>See selected raw documentary material before the public drop.</p>
-          <strong class="price-tag">$9.99</strong>
-          <ul class="fulfillment-list">
-            <li>Early raw footage</li>
-            <li>First-day window</li>
-            <li>Archive context</li>
-          </ul>
-          <button class="button" data-checkout-product="raw_doc_preorder">Get Access</button>
-        </article>
-
-        <article class="checkout-card">
-          <span class="store-number">03</span>
-          <h3>OFFICIAL IHOCAIHAG BLACK TEE</h3>
-          <p>The black project shirt from the red, white, and black visual system.</p>
-          <strong class="price-tag">$27.99</strong>
-          <ul class="fulfillment-list">
-            <li>Official shirt</li>
-            <li>Black project mark</li>
-            <li>Wear the warning</li>
-          </ul>
-          <button class="button" data-checkout-product="black_tee">Order Shirt</button>
-        </article>
-
-        <article class="checkout-card" id="hardcover-preorder">
-          <span class="store-number">04</span>
-          <h3>HARDCOVER BOOK PREORDER</h3>
-          <p>The permanent object pulled from the archive, not cleaned up after it.</p>
-          <strong class="price-tag">$39.99</strong>
-          <ul class="fulfillment-list">
-            <li>Hardcover object</li>
-            <li>Archive spine</li>
-            <li>First-run window</li>
-          </ul>
-          <button class="button" data-checkout-product="hardcover_preorder">Preorder Book</button>
-        </article>
-
-        <article class="checkout-card premium" id="handy-sass">
-          <span class="store-number">05</span>
-          <h3>HANDY SASS TRAP PASS</h3>
-          <p>A mailed collectible Trap Pass with serialized holder status.</p>
-          <strong class="price-tag">$39.99</strong>
-          <ul class="fulfillment-list">
-            <li>Mailed card</li>
-            <li>Serialized proof</li>
-            <li>Premium holder status</li>
-          </ul>
-          <button class="button primary" data-checkout-product="handy_sass_pass">Get Physical Pass</button>
-        </article>
-
-        <article class="checkout-card premium" id="cash-for-trash">
-          <span class="store-number">06</span>
-          <h3>CASH FOR TRASH TRAP PASS</h3>
-          <p>Monthly digital access for deeper drops, private access, and project updates.</p>
-          <strong class="price-tag">$4.99 / MONTH</strong>
-          <ul class="fulfillment-list">
-            <li>Deeper drops</li>
-            <li>Private access</li>
-            <li>Monthly holder status</li>
-          </ul>
-          <button class="button primary" data-checkout-product="cash_for_trash_monthly">Start Monthly Pass</button>
-        </article>
-      </div>
-    </section>
-
-    <section class="section split-feature">
-      <div class="asset-frame poster-fit">
-        <img src="/assets/trap-house/trap-pass-gen2-wave1-no-brakes.png" alt="Gen 2 Wave 1 No Brakes Trap Pass" />
-      </div>
-      <div class="panel feature-copy">
-        <span class="eyebrow">Trap Pass</span>
-        <h2>The Card Looks Like It Came Out Of The Drawer</h2>
-        <p class="lead">A pass is a little piece of the evidence table: serial, name, status, and proof that you pulled up before the next door opened.</p>
-        <p class="sublead">Digital first. Physical when the card hits the table.</p>
-      </div>
-    </section>
-
-    <section class="section split-feature reverse">
-      <div class="panel feature-copy">
-        <span class="eyebrow">Book / Documentary / Pass</span>
-        <h2>The Objects Came From The Same Wreckage</h2>
-        <p class="lead">The book, the raw doc, the shirt, the card, and the bundle all come from the same wreckage.</p>
-        <p class="sublead">Hold the proof. Watch the drop. Keep the receipt.</p>
-      </div>
-      <div class="asset-frame poster-fit">
-        <img src="/assets/trap-house/book-full-spread.png" alt="Full book spread for IM HIGH ON CRACK AND I HAVE A GUN" />
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="notice active launch-warning">
-        <strong>DISCLAIMER</strong>
-        <p>This is documentary/art/archive material about addiction, psychosis, grief, survival, systems, and unsafe behavior. It is not instruction, not medical advice, not a challenge, and not encouragement to imitate anything shown.</p>
-      </div>
-    </section>
+  <main aria-label="IHOCAIHAG temporary public placeholder">
+    <img src="/assets/placeholders/site-upgrade.png" alt="IM HIGH ON CRACK AND I HAVE A GUN site upgrade deploying imminently" />
+    <img src="/assets/placeholders/tap-in.png" alt="IHOCAIHAG tap in and follow the project placeholder" />
   </main>
-
-  <footer class="footer">
-    <div class="site-shell">
-      <span>The Trap Pass gets you deeper inside.</span>
-      <span>Physical proof from the archive table.</span>
-    </div>
-  </footer>
-
-  <script src="/config.js?v=checkout-bridge-1"></script>
-  <script src="/checkout.js?v=checkout-bridge-1"></script>
-  <script src="/trap-pass-system.js?v=emergency-rescue-2"></script>
-  <script>
-    const utility = document.querySelector("[data-pass-utility]");
-    if (utility && window.TrapHouse?.getCurrentPass?.()) {
-      utility.textContent = "My Pass";
-      utility.href = "/my-pass/";
-    }
-  </script>
 </body>
 </html>

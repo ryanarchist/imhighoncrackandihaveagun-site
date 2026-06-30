@@ -1,24 +1,75 @@
-<!DOCTYPE html>
+﻿<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Trap House | IHOCAIHAG</title>
-  <meta http-equiv="refresh" content="0; url=/trap-house/" />
-  <link rel="canonical" href="/trap-house/" />
-  <link rel="stylesheet" href="/styles.css?v=emergency-rescue-2" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>IHOCAIHAG | Site Upgrade</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      background: #030303;
+      color: #f3eee6;
+    }
+
+    body {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      overflow-x: hidden;
+    }
+
+    main {
+      width: min(100%, 1900px);
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(10px, 1.6vw, 28px);
+      align-items: center;
+      justify-items: center;
+      padding: clamp(10px, 2vw, 32px);
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      max-width: min(760px, 48vw);
+      max-height: calc(100vh - clamp(20px, 4vw, 64px));
+      object-fit: contain;
+      filter: drop-shadow(0 22px 38px rgba(0, 0, 0, 0.72));
+    }
+
+    @media (max-width: 820px) {
+      body {
+        place-items: start center;
+      }
+
+      main {
+        grid-template-columns: 1fr;
+        min-height: auto;
+        padding: 0;
+        gap: 0;
+      }
+
+      img {
+        max-width: 100%;
+        max-height: none;
+        width: 100%;
+        filter: none;
+      }
+    }
+  </style>
 </head>
 <body>
-  <main class="site-shell checkout-success">
-    <section class="section">
-      <div class="panel feature-copy">
-        <span class="eyebrow">The Trap House</span>
-        <h1>The Trap House Is Open</h1>
-        <p class="lead">The archive lives here. The Trap House is where the people following it talk back.</p>
-        <a class="button primary" href="/trap-house/">Open Trap House</a>
-      </div>
-    </section>
+  <main aria-label="IHOCAIHAG temporary public placeholder">
+    <img src="/assets/placeholders/site-upgrade.png" alt="IM HIGH ON CRACK AND I HAVE A GUN site upgrade deploying imminently" />
+    <img src="/assets/placeholders/tap-in.png" alt="IHOCAIHAG tap in and follow the project placeholder" />
   </main>
-  <script>window.location.replace("/trap-house/" + (window.location.hash || ""));</script>
 </body>
 </html>

@@ -1,186 +1,75 @@
-<!DOCTYPE html>
+﻿<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Book | IHOCAIHAG</title>
-  <meta name="description" content="The book behind IHOCAIHAG: memoir, field notes, grief, jokes, screenshots, footage, and the permanent written object behind the archive." />
-  <link rel="stylesheet" href="/styles.css?v=public-clean-1" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>IHOCAIHAG | Site Upgrade</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      background: #030303;
+      color: #f3eee6;
+    }
+
+    body {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      overflow-x: hidden;
+    }
+
+    main {
+      width: min(100%, 1900px);
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(10px, 1.6vw, 28px);
+      align-items: center;
+      justify-items: center;
+      padding: clamp(10px, 2vw, 32px);
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      max-width: min(760px, 48vw);
+      max-height: calc(100vh - clamp(20px, 4vw, 64px));
+      object-fit: contain;
+      filter: drop-shadow(0 22px 38px rgba(0, 0, 0, 0.72));
+    }
+
+    @media (max-width: 820px) {
+      body {
+        place-items: start center;
+      }
+
+      main {
+        grid-template-columns: 1fr;
+        min-height: auto;
+        padding: 0;
+        gap: 0;
+      }
+
+      img {
+        max-width: 100%;
+        max-height: none;
+        width: 100%;
+        filter: none;
+      }
+    }
+  </style>
 </head>
 <body>
-  <header class="topbar">
-    <nav class="site-shell nav canonical-nav">
-      <a class="brand" href="/"><strong>The Book</strong><span>Permanent object / archive spine</span></a>
-      <div class="nav-links">
-        <a href="/">Home</a>
-        <a href="/map/">Map</a>
-        <a href="/drops/">Official Drops</a>
-        <a href="/trap-pass/">Trap Pass</a>
-        <a href="/trap-house/">Trap House</a>
-        <a href="/store/">Store</a>
-        <a href="/about/">About</a>
-      </div>
-      <a class="button danger nav-utility" data-pass-utility href="/trap-pass/">Get Trap Pass</a>
-    </nav>
-  </header>
-
-  <section class="page-hero book-hero">
-    <img src="/assets/trap-house/book-full-spread.png" alt="Full IHOCAIHAG book spread with front cover, spine, and back cover" />
-    <div class="site-shell page-hero-lockup">
-      <span class="eyebrow">The Book</span>
-      <h1>The Written Spine</h1>
-      <p class="lead">The book is the permanent object behind the archive: memoir, field notes, jokes, damage, grief, money panic, systems critique, screenshots, captions, and the parts that could not fit inside a clip.</p>
-      <p class="sublead">Not cleaned up after the fact. Pulled from the fire.</p>
-      <div class="cta-row">
-        <a class="button primary" href="/store/#hardcover-preorder">Preorder The Book</a>
-        <a class="button" href="#sample-reader">Read Excerpt</a>
-        <a class="button danger" href="/drops/">Watch Official Drops</a>
-      </div>
-    </div>
-  </section>
-
-  <main class="site-shell">
-    <section class="section split-feature">
-      <a class="asset-frame image-link" href="#back-cover" aria-label="Jump to the back-cover description">
-        <img src="/assets/trap-house/book-full-spread.png" alt="IHOCAIHAG full book spread showing front cover, spine, and back cover" />
-      </a>
-      <div class="panel feature-copy">
-        <span class="eyebrow">The Written Spine</span>
-        <h2>Writing Inside The Fire</h2>
-        <p class="lead">The writing was not produced from a safe distance. It came out of the same phones, notebooks, screenshots, rooms, and nights that made the footage.</p>
-        <p class="sublead">The book carries the child photo, the masked identity, the writing desk, the evidence wall, and the thread map back to the same person: Ryan Homanics.</p>
-        <div class="cta-row">
-          <a class="button primary" href="#sample-reader">Read Sample</a>
-          <a class="button" href="#author-proof">Author Proof</a>
-        </div>
-      </div>
-    </section>
-
-    <section id="back-cover" class="section">
-      <div class="section-head">
-        <div>
-          <span class="eyebrow">Back Cover</span>
-          <h2>The Description On The Object</h2>
-        </div>
-        <p>This copy gives the book its public frame without pretending the wreckage is clean.</p>
-      </div>
-      <div class="panel book-reader">
-        <p><strong>IHOCAIHAG is not a repetitive recovery slogan, not a cautionary poster, and not another polished addiction memoir cleaned up enough to make everyone comfortable.</strong></p>
-        <p>It is a documentary-book experience: a written companion carved from inside the wreckage instead of safely after it.</p>
-        <p>This is the story of a life looping through destruction while still trying to understand itself: educated enough to define the machine, damaged enough to get crushed by it, and stubborn enough to keep crawling back through the rubble with a notebook in one hand and a bad plan in the other.</p>
-        <p>This is not fiction. This is not glamorous. This is the evidence. This is the diagnosis. This is what happens when a breaking point becomes a thread.</p>
-      </div>
-    </section>
-
-    <section id="sample-reader" class="section split-feature reverse">
-      <div class="panel book-reader">
-        <span class="eyebrow">Sample Chapter Reader</span>
-        <h2>Approved Excerpt Slot</h2>
-        <p class="lead">A sample chapter reader will live here with approved excerpt pages. For now, this preview uses public book copy so the page has a real reading surface without pretending final chapter pages are already approved.</p>
-        <p><strong>Opening Reader Excerpt:</strong> The book gives the chaos a permanent object: something you can hold, mark up, come back to, and follow through the wreckage.</p>
-        <p>Approved chapter text can drop into this reader as soon as Ryan selects the exact pages.</p>
-      </div>
-      <a class="asset-frame image-link poster-fit" href="/preorders/" aria-label="Open preorders for the book">
-        <img src="/assets/trap-house/book-full-spread.png" alt="IHOCAIHAG book artwork used as the sample reader cover" />
-      </a>
-    </section>
-
-    <section id="author-proof" class="section split-feature">
-      <a class="asset-frame image-link poster-fit" href="/about/" aria-label="Open the project background">
-        <img src="/assets/trap-house/author-bio-poster.png" alt="Ryan Homanics author and documentarian proof poster" />
-      </a>
-      <div class="panel feature-copy">
-        <span class="eyebrow">Author Proof</span>
-        <h2>Ryan Homanics</h2>
-        <p class="lead">Ryan Homanics is a Pittsburgh writer, documentarian, and author of <em>Dopesick: The American Addiction to Heroin and Profit</em>.</p>
-        <p class="sublead">His work moves between memoir, social indictment, field report, and underground archive, dragging addiction, class, grief, psychosis, survival, and collapse into plain view.</p>
-        <p class="sublead">With a voice that is educated, damaged, furious, and strangely devotional, Homanics writes from inside the wreckage, turning personal ruin into evidence, diagnosis, and thread.</p>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="section-head">
-        <div>
-          <span class="eyebrow">How It Connects</span>
-          <h2>How It Connects</h2>
-        </div>
-        <p>The book is the written spine of the project: memoir, field notes, grief, jokes, systems, screenshots, footage, and the objects that kept surviving the wreckage.</p>
-      </div>
-      <div class="card-grid four">
-        <a class="card image-card image-link" href="/dopesick/">
-          <img src="/assets/trap-house/dopesick-definitive-edition.png" alt="Dopesick definitive edition cover" />
-          <div>
-            <span class="eyebrow">01 Book Spine</span>
-            <h3>Book Spine</h3>
-            <p>The written version of the story: scenes, aftermath, notes, and the cleanest route through the chaos.</p>
-          </div>
-        </a>
-        <a class="card image-card image-link" href="#back-cover">
-          <img src="/assets/trap-house/book-full-spread.png" alt="IHOCAIHAG back cover and front cover spread" />
-          <div>
-            <span class="eyebrow">02 Documentary Tie</span>
-            <h3>Documentary Tie</h3>
-            <p>Selected clips, warnings, transcript pulls, and scene drops point back to the same chapter logic.</p>
-          </div>
-        </a>
-        <a class="card image-card image-link" href="#author-proof">
-          <img src="/assets/trap-house/author-bio-poster.png" alt="Ryan Homanics author proof poster" />
-          <div>
-            <span class="eyebrow">03 Thread Keys</span>
-            <h3>Thread Keys</h3>
-            <p>Grief, addiction, psychosis, cats, writing, public witness, platform war, and convergence keep crossing.</p>
-          </div>
-        </a>
-        <a class="card image-card image-link" href="#collector-shelf">
-          <img src="/assets/trap-house/collector-bookshelf-room.png" alt="Collector bookshelf with Dopesick and IHOCAIHAG objects" />
-          <div>
-            <span class="eyebrow">04 Collector Layer</span>
-            <h3>Collector Layer</h3>
-            <p>Books, passes, shirts, cards, and evidence objects make the archive something people can hold.</p>
-          </div>
-        </a>
-      </div>
-    </section>
-
-    <section id="collector-shelf" class="section split-feature reverse">
-      <div class="panel feature-copy">
-        <span class="eyebrow">Next Click</span>
-        <h2>Move From Shelf To Story</h2>
-        <p class="lead">Use Dopesick as the origin shelf, then step into the new book, thread board, raw documentary, or Trap Pass.</p>
-        <div class="cta-row">
-          <a class="button primary" href="/dopesick/">Open Dopesick</a>
-          <a class="button" href="/threads/">Open Threads</a>
-          <a class="button danger" href="/trap-pass/">Get Trap Pass</a>
-        </div>
-      </div>
-      <a class="asset-frame image-link" href="/dopesick/" aria-label="Open Dopesick">
-        <img src="/assets/trap-house/collector-bookshelf-room.png" alt="Collector bookshelf with books, passes, and archive objects" />
-      </a>
-    </section>
-
-    <section class="section">
-      <div class="notice active">
-        <strong>Documentary Frame</strong>
-        <span>DISCLAIMER: This is documentary/art/archive material about addiction, psychosis, grief, survival, systems, and unsafe behavior. It is not instruction, not medical advice, not a challenge, and not encouragement to imitate anything shown.</span>
-      </div>
-    </section>
+  <main aria-label="IHOCAIHAG temporary public placeholder">
+    <img src="/assets/placeholders/site-upgrade.png" alt="IM HIGH ON CRACK AND I HAVE A GUN site upgrade deploying imminently" />
+    <img src="/assets/placeholders/tap-in.png" alt="IHOCAIHAG tap in and follow the project placeholder" />
   </main>
-
-  <footer class="footer">
-    <div class="site-shell">
-      <span>IHOCAIHAG / The Book</span>
-      <a href="/about/">Back To Project</a>
-    </div>
-  </footer>
-  <script src="/config.js?v=public-clean-1"></script>
-  <script src="/site-model.js?v=public-clean-1"></script>
-  <script src="/trap-pass-system.js?v=emergency-rescue-2"></script>
-  <script>
-    const utility = document.querySelector("[data-pass-utility]");
-    if (utility && window.TrapHouse?.getCurrentPass?.()) {
-      utility.textContent = "My Pass";
-      utility.href = "/my-pass/";
-    }
-  </script>
 </body>
 </html>

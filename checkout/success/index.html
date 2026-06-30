@@ -1,54 +1,75 @@
-<!DOCTYPE html>
+﻿<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Checkout Complete | IHOCAIHAG</title>
-  <link rel="stylesheet" href="/styles.css?v=emergency-rescue-2" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>IHOCAIHAG | Site Upgrade</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      background: #030303;
+      color: #f3eee6;
+    }
+
+    body {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      overflow-x: hidden;
+    }
+
+    main {
+      width: min(100%, 1900px);
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(10px, 1.6vw, 28px);
+      align-items: center;
+      justify-items: center;
+      padding: clamp(10px, 2vw, 32px);
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      max-width: min(760px, 48vw);
+      max-height: calc(100vh - clamp(20px, 4vw, 64px));
+      object-fit: contain;
+      filter: drop-shadow(0 22px 38px rgba(0, 0, 0, 0.72));
+    }
+
+    @media (max-width: 820px) {
+      body {
+        place-items: start center;
+      }
+
+      main {
+        grid-template-columns: 1fr;
+        min-height: auto;
+        padding: 0;
+        gap: 0;
+      }
+
+      img {
+        max-width: 100%;
+        max-height: none;
+        width: 100%;
+        filter: none;
+      }
+    }
+  </style>
 </head>
 <body>
-  <header class="topbar">
-    <nav class="site-shell nav canonical-nav">
-      <a class="brand" href="/"><strong>Checkout</strong><span>Receipt / access / status</span></a>
-      <div class="nav-links">
-        <a href="/">Home</a>
-        <a href="/map/">Map</a>
-        <a href="/drops/">Official Drops</a>
-        <a href="/trap-pass/">Trap Pass</a>
-        <a href="/trap-house/">Trap House</a>
-        <a href="/store/">Store</a>
-        <a href="/about/">About</a>
-      </div>
-      <a class="button danger nav-utility" href="/trap-pass/">Get Trap Pass</a>
-    </nav>
-  </header>
-
-  <main class="site-shell checkout-success">
-    <section class="section split-feature">
-      <div class="panel feature-copy">
-        <span class="eyebrow">Checkout Complete</span>
-        <h1>Payment Received. Your Receipt Is On The Way.</h1>
-        <p class="lead">Stripe received the checkout. Digital access and pass status update after payment is verified.</p>
-        <p class="sublead">Your Stripe receipt should arrive by email. If this was a Trap Pass purchase, check your pass again in a minute.</p>
-        <div class="cta-row">
-          <a class="button primary" href="/check-pass/">Check Pass</a>
-          <a class="button" href="/store/">Back To Store</a>
-          <a class="button danger" href="/trap-house/">Enter Trap House</a>
-        </div>
-      </div>
-      <div class="asset-frame poster-fit">
-        <img src="/assets/trap-house/trap-pass-gen2-wave1-no-brakes.png" alt="Gen 2 Wave 1 No Brakes Trap Pass" />
-      </div>
-    </section>
+  <main aria-label="IHOCAIHAG temporary public placeholder">
+    <img src="/assets/placeholders/site-upgrade.png" alt="IM HIGH ON CRACK AND I HAVE A GUN site upgrade deploying imminently" />
+    <img src="/assets/placeholders/tap-in.png" alt="IHOCAIHAG tap in and follow the project placeholder" />
   </main>
-
-  <footer class="footer">
-    <div class="site-shell">
-      <span>Payment-verified access only.</span>
-      <span>Keep your receipt email.</span>
-    </div>
-  </footer>
-  <script src="/config.js?v=emergency-rescue-2"></script>
-  <script src="/trap-pass-system.js?v=emergency-rescue-2"></script>
 </body>
 </html>

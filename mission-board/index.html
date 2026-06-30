@@ -1,67 +1,75 @@
-<!DOCTYPE html>
+﻿<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mission Board | The Trap House</title>
-  <link rel="stylesheet" href="/styles.css?v=emergency-rescue-2" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>IHOCAIHAG | Site Upgrade</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      background: #030303;
+      color: #f3eee6;
+    }
+
+    body {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      overflow-x: hidden;
+    }
+
+    main {
+      width: min(100%, 1900px);
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(10px, 1.6vw, 28px);
+      align-items: center;
+      justify-items: center;
+      padding: clamp(10px, 2vw, 32px);
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      max-width: min(760px, 48vw);
+      max-height: calc(100vh - clamp(20px, 4vw, 64px));
+      object-fit: contain;
+      filter: drop-shadow(0 22px 38px rgba(0, 0, 0, 0.72));
+    }
+
+    @media (max-width: 820px) {
+      body {
+        place-items: start center;
+      }
+
+      main {
+        grid-template-columns: 1fr;
+        min-height: auto;
+        padding: 0;
+        gap: 0;
+      }
+
+      img {
+        max-width: 100%;
+        max-height: none;
+        width: 100%;
+        filter: none;
+      }
+    }
+  </style>
 </head>
 <body>
-  <header class="topbar">
-    <nav class="site-shell nav canonical-nav">
-      <a class="brand" href="/"><strong>Mission Board</strong><span>Weekly work orders</span></a>
-      <div class="nav-links">
-        <a href="/">Home</a>
-        <a href="/map/">Map</a>
-        <a href="/drops/">Official Drops</a>
-        <a href="/trap-pass/">Trap Pass</a>
-        <a href="/trap-house/">Trap House</a>
-        <a href="/store/">Store</a>
-        <a href="/about/">About</a>
-      </div>
-      <a class="button danger nav-utility" href="/trap-pass/">Get Trap Pass</a>
-    </nav>
-  </header>
-
-  <main class="site-shell">
-    <section class="section">
-      <div class="banner-strip" style="margin-bottom: 18px;">
-        <img src="/assets/trap-house/mag-pipe-banner.png" alt="Notebook and magazine banner for mission board" />
-      </div>
-      <div class="section-head">
-        <div>
-          <span class="eyebrow">The Trap House Mission Board</span>
-          <h1>Do Something For The Archive</h1>
-        </div>
-        <p>These missions turn followers into workers for the project: sharing, voting, sorting, naming, and finding the pieces that become public drops.</p>
-      </div>
-      <div id="missionGrid" class="grid"></div>
-    </section>
-
-    <section class="section">
-      <div class="notice active">
-        <p>Report completion in the Trap House to earn roles, shoutouts, locked-drop access, early video access, Trap Pass XP, or member wall placement.</p>
-        <p>Missions connect the website, Trap House, clips, captions, threads, and proof baggies.</p>
-      </div>
-      <div class="cta-row">
-        <a class="button primary" href="/trap-pass/">Claim Trap Pass</a>
-        <a class="button danger" data-discord-link href="/discord/">Join The Trap House</a>
-      </div>
-    </section>
+  <main aria-label="IHOCAIHAG temporary public placeholder">
+    <img src="/assets/placeholders/site-upgrade.png" alt="IM HIGH ON CRACK AND I HAVE A GUN site upgrade deploying imminently" />
+    <img src="/assets/placeholders/tap-in.png" alt="IHOCAIHAG tap in and follow the project placeholder" />
   </main>
-
-  <script src="/config.js"></script>
-  <script src="/trap-pass-system.js"></script>
-  <script>
-    document.getElementById("missionGrid").innerHTML = TrapHouse.missions.map((mission) => `
-      <article class="mission-card">
-        <span class="tag">Mission ${TrapHouse.escapeHTML(mission.number)}</span>
-        <h3>${TrapHouse.escapeHTML(mission.title)}</h3>
-        <p>${TrapHouse.escapeHTML(mission.description)}</p>
-        <p><strong>Reward:</strong> ${TrapHouse.escapeHTML(mission.reward)}</p>
-        <span class="mission-status">Status: ${TrapHouse.escapeHTML(mission.status)}</span>
-      </article>
-    `).join("");
-  </script>
 </body>
 </html>

@@ -1,75 +1,75 @@
-<!DOCTYPE html>
+﻿<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Trap House Roll Call | The Trap House</title>
-  <link rel="stylesheet" href="/styles.css?v=launch-ready-3" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>IHOCAIHAG | Site Upgrade</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      background: #030303;
+      color: #f3eee6;
+    }
+
+    body {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      overflow-x: hidden;
+    }
+
+    main {
+      width: min(100%, 1900px);
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(10px, 1.6vw, 28px);
+      align-items: center;
+      justify-items: center;
+      padding: clamp(10px, 2vw, 32px);
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      max-width: min(760px, 48vw);
+      max-height: calc(100vh - clamp(20px, 4vw, 64px));
+      object-fit: contain;
+      filter: drop-shadow(0 22px 38px rgba(0, 0, 0, 0.72));
+    }
+
+    @media (max-width: 820px) {
+      body {
+        place-items: start center;
+      }
+
+      main {
+        grid-template-columns: 1fr;
+        min-height: auto;
+        padding: 0;
+        gap: 0;
+      }
+
+      img {
+        max-width: 100%;
+        max-height: none;
+        width: 100%;
+        filter: none;
+      }
+    }
+  </style>
 </head>
 <body>
-  <header class="topbar">
-    <nav class="site-shell nav">
-      <a class="brand" href="/"><strong>Trap House Roll Call</strong><span>Public holder wall</span></a>
-      <div class="nav-links">
-        <a href="/map/">Map</a>
-        <a href="/trap-pass/">Trap Pass</a>
-        <a href="/check-pass/">Check Pass</a>
-      </div>
-    </nav>
-  </header>
-
-  <main class="site-shell">
-    <section class="section">
-      <div class="section-head">
-        <div>
-          <span class="eyebrow">Proof You Were Here</span>
-          <h1>Trap House Roll Call</h1>
-        </div>
-        <p>Public wall for holder display names, pass IDs, waves, roles, mission counts, and unlock levels. Email stays private.</p>
-      </div>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Display Name</th>
-              <th>Trap Pass ID</th>
-              <th>Wave</th>
-              <th>Role</th>
-              <th>Key Status</th>
-              <th>Threads</th>
-              <th>Missions</th>
-              <th>Unlock</th>
-            </tr>
-          </thead>
-          <tbody id="rollCallBody"></tbody>
-        </table>
-      </div>
-      <div id="emptyRollCall" class="notice"></div>
-    </section>
+  <main aria-label="IHOCAIHAG temporary public placeholder">
+    <img src="/assets/placeholders/site-upgrade.png" alt="IM HIGH ON CRACK AND I HAVE A GUN site upgrade deploying imminently" />
+    <img src="/assets/placeholders/tap-in.png" alt="IHOCAIHAG tap in and follow the project placeholder" />
   </main>
-
-  <script src="/config.js"></script>
-  <script src="/trap-pass-system.js"></script>
-  <script>
-    const registry = TrapHouse.getRegistry().map(TrapHouse.publicPass);
-    const body = document.getElementById("rollCallBody");
-    const empty = document.getElementById("emptyRollCall");
-    if (!registry.length) {
-      empty.className = "notice active";
-      empty.innerHTML = "<strong>No holders yet.</strong><p>Claim a Trap Pass to step onto the Roll Call.</p>";
-    }
-    body.innerHTML = registry.map((pass) => `
-      <tr>
-        <td>${TrapHouse.escapeHTML(pass.display_name)}</td>
-        <td><a href="/pass/?id=${encodeURIComponent(pass.trap_pass_id)}">${TrapHouse.escapeHTML(pass.trap_pass_id)}</a></td>
-        <td>Wave ${TrapHouse.escapeHTML(pass.wave_number)} - ${TrapHouse.escapeHTML(pass.wave_name)}</td>
-        <td>${TrapHouse.escapeHTML(pass.discord_role)}</td>
-        <td>${TrapHouse.escapeHTML(pass.phase_name)}</td>
-        <td>${TrapHouse.escapeHTML((pass.thread_keys || []).join(", "))}</td>
-        <td>${TrapHouse.escapeHTML(pass.missions_completed)}</td>
-        <td>Level ${TrapHouse.escapeHTML(pass.unlock_level)}</td>
-      </tr>
-    `).join("");
-  </script>
 </body>
 </html>

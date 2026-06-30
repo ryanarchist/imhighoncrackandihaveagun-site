@@ -1,84 +1,75 @@
-<!DOCTYPE html>
+﻿<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>About | IHOCAIHAG</title>
-  <meta name="description" content="About IHOCAIHAG, a self-documented addiction archive by Ryan Homanics." />
-  <link rel="stylesheet" href="/styles.css?v=emergency-rescue-2" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>IHOCAIHAG | Site Upgrade</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      background: #030303;
+      color: #f3eee6;
+    }
+
+    body {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      overflow-x: hidden;
+    }
+
+    main {
+      width: min(100%, 1900px);
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(10px, 1.6vw, 28px);
+      align-items: center;
+      justify-items: center;
+      padding: clamp(10px, 2vw, 32px);
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      max-width: min(760px, 48vw);
+      max-height: calc(100vh - clamp(20px, 4vw, 64px));
+      object-fit: contain;
+      filter: drop-shadow(0 22px 38px rgba(0, 0, 0, 0.72));
+    }
+
+    @media (max-width: 820px) {
+      body {
+        place-items: start center;
+      }
+
+      main {
+        grid-template-columns: 1fr;
+        min-height: auto;
+        padding: 0;
+        gap: 0;
+      }
+
+      img {
+        max-width: 100%;
+        max-height: none;
+        width: 100%;
+        filter: none;
+      }
+    }
+  </style>
 </head>
 <body>
-  <header class="topbar">
-    <nav class="site-shell nav canonical-nav">
-      <a class="brand" href="/"><strong>IHOCAIHAG</strong><span>About the project.</span></a>
-      <div class="nav-links">
-        <a href="/">Home</a>
-        <a href="/map/">Map</a>
-        <a href="/drops/">Official Drops</a>
-        <a href="/trap-pass/">Trap Pass</a>
-        <a href="/trap-house/">Trap House</a>
-        <a href="/store/">Store</a>
-        <a href="/about/" aria-current="page">About</a>
-      </div>
-      <a class="button danger nav-utility" data-pass-utility href="/trap-pass/">Get Trap Pass</a>
-    </nav>
-  </header>
-
-  <nav class="mobile-bottom-nav" aria-label="Mobile quick navigation">
-    <a href="/map/">Map</a>
-    <a href="/drops/">Drops</a>
-    <a href="/trap-pass/">Pass</a>
-    <a href="/trap-house/">Trap House</a>
-  </nav>
-
-  <section class="page-hero project-hero">
-    <img src="/assets/trap-house/author-bio-poster.png" alt="Ryan Homanics author and documentarian bio poster" />
-    <div class="site-shell page-hero-lockup">
-      <span class="eyebrow">About</span>
-      <h1>This Is Not A Recovery Commercial</h1>
-      <p class="lead">IM HIGH ON CRACK AND I HAVE A GUN is a self-documented addiction archive by Ryan Homanics. It began as footage, notes, songs, screenshots, captions, and writing from inside a collapse. It became a book, a raw documentary, a soundtrack, a map, a Trap Pass system, and a live community.</p>
-      <div class="cta-row">
-        <a class="button primary" href="/map/">Open The Map</a>
-        <a class="button danger" href="/drops/">Watch Official Drops</a>
-      </div>
-    </div>
-  </section>
-
-  <main class="site-shell">
-    <section class="section">
-      <div class="section-head">
-        <div><span class="eyebrow">Plain English</span><h2>What Is IHOCAIHAG?</h2></div>
-        <p>A raw documentary/art/archive project about addiction, psychosis, grief, survival, systems, unsafe behavior, and trying to build something permanent out of the wreckage.</p>
-      </div>
-      <div class="system-board">
-        <article><span>01</span><h3>Why It Is Raw</h3><p>The archive comes from inside the mess, not from a clean room afterward.</p></article>
-        <article><span>02</span><h3>Why It Exists</h3><p>To make people feel addiction from the inside, then recognize the same logic everywhere.</p></article>
-        <article><span>03</span><h3>Where To Start</h3><p>Watch the official drops, open the map, then claim a Trap Pass if you want to carry a key.</p></article>
-        <article><span>04</span><h3>What It Is Not</h3><p>Not a threat, not a drug-use endorsement, not a firearm-use endorsement, not a how-to, and not a challenge.</p></article>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="notice active launch-warning">
-        <strong>DISCLAIMER</strong>
-        <p>This is documentary/art/archive material about addiction, psychosis, grief, survival, systems, and unsafe behavior. It is not instruction, not medical advice, not a challenge, and not encouragement to imitate anything shown.</p>
-        <p>SAMHSA National Helpline: 1-800-662-4357</p>
-      </div>
-    </section>
+  <main aria-label="IHOCAIHAG temporary public placeholder">
+    <img src="/assets/placeholders/site-upgrade.png" alt="IM HIGH ON CRACK AND I HAVE A GUN site upgrade deploying imminently" />
+    <img src="/assets/placeholders/tap-in.png" alt="IHOCAIHAG tap in and follow the project placeholder" />
   </main>
-
-  <footer class="footer">
-    <div class="site-shell"><span>Real people. Real pain. Real story.</span><a href="/trap-pass/">Get Trap Pass</a></div>
-  </footer>
-
-  <script src="/config.js?v=emergency-rescue-2"></script>
-  <script src="/trap-pass-system.js?v=emergency-rescue-2"></script>
-  <script>
-    const utility = document.querySelector("[data-pass-utility]");
-    if (utility && window.TrapHouse?.getCurrentPass?.()) {
-      utility.textContent = "My Pass";
-      utility.href = "/my-pass/";
-    }
-  </script>
 </body>
 </html>

@@ -1,88 +1,75 @@
-<!DOCTYPE html>
+﻿<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Verify Trap Pass | IHOCAIHAG</title>
-  <link rel="stylesheet" href="/styles.css?v=emergency-rescue-2" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>IHOCAIHAG | Site Upgrade</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      background: #030303;
+      color: #f3eee6;
+    }
+
+    body {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      overflow-x: hidden;
+    }
+
+    main {
+      width: min(100%, 1900px);
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(10px, 1.6vw, 28px);
+      align-items: center;
+      justify-items: center;
+      padding: clamp(10px, 2vw, 32px);
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      max-width: min(760px, 48vw);
+      max-height: calc(100vh - clamp(20px, 4vw, 64px));
+      object-fit: contain;
+      filter: drop-shadow(0 22px 38px rgba(0, 0, 0, 0.72));
+    }
+
+    @media (max-width: 820px) {
+      body {
+        place-items: start center;
+      }
+
+      main {
+        grid-template-columns: 1fr;
+        min-height: auto;
+        padding: 0;
+        gap: 0;
+      }
+
+      img {
+        max-width: 100%;
+        max-height: none;
+        width: 100%;
+        filter: none;
+      }
+    }
+  </style>
 </head>
 <body>
-  <header class="topbar">
-    <nav class="site-shell nav canonical-nav">
-      <a class="brand" href="/"><strong>IHOCAIHAG</strong><span>Public summary only.</span></a>
-      <div class="nav-links">
-        <a href="/">Home</a>
-        <a href="/map/">Map</a>
-        <a href="/drops/">Official Drops</a>
-        <a href="/trap-pass/">Trap Pass</a>
-        <a href="/trap-house/">Trap House</a>
-        <a href="/store/">Store</a>
-        <a href="/about/">About</a>
-      </div>
-      <a class="button danger nav-utility" data-pass-utility href="/trap-pass/">Get Trap Pass</a>
-    </nav>
-  </header>
-
-  <main class="site-shell">
-    <section class="section">
-      <div class="section-head">
-        <div>
-          <span class="eyebrow">Verification</span>
-          <h1>Trap Pass Checkpoint</h1>
-        </div>
-        <p>Trap Pass verification only returns the public pass summary: no email, private notes, or account-only details.</p>
-      </div>
-      <div id="verifyOutput" class="panel" style="padding: 18px;">
-        <p class="fineprint">Checking pass...</p>
-      </div>
-    </section>
+  <main aria-label="IHOCAIHAG temporary public placeholder">
+    <img src="/assets/placeholders/site-upgrade.png" alt="IM HIGH ON CRACK AND I HAVE A GUN site upgrade deploying imminently" />
+    <img src="/assets/placeholders/tap-in.png" alt="IHOCAIHAG tap in and follow the project placeholder" />
   </main>
-
-  <footer class="footer"></footer>
-
-  <script src="/config.js?v=emergency-rescue-2"></script>
-  <script src="/trap-pass-system.js?v=emergency-rescue-2"></script>
-  <script>
-    const utility = document.querySelector("[data-pass-utility]");
-    if (utility && window.TrapHouse?.getCurrentPass?.()) {
-      utility.textContent = "My Pass";
-      utility.href = "/my-pass/";
-    }
-
-    async function renderVerification() {
-      const output = document.getElementById("verifyOutput");
-      const params = new URLSearchParams(window.location.search);
-      const token = params.get("token");
-      const passId = params.get("id");
-
-      if (passId) {
-        const pass = await TrapHouse.setCurrentPassAsync(passId);
-        output.innerHTML = pass
-          ? `${TrapHouse.renderPassCard(pass, { hideLink: true, publicView: true })}<div class="cta-row"><a class="button primary" href="/my-pass/">Open My Pass</a><a class="button" href="/map/">Open Map</a></div>`
-          : "<div class='notice error active'><strong>No pass found.</strong><p>Use Check Pass to look it up by Trap Pass ID or email.</p></div>";
-        return;
-      }
-
-      if (!token) {
-        output.innerHTML = "<div class='notice error active'><strong>No token found.</strong><p>Use Check Pass to look up a Trap Pass by ID or email.</p></div><div class='cta-row'><a class='button primary' href='/check-pass/'>Check Pass</a></div>";
-        return;
-      }
-
-      let result;
-      try {
-        result = await TrapHouse.verifyTrapPassTokenAsync(token);
-      } catch (error) {
-        result = { verified: false };
-      }
-
-      output.innerHTML = result?.verified && result.public_summary
-        ? `${TrapHouse.renderPassCard(result.public_summary, { hideLink: true, publicView: true })}<div class="cta-row"><a class="button primary" href="/my-pass/">Open My Pass</a><a class="button" href="/map/">Open Map</a></div>`
-        : "<div class='notice error active'><strong>Pass token was not verified.</strong><p>The public profile may still be available by Trap Pass ID. No private account fields were exposed.</p></div><div class='cta-row'><a class='button primary' href='/check-pass/'>Check Pass</a></div>";
-    }
-
-    renderVerification().catch(() => {
-      document.getElementById("verifyOutput").innerHTML = "<div class='notice error active'><strong>Verification paused.</strong><p>Try Check Pass or come back in a minute.</p></div><div class='cta-row'><a class='button primary' href='/check-pass/'>Check Pass</a></div>";
-    });
-  </script>
 </body>
 </html>

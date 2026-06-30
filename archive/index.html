@@ -1,108 +1,75 @@
-<!DOCTYPE html>
+﻿<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Archive | IHOCAIHAG</title>
-  <meta name="description" content="The IHOCAIHAG archive gathers footage, transcripts, screenshots, notes, scene changes, captions, songs, and visual fragments." />
-  <link rel="stylesheet" href="/styles.css?v=emergency-rescue-2" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>IHOCAIHAG | Site Upgrade</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      background: #030303;
+      color: #f3eee6;
+    }
+
+    body {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      overflow-x: hidden;
+    }
+
+    main {
+      width: min(100%, 1900px);
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(10px, 1.6vw, 28px);
+      align-items: center;
+      justify-items: center;
+      padding: clamp(10px, 2vw, 32px);
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      max-width: min(760px, 48vw);
+      max-height: calc(100vh - clamp(20px, 4vw, 64px));
+      object-fit: contain;
+      filter: drop-shadow(0 22px 38px rgba(0, 0, 0, 0.72));
+    }
+
+    @media (max-width: 820px) {
+      body {
+        place-items: start center;
+      }
+
+      main {
+        grid-template-columns: 1fr;
+        min-height: auto;
+        padding: 0;
+        gap: 0;
+      }
+
+      img {
+        max-width: 100%;
+        max-height: none;
+        width: 100%;
+        filter: none;
+      }
+    }
+  </style>
 </head>
 <body>
-  <header class="topbar">
-    <nav class="site-shell nav canonical-nav">
-      <a class="brand" href="/"><strong>IHOCAIHAG</strong><span>Footage / notes / clips / proof.</span></a>
-      <div class="nav-links">
-        <a href="/">Home</a>
-        <a href="/map/">Map</a>
-        <a href="/drops/">Official Drops</a>
-        <a href="/trap-pass/">Trap Pass</a>
-        <a href="/trap-house/">Trap House</a>
-        <a href="/store/">Store</a>
-        <a href="/about/">About</a>
-      </div>
-      <a class="button danger nav-utility" data-pass-utility href="/trap-pass/">Get Trap Pass</a>
-    </nav>
-  </header>
-
-  <nav class="mobile-bottom-nav" aria-label="Mobile quick navigation">
-    <a href="/map/">Map</a>
-    <a href="/drops/">Drops</a>
-    <a href="/trap-pass/">Pass</a>
-    <a href="/trap-house/">Trap House</a>
-  </nav>
-
-  <section class="page-hero archive-hero">
-    <img src="/assets/trap-house/archive-channel-spread.png" alt="Archive spread for IHOCAIHAG footage, notes, and proof" />
-    <div class="site-shell page-hero-lockup">
-      <span class="eyebrow">The Archive</span>
-      <h1>The Evidence Did Not Disappear</h1>
-      <p class="lead">Footage, transcripts, screenshots, notes, scene changes, captions, songs, and visual fragments are being sorted into the threads that keep coming back.</p>
-      <div class="cta-row">
-        <a class="button primary" href="/map/">Open The Map</a>
-        <a class="button danger" href="/drops/">Watch Official Drops</a>
-        <a class="button" href="/trap-pass/">Get Trap Pass</a>
-      </div>
-    </div>
-  </section>
-
-  <main class="site-shell">
-    <section class="section">
-      <div class="section-head">
-        <div><span class="eyebrow">Footage / Notes / Clips / Proof</span><h2>The Archive Is Being Sorted Piece By Piece</h2></div>
-        <p>The archive is being sorted piece by piece: transcripts, clip pulls, visual samples, scene changes, notes, and the fragments that keep pointing back to the same story.</p>
-      </div>
-      <div class="stats-grid">
-        <article><strong>2,029</strong><span>Transcripts scanned</span></article>
-        <article><strong>1,184</strong><span>Clip candidates pulled</span></article>
-        <article><strong>476</strong><span>Visual samples indexed</span></article>
-        <article><strong>142</strong><span>Scene-change frames marked</span></article>
-      </div>
-    </section>
-
-    <section class="section split-feature reverse">
-      <div class="panel feature-copy">
-        <span class="eyebrow">Deeper Files</span>
-        <h2>Some Pulls Stay Behind The Pass</h2>
-        <p class="lead">Some raw pulls, unfinished cuts, and behind-the-build drops are held for pass holders while the archive keeps getting sorted.</p>
-        <div class="cta-row">
-          <a class="button primary" href="/trap-pass/">Get Trap Pass</a>
-          <a class="button" href="/map/">Open The Map</a>
-        </div>
-      </div>
-      <div class="asset-frame poster-fit">
-        <img src="/assets/trap-house/trap-pass-gen2-wave1-no-brakes.png" alt="No Brakes Trap Pass card on the archive table" />
-      </div>
-    </section>
-
-    <section class="section split-feature">
-      <div class="asset-frame">
-        <img src="/assets/trap-house/book-full-spread.png" alt="Book, pass, and archive objects becoming physical proof" />
-      </div>
-      <div class="panel feature-copy">
-        <span class="eyebrow">Physical Archive</span>
-        <h2>The Evidence Becomes Physical</h2>
-        <p class="lead">Books, passes, shirts, figures, labels, shelf pieces, and collector files turn the archive into something you can hold.</p>
-        <p class="sublead">Not random merch. Proof from the same dirt pile.</p>
-        <div class="cta-row">
-          <a class="button primary" href="/store/">Open Store</a>
-          <a class="button" href="/trap-pass/">Get Trap Pass</a>
-        </div>
-      </div>
-    </section>
+  <main aria-label="IHOCAIHAG temporary public placeholder">
+    <img src="/assets/placeholders/site-upgrade.png" alt="IM HIGH ON CRACK AND I HAVE A GUN site upgrade deploying imminently" />
+    <img src="/assets/placeholders/tap-in.png" alt="IHOCAIHAG tap in and follow the project placeholder" />
   </main>
-
-  <footer class="footer">
-    <div class="site-shell"><span>Footage, notes, clips, proof.</span><a href="/map/">Open The Map</a></div>
-  </footer>
-
-  <script src="/config.js?v=emergency-rescue-2"></script>
-  <script src="/trap-pass-system.js?v=emergency-rescue-2"></script>
-  <script>
-    const utility = document.querySelector("[data-pass-utility]");
-    if (utility && window.TrapHouse?.getCurrentPass?.()) {
-      utility.textContent = "My Pass";
-      utility.href = "/my-pass/";
-    }
-  </script>
 </body>
 </html>

@@ -1,98 +1,75 @@
-<!DOCTYPE html>
+﻿<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Trap House | IHOCAIHAG</title>
-  <meta name="description" content="The Trap House is the live room for IHOCAIHAG: Discord, pass roles, drop reactions, archive work, and thread rooms." />
-  <link rel="stylesheet" href="/styles.css?v=emergency-rescue-2" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>IHOCAIHAG | Site Upgrade</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      background: #030303;
+      color: #f3eee6;
+    }
+
+    body {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      overflow-x: hidden;
+    }
+
+    main {
+      width: min(100%, 1900px);
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(10px, 1.6vw, 28px);
+      align-items: center;
+      justify-items: center;
+      padding: clamp(10px, 2vw, 32px);
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      max-width: min(760px, 48vw);
+      max-height: calc(100vh - clamp(20px, 4vw, 64px));
+      object-fit: contain;
+      filter: drop-shadow(0 22px 38px rgba(0, 0, 0, 0.72));
+    }
+
+    @media (max-width: 820px) {
+      body {
+        place-items: start center;
+      }
+
+      main {
+        grid-template-columns: 1fr;
+        min-height: auto;
+        padding: 0;
+        gap: 0;
+      }
+
+      img {
+        max-width: 100%;
+        max-height: none;
+        width: 100%;
+        filter: none;
+      }
+    }
+  </style>
 </head>
 <body>
-  <header class="topbar">
-    <nav class="site-shell nav canonical-nav">
-      <a class="brand" href="/"><strong>IHOCAIHAG</strong><span>Pull up inside.</span></a>
-      <div class="nav-links">
-        <a href="/">Home</a>
-        <a href="/map/">Map</a>
-        <a href="/drops/">Official Drops</a>
-        <a href="/trap-pass/">Trap Pass</a>
-        <a href="/trap-house/" aria-current="page">Trap House</a>
-        <a href="/store/">Store</a>
-        <a href="/about/">About</a>
-      </div>
-      <a class="button danger nav-utility" data-pass-utility href="/trap-pass/">Get Trap Pass</a>
-    </nav>
-  </header>
-
-  <nav class="mobile-bottom-nav" aria-label="Mobile quick navigation">
-    <a href="/map/">Map</a>
-    <a href="/drops/">Drops</a>
-    <a href="/trap-pass/">Pass</a>
-    <a href="/trap-house/" aria-current="page">Trap House</a>
-  </nav>
-
-  <section class="discord-masthead">
-    <div class="site-shell discord-lockup">
-      <img class="discord-logo" src="/assets/trap-house/trap-house-discord-logo.png" alt="The Trap House Discord logo" />
-      <div>
-        <span class="eyebrow">Trap House</span>
-        <h1>The Trap House Is Open</h1>
-        <p class="lead">The archive lives here. The Trap House is where the people following it talk back.</p>
-        <p class="sublead">Drop reactions, thread rooms, pass roles, archive work, and the kind of conversations that do not fit in a caption.</p>
-        <div class="cta-row">
-          <a class="button danger" data-discord-link href="/discord/">Join Trap House</a>
-          <a class="button primary" href="/trap-pass/">Get Trap Pass</a>
-          <a class="button" data-pass-only hidden href="/my-pass/">My Pass</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <main class="site-shell">
-    <section class="section">
-      <div class="section-head">
-        <div><span class="eyebrow">Inside The Trap House</span><h2>What Happens Inside</h2></div>
-        <p>The front room is for people who watched the clip and wanted the rest of the story.</p>
-      </div>
-      <div class="system-board">
-        <article><span>01</span><h3>Announcements</h3><p>Official drops, pass updates, and project movement.</p></article>
-        <article><span>02</span><h3>Drop Reactions</h3><p>Watch it hit, then argue, laugh, react, and catch what others missed.</p></article>
-        <article><span>03</span><h3>Thread Rooms</h3><p>Separate rooms for the storylines running through the archive.</p></article>
-        <article><span>04</span><h3>Pass Roles</h3><p>Trap Pass holders get marked by wave, tier, and role.</p></article>
-        <article><span>05</span><h3>Archive Work</h3><p>Clip hunts, quote pulls, captions, thumbnails, and witness work.</p></article>
-        <article><span>06</span><h3>Heavy Rooms</h3><p>Deeper conversations with clear rules.</p></article>
-      </div>
-    </section>
-
-    <section class="section split-feature reverse">
-      <div class="panel feature-copy">
-        <span class="eyebrow">Front Door</span>
-        <h2>Knock, Then Come In</h2>
-        <p class="lead">Announcements on the wall. People on the couch. Clips getting argued over before they become official drops.</p>
-        <p class="sublead">Bring a pass if you have one. Pull up anyway if you do not.</p>
-      </div>
-      <div class="asset-frame">
-        <img src="/assets/trap-house/trap-house-live-invite-poster.png" alt="The Trap House live invite poster" />
-      </div>
-    </section>
+  <main aria-label="IHOCAIHAG temporary public placeholder">
+    <img src="/assets/placeholders/site-upgrade.png" alt="IM HIGH ON CRACK AND I HAVE A GUN site upgrade deploying imminently" />
+    <img src="/assets/placeholders/tap-in.png" alt="IHOCAIHAG tap in and follow the project placeholder" />
   </main>
-
-  <footer class="footer">
-    <div class="site-shell"><span>The Trap House is the live room.</span><a href="/trap-pass/">Get Trap Pass</a></div>
-  </footer>
-
-  <script src="/config.js?v=emergency-rescue-2"></script>
-  <script src="/trap-pass-system.js?v=emergency-rescue-2"></script>
-  <script>
-    const utility = document.querySelector("[data-pass-utility]");
-    const currentPass = window.TrapHouse?.getCurrentPass?.();
-    if (utility && currentPass) {
-      utility.textContent = "My Pass";
-      utility.href = "/my-pass/";
-    }
-    document.querySelectorAll("[data-pass-only]").forEach((link) => {
-      link.hidden = !currentPass;
-    });
-  </script>
 </body>
 </html>

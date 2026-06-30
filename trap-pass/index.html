@@ -1,241 +1,75 @@
-<!DOCTYPE html>
+﻿<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Trap Pass | IHOCAIHAG</title>
-  <link rel="stylesheet" href="/styles.css?v=emergency-rescue-2" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>IHOCAIHAG | Site Upgrade</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      background: #030303;
+      color: #f3eee6;
+    }
+
+    body {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      overflow-x: hidden;
+    }
+
+    main {
+      width: min(100%, 1900px);
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(10px, 1.6vw, 28px);
+      align-items: center;
+      justify-items: center;
+      padding: clamp(10px, 2vw, 32px);
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      max-width: min(760px, 48vw);
+      max-height: calc(100vh - clamp(20px, 4vw, 64px));
+      object-fit: contain;
+      filter: drop-shadow(0 22px 38px rgba(0, 0, 0, 0.72));
+    }
+
+    @media (max-width: 820px) {
+      body {
+        place-items: start center;
+      }
+
+      main {
+        grid-template-columns: 1fr;
+        min-height: auto;
+        padding: 0;
+        gap: 0;
+      }
+
+      img {
+        max-width: 100%;
+        max-height: none;
+        width: 100%;
+        filter: none;
+      }
+    }
+  </style>
 </head>
 <body>
-  <header class="topbar">
-    <nav class="site-shell nav canonical-nav">
-      <a class="brand" href="/"><strong>IHOCAIHAG</strong><span>Proof you stepped inside.</span></a>
-      <div class="nav-links">
-        <a href="/">Home</a>
-        <a href="/map/">Map</a>
-        <a href="/drops/">Official Drops</a>
-        <a href="/trap-pass/" aria-current="page">Trap Pass</a>
-        <a href="/trap-house/">Trap House</a>
-        <a href="/store/">Store</a>
-        <a href="/about/">About</a>
-      </div>
-      <a class="button danger nav-utility" data-pass-utility href="/trap-pass/">Get Trap Pass</a>
-    </nav>
-  </header>
-
-  <nav class="mobile-bottom-nav" aria-label="Mobile quick navigation">
-    <a href="/map/">Map</a>
-    <a href="/drops/">Drops</a>
-    <a href="/trap-pass/" aria-current="page">Pass</a>
-    <a href="/trap-house/">Trap House</a>
-  </nav>
-
-  <main class="site-shell">
-    <section class="section">
-      <div class="section-head">
-        <div>
-          <span class="eyebrow">Trap Pass</span>
-          <h1>Get Your Trap Pass</h1>
-        </div>
-        <p>A Trap Pass is part key, part receipt, part proof you stepped inside before the whole thing was finished.</p>
-        <p class="sublead">Pick how deep you want to go.</p>
-      </div>
-      <div class="grid three">
-        <article class="checkout-card">
-          <span class="store-number">FREE PASS</span>
-          <h3>Step Inside</h3>
-          <p>Get updates, first announcements, and proof you entered the map.</p>
-          <strong class="price-tag">$0</strong>
-          <a class="button primary" href="#claim">Claim Free Pass</a>
-        </article>
-        <article class="checkout-card premium">
-          <span class="store-number">CASH FOR TRASH TRAP PASS</span>
-          <h3>Go Deeper</h3>
-          <p>Extra drops, deeper archive access, bonus material, project votes, and private access.</p>
-          <strong class="price-tag">$4.99 / MONTH</strong>
-          <a class="button primary" href="/store/#cash-for-trash">Upgrade To Cash For Trash</a>
-        </article>
-        <article class="checkout-card premium">
-          <span class="store-number">HANDY SASS TRAP PASS</span>
-          <h3>Hold The Proof</h3>
-          <p>Mailed collectible card, serialized holder status, autograph path, and premium access identity.</p>
-          <strong class="price-tag">$39.99</strong>
-          <a class="button primary" href="/store/#handy-sass">Get Handy Sass</a>
-        </article>
-      </div>
-    </section>
-
-    <section class="section" id="claim">
-      <div class="section-head">
-        <div>
-          <span class="eyebrow">Claim Form</span>
-          <h2>Claim Free Pass</h2>
-        </div>
-        <p>Your email stays private. Public pass pages show the name, pass, wave, role, and unlock status you choose to carry.</p>
-      </div>
-      <div class="grid two">
-        <div class="panel" style="padding: 18px;">
-          <form id="trapPassForm" class="form-grid">
-            <div class="field">
-              <label for="email">Email</label>
-              <input id="email" name="email" type="email" autocomplete="email" required placeholder="you@example.com" />
-            </div>
-            <div class="field">
-              <label for="displayName">Display Name</label>
-              <input id="displayName" name="displayName" type="text" autocomplete="nickname" placeholder="Archive Witness" />
-            </div>
-            <div class="field">
-              <label for="discordUsername">Discord Username</label>
-              <input id="discordUsername" name="discordUsername" type="text" placeholder="@username" />
-            </div>
-            <div class="field full">
-              <button class="primary" type="submit">Claim Trap Pass</button>
-            </div>
-          </form>
-          <div class="pass-bullets">
-            <strong>A Trap Pass can carry:</strong>
-            <span>Public pass ID</span>
-            <span>Wave</span>
-            <span>Tier</span>
-            <span>Holder name</span>
-            <span>Role</span>
-            <span>Unlock status</span>
-          </div>
-          <div id="passNotice" class="notice"></div>
-        </div>
-        <div class="pass-card">
-          <span class="pass-stamp">Current Wave</span>
-          <div class="pass-id">NO BRAKES</div>
-          <p class="lead">Gen 2 Wave 1</p>
-          <div class="meta-list">
-            <div><span>Default Role</span><strong>No Brakes</strong></div>
-            <div><span>Status</span><strong>Active</strong></div>
-            <div><span>Access</span><strong>Level 1</strong></div>
-            <div><span>Public View</span><strong>Shareable</strong></div>
-            <div><span>Sample ID</span><strong>NB-0100</strong></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section split-feature">
-      <div class="asset-frame poster-fit">
-        <img src="/assets/trap-house/trap-pass-gen2-wave1-no-brakes.png" alt="Gen 2 Wave 1 No Brakes Trap Pass card" />
-      </div>
-      <div class="panel feature-copy">
-        <span class="eyebrow">Physical Feel / Digital Key</span>
-        <h2>No Brakes Means You Got In Before The Next Door Opened</h2>
-        <p class="lead">A serial, a card, a role, and a little proof that you were here before the walls were finished.</p>
-        <div class="cta-row">
-          <a class="button primary" href="/check-pass/">Check Your Pass</a>
-          <a class="button" href="/map/">Open The Map</a>
-          <a class="button" href="/trap-pass/#pass-history">See Pass History</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="pass-history">
-      <div class="section-head">
-        <div>
-          <span class="eyebrow">Pass History</span>
-          <h2>Who Got In First</h2>
-        </div>
-        <p>The pass waves mark when people stepped into the archive. Handy Sass and Cash For Trash are tiers, not waves.</p>
-      </div>
-      <div class="grid two">
-        <article class="panel feature-copy">
-          <span class="eyebrow">Generation 1</span>
-          <h3>Wave 1 - Ride Or Dies</h3>
-          <p>The first people.</p>
-          <h3>Wave 2 - When 3 Deer Appear</h3>
-          <p>How many times until coincidences turn to true? Shivers down your spine when you feel it too.</p>
-          <h3>Wave 3 - All Hands On Deck</h3>
-          <p>Battle stations all of you, not stopping until the dream comes true.</p>
-          <h3>Wave 4 - Bring The Storm</h3>
-          <p>Relax, Refresh, Reform, Bring The Storm.</p>
-          <p class="sublead">When you're a pro at catchin bows, what's invaluable for you to know, is what ammo u must reload.</p>
-        </article>
-        <article class="panel feature-copy">
-          <span class="eyebrow">Generation 2</span>
-          <h3>Gen 2 Wave 1 - No Brakes</h3>
-          <p>The current active public wave.</p>
-          <div class="cta-row">
-            <a class="button primary" href="#claim">Claim Free Pass</a>
-            <a class="button" href="/store/#cash-for-trash">Upgrade Pass</a>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="notice active">
-        <strong>No Private Fields</strong>
-        <span>Public pass views show only what belongs on the card: pass ID, wave, role, and proof badges. Email and private notes stay off the wall.</span>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="section-head">
-        <div>
-          <span class="eyebrow">Confirmation Output</span>
-          <h2>Your Pass Appears Here</h2>
-        </div>
-        <p>Save the ID, then use Check Your Pass, the Trap Pass Wallet, or the public summary page. Public pass views stay shareable.</p>
-      </div>
-      <div id="createdPassOutput" class="panel" style="padding: 18px;">
-        <p class="fineprint">No pass claimed yet in this session.</p>
-      </div>
-    </section>
+  <main aria-label="IHOCAIHAG temporary public placeholder">
+    <img src="/assets/placeholders/site-upgrade.png" alt="IM HIGH ON CRACK AND I HAVE A GUN site upgrade deploying imminently" />
+    <img src="/assets/placeholders/tap-in.png" alt="IHOCAIHAG tap in and follow the project placeholder" />
   </main>
-
-  <footer class="footer">
-    <div class="site-shell">
-      <span>Private fields stay private. Public pass pages show only the access summary.</span>
-      <a href="/trap-pass/#pass-history">See Pass History</a>
-    </div>
-  </footer>
-
-  <script src="/config.js?v=emergency-rescue-2"></script>
-  <script src="/trap-pass-system.js?v=emergency-rescue-2"></script>
-  <script>
-    const utility = document.querySelector("[data-pass-utility]");
-    if (utility && window.TrapHouse?.getCurrentPass?.()) {
-      utility.textContent = "My Pass";
-      utility.href = "/my-pass/";
-    }
-
-    const output = document.getElementById("createdPassOutput");
-    const current = TrapHouse.getCurrentPass();
-    if (current) output.innerHTML = TrapHouse.renderPassCard(current);
-
-    function publicClaimError(error) {
-      const message = String(error?.message || "");
-      if (/valid email|claims open|browser blocked|not saved/i.test(message)) {
-        return TrapHouse.escapeHTML(message);
-      }
-      return "Something blocked the claim. Try again in a minute or use Check Your Pass if you already claimed one.";
-    }
-
-    document.getElementById("trapPassForm").addEventListener("submit", async (event) => {
-      event.preventDefault();
-      const form = new FormData(event.currentTarget);
-      const notice = document.getElementById("passNotice");
-      try {
-        const result = await TrapHouse.createTrapPassAsync({
-          email: form.get("email"),
-          displayName: form.get("displayName"),
-          discordUsername: form.get("discordUsername")
-        });
-        notice.className = "notice active";
-        notice.innerHTML = result.existed
-          ? "<strong>Existing pass found.</strong><p>Your Trap Pass is selected. Join The Trap House to unlock your role.</p>"
-          : "<strong>Your Trap Pass is active.</strong><p>Join The Trap House to unlock your role. Save your Trap Pass ID.</p>";
-        output.innerHTML = `${TrapHouse.renderPassCard(result.pass)}<div class="cta-row"><a class="button primary" href="/check-pass/">Check Your Pass</a></div>`;
-      } catch (error) {
-        notice.className = "notice error active";
-        notice.innerHTML = `<strong>Could not claim pass.</strong><p>${publicClaimError(error)}</p>`;
-      }
-    });
-  </script>
 </body>
 </html>

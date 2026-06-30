@@ -1,136 +1,75 @@
-<!DOCTYPE html>
+﻿<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Pass | IHOCAIHAG</title>
-  <meta name="description" content="Your Trap Pass dashboard for selected pass details, public pass link, map, Trap House, upgrades, and billing path." />
-  <link rel="stylesheet" href="/styles.css?v=emergency-rescue-2" />
-</head>
-<body>
-  <header class="topbar">
-    <nav class="site-shell nav canonical-nav">
-      <a class="brand" href="/"><strong>IHOCAIHAG</strong><span>Your key in the drawer.</span></a>
-      <div class="nav-links">
-        <a href="/">Home</a>
-        <a href="/map/">Map</a>
-        <a href="/drops/">Official Drops</a>
-        <a href="/trap-pass/">Trap Pass</a>
-        <a href="/trap-house/">Trap House</a>
-        <a href="/store/">Store</a>
-        <a href="/about/">About</a>
-      </div>
-      <a class="button danger nav-utility" href="/my-pass/" aria-current="page">My Pass</a>
-    </nav>
-  </header>
-
-  <nav class="mobile-bottom-nav" aria-label="Mobile quick navigation">
-    <a href="/map/">Map</a>
-    <a href="/drops/">Drops</a>
-    <a href="/trap-pass/" aria-current="page">Pass</a>
-    <a href="/trap-house/">Trap House</a>
-  </nav>
-
-  <main class="site-shell">
-    <section class="section">
-      <div class="section-head">
-        <div>
-          <span class="eyebrow">Your Trap Pass</span>
-          <h1>Your Trap Pass</h1>
-        </div>
-        <p>This is your key. Keep it close.</p>
-      </div>
-      <div class="grid two">
-        <div class="panel" style="padding: 18px;">
-          <form id="myPassLookupForm" class="form-grid">
-            <div class="field full">
-              <label for="myPassLookup">Trap Pass ID Or Email</label>
-              <input id="myPassLookup" name="lookup" type="text" placeholder="NB-0100 or you@example.com" autocomplete="off" />
-            </div>
-            <div class="field full">
-              <button class="primary" type="submit">Find My Pass</button>
-            </div>
-          </form>
-          <div id="myPassNotice" class="notice"></div>
-          <div class="cta-row" style="margin-top: 18px;">
-            <a class="button" href="/trap-pass/">Claim Pass</a>
-            <a class="button" href="/map/">Open Map</a>
-          </div>
-        </div>
-        <div id="myPassOutput" class="panel" style="padding: 18px;">
-          <p class="fineprint">Your selected Trap Pass appears here.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="section-head">
-        <div><span class="eyebrow">Actions</span><h2>What You Can Do Next</h2></div>
-        <p>The pass is the receipt. The rest of the house opens from here.</p>
-      </div>
-      <div class="grid four">
-        <a class="card" href="/map/"><span class="tag">Map</span><h3>Open Map</h3><p>Follow the threads attached to the project.</p></a>
-        <a class="card" href="/trap-house/"><span class="tag">Community</span><h3>Join Trap House</h3><p>Pull up when you are ready.</p></a>
-        <a class="card" href="/store/#cash-for-trash"><span class="tag">Upgrade</span><h3>Upgrade Pass</h3><p>Open paid pass options and first-run drops.</p></a>
-        <a class="card" href="/billing/"><span class="tag">Billing</span><h3>Manage Billing</h3><p>Receipts, payment changes, and paid-pass help live here.</p></a>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer"></footer>
-
-  <script src="/config.js?v=emergency-rescue-2"></script>
-  <script src="/trap-pass-system.js?v=emergency-rescue-2"></script>
-  <script>
-    const output = document.getElementById("myPassOutput");
-    const notice = document.getElementById("myPassNotice");
-
-    function renderPass(pass) {
-      if (!pass) {
-        output.innerHTML = "<p class='fineprint'>No pass selected yet.</p>";
-        return;
-      }
-      const safe = TrapHouse.publicPass(pass);
-        output.innerHTML = `
-          ${TrapHouse.renderPassCard(pass, { hideLink: true })}
-          <div class="cta-row">
-            <a class="button primary" href="${safe.public_url}">View Public Pass</a>
-            <button class="button" type="button" data-copy-pass-id="${safe.trap_pass_id}">Copy Pass ID</button>
-            <a class="button" href="/trap-house/">Join Trap House</a>
-            <a class="button" href="/map/">Open Map</a>
-            <a class="button" href="/store/#cash-for-trash">Upgrade Pass</a>
-            <a class="button" href="/trap-pass/#claim">Edit Display Name</a>
-            <a class="button" href="/billing/">Manage Billing</a>
-          </div>
-        `;
-        output.querySelector("[data-copy-pass-id]")?.addEventListener("click", async (event) => {
-          const button = event.currentTarget;
-          await navigator.clipboard?.writeText(button.dataset.copyPassId || "");
-          button.textContent = "Pass ID Copied";
-        });
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>IHOCAIHAG | Site Upgrade</title>
+  <style>
+    * {
+      box-sizing: border-box;
     }
 
-    renderPass(TrapHouse.getCurrentPass());
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      background: #030303;
+      color: #f3eee6;
+    }
 
-    document.getElementById("myPassLookupForm").addEventListener("submit", async (event) => {
-      event.preventDefault();
-      const query = new FormData(event.currentTarget).get("lookup");
-      try {
-        const pass = await TrapHouse.setCurrentPassAsync(query);
-        if (!pass) {
-          notice.className = "notice error active";
-          notice.innerHTML = "<strong>No pass found.</strong><p>Claim one first or check the ID again.</p>";
-          renderPass(null);
-          return;
-        }
-        notice.className = "notice active";
-        notice.innerHTML = "<strong>Trap Pass selected.</strong><p>Your shareable pass card is loaded.</p>";
-        renderPass(pass);
-      } catch (error) {
-        notice.className = "notice error active";
-        notice.innerHTML = "<strong>Lookup failed.</strong><p>Your pass could not be checked. Try again in a minute.</p>";
+    body {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      overflow-x: hidden;
+    }
+
+    main {
+      width: min(100%, 1900px);
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(10px, 1.6vw, 28px);
+      align-items: center;
+      justify-items: center;
+      padding: clamp(10px, 2vw, 32px);
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      max-width: min(760px, 48vw);
+      max-height: calc(100vh - clamp(20px, 4vw, 64px));
+      object-fit: contain;
+      filter: drop-shadow(0 22px 38px rgba(0, 0, 0, 0.72));
+    }
+
+    @media (max-width: 820px) {
+      body {
+        place-items: start center;
       }
-    });
-  </script>
+
+      main {
+        grid-template-columns: 1fr;
+        min-height: auto;
+        padding: 0;
+        gap: 0;
+      }
+
+      img {
+        max-width: 100%;
+        max-height: none;
+        width: 100%;
+        filter: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main aria-label="IHOCAIHAG temporary public placeholder">
+    <img src="/assets/placeholders/site-upgrade.png" alt="IM HIGH ON CRACK AND I HAVE A GUN site upgrade deploying imminently" />
+    <img src="/assets/placeholders/tap-in.png" alt="IHOCAIHAG tap in and follow the project placeholder" />
+  </main>
 </body>
 </html>
