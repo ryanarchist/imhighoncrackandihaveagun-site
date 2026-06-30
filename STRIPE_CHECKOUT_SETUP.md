@@ -79,6 +79,13 @@ Cancel:
 https://imhighoncrackandihaveagun.com/shop
 ```
 
+API runtime on the Vercel deployment:
+
+```text
+https://imhighoncrackandihaveagun-site.vercel.app/api/stripe/health
+https://imhighoncrackandihaveagun-site.vercel.app/api/stripe/create-checkout-session
+```
+
 Webhook on the Vercel deployment:
 
 ```text
@@ -96,3 +103,11 @@ Stripe must send events to `/api/stripe/webhook`, not the homepage.
 ## Static Launch Guard
 
 GitHub Pages can publish the site, but it cannot run `/api/stripe/*`. The current public build keeps checkout buttons disabled until the app is deployed on a serverless host such as Vercel or Netlify with the secrets above.
+
+The public static site is configured to call the Vercel API runtime for Stripe health checks and Checkout Sessions. Paid checkout opens only when the Vercel health endpoint returns:
+
+```json
+{ "ready": true }
+```
+
+If the health endpoint returns `missing`, add those exact env vars to the Vercel project and redeploy. Do not open checkout from frontend-only code; the webhook is what records orders and grants paid Trap Pass access.

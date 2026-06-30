@@ -1,3 +1,5 @@
+const { handleCors } = require("../_utils/cors");
+
 function sendJson(res, status, body) {
   res.statusCode = status;
   res.setHeader("Content-Type", "application/json");
@@ -19,13 +21,10 @@ function hasSupabaseSecret() {
 }
 
 module.exports = async function handler(req, res) {
-  if (req.method === "OPTIONS") {
-    res.setHeader("Allow", "GET, OPTIONS");
-    return sendJson(res, 204, {});
-  }
+  res.setHeader("Allow", "GET, OPTIONS");
+  if (handleCors(req, res, ["GET", "OPTIONS"])) return;
 
   if (req.method !== "GET") {
-    res.setHeader("Allow", "GET");
     return sendJson(res, 405, { error: "method_not_allowed" });
   }
 

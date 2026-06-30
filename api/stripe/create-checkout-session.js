@@ -1,6 +1,7 @@
 const path = require("path");
 const { pathToFileURL } = require("url");
 const Stripe = require("stripe");
+const { handleCors } = require("../_utils/cors");
 
 async function loadCatalog() {
   const catalogPath = path.join(__dirname, "..", "..", "scripts", "stripe", "products.mjs");
@@ -116,13 +117,10 @@ function checkoutMetadata(product, body) {
 }
 
 module.exports = async function handler(req, res) {
-  if (req.method === "OPTIONS") {
-    res.setHeader("Allow", "POST, OPTIONS");
-    return sendJson(res, 204, {});
-  }
+  res.setHeader("Allow", "POST, OPTIONS");
+  if (handleCors(req, res, ["POST", "OPTIONS"])) return;
 
   if (req.method !== "POST") {
-    res.setHeader("Allow", "POST");
     return sendJson(res, 405, { error: "method_not_allowed" });
   }
 

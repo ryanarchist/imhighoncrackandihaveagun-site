@@ -15,6 +15,9 @@
   const stripePublishableKey = "pk_live_51Tjrqm3iX61YIuk6dkq0RAt61pF3XVBvTrT7zD7ZWUBIAZ7M9D0nDRov6G6myFPJXvJj3Yuuy11WmmKrGVzQEKT300WoPXQtlD";
   const stripeMode = stripePublishableKey.startsWith("pk_live_") ? "live" : "test";
   const checkoutPreviewEnabled = getLocalValue("iho_preorder_checkout_enabled") === "1";
+  const stripeApiHost = "https://imhighoncrackandihaveagun-site.vercel.app";
+  const stripeApiBaseUrl = getLocalValue("iho_stripe_api_base_url")
+    || (window.location.hostname === "imhighoncrackandihaveagun-site.vercel.app" ? "" : stripeApiHost);
 
   window.TRAP_HOUSE_CONFIG = {
     storageNamespace: "iho_trap_house_v1",
@@ -36,8 +39,8 @@
     stripePublishableKey,
     stripeMode,
     stripeCheckoutReady: checkoutPreviewEnabled,
-    stripeCheckoutHealthEndpoint: "/api/stripe/health",
-    stripeCheckoutSessionEndpoint: "/api/stripe/create-checkout-session",
+    stripeCheckoutHealthEndpoint: `${stripeApiBaseUrl}/api/stripe/health`,
+    stripeCheckoutSessionEndpoint: `${stripeApiBaseUrl}/api/stripe/create-checkout-session`,
     instagramUrl: "https://www.instagram.com/ihocaihag/",
     tiktokUrl: "https://www.tiktok.com/@ihocaihagofficial",
     threadsUrl: "https://www.threads.net/@ihocaihag",
