@@ -14,8 +14,9 @@
   const hasSupabase = Boolean(supabaseUrl && supabasePublishableKey);
   const checkoutUsesServerHealth = true;
   const stripeApiHost = "https://imhighoncrackandihaveagun-site.vercel.app";
+  const isVercelDeployment = window.location.hostname.endsWith(".vercel.app");
   const stripeApiBaseUrl = getLocalValue("iho_stripe_api_base_url")
-    || (window.location.hostname === "imhighoncrackandihaveagun-site.vercel.app" ? "" : stripeApiHost);
+    || (isVercelDeployment ? "" : stripeApiHost);
 
   window.TRAP_HOUSE_CONFIG = {
     storageNamespace: "iho_trap_house_v1",

@@ -61,6 +61,11 @@ const configWindow = loadBrowserScript("config.js", {
   localStorage: { getItem: () => "" }
 });
 const config = configWindow.TRAP_HOUSE_CONFIG || {};
+const previewConfigWindow = loadBrowserScript("config.js", {
+  location: { hostname: "imhighoncrackandihaveagun-site-git-launch-ryanarchists-projects.vercel.app" },
+  localStorage: { getItem: () => "" }
+});
+const previewConfig = previewConfigWindow.TRAP_HOUSE_CONFIG || {};
 
 check(siteProducts.length === STRIPE_PRODUCTS.length, "Store and Stripe catalog product counts differ.");
 check(new Set(siteProducts.map((product) => product.key)).size === siteProducts.length, "Store product keys must be unique.");
@@ -110,6 +115,8 @@ check(CHECKOUT_CANCEL_URL === "https://imhighoncrackandihaveagun.com/store/", "S
 check(localTargetExists("/checkout/success/"), "Checkout success route is missing.");
 check(config.stripeCheckoutHealthEndpoint === "https://imhighoncrackandihaveagun-site.vercel.app/api/stripe/health", "Browser Stripe health endpoint is incorrect.");
 check(config.stripeCheckoutSessionEndpoint === "https://imhighoncrackandihaveagun-site.vercel.app/api/stripe/create-checkout-session", "Browser Checkout Session endpoint is incorrect.");
+check(previewConfig.stripeCheckoutHealthEndpoint === "/api/stripe/health", "Vercel Preview health checks must stay on the current deployment.");
+check(previewConfig.stripeCheckoutSessionEndpoint === "/api/stripe/create-checkout-session", "Vercel Preview checkout must stay on the current deployment.");
 check(!("stripePublishableKey" in config), "Hosted Checkout does not need a browser Stripe publishable key.");
 
 const checkoutSource = fs.readFileSync(path.join(root, "checkout.js"), "utf8");
