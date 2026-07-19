@@ -7,6 +7,7 @@
   const stateKey = storageConfig.stateKey || "iho_trap_pass_v2:state";
   const sessionHolderKey = storageConfig.sessionHolderKey || "iho_trap_pass_v2:session_holder";
   const authAccessTokenKey = storageConfig.authAccessTokenKey || "iho_trap_pass_v2:auth_access";
+  const publicWalletSessionKey = storageConfig.publicWalletSessionKey || "iho_trap_pass_v2:public_wallet";
   const legacyRegistryKey = storageConfig.legacyRegistryKey || "iho_trap_house_v1:registry";
   const legacyCurrentPassKey = storageConfig.legacyCurrentPassKey || "iho_trap_house_v1:current_pass_id";
   const localHosts = new Set(["localhost", "127.0.0.1", "::1", ""]);
@@ -479,9 +480,32 @@
     return sessionSet(sessionHolderKey, normalizeSerial(holderPublicId));
   }
 
+  function savePublicWalletSession(wallet) {
+    try {
+      if (wallet) {
+        window.sessionStorage.setItem(publicWalletSessionKey, JSON.stringify(wallet));
+      } else {
+        window.sessionStorage.removeItem(publicWalletSessionKey);
+      }
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  function loadPublicWalletSession() {
+    try {
+      const raw = window.sessionStorage.getItem(publicWalletSessionKey);
+      return raw ? JSON.parse(raw) : null;
+    } catch (error) {
+      return null;
+    }
+  }
+
   function signOut() {
     sessionSet(sessionHolderKey, "");
     sessionSet(authAccessTokenKey, "");
+    savePublicWalletSession(null);
   }
 
   function setAuthenticatedSession(accessToken) {
@@ -618,6 +642,22 @@
     });
   }
 
+  async function lookupPublicWalletAsync(query) {
+    const raw = sanitize(query, 220);
+    if (!raw) throw new Error("Enter your claim email or pass ID.");
+    if (!passConfig.claims?.publicLookupRpc) return null;
+    const lookupQuery = raw.includes("@") ? normalizeEmail(raw) : legacyLiveLookupQuery(raw);
+    const lookup = await supabaseRpc(passConfig.claims.publicLookupRpc, { p_query: lookupQuery });
+    const pass = lookup?.pass || lookup?.[0]?.pass || null;
+    if (!pass) {
+      savePublicWalletSession(null);
+      return null;
+    }
+    const wallet = publicClaimWalletFromLegacyPass(pass);
+    savePublicWalletSession(wallet);
+    return wallet;
+  }
+
   async function requestAccessAsync(email) {
     const clean = normalizeEmail(email);
     if (!isEmail(clean)) throw new Error("Enter a valid email.");
@@ -631,6 +671,17 @@
         message: holder
           ? "Local review wallet opened."
           : "No local review wallet exists for that email."
+      };
+    }
+    if (passConfig.claims?.publicLookupRpc) {
+      const wallet = await lookupPublicWalletAsync(clean);
+      return {
+        ok: true,
+        wallet,
+        publicClaimOnly: Boolean(wallet),
+        message: wallet
+          ? "My Pass opened."
+          : "No Trap Pass was found for that email yet. Claim your free pass first."
       };
     }
     await captureEntryEmail({ email: clean, source: "trap_pass_recovery" });
@@ -656,11 +707,13 @@
         });
         const pass = result?.pass || result?.[0]?.pass || null;
         if (!pass) throw new Error("Trap Pass claim did not return a pass.");
+        const wallet = publicClaimWalletFromLegacyPass(pass);
+        savePublicWalletSession(wallet);
         return {
           ok: true,
           existed: Boolean(result.existed),
           publicClaimOnly: true,
-          wallet: publicClaimWalletFromLegacyPass(pass)
+          wallet
         };
       }
       await captureEntryEmail({ email: input.email, source: "trap_pass_claim" });
@@ -686,7 +739,7 @@
       return walletBundle(state, getSessionHolder(state));
     }
     const accessToken = getAuthAccessToken();
-    if (!accessToken) return null;
+    if (!accessToken) return loadPublicWalletSession();
     return supabaseRpc("trap_pass_get_my_wallet", {}, { accessToken });
   }
 
@@ -827,7 +880,16 @@
   }
 
   function getCurrentHolderSummary() {
-    if (!isLocalReviewHost() && !getAuthAccessToken()) return null;
+    if (!isLocalReviewHost() && !getAuthAccessToken()) {
+      const publicWallet = loadPublicWalletSession();
+      return publicWallet?.holderPublicId ? {
+        holderPublicId: publicWallet.holderPublicId,
+        trapIdentity: publicWallet.trapIdentity || "",
+        publicProfileUrl: passConfig.routes?.publicProfile
+          ? passConfig.routes.publicProfile(publicWallet.holderPublicId)
+          : `/pass/${publicWallet.holderPublicId}`
+      } : null;
+    }
     const state = loadState();
     const holder = getSessionHolder(state);
     if (!holder) return null;
@@ -1164,7 +1226,7 @@
   }
 
   function getCurrentPass() {
-    const wallet = isLocalReviewHost() ? walletBundle(loadState(), getSessionHolder(loadState())) : null;
+    const wallet = isLocalReviewHost() ? walletBundle(loadState(), getSessionHolder(loadState())) : loadPublicWalletSession();
     return wallet?.featuredPass || null;
   }
 
@@ -1236,6 +1298,7 @@
     claimHolderAsync,
     createTrapPassAsync: claimHolderAsync,
     requestAccessAsync,
+    lookupPublicWalletAsync,
     claimNewReleaseAsync,
     updateMyProfileAsync,
     validateSerialAsync,

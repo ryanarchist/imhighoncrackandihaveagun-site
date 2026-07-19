@@ -1376,8 +1376,8 @@
       },
       recovery: {
         eyebrow: "Open My Pass",
-        headline: "Use Your Verified Email",
-        body: "Your private wallet opens only after email ownership is verified. Entering an email alone never reveals a wallet."
+        headline: "Open Your Pass",
+        body: "Enter the email you used to claim your Trap Pass. This opens your holder and card view on this device. Your claim email stays private."
       },
       explainer: {
         eyebrow: "What A Trap Pass Is",

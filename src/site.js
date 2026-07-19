@@ -1087,6 +1087,8 @@
     const available = wallet.availableReleases || [];
     const unlockEmail = window.TrapHouse?.config?.cashForTrash?.personalUnlockEmail || "imhighoncrackandihaveagun@gmail.com";
     const unlockMail = `mailto:${unlockEmail}?subject=${encodeURIComponent(`Cash For Trash unlock ${wallet.holderPublicId}`)}&body=${encodeURIComponent(wallet.personalUnlockCode || "")}`;
+    const publicOnly = Boolean(wallet.publicClaimOnly || wallet.fullWalletAvailable === false);
+    const passCheckUrl = `/check-pass/?serial=${encodeURIComponent(selectedCard?.cardSerial || wallet.holderPublicId || "")}`;
     return `
       <div class="wallet-shell" data-wallet data-selected-serial="${attr(selectedCard?.cardSerial || "")}" data-flipped="${flipped ? "true" : "false"}">
         <section class="wallet-identity">
@@ -1101,7 +1103,7 @@
         </section>
         ${renderSelectedPass(wallet, selectedCard, flipped)}
         ${renderWalletCollection(wallet, selectedCard?.cardSerial)}
-        ${available.length ? `
+        ${!publicOnly && available.length ? `
           <section class="wallet-section panel">
             <header class="section-header"><span class="eyebrow">Available Now</span><h2>Claim A New Pass</h2></header>
             <div class="cta-row">${available.map((release) => `<button class="button primary" type="button" data-claim-release="${attr(release.id)}">${esc(`${actions.claimNewPass || "Claim New Pass"}: ${release.name}`)}</button>`).join("")}</div>
@@ -1117,20 +1119,35 @@
                 <div class="cta-row"><button class="button" type="button" data-copy-value="${attr(wallet.personalUnlockCode)}">${esc(actions.copyUnlockCode || "Copy Personal Unlock Code")}</button>${button(actions.emailUnlockCode || "Email Your Code", unlockMail)}</div>
               </div>
             ` : ""}
-            <div class="cta-row">${button(actions.upgradePass || "Upgrade Tier", "/store/#cash-for-trash", true)}${button(actions.buyPhysicalPass || "Buy Physical Pass", "/store/#handy-sass")}</div>
+            ${publicOnly ? `
+              <p class="section-copy">Your free pass is live on this device. This view shows your holder ID, card serial, release, tier, and pass art. Your claim email stays private.</p>
+              <div class="cta-row">
+                ${button(actions.verifyPass || "Check This Pass", passCheckUrl, true)}
+                <button class="button" type="button" data-copy-value="${attr(wallet.holderPublicId)}">Copy Holder ID</button>
+              </div>
+            ` : `<div class="cta-row">${button(actions.upgradePass || "Upgrade Tier", "/store/#cash-for-trash", true)}${button(actions.buyPhysicalPass || "Buy Physical Pass", "/store/#handy-sass")}</div>`}
           </article>
           <article class="panel">${sectionHeader(content.passContent?.explainer)}</article>
         </section>
-        <section class="wallet-section panel">
-          <header class="section-header"><span class="eyebrow">Holder Profile</span><h2>Privacy And Public Threads</h2></header>
-          <form class="pass-form" data-wallet-profile-form>
-            <label class="field"><span>Trap identity</span><input name="trapIdentity" maxlength="40" value="${attr(wallet.trapIdentity || "")}" /></label>
-            <label class="check-row"><input name="publicProfileEnabled" type="checkbox" ${wallet.publicProfileEnabled ? "checked" : ""} /><span>Make my holder profile public</span></label>
-            <fieldset class="thread-checks"><legend>Threads shown on my public profile</legend>${threadChoices(wallet.selectedPublicThreadSlugs)}</fieldset>
-            <div class="cta-row"><button class="button primary" type="submit">${esc(actions.saveProfile || "Save Profile")}</button>${wallet.publicProfileEnabled ? button(actions.viewPublicProfile || "View Public Profile", wallet.publicProfileUrl) : ""}<button class="button" type="button" data-wallet-signout>${esc(actions.signOut || "Close Wallet")}</button></div>
-          </form>
-          <div class="notice" data-wallet-notice></div>
-        </section>
+        ${publicOnly ? `
+          <section class="wallet-section panel">
+            <header class="section-header"><span class="eyebrow">Wallet Access</span><h2>THIS PASS IS OPEN</h2></header>
+            <p class="section-copy">To open it again on this device, come back to My Pass. To use another device, enter the same claim email.</p>
+            <div class="cta-row"><button class="button" type="button" data-wallet-signout>${esc(actions.signOut || "Close Wallet")}</button>${button(actions.claimNewPass || "Claim Another Pass", "/trap-pass/")}</div>
+            <div class="notice" data-wallet-notice></div>
+          </section>
+        ` : `
+          <section class="wallet-section panel">
+            <header class="section-header"><span class="eyebrow">Holder Profile</span><h2>Privacy And Public Threads</h2></header>
+            <form class="pass-form" data-wallet-profile-form>
+              <label class="field"><span>Trap identity</span><input name="trapIdentity" maxlength="40" value="${attr(wallet.trapIdentity || "")}" /></label>
+              <label class="check-row"><input name="publicProfileEnabled" type="checkbox" ${wallet.publicProfileEnabled ? "checked" : ""} /><span>Make my holder profile public</span></label>
+              <fieldset class="thread-checks"><legend>Threads shown on my public profile</legend>${threadChoices(wallet.selectedPublicThreadSlugs)}</fieldset>
+              <div class="cta-row"><button class="button primary" type="submit">${esc(actions.saveProfile || "Save Profile")}</button>${wallet.publicProfileEnabled ? button(actions.viewPublicProfile || "View Public Profile", wallet.publicProfileUrl) : ""}<button class="button" type="button" data-wallet-signout>${esc(actions.signOut || "Close Wallet")}</button></div>
+            </form>
+            <div class="notice" data-wallet-notice></div>
+          </section>
+        `}
       </div>
     `;
   }
@@ -1138,16 +1155,17 @@
   function renderWalletRecovery(message = "") {
     const page = content.passContent || {};
     const accessReady = Boolean(window.TrapHouse?.admin?.localReview)
+      || Boolean(window.TrapHouse?.config?.claims?.publicLookupRpc)
       || Boolean(window.TrapHouse?.config?.recovery?.emailProviderConfigured);
     return `
       <div class="wallet-recovery two-column">
         <article class="panel">${sectionHeader(page.recovery)}</article>
         <article class="panel">
           ${accessReady ? `<form class="pass-form" data-wallet-recovery-form>
-            <label class="field"><span>${esc(forms.email || "Email")}</span><input name="email" type="email" autocomplete="email" required /></label>
+            <label class="field"><span>${esc(forms.email || "Claim email")}</span><input name="email" type="email" autocomplete="email" required /></label>
             <button class="button primary" type="submit">${esc(forms.myPass || "Open My Pass")}</button>
           </form>` : ""}
-          <div class="notice${message || !accessReady ? " active" : ""}" data-wallet-recovery-notice>${esc(message || (!accessReady ? "Secure email wallet access is being connected and is not open yet." : ""))}</div>
+          <div class="notice${message || !accessReady ? " active" : ""}" data-wallet-recovery-notice>${esc(message || (!accessReady ? "Trap Pass lookup is unavailable right now." : ""))}</div>
         </article>
       </div>
     `;
@@ -1297,6 +1315,10 @@
         notice.textContent = states.loading || "Loading...";
         try {
           const result = await window.TrapHouse.requestAccessAsync(new FormData(form).get("email"));
+          if (result?.wallet) {
+            showWallet(result.wallet);
+            return;
+          }
           const openedWallet = await window.TrapHouse.getMyWalletAsync();
           if (openedWallet) {
             showWallet(openedWallet);

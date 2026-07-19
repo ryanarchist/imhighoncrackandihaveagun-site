@@ -187,6 +187,7 @@
       stateKey: "iho_trap_pass_v2:state",
       sessionHolderKey: "iho_trap_pass_v2:session_holder",
       authAccessTokenKey: "iho_trap_pass_v2:auth_access",
+      publicWalletSessionKey: "iho_trap_pass_v2:public_wallet",
       legacyRegistryKey: "iho_trap_house_v1:registry",
       legacyCurrentPassKey: "iho_trap_house_v1:current_pass_id"
     },
@@ -221,7 +222,7 @@
     },
     recovery: {
       emailProviderConfigured: false,
-      blockedMessage: "Secure email access is not configured yet. No wallet was opened.",
+      blockedMessage: "Trap Pass lookup is unavailable right now.",
       requiredConfiguration: "Configure Supabase Auth email delivery and a PKCE callback before enabling production recovery."
     },
     cashForTrash: {
