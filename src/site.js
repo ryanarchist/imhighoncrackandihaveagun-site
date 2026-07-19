@@ -805,18 +805,6 @@
         </div>
       </section>
       <section class="section compact">
-        <div class="container two-column">
-          <article class="panel">${sectionHeader(page.objectBundle)}</article>
-          ${imagePanel(page.objectBundle)}
-        </div>
-      </section>
-      <section class="section compact">
-        <div class="container two-column flip">
-          ${imagePanel(page.featuredTrapPass)}
-          <article class="panel">${sectionHeader(page.featuredTrapPass)}</article>
-        </div>
-      </section>
-      <section class="section compact">
         <div class="container panel">${sectionHeader(page.disclaimer)}</div>
       </section>
     `;

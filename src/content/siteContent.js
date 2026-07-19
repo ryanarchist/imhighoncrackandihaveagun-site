@@ -1140,20 +1140,6 @@
           imageFit: "contain"
         }
       ],
-      featuredTrapPass: {
-        eyebrow: "Trap Pass Feature",
-        headline: "Trap Pass",
-        body: "Wave is when someone entered. Tier is the type and depth. Pass is the individual key and identity.",
-        imageSrc: asset("trap-pass-no-brakes-current-approved.png"),
-        imageAlt: "No Brakes Gen 2 Wave 1 Trap Pass"
-      },
-      objectBundle: {
-        eyebrow: "Physical Archive Feature",
-        headline: "Physical Archive",
-        body: "Books, apparel, and project objects that carry pieces of the archive into the physical world.",
-        imageSrc: asset("store-hardcover-book-approved.png"),
-        imageAlt: "IHOCAIHAG hardcover book"
-      },
       disclaimer: {
         eyebrow: "Purchase Note",
         headline: "Purchase Note",
