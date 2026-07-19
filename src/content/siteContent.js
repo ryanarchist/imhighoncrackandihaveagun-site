@@ -362,8 +362,10 @@
     ],
     imageSrc: asset("home-main-banner-sharp-approved.png"),
     imageAlt: "IHOCAIHAG documentary banner with the masked portrait and project archive",
-    backgroundPosition: "center center",
-    mobileBackgroundPosition: "92% center",
+    backgroundPosition: "78% 48%",
+    backgroundSize: "min(1120px, 58vw) auto",
+    mobileBackgroundPosition: "84% 48%",
+    mobileBackgroundSize: "auto 106%",
     socialLinks
   };
 

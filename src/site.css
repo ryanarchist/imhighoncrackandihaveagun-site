@@ -212,8 +212,8 @@ input {
   background:
     linear-gradient(90deg, rgba(3, 3, 3, 0.92) 0%, rgba(3, 3, 3, 0.72) 34%, rgba(3, 3, 3, 0.24) 68%, rgba(3, 3, 3, 0.74) 100%),
     var(--hero-image, linear-gradient(135deg, #190809, #030303));
-  background-position: var(--hero-position, center center);
-  background-size: cover;
+  background-position: center center, var(--hero-position, center center);
+  background-size: cover, var(--hero-size, cover);
   background-repeat: no-repeat;
 }
 
@@ -1286,8 +1286,8 @@ p {
     background:
       linear-gradient(180deg, rgba(3, 3, 3, 0.18) 0%, rgba(3, 3, 3, 0.72) 48%, rgba(3, 3, 3, 0.98) 100%),
       var(--hero-image, linear-gradient(135deg, #190809, #030303));
-    background-position: var(--hero-mobile-position, center top);
-    background-size: cover;
+    background-position: center center, var(--hero-mobile-position, center top);
+    background-size: cover, var(--hero-mobile-size, var(--hero-size, cover));
   }
 
   .hero.hero-contain {

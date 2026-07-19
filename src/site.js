@@ -140,7 +140,9 @@
     const styles = [
       hero.imageSrc ? `--hero-image: url('${attr(hero.imageSrc)}')` : "",
       hero.objectPosition || hero.backgroundPosition ? `--hero-position: ${attr(hero.objectPosition || hero.backgroundPosition)}` : "",
-      hero.mobileObjectPosition || hero.mobileBackgroundPosition ? `--hero-mobile-position: ${attr(hero.mobileObjectPosition || hero.mobileBackgroundPosition)}` : ""
+      hero.mobileObjectPosition || hero.mobileBackgroundPosition ? `--hero-mobile-position: ${attr(hero.mobileObjectPosition || hero.mobileBackgroundPosition)}` : "",
+      hero.backgroundSize ? `--hero-size: ${attr(hero.backgroundSize)}` : "",
+      hero.mobileBackgroundSize ? `--hero-mobile-size: ${attr(hero.mobileBackgroundSize)}` : ""
     ].filter(Boolean).join("; ");
 
     return `
