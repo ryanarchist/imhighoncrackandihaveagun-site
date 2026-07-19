@@ -3,6 +3,7 @@ const {
   cleanText,
   isEmail,
   normalizeEmail,
+  notificationConfig,
   notifyTrapPassSignup
 } = require("../_utils/trapPassNotifications");
 
@@ -88,8 +89,17 @@ function passFromResult(result) {
 }
 
 module.exports = async function handler(req, res) {
-  res.setHeader("Allow", "POST, OPTIONS");
-  if (handleCors(req, res, ["POST", "OPTIONS"])) return;
+  res.setHeader("Allow", "GET, POST, OPTIONS");
+  if (handleCors(req, res, ["GET", "POST", "OPTIONS"])) return;
+
+  if (req.method === "GET") {
+    const notify = notificationConfig();
+    return sendJson(res, 200, {
+      claimReady: Boolean(supabaseServerConfig()),
+      notificationReady: notify.configured,
+      notificationMissing: notify.missing
+    });
+  }
 
   if (req.method !== "POST") {
     return sendJson(res, 405, { error: "method_not_allowed" });

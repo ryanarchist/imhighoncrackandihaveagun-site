@@ -163,6 +163,13 @@ try {
   check(JSON.parse(checkoutResponse.body).error === "checkout_not_ready", "Unconfigured Checkout Session endpoint returned the wrong error.");
 
   const claimHandler = require(path.join(root, "api/trap-pass/claim.js"));
+  const claimHealthResponse = mockResponse();
+  await claimHandler({ method: "GET", headers: {} }, claimHealthResponse);
+  const claimHealthBody = JSON.parse(claimHealthResponse.body);
+  check(claimHealthResponse.statusCode === 200, "Trap Pass claim health endpoint must return 200.");
+  check(claimHealthBody.claimReady === false, "Unconfigured Trap Pass claim health must report claimReady=false.");
+  check(claimHealthBody.notificationReady === false, "Unconfigured Trap Pass claim health must report notificationReady=false.");
+
   const claimResponse = mockResponse();
   await claimHandler({ method: "POST", headers: {}, body: { email: "claim@example.com" } }, claimResponse);
   check(claimResponse.statusCode === 503, "Unconfigured Trap Pass claim endpoint must return 503.");
