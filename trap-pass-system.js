@@ -7,7 +7,7 @@
   const stateKey = storageConfig.stateKey || "iho_trap_pass_v2:state";
   const sessionHolderKey = storageConfig.sessionHolderKey || "iho_trap_pass_v2:session_holder";
   const authAccessTokenKey = storageConfig.authAccessTokenKey || "iho_trap_pass_v2:auth_access";
-  const publicWalletSessionKey = storageConfig.publicWalletSessionKey || "iho_trap_pass_v2:public_wallet";
+  const publicWalletSessionKey = storageConfig.publicWalletSessionKey || "iho_trap_pass_v2:public_wallet:serial-v2";
   const legacyRegistryKey = storageConfig.legacyRegistryKey || "iho_trap_house_v1:registry";
   const legacyCurrentPassKey = storageConfig.legacyCurrentPassKey || "iho_trap_house_v1:current_pass_id";
   const localHosts = new Set(["localhost", "127.0.0.1", "::1", ""]);
@@ -138,10 +138,39 @@
     return clean;
   }
 
+  function positiveInteger(value) {
+    const number = Number(value);
+    return Number.isInteger(number) && number > 0 ? number : 0;
+  }
+
+  function legacySerialFromPass(pass = {}) {
+    const directSerial = [
+      pass.serial_number,
+      pass.serialNumber,
+      pass.serial,
+      pass.pass_serial,
+      pass.passSerial
+    ].map(positiveInteger).find(Boolean);
+    if (directSerial) return directSerial;
+
+    const passId = normalizeSerial(pass.trap_pass_id || pass.trapPassId || pass.pass_id || pass.passId);
+    const idMatch = passId.match(/(?:^|[-_])0*(\d+)$/);
+    return positiveInteger(idMatch?.[1]);
+  }
+
+  function holderNumberFromPublicPass(pass = {}) {
+    const holderId = normalizeSerial(pass.holderPublicId || pass.holder_public_id || pass.holder_id || pass.holderId);
+    const holderMatch = holderId.match(/^TP-(\d{4,})$/);
+    if (holderMatch) return positiveInteger(holderMatch[1]);
+    const sourceSerial = legacySerialFromPass(pass);
+    return sourceSerial ? legacyLiveSerialToHolderNumber(sourceSerial) : 0;
+  }
+
   function publicClaimWalletFromLegacyPass(pass = {}) {
     const currentRelease = getCurrentRelease();
-    const sourceSerial = Number(pass.serial_number) || Number(String(pass.trap_pass_id || "").match(/\d+$/)?.[0]) || 1;
-    const holderNumber = legacyLiveSerialToHolderNumber(sourceSerial);
+    const sourceSerial = legacySerialFromPass(pass);
+    const holderNumber = holderNumberFromPublicPass(pass);
+    if (!holderNumber) throw new Error("Trap Pass serial is unavailable. Reopen My Pass to refresh it from the live registry.");
     const holderPublicId = formatHolderId(holderNumber);
     const cardSerial = formatCardSerial(currentRelease, holderNumber);
     const timestamp = pass.created_at || nowIso();
@@ -161,6 +190,7 @@
     return {
       holderPublicId,
       sourcePassId: normalizeSerial(pass.trap_pass_id),
+      sourceSerialNumber: sourceSerial,
       trapIdentity,
       displayIdentity: trapIdentity || holderPublicId,
       originalEntryWave: currentRelease?.name || "No Brakes",

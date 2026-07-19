@@ -187,7 +187,7 @@
       stateKey: "iho_trap_pass_v2:state",
       sessionHolderKey: "iho_trap_pass_v2:session_holder",
       authAccessTokenKey: "iho_trap_pass_v2:auth_access",
-      publicWalletSessionKey: "iho_trap_pass_v2:public_wallet",
+      publicWalletSessionKey: "iho_trap_pass_v2:public_wallet:serial-v2",
       legacyRegistryKey: "iho_trap_house_v1:registry",
       legacyCurrentPassKey: "iho_trap_house_v1:current_pass_id"
     },
