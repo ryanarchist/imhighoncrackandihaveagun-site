@@ -6,11 +6,8 @@
   const defaultSocialImage = asset("ihocaihag-rectangle-logo.png");
   const socialLinks = [
     { key: "instagram", label: "Instagram", href: "https://instagram.com/ihocaihag" },
-    { key: "tiktok", label: "TikTok", href: "https://tiktok.com/@ihocaihagofficial" },
-    { key: "threads", label: "Threads", href: "https://threads.net/@ihocaihag" },
     { key: "youtube", label: "YouTube", href: "https://youtube.com/@imhighoncrackandihaveagun" },
-    { key: "x", label: "X", href: "https://x.com/comradejizzy" },
-    { key: "patreon", label: "Patreon", href: "https://patreon.com/IMHIGHONCRACKANDIHAVEAGUN" },
+    { key: "tiktok", label: "TikTok", href: "https://tiktok.com/@ihocaihagofficial" },
     { key: "discord", label: "Discord", href: "https://discord.gg/64MKTrGGsD" }
   ];
   const projectTitle = "IM HIGH ON CRACK AND I HAVE A GUN";
@@ -366,7 +363,8 @@
     imageSrc: asset("home-main-banner-sharp-approved.png"),
     imageAlt: "IHOCAIHAG documentary banner with the masked portrait and project archive",
     backgroundPosition: "center center",
-    mobileBackgroundPosition: "92% center"
+    mobileBackgroundPosition: "92% center",
+    socialLinks
   };
 
   window.IHOCAIHAGSiteContent = {

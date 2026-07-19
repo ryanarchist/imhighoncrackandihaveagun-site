@@ -100,6 +100,15 @@
     return `<a class="button${primary ? " primary" : ""}" href="${attr(href || "#")}"${target}${extraAttrs}>${esc(label || actions.open || "Open")}</a>`;
   }
 
+  function socialButtons(links = [], className = "social-links") {
+    if (!Array.isArray(links) || !links.length) return "";
+    return `
+      <div class="${attr(className)}" aria-label="Official social links">
+        ${links.map((link) => `<a href="${attr(link.href)}" target="_blank" rel="noopener noreferrer">${esc(link.label)}</a>`).join("")}
+      </div>
+    `;
+  }
+
   function imagePanel(item = {}, options = {}) {
     const classes = ["image-panel", options.contain || item.imageFit === "contain" ? "contain" : ""].filter(Boolean).join(" ");
     const styles = [
@@ -152,6 +161,7 @@
                 ${hero.ctaSecondaryLabel ? button(hero.ctaSecondaryLabel, hero.ctaSecondaryHref, false) : ""}
               </div>
             ` : ""}
+            ${socialButtons(hero.socialLinks, "hero-social-links")}
           </div>
         </div>
       </section>
@@ -265,9 +275,9 @@
             ${footer.triggerWarningText ? `<div class="disclaimer warning">${esc(footer.triggerWarningText)}</div>` : ""}
             ${footer.supportLabel ? `<p class="small-note">${esc(footer.supportLabel)}</p>` : ""}
           </div>
-          <div class="social-links">
+          <div class="footer-actions">
             ${(footer.utilityLinks || []).map((link) => `<a href="${attr(link.href)}">${esc(link.label)}</a>`).join("")}
-            ${social.map((link) => `<a href="${attr(link.href)}" target="_blank" rel="noopener noreferrer">${esc(link.label)}</a>`).join("")}
+            ${socialButtons(social)}
           </div>
         </div>
       </footer>
