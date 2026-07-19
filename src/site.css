@@ -270,27 +270,27 @@ h3 {
   font-weight: 400;
   letter-spacing: 0;
   text-transform: uppercase;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
 }
 
 h1 {
   max-width: 14ch;
   font-size: 88px;
   line-height: 0.86;
-  overflow-wrap: anywhere;
   text-wrap: balance;
 }
 
 h2 {
   font-size: 70px;
   line-height: 0.9;
-  overflow-wrap: anywhere;
   text-wrap: balance;
 }
 
 h3 {
   font-size: 38px;
   line-height: 0.95;
-  overflow-wrap: anywhere;
   text-wrap: balance;
 }
 
@@ -390,13 +390,21 @@ p {
 }
 
 .five-grid {
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 218px), 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .card-grid,
-.thread-grid,
 .product-grid {
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+}
+
+.thread-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.five-grid h3,
+.thread-grid h3 {
+  font-size: 34px;
 }
 
 .two-column {
@@ -839,8 +847,8 @@ p {
   line-height: 0.9;
   text-transform: uppercase;
   white-space: pre-line;
-  overflow-wrap: anywhere;
-  word-break: keep-all;
+  overflow-wrap: normal;
+  word-break: normal;
   hyphens: none;
   text-wrap: balance;
 }
@@ -1174,6 +1182,11 @@ p {
   .featured-card {
     grid-column: span 1;
   }
+
+  .five-grid,
+  .thread-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 760px) {
@@ -1278,6 +1291,11 @@ p {
 
   .product-title {
     font-size: 38px;
+  }
+
+  .five-grid,
+  .thread-grid {
+    grid-template-columns: 1fr;
   }
 
   .entry-card:has(.media-embed) {

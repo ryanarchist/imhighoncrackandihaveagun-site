@@ -632,7 +632,9 @@
           buttonLabel: "Watch Official Drops",
           buttonHref: "/drops/",
           imageSrc: asset("official-drops-approved.png"),
-          imageAlt: "Ryan seated in the project workspace"
+          imageAlt: "IHOCAIHAG documentary DVD displayed with archive evidence",
+          imageFit: "contain",
+          objectPosition: "center center"
         },
         {
           id: "trap-pass",
@@ -678,8 +680,9 @@
         ctaSecondaryLabel: "Open The Map",
         ctaSecondaryHref: "/map/",
         imageSrc: asset("official-drops-approved.png"),
-        imageAlt: "Ryan seated in the project workspace",
-        backgroundPosition: "center top",
+        imageAlt: "IHOCAIHAG documentary DVD displayed with archive evidence",
+        imageFit: "contain",
+        backgroundPosition: "right center",
         mobileBackgroundPosition: "center top"
       },
       featuredDrop: {
@@ -1262,7 +1265,7 @@
     bookContent: {
       hero: {
         eyebrow: "Book",
-        headline: "A story you won’t believe you read until you see the receipts.",
+        headline: "The book I shouldn’t have lived to send out of a pen.",
         body: "What if the same brain that cannot stop inflicting its own destruction is the same kind of brain determining the world around you?",
         smallNote: "The book follows one person’s collapse from the inside, then follows the pattern outward.",
         ctaPrimaryLabel: "Preorder",
