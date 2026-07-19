@@ -794,13 +794,14 @@
 
   function renderStore() {
     const page = content.storeContent || {};
+    const visibleProducts = (page.products || []).filter((product) => product.checkoutEnabled !== false);
     return `
       ${renderHero(page.hero)}
       <section class="section compact" id="drop-table">
         <div class="container">
           ${sectionHeader(ui.sections?.dropTable)}
           <div class="grid product-grid">
-            ${(page.products || []).map(renderProductCard).join("")}
+            ${visibleProducts.map(renderProductCard).join("")}
           </div>
         </div>
       </section>
@@ -902,10 +903,13 @@
         <div class="container">
           <div class="grid book-connection-grid">
             ${(page.connectCards || []).map((card) => `
-              <article class="panel book-connection-copy">
-                <h3>${esc(card.label)}</h3>
-                ${copyBlock(card.body)}
-                ${card.closingStatement ? `<p class="body-copy book-closing-statement"><strong>${esc(card.closingStatement)}</strong></p>` : ""}
+              <article class="panel book-connection-copy${card.imageSrc ? " with-media" : ""}">
+                <div class="book-connection-text">
+                  <h3>${esc(card.label)}</h3>
+                  ${copyBlock(card.body)}
+                  ${card.closingStatement ? `<p class="body-copy book-closing-statement"><strong>${esc(card.closingStatement)}</strong></p>` : ""}
+                </div>
+                ${card.imageSrc ? `<figure class="book-connection-media"><img src="${attr(card.imageSrc)}" alt="${attr(card.imageAlt || card.label || "Book archive image")}" loading="lazy" /></figure>` : ""}
               </article>
             `).join("")}
           </div>

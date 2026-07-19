@@ -1290,6 +1290,8 @@
       connectCards: [
         {
           label: "The Archive Brings The Words Of The Book To Life",
+          imageSrc: asset("book-archive-warrant-photo.png"),
+          imageAlt: "Archive photo of Ryan Homanics from an early legal record",
           body: [
             "The book spans the entire six-year relapse that followed the clean time and success surrounding Ryan Homanics’s 2018 book, Dopesick: The American Addiction to Heroin and Profit.",
             "It begins in the early days of the COVID pandemic, when a couple moved into a home together and relapsed on opiates. What started there progressed through fentanyl and tranq dope, expanded into benzodiazepines and stimulants, and escalated with devastating speed. Her death in 2022 became the rupture that pushed everything into an even more severe spiral—one that eventually culminated in a suicidal decision and a psychosis-level implosion in late January 2026, following a sequence of events you will almost certainly struggle to believe until you see the receipts.",
