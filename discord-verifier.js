@@ -44,7 +44,7 @@ function initDiscordVerifier() {
             <div><span>Discord Role</span><strong>${safe(pass.discord_role)}</strong></div>
             <div><span>Unlock Level</span><strong>Level ${safe(pass.unlock_level)}</strong></div>
             <div><span>Missions</span><strong>${safe(pass.missions_completed)} complete</strong></div>
-            <div><span>Key Status</span><strong>${safe(pass.phase_name)}</strong></div>
+            <div><span>Pass History</span><strong>${safe(pass.pass_history_name)}</strong></div>
             <div><span>Threads</span><strong>${safe(threadLabels)}</strong></div>
           </div>
           <p class="fineprint" style="margin-top: 14px;">Private data withheld: email, private notes, system IDs, and account-only details.</p>

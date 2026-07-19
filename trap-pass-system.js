@@ -1,241 +1,32 @@
 (function () {
-  const cfg = window.TRAP_HOUSE_CONFIG || {};
-  const namespace = cfg.storageNamespace || "iho_trap_house_v1";
-  const registryKey = `${namespace}:registry`;
-  const currentPassKey = `${namespace}:current_pass_id`;
-  const entryEmailCaptureKey = `${namespace}:entry_email_captures`;
-
-  const missions = [
-    {
-      number: "001",
-      title: "Spread The Signal",
-      description: "Share the newest YouTube Short or IG Reel and post proof in Discord.",
-      reward: "Trap Pass XP + website shoutout",
-      status: "open"
-    },
-    {
-      number: "002",
-      title: "Clip Hunter",
-      description: "Vote on the archive clip most ready to become the next reel.",
-      reward: "Clip Hunter role upgrade",
-      status: "open"
-    },
-    {
-      number: "003",
-      title: "Line Puller",
-      description: "Pick the hardest sentence from a book excerpt for a promo graphic.",
-      reward: "Line Puller credit",
-      status: "open"
-    },
-    {
-      number: "004",
-      title: "Evidence Sorter",
-      description: "Help label a batch of archive stills.",
-      reward: "Hidden page access",
-      status: "locked"
-    },
-    {
-      number: "005",
-      title: "Trap Architect",
-      description: "Submit a name or concept for the next Trap Pass wave.",
-      reward: "Member wall placement",
-      status: "open"
-    }
+  const siteConfig = window.TRAP_HOUSE_CONFIG || {};
+  const passConfig = window.IHOCAIHAGTrapPassConfig || {};
+  const storageConfig = passConfig.storage || {};
+  const releases = Array.isArray(passConfig.releases) ? passConfig.releases : [];
+  const tiers = Array.isArray(passConfig.tiers) ? passConfig.tiers : [];
+  const stateKey = storageConfig.stateKey || "iho_trap_pass_v2:state";
+  const sessionHolderKey = storageConfig.sessionHolderKey || "iho_trap_pass_v2:session_holder";
+  const authAccessTokenKey = storageConfig.authAccessTokenKey || "iho_trap_pass_v2:auth_access";
+  const legacyRegistryKey = storageConfig.legacyRegistryKey || "iho_trap_house_v1:registry";
+  const legacyCurrentPassKey = storageConfig.legacyCurrentPassKey || "iho_trap_house_v1:current_pass_id";
+  const localHosts = new Set(["localhost", "127.0.0.1", "::1", ""]);
+  const threadSlugs = [
+    "roaring-rivers-silent-seas",
+    "craving-the-chase-for-comfort",
+    "the-ticking-of-time",
+    "infinite-interactions",
+    "how-a-home-can-hurt-or-heal",
+    "the-shape-we-see-ourself",
+    "love-lost",
+    "love-found",
+    "systems-of-rigid-design"
   ];
 
-  const hiddenRooms = {
-    room: {
-      title: "First File",
-      requirement: "Unlock Level 1",
-      minUnlock: 1,
-      wave: null,
-      body: "The first locked file. This is where the author-profile figure lineup, bookshelf, music file, pass lore, and object stories become part of the pass-holder path."
-    },
-    "evidence-locker": {
-      title: "Evidence File",
-      requirement: "Unlock Level 2",
-      minUnlock: 2,
-      wave: null,
-      body: "Photos, stills, objects, and proof fragments will live here once the archive content is approved."
-    },
-    "wave-1-ghost": {
-      title: "Wave 1 Ghost",
-      requirement: "Wave 1 or Unlock Level 3",
-      minUnlock: 3,
-      wave: 1,
-      body: "Founder-wave material: early witness lore, first-door proof, and the pieces that mark who was here before the house got loud."
-    },
-    "deer-witness": {
-      title: "Deer Witness",
-      requirement: "Wave 2 or Unlock Level 3",
-      minUnlock: 3,
-      wave: 2,
-      body: "Wave 2 witness file for deer-page lore, stills, and holder decisions."
-    },
-    "all-hands-on-deck": {
-      title: "All Hands On Deck",
-      requirement: "Wave 3",
-      minUnlock: 1,
-      wave: 3,
-      body: "The current holder drop for roll calls and early archive decisions."
-    },
-    "og-scum-file": {
-      title: "OG Scum File",
-      requirement: "Unlock Level 4",
-      minUnlock: 4,
-      wave: null,
-      body: "A high-access file for music demos, raw context, and collector-level drops."
-    },
-    "the-loop": {
-      title: "The Loop",
-      requirement: "Unlock Level 5",
-      minUnlock: 5,
-      wave: null,
-      body: "The deepest loop: origin, repetition, collapse, and the pieces that keep circling back."
-    }
-  };
-
-  const threadCatalog = [
-    { id: "trap-pass-lore", title: "Trap Pass Lore", channel: "thread-trap-pass-lore", phase: 1 },
-    { id: "public-project-witness", title: "Public Project / Witness", channel: "thread-public-witness", phase: 3 },
-    { id: "addiction-machine", title: "Addiction Machine", channel: "thread-addiction-machine", phase: 2 },
-    { id: "psychosis-loop", title: "Psychosis Loop", channel: "thread-psychosis-loop", phase: 5 },
-    { id: "grief-loss", title: "Grief / Loss", channel: "thread-grief-loss", phase: 2 },
-    { id: "cats-home-tenderness", title: "Cats / Home / Tenderness", channel: "thread-cats-home", phase: 2 },
-    { id: "writing-inside-the-fire", title: "Writing Inside The Fire", channel: "thread-writing-fire", phase: 3 },
-    { id: "money-desperation", title: "Money Desperation", channel: "thread-money-desperation", phase: 3 },
-    { id: "system-mirror", title: "System Mirror", channel: "thread-crack-capitalism", phase: 4 },
-    { id: "platform-war", title: "Platform War", channel: "thread-platform-war", phase: 4 },
-    { id: "self-destruction-vs-creation", title: "Self-Destruction vs Creation", channel: "thread-self-destruction", phase: 4 },
-    { id: "ending-convergence", title: "Ending Convergence", channel: "thread-ending-convergence", phase: 6 }
-  ];
-
-  const defaultThreadKeys = ["trap-pass-lore", "public-project-witness"];
-
-  const passTemplates = {
-    free_pull_up: {
-      id: "free_pull_up",
-      title: "Free Pull Up Pass",
-      waveNumber: 0,
-      waveName: "Pull Up Pass",
-      tier: "Free Pull Up Pass",
-      serialPrefix: "FREE",
-      phrasePrefix: "PULL-UP",
-      image: "/assets/trap-house/trap-pass-atm.png",
-      badge: "Front Door",
-      unlocks: ["first file", "updates", "Trap House CTA"]
-    },
-    wave_1_original_entry: {
-      id: "wave_1_original_entry",
-      title: "Wave 1 - Original Entry",
-      waveNumber: 1,
-      waveName: "Original Entry",
-      tier: "Wave Pass",
-      serialPrefix: "W1-OE",
-      phrasePrefix: "ORIGINAL-ENTRY",
-      image: "/assets/trap-house/og-crackpack-ticket.png",
-      badge: "Closed Wave",
-      unlocks: ["founder marker", "early witness lore", "day-one proof"]
-    },
-    wave_2_when_3_deer_appear: {
-      id: "wave_2_when_3_deer_appear",
-      title: "Wave 2 - When 3 Deer Appear",
-      waveNumber: 2,
-      waveName: "When 3 Deer Appear",
-      tier: "Wave Pass",
-      serialPrefix: "W2-3DA",
-      phrasePrefix: "THREE-DEER",
-      image: "/assets/trap-house/trap-wallet-open.png",
-      badge: "Witness Wave",
-      unlocks: ["deer witness file", "thread witness", "wave-specific story key"]
-    },
-    wave_3_all_hands_on_deck: {
-      id: "wave_3_all_hands_on_deck",
-      title: "Wave 3 - All Hands On Deck",
-      waveNumber: 3,
-      waveName: "All Hands On Deck",
-      tier: "Wave Pass",
-      serialPrefix: "W3-AHD",
-      phrasePrefix: "BATTLE-STATIONS",
-      image: "/assets/trap-house/trap-pass-wave3-blister.png",
-      badge: "Archive Wave",
-      unlocks: ["wave art", "holder drop", "thread-trap-pass-lore"]
-    },
-    gen_2_wave_1_no_brakes: {
-      id: "gen_2_wave_1_no_brakes",
-      title: "Gen 2 Wave 1 - No Brakes",
-      waveNumber: 1,
-      waveName: "No Brakes",
-      tier: "Gen 2 Wave Pass",
-      serialPrefix: "NB",
-      phrasePrefix: "NO-BRAKES",
-      image: "/assets/trap-house/trap-pass-gen2-wave1-no-brakes.png",
-      badge: "Current Wave",
-      unlocks: ["exclusive archive drops", "first access to new content", "Trap Pass holder events", "part of the story"]
-    },
-    artifact_pass: {
-      id: "artifact_pass",
-      title: "Artifact Pass",
-      waveNumber: 3,
-      waveName: "All Hands On Deck",
-      tier: "Artifact Pass",
-      serialPrefix: "ART-W3",
-      phrasePrefix: "ARTIFACT",
-      image: "/assets/trap-house/trap-wallet-open.png",
-      badge: "Physical Twin",
-      unlocks: ["physical fulfillment", "digital twin", "QR verification"]
-    },
-    crack_pack_holder: {
-      id: "crack_pack_holder",
-      title: "Gen 1 / Crack Pack Holder",
-      waveNumber: 1,
-      waveName: "Crack Pack",
-      tier: "Gen 1 / Crack Pack Holder",
-      serialPrefix: "GEN1",
-      phrasePrefix: "CRACK-PACK",
-      image: "/assets/trap-house/og-crackpack-ticket.png",
-      badge: "Founder Status",
-      unlocks: ["holder wall", "future stack bonuses", "documentary/preorder access"]
-    }
-  };
-
-  function sanitize(value, maxLength) {
-    return String(value || "")
-      .replace(/[<>]/g, "")
-      .replace(/[\u0000-\u001f\u007f]/g, "")
+  function sanitize(value, maxLength = 160) {
+    return String(value ?? "")
+      .replace(/[<>\u0000-\u001f\u007f]/g, "")
       .trim()
-      .slice(0, maxLength || 160);
-  }
-
-  function normalizePassId(value) {
-    return sanitize(value, 40).toUpperCase().replace(/\s+/g, "");
-  }
-
-  function normalizeEmail(value) {
-    return sanitize(value, 220).toLowerCase();
-  }
-
-  function normalizeThreadKeys(value) {
-    const known = new Set(threadCatalog.map((thread) => thread.id));
-    const raw = Array.isArray(value) ? value : String(value || "").split(/[,|]/);
-    const cleaned = raw
-      .map((item) => sanitize(item, 80).toLowerCase().replace(/_/g, "-").replace(/\s+/g, "-"))
-      .filter((item) => known.has(item));
-    return Array.from(new Set(cleaned)).slice(0, 5);
-  }
-
-  function getThreadDetails(passOrKeys) {
-    const keys = Array.isArray(passOrKeys)
-      ? normalizeThreadKeys(passOrKeys)
-      : normalizeThreadKeys(passOrKeys?.thread_keys || defaultThreadKeys);
-    const selected = keys.length ? keys : defaultThreadKeys;
-    return selected
-      .map((key) => threadCatalog.find((thread) => thread.id === key))
-      .filter(Boolean);
-  }
-
-  function isEmail(value) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+      .slice(0, Math.max(0, maxLength));
   }
 
   function escapeHTML(value) {
@@ -247,1265 +38,1150 @@
       .replace(/'/g, "&#039;");
   }
 
-  function makeId() {
-    if (globalThis.crypto && typeof globalThis.crypto.randomUUID === "function") {
-      return globalThis.crypto.randomUUID();
-    }
-    return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+  function normalizeEmail(value) {
+    return sanitize(value, 220).toLowerCase();
   }
 
-  function storageGet(key) {
+  function isEmail(value) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizeEmail(value));
+  }
+
+  function normalizeSerial(value) {
+    return sanitize(value, 40).toUpperCase().replace(/\s+/g, "");
+  }
+
+  function normalizeThreadSlugs(value) {
+    const raw = Array.isArray(value) ? value : String(value || "").split(/[,|]/);
+    return Array.from(new Set(raw
+      .map((item) => sanitize(item, 90).toLowerCase().replace(/_/g, "-").replace(/\s+/g, "-"))
+      .filter((item) => threadSlugs.includes(item))))
+      .slice(0, threadSlugs.length);
+  }
+
+  function isLocalReviewHost() {
+    return localHosts.has(window.location.hostname);
+  }
+
+  function localGet(key) {
     try {
-      return localStorage.getItem(key);
+      return window.localStorage.getItem(key);
     } catch (error) {
-      console.warn("Trap Pass storage is not available.", error);
       return null;
     }
   }
 
-  function storageSet(key, value) {
+  function localSet(key, value) {
     try {
-      localStorage.setItem(key, value);
+      window.localStorage.setItem(key, value);
       return true;
     } catch (error) {
-      console.warn("Trap Pass storage could not be saved.", error);
       return false;
     }
   }
 
-  function isLocalReviewHost() {
-    return ["localhost", "127.0.0.1", "::1", ""].includes(window.location.hostname);
+  function sessionGet(key) {
+    try {
+      return window.sessionStorage.getItem(key);
+    } catch (error) {
+      return null;
+    }
   }
 
-  function hasSupabaseStorage() {
-    return Boolean(cfg.supabaseEnabled && cfg.supabaseUrl && cfg.supabasePublishableKey);
+  function sessionSet(key, value) {
+    try {
+      if (value) window.sessionStorage.setItem(key, value);
+      else window.sessionStorage.removeItem(key);
+      return true;
+    } catch (error) {
+      return false;
+    }
   }
 
-  async function supabaseRpc(functionName, payload) {
-    if (!hasSupabaseStorage()) {
-      throw new Error("Supabase is not configured yet.");
+  function nowIso() {
+    return new Date().toISOString();
+  }
+
+  function makeInternalId(prefix) {
+    if (window.crypto?.randomUUID) return `${prefix}-${window.crypto.randomUUID()}`;
+    return `${prefix}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
+  }
+
+  function getRelease(releaseId) {
+    return releases.find((release) => release.id === releaseId || release.slug === releaseId || release.prefix === normalizeSerial(releaseId)) || null;
+  }
+
+  function getCurrentRelease() {
+    return getRelease(passConfig.currentReleaseId) || releases.find((release) => release.status === "current") || null;
+  }
+
+  function getTier(tierId) {
+    const clean = sanitize(tierId, 90).toLowerCase();
+    return tiers.find((tier) => tier.id === clean || tier.slug === clean || tier.name.toLowerCase() === clean)
+      || tiers.find((tier) => tier.id === "free")
+      || null;
+  }
+
+  function formatHolderId(holderNumber) {
+    const prefix = passConfig.holderId?.prefix || "TP";
+    const padding = Number(passConfig.holderId?.padding) || 4;
+    return `${prefix}-${String(Number(holderNumber) || 0).padStart(padding, "0")}`;
+  }
+
+  function formatCardSerial(release, holderNumber, reissueNumber = 1) {
+    if (!release) return "";
+    const padding = Number(passConfig.cardSerial?.padding) || 4;
+    const base = `${release.prefix}-${String(Number(holderNumber) || 0).padStart(padding, "0")}`;
+    return reissueNumber > 1 ? `${base}-R${reissueNumber}` : base;
+  }
+
+  function emptyState() {
+    return {
+      version: Number(passConfig.version) || 2,
+      nextHolderNumber: Number(passConfig.holderId?.firstNumber) || 100,
+      holders: [],
+      walletPasses: [],
+      entitlements: [],
+      contributions: [],
+      releaseOverrides: {},
+      migratedLegacyAt: ""
+    };
+  }
+
+  function safeParse(value, fallback) {
+    try {
+      return JSON.parse(value);
+    } catch (error) {
+      return fallback;
+    }
+  }
+
+  function canonicalTierId(value) {
+    const clean = sanitize(value, 120).toLowerCase();
+    if (clean.includes("handy sass")) return "handy-sass";
+    if (clean.includes("cash for trash")) return "cash-for-trash";
+    return "free";
+  }
+
+  function releaseFromLegacy(pass) {
+    const waveName = sanitize(pass.wave_name, 100).toLowerCase();
+    const templateId = sanitize(pass.template_id, 100).toLowerCase();
+    const passId = normalizeSerial(pass.trap_pass_id);
+    if (waveName.includes("ride or dies") || templateId.includes("original-entry") || /^W1-/.test(passId)) return getRelease("ride-or-dies");
+    if (waveName.includes("3 deer") || /^W2-/.test(passId)) return getRelease("when-3-deer-appear");
+    if (waveName.includes("all hands") || /^W3-/.test(passId)) return getRelease("all-hands-on-deck");
+    if (waveName.includes("bring the storm") || /^W4-/.test(passId)) return getRelease("bring-the-storm");
+    return getCurrentRelease();
+  }
+
+  function migrateLegacyState(state) {
+    if (state.migratedLegacyAt || !isLocalReviewHost()) return state;
+    const records = safeParse(localGet(legacyRegistryKey) || "[]", []);
+    const usedNumbers = new Set(state.holders.map((holder) => Number(holder.holderNumber)));
+
+    (Array.isArray(records) ? records : []).forEach((record) => {
+      const emailNormalized = normalizeEmail(record.email);
+      if (!emailNormalized || state.holders.some((holder) => holder.emailNormalized === emailNormalized)) return;
+      const numeric = Number((normalizeSerial(record.trap_pass_id).match(/(\d{3,})/) || [])[1]);
+      let holderNumber = Number.isFinite(numeric) && numeric > 0 ? numeric : state.nextHolderNumber;
+      while (usedNumbers.has(holderNumber)) holderNumber += 1;
+      usedNumbers.add(holderNumber);
+      state.nextHolderNumber = Math.max(state.nextHolderNumber, holderNumber + 1);
+      const release = releaseFromLegacy(record) || getCurrentRelease();
+      const legacyGenerationOne = Number(release?.generation) === 1;
+      const createdAt = sanitize(record.created_at || record.claimed_at, 50) || nowIso();
+      const holder = {
+        internalId: makeInternalId("holder"),
+        holderNumber,
+        holderPublicId: formatHolderId(holderNumber),
+        email: emailNormalized,
+        emailNormalized,
+        emailVerifiedAt: "",
+        authUserId: "",
+        trapIdentity: ["new arrival", "example holder"].includes(sanitize(record.display_name, 40).toLowerCase()) ? "" : sanitize(record.display_name, passConfig.card?.maxTrapIdentityLength || 40),
+        discordUsername: sanitize(record.discord_username, 80),
+        originalEntryWaveId: release?.id || passConfig.currentReleaseId,
+        memberSince: createdAt,
+        currentTierId: canonicalTierId(record.tier),
+        status: sanitize(record.status, 30) || "active",
+        publicProfileEnabled: false,
+        selectedPublicThreadSlugs: [],
+        featuredPassSerial: "",
+        legacyVerificationComplete: false,
+        adminNotes: "",
+        manualVerificationNotes: "",
+        createdAt,
+        updatedAt: nowIso()
+      };
+      const card = {
+        internalId: makeInternalId("card"),
+        holderInternalId: holder.internalId,
+        waveId: release?.id || passConfig.currentReleaseId,
+        cardSerial: formatCardSerial(release, holderNumber),
+        claimedAt: createdAt,
+        status: legacyGenerationOne ? "pending_verification" : "active",
+        reissueNumber: 1,
+        replacesCardId: "",
+        replacedByCardId: "",
+        legacyVerified: false,
+        createdAt,
+        updatedAt: nowIso()
+      };
+      holder.featuredPassSerial = card.cardSerial;
+      state.holders.push(holder);
+      state.walletPasses.push(card);
+    });
+
+    state.migratedLegacyAt = nowIso();
+    return state;
+  }
+
+  function normalizeState(raw) {
+    const state = raw && typeof raw === "object" ? raw : emptyState();
+    state.version = Number(passConfig.version) || 2;
+    state.nextHolderNumber = Math.max(Number(state.nextHolderNumber) || 0, Number(passConfig.holderId?.firstNumber) || 100);
+    state.holders = Array.isArray(state.holders) ? state.holders : [];
+    state.walletPasses = Array.isArray(state.walletPasses) ? state.walletPasses : [];
+    state.entitlements = Array.isArray(state.entitlements) ? state.entitlements : [];
+    state.contributions = Array.isArray(state.contributions) ? state.contributions : [];
+    state.releaseOverrides = state.releaseOverrides && typeof state.releaseOverrides === "object" ? state.releaseOverrides : {};
+    return migrateLegacyState(state);
+  }
+
+  function loadState() {
+    return normalizeState(safeParse(localGet(stateKey) || "", null));
+  }
+
+  function saveState(state) {
+    if (!isLocalReviewHost()) return false;
+    return localSet(stateKey, JSON.stringify(normalizeState(state)));
+  }
+
+  function releaseWithOverride(state, release) {
+    if (!release) return null;
+    return { ...release, ...(state.releaseOverrides?.[release.id] || {}) };
+  }
+
+  function holderCards(state, holder) {
+    return state.walletPasses
+      .filter((card) => card.holderInternalId === holder.internalId)
+      .sort((a, b) => {
+        const releaseA = getRelease(a.waveId);
+        const releaseB = getRelease(b.waveId);
+        return (releaseA?.displayOrder || 0) - (releaseB?.displayOrder || 0) || String(a.claimedAt).localeCompare(String(b.claimedAt));
+      });
+  }
+
+  function holderEntitlements(state, holder) {
+    return state.entitlements.filter((entitlement) => entitlement.holderInternalId === holder.internalId);
+  }
+
+  function activeCashEntitlement(state, holder) {
+    return holderEntitlements(state, holder).find((item) =>
+      item.entitlementType === "cash-for-trash"
+      && ["active", "complimentary", "temporary"].includes(item.status)
+      && (!item.endsAt || new Date(item.endsAt).getTime() > Date.now()));
+  }
+
+  function hasHandySass(state, holder) {
+    return holder.currentTierId === "handy-sass"
+      || holderEntitlements(state, holder).some((item) => item.entitlementType === "handy-sass-lifetime" && item.status === "active");
+  }
+
+  function effectiveTier(state, holder) {
+    if (hasHandySass(state, holder)) return getTier("handy-sass");
+    if (activeCashEntitlement(state, holder)) return getTier("cash-for-trash");
+    return getTier(holder.currentTierId) || getTier("free");
+  }
+
+  function safeCard(state, card, tier) {
+    const release = releaseWithOverride(state, getRelease(card.waveId));
+    return {
+      cardSerial: card.cardSerial,
+      waveId: release?.id || "",
+      waveName: release?.name || "",
+      generation: Number(release?.generation) || 0,
+      waveNumber: Number(release?.waveNumber) || 0,
+      releaseLabel: release ? `Gen ${release.generation} Wave ${release.waveNumber}` : "",
+      claimedAt: card.claimedAt,
+      status: card.status,
+      reissueNumber: Number(card.reissueNumber) || 1,
+      frontArtwork: release?.frontArtwork || "",
+      backArtwork: release?.backArtwork || "",
+      frontPlaceholder: release?.frontPlaceholder || "FRONT ART NEEDED",
+      backPlaceholder: release?.backPlaceholder || "BACK ART NEEDED",
+      tierId: tier?.id || "free",
+      tierLabel: tier?.name || "Free Pass",
+      tierTreatment: tier?.visualTreatment || "standard"
+    };
+  }
+
+  function walletBundle(state, holder) {
+    if (!holder || holder.status !== "active") return null;
+    const tier = effectiveTier(state, holder);
+    const originalRelease = releaseWithOverride(state, getRelease(holder.originalEntryWaveId));
+    const cards = holderCards(state, holder).filter((card) => card.status !== "deleted").map((card) => safeCard(state, card, tier));
+    const featuredPass = cards.find((card) => card.cardSerial === holder.featuredPassSerial)
+      || cards.find((card) => card.waveId === holder.originalEntryWaveId && card.status === "active")
+      || cards.find((card) => card.status === "active")
+      || cards[0]
+      || null;
+    const availableReleases = releases
+      .map((release) => releaseWithOverride(state, release))
+      .filter((release) => release.claimEnabled && !release.legacyManualVerificationRequired)
+      .filter((release) => !cards.some((card) => card.waveId === release.id && card.status === "active"))
+      .map((release) => ({
+        id: release.id,
+        name: release.name,
+        label: `Gen ${release.generation} Wave ${release.waveNumber}`,
+        prefix: release.prefix
+      }));
+    const cash = activeCashEntitlement(state, holder);
+    return {
+      holderPublicId: holder.holderPublicId,
+      trapIdentity: holder.trapIdentity || "",
+      displayIdentity: holder.trapIdentity || holder.holderPublicId,
+      originalEntryWaveId: originalRelease?.id || "",
+      originalEntryWave: originalRelease?.name || "",
+      originalEntryWaveLabel: originalRelease ? `Gen ${originalRelease.generation} Wave ${originalRelease.waveNumber}` : "",
+      currentTierId: tier?.id || "free",
+      currentTierLabel: tier?.name || "Free Pass",
+      currentTierPublicLabel: tier?.publicLabel || "FREE PASS HOLDER",
+      tierTreatment: tier?.visualTreatment || "standard",
+      memberSince: holder.memberSince,
+      publicProfileEnabled: Boolean(holder.publicProfileEnabled),
+      selectedPublicThreadSlugs: normalizeThreadSlugs(holder.selectedPublicThreadSlugs),
+      featuredPassSerial: featuredPass?.cardSerial || "",
+      featuredPass,
+      cards,
+      availableReleases,
+      personalUnlockCode: cash?.privateUnlockCode || "",
+      cashForTrashActive: Boolean(cash),
+      handySassLifetime: hasHandySass(state, holder),
+      publicProfileUrl: passConfig.routes?.publicProfile
+        ? passConfig.routes.publicProfile(holder.holderPublicId)
+        : `/pass/${encodeURIComponent(holder.holderPublicId)}`
+    };
+  }
+
+  function publicProfileFromHolder(state, holder) {
+    if (!holder || holder.status !== "active") return { valid: false };
+    if (!holder.publicProfileEnabled) {
+      return {
+        valid: true,
+        publicProfileEnabled: false,
+        private: true
+      };
+    }
+    const wallet = walletBundle(state, holder);
+    const contributions = state.contributions
+      .filter((item) => item.holderInternalId === holder.internalId && item.status === "approved" && item.public === true)
+      .map((item) => ({
+        title: sanitize(item.title, 120),
+        description: sanitize(item.description, 260),
+        url: sanitize(item.url, 260)
+      }));
+    return {
+      valid: true,
+      publicProfileEnabled: true,
+      private: false,
+      trapIdentity: wallet.trapIdentity,
+      holderPublicId: wallet.holderPublicId,
+      originalEntryWave: wallet.originalEntryWave,
+      originalEntryWaveLabel: wallet.originalEntryWaveLabel,
+      currentTierLabel: wallet.currentTierLabel,
+      memberSince: wallet.memberSince,
+      featuredPass: wallet.featuredPass,
+      selectedPublicThreads: wallet.selectedPublicThreadSlugs,
+      approvedContributions: contributions,
+      publicProfileUrl: wallet.publicProfileUrl
+    };
+  }
+
+  function findHolderByPublicId(state, value) {
+    const clean = normalizeSerial(value);
+    return state.holders.find((holder) => holder.holderPublicId === clean) || null;
+  }
+
+  function findCardBySerial(state, value) {
+    const clean = normalizeSerial(value);
+    return state.walletPasses.find((card) => card.cardSerial === clean) || null;
+  }
+
+  function getSessionHolder(state) {
+    const holderPublicId = normalizeSerial(sessionGet(sessionHolderKey));
+    return holderPublicId ? findHolderByPublicId(state, holderPublicId) : null;
+  }
+
+  function setSessionHolder(holderPublicId) {
+    return sessionSet(sessionHolderKey, normalizeSerial(holderPublicId));
+  }
+
+  function signOut() {
+    sessionSet(sessionHolderKey, "");
+    sessionSet(authAccessTokenKey, "");
+  }
+
+  function setAuthenticatedSession(accessToken) {
+    const token = sanitize(accessToken, 4096);
+    if (!token) return false;
+    return sessionSet(authAccessTokenKey, token);
+  }
+
+  function getAuthAccessToken() {
+    return sessionGet(authAccessTokenKey) || "";
+  }
+
+  function nextHolderNumber(state) {
+    let candidate = Math.max(Number(state.nextHolderNumber) || 0, Number(passConfig.holderId?.firstNumber) || 100);
+    const used = new Set(state.holders.map((holder) => Number(holder.holderNumber)));
+    while (used.has(candidate)) candidate += 1;
+    state.nextHolderNumber = candidate + 1;
+    return candidate;
+  }
+
+  function createWalletCard(state, holder, release, options = {}) {
+    if (!holder || !release) throw new Error("This Trap Pass release is unavailable.");
+    const existing = holderCards(state, holder).find((card) => card.waveId === release.id && card.status === "active");
+    if (existing) return { card: existing, existed: true };
+    const reissueNumber = Math.max(1, Number(options.reissueNumber) || 1);
+    const card = {
+      internalId: makeInternalId("card"),
+      holderInternalId: holder.internalId,
+      waveId: release.id,
+      cardSerial: formatCardSerial(release, holder.holderNumber, reissueNumber),
+      claimedAt: options.claimedAt || nowIso(),
+      status: options.status || "active",
+      reissueNumber,
+      replacesCardId: options.replacesCardId || "",
+      replacedByCardId: "",
+      legacyVerified: Boolean(options.legacyVerified),
+      createdAt: nowIso(),
+      updatedAt: nowIso()
+    };
+    state.walletPasses.push(card);
+    if (!holder.featuredPassSerial) holder.featuredPassSerial = card.cardSerial;
+    holder.updatedAt = nowIso();
+    return { card, existed: false };
+  }
+
+  function claimHolderLocal(input = {}) {
+    const emailNormalized = normalizeEmail(input.email);
+    if (!isEmail(emailNormalized)) throw new Error("Enter a valid email.");
+    const state = loadState();
+    const currentRelease = releaseWithOverride(state, getCurrentRelease());
+    if (!currentRelease?.claimEnabled) throw new Error("This Trap Pass release is not open for claims.");
+    let holder = state.holders.find((item) => item.emailNormalized === emailNormalized) || null;
+    const existed = Boolean(holder);
+
+    if (!holder) {
+      const holderNumber = nextHolderNumber(state);
+      const timestamp = nowIso();
+      holder = {
+        internalId: makeInternalId("holder"),
+        holderNumber,
+        holderPublicId: formatHolderId(holderNumber),
+        email: emailNormalized,
+        emailNormalized,
+        emailVerifiedAt: timestamp,
+        authUserId: "",
+        trapIdentity: sanitize(input.trapIdentity || input.displayName, passConfig.card?.maxTrapIdentityLength || 40),
+        discordUsername: sanitize(input.discordUsername, 80),
+        originalEntryWaveId: currentRelease.id,
+        memberSince: timestamp,
+        currentTierId: "free",
+        status: "active",
+        publicProfileEnabled: Boolean(input.publicProfileEnabled),
+        selectedPublicThreadSlugs: normalizeThreadSlugs(input.selectedPublicThreadSlugs),
+        featuredPassSerial: "",
+        legacyVerificationComplete: false,
+        adminNotes: "",
+        manualVerificationNotes: "",
+        createdAt: timestamp,
+        updatedAt: timestamp
+      };
+      state.holders.push(holder);
+    } else {
+      holder.trapIdentity = sanitize(input.trapIdentity || input.displayName || holder.trapIdentity, passConfig.card?.maxTrapIdentityLength || 40);
+      holder.discordUsername = sanitize(input.discordUsername || holder.discordUsername, 80);
+      if (input.publicProfileEnabled !== undefined) holder.publicProfileEnabled = Boolean(input.publicProfileEnabled);
+      holder.updatedAt = nowIso();
     }
 
-    const response = await fetch(`${cfg.supabaseUrl.replace(/\/$/, "")}/rest/v1/rpc/${functionName}`, {
+    const cardResult = createWalletCard(state, holder, currentRelease);
+    if (!saveState(state)) throw new Error("This browser could not save the local review wallet.");
+    setSessionHolder(holder.holderPublicId);
+    return {
+      ok: true,
+      existed,
+      duplicatePrevented: cardResult.existed,
+      wallet: walletBundle(state, holder)
+    };
+  }
+
+  async function supabaseRpc(functionName, payload, options = {}) {
+    if (!siteConfig.supabaseUrl || !siteConfig.supabasePublishableKey) {
+      throw new Error("Secure Trap Pass service is unavailable.");
+    }
+    const token = options.accessToken || getAuthAccessToken() || siteConfig.supabasePublishableKey;
+    const response = await fetch(`${siteConfig.supabaseUrl.replace(/\/$/, "")}/rest/v1/rpc/${functionName}`, {
       method: "POST",
       headers: {
-        "apikey": cfg.supabasePublishableKey,
-        "Authorization": `Bearer ${cfg.supabasePublishableKey}`,
-        "Content-Type": "application/json"
+        apikey: siteConfig.supabasePublishableKey,
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        Accept: "application/json"
       },
       body: JSON.stringify(payload || {})
     });
-
+    const data = await response.json().catch(() => ({}));
     if (!response.ok) {
-      const text = await response.text().catch(() => "");
-      throw new Error(`Supabase ${functionName} failed: ${text || response.status}`);
+      const error = new Error("We could not load your pass. Try again.");
+      error.code = data.code || "trap_pass_request_failed";
+      throw error;
     }
-
-    return response.json();
-  }
-
-  function mergePassIntoRegistry(pass, privateFields = {}) {
-    const shaped = ensurePassShape(pass);
-    const safe = publicPass(shaped);
-    if (!safe) return null;
-    const registry = getRegistry();
-    const existing = registry.find((item) => normalizePassId(item.trap_pass_id) === normalizePassId(safe.trap_pass_id));
-    const record = {
-      id: sanitize(privateFields.id || existing?.id, 120) || makeId(),
-      trap_pass_id: safe.trap_pass_id,
-      template_id: safe.template_id,
-      tier: safe.tier,
-      wave_number: Number(safe.wave_number || cfg.defaultWaveNumber || 3),
-      wave_name: sanitize(safe.wave_name || cfg.defaultWaveName || "No Brakes", 80),
-      serial_number: Number(safe.serial_number || 0),
-      pass_phrase: safe.pass_phrase,
-      codex_phrase: safe.pass_phrase,
-      private_token: sanitize(privateFields.privateToken || shaped.private_token || existing?.private_token, 140) || generatePrivateToken(),
-      qr_url: sanitize(privateFields.qrUrl || shaped.qr_url || existing?.qr_url, 240),
-      pass_art_url: safe.pass_art_url,
-      email: normalizeEmail(privateFields.email || existing?.email),
-      display_name: sanitize(safe.display_name, 80) || "New Arrival",
-      discord_username: sanitize(privateFields.discordUsername || existing?.discord_username, 80),
-      wallet_address: sanitize(privateFields.walletAddress || existing?.wallet_address, 120),
-      discord_role: sanitize(safe.discord_role || cfg.defaultDiscordRole || "No Brakes", 80),
-      status: sanitize(safe.status || "active", 40),
-      missions_completed: Number(safe.missions_completed || 0),
-      unlock_level: Number(safe.unlock_level || 1),
-      thread_keys: normalizeThreadKeys(safe.thread_keys).length ? normalizeThreadKeys(safe.thread_keys) : defaultThreadKeys,
-      created_at: sanitize(safe.created_at || new Date().toISOString(), 40),
-      claimed: safe.claimed !== false,
-      claimed_at: sanitize(safe.claimed_at || safe.created_at || new Date().toISOString(), 50),
-      perks: Array.isArray(shaped.perks) ? shaped.perks : [],
-      stamps: Array.isArray(shaped.stamps) ? shaped.stamps : [],
-      rooms_unlocked: Array.isArray(shaped.rooms_unlocked) ? shaped.rooms_unlocked : [],
-      physical_required: Boolean(shaped.physical_required),
-      physical_shipped: Boolean(shaped.physical_shipped),
-      discount_code: sanitize(shaped.discount_code || existing?.discount_code, 80),
-      updated_at: new Date().toISOString(),
-      future_unlock_data: privateFields.futureUnlockData || shaped.future_unlock_data || existing?.future_unlock_data || {}
-    };
-    const nextRegistry = registry.some((item) => normalizePassId(item.trap_pass_id) === normalizePassId(record.trap_pass_id))
-      ? registry.map((item) => normalizePassId(item.trap_pass_id) === normalizePassId(record.trap_pass_id) ? { ...item, ...record, id: item.id || record.id } : item)
-      : [...registry, record];
-    saveRegistry(nextRegistry);
-    storageSet(currentPassKey, record.trap_pass_id);
-    return record;
-  }
-
-  function captureEntryEmailLocal(input = {}) {
-    const email = normalizeEmail(input.email);
-    if (!email || !isEmail(email)) {
-      throw new Error("Enter a valid email.");
-    }
-    const record = {
-      email,
-      source: sanitize(input.source || "entry_gate", 80),
-      page_path: sanitize(input.pagePath || window.location.pathname, 260),
-      captured_at: new Date().toISOString()
-    };
-    let captures = [];
-    try {
-      const parsed = JSON.parse(storageGet(entryEmailCaptureKey) || "[]");
-      captures = Array.isArray(parsed) ? parsed : [];
-    } catch (error) {
-      captures = [];
-    }
-    captures = captures.filter((item) => normalizeEmail(item.email) !== email || sanitize(item.source, 80) !== record.source);
-    captures.push(record);
-    storageSet(entryEmailCaptureKey, JSON.stringify(captures, null, 2));
-    return { ok: true, email, source: record.source, captured_at: record.captured_at, local_only: true };
+    return data;
   }
 
   async function captureEntryEmail(input = {}) {
     const email = normalizeEmail(input.email);
-    if (!email || !isEmail(email)) {
-      throw new Error("Enter a valid email.");
-    }
-
-    if (hasSupabaseStorage()) {
-      try {
-        return await supabaseRpc("capture_entry_email", {
-          p_email: email,
-          p_source: sanitize(input.source || "entry_gate", 80),
-          p_page_path: sanitize(input.pagePath || window.location.pathname, 260),
-          p_user_agent: sanitize(navigator.userAgent, 260),
-          p_metadata: input.metadata || {}
-        });
-      } catch (error) {
-        if (!isLocalReviewHost()) throw error;
-        console.warn("Supabase email capture failed; using browser backup capture.", error);
-      }
-    }
-
-    return captureEntryEmailLocal(input);
+    if (!isEmail(email)) throw new Error("Enter a valid email.");
+    if (isLocalReviewHost()) return { ok: true, localOnly: true };
+    return supabaseRpc("capture_entry_email", {
+      p_email: email,
+      p_source: sanitize(input.source || "trap_pass", 80),
+      p_page_path: window.location.pathname,
+      p_user_agent: sanitize(window.navigator?.userAgent, 260),
+      p_metadata: {}
+    });
   }
 
-  function getRegistry() {
-    try {
-      const raw = storageGet(registryKey);
-      if (!raw) return [];
-      const parsed = JSON.parse(raw);
-      return Array.isArray(parsed) ? parsed : [];
-    } catch (error) {
-      console.warn("Trap Pass registry could not be parsed.", error);
-      return [];
-    }
-  }
-
-  function saveRegistry(registry) {
-    return storageSet(registryKey, JSON.stringify(registry, null, 2));
-  }
-
-  function maxSerialForWave(registry, waveNumber) {
-    return registry.reduce((max, pass) => {
-      if (Number(pass.wave_number) !== Number(waveNumber)) return max;
-      return Math.max(max, Number(pass.serial_number) || 0);
-    }, 0);
-  }
-
-  function generateTrapPassId(registry, waveNumber) {
-    let serial = maxSerialForWave(registry, waveNumber) + 1;
-    let passId = "";
-    do {
-      passId = `W${waveNumber}-${String(serial).padStart(5, "0")}`;
-      serial += 1;
-    } while (registry.some((pass) => pass.trap_pass_id === passId));
-    return { trapPassId: passId, serialNumber: serial - 1 };
-  }
-
-  function normalizeTemplateId(value) {
-    return sanitize(value, 80).toLowerCase().replace(/[^a-z0-9_-]/g, "_");
-  }
-
-  function getPassTemplates() {
-    return Object.values(passTemplates);
-  }
-
-  function getTemplateById(templateId) {
-    const id = normalizeTemplateId(templateId);
-    return passTemplates[id] || passTemplates.free_pull_up;
-  }
-
-  function getTemplateForInput(input = {}) {
-    const requested = normalizeTemplateId(input.templateId || input.template_id);
-    if (requested && passTemplates[requested]) return passTemplates[requested];
-    const cleanTier = sanitize(input.tier, 90).toLowerCase();
-    if (cleanTier) {
-      if (/free|pull\s*up/.test(cleanTier)) return passTemplates.free_pull_up;
-      if (cleanTier === "wave pass") return passTemplates.gen_2_wave_1_no_brakes;
-      if (/gen\s*2|no\s*brakes|wave\s*1/.test(cleanTier)) return passTemplates.gen_2_wave_1_no_brakes;
-      const tierMatch = getPassTemplates().find((template) => template.tier.toLowerCase() === cleanTier);
-      if (tierMatch) return tierMatch;
-      if (/crack\s*pack|gen\s*1/.test(cleanTier)) return passTemplates.crack_pack_holder;
-      if (/artifact|physical/.test(cleanTier)) return passTemplates.artifact_pass;
-      if (/wave\s*3|all\s*hands/.test(cleanTier)) return passTemplates.wave_3_all_hands_on_deck;
-    }
-    return input.free ? passTemplates.free_pull_up : passTemplates.gen_2_wave_1_no_brakes;
-  }
-
-  function getTemplateForPass(pass = {}) {
-    if (pass.template_id || pass.templateId) {
-      return getTemplateById(pass.template_id || pass.templateId);
-    }
-    const passId = normalizePassId(pass.trap_pass_id || "");
-    if (passId.startsWith("FREE-")) return passTemplates.free_pull_up;
-    const legacyNoBrakesPrefix = "G2" + "W1-";
-    if (passId.startsWith("NB-") || passId.startsWith(legacyNoBrakesPrefix)) return passTemplates.gen_2_wave_1_no_brakes;
-    if (passId.startsWith("W3-AHD-")) return passTemplates.wave_3_all_hands_on_deck;
-    if (passId.startsWith("W2-3DA-")) return passTemplates.wave_2_when_3_deer_appear;
-    if (passId.startsWith("W1-OE-")) return passTemplates.wave_1_original_entry;
-    if (passId.startsWith("ART-W3-")) return passTemplates.artifact_pass;
-    if (passId.startsWith("GEN1-")) return passTemplates.crack_pack_holder;
-    const wave = Number(pass.wave_number);
-    if (wave === 1) return passTemplates.gen_2_wave_1_no_brakes;
-    if (wave === 2) return passTemplates.wave_2_when_3_deer_appear;
-    if (wave === 3) return passTemplates.wave_3_all_hands_on_deck;
-    return passTemplates.free_pull_up;
-  }
-
-  function padSerial(template, serialNumber) {
-    const digits = template.serialPrefix === "FREE" ? 6 : 4;
-    return String(Math.max(1, Number(serialNumber) || 1)).padStart(digits, "0");
-  }
-
-  function generateSerialNumber(tierOrTemplate, waveNumber, serialNumber) {
-    const template = typeof tierOrTemplate === "object"
-      ? tierOrTemplate
-      : getTemplateForInput({ tier: tierOrTemplate, waveNumber });
-    return `${template.serialPrefix}-${padSerial(template, serialNumber)}`;
-  }
-
-  function generatePassPhrase(waveOrTemplate, serialNumber) {
-    const template = typeof waveOrTemplate === "object"
-      ? waveOrTemplate
-      : getTemplateForInput({ waveNumber: waveOrTemplate });
-    return `${template.phrasePrefix}-${padSerial(template, serialNumber)}`;
-  }
-
-  function generateCodexPhrase(waveOrTemplate, serialNumber) {
-    return generatePassPhrase(waveOrTemplate, serialNumber);
-  }
-
-  function generatePrivateToken() {
-    const bytes = new Uint8Array(18);
-    if (globalThis.crypto?.getRandomValues) {
-      globalThis.crypto.getRandomValues(bytes);
-    } else {
-      for (let index = 0; index < bytes.length; index += 1) {
-        bytes[index] = Math.floor(Math.random() * 256);
-      }
-    }
-    return `tp_${Array.from(bytes, (byte) => byte.toString(16).padStart(2, "0")).join("")}`;
-  }
-
-  function getPublicPassUrl(passOrId) {
-    const passId = typeof passOrId === "string" ? passOrId : passOrId?.trap_pass_id;
-    return `/pass/?id=${encodeURIComponent(normalizePassId(passId))}`;
-  }
-
-  function getVerifyUrl(token) {
-    const clean = sanitize(token, 120);
-    return clean ? `/trap/verify?token=${encodeURIComponent(clean)}` : "";
-  }
-
-  function ensurePassShape(pass = {}) {
-    const template = getTemplateForPass(pass);
-    const serial = Number(pass.serial_number || 1);
-    const trapPassId = normalizePassId(pass.trap_pass_id) || generateSerialNumber(template, template.waveNumber, serial);
-    const passPhrase = normalizePassId(pass.pass_phrase || pass.codex_phrase || "") || generatePassPhrase(template, serial);
-    const privateToken = sanitize(pass.private_token, 140) || generatePrivateToken();
-    return {
-      ...pass,
-      trap_pass_id: trapPassId,
-      template_id: template.id,
-      tier: sanitize(pass.tier || template.tier, 90),
-      wave_number: Number(pass.wave_number || template.waveNumber),
-      wave_name: sanitize(pass.wave_name || template.waveName, 90),
-      serial_number: serial,
-      pass_phrase: passPhrase,
-      codex_phrase: passPhrase,
-      private_token: privateToken,
-      qr_url: sanitize(pass.qr_url, 220) || getVerifyUrl(privateToken),
-      pass_art_url: sanitize(pass.pass_art_url || template.image, 260),
-      claimed: pass.claimed !== false,
-      claimed_at: sanitize(pass.claimed_at || pass.created_at || new Date().toISOString(), 50),
-      perks: Array.isArray(pass.perks) ? pass.perks : template.unlocks,
-      stamps: Array.isArray(pass.stamps) ? pass.stamps : [],
-      rooms_unlocked: Array.isArray(pass.rooms_unlocked) ? pass.rooms_unlocked : [],
-      physical_required: Boolean(pass.physical_required),
-      physical_shipped: Boolean(pass.physical_shipped)
-    };
-  }
-
-  function findPassByToken(token) {
-    const clean = sanitize(token, 140);
-    if (!clean) return null;
-    return getRegistry().find((pass) => sanitize(pass.private_token, 140) === clean) || null;
-  }
-
-  function getTrapPassPhase(pass) {
-    if (!pass) {
-      return { level: 0, id: "no-pass", title: "No Pass" };
-    }
-    const templateId = sanitize(pass.template_id, 90);
-    const waveName = sanitize(pass.wave_name, 90).toLowerCase();
-    const waveNumber = Number(pass.wave_number) || 0;
-    if (templateId === "gen_2_wave_1_no_brakes" || waveName.includes("no brakes")) {
-      return { level: 5, id: "gen-2-wave-1-no-brakes", title: "No Brakes" };
-    }
-    if (waveName.includes("bring the storm")) {
-      return { level: 4, id: "gen-1-wave-4-bring-the-storm", title: "Bring The Storm" };
-    }
-    if (waveName.includes("all hands on deck") || templateId === "artifact_pass") {
-      return { level: 3, id: "gen-1-wave-3-all-hands-on-deck", title: "All Hands On Deck" };
-    }
-    if (waveName.includes("when 3 deer appear")) {
-      return { level: 2, id: "gen-1-wave-2-when-3-deer-appear", title: "When 3 Deer Appear" };
-    }
-    if (waveName.includes("ride or dies") || waveName.includes("original entry") || templateId === "crack_pack_holder" || waveNumber === 1) {
-      return { level: 1, id: "gen-1-wave-1-ride-or-dies", title: "Ride Or Dies" };
-    }
-    return { level: 5, id: "gen-2-wave-1-no-brakes", title: "No Brakes" };
-  }
-
-  function publicPass(pass) {
-    if (!pass) return null;
-    const shaped = ensurePassShape(pass);
-    const phase = getTrapPassPhase(shaped);
-    const threadKeys = getThreadDetails(shaped).map((thread) => thread.id);
-    return {
-      trap_pass_id: shaped.trap_pass_id,
-      template_id: shaped.template_id,
-      tier: shaped.tier,
-      wave_number: shaped.wave_number,
-      wave_name: shaped.wave_name,
-      serial_number: shaped.serial_number,
-      pass_phrase: shaped.pass_phrase,
-      display_name: shaped.display_name,
-      discord_role: shaped.discord_role,
-      status: shaped.status,
-      missions_completed: shaped.missions_completed,
-      unlock_level: shaped.unlock_level,
-      thread_keys: threadKeys,
-      phase_level: phase.level,
-      phase_name: phase.title,
-      claimed: shaped.claimed,
-      claimed_at: shaped.claimed_at,
-      created_at: shaped.created_at,
-      pass_art_url: shaped.pass_art_url,
-      public_url: getPublicPassUrl(shaped.trap_pass_id),
-      qr_target: getPublicPassUrl(shaped.trap_pass_id),
-      perks: Array.isArray(shaped.perks) ? shaped.perks.slice(0, 8).map((item) => sanitize(item, 80)) : [],
-      stamps: Array.isArray(shaped.stamps) ? shaped.stamps.slice(0, 12).map((item) => sanitize(item, 80)) : [],
-      rooms_unlocked: Array.isArray(shaped.rooms_unlocked) ? shaped.rooms_unlocked.slice(0, 12).map((item) => sanitize(item, 80)) : [],
-      physical_required: Boolean(shaped.physical_required),
-      physical_shipped: Boolean(shaped.physical_shipped)
-    };
-  }
-
-  function createTrapPass(input) {
-    if (!cfg.passClaimsEnabled) {
-      throw new Error("Trap Pass claims open after live storage and role mapping are ready.");
-    }
-    const registry = getRegistry();
-    const email = normalizeEmail(input.email);
-    if (!email || !isEmail(email)) {
-      throw new Error("Enter a valid email before claiming a Trap Pass.");
-    }
-
-    const template = getTemplateForInput(input);
-    const existing = registry.find((pass) => normalizeEmail(pass.email) === email);
-    if (existing) {
-      const submittedThreadKeys = input.threadKeys !== undefined ? normalizeThreadKeys(input.threadKeys) : null;
-      const shapedExisting = ensurePassShape({ ...existing, template_id: existing.template_id || template.id });
-      const updatedExisting = {
-        ...shapedExisting,
-        display_name: sanitize(input.displayName || shapedExisting.display_name, 80),
-        discord_username: sanitize(input.discordUsername || shapedExisting.discord_username, 80),
-        wallet_address: sanitize(input.walletAddress || shapedExisting.wallet_address, 120),
-        thread_keys: submittedThreadKeys && submittedThreadKeys.length ? submittedThreadKeys : getThreadDetails(shapedExisting).map((thread) => thread.id),
-        updated_at: new Date().toISOString()
+  async function requestAccessAsync(email) {
+    const clean = normalizeEmail(email);
+    if (!isEmail(clean)) throw new Error("Enter a valid email.");
+    if (isLocalReviewHost()) {
+      const state = loadState();
+      const holder = state.holders.find((item) => item.emailNormalized === clean);
+      if (holder) setSessionHolder(holder.holderPublicId);
+      return {
+        ok: true,
+        localReview: true,
+        message: holder
+          ? "Local review wallet opened."
+          : "No local review wallet exists for that email."
       };
-      const nextRegistry = registry.map((pass) => pass.id === existing.id ? updatedExisting : pass);
-      if (!saveRegistry(nextRegistry)) {
-        throw new Error("This browser blocked saving, so the Trap Pass could not be saved.");
-      }
-      storageSet(currentPassKey, updatedExisting.trap_pass_id);
-      return { pass: updatedExisting, existed: true };
     }
-
-    const waveNumber = Number(template.waveNumber || cfg.defaultWaveNumber || 3);
-    let serialNumber = maxSerialForWave(registry, waveNumber) + 1;
-    let trapPassId = generateSerialNumber(template, waveNumber, serialNumber);
-    while (registry.some((pass) => normalizePassId(pass.trap_pass_id) === normalizePassId(trapPassId))) {
-      serialNumber += 1;
-      trapPassId = generateSerialNumber(template, waveNumber, serialNumber);
-    }
-    const now = new Date().toISOString();
-    const submittedThreadKeys = normalizeThreadKeys(input.threadKeys);
-    const privateToken = generatePrivateToken();
-    const pass = {
-      id: makeId(),
-      trap_pass_id: trapPassId,
-      template_id: template.id,
-      tier: sanitize(input.tier || template.tier, 90),
-      wave_number: waveNumber,
-      wave_name: sanitize(template.waveName || cfg.defaultWaveName || "No Brakes", 80),
-      serial_number: serialNumber,
-      pass_phrase: generatePassPhrase(template, serialNumber),
-      codex_phrase: generatePassPhrase(template, serialNumber),
-      private_token: privateToken,
-      qr_url: getVerifyUrl(privateToken),
-      pass_art_url: template.image,
-      email,
-      display_name: sanitize(input.displayName, 80) || "New Arrival",
-      discord_username: sanitize(input.discordUsername, 80),
-      wallet_address: sanitize(input.walletAddress, 120),
-      discord_role: sanitize(input.discordRole || template.badge || cfg.defaultDiscordRole || "No Brakes", 80),
-      status: "active",
-      missions_completed: 0,
-      unlock_level: 1,
-      thread_keys: submittedThreadKeys.length ? submittedThreadKeys : defaultThreadKeys,
-      claimed: true,
-      claimed_at: now,
-      perks: template.unlocks,
-      stamps: [],
-      rooms_unlocked: ["start-here", "project", "threads", "discord"],
-      physical_required: template.id === "artifact_pass" || template.id === "crack_pack_holder",
-      physical_shipped: false,
-      discount_code: "",
-      created_at: now,
-      updated_at: now,
-      future_unlock_data: {}
+    await captureEntryEmail({ email: clean, source: "trap_pass_recovery" });
+    return {
+      ok: true,
+      verificationRequired: true,
+      blocked: !passConfig.recovery?.emailProviderConfigured,
+      message: passConfig.recovery?.blockedMessage || "Check your email for a secure access link."
     };
-
-    registry.push(pass);
-    if (!saveRegistry(registry)) {
-      throw new Error("This browser blocked saving, so the Trap Pass could not be saved.");
-    }
-    storageSet(currentPassKey, pass.trap_pass_id);
-    return { pass, existed: false };
   }
 
-  function findPass(query) {
-    const clean = sanitize(query, 220);
-    const registry = getRegistry();
-    if (!clean) return null;
-    if (clean.includes("@")) {
-      const email = normalizeEmail(clean);
-      const pass = registry.find((record) => normalizeEmail(record.email) === email) || null;
-      return pass ? ensurePassShape(pass) : null;
+  async function claimHolderAsync(input = {}) {
+    if (isLocalReviewHost()) return claimHolderLocal(input);
+    const accessToken = getAuthAccessToken();
+    if (!accessToken) {
+      await captureEntryEmail({ email: input.email, source: "trap_pass_claim" });
+      return {
+        ok: true,
+        verificationRequired: true,
+        blocked: !passConfig.recovery?.emailProviderConfigured,
+        message: passConfig.recovery?.blockedMessage || "Check your email for a secure access link."
+      };
     }
-    const passId = normalizePassId(clean);
-    const pass = registry.find((record) => (
-      normalizePassId(record.trap_pass_id) === passId ||
-      normalizePassId(record.pass_phrase || record.codex_phrase) === passId
-    )) || null;
-    return pass ? ensurePassShape(pass) : null;
+    const wallet = await supabaseRpc("trap_pass_claim_current_release", {
+      p_trap_identity: sanitize(input.trapIdentity || input.displayName, passConfig.card?.maxTrapIdentityLength || 40),
+      p_discord_username: sanitize(input.discordUsername, 80),
+      p_public_profile_enabled: Boolean(input.publicProfileEnabled)
+    }, { accessToken });
+    if (wallet?.holderPublicId) setSessionHolder(wallet.holderPublicId);
+    return { ok: true, existed: Boolean(wallet?.existed), wallet };
   }
 
-  async function createTrapPassAsync(input) {
-    if (!cfg.passClaimsEnabled) {
-      throw new Error("Trap Pass claims open after live storage and role mapping are ready.");
+  async function getMyWalletAsync() {
+    if (isLocalReviewHost()) {
+      const state = loadState();
+      return walletBundle(state, getSessionHolder(state));
     }
+    const accessToken = getAuthAccessToken();
+    if (!accessToken) return null;
+    return supabaseRpc("trap_pass_get_my_wallet", {}, { accessToken });
+  }
 
-    const email = normalizeEmail(input.email);
-    if (!email || !isEmail(email)) {
-      throw new Error("Enter a valid email before claiming a Trap Pass.");
+  async function updateMyProfileAsync(input = {}) {
+    if (isLocalReviewHost()) {
+      const state = loadState();
+      const holder = getSessionHolder(state);
+      if (!holder) throw new Error("Open your wallet before changing your profile.");
+      if (input.trapIdentity !== undefined) {
+        holder.trapIdentity = sanitize(input.trapIdentity, passConfig.card?.maxTrapIdentityLength || 40);
+      }
+      if (input.publicProfileEnabled !== undefined) holder.publicProfileEnabled = Boolean(input.publicProfileEnabled);
+      if (input.selectedPublicThreadSlugs !== undefined) holder.selectedPublicThreadSlugs = normalizeThreadSlugs(input.selectedPublicThreadSlugs);
+      if (input.featuredPassSerial !== undefined) {
+        const card = holderCards(state, holder).find((item) => item.cardSerial === normalizeSerial(input.featuredPassSerial) && item.status === "active");
+        if (card) holder.featuredPassSerial = card.cardSerial;
+      }
+      holder.updatedAt = nowIso();
+      saveState(state);
+      return walletBundle(state, holder);
     }
+    const accessToken = getAuthAccessToken();
+    if (!accessToken) throw new Error("Use your secure email link to open My Pass.");
+    return supabaseRpc("trap_pass_update_my_profile", {
+      p_trap_identity: input.trapIdentity === undefined ? null : sanitize(input.trapIdentity, passConfig.card?.maxTrapIdentityLength || 40),
+      p_public_profile_enabled: input.publicProfileEnabled === undefined ? null : Boolean(input.publicProfileEnabled),
+      p_selected_public_thread_slugs: input.selectedPublicThreadSlugs === undefined ? null : normalizeThreadSlugs(input.selectedPublicThreadSlugs),
+      p_featured_card_serial: input.featuredPassSerial === undefined ? null : normalizeSerial(input.featuredPassSerial)
+    }, { accessToken });
+  }
 
-    if (hasSupabaseStorage()) {
-      try {
-        const threadKeys = normalizeThreadKeys(input.threadKeys);
-        const template = getTemplateForInput(input);
-        const payload = {
-          p_email: email,
-          p_display_name: sanitize(input.displayName, 80),
-          p_discord_username: sanitize(input.discordUsername, 80),
-          p_wallet_address: sanitize(input.walletAddress, 120),
-          p_thread_keys: threadKeys.length ? threadKeys : null,
-          p_tier: sanitize(input.tier || template.tier, 90),
-          p_template_id: template.id
+  async function claimNewReleaseAsync(releaseId) {
+    const release = getRelease(releaseId);
+    if (!release || !release.claimEnabled || release.legacyManualVerificationRequired) {
+      throw new Error("That Trap Pass release is not available for self-service claims.");
+    }
+    if (isLocalReviewHost()) {
+      const state = loadState();
+      const holder = getSessionHolder(state);
+      if (!holder) throw new Error("Open your wallet before claiming a new pass.");
+      const result = createWalletCard(state, holder, release);
+      if (result.existed) throw new Error("This release is already in your wallet.");
+      saveState(state);
+      return walletBundle(state, holder);
+    }
+    const accessToken = getAuthAccessToken();
+    if (!accessToken) throw new Error("Use your secure email link to open My Pass.");
+    return supabaseRpc("trap_pass_claim_release", { p_release_id: release.id }, { accessToken });
+  }
+
+  function isAcceptedSerialFormat(value) {
+    const clean = normalizeSerial(value);
+    return Boolean(passConfig.holderId?.pattern?.test(clean)
+      || passConfig.cardSerial?.pattern?.test(clean)
+      || passConfig.cardSerial?.legacyPattern?.test(clean));
+  }
+
+  function validateSerialLocal(value) {
+    const clean = normalizeSerial(value);
+    if (!isAcceptedSerialFormat(clean)) return { valid: false, status: "INVALID TRAP PASS" };
+    const state = loadState();
+    const holder = findHolderByPublicId(state, clean);
+    if (holder) {
+      if (holder.status !== "active") return { valid: false, status: "INVALID TRAP PASS" };
+      return {
+        valid: true,
+        status: "VALID TRAP PASS",
+        profileAvailable: Boolean(holder.publicProfileEnabled),
+        profileUrl: holder.publicProfileEnabled
+          ? (passConfig.routes?.publicProfile ? passConfig.routes.publicProfile(holder.holderPublicId) : `/pass/${holder.holderPublicId}`)
+          : ""
+      };
+    }
+    const card = findCardBySerial(state, clean);
+    if (!card || card.status !== "active") return { valid: false, status: "INVALID TRAP PASS" };
+    const release = getRelease(card.waveId);
+    if (release?.legacyManualVerificationRequired && !card.legacyVerified) {
+      return { valid: false, status: "INVALID TRAP PASS" };
+    }
+    const cardHolder = state.holders.find((item) => item.internalId === card.holderInternalId);
+    if (!cardHolder || cardHolder.status !== "active") return { valid: false, status: "INVALID TRAP PASS" };
+    return {
+      valid: true,
+      status: "VALID TRAP PASS",
+      profileAvailable: Boolean(cardHolder.publicProfileEnabled),
+      profileUrl: cardHolder.publicProfileEnabled
+        ? (passConfig.routes?.publicProfile ? passConfig.routes.publicProfile(cardHolder.holderPublicId) : `/pass/${cardHolder.holderPublicId}`)
+        : ""
+    };
+  }
+
+  async function validateSerialAsync(value) {
+    const clean = normalizeSerial(value);
+    if (!isAcceptedSerialFormat(clean)) return { valid: false, status: "INVALID TRAP PASS" };
+    if (isLocalReviewHost()) return validateSerialLocal(clean);
+    const result = await supabaseRpc("trap_pass_validate_serial", { p_serial: clean });
+    return result?.valid
+      ? {
+          valid: true,
+          status: "VALID TRAP PASS",
+          profileAvailable: Boolean(result.profileAvailable),
+          profileUrl: result.profileAvailable ? sanitize(result.profileUrl, 260) : ""
+        }
+      : { valid: false, status: "INVALID TRAP PASS" };
+  }
+
+  async function getPublicProfileAsync(holderPublicId) {
+    const clean = normalizeSerial(holderPublicId);
+    if (!passConfig.holderId?.pattern?.test(clean)) return { valid: false };
+    if (isLocalReviewHost()) return publicProfileFromHolder(loadState(), findHolderByPublicId(loadState(), clean));
+    const result = await supabaseRpc("trap_pass_public_profile", { p_holder_public_id: clean });
+    if (!result?.valid) return { valid: false };
+    return result;
+  }
+
+  function getCurrentHolderSummary() {
+    if (!isLocalReviewHost() && !getAuthAccessToken()) return null;
+    const state = loadState();
+    const holder = getSessionHolder(state);
+    if (!holder) return null;
+    return {
+      holderPublicId: holder.holderPublicId,
+      trapIdentity: holder.trapIdentity || "",
+      publicProfileUrl: passConfig.routes?.publicProfile
+        ? passConfig.routes.publicProfile(holder.holderPublicId)
+        : `/pass/${holder.holderPublicId}`
+    };
+  }
+
+  function generateUnlockCode(holderPublicId) {
+    const random = new Uint8Array(4);
+    if (window.crypto?.getRandomValues) window.crypto.getRandomValues(random);
+    else random.set([1, 2, 3, 4]);
+    const suffix = Array.from(random).map((value) => value.toString(16).padStart(2, "0")).join("").toUpperCase();
+    return `CFT-${normalizeSerial(holderPublicId).replace("-", "")}-${suffix}`;
+  }
+
+  function reissueCardLocal(state, holder, card) {
+    if (!holder || !card || card.holderInternalId !== holder.internalId) throw new Error("Card not found.");
+    const release = getRelease(card.waveId);
+    const siblings = holderCards(state, holder).filter((item) => item.waveId === card.waveId);
+    const nextReissue = Math.max(1, ...siblings.map((item) => Number(item.reissueNumber) || 1)) + 1;
+    const replacement = createWalletCard(state, holder, release, {
+      reissueNumber: nextReissue,
+      replacesCardId: card.internalId,
+      legacyVerified: card.legacyVerified
+    }).card;
+    card.status = "replaced";
+    card.replacedByCardId = replacement.internalId;
+    card.updatedAt = nowIso();
+    if (holder.featuredPassSerial === card.cardSerial) holder.featuredPassSerial = replacement.cardSerial;
+    return replacement;
+  }
+
+  function adminSearchLocal(query) {
+    if (!isLocalReviewHost()) return [];
+    const clean = sanitize(query, 220).toLowerCase();
+    if (!clean) return [];
+    const state = loadState();
+    return state.holders
+      .filter((holder) => {
+        const cards = holderCards(state, holder);
+        return holder.emailNormalized.includes(clean)
+          || holder.holderPublicId.toLowerCase().includes(clean)
+          || holder.trapIdentity.toLowerCase().includes(clean)
+          || cards.some((card) => card.cardSerial.toLowerCase().includes(clean));
+      })
+      .slice(0, 20)
+      .map((holder) => ({
+        internalId: holder.internalId,
+        email: holder.email,
+        emailVerified: Boolean(holder.emailVerifiedAt),
+        holderPublicId: holder.holderPublicId,
+        trapIdentity: holder.trapIdentity,
+        originalEntryWaveId: holder.originalEntryWaveId,
+        currentTierId: holder.currentTierId,
+        status: holder.status,
+        publicProfileEnabled: holder.publicProfileEnabled,
+        selectedPublicThreadSlugs: holder.selectedPublicThreadSlugs,
+        legacyVerificationComplete: holder.legacyVerificationComplete,
+        cards: holderCards(state, holder).map((card) => ({
+          cardSerial: card.cardSerial,
+          waveId: card.waveId,
+          status: card.status,
+          legacyVerified: card.legacyVerified
+        }))
+      }));
+  }
+
+  function adminActionLocal(action, payload = {}) {
+    if (!isLocalReviewHost()) throw new Error("Protected admin service required.");
+    const state = loadState();
+    let holder = payload.holderPublicId ? findHolderByPublicId(state, payload.holderPublicId) : null;
+
+    if (action === "create_holder") {
+      if (!isEmail(payload.email)) throw new Error("A valid email is required.");
+      const existing = state.holders.find((item) => item.emailNormalized === normalizeEmail(payload.email));
+      if (existing) holder = existing;
+      else {
+        const holderNumber = payload.holderNumber ? Number(payload.holderNumber) : nextHolderNumber(state);
+        if (state.holders.some((item) => Number(item.holderNumber) === holderNumber)) throw new Error("Holder number already exists.");
+        holder = {
+          internalId: makeInternalId("holder"),
+          holderNumber,
+          holderPublicId: formatHolderId(holderNumber),
+          email: normalizeEmail(payload.email),
+          emailNormalized: normalizeEmail(payload.email),
+          emailVerifiedAt: payload.emailVerified ? nowIso() : "",
+          authUserId: "",
+          trapIdentity: sanitize(payload.trapIdentity, passConfig.card?.maxTrapIdentityLength || 40),
+          discordUsername: "",
+          originalEntryWaveId: payload.originalEntryWaveId || passConfig.currentReleaseId,
+          memberSince: nowIso(),
+          currentTierId: canonicalTierId(payload.currentTierId),
+          status: "active",
+          publicProfileEnabled: false,
+          selectedPublicThreadSlugs: [],
+          featuredPassSerial: "",
+          legacyVerificationComplete: false,
+          adminNotes: "",
+          manualVerificationNotes: "",
+          createdAt: nowIso(),
+          updatedAt: nowIso()
         };
-        let result;
-        try {
-          result = await supabaseRpc("claim_trap_pass", payload);
-        } catch (rpcError) {
-          if (!/p_tier|p_template_id|function|schema cache|claim_trap_pass/i.test(String(rpcError?.message || ""))) {
-            throw rpcError;
-          }
-          const { p_tier, p_template_id, ...legacyPayload } = payload;
-          result = await supabaseRpc("claim_trap_pass", legacyPayload);
-        }
-        const record = mergePassIntoRegistry(result.pass, {
-          email,
-          discordUsername: input.discordUsername,
-          walletAddress: input.walletAddress
-        });
-        return {
-          pass: record || result.pass,
-          existed: Boolean(result.existed),
-          remote: true
-        };
-      } catch (error) {
-        if (!isLocalReviewHost()) throw error;
-        console.warn("Supabase Trap Pass claim failed; using browser backup storage.", error);
+        state.holders.push(holder);
       }
     }
 
-    return { ...createTrapPass(input), remote: false };
-  }
+    if (!holder) throw new Error("Holder not found.");
 
-  async function findPassAsync(query) {
-    const local = findPass(query);
-    if (local) return local;
-
-    if (hasSupabaseStorage()) {
-      try {
-        const result = await supabaseRpc("lookup_trap_pass_public", {
-          p_query: sanitize(query, 220)
-        });
-        if (result?.found && result.pass) {
-          return mergePassIntoRegistry(result.pass, {
-            email: String(query || "").includes("@") ? query : ""
-          });
-        }
-      } catch (error) {
-        if (!isLocalReviewHost()) throw error;
-        console.warn("Supabase Trap Pass lookup failed; using browser backup storage.", error);
-      }
+    if (action === "edit_identity") holder.trapIdentity = sanitize(payload.trapIdentity, passConfig.card?.maxTrapIdentityLength || 40);
+    if (action === "correct_original_wave") holder.originalEntryWaveId = getRelease(payload.waveId)?.id || holder.originalEntryWaveId;
+    if (action === "change_tier") holder.currentTierId = getTier(payload.tierId)?.id || holder.currentTierId;
+    if (action === "set_public_profile") holder.publicProfileEnabled = Boolean(payload.enabled);
+    if (action === "select_threads") holder.selectedPublicThreadSlugs = normalizeThreadSlugs(payload.threadSlugs);
+    if (action === "deactivate_holder") holder.status = "deactivated";
+    if (action === "reactivate_holder") holder.status = "active";
+    if (action === "mark_legacy_verified") {
+      holder.legacyVerificationComplete = true;
+      holderCards(state, holder).filter((card) => getRelease(card.waveId)?.legacyManualVerificationRequired).forEach((card) => {
+        card.legacyVerified = true;
+        if (card.status === "pending_verification") card.status = "active";
+      });
     }
-
-    return null;
-  }
-
-  async function verifyTrapPassTokenAsync(token) {
-    const local = findPassByToken(token);
-    if (local) {
-      storageSet(currentPassKey, local.trap_pass_id);
-      return {
-        verified: true,
-        public_summary: publicPass(local),
-        checked_at: new Date().toISOString()
+    if (action === "add_card") {
+      const release = getRelease(payload.waveId);
+      createWalletCard(state, holder, release, {
+        legacyVerified: Boolean(payload.legacyVerified),
+        status: release?.legacyManualVerificationRequired && !payload.legacyVerified ? "pending_verification" : "active"
+      });
+    }
+    if (action === "deactivate_card") {
+      const card = findCardBySerial(state, payload.cardSerial);
+      if (card?.holderInternalId === holder.internalId) card.status = "inactive";
+    }
+    if (action === "reissue_card") {
+      const card = findCardBySerial(state, payload.cardSerial);
+      reissueCardLocal(state, holder, card);
+    }
+    if (action === "complimentary_free") holder.currentTierId = "free";
+    if (action === "complimentary_cash") {
+      holder.currentTierId = holder.currentTierId === "handy-sass" ? "handy-sass" : "cash-for-trash";
+      state.entitlements.push({
+        internalId: makeInternalId("entitlement"),
+        holderInternalId: holder.internalId,
+        entitlementType: "cash-for-trash",
+        status: "complimentary",
+        startsAt: nowIso(),
+        endsAt: "",
+        privateUnlockCode: generateUnlockCode(holder.holderPublicId),
+        source: "admin",
+        createdAt: nowIso(),
+        updatedAt: nowIso()
+      });
+    }
+    if (action === "complimentary_handy") {
+      holder.currentTierId = "handy-sass";
+      state.entitlements.push({
+        internalId: makeInternalId("entitlement"),
+        holderInternalId: holder.internalId,
+        entitlementType: "handy-sass-lifetime",
+        status: "active",
+        startsAt: nowIso(),
+        endsAt: "",
+        privateUnlockCode: "",
+        source: "admin",
+        createdAt: nowIso(),
+        updatedAt: nowIso()
+      });
+    }
+    if (action === "cancel_cash") {
+      holderEntitlements(state, holder).filter((item) => item.entitlementType === "cash-for-trash").forEach((item) => {
+        item.status = "canceled";
+        item.privateUnlockCode = "";
+        item.updatedAt = nowIso();
+      });
+      if (holder.currentTierId === "cash-for-trash") holder.currentTierId = "free";
+    }
+    if (action === "set_release") {
+      const release = getRelease(payload.waveId);
+      if (!release) throw new Error("Release not found.");
+      state.releaseOverrides[release.id] = {
+        ...(state.releaseOverrides[release.id] || {}),
+        ...(payload.claimEnabled === undefined ? {} : { claimEnabled: Boolean(payload.claimEnabled) }),
+        ...(payload.claimOpensAt === undefined ? {} : { claimOpensAt: sanitize(payload.claimOpensAt, 50) }),
+        ...(payload.claimClosesAt === undefined ? {} : { claimClosesAt: sanitize(payload.claimClosesAt, 50) }),
+        ...(payload.frontArtwork === undefined ? {} : { frontArtwork: sanitize(payload.frontArtwork, 260) }),
+        ...(payload.backArtwork === undefined ? {} : { backArtwork: sanitize(payload.backArtwork, 260) })
       };
     }
-
-    if (hasSupabaseStorage()) {
-      try {
-        const result = await supabaseRpc("verify_trap_pass_token", {
-          p_token: sanitize(token, 140)
-        });
-        if (result?.found && result.pass) {
-          const record = mergePassIntoRegistry(result.pass);
-          return {
-            verified: true,
-            public_summary: publicPass(record || result.pass),
-            checked_at: new Date().toISOString()
-          };
-        }
-        return {
-          verified: false,
-          public_summary: null,
-          checked_at: new Date().toISOString()
-        };
-      } catch (error) {
-        const message = String(error?.message || "");
-        const missingRpc = /verify_trap_pass_token|function .* does not exist|schema cache/i.test(message);
-        if (!missingRpc && !isLocalReviewHost()) throw error;
-        if (missingRpc) {
-          const fallback = await findPassAsync(token);
-          if (fallback) {
-            storageSet(currentPassKey, fallback.trap_pass_id);
-            return {
-              verified: true,
-              public_summary: publicPass(fallback),
-              checked_at: new Date().toISOString()
-            };
-          }
-        }
-        console.warn("Supabase Trap Pass token verification failed; using browser backup storage.", error);
-      }
-    }
-
+    holder.updatedAt = nowIso();
+    saveState(state);
     return {
-      verified: false,
-      public_summary: null,
-      checked_at: new Date().toISOString()
+      ok: true,
+      holder: adminSearchLocal(holder.holderPublicId)[0] || null,
+      wallet: walletBundle(state, holder)
     };
   }
 
-  async function setCurrentPassAsync(query) {
-    const pass = await findPassAsync(query);
-    if (pass) {
-      storageSet(currentPassKey, pass.trap_pass_id);
-    }
-    return pass;
+  function drawContainedImage(context, image, width, height) {
+    const scale = Math.min(width / image.naturalWidth, height / image.naturalHeight);
+    const drawWidth = image.naturalWidth * scale;
+    const drawHeight = image.naturalHeight * scale;
+    context.drawImage(image, (width - drawWidth) / 2, (height - drawHeight) / 2, drawWidth, drawHeight);
   }
 
-  function getCurrentPass() {
-    const passId = storageGet(currentPassKey);
-    return passId ? findPass(passId) : null;
-  }
-
-  function setCurrentPass(passId) {
-    const pass = findPass(passId);
-    if (pass) {
-      storageSet(currentPassKey, pass.trap_pass_id);
-    }
-    return pass;
-  }
-
-  async function verifyTrapPassAsync(query) {
-    const pass = await findPassAsync(query);
-    if (!pass) {
-      return {
-        verified: false,
-        applied_locally: false,
-        error: "No Trap Pass found for that ID or email.",
-        public_summary: null,
-        roles: [],
-        channels: [],
-        rooms: [],
-        checked_at: new Date().toISOString()
-      };
-    }
-    storageSet(currentPassKey, pass.trap_pass_id);
-    return getRoleAccessMapping(pass);
-  }
-
-  function canAccessRoom(roomKey, pass) {
-    const room = hiddenRooms[roomKey];
-    if (!room || !pass) return false;
-    const unlock = Number(pass.unlock_level) || 0;
-    const wave = Number(pass.wave_number) || 0;
-    return unlock >= Number(room.minUnlock || 1) || (room.wave && wave === Number(room.wave));
-  }
-
-  function addUnique(list, value) {
-    const clean = sanitize(value, 100);
-    if (clean && !list.includes(clean)) {
-      list.push(clean);
-    }
-  }
-
-  function addChannel(list, name, access, reason) {
-    const cleanName = sanitize(name, 100);
-    if (!cleanName || list.some((channel) => channel.name === cleanName)) return;
-    list.push({
-      name: cleanName,
-      access: sanitize(access, 40),
-      reason: sanitize(reason, 220)
+  function loadArtwork(src) {
+    return new Promise((resolve) => {
+      if (!src) return resolve(null);
+      const image = new Image();
+      image.onload = () => resolve(image);
+      image.onerror = () => resolve(null);
+      image.src = src;
     });
   }
 
-  function getRoleAccessMapping(pass) {
-    if (!pass) return null;
-    const safe = publicPass(pass);
-    const roles = [];
-    const channels = [];
-    const unlock = Number(pass.unlock_level) || 0;
-    const missions = Number(pass.missions_completed) || 0;
-    const wave = Number(pass.wave_number) || 0;
-    const phase = getTrapPassPhase(pass);
-    const passThreads = getThreadDetails(pass);
-    const template = getTemplateForPass(pass);
-    const waveRoles = {
-      1: "No Brakes",
-      2: "When 3 Deer Appear",
-      3: "All Hands On Deck"
-    };
-    const waveRole = template.id === "wave_1_original_entry" ? "Wave 1 Ghost" : waveRoles[wave];
+  function fitCanvasText(context, text, maxWidth, initialSize, minimumSize) {
+    let size = initialSize;
+    while (size > minimumSize) {
+      context.font = `900 ${size}px Arial, sans-serif`;
+      if (context.measureText(text).width <= maxWidth) break;
+      size -= 4;
+    }
+    return size;
+  }
 
-    addUnique(roles, "New Arrival");
-    addUnique(roles, "Trap Pass Holder");
-    addUnique(roles, "Trashcan Fam");
-    addUnique(roles, pass.discord_role);
-    addUnique(roles, waveRole);
-    if (missions >= 1) addUnique(roles, "Clip Hunter");
-    if (missions >= 2) addUnique(roles, "Quote Miner");
-    if (unlock >= 2) addUnique(roles, "Archivist");
-    if (unlock >= 3) addUnique(roles, "Heavy Content OK");
-    if (unlock >= 4) addUnique(roles, "Day One Dirt Witness");
-    if (unlock >= 5) addUnique(roles, "Patreon Back Room");
-
-    addChannel(channels, "knock-first", "read", "Front-door orientation.");
-    addChannel(channels, "house-rules", "read", "Grimey house rules and safety spine.");
-    addChannel(channels, "official-stash", "read", "Official links and project sources.");
-    addChannel(channels, "announcements-from-the-couch", "read", "House-wide announcements.");
-    addChannel(channels, "living-room", "post", "Main member room.");
-    addChannel(channels, "new-faces-at-the-door", "post", "Arrival and intro room.");
-    addChannel(channels, "tap-in", "post", "Daily signal and status posts.");
-    addChannel(channels, "clip-reactions", "post", "React to archive clips and drops.");
-    addChannel(channels, "quote-the-madness", "post", "Pull lines and writing fragments.");
-    addChannel(channels, "trap-pass-counter", "post", "Pass check-in and role mapping.");
-    addChannel(channels, "the-map-on-the-wall", "read", "The thread map and project wiring.");
-
-    passThreads.forEach((thread) => {
-      addChannel(channels, thread.channel, thread.id === "psychosis-loop" ? "post / slowmode" : "post", `${thread.title} thread room.`);
-    });
-
-    if (missions >= 1 || phase.level >= 3) {
-      addChannel(channels, "thumbnail-court", "post", "Vote on thumbnails and frames.");
-      addChannel(channels, "caption-lab", "post", "Shape captions and public copy.");
-      addChannel(channels, "fan-art-and-edits", "post", "Member edits and artwork.");
-      addChannel(channels, "music-lab", "post", "Soundtrack and demo direction.");
+  async function downloadPassPng(wallet, cardSerial, side = "front") {
+    if (!wallet || !Array.isArray(wallet.cards)) throw new Error("Open your wallet before downloading a pass.");
+    const card = wallet.cards.find((item) => item.cardSerial === normalizeSerial(cardSerial)) || wallet.featuredPass;
+    if (!card) throw new Error("Select a pass before downloading.");
+    const safeSide = side === "back" ? "back" : "front";
+    const width = Number(passConfig.card?.width) || 2025;
+    const height = Number(passConfig.card?.height) || 1275;
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+    const context = canvas.getContext("2d");
+    const artwork = await loadArtwork(safeSide === "front" ? card.frontArtwork : card.backArtwork);
+    context.fillStyle = "#050505";
+    context.fillRect(0, 0, width, height);
+    if (artwork) drawContainedImage(context, artwork, width, height);
+    else {
+      context.strokeStyle = "#a81318";
+      context.lineWidth = 18;
+      context.strokeRect(32, 32, width - 64, height - 64);
+      context.fillStyle = "#d8d0c0";
+      context.textAlign = "center";
+      context.font = "900 76px Arial, sans-serif";
+      context.fillText(safeSide === "front" ? card.frontPlaceholder : card.backPlaceholder, width / 2, height / 2);
     }
 
-    if (unlock >= 2 || phase.level >= 4) {
-      addChannel(channels, "new-drops", "read", "Approved archive drops.");
-      addChannel(channels, "archive-dives", "post", "Sort and discuss archive material.");
-      addChannel(channels, "doc-war-room", "post", "Documentary build room.");
+    if (wallet.tierTreatment === "green-copper") {
+      context.strokeStyle = "#a56a43";
+      context.lineWidth = 28;
+      context.strokeRect(18, 18, width - 36, height - 36);
+      context.strokeStyle = "#477b56";
+      context.lineWidth = 10;
+      context.strokeRect(48, 48, width - 96, height - 96);
     }
 
-    if (unlock >= 3) {
-      addChannel(channels, "heavy-room", "post / nsfw / slowmode", "Heavy context room with basic safety boundaries.");
-      addChannel(channels, "not-a-challenge", "post / nsfw / slowmode", "Unsafe footage context must stay documentary, not instructional.");
-    }
+    const bannerHeight = 250;
+    context.fillStyle = "rgba(3, 3, 3, 0.94)";
+    context.fillRect(0, height - bannerHeight, width, bannerHeight);
+    context.fillStyle = "#a81318";
+    context.fillRect(0, height - bannerHeight, width, 12);
+    context.textAlign = "left";
+    context.fillStyle = "#f1eadc";
+    const identity = sanitize(wallet.trapIdentity || wallet.holderPublicId, passConfig.card?.maxTrapIdentityLength || 40);
+    const identitySize = fitCanvasText(context, identity, width * 0.56, 76, 42);
+    context.font = `900 ${identitySize}px Arial, sans-serif`;
+    context.fillText(identity, 72, height - 130);
+    context.font = "700 38px Arial, sans-serif";
+    context.fillStyle = "#d8d0c0";
+    context.fillText(`${wallet.holderPublicId}  /  ${card.cardSerial}`, 72, height - 70);
+    context.textAlign = "right";
+    context.fillStyle = "#f1eadc";
+    context.font = "900 48px Arial, sans-serif";
+    context.fillText(card.waveName.toUpperCase(), width - 72, height - 140);
+    context.font = "700 32px Arial, sans-serif";
+    context.fillStyle = "#d8d0c0";
+    context.fillText(wallet.currentTierLabel, width - 72, height - 82);
 
-    if (wave === 1 || unlock >= 4) addChannel(channels, "day-one-dirt-witnesses", "post", "Founder-wave and high-trust witness room.");
-    if (wave === 2 || unlock >= 3) addChannel(channels, "thread-january-22", "post", "Origin and witness thread room.");
-    if (wave === 1 || wave === 3) addChannel(channels, "thread-trap-pass-lore", "post", "Current Trap Pass lore room.");
-    if (unlock >= 5) addChannel(channels, "patreon-back-room", "post", "Manual high-access back room.");
-
-    const rooms = Object.entries(hiddenRooms).map(([key, room]) => ({
-      key,
-      title: room.title,
-      route: `/${key}/`,
-      unlocked: canAccessRoom(key, pass),
-      requirement: room.requirement
-    }));
-
-    return {
-      verified: true,
-      applied_locally: true,
-      public_summary: safe,
-      roles,
-      channels,
-      rooms,
-      checked_at: new Date().toISOString()
-    };
-  }
-
-  function verifyTrapPass(query) {
-    const pass = findPass(query);
-    if (!pass) {
-      return {
-        verified: false,
-        applied_locally: false,
-        error: "No Trap Pass found for that ID or email.",
-        public_summary: null,
-        roles: [],
-        channels: [],
-        rooms: [],
-        checked_at: new Date().toISOString()
-      };
-    }
-    setCurrentPass(pass.trap_pass_id);
-    return getRoleAccessMapping(pass);
-  }
-
-  const achievementBaggies = [
-    {
-      id: "front-door-key",
-      title: "Front Door Key",
-      condition: (pass) => Boolean(pass),
-      description: "Claimed a Trap Pass and got a key to the map.",
-      reward: "Base pass profile access"
-    },
-    {
-      id: "no-brakes",
-      title: "No Brakes",
-      condition: (pass) => getTemplateForPass(pass).id === "gen_2_wave_1_no_brakes",
-      description: "Entered during the Gen 2 Wave 1 push.",
-      reward: "No Brakes role"
-    },
-    {
-      id: "thread-witness",
-      title: "Thread Witness",
-      condition: (pass) => getThreadDetails(pass).length > 0,
-      description: "Attached at least one story thread to the pass.",
-      reward: "Thread access"
-    },
-    {
-      id: "trap-pass-lore",
-      title: "Trap Pass Lore",
-      condition: (pass) => getThreadDetails(pass).some((thread) => thread.id === "trap-pass-lore"),
-      description: "Carrying the key-and-pass wire.",
-      reward: "#thread-trap-pass-lore"
-    },
-    {
-      id: "archive-witness",
-      title: "Archive Witness",
-      condition: (pass) => Number(pass.unlock_level) >= 1,
-      description: "Unlocked the first layer of archive visibility.",
-      reward: "Archive drops"
-    },
-    {
-      id: "clip-hunter",
-      title: "Clip Hunter",
-      condition: (pass) => Number(pass.missions_completed) >= 1,
-      description: "Completed a mission or helped pick a clip.",
-      reward: "Clip voting power"
-    },
-    {
-      id: "line-puller",
-      title: "Quote Miner",
-      condition: (pass) => Number(pass.missions_completed) >= 2,
-      description: "Pulled enough lines or mission work to affect public artifacts.",
-      reward: "Quote credit"
-    },
-    {
-      id: "thread-map-reader",
-      title: "Map On The Wall",
-      condition: (pass) => Number(getTrapPassPhase(pass).level) >= 2,
-      description: "Reached the thread-map layer of the project.",
-      reward: "Thread map visibility"
-    },
-    {
-      id: "evidence-sorter",
-      title: "Evidence Sorter",
-      condition: (pass) => Number(pass.unlock_level) >= 2,
-      description: "Earned access to proof fragments and object files.",
-      reward: "Evidence File"
-    },
-    {
-      id: "og-pack",
-      title: "OG Pack",
-      condition: (pass) => Number(pass.unlock_level) >= 4,
-      description: "Deep-file collector status for rare drops and raw context.",
-      reward: "OG Scum File"
-    },
-    {
-      id: "inner-room",
-      title: "Inner Circle",
-      condition: (pass) => Number(pass.unlock_level) >= 5,
-      description: "Deepest unlock currently mapped.",
-      reward: "The Loop"
-    }
-  ];
-
-  function getAchievementBaggies(pass) {
-    if (!pass) return [];
-    return achievementBaggies.map((baggie) => {
-      const earned = Boolean(baggie.condition(pass));
-      return {
-        id: baggie.id,
-        title: baggie.title,
-        description: baggie.description,
-        reward: baggie.reward,
-        earned,
-        status: earned ? "earned" : "locked"
-      };
-    });
-  }
-
-  function getWalletInventory() {
-    const passes = getRegistry().map((pass) => {
-      const mapping = getRoleAccessMapping(pass);
-      const phase = getTrapPassPhase(pass);
-      return {
-        pass: publicPass(pass),
-        phase,
-        threads: getThreadDetails(pass),
-        roles: mapping.roles,
-      rooms: mapping.rooms,
-        channels: mapping.channels,
-        baggies: getAchievementBaggies(pass)
-      };
-    });
-    return {
-      passes,
-      current_pass_id: getCurrentPass()?.trap_pass_id || "",
-      total_passes: passes.length,
-      total_baggies_earned: passes.reduce((total, item) => total + item.baggies.filter((baggie) => baggie.earned).length, 0)
-    };
-  }
-
-  function getTrapPassMetadata(pass) {
-    const safe = publicPass(pass);
-    if (!safe) return null;
-    const phase = getTrapPassPhase(pass);
-    const mapping = getRoleAccessMapping(pass);
-    const baggies = getAchievementBaggies(pass).filter((baggie) => baggie.earned);
-    return {
-      name: `Trap Pass ${safe.trap_pass_id}`,
-      description: "Shareable Trap Pass summary for IHOCAIHAG / The Trap House. Private email, private unlock notes, and system IDs are intentionally excluded.",
-      image: safe.pass_art_url,
-      external_url: `/pass/?id=${encodeURIComponent(safe.trap_pass_id)}`,
-      public_summary: safe,
-      phase: {
-        level: phase.level,
-        id: phase.id,
-        title: phase.title
-      },
-      threads: getThreadDetails(pass).map((thread) => ({
-        id: thread.id,
-        title: thread.title,
-        community_channel: thread.channel,
-        pass_history: thread.phase
-      })),
-      roles: mapping.roles,
-      trap_house_channels: mapping.channels.map((channel) => ({
-        name: channel.name,
-        access: channel.access,
-        reason: channel.reason
-      })),
-      unlocked_files: mapping.rooms.filter((room) => room.unlocked).map((room) => ({
-        key: room.key,
-        title: room.title,
-        route: room.route
-      })),
-      achievement_baggies: baggies.map((baggie) => ({
-        id: baggie.id,
-        title: baggie.title,
-        reward: baggie.reward
-      })),
-      attributes: [
-        { trait_type: "Tier", value: safe.tier },
-        { trait_type: "Template", value: safe.template_id },
-        { trait_type: "Wave", value: `Wave ${safe.wave_number}` },
-        { trait_type: "Wave Name", value: safe.wave_name },
-        { trait_type: "Serial", value: safe.serial_number },
-        { trait_type: "Pass Phrase", value: safe.pass_phrase },
-        { trait_type: "Unlock Level", value: safe.unlock_level },
-        { trait_type: "Missions Completed", value: safe.missions_completed },
-        { trait_type: "Pass History", value: phase.title },
-        { trait_type: "Thread Count", value: safe.thread_keys.length },
-        { trait_type: "Proof Baggies", value: baggies.length }
-      ]
-    };
-  }
-
-  function absoluteUrl(pathOrUrl) {
-    const value = String(pathOrUrl || "");
-    if (/^https?:\/\//i.test(value)) return value;
-    return `${window.location.origin}${value.startsWith("/") ? value : `/${value}`}`;
-  }
-
-  function qrImageUrl(target) {
-    const clean = absoluteUrl(target || "/trap/verify/");
-    return `https://api.qrserver.com/v1/create-qr-code/?size=164x164&margin=8&data=${encodeURIComponent(clean)}`;
-  }
-
-  function renderTrapPassVisual(pass, options = {}) {
-    const safe = publicPass(pass);
-    if (!safe) return "";
-    const template = getTemplateById(safe.template_id);
-    const date = safe.claimed_at || safe.created_at;
-    const entered = date ? new Date(date).toLocaleDateString() : "Pending";
-    const target = safe.qr_target;
-    const perks = safe.perks.length ? safe.perks : template.unlocks;
-    return `
-      <div class="trap-pass-visual" data-template="${escapeHTML(template.id)}">
-        <img class="trap-pass-base" src="${escapeHTML(safe.pass_art_url)}" alt="${escapeHTML(template.title)} Trap Pass artwork" loading="lazy" />
-        <div class="trap-pass-overlay">
-          <div class="trap-pass-chip">
-            <span>Serial</span>
-            <strong>${escapeHTML(safe.trap_pass_id)}</strong>
-          </div>
-          <div class="trap-pass-chip phrase">
-            <span>Tier</span>
-            <strong>${escapeHTML(safe.tier)}</strong>
-          </div>
-          <div class="trap-pass-qr" title="Verification target">
-            <img src="${escapeHTML(qrImageUrl(target))}" alt="Verification QR for ${escapeHTML(safe.trap_pass_id)}" loading="lazy" />
-            <span>VERIFY</span>
-          </div>
-          <div class="trap-pass-strip">
-            <strong>${escapeHTML(safe.wave_name)}</strong>
-            <span>${escapeHTML(template.badge)} / ${escapeHTML(entered)}</span>
-          </div>
-          <div class="trap-pass-perks" aria-label="Pass unlock summary">
-            ${perks.slice(0, 3).map((perk) => `<span>${escapeHTML(perk)}</span>`).join("")}
-          </div>
-        </div>
-      </div>
-    `;
-  }
-
-  function getTrapPassIntegrationBundle(pass) {
-    const safe = publicPass(pass);
-    if (!safe) return null;
-    return {
-      verified: true,
-      public_summary: safe,
-      key_status: getTrapPassPhase(pass),
-      role_access_mapping: getRoleAccessMapping(pass),
-      achievement_baggies: getAchievementBaggies(pass),
-      metadata: getTrapPassMetadata(pass),
-      private_fields_excluded: ["email", "wallet_address", "id", "private_notes", "private_system_data"],
-      exported_at: new Date().toISOString()
-    };
-  }
-
-  function renderPassCard(pass, options = {}) {
-    const safe = publicPass(pass);
-    if (!safe) {
-      return `<div class="notice error active"><strong>No Trap Pass found.</strong><p>Claim one or check your ID again.</p></div>`;
-    }
-    const date = safe.created_at ? new Date(safe.created_at).toLocaleDateString() : "Unknown";
-    const profileLink = `/pass/?id=${encodeURIComponent(safe.trap_pass_id)}`;
-    const threads = getThreadDetails(pass).map((thread) => thread.title).join(", ");
-    return `
-      <article class="pass-card">
-        ${renderTrapPassVisual(pass, options)}
-        <span class="pass-stamp">Digital Trap Pass</span>
-        <div class="pass-id">${escapeHTML(safe.trap_pass_id)}</div>
-        <p class="lead">${escapeHTML(safe.tier)} / Wave ${escapeHTML(safe.wave_number)} - ${escapeHTML(safe.wave_name)}</p>
-        <div class="meta-list">
-          <div><span>Pass ID</span><strong>${escapeHTML(safe.trap_pass_id)}</strong></div>
-          <div><span>Wave</span><strong>Wave ${escapeHTML(safe.wave_number)} - ${escapeHTML(safe.wave_name)}</strong></div>
-          <div><span>Tier</span><strong>${escapeHTML(safe.tier)}</strong></div>
-          <div><span>Holder</span><strong>${escapeHTML(safe.display_name)}</strong></div>
-          <div><span>Status</span><strong>${escapeHTML(safe.status)}</strong></div>
-          <div><span>Role</span><strong>${escapeHTML(safe.discord_role)}</strong></div>
-          <div><span>Access</span><strong>Level ${escapeHTML(safe.unlock_level)}</strong></div>
-          <div><span>Missions</span><strong>${escapeHTML(safe.missions_completed)} complete</strong></div>
-          <div><span>Date Entered</span><strong>${escapeHTML(date)}</strong></div>
-          ${options.publicView ? `<div><span>Public Thread Tags</span><strong>${escapeHTML(threads || "Trap Pass Lore")}</strong></div>` : ""}
-        </div>
-        ${options.hideLink ? "" : `<div class="cta-row"><a class="button primary" href="${profileLink}">View Public Pass</a><a class="button" href="/trap-house/">Join Trap House</a></div>`}
-      </article>
-    `;
-  }
-
-  function renderPublicFooter() {
-    return `
-      <div class="site-shell footer-grid">
-        <div>
-          <strong>IHOCAIHAG</strong>
-          <span>The raw doc. The book. The soundtrack. The archive.</span>
-          <span>imhighoncrackandihaveagun.com</span>
-        </div>
-        <div class="footer-links">
-          <a data-official-link="instagram" href="${escapeHTML(officialLinks.instagram)}">Instagram @ihocaihag</a>
-          <a data-official-link="tiktok" href="${escapeHTML(officialLinks.tiktok)}">TikTok @ihocaihagofficial</a>
-          <a data-official-link="threads" href="${escapeHTML(officialLinks.threads)}">Threads @ihocaihag</a>
-          <a data-official-link="youtube" href="${escapeHTML(officialLinks.youtube)}">YouTube @imhighoncrackandihaveagun</a>
-          <a data-official-link="x" href="${escapeHTML(officialLinks.x)}">X @comradejizzy</a>
-          <a data-official-link="patreon" href="${escapeHTML(officialLinks.patreon)}">Patreon</a>
-          <a data-official-link="spotify" href="${escapeHTML(officialLinks.spotify)}">Spotify IHOCAIHAG</a>
-          <a data-official-link="appleMusic" href="${escapeHTML(officialLinks.appleMusic)}">Apple Music IHOCAIHAG</a>
-        </div>
-        <div class="footer-disclaimer">
-          <strong>DISCLAIMER</strong>
-          <span>This is documentary/art/archive material about addiction, psychosis, grief, survival, systems, and unsafe behavior. It is not instruction, not medical advice, not a challenge, and not encouragement to imitate anything shown.</span>
-          <span>SAMHSA National Helpline: 1-800-662-4357</span>
-        </div>
-      </div>
-    `;
-  }
-
-  function wirePublicFooter() {
-    const footer = document.querySelector(".footer");
-    if (!footer || footer.dataset.footerEnhanced === "true") return;
-    footer.dataset.footerEnhanced = "true";
-    footer.innerHTML = renderPublicFooter();
-    wireOfficialLinks();
-  }
-
-  function downloadJSON(filename, data) {
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/png"));
+    if (!blob) throw new Error("The PNG could not be created.");
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = filename;
+    link.download = `${card.cardSerial.toLowerCase()}-${safeSide}.png`;
     document.body.appendChild(link);
     link.click();
     link.remove();
-    URL.revokeObjectURL(url);
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+    return true;
   }
 
-  function importRegistry(records) {
-    if (!Array.isArray(records)) {
-      throw new Error("Import file must be a JSON array.");
+  function getPublicPassUrl(passOrId) {
+    const value = typeof passOrId === "string"
+      ? passOrId
+      : passOrId?.holderPublicId || passOrId?.holder_public_id || passOrId?.trap_pass_id;
+    const holderId = normalizeSerial(value);
+    return passConfig.routes?.publicProfile
+      ? passConfig.routes.publicProfile(holderId)
+      : `/pass/${encodeURIComponent(holderId)}`;
+  }
+
+  function publicPass(value) {
+    if (!value) return null;
+    if (value.publicProfileEnabled !== undefined && value.holderPublicId) {
+      const allowed = {};
+      (passConfig.publicFieldAllowlist || []).forEach((key) => {
+        if (value[key] !== undefined) allowed[key] = value[key];
+      });
+      return allowed;
     }
-    const seenPassIds = new Set();
-    const seenEmails = new Set();
-    const cleaned = records.map((record) => ensurePassShape({
-      id: sanitize(record.id, 120) || makeId(),
-      trap_pass_id: normalizePassId(record.trap_pass_id),
-      template_id: normalizeTemplateId(record.template_id),
-      tier: sanitize(record.tier, 90),
-      wave_number: Number(record.wave_number || cfg.defaultWaveNumber || 3),
-      wave_name: sanitize(record.wave_name || cfg.defaultWaveName, 80),
-      serial_number: Number(record.serial_number || 0),
-      pass_phrase: normalizePassId(record.pass_phrase || record.codex_phrase),
-      private_token: sanitize(record.private_token, 140),
-      qr_url: sanitize(record.qr_url, 240),
-      pass_art_url: sanitize(record.pass_art_url, 260),
-      email: normalizeEmail(record.email),
-      display_name: sanitize(record.display_name, 80),
-      discord_username: sanitize(record.discord_username, 80),
-      wallet_address: sanitize(record.wallet_address, 120),
-      discord_role: sanitize(record.discord_role || cfg.defaultDiscordRole, 80),
-      status: sanitize(record.status || "active", 40),
-      missions_completed: Number(record.missions_completed || 0),
-      unlock_level: Number(record.unlock_level || 1),
-      thread_keys: normalizeThreadKeys(record.thread_keys).length ? normalizeThreadKeys(record.thread_keys) : defaultThreadKeys,
-      claimed: record.claimed !== false,
-      claimed_at: sanitize(record.claimed_at || record.created_at || new Date().toISOString(), 50),
-      perks: Array.isArray(record.perks) ? record.perks : [],
-      stamps: Array.isArray(record.stamps) ? record.stamps : [],
-      rooms_unlocked: Array.isArray(record.rooms_unlocked) ? record.rooms_unlocked : [],
-      physical_required: Boolean(record.physical_required),
-      physical_shipped: Boolean(record.physical_shipped),
-      discount_code: sanitize(record.discount_code, 80),
-      created_at: sanitize(record.created_at || new Date().toISOString(), 40),
-      updated_at: new Date().toISOString(),
-      future_unlock_data: record.future_unlock_data || {}
-    })).filter((record) => {
-      if (!record.trap_pass_id || !record.email || seenPassIds.has(record.trap_pass_id) || seenEmails.has(record.email)) {
-        return false;
-      }
-      seenPassIds.add(record.trap_pass_id);
-      seenEmails.add(record.email);
-      return true;
-    });
-    if (!saveRegistry(cleaned)) {
-      throw new Error("This browser blocked saving, so the import could not be saved.");
-    }
-    return cleaned;
+    return null;
+  }
+
+  async function findPassAsync(query) {
+    const clean = normalizeSerial(query);
+    if (!clean || String(query || "").includes("@")) return null;
+    if (passConfig.holderId?.pattern?.test(clean)) return getPublicProfileAsync(clean);
+    const validation = await validateSerialAsync(clean);
+    return validation.valid ? validation : null;
+  }
+
+  function findPass(query) {
+    if (!isLocalReviewHost() || String(query || "").includes("@")) return null;
+    const state = loadState();
+    const holder = findHolderByPublicId(state, query);
+    return holder ? publicProfileFromHolder(state, holder) : validateSerialLocal(query);
+  }
+
+  function getCurrentPass() {
+    const wallet = isLocalReviewHost() ? walletBundle(loadState(), getSessionHolder(loadState())) : null;
+    return wallet?.featuredPass || null;
+  }
+
+  function setCurrentPass(value) {
+    if (!isLocalReviewHost()) return false;
+    const state = loadState();
+    const holder = findHolderByPublicId(state, value)
+      || state.holders.find((item) => holderCards(state, item).some((card) => card.cardSerial === normalizeSerial(value)));
+    return holder ? setSessionHolder(holder.holderPublicId) : false;
+  }
+
+  function getWalletInventory() {
+    return isLocalReviewHost() ? walletBundle(loadState(), getSessionHolder(loadState())) : null;
+  }
+
+  function getTrapPassMetadata(value) {
+    const profile = publicPass(value);
+    return profile ? {
+      name: profile.trapIdentity || profile.holderPublicId,
+      description: "Public Trap Pass holder profile.",
+      external_url: getPublicPassUrl(profile.holderPublicId),
+      public_summary: profile
+    } : null;
   }
 
   function wireDiscordLinks() {
-    document.querySelectorAll("[data-discord-link]").forEach((link) => {
-      if (cfg.discordInviteUrl) {
-        link.setAttribute("href", cfg.discordInviteUrl);
-        link.setAttribute("target", "_blank");
-        link.setAttribute("rel", "noopener noreferrer");
-        link.removeAttribute("aria-disabled");
-        link.removeAttribute("data-needs-discord-invite");
-        return;
-      }
-      link.setAttribute("href", cfg.discordFallbackPath || "/discord/");
-      link.setAttribute("aria-disabled", "true");
-      link.setAttribute("data-needs-discord-invite", "true");
-      if (/join|enter/i.test(link.textContent || "")) {
-        link.textContent = "Discord Invite Pending";
-      }
+    document.querySelectorAll("[data-discord-link]").forEach((node) => {
+      node.href = siteConfig.discordInviteUrl || "/trap-house/";
     });
   }
-
-  const officialLinks = {
-    discord: cfg.discordInviteUrl || "",
-    instagram: cfg.instagramUrl || "",
-    tiktok: cfg.tiktokUrl || "",
-    threads: cfg.threadsUrl || "",
-    youtube: cfg.youtubeUrl || "",
-    x: cfg.xUrl || "",
-    patreon: cfg.patreonUrl || "",
-    spotify: cfg.spotifyUrl || "",
-    appleMusic: cfg.appleMusicUrl || ""
-  };
 
   function wireOfficialLinks() {
-    document.querySelectorAll("[data-official-link]").forEach((link) => {
-      const key = sanitize(link.getAttribute("data-official-link"), 40);
-      const href = officialLinks[key];
-      if (!href) {
-        link.setAttribute("aria-disabled", "true");
-        return;
-      }
-      link.setAttribute("href", href);
-      link.setAttribute("target", "_blank");
-      link.setAttribute("rel", "noopener noreferrer");
-      link.removeAttribute("aria-disabled");
-    });
-  }
-
-  function wirePassClaimState() {
-    if (cfg.passClaimsEnabled) return;
-    ["quickPassForm", "trapPassForm"].forEach((id) => {
-      const form = document.getElementById(id);
-      if (!form) return;
-      const notice = document.createElement("div");
-      notice.className = "notice active";
-      notice.innerHTML = "<strong>Trap Pass claims are paused.</strong><p>Claims cannot reach live storage right now. No email was saved here.</p>";
-      form.parentNode.insertBefore(notice, form);
-      form.querySelectorAll("input, button").forEach((control) => {
-        control.disabled = true;
+    const links = {
+      instagram: siteConfig.instagramUrl,
+      tiktok: siteConfig.tiktokUrl,
+      threads: siteConfig.threadsUrl,
+      youtube: siteConfig.youtubeUrl,
+      x: siteConfig.xUrl,
+      patreon: siteConfig.patreonUrl,
+      spotify: siteConfig.spotifyUrl,
+      "apple-music": siteConfig.appleMusicUrl
+    };
+    Object.entries(links).forEach(([key, href]) => {
+      if (!href) return;
+      document.querySelectorAll(`[data-official-link="${key}"]`).forEach((node) => {
+        node.href = href;
       });
-      const button = form.querySelector("button[type='submit']");
-      if (button) button.textContent = "Claims Opening Soon";
     });
   }
 
-  window.TrapHouse = {
-    cfg,
-    missions,
-    hiddenRooms,
-    threadCatalog,
-    passTemplates,
+  const api = {
+    cfg: siteConfig,
+    config: passConfig,
+    releases,
+    tiers,
     sanitize,
     escapeHTML,
-    normalizeThreadKeys,
-    getThreadDetails,
-    getPassTemplates,
-    getTemplateById,
-    getTemplateForInput,
-    generateSerialNumber,
-    generatePassPhrase,
-    generateCodexPhrase,
-    generatePrivateToken,
+    normalizeEmail,
+    normalizeSerial,
+    normalizeThreadSlugs,
+    formatHolderId,
+    formatCardSerial,
+    getRelease,
+    getCurrentRelease,
+    getTier,
     getPublicPassUrl,
-    getVerifyUrl,
-    getRegistry,
-    saveRegistry,
-    captureEntryEmail,
-    createTrapPass,
-    createTrapPassAsync,
+    getCurrentHolderSummary,
+    getMyWalletAsync,
+    claimHolderAsync,
+    createTrapPassAsync: claimHolderAsync,
+    requestAccessAsync,
+    claimNewReleaseAsync,
+    updateMyProfileAsync,
+    validateSerialAsync,
+    verifyTrapPassAsync: validateSerialAsync,
+    getPublicProfileAsync,
+    publicPass,
     findPass,
     findPassAsync,
-    findPassByToken,
-    publicPass,
     getCurrentPass,
     setCurrentPass,
-    setCurrentPassAsync,
-    canAccessRoom,
-    getTrapPassPhase,
-    getRoleAccessMapping,
-    verifyTrapPass,
-    verifyTrapPassAsync,
-    getAchievementBaggies,
     getWalletInventory,
     getTrapPassMetadata,
-    getTrapPassIntegrationBundle,
-    renderTrapPassVisual,
-    renderPassCard,
-    verifyTrapPassTokenAsync,
-    downloadJSON,
-    importRegistry,
+    captureEntryEmail,
+    downloadPassPng,
+    signOut,
+    setAuthenticatedSession,
     wireDiscordLinks,
     wireOfficialLinks,
-    wirePublicFooter,
-    officialLinks
+    wirePublicFooter() {},
+    verifyTrapPassTokenAsync: async () => ({ valid: false, status: "INVALID TRAP PASS" }),
+    getTrapPassHistory: () => null,
+    getTrapPassPhase: () => null,
+    getRoleAccessMapping: () => null,
+    getAchievementBaggies: () => [],
+    canAccessRoom: () => false,
+    admin: {
+      localReview: isLocalReviewHost(),
+      searchLocal: adminSearchLocal,
+      actionLocal: adminActionLocal
+    }
   };
 
+  if (isLocalReviewHost()) {
+    api._localReview = {
+      loadState,
+      saveState,
+      reset() {
+        window.localStorage.removeItem(stateKey);
+        signOut();
+      },
+      claimHolderLocal,
+      validateSerialLocal,
+      publicProfileFromHolder,
+      reissueCardLocal
+    };
+  }
+
+  window.TrapHouse = api;
   document.addEventListener("DOMContentLoaded", () => {
     wireDiscordLinks();
     wireOfficialLinks();
-    wirePassClaimState();
-    wirePublicFooter();
   });
 })();

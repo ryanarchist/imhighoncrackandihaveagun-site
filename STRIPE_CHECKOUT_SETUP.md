@@ -48,11 +48,11 @@ STRIPE_PRICE_CASH_FOR_TRASH_MONTHLY=
 After setting `STRIPE_SECRET_KEY`, run:
 
 ```powershell
-npm run stripe:sync-products
-npm run stripe:list-prices
+pnpm run stripe:sync-products
+pnpm run stripe:list-prices
 ```
 
-The sync script creates or reuses the required products and prices in the Stripe mode attached to the current secret key.
+The sync script creates or reuses the required products and prices in the Stripe mode attached to the current secret key. It also assigns the approved Product image URLs from `STRIPE_PRODUCT_ASSET_BASE_URL`, which defaults to the official site. Deploy the images before syncing.
 
 ## Supabase Fulfillment
 
@@ -76,7 +76,7 @@ https://imhighoncrackandihaveagun.com/checkout/success?session_id={CHECKOUT_SESS
 Cancel:
 
 ```text
-https://imhighoncrackandihaveagun.com/shop
+https://imhighoncrackandihaveagun.com/store/
 ```
 
 API runtime on the Vercel deployment:
@@ -104,10 +104,21 @@ Stripe must send events to `/api/stripe/webhook`, not the homepage.
 
 GitHub Pages can publish the site, but it cannot run `/api/stripe/*`. The current public build keeps checkout buttons disabled until the app is deployed on a serverless host such as Vercel or Netlify with the secrets above.
 
-The public static site is configured to call the Vercel API runtime for Stripe health checks and Checkout Sessions. Paid checkout opens only when the Vercel health endpoint returns:
+The public static site is configured to call the Vercel API runtime for Stripe health checks and Checkout Sessions. Paid checkout opens only when the Vercel health endpoint confirms its secrets, Supabase schema access, and all four enabled Product/Price mappings:
 
 ```json
-{ "ready": true }
+{ "ready": true, "missing": [], "unavailableProducts": [], "schemaReady": true }
 ```
 
-If the health endpoint returns `missing`, add those exact env vars to the Vercel project and redeploy. Do not open checkout from frontend-only code; the webhook is what records orders and grants paid Trap Pass access.
+If health returns HTTP 503, Store buttons remain disabled and read `Checkout Opening Soon`. Add the reported configuration only in deployment secrets, deploy the current code, and recheck. Do not open checkout from frontend-only code; the webhook is what records orders and grants paid access.
+
+## Local Verification
+
+Run this before every Store deployment:
+
+```powershell
+pnpm run verify
+pnpm audit --prod
+```
+
+The verifier checks route/script integrity plus Store-to-catalog parity, approved amounts, image files, Price lookup rules, private Stripe schema controls, disabled product enforcement, delayed-payment/refund handlers, and fail-closed API behavior without secrets.

@@ -6,13 +6,15 @@ Use this list for anything that should come from Ryan or verified project record
 
 - Final public website URL and preferred display casing. Current repo/domain candidate: `imhighoncrackandihaveagun.com`.
 - Final Discord invite link or vanity invite. Current verified invite: `https://discord.gg/64MKTrGGsD`.
-- Official social links confirmed by Ryan on 2026-06-18:
+- Official social links confirmed by Ryan on 2026-06-27:
   - Instagram: `https://www.instagram.com/ihocaihag/`
   - TikTok: `https://www.tiktok.com/@ihocaihagofficial`
-  - YouTube: `https://www.youtube.com/@imhighoncrackandihaveagun`
+  - Threads: `https://www.threads.net/@ihocaihag`
+  - YouTube: `https://youtube.com/@imhighoncrackandihaveagun`
   - X: `https://x.com/comradejizzy`
-  - Patreon: `https://www.patreon.com/c/IMHIGHONCRACKANDIHAVEAGUN`
+  - Patreon: `https://www.patreon.com/IMHIGHONCRACKANDIHAVEAGUN`
   - Spotify: `https://open.spotify.com/artist/7GUAmAkkpLLESm0Fig1NWZ`
+  - Apple Music: `https://music.apple.com/search?term=IHOCAIHAG`
 - Store/checkout deployment target and Stripe webhook secret.
 - Final project subtitle or one-sentence public positioning line.
 - Confirm whether "IHOCAIHAG" or the full title should lead each page.

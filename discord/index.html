@@ -1,75 +1,32 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="robots" content="noindex,nofollow" />
-  <title>IHOCAIHAG | Site Upgrade</title>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    html,
-    body {
-      margin: 0;
-      min-height: 100%;
-      background: #030303;
-      color: #f3eee6;
-    }
-
-    body {
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      overflow-x: hidden;
-    }
-
-    main {
-      width: min(100%, 1900px);
-      min-height: 100vh;
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: clamp(10px, 1.6vw, 28px);
-      align-items: center;
-      justify-items: center;
-      padding: clamp(10px, 2vw, 32px);
-    }
-
-    img {
-      display: block;
-      width: 100%;
-      max-width: min(760px, 48vw);
-      max-height: calc(100vh - clamp(20px, 4vw, 64px));
-      object-fit: contain;
-      filter: drop-shadow(0 22px 38px rgba(0, 0, 0, 0.72));
-    }
-
-    @media (max-width: 820px) {
-      body {
-        place-items: start center;
-      }
-
-      main {
-        grid-template-columns: 1fr;
-        min-height: auto;
-        padding: 0;
-        gap: 0;
-      }
-
-      img {
-        max-width: 100%;
-        max-height: none;
-        width: 100%;
-        filter: none;
-      }
-    }
-  </style>
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Trap House | IHOCAIHAG</title>
+  <meta name="description" content="A six-year documentary archive of addiction, grief, psychosis, survival, and the evidence left behind." />
+  <meta name="theme-color" content="#030303" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="IHOCAIHAG" />
+  <meta property="og:description" content="A six-year documentary archive of addiction, grief, psychosis, survival, and the evidence left behind." />
+  <meta property="og:url" content="https://imhighoncrackandihaveagun.com/" />
+  <meta property="og:image" content="https://imhighoncrackandihaveagun.com/assets/trap-house/ihocaihag-rectangle-logo.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="IHOCAIHAG" />
+  <meta name="twitter:description" content="A six-year documentary archive of addiction, grief, psychosis, survival, and the evidence left behind." />
+  <meta name="twitter:image" content="https://imhighoncrackandihaveagun.com/assets/trap-house/ihocaihag-rectangle-logo.png" />
+  <link rel="canonical" href="https://imhighoncrackandihaveagun.com/" />
+  <link rel="icon" href="/assets/trap-house/ihocaihag-rectangle-logo.png" />
+  <link rel="stylesheet" href="/src/site.css?v=20260718-27" />
 </head>
-<body>
-  <main aria-label="IHOCAIHAG temporary public placeholder">
-    <img src="/assets/placeholders/site-upgrade.png" alt="IM HIGH ON CRACK AND I HAVE A GUN site upgrade deploying imminently" />
-    <img src="/assets/placeholders/tap-in.png" alt="IHOCAIHAG tap in and follow the project placeholder" />
-  </main>
+<body data-page="discord">
+  <div id="site-root"></div>
+  <script src="/config.js" defer></script>
+  <script src="/src/content/trapPassConfig.js?v=20260718-27" defer></script>
+  <script src="/trap-pass-system.js?v=20260718-27" defer></script>
+  <script src="/src/content/siteContent.js?v=20260718-27" defer></script>
+  <script src="/src/site.js?v=20260718-27" defer></script>
+
 </body>
 </html>

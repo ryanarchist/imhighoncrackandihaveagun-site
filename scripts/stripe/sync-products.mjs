@@ -3,6 +3,7 @@ import {
   STRIPE_PRODUCTS,
   formatAmount,
   priceMatchesProduct,
+  productImageUrl,
   productMetadata
 } from "./products.mjs";
 
@@ -49,12 +50,18 @@ async function findPriceByLookupKey(product) {
 async function ensureProduct(product) {
   const existing = await findProduct(product);
   const metadata = productMetadata(product);
+  const imageUrl = productImageUrl(
+    product,
+    process.env.STRIPE_PRODUCT_ASSET_BASE_URL || "https://imhighoncrackandihaveagun.com"
+  );
+  const images = imageUrl ? [imageUrl] : [];
 
   if (!existing) {
     return stripe.products.create({
       name: product.name,
       description: product.description,
       active: true,
+      images,
       metadata
     });
   }
@@ -63,6 +70,7 @@ async function ensureProduct(product) {
     name: product.name,
     description: product.description,
     active: true,
+    images,
     metadata: {
       ...existing.metadata,
       ...metadata

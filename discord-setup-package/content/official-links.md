@@ -16,7 +16,7 @@ Threads:
 https://www.threads.net/@ihocaihag
 
 YouTube:
-https://www.youtube.com/@imhighoncrackandihaveagun
+https://youtube.com/@imhighoncrackandihaveagun
 
 X:
 https://x.com/comradejizzy

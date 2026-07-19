@@ -58,13 +58,13 @@ function cleanEmail(value) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? email : "";
 }
 
-async function resolvePrice(stripe, product) {
+async function resolvePrice(stripe, product, priceMatchesProduct) {
   const envPriceId = process.env[product.envName];
 
   if (envPriceId) {
     const price = await stripe.prices.retrieve(envPriceId, { expand: ["product"] });
-    if (!price.active) {
-      throw new Error(`Configured ${product.envName} points to an inactive Stripe price.`);
+    if (!priceMatchesProduct(price, product)) {
+      throw new Error(`Configured ${product.envName} does not match the approved catalog amount, currency, or billing interval.`);
     }
     return price;
   }
@@ -78,27 +78,40 @@ async function resolvePrice(stripe, product) {
 
   const price = prices.data[0];
   if (!price) {
-    const fallbackPrices = await stripe.prices.list({
-      active: true,
-      limit: 100,
-      expand: ["data.product"]
-    });
-    const fallbackPrice = fallbackPrices.data.find((candidate) => {
-      const stripeProduct = typeof candidate.product === "object" ? candidate.product : null;
-      const productKey = stripeProduct?.metadata?.ihocaihag_product_key;
-      return (
-        productKey === product.key
-        || stripeProduct?.name === product.name
-        || stripeProduct?.metadata?.lookup_key === product.lookupKey
-      );
-    });
-
-    if (fallbackPrice) return fallbackPrice;
-
     throw new Error(`No active Stripe price found for lookup_key "${product.lookupKey}". Run npm run stripe:sync-products.`);
   }
 
+  if (!priceMatchesProduct(price, product)) {
+    throw new Error(`Stripe lookup_key "${product.lookupKey}" does not match the approved catalog amount, currency, or billing interval.`);
+  }
   return price;
+}
+
+function serverEnv(name) {
+  return String(process.env[name] || "").trim();
+}
+
+function supabaseServerConfig() {
+  const url = serverEnv("SUPABASE_URL") || serverEnv("TRAP_HOUSE_SUPABASE_URL");
+  const key = serverEnv("SUPABASE_SERVICE_ROLE_KEY")
+    || serverEnv("SUPABASE_SECRET_KEY")
+    || serverEnv("TRAP_HOUSE_SUPABASE_SERVICE_ROLE_KEY")
+    || serverEnv("TRAP_HOUSE_SUPABASE_SECRET_KEY");
+  return url && key ? { url: url.replace(/\/+$/, ""), key } : null;
+}
+
+async function fulfillmentStorageReady() {
+  const config = supabaseServerConfig();
+  if (!config) return false;
+  const response = await fetch(`${config.url}/rest/v1/stripe_orders?select=stripe_checkout_session_id&limit=1`, {
+    method: "GET",
+    headers: {
+      apikey: config.key,
+      Authorization: `Bearer ${config.key}`,
+      Accept: "application/json"
+    }
+  });
+  return response.ok;
 }
 
 function checkoutMetadata(product, body) {
@@ -111,8 +124,7 @@ function checkoutMetadata(product, body) {
     grants_trap_pass: String(product.grantsTrapPass),
     trap_pass_tier: product.trapPassTier || "",
     source: "ihocaihag_site",
-    stripe_connect: "false",
-    visitor_pass_id: String(body.trapPassId || "").slice(0, 80)
+    stripe_connect: "false"
   };
 }
 
@@ -124,13 +136,21 @@ module.exports = async function handler(req, res) {
     return sendJson(res, 405, { error: "method_not_allowed" });
   }
 
-  const secretKey = process.env.STRIPE_SECRET_KEY;
-  if (!secretKey) {
-    return sendJson(res, 500, { error: "stripe_secret_key_missing" });
+  const secretKey = serverEnv("STRIPE_SECRET_KEY");
+  if (!secretKey || !serverEnv("STRIPE_WEBHOOK_SECRET") || !supabaseServerConfig()) {
+    return sendJson(res, 503, { error: "checkout_not_ready" });
   }
 
   try {
-    const body = await parseBody(req);
+    let body;
+    try {
+      body = await parseBody(req);
+    } catch (error) {
+      const tooLarge = error.message === "request_body_too_large";
+      return sendJson(res, tooLarge ? 413 : 400, {
+        error: tooLarge ? "request_body_too_large" : "invalid_request_body"
+      });
+    }
     const catalog = await loadCatalog();
     const product = catalog.getProductByKey(body.productKey || body.lookupKey);
 
@@ -138,18 +158,25 @@ module.exports = async function handler(req, res) {
       return sendJson(res, 400, { error: "unknown_product" });
     }
 
-    const stripe = new Stripe(secretKey);
-    const price = await resolvePrice(stripe, product);
-    const requestedQuantity = Number.parseInt(body.quantity, 10);
-    const quantity = Number.isFinite(requestedQuantity) ? requestedQuantity : product.quantityMin;
+    if (product.checkoutEnabled === false) {
+      return sendJson(res, 409, { error: "product_unavailable" });
+    }
+    const quantity = body.quantity == null ? product.quantityMin : Number(body.quantity);
 
-    if (quantity < product.quantityMin || quantity > product.quantityMax) {
+    if (!Number.isSafeInteger(quantity) || quantity < product.quantityMin || quantity > product.quantityMax) {
       return sendJson(res, 400, {
         error: "quantity_out_of_range",
         min: product.quantityMin,
         max: product.quantityMax
       });
     }
+
+    if (!await fulfillmentStorageReady()) {
+      return sendJson(res, 503, { error: "checkout_storage_not_ready" });
+    }
+
+    const stripe = new Stripe(secretKey);
+    const price = await resolvePrice(stripe, product, catalog.priceMatchesProduct);
 
     const customerEmail = cleanEmail(body.email);
     const metadata = checkoutMetadata(product, body);
@@ -197,7 +224,7 @@ module.exports = async function handler(req, res) {
     console.error("Stripe checkout creation failed:", error.message);
     return sendJson(res, 500, {
       error: "checkout_session_failed",
-      message: error.message
+      message: "Checkout is unavailable for this product."
     });
   }
 };

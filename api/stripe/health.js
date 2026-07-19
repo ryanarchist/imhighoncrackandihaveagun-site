@@ -1,4 +1,12 @@
+const path = require("path");
+const { pathToFileURL } = require("url");
+const Stripe = require("stripe");
 const { handleCors } = require("../_utils/cors");
+
+async function loadCatalog() {
+  const catalogPath = path.join(__dirname, "..", "..", "scripts", "stripe", "products.mjs");
+  return import(pathToFileURL(catalogPath).href);
+}
 
 function sendJson(res, status, body) {
   res.statusCode = status;
@@ -20,6 +28,61 @@ function hasSupabaseSecret() {
   );
 }
 
+function supabaseServerConfig() {
+  const url = serverEnv("SUPABASE_URL") || serverEnv("TRAP_HOUSE_SUPABASE_URL");
+  const key = serverEnv("SUPABASE_SERVICE_ROLE_KEY")
+    || serverEnv("SUPABASE_SECRET_KEY")
+    || serverEnv("TRAP_HOUSE_SUPABASE_SERVICE_ROLE_KEY")
+    || serverEnv("TRAP_HOUSE_SUPABASE_SECRET_KEY");
+  return url && key ? { url: url.replace(/\/+$/, ""), key } : null;
+}
+
+async function listActivePrices(stripe) {
+  const prices = [];
+  let startingAfter = "";
+  do {
+    const page = await stripe.prices.list({
+      active: true,
+      limit: 100,
+      expand: ["data.product"],
+      ...(startingAfter ? { starting_after: startingAfter } : {})
+    });
+    prices.push(...page.data);
+    startingAfter = page.has_more ? page.data[page.data.length - 1]?.id || "" : "";
+  } while (startingAfter);
+  return prices;
+}
+
+async function unavailableProductKeys(secretKey) {
+  const catalog = await loadCatalog();
+  const prices = await listActivePrices(new Stripe(secretKey));
+  return catalog.STRIPE_PRODUCTS
+    .filter((product) => product.checkoutEnabled !== false)
+    .filter((product) => {
+      const candidate = catalog.findCatalogPrice(
+        prices,
+        product,
+        serverEnv(product.envName)
+      );
+      return !candidate || !catalog.priceMatchesProduct(candidate, product);
+    })
+    .map((product) => product.key);
+}
+
+async function stripeOrderSchemaReady() {
+  const config = supabaseServerConfig();
+  if (!config) return false;
+  const response = await fetch(`${config.url}/rest/v1/stripe_orders?select=stripe_checkout_session_id&limit=1`, {
+    method: "GET",
+    headers: {
+      apikey: config.key,
+      Authorization: `Bearer ${config.key}`,
+      Accept: "application/json"
+    }
+  });
+  return response.ok;
+}
+
 module.exports = async function handler(req, res) {
   res.setHeader("Allow", "GET, OPTIONS");
   if (handleCors(req, res, ["GET", "OPTIONS"])) return;
@@ -34,10 +97,32 @@ module.exports = async function handler(req, res) {
   if (!serverEnv("SUPABASE_URL") && !serverEnv("TRAP_HOUSE_SUPABASE_URL")) missing.push("SUPABASE_URL");
   if (!hasSupabaseSecret()) missing.push("SUPABASE_SECRET_KEY");
 
-  const ready = missing.length === 0;
+  const stripeSecret = serverEnv("STRIPE_SECRET_KEY");
+  const mode = stripeSecret.startsWith("sk_live_")
+    ? "live"
+    : stripeSecret.startsWith("sk_test_") ? "test" : "unconfigured";
+  let unavailableProducts = [];
+  let schemaReady = false;
+
+  if (!missing.length) {
+    try {
+      unavailableProducts = await unavailableProductKeys(stripeSecret);
+    } catch (error) {
+      unavailableProducts = ["stripe_catalog_unavailable"];
+    }
+    try {
+      schemaReady = await stripeOrderSchemaReady();
+    } catch (error) {
+      schemaReady = false;
+    }
+  }
+
+  const ready = missing.length === 0 && unavailableProducts.length === 0 && schemaReady;
   return sendJson(res, ready ? 200 : 503, {
     ready,
-    mode: serverEnv("STRIPE_SECRET_KEY").startsWith("sk_live_") ? "live" : "test",
-    missing
+    mode,
+    missing,
+    unavailableProducts,
+    schemaReady
   });
 };

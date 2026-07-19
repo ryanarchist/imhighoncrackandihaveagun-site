@@ -34,7 +34,7 @@ function initTrapWallet() {
           <div><span>Holder</span><strong>${safe(pass.display_name)}</strong></div>
           <div><span>Role</span><strong>${safe(pass.discord_role)}</strong></div>
           <div><span>Unlock</span><strong>Level ${safe(pass.unlock_level)}</strong></div>
-          <div><span>Key Status</span><strong>${safe(pass.phase_name)}</strong></div>
+          <div><span>Pass History</span><strong>${safe(pass.pass_history_name)}</strong></div>
           <div><span>Threads</span><strong>${safe(threads)}</strong></div>
           <div><span>Proof</span><strong>${earned}/${item.baggies.length} baggies</strong></div>
         </div>
@@ -67,7 +67,7 @@ function initTrapWallet() {
       <div><strong>${safe(inventory.total_passes)}</strong><span>Selected Passes</span></div>
       <div><strong>${safe(inventory.total_baggies_earned)}</strong><span>Proof Baggies</span></div>
       <div><strong>${safe(selected?.roles.length || 0)}</strong><span>Role Maps</span></div>
-      <div><strong>${safe(selected?.pass.phase_level || 0)}</strong><span>Key Status</span></div>
+      <div><strong>${safe(selected?.pass.pass_history_level || 0)}</strong><span>Pass History</span></div>
     `;
 
     if (!inventory.passes.length) {

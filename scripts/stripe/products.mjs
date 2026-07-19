@@ -28,7 +28,8 @@ export const STRIPE_PRODUCTS = [
     quantityMax: 1,
     fulfillment: "physical_bundle_preorder",
     grantsTrapPass: false,
-    access: "physical_preorder_bundle"
+    access: "physical_preorder_bundle",
+    imagePath: "/assets/trap-house/store-og-crack-pack-approved.png"
   },
   {
     key: "raw_doc_preorder",
@@ -45,7 +46,8 @@ export const STRIPE_PRODUCTS = [
     quantityMax: 1,
     fulfillment: "digital_raw_doc_access",
     grantsTrapPass: false,
-    access: "raw_documentary_first_day"
+    access: "raw_documentary_first_day",
+    imagePath: "/assets/trap-house/documentary-dvd-cover.png"
   },
   {
     key: "black_tee",
@@ -62,7 +64,8 @@ export const STRIPE_PRODUCTS = [
     quantityMax: 5,
     fulfillment: "physical_merch",
     grantsTrapPass: false,
-    access: "merch_order"
+    access: "merch_order",
+    imagePath: "/store-shirt-black.webp"
   },
   {
     key: "hardcover_preorder",
@@ -79,7 +82,8 @@ export const STRIPE_PRODUCTS = [
     quantityMax: 3,
     fulfillment: "hardcover_book_preorder",
     grantsTrapPass: false,
-    access: "book_preorder"
+    access: "book_preorder",
+    imagePath: "/assets/trap-house/store-hardcover-book-approved.png"
   },
   {
     key: "handy_sass_pass",
@@ -96,9 +100,12 @@ export const STRIPE_PRODUCTS = [
     quantityMax: 1,
     fulfillment: "physical_trap_pass",
     grantsTrapPass: true,
+    checkoutEnabled: false,
+    checkoutBlockReason: "authenticated_holder_linking_required",
     trapPassTier: "Handy Sass",
     serialPrefix: "HS",
-    access: "handy_sass_holder"
+    access: "handy_sass_holder",
+    imagePath: "/assets/trap-house/store-handy-sass-approved.png"
   },
   {
     key: "cash_for_trash_monthly",
@@ -115,9 +122,12 @@ export const STRIPE_PRODUCTS = [
     quantityMax: 1,
     fulfillment: "digital_monthly_membership",
     grantsTrapPass: true,
+    checkoutEnabled: false,
+    checkoutBlockReason: "authenticated_holder_linking_required",
     trapPassTier: "Cash for Trash",
     serialPrefix: "CFT",
-    access: "cash_for_trash_member"
+    access: "cash_for_trash_member",
+    imagePath: "/assets/trap-house/trap-pass-cash-for-trash-approved.png"
   }
 ];
 
@@ -163,14 +173,42 @@ export function publicCheckoutProducts() {
     quantityMin: product.quantityMin,
     quantityMax: product.quantityMax,
     fulfillment: product.fulfillment,
-    access: product.access
+    access: product.access,
+    imagePath: product.imagePath,
+    checkoutEnabled: product.checkoutEnabled !== false
   }));
+}
+
+export function findCatalogPrice(prices, product, pinnedPriceId = "") {
+  const list = Array.isArray(prices) ? prices : [];
+  if (pinnedPriceId) {
+    return list.find((price) => price.id === pinnedPriceId) || null;
+  }
+  return list.find((price) => price.lookup_key === product.lookupKey) || null;
+}
+
+export function productImageUrl(product, baseUrl = "https://imhighoncrackandihaveagun.com") {
+  if (!product?.imagePath) return "";
+  const cleanBase = String(baseUrl || "").trim().replace(/\/+$/, "");
+  const cleanPath = String(product.imagePath).startsWith("/") ? product.imagePath : `/${product.imagePath}`;
+  return cleanBase ? `${cleanBase}${cleanPath}` : "";
 }
 
 export function priceMatchesProduct(price, product) {
   const recurringInterval = price.recurring?.interval || null;
+  const stripeProduct = price.product && typeof price.product === "object" ? price.product : null;
+  const identityMatches = Boolean(
+    stripeProduct
+    && stripeProduct.active !== false
+    && (
+      stripeProduct.metadata?.ihocaihag_product_key === product.key
+      || stripeProduct.metadata?.lookup_key === product.lookupKey
+      || stripeProduct.name === product.name
+    )
+  );
   return (
     price.active === true &&
+    identityMatches &&
     price.unit_amount === product.unitAmount &&
     String(price.currency || "").toLowerCase() === product.currency &&
     recurringInterval === product.recurringInterval

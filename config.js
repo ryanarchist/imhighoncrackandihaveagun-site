@@ -12,9 +12,7 @@
   const supabaseUrl = "https://xpmozqmqzrljvnubnnxs.supabase.co";
   const supabasePublishableKey = "sb_publishable_DgXeNsqvkt4NuFX6-97UuQ_QG3FDYZ7";
   const hasSupabase = Boolean(supabaseUrl && supabasePublishableKey);
-  const stripePublishableKey = "pk_live_51Tjrqm3iX61YIuk6dkq0RAt61pF3XVBvTrT7zD7ZWUBIAZ7M9D0nDRov6G6myFPJXvJj3Yuuy11WmmKrGVzQEKT300WoPXQtlD";
-  const stripeMode = stripePublishableKey.startsWith("pk_live_") ? "live" : "test";
-  const checkoutPreviewEnabled = getLocalValue("iho_preorder_checkout_enabled") === "1";
+  const checkoutUsesServerHealth = true;
   const stripeApiHost = "https://imhighoncrackandihaveagun-site.vercel.app";
   const stripeApiBaseUrl = getLocalValue("iho_stripe_api_base_url")
     || (window.location.hostname === "imhighoncrackandihaveagun-site.vercel.app" ? "" : stripeApiHost);
@@ -33,18 +31,15 @@
     passStorageMode: hasSupabase ? "supabase" : (isLocalReview ? "local_review" : "pending_live_storage"),
     emailCaptureEnabled: hasSupabase || isLocalReview,
     emailCaptureMode: hasSupabase ? "supabase" : (isLocalReview ? "local_review" : "pending_live_storage"),
-    preorderCheckoutEnabled: checkoutPreviewEnabled,
-    preorderCheckoutPreviewEnabled: checkoutPreviewEnabled,
-    preorderCheckoutStatus: checkoutPreviewEnabled ? "direct_stripe_checkout_sessions" : "server_checkout_pending",
-    stripePublishableKey,
-    stripeMode,
-    stripeCheckoutReady: checkoutPreviewEnabled,
+    preorderCheckoutEnabled: checkoutUsesServerHealth,
+    preorderCheckoutPreviewEnabled: false,
+    preorderCheckoutStatus: "server_health_gated_checkout_sessions",
     stripeCheckoutHealthEndpoint: `${stripeApiBaseUrl}/api/stripe/health`,
     stripeCheckoutSessionEndpoint: `${stripeApiBaseUrl}/api/stripe/create-checkout-session`,
     instagramUrl: "https://www.instagram.com/ihocaihag/",
     tiktokUrl: "https://www.tiktok.com/@ihocaihagofficial",
     threadsUrl: "https://www.threads.net/@ihocaihag",
-    youtubeUrl: "https://www.youtube.com/@imhighoncrackandihaveagun",
+    youtubeUrl: "https://youtube.com/@imhighoncrackandihaveagun",
     xUrl: "https://x.com/comradejizzy",
     patreonUrl: "https://www.patreon.com/IMHIGHONCRACKANDIHAVEAGUN",
     spotifyUrl: "https://open.spotify.com/artist/7GUAmAkkpLLESm0Fig1NWZ",

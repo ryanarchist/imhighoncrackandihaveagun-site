@@ -5,7 +5,14 @@
   const buttons = Array.from(document.querySelectorAll("[data-checkout-product]"));
   const statusNodes = Array.from(document.querySelectorAll("[data-checkout-status]"));
   const emailInput = document.querySelector("[data-checkout-email]");
-  const checkoutClosedMessage = "Paid checkout is not open yet. Free Trap Pass claiming and pass checks are live.";
+  const checkoutText = window.IHOCAIHAGSiteContent?.uiContent?.checkout || {};
+  const checkoutClosedMessage = checkoutText.closed || "Paid checkout is not open yet.";
+  const checkoutClosedButton = checkoutText.closedButton || "Checkout Opening Soon";
+  const checkoutCheckingButton = checkoutText.checkingButton || "Checking Checkout...";
+
+  buttons.forEach((button) => {
+    button.dataset.checkoutLabel = button.textContent.trim();
+  });
 
   function setStatus(message, tone) {
     statusNodes.forEach((node) => {
@@ -27,36 +34,52 @@
 
   function lockButtons(locked) {
     buttons.forEach((button) => {
-      button.disabled = locked;
+      const available = button.dataset.checkoutEnabled !== "false";
+      button.disabled = locked || !available;
+      if (button.disabled) button.setAttribute("aria-disabled", "true");
+      else button.removeAttribute("aria-disabled");
       button.setAttribute("aria-busy", locked ? "true" : "false");
     });
   }
 
   function disableCheckout(message, tone) {
     buttons.forEach((button) => {
+      const available = button.dataset.checkoutEnabled !== "false";
       button.disabled = true;
       button.setAttribute("aria-disabled", "true");
       button.setAttribute("aria-busy", "false");
+      if (available) {
+        button.textContent = tone === "working" ? checkoutCheckingButton : checkoutClosedButton;
+        button.title = message || checkoutClosedMessage;
+      }
     });
     setStatus(message || checkoutClosedMessage, tone || "pending");
   }
 
   function enableCheckout() {
     buttons.forEach((button) => {
-      button.disabled = false;
-      button.removeAttribute("aria-disabled");
+      const available = button.dataset.checkoutEnabled !== "false";
+      button.disabled = !available;
+      if (available) {
+        button.removeAttribute("aria-disabled");
+        button.removeAttribute("title");
+        button.textContent = button.dataset.checkoutLabel || button.textContent;
+      } else {
+        button.setAttribute("aria-disabled", "true");
+      }
       button.setAttribute("aria-busy", "false");
     });
-    setStatus("Secure checkout through Stripe. Digital access and pass status update after payment is verified.", "ready");
+    setStatus(checkoutText.ready || "Checkout ready.", "ready");
   }
 
   async function refreshCheckoutReadiness() {
-    if (!healthEndpoint && config.preorderCheckoutEnabled && config.stripeCheckoutReady) {
-      enableCheckout();
-      return true;
+    if (!buttons.length) return false;
+    if (!healthEndpoint) {
+      disableCheckout(checkoutClosedMessage, "pending");
+      return false;
     }
 
-    disableCheckout("Checking whether secure checkout is open.", "working");
+    disableCheckout(checkoutText.checking || "Checking checkout.", "working");
 
     try {
       const response = await fetch(healthEndpoint, { cache: "no-store" });
@@ -82,8 +105,8 @@
     if (!productKey) return;
 
     lockButtons(true);
-    button.textContent = "Opening Stripe...";
-    setStatus("Opening secure Stripe checkout.", "working");
+    button.textContent = checkoutText.openingButton || "Opening checkout...";
+    setStatus(checkoutText.opening || "Opening checkout.", "working");
 
     try {
       const response = await fetch(endpoint, {
@@ -104,9 +127,8 @@
       window.location.assign(data.url);
     } catch (error) {
       console.error("Checkout failed:", error);
-      setStatus("Paid checkout is not open yet. Free Trap Pass claiming and pass checks are live.", "error");
       button.textContent = label;
-      lockButtons(false);
+      await refreshCheckoutReadiness();
     }
   }
 

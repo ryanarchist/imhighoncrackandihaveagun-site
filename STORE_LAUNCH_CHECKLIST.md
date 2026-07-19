@@ -1,0 +1,27 @@
+# Store Launch Checklist
+
+- [x] Keep all six public product names, prices, availability flags, and images in sync with the server allowlist through `pnpm run store:verify`.
+- [x] Keep the four ordinary products health-gated and the two holder-linked Trap Pass products disabled in both the UI and server.
+- [x] Remove the unused browser Stripe key/mode and keep Stripe Price IDs server-side.
+- [x] Fail closed when Stripe, webhook, Supabase, schema, or approved Product/Price mappings are unavailable.
+- [x] Verify the current production dependency tree has no known vulnerabilities with `pnpm audit --prod`.
+- [ ] Add the Stripe secret key and webhook signing secret to the Vercel project. Keep the mode consistent with the intended test launch.
+- [ ] Add the Supabase URL and server/service secret to the Vercel project.
+- [x] Install and lock the existing `package.json` dependencies locally.
+- [ ] Confirm `supabase/stripe_checkout_schema.sql` is installed and all five Stripe tables remain private under RLS.
+- [ ] Deploy the current repository before enabling checkout; the current Vercel API is still serving the older unconfigured implementation.
+- [ ] Run `pnpm run stripe:list-prices` with a test-mode secret and verify all six configured lookup keys without creating products or prices.
+- [ ] Confirm the six Stripe Product names, descriptions, prices, modes, and active states match `scripts/stripe/products.mjs`.
+- [ ] Deploy the approved Store images, run `pnpm run stripe:sync-products` in test mode, and verify all six Stripe Product images.
+- [ ] Confirm shipping countries, shipping rates/timing, phone collection, and fulfillment ownership for the OG Crack Pack, black tee, hardcover, and Handy Sass.
+- [ ] Configure and verify a 50-copy production inventory limit for the signed first-edition hardcover before advertising checkout as open.
+- [ ] Register the deployed `/api/stripe/webhook` endpoint for `checkout.session.completed`, `checkout.session.async_payment_succeeded`, `checkout.session.async_payment_failed`, `checkout.session.expired`, `customer.subscription.created`, `customer.subscription.updated`, `customer.subscription.deleted`, `invoice.paid`, `invoice.payment_failed`, and `charge.refunded`.
+- [ ] Verify the success URL and `/store/` cancel URL in test mode.
+- [ ] Add an authenticated holder reference and server-only entitlement RPC before enabling Cash For Trash or Handy Sass.
+- [ ] Verify Cash For Trash activation, failed-payment state, cancellation, expiration, and tier reversion against one test holder.
+- [ ] Verify Handy Sass lifetime activation and refund revocation against one test holder.
+- [ ] Configure a real Stripe customer billing portal before using the `/billing/` destination.
+- [ ] Approve customer-facing fulfillment, shipping, refund, privacy, terms, and support policies.
+- [ ] Run an end-to-end test-mode purchase for each ordinary product and confirm one order row per Checkout Session.
+- [ ] Replay the same webhook event and confirm no duplicate order, entitlement, or serial allocation.
+- [ ] Test a 100% discount, delayed payment success/failure, partial refund, full refund, and expired Checkout Session in test mode.

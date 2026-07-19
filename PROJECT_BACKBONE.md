@@ -28,15 +28,17 @@ Primary website:
 
 imhighoncrackandihaveagun.com
 
-Official links confirmed by Ryan on 2026-06-18:
+Official links confirmed by Ryan on 2026-06-27:
 
 - Website: `https://imhighoncrackandihaveagun.com`
 - Instagram: `https://www.instagram.com/ihocaihag/`
-- YouTube: `https://www.youtube.com/@imhighoncrackandihaveagun`
+- YouTube: `https://youtube.com/@imhighoncrackandihaveagun`
 - TikTok: `https://www.tiktok.com/@ihocaihagofficial`
+- Threads: `https://www.threads.net/@ihocaihag`
 - X: `https://x.com/comradejizzy`
-- Patreon: `https://www.patreon.com/c/IMHIGHONCRACKANDIHAVEAGUN`
+- Patreon: `https://www.patreon.com/IMHIGHONCRACKANDIHAVEAGUN`
 - Spotify: `https://open.spotify.com/artist/7GUAmAkkpLLESm0Fig1NWZ`
+- Apple Music: `https://music.apple.com/search?term=IHOCAIHAG`
 
 ## Tone
 
