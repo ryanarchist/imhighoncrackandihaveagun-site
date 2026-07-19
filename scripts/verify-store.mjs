@@ -115,9 +115,11 @@ check(CHECKOUT_CANCEL_URL === "https://imhighoncrackandihaveagun.com/store/", "S
 check(localTargetExists("/checkout/success/"), "Checkout success route is missing.");
 check(config.stripeCheckoutHealthEndpoint === "https://imhighoncrackandihaveagun-site.vercel.app/api/stripe/health", "Browser Stripe health endpoint is incorrect.");
 check(config.stripeCheckoutSessionEndpoint === "https://imhighoncrackandihaveagun-site.vercel.app/api/stripe/create-checkout-session", "Browser Checkout Session endpoint is incorrect.");
+check(config.trapPassClaimEndpoint === "https://imhighoncrackandihaveagun-site.vercel.app/api/trap-pass/claim", "Browser Trap Pass claim endpoint is incorrect.");
 check(config.trapPassWalletEndpoint === "https://imhighoncrackandihaveagun-site.vercel.app/api/trap-pass/wallet", "Browser Trap Pass wallet endpoint is incorrect.");
 check(previewConfig.stripeCheckoutHealthEndpoint === "/api/stripe/health", "Vercel Preview health checks must stay on the current deployment.");
 check(previewConfig.stripeCheckoutSessionEndpoint === "/api/stripe/create-checkout-session", "Vercel Preview checkout must stay on the current deployment.");
+check(previewConfig.trapPassClaimEndpoint === "/api/trap-pass/claim", "Vercel Preview Trap Pass claims must stay on the current deployment.");
 check(previewConfig.trapPassWalletEndpoint === "/api/trap-pass/wallet", "Vercel Preview Trap Pass wallet lookup must stay on the current deployment.");
 check(!("stripePublishableKey" in config), "Hosted Checkout does not need a browser Stripe publishable key.");
 
@@ -159,6 +161,12 @@ try {
   await checkoutHandler({ method: "POST", headers: {}, body: { productKey: sampleProduct.key, quantity: 1 } }, checkoutResponse);
   check(checkoutResponse.statusCode === 503, "Unconfigured Checkout Session endpoint must return 503.");
   check(JSON.parse(checkoutResponse.body).error === "checkout_not_ready", "Unconfigured Checkout Session endpoint returned the wrong error.");
+
+  const claimHandler = require(path.join(root, "api/trap-pass/claim.js"));
+  const claimResponse = mockResponse();
+  await claimHandler({ method: "POST", headers: {}, body: { email: "claim@example.com" } }, claimResponse);
+  check(claimResponse.statusCode === 503, "Unconfigured Trap Pass claim endpoint must return 503.");
+  check(JSON.parse(claimResponse.body).error === "claim_not_ready", "Unconfigured Trap Pass claim endpoint returned the wrong error.");
 
   process.env.STRIPE_SECRET_KEY = "sk_test_verifier";
   process.env.STRIPE_WEBHOOK_SECRET = "whsec_verifier";

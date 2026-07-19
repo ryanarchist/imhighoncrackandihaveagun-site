@@ -37,6 +37,7 @@
     preorderCheckoutStatus: "server_health_gated_checkout_sessions",
     stripeCheckoutHealthEndpoint: `${stripeApiBaseUrl}/api/stripe/health`,
     stripeCheckoutSessionEndpoint: `${stripeApiBaseUrl}/api/stripe/create-checkout-session`,
+    trapPassClaimEndpoint: `${stripeApiBaseUrl}/api/trap-pass/claim`,
     trapPassWalletEndpoint: `${stripeApiBaseUrl}/api/trap-pass/wallet`,
     instagramUrl: "https://www.instagram.com/ihocaihag/",
     tiktokUrl: "https://www.tiktok.com/@ihocaihagofficial",

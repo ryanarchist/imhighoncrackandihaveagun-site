@@ -1,6 +1,7 @@
 const path = require("path");
 const { pathToFileURL } = require("url");
 const Stripe = require("stripe");
+const { notifyTrapPassSignup } = require("../_utils/trapPassNotifications");
 
 async function loadCatalog() {
   const catalogPath = path.join(__dirname, "..", "..", "scripts", "stripe", "products.mjs");
@@ -259,6 +260,7 @@ async function handleCheckoutCompleted(stripe, catalog, sessionId, statusOverrid
   const shouldGrantTrapPass = product.grantsTrapPass && accessStatus === "granted";
   const trapPassSerial = existingOrder?.trap_pass_serial
     || (shouldGrantTrapPass ? await nextTrapPassSerial(product.serialPrefix) : "");
+  const newlyGrantedTrapPass = shouldGrantTrapPass && trapPassSerial && !existingOrder?.trap_pass_serial;
 
   const order = await upsertRow("stripe_orders", {
     stripe_checkout_session_id: session.id,
@@ -301,6 +303,24 @@ async function handleCheckoutCompleted(stripe, catalog, sessionId, statusOverrid
       order_id: order?.id || null,
       updated_at: new Date().toISOString()
     }, "stripe_checkout_session_id");
+
+    if (newlyGrantedTrapPass && customerEmail) {
+      try {
+        await notifyTrapPassSignup({
+          type: "stripe_checkout",
+          source: "stripe_checkout",
+          email: customerEmail,
+          trapPassSerial,
+          productKey: product.key,
+          productName: product.name,
+          tier: product.trapPassTier || product.name,
+          pagePath: "/store/",
+          stripeCheckoutSessionId: session.id
+        });
+      } catch (error) {
+        console.warn("Trap Pass checkout notification failed:", error.message);
+      }
+    }
   }
 
   if (subscription) {

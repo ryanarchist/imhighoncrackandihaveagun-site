@@ -676,6 +676,43 @@
     return sanitize(siteConfig.trapPassWalletEndpoint, 260);
   }
 
+  function claimEndpoint() {
+    return sanitize(siteConfig.trapPassClaimEndpoint, 260);
+  }
+
+  async function claimHolderServerAsync(input = {}) {
+    const endpoint = claimEndpoint();
+    if (!endpoint) return null;
+    const email = normalizeEmail(input.email);
+    if (!isEmail(email)) throw new Error("Enter a valid email.");
+
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({
+        email,
+        trapIdentity: input.trapIdentity || input.displayName || "",
+        discordUsername: input.discordUsername || "",
+        publicProfileEnabled: Boolean(input.publicProfileEnabled),
+        pagePath: window.location.pathname
+      })
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(data.message || data.error || "Trap Pass signup is unavailable right now.");
+
+    const pass = data?.pass || data?.[0]?.pass || null;
+    if (!pass) throw new Error("Trap Pass claim did not return a pass.");
+    const wallet = publicClaimWalletFromLegacyPass(pass);
+    savePublicWalletSession(wallet);
+    return {
+      ...data,
+      ok: true,
+      existed: Boolean(data.existed),
+      publicClaimOnly: true,
+      wallet
+    };
+  }
+
   async function lookupServerWalletAsync(query, options = {}) {
     const endpoint = walletEndpoint();
     if (!endpoint) return null;
@@ -758,6 +795,8 @@
     const accessToken = getAuthAccessToken();
     if (!accessToken) {
       if (passConfig.claims?.publicFreeClaimsEnabled && passConfig.claims?.publicFreeClaimRpc) {
+        const serverResult = await claimHolderServerAsync(input);
+        if (serverResult) return serverResult;
         const result = await supabaseRpc(passConfig.claims.publicFreeClaimRpc, {
           p_email: input.email,
           p_display_name: sanitize(input.trapIdentity || input.displayName, passConfig.card?.maxTrapIdentityLength || 40),
