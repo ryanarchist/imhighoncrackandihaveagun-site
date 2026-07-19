@@ -83,8 +83,8 @@ for (const stripeProduct of STRIPE_PRODUCTS) {
 }
 
 const enabledProducts = STRIPE_PRODUCTS.filter((product) => product.checkoutEnabled !== false);
-check(enabledProducts.length === 4, "Exactly four ordinary products should be checkout-enabled before holder linking exists.");
-check(STRIPE_PRODUCTS.filter((product) => product.checkoutEnabled === false).length === 2, "Exactly two Trap Pass products should remain checkout-disabled.");
+check(enabledProducts.length === STRIPE_PRODUCTS.length, "Every Store product, including Trap Pass tiers, should be checkout-enabled.");
+check(STRIPE_PRODUCTS.filter((product) => product.checkoutEnabled === false).length === 0, "No Store product should remain checkout-disabled.");
 
 const sampleProduct = enabledProducts[0];
 const sampleStripeProduct = {
@@ -115,8 +115,10 @@ check(CHECKOUT_CANCEL_URL === "https://imhighoncrackandihaveagun.com/store/", "S
 check(localTargetExists("/checkout/success/"), "Checkout success route is missing.");
 check(config.stripeCheckoutHealthEndpoint === "https://imhighoncrackandihaveagun-site.vercel.app/api/stripe/health", "Browser Stripe health endpoint is incorrect.");
 check(config.stripeCheckoutSessionEndpoint === "https://imhighoncrackandihaveagun-site.vercel.app/api/stripe/create-checkout-session", "Browser Checkout Session endpoint is incorrect.");
+check(config.trapPassWalletEndpoint === "https://imhighoncrackandihaveagun-site.vercel.app/api/trap-pass/wallet", "Browser Trap Pass wallet endpoint is incorrect.");
 check(previewConfig.stripeCheckoutHealthEndpoint === "/api/stripe/health", "Vercel Preview health checks must stay on the current deployment.");
 check(previewConfig.stripeCheckoutSessionEndpoint === "/api/stripe/create-checkout-session", "Vercel Preview checkout must stay on the current deployment.");
+check(previewConfig.trapPassWalletEndpoint === "/api/trap-pass/wallet", "Vercel Preview Trap Pass wallet lookup must stay on the current deployment.");
 check(!("stripePublishableKey" in config), "Hosted Checkout does not need a browser Stripe publishable key.");
 
 const checkoutSource = fs.readFileSync(path.join(root, "checkout.js"), "utf8");
@@ -182,12 +184,6 @@ try {
   check(unknownProductResponse.statusCode === 400, "Unknown Store products must be rejected before external API calls.");
   check(JSON.parse(unknownProductResponse.body).error === "unknown_product", "Unknown Store product returned the wrong error.");
 
-  const unavailableProduct = STRIPE_PRODUCTS.find((product) => product.checkoutEnabled === false);
-  const unavailableProductResponse = mockResponse();
-  await checkoutHandler({ method: "POST", headers: {}, body: { productKey: unavailableProduct.key, quantity: 1 } }, unavailableProductResponse);
-  check(unavailableProductResponse.statusCode === 409, "Unavailable Trap Pass products must be blocked server-side.");
-  check(JSON.parse(unavailableProductResponse.body).error === "product_unavailable", "Unavailable Store product returned the wrong error.");
-
   const invalidQuantityResponse = mockResponse();
   await checkoutHandler({ method: "POST", headers: {}, body: { productKey: sampleProduct.key, quantity: "2junk" } }, invalidQuantityResponse);
   check(invalidQuantityResponse.statusCode === 400, "Malformed Store quantity must be rejected before Stripe is called.");
@@ -206,5 +202,5 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log(`Store verification passed: ${siteProducts.length} products, ${enabledProducts.length} checkout-enabled, ${STRIPE_PRODUCTS.length - enabledProducts.length} safely disabled.`);
-console.log(`Approved one-time prices: ${enabledProducts.map((product) => `${product.key} ${formatAmount(product.unitAmount, product.currency)}`).join(", ")}`);
+console.log(`Store verification passed: ${siteProducts.length} products, ${enabledProducts.length} checkout-enabled.`);
+console.log(`Approved prices: ${enabledProducts.map((product) => `${product.key} ${formatAmount(product.unitAmount, product.currency)}`).join(", ")}`);

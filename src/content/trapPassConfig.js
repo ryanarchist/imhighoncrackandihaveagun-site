@@ -199,7 +199,7 @@
     },
     cardSerial: {
       padding: 4,
-      pattern: /^(ROD|W3D|AHD|BTS|NB)-\d{4,}(?:-R[2-9]\d*)?$/,
+      pattern: /^(ROD|W3D|AHD|BTS|NB|HS|CFT)-\d{4,}(?:-R[2-9]\d*)?$/,
       legacyPattern: /^W[1-4]-\d{4,}$/
     },
     currentReleaseId: "gen-2-wave-1-no-brakes",

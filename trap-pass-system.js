@@ -672,9 +672,39 @@
     });
   }
 
+  function walletEndpoint() {
+    return sanitize(siteConfig.trapPassWalletEndpoint, 260);
+  }
+
+  async function lookupServerWalletAsync(query, options = {}) {
+    const endpoint = walletEndpoint();
+    if (!endpoint) return null;
+    const raw = sanitize(query, 220);
+    if (!raw) return null;
+
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({ query: raw })
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(data.error || "wallet_lookup_failed");
+
+    const wallet = data?.wallet || null;
+    if (wallet?.holderPublicId && options.save !== false) savePublicWalletSession(wallet);
+    if (!wallet && options.save !== false) savePublicWalletSession(null);
+    return wallet;
+  }
+
   async function lookupPublicWalletAsync(query) {
     const raw = sanitize(query, 220);
     if (!raw) throw new Error("Enter your claim email or pass ID.");
+    try {
+      const serverWallet = await lookupServerWalletAsync(raw);
+      if (serverWallet) return serverWallet;
+    } catch (error) {
+      console.warn("Server Trap Pass wallet lookup failed:", error.message);
+    }
     if (!passConfig.claims?.publicLookupRpc) return null;
     const lookupQuery = raw.includes("@") ? normalizeEmail(raw) : legacyLiveLookupQuery(raw);
     const lookup = await supabaseRpc(passConfig.claims.publicLookupRpc, { p_query: lookupQuery });
@@ -865,6 +895,14 @@
     const clean = normalizeSerial(value);
     if (!isAcceptedSerialFormat(clean)) return { valid: false, status: "INVALID TRAP PASS" };
     if (isLocalReviewHost()) return validateSerialLocal(clean);
+    try {
+      const wallet = await lookupServerWalletAsync(clean, { save: false });
+      if (wallet?.featuredPass || wallet?.cards?.length) {
+        return { valid: true, status: "VALID TRAP PASS", profileAvailable: false, profileUrl: "" };
+      }
+    } catch (error) {
+      console.warn("Server Trap Pass serial validation failed:", error.message);
+    }
     if (passConfig.claims?.publicLookupRpc) {
       const lookup = await supabaseRpc(passConfig.claims.publicLookupRpc, { p_query: legacyLiveLookupQuery(clean) });
       const pass = lookup?.pass || lookup?.[0]?.pass || null;
@@ -887,6 +925,24 @@
     const clean = normalizeSerial(holderPublicId);
     if (!passConfig.holderId?.pattern?.test(clean) && !passConfig.cardSerial?.pattern?.test(clean) && !passConfig.cardSerial?.legacyPattern?.test(clean)) return { valid: false };
     if (isLocalReviewHost()) return publicProfileFromHolder(loadState(), findHolderByPublicId(loadState(), clean));
+    try {
+      const wallet = await lookupServerWalletAsync(clean, { save: false });
+      if (wallet?.holderPublicId) {
+        return {
+          valid: true,
+          private: true,
+          publicProfileEnabled: false,
+          holderPublicId: wallet.holderPublicId,
+          trapIdentity: wallet.trapIdentity,
+          originalEntryWaveLabel: wallet.originalEntryWaveLabel,
+          currentTierLabel: wallet.currentTierLabel,
+          memberSince: wallet.memberSince,
+          featuredPass: wallet.featuredPass
+        };
+      }
+    } catch (error) {
+      console.warn("Server Trap Pass profile lookup failed:", error.message);
+    }
     if (passConfig.claims?.publicLookupRpc) {
       const lookup = await supabaseRpc(passConfig.claims.publicLookupRpc, { p_query: legacyLiveLookupQuery(clean) });
       const pass = lookup?.pass || lookup?.[0]?.pass || null;
@@ -1329,6 +1385,7 @@
     createTrapPassAsync: claimHolderAsync,
     requestAccessAsync,
     lookupPublicWalletAsync,
+    lookupServerWalletAsync,
     claimNewReleaseAsync,
     updateMyProfileAsync,
     validateSerialAsync,
