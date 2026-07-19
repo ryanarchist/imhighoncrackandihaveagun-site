@@ -840,8 +840,8 @@
         smallNote: "One permanent identity. A wallet that grows with every Trap Pass release you claim.",
         ctaPrimaryLabel: "Claim Free Pass",
         ctaPrimaryHref: "#claim",
-        ctaSecondaryLabel: "My Pass",
-        ctaSecondaryHref: "/my-pass/",
+        ctaSecondaryLabel: "Check Pass",
+        ctaSecondaryHref: "/check-pass/",
         imageSrc: asset("trap-pass-claim-story-banner-approved.png"),
         imageAlt: "IHOCAIHAG Claim A Piece Of The Story poster",
         imageFit: "contain",
@@ -870,8 +870,8 @@
           id: "free-pass",
           label: "Free Pass",
           price: "Free",
-          description: "A permanent entry into the Trap Pass system. Claim your identity, receive your holder number, add the current release to your wallet, and return to collect future Trap Passes as they are released.",
-          benefits: ["Permanent holder identity", "Current-release collectible", "Private wallet", "Optional public profile", "PNG pass downloads"],
+          description: "A free claim creates your holder number and locks the current NO BRAKES release to that email in the live registry.",
+          benefits: ["Permanent holder identity", "Current-release collectible", "Exact pass validation", "Private email storage", "Future wallet upgrade path"],
           buttonLabel: "Claim Free Pass",
           buttonHref: "#claim",
           stripePriceId: "",
@@ -914,8 +914,8 @@
       claimForm: {
         eyebrow: "Claim",
         headline: "Claim Free Pass",
-        body: "One verified email owns one permanent holder identity. A new release is added to that same wallet instead of creating another account.",
-        privacyNote: "Your email and optional Discord username stay private. Your public profile is off unless you choose to enable it."
+        body: "One email claims one free holder identity. Keep the holder ID and card serial you receive; those are your public-safe proof that the claim is live.",
+        privacyNote: "Your email and optional Discord username stay private. Public validation only confirms whether the holder ID or card serial is valid."
       },
       sampleWallet: {
         label: "SAMPLE WALLET",
@@ -924,7 +924,7 @@
         originalEntryWave: "No Brakes",
         tier: "Free Pass",
         cardSerial: "NB-0100",
-        status: "Preview Only",
+        status: "Live Free Claim",
         imageSrc: asset("trap-pass-no-brakes-current-approved.png"),
         imageAlt: "No Brakes Gen 2 Wave 1 Trap Pass"
       },

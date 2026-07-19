@@ -213,7 +213,10 @@
       maxTrapIdentityLength: 40
     },
     claims: {
-      productionRequiresAuthenticatedSession: true,
+      productionRequiresAuthenticatedSession: false,
+      publicFreeClaimsEnabled: true,
+      publicFreeClaimRpc: "claim_trap_pass",
+      publicLookupRpc: "lookup_trap_pass_public",
       generationOneSelfServiceEnabled: false
     },
     recovery: {
@@ -251,7 +254,7 @@
       originalEntryWave: "No Brakes",
       currentTierLabel: "Free Pass",
       cardSerial: "NB-0100",
-      status: "Preview Only"
+      status: "Live Free Claim"
     }
   };
 })();

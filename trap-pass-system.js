@@ -114,6 +114,69 @@
     return getRelease(passConfig.currentReleaseId) || releases.find((release) => release.status === "current") || null;
   }
 
+  function legacyLiveSerialToHolderNumber(serialNumber) {
+    const firstNumber = Number(passConfig.holderId?.firstNumber) || 100;
+    return firstNumber + Math.max(0, (Number(serialNumber) || 1) - 1);
+  }
+
+  function holderNumberToLegacyLivePassId(holderNumber) {
+    const firstNumber = Number(passConfig.holderId?.firstNumber) || 100;
+    const legacySerial = Number(holderNumber) - firstNumber + 1;
+    if (!Number.isFinite(legacySerial) || legacySerial < 1) return "";
+    return `W3-${String(legacySerial).padStart(5, "0")}`;
+  }
+
+  function legacyLiveLookupQuery(value) {
+    const clean = normalizeSerial(value);
+    const holderMatch = clean.match(/^TP-(\d{4,})$/);
+    if (holderMatch) return holderNumberToLegacyLivePassId(Number(holderMatch[1]));
+    const currentRelease = getCurrentRelease();
+    const currentPrefix = currentRelease?.prefix || "NB";
+    const cardMatch = clean.match(new RegExp(`^${currentPrefix}-(\\d{4,})(?:-R[2-9]\\d*)?$`));
+    if (cardMatch) return holderNumberToLegacyLivePassId(Number(cardMatch[1]));
+    return clean;
+  }
+
+  function publicClaimWalletFromLegacyPass(pass = {}) {
+    const currentRelease = getCurrentRelease();
+    const sourceSerial = Number(pass.serial_number) || Number(String(pass.trap_pass_id || "").match(/\d+$/)?.[0]) || 1;
+    const holderNumber = legacyLiveSerialToHolderNumber(sourceSerial);
+    const holderPublicId = formatHolderId(holderNumber);
+    const cardSerial = formatCardSerial(currentRelease, holderNumber);
+    const timestamp = pass.created_at || nowIso();
+    const trapIdentity = sanitize(pass.display_name || pass.displayName, passConfig.card?.maxTrapIdentityLength || 40);
+    const featuredPass = {
+      cardSerial,
+      waveId: currentRelease?.id || "gen-2-wave-1-no-brakes",
+      waveName: currentRelease?.name || "No Brakes",
+      generation: currentRelease?.generation || 2,
+      waveNumber: currentRelease?.waveNumber || 1,
+      status: pass.status || "active",
+      frontArtwork: currentRelease?.frontArtwork || "",
+      backArtwork: currentRelease?.backArtwork || "",
+      frontPlaceholder: currentRelease?.frontPlaceholder || "NO BRAKES",
+      backPlaceholder: currentRelease?.backPlaceholder || "IHOCAIHAG TRAP PASS / NO BRAKES"
+    };
+    return {
+      holderPublicId,
+      sourcePassId: normalizeSerial(pass.trap_pass_id),
+      trapIdentity,
+      displayIdentity: trapIdentity || holderPublicId,
+      originalEntryWave: currentRelease?.name || "No Brakes",
+      originalEntryWaveLabel: currentRelease?.name || "No Brakes",
+      currentTierId: "free",
+      currentTierLabel: "Free Pass",
+      memberSince: timestamp,
+      publicProfileEnabled: false,
+      publicProfileUrl: "",
+      selectedPublicThreadSlugs: [],
+      cards: [featuredPass],
+      featuredPass,
+      fullWalletAvailable: false,
+      publicClaimOnly: true
+    };
+  }
+
   function getTier(tierId) {
     const clean = sanitize(tierId, 90).toLowerCase();
     return tiers.find((tier) => tier.id === clean || tier.slug === clean || tier.name.toLowerCase() === clean)
@@ -583,6 +646,23 @@
     if (isLocalReviewHost()) return claimHolderLocal(input);
     const accessToken = getAuthAccessToken();
     if (!accessToken) {
+      if (passConfig.claims?.publicFreeClaimsEnabled && passConfig.claims?.publicFreeClaimRpc) {
+        const result = await supabaseRpc(passConfig.claims.publicFreeClaimRpc, {
+          p_email: input.email,
+          p_display_name: sanitize(input.trapIdentity || input.displayName, passConfig.card?.maxTrapIdentityLength || 40),
+          p_discord_username: sanitize(input.discordUsername, 80),
+          p_wallet_address: "",
+          p_thread_keys: ["trap-pass-lore", "public-project-witness"]
+        });
+        const pass = result?.pass || result?.[0]?.pass || null;
+        if (!pass) throw new Error("Trap Pass claim did not return a pass.");
+        return {
+          ok: true,
+          existed: Boolean(result.existed),
+          publicClaimOnly: true,
+          wallet: publicClaimWalletFromLegacyPass(pass)
+        };
+      }
       await captureEntryEmail({ email: input.email, source: "trap_pass_claim" });
       return {
         ok: true,
@@ -702,6 +782,13 @@
     const clean = normalizeSerial(value);
     if (!isAcceptedSerialFormat(clean)) return { valid: false, status: "INVALID TRAP PASS" };
     if (isLocalReviewHost()) return validateSerialLocal(clean);
+    if (passConfig.claims?.publicLookupRpc) {
+      const lookup = await supabaseRpc(passConfig.claims.publicLookupRpc, { p_query: legacyLiveLookupQuery(clean) });
+      const pass = lookup?.pass || lookup?.[0]?.pass || null;
+      return pass
+        ? { valid: true, status: "VALID TRAP PASS", profileAvailable: false, profileUrl: "" }
+        : { valid: false, status: "INVALID TRAP PASS" };
+    }
     const result = await supabaseRpc("trap_pass_validate_serial", { p_serial: clean });
     return result?.valid
       ? {
@@ -715,8 +802,25 @@
 
   async function getPublicProfileAsync(holderPublicId) {
     const clean = normalizeSerial(holderPublicId);
-    if (!passConfig.holderId?.pattern?.test(clean)) return { valid: false };
+    if (!passConfig.holderId?.pattern?.test(clean) && !passConfig.cardSerial?.pattern?.test(clean) && !passConfig.cardSerial?.legacyPattern?.test(clean)) return { valid: false };
     if (isLocalReviewHost()) return publicProfileFromHolder(loadState(), findHolderByPublicId(loadState(), clean));
+    if (passConfig.claims?.publicLookupRpc) {
+      const lookup = await supabaseRpc(passConfig.claims.publicLookupRpc, { p_query: legacyLiveLookupQuery(clean) });
+      const pass = lookup?.pass || lookup?.[0]?.pass || null;
+      if (!pass) return { valid: false };
+      const wallet = publicClaimWalletFromLegacyPass(pass);
+      return {
+        valid: true,
+        private: true,
+        publicProfileEnabled: false,
+        holderPublicId: wallet.holderPublicId,
+        trapIdentity: wallet.trapIdentity,
+        originalEntryWaveLabel: wallet.originalEntryWaveLabel,
+        currentTierLabel: wallet.currentTierLabel,
+        memberSince: wallet.memberSince,
+        featuredPass: wallet.featuredPass
+      };
+    }
     const result = await supabaseRpc("trap_pass_public_profile", { p_holder_public_id: clean });
     if (!result?.valid) return { valid: false };
     return result;

@@ -640,7 +640,9 @@
   function renderTrapPass() {
     const page = content.trapPassContent || {};
     const localReview = Boolean(window.TrapHouse?.admin?.localReview);
-    const claimsOpen = localReview || Boolean(window.TrapHouse?.config?.recovery?.emailProviderConfigured);
+    const claimsOpen = localReview
+      || Boolean(window.TrapHouse?.config?.claims?.publicFreeClaimsEnabled)
+      || Boolean(window.TrapHouse?.config?.recovery?.emailProviderConfigured);
     return `
       ${renderHero(page.hero)}
       <section class="section compact">
@@ -693,13 +695,13 @@
                 <label class="field"><span>${esc(forms.trapIdentity || "Trap identity (optional)")}</span><input type="text" name="trapIdentity" maxlength="40" autocomplete="nickname" /></label>
                 <label class="field"><span>${esc(forms.discordUsername || "Discord username (optional and private)")}</span><input type="text" name="discordUsername" maxlength="80" autocomplete="off" /></label>
               </div>
-              <label class="choice-row">
+              ${window.TrapHouse?.config?.recovery?.emailProviderConfigured ? `<label class="choice-row">
                 <input type="checkbox" name="publicProfileEnabled" value="1" />
                 <span><strong>Enable my public holder profile</strong><small>Shows only your Trap identity, holder ID, entry wave, tier, member-since date, featured pass, and selected public Threads.</small></span>
-              </label>
+              </label>` : ""}
               <button class="button primary" type="submit">${esc(forms.claimFreePass || "Claim Free Pass")}</button>
               <p class="small-note">${esc(page.claimForm?.privacyNote || "")}</p>
-            </form>` : `<div class="notice active">Secure email verification is being connected before public claims open. No wallet or pass will be issued until that verification is live.</div>`}
+            </form>` : `<div class="notice active">Free Trap Pass claims are opening soon.</div>`}
             <div class="notice" data-claim-output></div>
           </article>
           ${renderSampleWallet(page.sampleWallet)}
@@ -1266,8 +1268,13 @@
           publicProfileEnabled: data.get("publicProfileEnabled") === "1"
         });
         if (result?.wallet) {
+          const passId = result.wallet.holderPublicId || "Trap Pass ready";
+          const cardSerial = result.wallet.featuredPass?.cardSerial || "Card ready";
+          const copyButton = `<button class="button" type="button" data-copy-value="${attr(passId)}">${esc(actions.copyPassId || "Copy Holder ID")}</button>`;
+          const validationButton = button(forms.verifyPass || "Check Your Pass", `/check-pass/?serial=${encodeURIComponent(cardSerial)}`, true);
           output.className = "notice active";
-          output.innerHTML = `<strong>${esc(result.existed ? "Wallet opened." : "Trap Pass claimed.")}</strong><p>${esc(`${result.wallet.holderPublicId} / ${result.wallet.featuredPass?.cardSerial || "Wallet ready"}`)}</p><div class="cta-row">${button(forms.myPass || "Open My Pass", "/my-pass/", true)}</div>`;
+          output.innerHTML = `<strong>${esc(result.existed ? "Trap Pass already claimed." : "Trap Pass claimed.")}</strong><p>${esc(`${passId} / ${cardSerial}`)}</p><div class="cta-row">${validationButton}${copyButton}</div>`;
+          wireCopyButtons();
           refreshNav();
         } else {
           output.className = `notice${result?.blocked ? " error" : ""} active`;
@@ -1419,13 +1426,12 @@
       const panel = form.closest(".panel") || form.parentElement;
       const output = panel?.querySelector("[data-pass-validation-output], [data-pass-validation-notice]")
         || document.querySelector("[data-pass-validation-output]");
-      form.addEventListener("submit", async (event) => {
-        event.preventDefault();
+      const runLookup = async (serial) => {
         if (!output) return;
         output.className = "notice active";
         output.textContent = states.loading || "Loading...";
         try {
-          const result = await window.TrapHouse.validateSerialAsync(new FormData(form).get("serial"));
+          const result = await window.TrapHouse.validateSerialAsync(serial);
           output.className = `validation-result panel ${result?.valid ? "is-valid" : "is-invalid"}`;
           output.innerHTML = result?.valid
             ? `<strong>VALID TRAP PASS</strong>${result.profileAvailable && result.profileUrl ? `<div class="cta-row">${button(actions.viewPublicProfile || "View Public Profile", result.profileUrl, true)}</div>` : ""}`
@@ -1434,7 +1440,17 @@
           output.className = "notice error active";
           output.textContent = error.message || states.error || "Something went wrong.";
         }
+      };
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        await runLookup(new FormData(form).get("serial"));
       });
+      const serialFromUrl = new URLSearchParams(window.location.search).get("serial");
+      if (serialFromUrl) {
+        const input = form.querySelector('[name="serial"]');
+        if (input) input.value = serialFromUrl;
+        runLookup(serialFromUrl);
+      }
     });
   }
 
