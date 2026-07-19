@@ -91,6 +91,16 @@ function serverEnv(name) {
   return String(process.env[name] || "").trim();
 }
 
+function stripeMode(secretKey) {
+  if (secretKey.startsWith("sk_live_")) return "live";
+  if (secretKey.startsWith("sk_test_")) return "test";
+  return "unconfigured";
+}
+
+function testCheckoutAllowed() {
+  return serverEnv("ALLOW_TEST_STRIPE_CHECKOUT") === "1";
+}
+
 function supabaseServerConfig() {
   const url = serverEnv("SUPABASE_URL") || serverEnv("TRAP_HOUSE_SUPABASE_URL");
   const key = serverEnv("SUPABASE_SERVICE_ROLE_KEY")
@@ -139,6 +149,12 @@ module.exports = async function handler(req, res) {
   const secretKey = serverEnv("STRIPE_SECRET_KEY");
   if (!secretKey || !serverEnv("STRIPE_WEBHOOK_SECRET") || !supabaseServerConfig()) {
     return sendJson(res, 503, { error: "checkout_not_ready" });
+  }
+  if (stripeMode(secretKey) === "test" && !testCheckoutAllowed()) {
+    return sendJson(res, 503, {
+      error: "live_stripe_required",
+      message: "Live checkout is not open yet."
+    });
   }
 
   try {

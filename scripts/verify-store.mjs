@@ -123,6 +123,9 @@ const checkoutSource = fs.readFileSync(path.join(root, "checkout.js"), "utf8");
 check(!checkoutSource.includes("data-stripe-price-id"), "Browser checkout must not contain Stripe Price IDs.");
 check(checkoutSource.includes("Checkout Opening Soon"), "Closed checkout must explain its state on the product button.");
 
+const siteSource = fs.readFileSync(path.join(root, "src/site.js"), "utf8");
+check(!siteSource.includes("filter((product) => product.checkoutEnabled !== false)"), "Store must list Trap Pass purchase options even when checkout is disabled.");
+
 const webhookSource = fs.readFileSync(path.join(root, "api/stripe/webhook.js"), "utf8");
 check(webhookSource.includes("product.checkoutEnabled === false"), "Webhook fulfillment must reject disabled Store products.");
 check(webhookSource.includes("checkout.session.async_payment_succeeded"), "Webhook must handle delayed payment success.");
@@ -136,7 +139,7 @@ for (const table of ["stripe_events", "stripe_orders", "stripe_subscriptions", "
   check(schemaSource.includes(`revoke all on public.${table} from anon, authenticated`), `${table} must revoke direct browser roles.`);
 }
 
-const envNames = ["STRIPE_SECRET_KEY", "STRIPE_WEBHOOK_SECRET", "SUPABASE_URL", "SUPABASE_SECRET_KEY", "SUPABASE_SERVICE_ROLE_KEY"];
+const envNames = ["STRIPE_SECRET_KEY", "STRIPE_WEBHOOK_SECRET", "SUPABASE_URL", "SUPABASE_SECRET_KEY", "SUPABASE_SERVICE_ROLE_KEY", "ALLOW_TEST_STRIPE_CHECKOUT"];
 const savedEnv = Object.fromEntries(envNames.map((name) => [name, process.env[name]]));
 const savedFetch = globalThis.fetch;
 for (const name of envNames) delete process.env[name];
@@ -160,6 +163,19 @@ try {
   process.env.SUPABASE_URL = "https://example.supabase.co";
   process.env.SUPABASE_SECRET_KEY = "sb_secret_verifier";
   globalThis.fetch = async () => ({ ok: true });
+
+  const testModeHealthResponse = mockResponse();
+  await healthHandler({ method: "GET", headers: {} }, testModeHealthResponse);
+  const testModeHealthBody = JSON.parse(testModeHealthResponse.body);
+  check(testModeHealthResponse.statusCode === 503, "Test-mode Stripe health must not open public checkout by default.");
+  check(testModeHealthBody.mode === "test" && testModeHealthBody.liveModeRequired === true, "Test-mode Stripe health must say live mode is required.");
+
+  const testModeCheckoutResponse = mockResponse();
+  await checkoutHandler({ method: "POST", headers: {}, body: { productKey: sampleProduct.key, quantity: 1 } }, testModeCheckoutResponse);
+  check(testModeCheckoutResponse.statusCode === 503, "Test-mode Checkout Session endpoint must fail closed by default.");
+  check(JSON.parse(testModeCheckoutResponse.body).error === "live_stripe_required", "Test-mode Checkout Session endpoint returned the wrong error.");
+
+  process.env.ALLOW_TEST_STRIPE_CHECKOUT = "1";
 
   const unknownProductResponse = mockResponse();
   await checkoutHandler({ method: "POST", headers: {}, body: { productKey: "not_a_product", quantity: 1 } }, unknownProductResponse);

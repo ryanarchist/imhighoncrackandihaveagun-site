@@ -536,7 +536,7 @@
         emailUnlockCode: "Email Your Code"
       },
       checkout: {
-        closed: "Paid checkout is not open yet.",
+        closed: "Live checkout is not open yet.",
         closedButton: "Checkout Opening Soon",
         ready: "Checkout ready.",
         checking: "Checking checkout.",

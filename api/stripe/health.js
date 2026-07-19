@@ -19,6 +19,16 @@ function serverEnv(name) {
   return String(process.env[name] || "").trim();
 }
 
+function stripeMode(secretKey) {
+  if (secretKey.startsWith("sk_live_")) return "live";
+  if (secretKey.startsWith("sk_test_")) return "test";
+  return "unconfigured";
+}
+
+function testCheckoutAllowed() {
+  return serverEnv("ALLOW_TEST_STRIPE_CHECKOUT") === "1";
+}
+
 function hasSupabaseSecret() {
   return Boolean(
     serverEnv("SUPABASE_SERVICE_ROLE_KEY")
@@ -98,13 +108,12 @@ module.exports = async function handler(req, res) {
   if (!hasSupabaseSecret()) missing.push("SUPABASE_SECRET_KEY");
 
   const stripeSecret = serverEnv("STRIPE_SECRET_KEY");
-  const mode = stripeSecret.startsWith("sk_live_")
-    ? "live"
-    : stripeSecret.startsWith("sk_test_") ? "test" : "unconfigured";
+  const mode = stripeMode(stripeSecret);
+  const liveModeRequired = mode === "test" && !testCheckoutAllowed();
   let unavailableProducts = [];
   let schemaReady = false;
 
-  if (!missing.length) {
+  if (!missing.length && !liveModeRequired) {
     try {
       unavailableProducts = await unavailableProductKeys(stripeSecret);
     } catch (error) {
@@ -117,11 +126,12 @@ module.exports = async function handler(req, res) {
     }
   }
 
-  const ready = missing.length === 0 && unavailableProducts.length === 0 && schemaReady;
+  const ready = missing.length === 0 && !liveModeRequired && unavailableProducts.length === 0 && schemaReady;
   return sendJson(res, ready ? 200 : 503, {
     ready,
     mode,
     missing,
+    liveModeRequired,
     unavailableProducts,
     schemaReady
   });

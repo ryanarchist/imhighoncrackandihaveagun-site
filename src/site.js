@@ -794,14 +794,15 @@
 
   function renderStore() {
     const page = content.storeContent || {};
-    const visibleProducts = (page.products || []).filter((product) => product.checkoutEnabled !== false);
+    const products = page.products || [];
     return `
       ${renderHero(page.hero)}
       <section class="section compact" id="drop-table">
         <div class="container">
           ${sectionHeader(ui.sections?.dropTable)}
+          <div class="checkout-status" data-checkout-status></div>
           <div class="grid product-grid">
-            ${visibleProducts.map(renderProductCard).join("")}
+            ${products.map(renderProductCard).join("")}
           </div>
         </div>
       </section>
