@@ -631,9 +631,9 @@
           body: dropsDescription,
           buttonLabel: "Watch Official Drops",
           buttonHref: "/drops/",
-          imageSrc: asset("official-drops-approved.png"),
-          imageAlt: "IHOCAIHAG documentary DVD displayed with archive evidence",
-          imageFit: "contain",
+          imageSrc: asset("home-official-drops-approved.png"),
+          imageAlt: "Ryan seated in the project workspace",
+          imageFit: "cover",
           objectPosition: "center center"
         },
         {
