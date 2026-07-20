@@ -37,6 +37,15 @@ export const STRIPE_PRODUCTS = [
     release: "GEN 2 WAVE 1",
     variant: "Teal Home",
     editionSize: 40,
+    checkoutCustomFields: [
+      {
+        key: "jersey_size",
+        label: "Jersey size (example: M or 2XL)",
+        type: "text",
+        minimumLength: 1,
+        maximumLength: 12
+      }
+    ],
     imagePath: "/assets/trap-house/store-oc80-home-jersey.png"
   },
   {
@@ -58,6 +67,15 @@ export const STRIPE_PRODUCTS = [
     release: "GEN 2 WAVE 1",
     variant: "White Away",
     editionSize: 40,
+    checkoutCustomFields: [
+      {
+        key: "jersey_size",
+        label: "Jersey size (example: M or 2XL)",
+        type: "text",
+        minimumLength: 1,
+        maximumLength: 12
+      }
+    ],
     imagePath: "/assets/trap-house/store-oc80-away-jersey.png"
   },
   {

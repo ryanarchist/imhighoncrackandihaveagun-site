@@ -86,6 +86,13 @@ const enabledProducts = STRIPE_PRODUCTS.filter((product) => product.checkoutEnab
 check(enabledProducts.length === STRIPE_PRODUCTS.length, "Every Store product, including Trap Pass tiers, should be checkout-enabled.");
 check(STRIPE_PRODUCTS.filter((product) => product.checkoutEnabled === false).length === 0, "No Store product should remain checkout-disabled.");
 
+for (const jerseyKey of ["oc80_jersey_home", "oc80_jersey_away"]) {
+  const jersey = STRIPE_PRODUCTS.find((product) => product.key === jerseyKey);
+  check(jersey?.quantityMax === 1, `${jerseyKey} must stay limited to one jersey per Checkout Session.`);
+  check(jersey?.editionSize === 40, `${jerseyKey} must retain its 40-piece edition metadata.`);
+  check(jersey?.checkoutCustomFields?.some((field) => field.key === "jersey_size"), `${jerseyKey} must collect a required jersey size.`);
+}
+
 const sampleProduct = enabledProducts[0];
 const sampleStripeProduct = {
   active: true,
@@ -126,6 +133,9 @@ check(!("stripePublishableKey" in config), "Hosted Checkout does not need a brow
 const checkoutSource = fs.readFileSync(path.join(root, "checkout.js"), "utf8");
 check(!checkoutSource.includes("data-stripe-price-id"), "Browser checkout must not contain Stripe Price IDs.");
 check(checkoutSource.includes("Checkout Opening Soon"), "Closed checkout must explain its state on the product button.");
+
+const checkoutSessionSource = fs.readFileSync(path.join(root, "api/stripe/create-checkout-session.js"), "utf8");
+check(checkoutSessionSource.includes("custom_fields: checkoutCustomFields(product)"), "Jersey Checkout Sessions must collect the configured size field.");
 
 const siteSource = fs.readFileSync(path.join(root, "src/site.js"), "utf8");
 check(!siteSource.includes("filter((product) => product.checkoutEnabled !== false)"), "Store must list Trap Pass purchase options even when checkout is disabled.");

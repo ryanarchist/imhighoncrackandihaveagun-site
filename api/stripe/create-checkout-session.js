@@ -141,6 +141,24 @@ function checkoutMetadata(product, body) {
   };
 }
 
+function checkoutCustomFields(product) {
+  return (product.checkoutCustomFields || []).map((field) => ({
+    key: field.key,
+    label: {
+      type: "custom",
+      custom: field.label
+    },
+    type: field.type || "text",
+    optional: false,
+    ...(field.type === "text" || !field.type ? {
+      text: {
+        minimum_length: field.minimumLength || 1,
+        maximum_length: field.maximumLength || 255
+      }
+    } : {})
+  }));
+}
+
 module.exports = async function handler(req, res) {
   res.setHeader("Allow", "POST, OPTIONS");
   if (handleCors(req, res, ["POST", "OPTIONS"])) return;
@@ -225,7 +243,10 @@ module.exports = async function handler(req, res) {
         shipping_address_collection: {
           allowed_countries: parseAllowedCountries(process.env.STRIPE_ALLOWED_SHIPPING_COUNTRIES)
         },
-        phone_number_collection: { enabled: true }
+      phone_number_collection: { enabled: true }
+      } : {}),
+      ...(product.checkoutCustomFields?.length ? {
+        custom_fields: checkoutCustomFields(product)
       } : {}),
       metadata,
       ...(product.mode === "subscription" ? {
