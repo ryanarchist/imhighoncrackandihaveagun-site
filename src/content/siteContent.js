@@ -45,6 +45,8 @@
   const dropsDescription = "Trailers, soundtrack pieces, and raw footage from the archive. Start with January 22: The Blast Crater.";
   const mapDescription = "Follow the nine foundational threads through the archive. Select a numbered point on the map to open its definition and trace how it appears across the six-year story.";
   const storeDescription = "Official books, documentary access, apparel, and Trap Pass releases connected to the project.";
+  const oc80JerseyDescription =
+    "The official GEN 2 WAVE 1 Trap Pass release: the OC #80 IHOCAIHAG Basketball Jersey. Only 80 will ever be made\u201440 Teal Home and 40 White Away. Each new Trap Pass wave unlocks one exclusive merch drop, and this is the first. Built from breathable athletic mesh with distressed chalk graphics, a stamped #80 badge, \u201cNOTHING BEATS AN ORIGINAL\u201d back design, custom neck label and stitched hem patch. Once all 80 are gone, this wave is closed.";
   const january22Description = "January 22 is the blast crater where all nine foundational threads became visible at once.";
   const archiveTags = ["addiction", "psychosis", "grief", "cats", "home", "money", "platforms", "driving", "crack", "Palestine", "writing", "recovery", "love"];
   const threadDefinition = [
@@ -1031,7 +1033,54 @@
         imageSrc: asset("home-store-approved.png"),
         imageAlt: "IHOCAIHAG Street Arrest collector figure set"
       },
+      featuredDrop: {
+        eyebrow: "GEN 2 / WAVE 1",
+        headline: "THE FIRST EXCLUSIVE MERCH DROP",
+        body: "Only 80 OC #80 jerseys will ever be made: 40 Teal Home and 40 White Away. Once they are gone, this wave is closed."
+      },
+      catalogHeader: {
+        eyebrow: "Official Store",
+        headline: "BOOKS, ACCESS, MERCH & TRAP PASSES"
+      },
       products: [
+        {
+          id: "oc80-jersey-home",
+          key: "oc80_jersey_home",
+          name: "IHOCAIHAG \u201cNOTHING BEATS AN ORIGINAL\u201d #80 BASKETBALL JERSEY (HOME)",
+          displayTitle: "IHOCAIHAG \u201cNothing Beats An Original\u201d\n#80 Basketball Jersey (Home)",
+          category: "Teal Home",
+          price: "$80.00",
+          billingInterval: "One-time",
+          status: "GEN 2 / WAVE 1",
+          description: oc80JerseyDescription,
+          benefits: [],
+          buttonLabel: "Buy Teal Home - $80",
+          buttonHref: "#",
+          stripePriceId: "",
+          imageSrc: asset("store-oc80-home-jersey.png"),
+          imageAlt: "Teal Home OC #80 IHOCAIHAG basketball jersey showing the front, back, and stitched hem patch",
+          imageFit: "contain",
+          featured: true
+        },
+        {
+          id: "oc80-jersey-away",
+          key: "oc80_jersey_away",
+          name: "IHOCAIHAG \u201cNOTHING BEATS AN ORIGINAL\u201d #80 BASKETBALL JERSEY (AWAY)",
+          displayTitle: "IHOCAIHAG \u201cNothing Beats An Original\u201d\n#80 Basketball Jersey (Away)",
+          category: "White Away",
+          price: "$80.00",
+          billingInterval: "One-time",
+          status: "GEN 2 / WAVE 1",
+          description: oc80JerseyDescription,
+          benefits: [],
+          buttonLabel: "Buy White Away - $80",
+          buttonHref: "#",
+          stripePriceId: "",
+          imageSrc: asset("store-oc80-away-jersey.png"),
+          imageAlt: "White Away OC #80 IHOCAIHAG basketball jersey showing the front, back, and stitched hem patch",
+          imageFit: "contain",
+          featured: true
+        },
         {
           id: "og-crack-pack",
           key: "og_crack_pack",

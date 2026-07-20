@@ -133,6 +133,9 @@ function checkoutMetadata(product, body) {
     physical_shipping_required: String(product.physical),
     grants_trap_pass: String(product.grantsTrapPass),
     trap_pass_tier: product.trapPassTier || "",
+    release: product.release || "",
+    variant: product.variant || "",
+    edition_size: product.editionSize ? String(product.editionSize) : "",
     source: "ihocaihag_site",
     stripe_connect: "false"
   };

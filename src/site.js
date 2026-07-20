@@ -797,15 +797,18 @@
   function renderStore() {
     const page = content.storeContent || {};
     const products = page.products || [];
+    const featuredProducts = products.filter((product) => product.featured === true);
+    const catalogProducts = products.filter((product) => product.featured !== true);
     return `
       ${renderHero(page.hero)}
       <section class="section compact" id="drop-table">
         <div class="container">
-          ${sectionHeader(ui.sections?.dropTable)}
+          ${sectionHeader(page.featuredDrop || ui.sections?.dropTable)}
           <div class="checkout-status" data-checkout-status></div>
-          <div class="grid product-grid">
-            ${products.map(renderProductCard).join("")}
+          <div class="grid product-grid product-grid-featured">
+            ${featuredProducts.map(renderProductCard).join("")}
           </div>
+          ${catalogProducts.length ? `<div class="store-catalog-header">${sectionHeader(page.catalogHeader || ui.sections?.dropTable)}</div><div class="grid product-grid">${catalogProducts.map(renderProductCard).join("")}</div>` : ""}
         </div>
       </section>
       <section class="section compact">
@@ -818,7 +821,7 @@
     const title = product.displayTitle || product.name;
     const benefits = Array.isArray(product.benefits) ? product.benefits.filter(Boolean) : [];
     return `
-      <article class="product-card" id="${attr(product.id)}">
+      <article class="product-card${product.featured ? " is-featured" : ""}" id="${attr(product.id)}">
         <div class="product-media${product.imageFit === "contain" ? " is-contain" : ""}">
           ${product.imageSrc ? `<img src="${attr(product.imageSrc)}" alt="${attr(product.imageAlt || product.name || placeholders.imageSlot || "IMAGE SLOT")}" loading="lazy" onerror="this.closest('.product-media').innerHTML='<div class=&quot;image-slot&quot;>${attr(placeholders.imageSlot || "IMAGE SLOT")}</div>'" />` : `<div class="image-slot">${esc(placeholders.imageSlot || "IMAGE SLOT")}</div>`}
         </div>

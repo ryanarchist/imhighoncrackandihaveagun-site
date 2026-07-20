@@ -4,6 +4,8 @@ export const CHECKOUT_SUCCESS_URL =
 export const CHECKOUT_CANCEL_URL = "https://imhighoncrackandihaveagun.com/store/";
 
 export const REQUIRED_ENV_LINES = [
+  "STRIPE_PRICE_OC80_JERSEY_HOME",
+  "STRIPE_PRICE_OC80_JERSEY_AWAY",
   "STRIPE_PRICE_OG_CRACK_PACK",
   "STRIPE_PRICE_RAW_DOC_PREORDER",
   "STRIPE_PRICE_BLACK_TEE",
@@ -12,7 +14,52 @@ export const REQUIRED_ENV_LINES = [
   "STRIPE_PRICE_CASH_FOR_TRASH_MONTHLY"
 ];
 
+const OC80_JERSEY_DESCRIPTION =
+  "The official GEN 2 WAVE 1 Trap Pass release: the OC #80 IHOCAIHAG Basketball Jersey. Only 80 will ever be made\u201440 Teal Home and 40 White Away. Each new Trap Pass wave unlocks one exclusive merch drop, and this is the first. Built from breathable athletic mesh with distressed chalk graphics, a stamped #80 badge, \u201cNOTHING BEATS AN ORIGINAL\u201d back design, custom neck label and stitched hem patch. Once all 80 are gone, this wave is closed.";
+
 export const STRIPE_PRODUCTS = [
+  {
+    key: "oc80_jersey_home",
+    envName: "STRIPE_PRICE_OC80_JERSEY_HOME",
+    lookupKey: "oc80_jersey_home",
+    name: "IHOCAIHAG \u201cNOTHING BEATS AN ORIGINAL\u201d #80 BASKETBALL JERSEY (HOME)",
+    description: OC80_JERSEY_DESCRIPTION,
+    unitAmount: 8000,
+    currency: "usd",
+    mode: "payment",
+    recurringInterval: null,
+    physical: true,
+    quantityMin: 1,
+    quantityMax: 1,
+    fulfillment: "physical_limited_jersey",
+    grantsTrapPass: false,
+    access: "gen2_wave1_merch_drop",
+    release: "GEN 2 WAVE 1",
+    variant: "Teal Home",
+    editionSize: 40,
+    imagePath: "/assets/trap-house/store-oc80-home-jersey.png"
+  },
+  {
+    key: "oc80_jersey_away",
+    envName: "STRIPE_PRICE_OC80_JERSEY_AWAY",
+    lookupKey: "oc80_jersey_away",
+    name: "IHOCAIHAG \u201cNOTHING BEATS AN ORIGINAL\u201d #80 BASKETBALL JERSEY (AWAY)",
+    description: OC80_JERSEY_DESCRIPTION,
+    unitAmount: 8000,
+    currency: "usd",
+    mode: "payment",
+    recurringInterval: null,
+    physical: true,
+    quantityMin: 1,
+    quantityMax: 1,
+    fulfillment: "physical_limited_jersey",
+    grantsTrapPass: false,
+    access: "gen2_wave1_merch_drop",
+    release: "GEN 2 WAVE 1",
+    variant: "White Away",
+    editionSize: 40,
+    imagePath: "/assets/trap-house/store-oc80-away-jersey.png"
+  },
   {
     key: "og_crack_pack",
     envName: "STRIPE_PRICE_OG_CRACK_PACK",
@@ -219,6 +266,9 @@ export function productMetadata(product) {
     physical_shipping_required: String(product.physical),
     grants_trap_pass: String(product.grantsTrapPass),
     trap_pass_tier: product.trapPassTier || "",
+    release: product.release || "",
+    variant: product.variant || "",
+    edition_size: product.editionSize ? String(product.editionSize) : "",
     direct_checkout_only: "true",
     stripe_connect: "false"
   };
