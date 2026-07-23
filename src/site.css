@@ -386,6 +386,65 @@ p {
   margin-top: 24px;
 }
 
+.thread-sequence-nav {
+  display: grid;
+  grid-template-columns: 46px minmax(126px, auto) 46px;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  margin-top: 12px;
+}
+
+.thread-sequence-arrow {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border: 1px solid rgba(226, 58, 63, 0.68);
+  border-radius: 6px;
+  background: rgba(3, 3, 3, 0.78);
+  color: var(--paper);
+  text-decoration: none;
+  transition: border-color 150ms ease, background-color 150ms ease, transform 150ms ease;
+}
+
+.thread-sequence-arrow span {
+  font-family: Arial, sans-serif;
+  font-size: 30px;
+  line-height: 1;
+}
+
+.thread-sequence-arrow:hover,
+.thread-sequence-arrow:focus-visible {
+  border-color: var(--blood-hot);
+  background: rgba(184, 23, 32, 0.78);
+  transform: translateY(-1px);
+}
+
+.thread-sequence-position {
+  display: grid;
+  place-items: center;
+  min-height: 46px;
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: rgba(3, 3, 3, 0.78);
+  color: var(--paper-soft);
+  font-family: var(--typewriter);
+  font-size: 12px;
+  line-height: 1.2;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.thread-sequence-section {
+  border-top: 1px solid var(--line);
+}
+
+.thread-sequence-nav.is-footer {
+  margin: 0 auto;
+}
+
 .button {
   min-width: 132px;
   cursor: pointer;
@@ -1380,6 +1439,17 @@ p {
   .cta-row {
     display: grid;
     grid-template-columns: 1fr;
+  }
+
+  .thread-sequence-nav {
+    grid-template-columns: 48px minmax(112px, 1fr) 48px;
+    width: min(100%, 280px);
+    margin-top: 14px;
+  }
+
+  .thread-sequence-arrow {
+    width: 48px;
+    height: 48px;
   }
 
   .button {

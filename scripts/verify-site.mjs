@@ -79,6 +79,21 @@ for (const match of sitemapXml.matchAll(/<loc>https:\/\/imhighoncrackandihaveagu
   if (!localTargetExists(match[1] || "/")) fail(sitemap, `missing route shell for ${match[1] || "/"}`);
 }
 
+const siteRuntime = path.join(root, "src", "site.js");
+const siteRuntimeSource = fs.readFileSync(siteRuntime, "utf8");
+if (!siteRuntimeSource.includes("renderThreadSequenceNav")) {
+  fail(siteRuntime, "thread detail pages must render direct previous/next navigation");
+}
+if (!siteRuntimeSource.includes('rel="prev"') || !siteRuntimeSource.includes('rel="next"')) {
+  fail(siteRuntime, "thread detail navigation must identify previous and next routes");
+}
+
+const siteStyles = path.join(root, "src", "site.css");
+const siteStylesSource = fs.readFileSync(siteStyles, "utf8");
+if (!siteStylesSource.includes(".thread-sequence-nav")) {
+  fail(siteStyles, "thread detail previous/next navigation is missing responsive styles");
+}
+
 if (failures.length) {
   console.error(`Site verification failed with ${failures.length} issue(s):`);
   for (const failure of failures) console.error(`- ${failure}`);

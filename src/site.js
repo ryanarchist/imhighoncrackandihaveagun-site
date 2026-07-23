@@ -163,6 +163,7 @@
                 ${hero.ctaSecondaryLabel ? button(hero.ctaSecondaryLabel, hero.ctaSecondaryHref, false) : ""}
               </div>
             ` : ""}
+            ${hero.sequenceNavigation || ""}
             ${socialButtons(hero.socialLinks, "hero-social-links")}
           </div>
         </div>
@@ -563,6 +564,37 @@
     return threads.find((thread) => thread.slug === slug) || null;
   }
 
+  function renderThreadSequenceNav(thread, placement = "hero") {
+    const threads = content.threadContent?.threads || content.mapContent?.threads || [];
+    const currentIndex = threads.findIndex((item) => item.slug === thread?.slug);
+    if (currentIndex < 0 || threads.length < 2) return "";
+
+    const previous = threads[(currentIndex - 1 + threads.length) % threads.length];
+    const next = threads[(currentIndex + 1) % threads.length];
+    const previousLabel = `Previous thread: ${previous.title}`;
+    const nextLabel = `Next thread: ${next.title}`;
+
+    return `
+      <nav class="thread-sequence-nav is-${attr(placement)}" aria-label="Thread navigation">
+        <a
+          class="thread-sequence-arrow"
+          href="/threads/${attr(previous.slug)}/"
+          rel="prev"
+          aria-label="${attr(previousLabel)}"
+          title="${attr(previousLabel)}"
+        ><span aria-hidden="true">&#8592;</span></a>
+        <span class="thread-sequence-position">Thread ${esc(thread.number || currentIndex + 1)} of ${threads.length}</span>
+        <a
+          class="thread-sequence-arrow"
+          href="/threads/${attr(next.slug)}/"
+          rel="next"
+          aria-label="${attr(nextLabel)}"
+          title="${attr(nextLabel)}"
+        ><span aria-hidden="true">&#8594;</span></a>
+      </nav>
+    `;
+  }
+
   function renderThreadDetail() {
     const page = content.threadContent || {};
     const slug = threadSlugFromLocation();
@@ -591,7 +623,8 @@
       ctaPrimaryLabel: "Back To Map",
       ctaPrimaryHref: "/map/",
       ctaSecondaryLabel: "Watch Official Drops",
-      ctaSecondaryHref: "/drops/"
+      ctaSecondaryHref: "/drops/",
+      sequenceNavigation: renderThreadSequenceNav(thread)
     };
     return `
       ${renderHero(hero)}
@@ -636,6 +669,11 @@
           </div>
         </section>
       ` : ""}
+      <section class="section compact thread-sequence-section">
+        <div class="container">
+          ${renderThreadSequenceNav(thread, "footer")}
+        </div>
+      </section>
     `;
   }
 
