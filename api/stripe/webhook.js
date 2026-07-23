@@ -493,7 +493,8 @@ module.exports = async function handler(req, res) {
         await handleCheckoutFailure(stripe, catalog, event.data.object.id, "failed");
         break;
       case "checkout.session.expired":
-        await handleCheckoutFailure(stripe, catalog, event.data.object.id, "expired");
+        // An expired session is an abandoned checkout, not an order to fulfill.
+        // Recording the event is enough; Stripe should receive a successful acknowledgement.
         break;
       case "customer.subscription.created":
       case "customer.subscription.updated":

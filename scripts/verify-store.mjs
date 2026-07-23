@@ -145,6 +145,10 @@ check(webhookSource.includes("product.checkoutEnabled === false"), "Webhook fulf
 check(webhookSource.includes("checkout.session.async_payment_succeeded"), "Webhook must handle delayed payment success.");
 check(webhookSource.includes("checkout.session.async_payment_failed"), "Webhook must handle delayed payment failure.");
 check(webhookSource.includes("checkout.session.expired"), "Webhook must handle expired Checkout Sessions.");
+check(
+  !/case "checkout\.session\.expired":\s*await handleCheckoutFailure/.test(webhookSource),
+  "Expired Checkout Sessions must be acknowledged without creating abandoned orders."
+);
 check(webhookSource.includes('payment_status: fullyRefunded ? "refunded" : "partially_refunded"'), "Webhook must distinguish full and partial refunds.");
 
 const schemaSource = fs.readFileSync(path.join(root, "supabase/stripe_checkout_schema.sql"), "utf8");
