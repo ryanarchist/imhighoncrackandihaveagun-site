@@ -2,6 +2,11 @@ const path = require("path");
 const { pathToFileURL } = require("url");
 const Stripe = require("stripe");
 const { notifyTrapPassSignup } = require("../_utils/trapPassNotifications");
+const {
+  deactivateTrapPassPromotionCode,
+  ensureTrapPassPromotionCode,
+  isActiveStatus
+} = require("../_utils/trapPassPromotions");
 
 async function loadCatalog() {
   const catalogPath = path.join(__dirname, "..", "..", "scripts", "stripe", "products.mjs");
@@ -130,6 +135,19 @@ async function nextTrapPassSerial(prefix) {
 
 function normalizeEmail(value) {
   return String(value || "").trim().toLowerCase();
+}
+
+async function syncTrapPassPromotion(stripe, serial, status, details = {}) {
+  if (!serial) return;
+  try {
+    if (isActiveStatus(status)) {
+      await ensureTrapPassPromotionCode(stripe, serial, details);
+    } else {
+      await deactivateTrapPassPromotionCode(stripe, serial);
+    }
+  } catch (error) {
+    console.warn(`Trap Pass promotion sync failed for ${serial}:`, error.message);
+  }
 }
 
 function statusFromSubscription(subscription) {
@@ -304,6 +322,17 @@ async function handleCheckoutCompleted(stripe, catalog, sessionId, statusOverrid
       updated_at: new Date().toISOString()
     }, "stripe_checkout_session_id");
 
+    await syncTrapPassPromotion(
+      stripe,
+      trapPassSerial,
+      product.mode === "subscription" ? statusFromSubscription(subscription) : "active",
+      {
+        source: "stripe_checkout",
+        tier: product.trapPassTier || product.name,
+        productKey: product.key
+      }
+    );
+
     if (newlyGrantedTrapPass && customerEmail) {
       try {
         await notifyTrapPassSignup({
@@ -324,14 +353,15 @@ async function handleCheckoutCompleted(stripe, catalog, sessionId, statusOverrid
   }
 
   if (subscription) {
-    await upsertSubscription(subscription, customerEmail, product);
+    await upsertSubscription(stripe, subscription, customerEmail, product);
   }
 }
 
-async function upsertSubscription(subscription, customerEmail = "", product = null) {
+async function upsertSubscription(stripe, subscription, customerEmail = "", product = null) {
   const currentPeriodEnd = subscription.current_period_end
     ? new Date(subscription.current_period_end * 1000).toISOString()
     : null;
+  const subscriptionStatus = statusFromSubscription(subscription);
 
   await upsertRow("stripe_subscriptions", {
     stripe_subscription_id: subscription.id,
@@ -339,21 +369,28 @@ async function upsertSubscription(subscription, customerEmail = "", product = nu
     customer_email: normalizeEmail(customerEmail) || null,
     product_key: product?.key || subscription.metadata?.product_key || null,
     lookup_key: product?.lookupKey || subscription.metadata?.lookup_key || null,
-    status: statusFromSubscription(subscription),
+    status: subscriptionStatus,
     current_period_end: currentPeriodEnd,
     cancel_at_period_end: Boolean(subscription.cancel_at_period_end),
     raw_subscription: subscription,
     updated_at: new Date().toISOString()
   }, "stripe_subscription_id");
 
-  await patchRows(
+  const entitlements = await patchRows(
     "stripe_trap_pass_entitlements",
     `stripe_subscription_id=eq.${encodeURIComponent(subscription.id)}`,
     {
-      status: statusFromSubscription(subscription),
+      status: subscriptionStatus,
       updated_at: new Date().toISOString()
     }
   );
+  for (const entitlement of Array.isArray(entitlements) ? entitlements : []) {
+    await syncTrapPassPromotion(stripe, entitlement.serial_number, subscriptionStatus, {
+      source: "stripe_subscription",
+      tier: entitlement.tier,
+      productKey: entitlement.product_key
+    });
+  }
 }
 
 async function handleSubscriptionEvent(stripe, catalog, subscription) {
@@ -362,7 +399,7 @@ async function handleSubscriptionEvent(stripe, catalog, subscription) {
     typeof subscription.customer === "string" ? subscription.customer : subscription.customer?.id
   );
   const product = catalog.getProductByKey(subscription.metadata?.product_key);
-  await upsertSubscription(subscription, customerEmail, product);
+  await upsertSubscription(stripe, subscription, customerEmail, product);
 }
 
 async function handleInvoiceEvent(stripe, catalog, invoice, fallbackStatus) {
@@ -377,7 +414,7 @@ async function handleInvoiceEvent(stripe, catalog, invoice, fallbackStatus) {
       typeof subscription.customer === "string" ? subscription.customer : subscription.customer?.id
     );
     const product = catalog.getProductByKey(subscription.metadata?.product_key);
-    await upsertSubscription(subscription, customerEmail, product);
+    await upsertSubscription(stripe, subscription, customerEmail, product);
     await patchRows(
       "stripe_subscriptions",
       `stripe_subscription_id=eq.${encodeURIComponent(subscriptionId)}`,
@@ -408,7 +445,7 @@ async function handleInvoiceEvent(stripe, catalog, invoice, fallbackStatus) {
   );
 }
 
-async function handleRefund(charge) {
+async function handleRefund(stripe, charge) {
   const paymentIntentId =
     typeof charge.payment_intent === "string" ? charge.payment_intent : charge.payment_intent?.id;
   if (!paymentIntentId) return;
@@ -428,11 +465,14 @@ async function handleRefund(charge) {
 
   const order = Array.isArray(orders) ? orders[0] : null;
   if (fullyRefunded && order?.id) {
-    await patchRows(
+    const entitlements = await patchRows(
       "stripe_trap_pass_entitlements",
       `order_id=eq.${encodeURIComponent(order.id)}`,
       { status: "refunded", updated_at: new Date().toISOString() }
     );
+    for (const entitlement of Array.isArray(entitlements) ? entitlements : []) {
+      await syncTrapPassPromotion(stripe, entitlement.serial_number, "refunded");
+    }
   }
 }
 
@@ -511,7 +551,7 @@ module.exports = async function handler(req, res) {
       case "payment_intent.payment_failed":
         break;
       case "charge.refunded":
-        await handleRefund(event.data.object);
+        await handleRefund(stripe, event.data.object);
         break;
       default:
         break;

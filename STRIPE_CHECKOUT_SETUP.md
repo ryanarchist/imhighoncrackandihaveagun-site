@@ -100,6 +100,18 @@ https://imhighoncrackandihaveagun.com/api/stripe/webhook
 
 Stripe must send events to `/api/stripe/webhook`, not the homepage.
 
+## Trap Pass Holder Discount
+
+Every active Trap Pass card serial is registered as a Stripe Promotion Code for
+10% off. The customer enters the displayed card serial, such as `NB-0100`,
+`HS-0001`, or `CFT-0001`, in Stripe Checkout's promotion-code field.
+
+- Each serial can be redeemed once.
+- Free claims and paid Trap Pass issuance register codes automatically.
+- Checkout performs a server-side backfill so existing active serials are covered.
+- Refunded, canceled, or otherwise inactive paid entitlements have their codes disabled.
+- `STRIPE_TRAP_PASS_COUPON_ID` can override the default shared coupon ID.
+
 ## Static Launch Guard
 
 GitHub Pages can publish the site, but it cannot run `/api/stripe/*`. The current public build keeps checkout buttons disabled until the app is deployed on a serverless host such as Vercel or Netlify with the secrets above.

@@ -15,6 +15,7 @@ import {
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const require = createRequire(import.meta.url);
+const trapPassPromotions = require(path.join(root, "api/_utils/trapPassPromotions.js"));
 const failures = [];
 
 function check(condition, message) {
@@ -129,6 +130,53 @@ check(previewConfig.stripeCheckoutSessionEndpoint === "/api/stripe/create-checko
 check(previewConfig.trapPassClaimEndpoint === "/api/trap-pass/claim", "Vercel Preview Trap Pass claims must stay on the current deployment.");
 check(previewConfig.trapPassWalletEndpoint === "/api/trap-pass/wallet", "Vercel Preview Trap Pass wallet lookup must stay on the current deployment.");
 check(!("stripePublishableKey" in config), "Hosted Checkout does not need a browser Stripe publishable key.");
+check(
+  trapPassPromotions.freePassPromotionCode({ serial_number: 1 }) === "NB-0100",
+  "The first free Trap Pass must map to Stripe promotion code NB-0100."
+);
+check(
+  trapPassPromotions.normalizeTrapPassSerial(" hs-0007 ") === "HS-0007",
+  "Paid Trap Pass serials must preserve their displayed promotion-code format."
+);
+
+let createdCouponParams;
+let createdPromotionParams;
+const fakeStripeForPromotions = {
+  coupons: {
+    async retrieve() {
+      const error = new Error("missing");
+      error.code = "resource_missing";
+      error.statusCode = 404;
+      throw error;
+    },
+    async create(params) {
+      createdCouponParams = params;
+      return { ...params, valid: true };
+    }
+  },
+  promotionCodes: {
+    async list() {
+      return { data: [], has_more: false };
+    },
+    async create(params) {
+      createdPromotionParams = params;
+      return { id: "promo_test", code: params.code, active: true, ...params };
+    },
+    async update(id, params) {
+      return { id, ...params };
+    }
+  }
+};
+const promotionResult = await trapPassPromotions.ensureTrapPassPromotionCode(
+  fakeStripeForPromotions,
+  "NB-0100",
+  { source: "verification", tier: "Free Pass" }
+);
+check(createdCouponParams?.percent_off === 10, "Trap Pass coupon must grant exactly 10% off.");
+check(createdCouponParams?.duration === "once", "Trap Pass coupon must apply once to subscriptions.");
+check(createdPromotionParams?.code === "NB-0100", "Stripe promotion code must equal the displayed Trap Pass serial.");
+check(createdPromotionParams?.max_redemptions === 1, "Each Trap Pass serial must be redeemable only once.");
+check(promotionResult.ready === true, "Trap Pass promotion registration must report ready.");
 
 const checkoutSource = fs.readFileSync(path.join(root, "checkout.js"), "utf8");
 check(!checkoutSource.includes("data-stripe-price-id"), "Browser checkout must not contain Stripe Price IDs.");
@@ -136,6 +184,7 @@ check(checkoutSource.includes("Checkout Opening Soon"), "Closed checkout must ex
 
 const checkoutSessionSource = fs.readFileSync(path.join(root, "api/stripe/create-checkout-session.js"), "utf8");
 check(checkoutSessionSource.includes("custom_fields: checkoutCustomFields(product)"), "Jersey Checkout Sessions must collect the configured size field.");
+check(checkoutSessionSource.includes("syncTrapPassPromotionCodes"), "Checkout must backfill active Trap Pass promotion codes.");
 
 const siteSource = fs.readFileSync(path.join(root, "src/site.js"), "utf8");
 check(!siteSource.includes("filter((product) => product.checkoutEnabled !== false)"), "Store must list Trap Pass purchase options even when checkout is disabled.");
@@ -145,6 +194,7 @@ check(webhookSource.includes("product.checkoutEnabled === false"), "Webhook fulf
 check(webhookSource.includes("checkout.session.async_payment_succeeded"), "Webhook must handle delayed payment success.");
 check(webhookSource.includes("checkout.session.async_payment_failed"), "Webhook must handle delayed payment failure.");
 check(webhookSource.includes("checkout.session.expired"), "Webhook must handle expired Checkout Sessions.");
+check(webhookSource.includes("ensureTrapPassPromotionCode"), "Paid Trap Pass issuance must register the serial as a promotion code.");
 check(
   !/case "checkout\.session\.expired":\s*await handleCheckoutFailure/.test(webhookSource),
   "Expired Checkout Sessions must be acknowledged without creating abandoned orders."

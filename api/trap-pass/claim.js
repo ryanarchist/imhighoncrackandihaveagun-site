@@ -1,3 +1,4 @@
+const Stripe = require("stripe");
 const { handleCors } = require("../_utils/cors");
 const {
   cleanText,
@@ -6,6 +7,12 @@ const {
   notificationConfig,
   notifyTrapPassSignup
 } = require("../_utils/trapPassNotifications");
+const {
+  deactivateTrapPassPromotionCode,
+  ensureTrapPassPromotionCode,
+  freePassPromotionCode,
+  isActiveStatus
+} = require("../_utils/trapPassPromotions");
 
 function sendJson(res, status, body) {
   res.statusCode = status;
@@ -133,6 +140,24 @@ module.exports = async function handler(req, res) {
     });
     const pass = passFromResult(result);
     let notification = { sent: false, reason: "existing_pass" };
+    let discount = { ready: false, reason: "stripe_not_configured" };
+
+    if (pass && serverEnv("STRIPE_SECRET_KEY")) {
+      try {
+        const stripe = new Stripe(serverEnv("STRIPE_SECRET_KEY"));
+        const serial = freePassPromotionCode(pass);
+        discount = isActiveStatus(pass.status)
+          ? await ensureTrapPassPromotionCode(
+            stripe,
+            serial,
+            { source: "free_claim", tier: "Free Pass" }
+          )
+          : await deactivateTrapPassPromotionCode(stripe, serial);
+      } catch (error) {
+        console.warn("Trap Pass discount registration failed:", error.message);
+        discount = { ready: false, reason: "registration_failed" };
+      }
+    }
 
     if (pass && !result.existed) {
       try {
@@ -156,7 +181,8 @@ module.exports = async function handler(req, res) {
     return sendJson(res, 200, {
       ...result,
       ok: true,
-      notificationSent: Boolean(notification.sent)
+      notificationSent: Boolean(notification.sent),
+      trapPassDiscountReady: Boolean(discount.ready)
     });
   } catch (error) {
     console.error("Trap Pass claim failed:", error.message);

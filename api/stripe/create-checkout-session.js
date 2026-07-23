@@ -2,6 +2,7 @@ const path = require("path");
 const { pathToFileURL } = require("url");
 const Stripe = require("stripe");
 const { handleCors } = require("../_utils/cors");
+const { syncTrapPassPromotionCodes } = require("../_utils/trapPassPromotions");
 
 async function loadCatalog() {
   const catalogPath = path.join(__dirname, "..", "..", "scripts", "stripe", "products.mjs");
@@ -214,6 +215,12 @@ module.exports = async function handler(req, res) {
 
     const stripe = new Stripe(secretKey);
     const price = await resolvePrice(stripe, product, catalog.priceMatchesProduct);
+
+    try {
+      await syncTrapPassPromotionCodes(stripe, supabaseServerConfig());
+    } catch (error) {
+      console.warn("Trap Pass promotion sync failed:", error.message);
+    }
 
     const customerEmail = cleanEmail(body.email);
     const metadata = checkoutMetadata(product, body);
