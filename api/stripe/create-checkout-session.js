@@ -2,6 +2,10 @@ const path = require("path");
 const { pathToFileURL } = require("url");
 const Stripe = require("stripe");
 const { handleCors } = require("../_utils/cors");
+const {
+  DOCUMENTARY_PRODUCT_KEY,
+  documentaryNotificationConfig
+} = require("../_utils/orderNotifications");
 const { syncTrapPassPromotionCodes } = require("../_utils/trapPassPromotions");
 
 async function loadCatalog() {
@@ -198,6 +202,15 @@ module.exports = async function handler(req, res) {
 
     if (product.checkoutEnabled === false) {
       return sendJson(res, 409, { error: "product_unavailable" });
+    }
+    if (
+      product.key === DOCUMENTARY_PRODUCT_KEY
+      && !documentaryNotificationConfig().configured
+    ) {
+      return sendJson(res, 503, {
+        error: "documentary_confirmation_not_ready",
+        message: "Documentary preorder confirmation email is not ready."
+      });
     }
     const quantity = body.quantity == null ? product.quantityMin : Number(body.quantity);
 

@@ -100,6 +100,31 @@ https://imhighoncrackandihaveagun.com/api/stripe/webhook
 
 Stripe must send events to `/api/stripe/webhook`, not the homepage.
 
+## Documentary Preorder Confirmation
+
+After Stripe confirms payment for `raw_doc_preorder`, the webhook sends the
+customer a Resend email containing:
+
+- A stable `DOC-...` verification reference tied to the Checkout Session.
+- The purchaser email, product, quantity, and amount paid.
+- A statement that the email is proof of preorder and first-day access.
+- Notice that release/access instructions will go to the same email address.
+
+Documentary checkout fails closed if Resend is not configured. Delivery errors
+fail the webhook so Stripe retries them. The request uses a Resend idempotency
+key based on the Checkout Session so retries do not send duplicate confirmations.
+
+Required or inherited deployment values:
+
+```text
+RESEND_API_KEY=
+DOCUMENTARY_CONFIRMATION_FROM=
+DOCUMENTARY_CONFIRMATION_REPLY_TO=
+```
+
+`DOCUMENTARY_CONFIRMATION_FROM` falls back to `RESEND_FROM` and then
+`TRAP_PASS_NOTIFY_FROM`, so the existing verified sender can be reused.
+
 ## Trap Pass Holder Discount
 
 Every active Trap Pass card serial is registered as a Stripe Promotion Code for

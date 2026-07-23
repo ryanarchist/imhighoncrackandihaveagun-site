@@ -15,6 +15,7 @@ import {
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const require = createRequire(import.meta.url);
+const orderNotifications = require(path.join(root, "api/_utils/orderNotifications.js"));
 const trapPassPromotions = require(path.join(root, "api/_utils/trapPassPromotions.js"));
 const failures = [];
 
@@ -178,6 +179,85 @@ check(createdPromotionParams?.code === "NB-0100", "Stripe promotion code must eq
 check(createdPromotionParams?.max_redemptions === 1, "Each Trap Pass serial must be redeemable only once.");
 check(promotionResult.ready === true, "Trap Pass promotion registration must report ready.");
 
+const documentarySessionId = "cs_live_documentary_verification";
+const documentaryReference = orderNotifications.documentaryPreorderReference(documentarySessionId);
+check(/^DOC-[A-F0-9]{12}$/.test(documentaryReference), "Documentary preorder reference must use the approved DOC format.");
+check(
+  documentaryReference === orderNotifications.documentaryPreorderReference(documentarySessionId),
+  "Documentary preorder reference must be stable for the same Checkout Session."
+);
+
+const documentaryEnvNames = [
+  "RESEND_API_KEY",
+  "RESEND_FROM",
+  "TRAP_PASS_NOTIFY_FROM",
+  "TRAP_PASS_NOTIFY_TO",
+  "DOCUMENTARY_CONFIRMATION_FROM",
+  "DOCUMENTARY_CONFIRMATION_REPLY_TO"
+];
+const savedDocumentaryEnv = Object.fromEntries(
+  documentaryEnvNames.map((name) => [name, process.env[name]])
+);
+const savedDocumentaryFetch = globalThis.fetch;
+let documentaryEmailRequest;
+try {
+  process.env.RESEND_API_KEY = "re_verifier";
+  process.env.TRAP_PASS_NOTIFY_FROM = "IHOCAIHAG Trap Pass <trap-pass@example.com>";
+  process.env.TRAP_PASS_NOTIFY_TO = "archive@example.com";
+  delete process.env.RESEND_FROM;
+  delete process.env.DOCUMENTARY_CONFIRMATION_FROM;
+  delete process.env.DOCUMENTARY_CONFIRMATION_REPLY_TO;
+  globalThis.fetch = async (url, options) => {
+    documentaryEmailRequest = { url, options };
+    return {
+      ok: true,
+      status: 200,
+      async text() {
+        return JSON.stringify({ id: "email_documentary_verifier" });
+      }
+    };
+  };
+
+  const documentaryEmailResult = await orderNotifications.sendDocumentaryPreorderConfirmation({
+    productKey: "raw_doc_preorder",
+    productName: "RAW DOCUMENTARY preorder 1st day access",
+    customerEmail: "viewer@example.com",
+    checkoutSessionId: documentarySessionId,
+    amountTotal: 999,
+    currency: "usd",
+    quantity: 1
+  });
+  const documentaryEmailBody = JSON.parse(documentaryEmailRequest?.options?.body || "{}");
+  check(documentaryEmailResult.sent === true, "Paid documentary preorder must send a customer confirmation.");
+  check(
+    documentaryEmailRequest?.url === "https://api.resend.com/emails",
+    "Documentary confirmation must use the Resend email endpoint."
+  );
+  check(
+    documentaryEmailRequest?.options?.headers?.["Idempotency-Key"]
+      === `documentary-preorder/${documentarySessionId}`,
+    "Documentary confirmation must be idempotent per Checkout Session."
+  );
+  check(
+    documentaryEmailBody.to?.[0] === "viewer@example.com",
+    "Documentary confirmation must be addressed to the purchaser."
+  );
+  check(
+    documentaryEmailBody.subject?.includes(documentaryReference),
+    "Documentary confirmation subject must include the verification reference."
+  );
+  check(
+    documentaryEmailBody.text?.includes("This email is your verification for first-day documentary access."),
+    "Documentary confirmation must identify itself as the customer's access verification."
+  );
+} finally {
+  globalThis.fetch = savedDocumentaryFetch;
+  for (const [name, value] of Object.entries(savedDocumentaryEnv)) {
+    if (value == null) delete process.env[name];
+    else process.env[name] = value;
+  }
+}
+
 const checkoutSource = fs.readFileSync(path.join(root, "checkout.js"), "utf8");
 check(!checkoutSource.includes("data-stripe-price-id"), "Browser checkout must not contain Stripe Price IDs.");
 check(checkoutSource.includes("Checkout Opening Soon"), "Closed checkout must explain its state on the product button.");
@@ -185,6 +265,10 @@ check(checkoutSource.includes("Checkout Opening Soon"), "Closed checkout must ex
 const checkoutSessionSource = fs.readFileSync(path.join(root, "api/stripe/create-checkout-session.js"), "utf8");
 check(checkoutSessionSource.includes("custom_fields: checkoutCustomFields(product)"), "Jersey Checkout Sessions must collect the configured size field.");
 check(checkoutSessionSource.includes("syncTrapPassPromotionCodes"), "Checkout must backfill active Trap Pass promotion codes.");
+check(
+  checkoutSessionSource.includes("documentary_confirmation_not_ready"),
+  "Documentary checkout must fail closed when customer confirmation email is not configured."
+);
 
 const siteSource = fs.readFileSync(path.join(root, "src/site.js"), "utf8");
 check(!siteSource.includes("filter((product) => product.checkoutEnabled !== false)"), "Store must list Trap Pass purchase options even when checkout is disabled.");
@@ -195,6 +279,10 @@ check(webhookSource.includes("checkout.session.async_payment_succeeded"), "Webho
 check(webhookSource.includes("checkout.session.async_payment_failed"), "Webhook must handle delayed payment failure.");
 check(webhookSource.includes("checkout.session.expired"), "Webhook must handle expired Checkout Sessions.");
 check(webhookSource.includes("ensureTrapPassPromotionCode"), "Paid Trap Pass issuance must register the serial as a promotion code.");
+check(
+  webhookSource.includes("sendDocumentaryPreorderConfirmation"),
+  "Paid documentary fulfillment must send the purchaser a confirmation email."
+);
 check(
   !/case "checkout\.session\.expired":\s*await handleCheckoutFailure/.test(webhookSource),
   "Expired Checkout Sessions must be acknowledged without creating abandoned orders."
@@ -207,7 +295,15 @@ for (const table of ["stripe_events", "stripe_orders", "stripe_subscriptions", "
   check(schemaSource.includes(`revoke all on public.${table} from anon, authenticated`), `${table} must revoke direct browser roles.`);
 }
 
-const envNames = ["STRIPE_SECRET_KEY", "STRIPE_WEBHOOK_SECRET", "SUPABASE_URL", "SUPABASE_SECRET_KEY", "SUPABASE_SERVICE_ROLE_KEY", "ALLOW_TEST_STRIPE_CHECKOUT"];
+const envNames = [
+  "STRIPE_SECRET_KEY",
+  "STRIPE_WEBHOOK_SECRET",
+  "SUPABASE_URL",
+  "SUPABASE_SECRET_KEY",
+  "SUPABASE_SERVICE_ROLE_KEY",
+  "ALLOW_TEST_STRIPE_CHECKOUT",
+  ...documentaryEnvNames
+];
 const savedEnv = Object.fromEntries(envNames.map((name) => [name, process.env[name]]));
 const savedFetch = globalThis.fetch;
 for (const name of envNames) delete process.env[name];
@@ -257,6 +353,24 @@ try {
   check(JSON.parse(testModeCheckoutResponse.body).error === "live_stripe_required", "Test-mode Checkout Session endpoint returned the wrong error.");
 
   process.env.ALLOW_TEST_STRIPE_CHECKOUT = "1";
+
+  const documentaryNotReadyResponse = mockResponse();
+  await checkoutHandler(
+    {
+      method: "POST",
+      headers: {},
+      body: { productKey: "raw_doc_preorder", quantity: 1 }
+    },
+    documentaryNotReadyResponse
+  );
+  check(
+    documentaryNotReadyResponse.statusCode === 503,
+    "Documentary Checkout must stay closed when customer confirmation email is unconfigured."
+  );
+  check(
+    JSON.parse(documentaryNotReadyResponse.body).error === "documentary_confirmation_not_ready",
+    "Unconfigured documentary confirmation returned the wrong Checkout error."
+  );
 
   const unknownProductResponse = mockResponse();
   await checkoutHandler({ method: "POST", headers: {}, body: { productKey: "not_a_product", quantity: 1 } }, unknownProductResponse);

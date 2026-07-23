@@ -1,6 +1,10 @@
 const path = require("path");
 const { pathToFileURL } = require("url");
 const Stripe = require("stripe");
+const {
+  DOCUMENTARY_PRODUCT_KEY,
+  sendDocumentaryPreorderConfirmation
+} = require("../_utils/orderNotifications");
 const { notifyTrapPassSignup } = require("../_utils/trapPassNotifications");
 const {
   deactivateTrapPassPromotionCode,
@@ -306,6 +310,21 @@ async function handleCheckoutCompleted(stripe, catalog, sessionId, statusOverrid
     raw_session: session,
     updated_at: new Date().toISOString()
   }, "stripe_checkout_session_id");
+
+  if (product.key === DOCUMENTARY_PRODUCT_KEY && accessStatus === "granted") {
+    const confirmation = await sendDocumentaryPreorderConfirmation({
+      productKey: product.key,
+      productName: product.name,
+      customerEmail,
+      checkoutSessionId: session.id,
+      amountTotal: session.amount_total,
+      currency: session.currency,
+      quantity: firstLineItem?.quantity || 1
+    });
+    if (!confirmation.sent) {
+      throw new Error(`Documentary preorder confirmation was not sent: ${confirmation.reason}`);
+    }
+  }
 
   if (product.grantsTrapPass && trapPassSerial) {
     await upsertRow("stripe_trap_pass_entitlements", {

@@ -2,6 +2,7 @@ const path = require("path");
 const { pathToFileURL } = require("url");
 const Stripe = require("stripe");
 const { handleCors } = require("../_utils/cors");
+const { documentaryNotificationConfig } = require("../_utils/orderNotifications");
 
 async function loadCatalog() {
   const catalogPath = path.join(__dirname, "..", "..", "scripts", "stripe", "products.mjs");
@@ -110,6 +111,7 @@ module.exports = async function handler(req, res) {
   const stripeSecret = serverEnv("STRIPE_SECRET_KEY");
   const mode = stripeMode(stripeSecret);
   const liveModeRequired = mode === "test" && !testCheckoutAllowed();
+  const documentaryConfirmation = documentaryNotificationConfig();
   let unavailableProducts = [];
   let schemaReady = false;
 
@@ -133,6 +135,8 @@ module.exports = async function handler(req, res) {
     missing,
     liveModeRequired,
     unavailableProducts,
-    schemaReady
+    schemaReady,
+    documentaryConfirmationReady: documentaryConfirmation.configured,
+    documentaryConfirmationMissing: documentaryConfirmation.missing
   });
 };
