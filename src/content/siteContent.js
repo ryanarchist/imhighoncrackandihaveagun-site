@@ -455,6 +455,7 @@
         about: { title: `About | ${projectShortName}`, description: "This is not a recovery commercial.", canonicalUrl: `${siteUrl}/about/` },
         book: { title: `Book | ${projectShortName}`, description: "A story you won’t believe you read until you see the receipts.", canonicalUrl: `${siteUrl}/book/` },
         documentary: { title: `Documentary | ${projectShortName}`, description: "Six years of footage recorded from inside active addiction.", canonicalUrl: `${siteUrl}/documentary/`, ogImage: asset("documentary-cover-approved.png"), twitterImage: asset("documentary-cover-approved.png") },
+        soundtrack: { title: `Soundtrack | ${projectShortName}`, description: "One song for every chapter, built with artists from the community forming around the project.", canonicalUrl: `${siteUrl}/soundtrack/`, ogImage: asset("soundtrack-hero.png"), twitterImage: asset("soundtrack-hero.png") },
         "my-pass": { title: `My Pass | ${projectShortName}`, description: "Look up and view your Trap Pass.", canonicalUrl: `${siteUrl}/my-pass/` },
         pass: { title: `Public Pass | ${projectShortName}`, description: "Public Trap Pass view.", canonicalUrl: `${siteUrl}/pass/` },
         "thread-detail": { title: `Thread | ${projectShortName}`, description: "A foundational thread inside the IHOCAIHAG map.", canonicalUrl: `${siteUrl}/threads/` },
