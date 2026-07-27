@@ -395,6 +395,7 @@
         { label: "Thread Map", href: "/map/", page: "map" },
         { label: "Book", href: "/book/", page: "book" },
         { label: "Doc", href: "/documentary/", page: "documentary" },
+        { label: "Soundtrack", href: "/soundtrack/", page: "soundtrack" },
         { label: "Drops", href: "/drops/", page: "drops" },
         { label: "Trap Pass", href: "/trap-pass/", page: "trap-pass" },
         { label: "Trap House", href: "/trap-house/", page: "trap-house" },
@@ -1401,6 +1402,65 @@
           "It asks them to sit inside it long enough to recognize its rhythm, its logic, its ugliness, and the human being who still exists beneath it."
         ],
         closingStatement: "The book explains the larger story. The documentary makes you witness what that story actually looked and sounded like."
+      }
+    },
+
+    soundtrackContent: {
+      hero: {
+        eyebrow: "Soundtrack",
+        headline: "IHOCAIHAG: THE SOUNDTRACK",
+        body: "One song for every chapter, built with the people forming around this project.",
+        smallNote: "The music arm was never part of the plan. It became impossible to leave out.",
+        ctaPrimaryLabel: "Listen On Spotify",
+        ctaPrimaryHref: "https://open.spotify.com/artist/7GUAmAkkpLLESm0Fig1NWZ",
+        ctaSecondaryLabel: "Enter Trap House",
+        ctaSecondaryHref: "https://discord.gg/64MKTrGGsD",
+        imageSrc: asset("soundtrack-hero.png"),
+        imageAlt: "IHOCAIHAG The Soundtrack artwork featuring a masked figure on a bridge",
+        backgroundPosition: "right center",
+        backgroundSize: "auto 100%",
+        mobileBackgroundPosition: "center top",
+        mobileBackgroundSize: "cover"
+      },
+      origin: {
+        eyebrow: "How It Started",
+        headline: "THE SOUNDTRACK WAS NEVER PART OF THE PLAN",
+        imageSrc: asset("soundtrack-mixtape-cover.png"),
+        imageAlt: "Ryan Homanics presents IHOCAIHAG Remix Edition mixtape artwork",
+        body: [
+          "The music arm of this project was never part of the plan—not even slightly. Especially because I have never felt like I had any musical talent at all. Even so, music has always been the one thing I could count on through the darkest and loneliest periods of my life.",
+          "When I started chopping up short-form clips for social media, I immediately ran into a problem: I couldn’t use the music that actually fit because all the good shit was copyrighted. I also couldn’t post these kinds of trash videos with no music because they just didn’t flow. So I asked myself: if I could write a book, could I write a song?",
+          "However, I sure as fuck wasn’t using my tone-deaf voice to deliver the lyrics. So, with help from a friend, I started building an instrumental and wondered what it would sound like if AI delivered the words. The result was OG Crack Track, and people kept asking where they could find the song. Over and over again. It wasn’t until I released OG Scum Track next that I finally decided, fuck it—I guess this project is going to have a soundtrack too.",
+          "After getting a distributor, IHOCAIHAG became my musical persona. But I started feeling like if I built the entire soundtrack alone in the same way, it would eventually turn into some kind of crack-smoking human-disaster ego project. As the songs got bigger, though, so did the number of people reaching out who wanted to collaborate. The next step became clear as day, because the soundtrack was the perfect way to let this become what I have always wanted the entire project to eventually become."
+        ]
+      },
+      collaboration: {
+        eyebrow: "What It Is Becoming",
+        headline: "ONE SONG FOR EVERY CHAPTER",
+        body: [
+          "That means finding and connecting with people who carry the right energy and vibrations, then coming together to build this into whatever it needs to become on its own. Around the same time, the TRAP HOUSE Discord launched, and people with real-ass musical talent finally started coming together. They are giving me the honor of hearing my words delivered through the lungs of actual human beings who genuinely fuck with this project.",
+          "What I want to create for the official soundtrack is one song for every chapter in the book, each made in collaboration with somebody from the community that is forming around it. I want the artist’s personality, talent, and power to shape the sound and delivery however they feel is best. I only want to bring the written lyrics, then take a backseat and allow the other artist to transform them into whatever the track needs to become.",
+          "So far, the published songs have featured my lyrics and musical compositions with AI-delivered vocals. But the next few songs currently in development feature fellow residents of the Trap House Discord—lolol. We also now have a real-life music producer helping out, alongside a vocal engineer and sound mixer, so there is going to be some serious heat coming down the pipe soon."
+        ]
+      },
+      join: {
+        eyebrow: "Make Something With Us",
+        headline: "THE ROOM WITH THE BLUETOOTH SPEAKER",
+        body: [
+          "If you are musically talented and feel like joining energies with this part of the project, hop into the Discord and post in The Room With the Bluetooth Speaker.",
+          "Let’s make some straight sheetrock."
+        ],
+        ctaPrimaryLabel: "Enter Trap House",
+        ctaPrimaryHref: "https://discord.gg/64MKTrGGsD"
+      },
+      spotify: {
+        eyebrow: "Official Artist Page",
+        headline: "LISTEN ON SPOTIFY",
+        body: "Open the official IHOCAIHAG artist page and follow the soundtrack as it grows.",
+        shareUrl: "https://promocards.byspotify.com/api/share/3f63e368-23a3-4561-8205-327d6c69e9b8",
+        spotifyUrl: "https://open.spotify.com/artist/7GUAmAkkpLLESm0Fig1NWZ",
+        imageSrc: asset("soundtrack-spotify-promo.jpeg"),
+        imageAlt: "Spotify promo card for the IHOCAIHAG artist page"
       }
     },
 

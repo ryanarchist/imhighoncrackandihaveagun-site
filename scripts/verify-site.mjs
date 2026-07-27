@@ -87,11 +87,27 @@ if (!siteRuntimeSource.includes("renderThreadSequenceNav")) {
 if (!siteRuntimeSource.includes('rel="prev"') || !siteRuntimeSource.includes('rel="next"')) {
   fail(siteRuntime, "thread detail navigation must identify previous and next routes");
 }
+if (!siteRuntimeSource.includes("renderSoundtrack")) {
+  fail(siteRuntime, "soundtrack route must use the dedicated soundtrack renderer");
+}
 
 const siteStyles = path.join(root, "src", "site.css");
 const siteStylesSource = fs.readFileSync(siteStyles, "utf8");
 if (!siteStylesSource.includes(".thread-sequence-nav")) {
   fail(siteStyles, "thread detail previous/next navigation is missing responsive styles");
+}
+if (!siteStylesSource.includes(".soundtrack-origin-layout") || !siteStylesSource.includes(".soundtrack-promo-card")) {
+  fail(siteStyles, "soundtrack page is missing its responsive editorial and Spotify card styles");
+}
+
+const siteContent = path.join(root, "src", "content", "siteContent.js");
+const siteContentSource = fs.readFileSync(siteContent, "utf8");
+if (!siteContentSource.includes('{ label: "Soundtrack", href: "/soundtrack/", page: "soundtrack" }')) {
+  fail(siteContent, "main navigation is missing the soundtrack tab");
+}
+for (const assetName of ["soundtrack-hero.png", "soundtrack-mixtape-cover.png", "soundtrack-spotify-promo.jpeg"]) {
+  const assetPath = path.join(root, "assets", "trap-house", assetName);
+  if (!fs.existsSync(assetPath)) fail(siteContent, `missing soundtrack asset ${assetName}`);
 }
 
 if (failures.length) {

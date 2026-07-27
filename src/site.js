@@ -987,6 +987,65 @@
     `;
   }
 
+  function renderSoundtrack() {
+    const page = content.soundtrackContent || {};
+    const origin = page.origin || {};
+    const collaboration = page.collaboration || {};
+    const join = page.join || {};
+    const spotify = page.spotify || {};
+    return `
+      ${renderHero(page.hero)}
+      <section class="section soundtrack-origin-section">
+        <div class="container soundtrack-origin-layout">
+          <figure class="soundtrack-cover">
+            <img src="${attr(origin.imageSrc)}" alt="${attr(origin.imageAlt || "IHOCAIHAG soundtrack artwork")}" loading="lazy" />
+          </figure>
+          <article class="soundtrack-prose">
+            ${eyebrowMarkup(origin.eyebrow, origin.headline)}
+            <h2>${esc(origin.headline || "The Soundtrack Was Never Part Of The Plan")}</h2>
+            ${copyBlock(origin.body, "section-copy")}
+          </article>
+        </div>
+      </section>
+      <section class="section soundtrack-collaboration-band">
+        <div class="container soundtrack-collaboration-layout">
+          <header class="soundtrack-collaboration-heading">
+            ${eyebrowMarkup(collaboration.eyebrow, collaboration.headline)}
+            <h2>${esc(collaboration.headline || "One Song For Every Chapter")}</h2>
+          </header>
+          <article class="soundtrack-prose">
+            ${copyBlock(collaboration.body, "section-copy")}
+          </article>
+        </div>
+      </section>
+      <section class="section soundtrack-final-section">
+        <div class="container soundtrack-final-layout">
+          <article class="soundtrack-join">
+            ${eyebrowMarkup(join.eyebrow, join.headline)}
+            <h2>${esc(join.headline || "The Room With The Bluetooth Speaker")}</h2>
+            ${copyBlock(join.body, "section-copy")}
+            <div class="cta-row">
+              ${button(join.ctaPrimaryLabel || "Enter Trap House", join.ctaPrimaryHref || content.links?.discord || "#", true)}
+            </div>
+          </article>
+          <article class="soundtrack-spotify">
+            <a class="soundtrack-promo-card" href="${attr(spotify.shareUrl || spotify.spotifyUrl || content.links?.spotify || "#")}" target="_blank" rel="noopener noreferrer" aria-label="Open the IHOCAIHAG Spotify artist page">
+              <img src="${attr(spotify.imageSrc)}" alt="${attr(spotify.imageAlt || "IHOCAIHAG Spotify promo card")}" loading="lazy" />
+            </a>
+            <div class="soundtrack-spotify-copy">
+              ${eyebrowMarkup(spotify.eyebrow, spotify.headline)}
+              <h3>${esc(spotify.headline || "Listen On Spotify")}</h3>
+              ${copyBlock(spotify.body)}
+              <div class="cta-row">
+                ${button("Open Spotify", spotify.spotifyUrl || content.links?.spotify || "#", true)}
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+    `;
+  }
+
   function renderMyPass() {
     const page = content.passContent || {};
     return `
@@ -1289,6 +1348,7 @@
     if (page === "about") return renderAbout();
     if (page === "book") return renderBook();
     if (page === "documentary") return renderDocumentary();
+    if (page === "soundtrack") return renderSoundtrack();
     if (page === "thread-detail") return renderThreadDetail();
     if (page === "my-pass") return renderMyPass();
     if (page === "pass") return renderPublicPass();
