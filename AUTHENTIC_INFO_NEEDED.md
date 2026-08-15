@@ -6,8 +6,8 @@ Use this list for anything that should come from Ryan or verified project record
 
 - Final public website URL and preferred display casing. Current repo/domain candidate: `imhighoncrackandihaveagun.com`.
 - Final Discord invite link or vanity invite. Current verified invite: `https://discord.gg/64MKTrGGsD`.
-- Official social links confirmed by Ryan on 2026-06-27:
-  - Instagram: `https://www.instagram.com/ihocaihag/`
+- Current official social links. Instagram updated by Ryan on 2026-08-15:
+  - Instagram: `https://www.instagram.com/ihocaihag2/`
   - TikTok: `https://www.tiktok.com/@ihocaihagofficial`
   - Threads: `https://www.threads.net/@ihocaihag`
   - YouTube: `https://youtube.com/@imhighoncrackandihaveagun`

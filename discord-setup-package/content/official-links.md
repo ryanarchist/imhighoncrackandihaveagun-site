@@ -7,7 +7,7 @@ Discord:
 https://discord.gg/64MKTrGGsD
 
 Instagram:
-https://www.instagram.com/ihocaihag/
+https://www.instagram.com/ihocaihag2/
 
 TikTok:
 https://www.tiktok.com/@ihocaihagofficial

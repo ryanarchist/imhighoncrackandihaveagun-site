@@ -5,7 +5,7 @@
   const siteUrl = "https://imhighoncrackandihaveagun.com";
   const defaultSocialImage = asset("ihocaihag-rectangle-logo.png");
   const socialLinks = [
-    { key: "instagram", label: "Instagram", href: "https://instagram.com/ihocaihag" },
+    { key: "instagram", label: "Instagram", href: "https://instagram.com/ihocaihag2" },
     { key: "youtube", label: "YouTube", href: "https://youtube.com/@imhighoncrackandihaveagun" },
     { key: "tiktok", label: "TikTok", href: "https://tiktok.com/@ihocaihagofficial" },
     { key: "discord", label: "Discord", href: "https://discord.gg/64MKTrGGsD" }
@@ -411,7 +411,7 @@
 
     links: {
       website: siteUrl,
-      instagram: "https://instagram.com/ihocaihag",
+      instagram: "https://instagram.com/ihocaihag2",
       tiktok: "https://tiktok.com/@ihocaihagofficial",
       threads: "https://threads.net/@ihocaihag",
       youtube: "https://youtube.com/@imhighoncrackandihaveagun",
@@ -1038,7 +1038,7 @@
       featuredDrop: {
         eyebrow: "GEN 2 / WAVE 1",
         headline: "THE FIRST EXCLUSIVE MERCH DROP",
-        body: "Only 80 OC #80 jerseys will ever be made: 40 Teal Home and 40 White Away. Once they are gone, this wave is closed."
+        body: "The full 80-piece OC #80 jersey release is sold out. GEN 2 / WAVE 1 is closed."
       },
       catalogHeader: {
         eyebrow: "Official Store",
@@ -1053,16 +1053,18 @@
           category: "Teal Home",
           price: "$80.00",
           billingInterval: "One-time",
-          status: "GEN 2 / WAVE 1",
+          status: "SOLD OUT",
           description: oc80JerseyDescription,
           benefits: [],
-          buttonLabel: "Buy Teal Home - $80",
+          buttonLabel: "Sold Out",
           buttonHref: "#",
           stripePriceId: "",
           imageSrc: asset("store-oc80-home-jersey.png"),
           imageAlt: "Teal Home OC #80 IHOCAIHAG basketball jersey showing the front, back, and stitched hem patch",
           imageFit: "contain",
-          featured: true
+          featured: true,
+          soldOut: true,
+          checkoutEnabled: false
         },
         {
           id: "oc80-jersey-away",
@@ -1072,16 +1074,18 @@
           category: "White Away",
           price: "$80.00",
           billingInterval: "One-time",
-          status: "GEN 2 / WAVE 1",
+          status: "SOLD OUT",
           description: oc80JerseyDescription,
           benefits: [],
-          buttonLabel: "Buy White Away - $80",
+          buttonLabel: "Sold Out",
           buttonHref: "#",
           stripePriceId: "",
           imageSrc: asset("store-oc80-away-jersey.png"),
           imageAlt: "White Away OC #80 IHOCAIHAG basketball jersey showing the front, back, and stitched hem patch",
           imageFit: "contain",
-          featured: true
+          featured: true,
+          soldOut: true,
+          checkoutEnabled: false
         },
         {
           id: "og-crack-pack",

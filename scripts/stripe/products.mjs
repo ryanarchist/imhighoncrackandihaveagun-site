@@ -37,6 +37,7 @@ export const STRIPE_PRODUCTS = [
     release: "GEN 2 WAVE 1",
     variant: "Teal Home",
     editionSize: 40,
+    checkoutEnabled: false,
     checkoutCustomFields: [
       {
         key: "jersey_size",
@@ -67,6 +68,7 @@ export const STRIPE_PRODUCTS = [
     release: "GEN 2 WAVE 1",
     variant: "White Away",
     editionSize: 40,
+    checkoutEnabled: false,
     checkoutCustomFields: [
       {
         key: "jersey_size",

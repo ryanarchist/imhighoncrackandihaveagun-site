@@ -8,7 +8,7 @@ This is the structured working list from the campaign/security/project backbone.
 - Use the core logline: `A self-documented addiction archive becoming a book, documentary, soundtrack, Discord community, Trap Pass system, and living website.`
 - Use the public positioning: raw documentary/art/archive project about addiction, psychosis, grief, survival, systems, and building something permanent out of the wreckage.
 - Confirm final official link list with Ryan before public launch.
-- Resolve Instagram handle conflict before final graphics/captions.
+- Instagram handle resolved to `@ihocaihag2` on 2026-08-15.
 - Keep `PROJECT_BACKBONE.md` as the shared source-of-truth memory layer.
 
 ## 2. Fix The Public Funnel
@@ -35,7 +35,7 @@ Every post should point people toward at least one owned space:
 - Warning gate / entry screen: built.
 - Start Here page: built as `/start-here/`.
 - Clear "What is this project?" section: built in `/project/`.
-- Official links section: needs final handle confirmation.
+- Official links section: current handles confirmed and synced.
 - Thread Map page: built.
 - Trap Pass explanation page: built.
 - Discord invite section: built, final invite pending.
@@ -47,7 +47,7 @@ Every post should point people toward at least one owned space:
 - Disclaimer on heavy content: built, needs final Ryan/legal approval.
 - Mobile-first layout: verified.
 - Remove broken placeholders: verified.
-- Remove old/outdated handles: pending final source-of-truth handles.
+- Remove old/outdated handles: verified after Instagram update on 2026-08-15.
 - Keep the site feeling like an archive/trap house, not a corporate portfolio.
 
 ## 4. Discord Launch Checklist
@@ -56,7 +56,7 @@ Every post should point people toward at least one owned space:
 - Create Trap House themed rooms: package built.
 - Add warning gate: package built.
 - Add house rules: package built.
-- Add official links room: package built, final Instagram/Discord invite pending.
+- Add official links room: package built and current Instagram/Discord links synced.
 - Add thread map room: package built.
 - Add documentary / book / music / Trap Pass rooms: package built.
 - Add heavy content rooms with slow mode: package model built.

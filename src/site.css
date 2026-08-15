@@ -1050,6 +1050,8 @@ body[data-page="soundtrack"] .hero h1 {
 }
 
 .product-media {
+  position: relative;
+  isolation: isolate;
   aspect-ratio: 4 / 3;
   overflow: hidden;
   border-radius: 6px;
@@ -1069,6 +1071,42 @@ body[data-page="soundtrack"] .hero h1 {
 .product-media.is-contain img {
   object-fit: contain;
   padding: 10px;
+}
+
+.product-card.is-sold-out .product-media img {
+  filter: grayscale(0.72) contrast(0.86) brightness(0.58);
+}
+
+.sold-out-stamp {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  width: max-content;
+  max-width: calc(100% - 28px);
+  padding: 10px 22px 7px;
+  border: 5px solid #d72029;
+  border-radius: 6px;
+  background: rgba(5, 5, 5, 0.82);
+  box-shadow: 0 0 0 3px rgba(5, 5, 5, 0.74), 0 12px 28px rgba(0, 0, 0, 0.66);
+  color: #f24045;
+  font-family: var(--display);
+  font-size: 58px;
+  line-height: 0.86;
+  text-align: center;
+  text-transform: uppercase;
+  transform: translate(-50%, -50%) rotate(-9deg);
+}
+
+.product-card.is-sold-out .status {
+  border-color: rgba(242, 64, 69, 0.72);
+  background: rgba(184, 23, 32, 0.3);
+  color: var(--paper);
+}
+
+.product-card.is-sold-out .price {
+  color: var(--muted);
+  text-decoration: line-through;
 }
 
 .product-media .image-slot {
@@ -1488,6 +1526,12 @@ body[data-page="soundtrack"] .hero h1 {
 
   .product-card.is-featured .product-media {
     aspect-ratio: 4 / 5;
+  }
+
+  .sold-out-stamp {
+    padding: 9px 16px 6px;
+    border-width: 4px;
+    font-size: 48px;
   }
   .site-nav {
     position: relative;

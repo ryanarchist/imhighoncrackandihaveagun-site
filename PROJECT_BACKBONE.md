@@ -28,10 +28,10 @@ Primary website:
 
 imhighoncrackandihaveagun.com
 
-Official links confirmed by Ryan on 2026-06-27:
+Current official links. Instagram updated by Ryan on 2026-08-15:
 
 - Website: `https://imhighoncrackandihaveagun.com`
-- Instagram: `https://www.instagram.com/ihocaihag/`
+- Instagram: `https://www.instagram.com/ihocaihag2/`
 - YouTube: `https://youtube.com/@imhighoncrackandihaveagun`
 - TikTok: `https://www.tiktok.com/@ihocaihagofficial`
 - Threads: `https://www.threads.net/@ihocaihag`

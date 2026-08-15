@@ -859,9 +859,10 @@
     const title = product.displayTitle || product.name;
     const benefits = Array.isArray(product.benefits) ? product.benefits.filter(Boolean) : [];
     return `
-      <article class="product-card${product.featured ? " is-featured" : ""}" id="${attr(product.id)}">
+      <article class="product-card${product.featured ? " is-featured" : ""}${product.soldOut ? " is-sold-out" : ""}" id="${attr(product.id)}">
         <div class="product-media${product.imageFit === "contain" ? " is-contain" : ""}">
           ${product.imageSrc ? `<img src="${attr(product.imageSrc)}" alt="${attr(product.imageAlt || product.name || placeholders.imageSlot || "IMAGE SLOT")}" loading="lazy" onerror="this.closest('.product-media').innerHTML='<div class=&quot;image-slot&quot;>${attr(placeholders.imageSlot || "IMAGE SLOT")}</div>'" />` : `<div class="image-slot">${esc(placeholders.imageSlot || "IMAGE SLOT")}</div>`}
+          ${product.soldOut ? `<span class="sold-out-stamp" aria-label="Sold out">Sold Out</span>` : ""}
         </div>
         <div>
           <div class="product-meta">

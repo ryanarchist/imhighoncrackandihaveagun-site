@@ -39,7 +39,7 @@
     stripeCheckoutSessionEndpoint: `${stripeApiBaseUrl}/api/stripe/create-checkout-session`,
     trapPassClaimEndpoint: `${stripeApiBaseUrl}/api/trap-pass/claim`,
     trapPassWalletEndpoint: `${stripeApiBaseUrl}/api/trap-pass/wallet`,
-    instagramUrl: "https://www.instagram.com/ihocaihag/",
+    instagramUrl: "https://www.instagram.com/ihocaihag2/",
     tiktokUrl: "https://www.tiktok.com/@ihocaihagofficial",
     threadsUrl: "https://www.threads.net/@ihocaihag",
     youtubeUrl: "https://youtube.com/@imhighoncrackandihaveagun",
@@ -48,6 +48,6 @@
     spotifyUrl: "https://open.spotify.com/artist/7GUAmAkkpLLESm0Fig1NWZ",
     appleMusicUrl: "https://music.apple.com/search?term=IHOCAIHAG",
     archiveStatsPath: "/data/archive-stats.json",
-    officialLinksPath: "/data/official-links.json"
+    officialLinksPath: "/data/official-links.json?v=20260815-1"
   };
 })();

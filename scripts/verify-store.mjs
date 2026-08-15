@@ -85,14 +85,25 @@ for (const stripeProduct of STRIPE_PRODUCTS) {
 }
 
 const enabledProducts = STRIPE_PRODUCTS.filter((product) => product.checkoutEnabled !== false);
-check(enabledProducts.length === STRIPE_PRODUCTS.length, "Every Store product, including Trap Pass tiers, should be checkout-enabled.");
-check(STRIPE_PRODUCTS.filter((product) => product.checkoutEnabled === false).length === 0, "No Store product should remain checkout-disabled.");
+const disabledProductKeys = STRIPE_PRODUCTS
+  .filter((product) => product.checkoutEnabled === false)
+  .map((product) => product.key)
+  .sort();
+check(enabledProducts.length === STRIPE_PRODUCTS.length - 2, "Only the two sold-out jerseys should be checkout-disabled.");
+check(
+  JSON.stringify(disabledProductKeys) === JSON.stringify(["oc80_jersey_away", "oc80_jersey_home"]),
+  "Sold-out checkout protection must apply to both jersey variants and no other products."
+);
 
 for (const jerseyKey of ["oc80_jersey_home", "oc80_jersey_away"]) {
   const jersey = STRIPE_PRODUCTS.find((product) => product.key === jerseyKey);
   check(jersey?.quantityMax === 1, `${jerseyKey} must stay limited to one jersey per Checkout Session.`);
   check(jersey?.editionSize === 40, `${jerseyKey} must retain its 40-piece edition metadata.`);
   check(jersey?.checkoutCustomFields?.some((field) => field.key === "jersey_size"), `${jerseyKey} must collect a required jersey size.`);
+  check(jersey?.checkoutEnabled === false, `${jerseyKey} must reject new Checkout Sessions after selling out.`);
+  const siteJersey = siteProducts.find((product) => product.key === jerseyKey);
+  check(siteJersey?.soldOut === true, `${jerseyKey} must display the sold-out Store treatment.`);
+  check(siteJersey?.buttonLabel === "Sold Out", `${jerseyKey} must label its disabled purchase button Sold Out.`);
 }
 
 const sampleProduct = enabledProducts[0];
@@ -353,6 +364,19 @@ try {
   check(JSON.parse(testModeCheckoutResponse.body).error === "live_stripe_required", "Test-mode Checkout Session endpoint returned the wrong error.");
 
   process.env.ALLOW_TEST_STRIPE_CHECKOUT = "1";
+
+  for (const jerseyKey of ["oc80_jersey_home", "oc80_jersey_away"]) {
+    const soldOutCheckoutResponse = mockResponse();
+    await checkoutHandler(
+      { method: "POST", headers: {}, body: { productKey: jerseyKey, quantity: 1 } },
+      soldOutCheckoutResponse
+    );
+    check(soldOutCheckoutResponse.statusCode === 409, `${jerseyKey} must reject new Checkout Sessions.`);
+    check(
+      JSON.parse(soldOutCheckoutResponse.body).error === "product_unavailable",
+      `${jerseyKey} checkout must return product_unavailable.`
+    );
+  }
 
   const documentaryNotReadyResponse = mockResponse();
   await checkoutHandler(

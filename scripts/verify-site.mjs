@@ -90,6 +90,9 @@ if (!siteRuntimeSource.includes('rel="prev"') || !siteRuntimeSource.includes('re
 if (!siteRuntimeSource.includes("renderSoundtrack")) {
   fail(siteRuntime, "soundtrack route must use the dedicated soundtrack renderer");
 }
+if (!siteRuntimeSource.includes("sold-out-stamp") || !siteRuntimeSource.includes("is-sold-out")) {
+  fail(siteRuntime, "sold-out Store products must render a visible image stamp");
+}
 
 const siteStyles = path.join(root, "src", "site.css");
 const siteStylesSource = fs.readFileSync(siteStyles, "utf8");
@@ -99,11 +102,20 @@ if (!siteStylesSource.includes(".thread-sequence-nav")) {
 if (!siteStylesSource.includes(".soundtrack-origin-layout") || !siteStylesSource.includes(".soundtrack-promo-card")) {
   fail(siteStyles, "soundtrack page is missing its responsive editorial and Spotify card styles");
 }
+if (!siteStylesSource.includes(".sold-out-stamp")) {
+  fail(siteStyles, "sold-out Store products are missing stamp styles");
+}
 
 const siteContent = path.join(root, "src", "content", "siteContent.js");
 const siteContentSource = fs.readFileSync(siteContent, "utf8");
 if (!siteContentSource.includes('{ label: "Soundtrack", href: "/soundtrack/", page: "soundtrack" }')) {
   fail(siteContent, "main navigation is missing the soundtrack tab");
+}
+if (!siteContentSource.includes("https://instagram.com/ihocaihag2")) {
+  fail(siteContent, "public Instagram links must point to @ihocaihag2");
+}
+if (siteContentSource.includes('href: "https://instagram.com/ihocaihag"')) {
+  fail(siteContent, "public footer still contains the retired Instagram profile");
 }
 for (const assetName of ["soundtrack-hero.png", "soundtrack-mixtape-cover.png", "soundtrack-spotify-promo.jpeg"]) {
   const assetPath = path.join(root, "assets", "trap-house", assetName);
