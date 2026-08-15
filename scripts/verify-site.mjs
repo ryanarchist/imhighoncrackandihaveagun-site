@@ -96,6 +96,9 @@ if (!siteRuntimeSource.includes("sold-out-stamp") || !siteRuntimeSource.includes
 if (!siteRuntimeSource.includes('id="mini-doc-1"') || !siteRuntimeSource.includes("renderMediaEmbed(miniDoc.embed)")) {
   fail(siteRuntime, "documentary page must render the dedicated Mini Doc 1 video section");
 }
+if (!siteRuntimeSource.includes('featured.buttonLabel || "Watch Official Drops"')) {
+  fail(siteRuntime, "featured drops must support a release-specific button label");
+}
 
 const siteStyles = path.join(root, "src", "site.css");
 const siteStylesSource = fs.readFileSync(siteStyles, "utf8");
@@ -122,6 +125,12 @@ if (siteContentSource.includes('href: "https://instagram.com/ihocaihag"')) {
 }
 if (!siteContentSource.includes('label: "Mini Doc 1: The Ride to Die"') || !siteContentSource.includes("https://www.youtube.com/embed/h3twQL94YiQ")) {
   fail(siteContent, "documentary page is missing the Mini Doc 1 button or YouTube embed");
+}
+if (!siteContentSource.includes('status: "Pinned"') || !siteContentSource.includes("https://www.instagram.com/reel/DbfDVnqBAoW/")) {
+  fail(siteContent, "Official Drops must pin Mini Doc 1 and use the current soundtrack reel");
+}
+if (siteContentSource.includes("https://www.instagram.com/reel/DaxuKyqM3ac/")) {
+  fail(siteContent, "Official Drops still contains the retired soundtrack reel");
 }
 for (const assetName of ["soundtrack-hero.png", "soundtrack-mixtape-cover.png", "soundtrack-spotify-promo.jpeg"]) {
   const assetPath = path.join(root, "assets", "trap-house", assetName);

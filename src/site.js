@@ -394,7 +394,7 @@
             <h2>${esc(featured.title || "Featured Drop")}</h2>
             ${copyBlock(featured.description)}
             <div class="tag-row">${(featured.tags || []).map((tag) => `<span class="tag">${esc(tag)}</span>`).join("")}</div>
-            <div class="cta-row">${button("Watch Official Drops", featured.youtubeUrl || content.links?.youtube || "#", true)}</div>
+            <div class="cta-row">${button(featured.buttonLabel || "Watch Official Drops", featured.youtubeUrl || content.links?.youtube || "#", true)}</div>
           </article>
         </div>
       </section>

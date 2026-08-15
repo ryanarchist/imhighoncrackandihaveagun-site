@@ -42,7 +42,7 @@
   ];
   const trapPassGeneralCopy = "A place to lock in your own part of the project. Proof you were here—and that you cared enough to become part of what it was becoming.";
   const trapHouseGeneralCopy = "The place where this can finally move beyond being one person’s drug-use story and become a self-built community—where we put our talents together and discover what kinds of things we can actually do together.";
-  const dropsDescription = "Trailers, soundtrack pieces, and raw footage from the archive. Start with January 22: The Blast Crater.";
+  const dropsDescription = "Mini docs, trailers, soundtrack pieces, and raw footage from the archive. Start with Mini Doc 1: The Ride to Die.";
   const mapDescription = "Follow the nine foundational threads through the archive. Select a numbered point on the map to open its definition and trace how it appears across the six-year story.";
   const storeDescription = "Official books, documentary access, apparel, and Trap Pass releases connected to the project.";
   const oc80JerseyDescription =
@@ -678,7 +678,7 @@
         eyebrow: "Official Drops",
         headline: "Official Drops",
         body: dropsDescription,
-        smallNote: "Start with January 22: The Blast Crater.",
+        smallNote: "Mini Doc 1: The Ride to Die is pinned below.",
         ctaPrimaryLabel: "Watch Official Drops",
         ctaPrimaryHref: "https://youtube.com/@imhighoncrackandihaveagun",
         ctaSecondaryLabel: "Open The Map",
@@ -690,16 +690,17 @@
         mobileBackgroundPosition: "center top"
       },
       featuredDrop: {
-        title: "Jan 22nd: The Blast Crater",
-        status: "Featured Drop",
-        description: "Start with this one.",
+        title: "Mini Doc 1: The Ride to Die",
+        status: "Pinned",
+        description: "Mini Doc 1.",
         thumbnail: "",
-        imageAlt: "Featured drop thumbnail slot",
-        youtubeUrl: "https://www.youtube.com/watch?v=etqV9snaQ2I&t=1s",
+        imageAlt: "Mini Doc 1: The Ride to Die",
+        youtubeUrl: "https://www.youtube.com/watch?v=h3twQL94YiQ",
+        buttonLabel: "Watch Mini Doc 1 On YouTube",
         embed: {
           type: "youtube",
-          src: "https://www.youtube.com/embed/etqV9snaQ2I?si=YOxrDeuKxJEm2EkR&start=1",
-          title: "IHOCAIHAG featured drop"
+          src: "https://www.youtube.com/embed/h3twQL94YiQ?si=6QO_2mZ54ZOU8Pia",
+          title: "Mini Doc 1: The Ride to Die"
         },
         tags: []
       },
@@ -709,6 +710,17 @@
         body: "Featured footage, trailers, and soundtrack pieces from the same archive."
       },
       cards: [
+        {
+          label: "Jan 22nd: The Blast Crater",
+          body: "The original featured drop from the archive.",
+          buttonLabel: "Watch January 22",
+          buttonHref: "https://www.youtube.com/watch?v=etqV9snaQ2I&t=1s",
+          embed: {
+            type: "youtube",
+            src: "https://www.youtube.com/embed/etqV9snaQ2I?si=YOxrDeuKxJEm2EkR&start=1",
+            title: "Jan 22nd: The Blast Crater"
+          }
+        },
         {
           label: "Trailers",
           body: "Official trailers and first looks at the documentary.",
@@ -735,10 +747,10 @@
           label: "Soundtrack Pieces",
           body: "Music and performance pieces pulled from the same years as the footage and writing.",
           buttonLabel: "Open Soundtrack Piece",
-          buttonHref: "https://www.instagram.com/reel/DaxuKyqM3ac/",
+          buttonHref: "https://www.instagram.com/reel/DbfDVnqBAoW/",
           embed: {
             type: "instagram",
-            permalink: "https://www.instagram.com/reel/DaxuKyqM3ac/",
+            permalink: "https://www.instagram.com/reel/DbfDVnqBAoW/",
             title: "IHOCAIHAG soundtrack piece on Instagram"
           }
         }
