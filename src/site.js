@@ -971,8 +971,16 @@
 
   function renderDocumentary() {
     const page = content.documentaryContent || {};
+    const miniDoc = page.miniDoc1 || {};
     return `
       ${renderHero(page.hero)}
+      ${miniDoc.embed ? `
+        <section class="section compact" id="mini-doc-1" aria-label="${attr(miniDoc.title || "Mini Doc 1")}">
+          <div class="container">
+            ${renderMediaEmbed(miniDoc.embed)}
+          </div>
+        </section>
+      ` : ""}
       <section class="section compact">
         <div class="container two-column documentary-overview-layout">
           ${imagePanel(page.imagePanel)}

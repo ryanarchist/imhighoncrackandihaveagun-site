@@ -93,6 +93,9 @@ if (!siteRuntimeSource.includes("renderSoundtrack")) {
 if (!siteRuntimeSource.includes("sold-out-stamp") || !siteRuntimeSource.includes("is-sold-out")) {
   fail(siteRuntime, "sold-out Store products must render a visible image stamp");
 }
+if (!siteRuntimeSource.includes('id="mini-doc-1"') || !siteRuntimeSource.includes("renderMediaEmbed(miniDoc.embed)")) {
+  fail(siteRuntime, "documentary page must render the dedicated Mini Doc 1 video section");
+}
 
 const siteStyles = path.join(root, "src", "site.css");
 const siteStylesSource = fs.readFileSync(siteStyles, "utf8");
@@ -116,6 +119,9 @@ if (!siteContentSource.includes("https://instagram.com/ihocaihag2")) {
 }
 if (siteContentSource.includes('href: "https://instagram.com/ihocaihag"')) {
   fail(siteContent, "public footer still contains the retired Instagram profile");
+}
+if (!siteContentSource.includes('label: "Mini Doc 1: The Ride to Die"') || !siteContentSource.includes("https://www.youtube.com/embed/h3twQL94YiQ")) {
+  fail(siteContent, "documentary page is missing the Mini Doc 1 button or YouTube embed");
 }
 for (const assetName of ["soundtrack-hero.png", "soundtrack-mixtape-cover.png", "soundtrack-spotify-promo.jpeg"]) {
   const assetPath = path.join(root, "assets", "trap-house", assetName);

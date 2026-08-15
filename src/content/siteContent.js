@@ -1378,15 +1378,24 @@
         headline: projectTitle,
         body: "This is not the filmed version of the book. It is the part of the project that can only exist through footage.",
         smallNote: "Six years of cameras already rolling inside active addiction.",
-        ctaPrimaryLabel: "Watch Official Drops",
-        ctaPrimaryHref: "/drops/",
-        ctaSecondaryLabel: "Open The Book",
-        ctaSecondaryHref: "/book/",
+        actions: [
+          { label: "Mini Doc 1: The Ride to Die", href: "#mini-doc-1", primary: true },
+          { label: "Watch Official Drops", href: "/drops/" },
+          { label: "Open The Book", href: "/book/" }
+        ],
         imageSrc: asset("documentary-banner-gun-pipe-approved.png"),
         imageAlt: "Ryan holding a gun and glass pipe during the documented collapse",
         imageFit: "contain",
         backgroundPosition: "right center",
         mobileBackgroundPosition: "center top"
+      },
+      miniDoc1: {
+        title: "Mini Doc 1: The Ride to Die",
+        embed: {
+          type: "youtube",
+          src: "https://www.youtube.com/embed/h3twQL94YiQ?si=6QO_2mZ54ZOU8Pia",
+          title: "Mini Doc 1: The Ride to Die"
+        }
       },
       imagePanel: {
         imageSrc: asset("documentary-cover-approved.png"),
