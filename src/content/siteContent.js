@@ -5,7 +5,7 @@
   const siteUrl = "https://imhighoncrackandihaveagun.com";
   const defaultSocialImage = asset("ihocaihag-rectangle-logo.png");
   const socialLinks = [
-    { key: "instagram", label: "Instagram", href: "https://instagram.com/ihocaihag2" },
+    { key: "instagram", label: "Instagram", href: "https://www.instagram.com/imhighoncrackandihaveagun2/" },
     { key: "youtube", label: "YouTube", href: "https://youtube.com/@imhighoncrackandihaveagun" },
     { key: "tiktok", label: "TikTok", href: "https://tiktok.com/@ihocaihagofficial" },
     { key: "discord", label: "Discord", href: "https://discord.gg/64MKTrGGsD" }
@@ -411,7 +411,7 @@
 
     links: {
       website: siteUrl,
-      instagram: "https://instagram.com/ihocaihag2",
+      instagram: "https://www.instagram.com/imhighoncrackandihaveagun2/",
       tiktok: "https://tiktok.com/@ihocaihagofficial",
       threads: "https://threads.net/@ihocaihag",
       youtube: "https://youtube.com/@imhighoncrackandihaveagun",
@@ -449,7 +449,7 @@
         map: { title: `Thread Map | ${projectShortName}`, description: mapDescription, canonicalUrl: `${siteUrl}/map/`, ogImage: asset("thread-map-interactive-approved.png"), twitterImage: asset("thread-map-interactive-approved.png") },
         "january-22": { title: `January 22 | ${projectShortName}`, description: january22Description, canonicalUrl: `${siteUrl}/map/january-22/` },
         drops: { title: `Official Drops | ${projectShortName}`, description: dropsDescription, canonicalUrl: `${siteUrl}/drops/`, ogImage: asset("official-drops-approved.png"), twitterImage: asset("official-drops-approved.png") },
-        "trap-pass": { title: `Trap Pass | ${projectShortName}`, description: "Your personal key into the project—and proof you were here while it was still being built.", canonicalUrl: `${siteUrl}/trap-pass/` },
+        "trap-pass": { title: `Gen 2 Wave 2 — Unplug & Become Slug | Trap Pass`, description: "Discover the regular and paid Gen 2 Wave 2 Trap Pass editions, membership options, and the release archive.", canonicalUrl: `${siteUrl}/trap-pass/`, ogImage: asset("trap-pass-gen2-wave2-photographic.png") },
         "trap-house": { title: `Trap House | ${projectShortName}`, description: "Where WE come together, talk back, and build whatever we decide is worth building.", canonicalUrl: `${siteUrl}/trap-house/` },
         store: { title: `Store | ${projectShortName}`, description: storeDescription, canonicalUrl: `${siteUrl}/store/`, ogImage: asset("home-store-approved.png"), twitterImage: asset("home-store-approved.png") },
         about: { title: `About | ${projectShortName}`, description: "This is not a recovery commercial.", canonicalUrl: `${siteUrl}/about/` },
@@ -851,6 +851,16 @@
     },
 
     trapPassContent: {
+      waveTwo: {
+        eyebrow: "GEN 2 / WAVE 2",
+        headline: "UNPLUG & BECOME SLUG",
+        body: "A new face for your place in the dirt show. Two editions. One ongoing story.",
+        quote: "Sometimes you find a brief disconnect can reset the mind.",
+        editions: [
+          { label: "Regular pass", imageSrc: asset("trap-pass-gen2-wave2-photographic.png"), imageAlt: "Regular Gen 2 Wave 2 Unplug and Become Slug photographic Trap Pass with orange lettering and a holographic strip" },
+          { label: "Paid pass", imageSrc: asset("trap-pass-gen2-wave2-illustrated.png"), imageAlt: "Paid Gen 2 Wave 2 Unplug and Become Slug illustrated Trap Pass with a vintage paper finish and a cat on Ryan's shoulder" }
+        ]
+      },
       hero: {
         eyebrow: "Trap Pass",
         headline: "CLAIM A PIECE OF THE STORY",
@@ -888,7 +898,7 @@
           id: "free-pass",
           label: "Free Pass",
           price: "Free",
-          description: "A free claim creates your holder number and locks the current NO BRAKES release to that email in the live registry.",
+          description: "Your starting point in the project. Claim a free holder identity, keep your number, and return to your wallet as the story grows.",
           benefits: ["Permanent holder identity", "Current-release collectible", "Exact pass validation", "Private email storage", "Future wallet upgrade path"],
           buttonLabel: "Claim Free Pass",
           buttonHref: "#claim",
@@ -902,10 +912,8 @@
           id: "cash-for-trash",
           label: "Cash For Trash Trap Pass",
           price: "$4.99/month",
-          annualPrice: "$44.91/year",
-          annualStatus: "Annual checkout not yet activated.",
-          description: "The paid digital tier. Choose monthly or annual access, receive the green-and-copper holder treatment, and unlock a personal code you can send directly to Ryan for your opening personal unlock.",
-          benefits: ["Green-and-copper holder treatment", "Private personal unlock code", "Monthly checkout available", "Annual structure ready"],
+          description: "The paid digital membership. Support the project monthly and receive a personal code you can send directly to Ryan for your opening personal unlock.",
+          benefits: ["Paid digital Trap Pass", "Private personal unlock code", "Monthly membership"],
           buttonLabel: "Upgrade Tier",
           buttonHref: "/store/#cash-for-trash",
           stripePriceId: "",
@@ -932,7 +940,7 @@
       claimForm: {
         eyebrow: "Claim",
         headline: "Claim Free Pass",
-        body: "One email claims one free holder identity. Keep the holder ID and card serial you receive; those are your public-safe proof that the claim is live.",
+        body: "One email, one free holder identity. Already have a pass? Keep your original number. The live registry currently issues No Brakes / Gen 2 Wave 1 passes; the Wave 2 artwork above does not replace an existing pass or confirm a Wave 2 claim.",
         privacyNote: "Your email and optional Discord username stay private. Public validation only confirms whether the holder ID or card serial is valid."
       },
       sampleWallet: {

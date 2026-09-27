@@ -39,7 +39,7 @@
     stripeCheckoutSessionEndpoint: `${stripeApiBaseUrl}/api/stripe/create-checkout-session`,
     trapPassClaimEndpoint: `${stripeApiBaseUrl}/api/trap-pass/claim`,
     trapPassWalletEndpoint: `${stripeApiBaseUrl}/api/trap-pass/wallet`,
-    instagramUrl: "https://www.instagram.com/ihocaihag2/",
+    instagramUrl: "https://www.instagram.com/imhighoncrackandihaveagun2/",
     tiktokUrl: "https://www.tiktok.com/@ihocaihagofficial",
     threadsUrl: "https://www.threads.net/@ihocaihag",
     youtubeUrl: "https://youtube.com/@imhighoncrackandihaveagun",

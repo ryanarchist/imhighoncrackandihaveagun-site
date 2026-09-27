@@ -679,40 +679,46 @@
 
   function renderTrapPass() {
     const page = content.trapPassContent || {};
+    const wave = page.waveTwo || {};
     const localReview = Boolean(window.TrapHouse?.admin?.localReview);
     const claimsOpen = localReview
       || Boolean(window.TrapHouse?.config?.claims?.publicFreeClaimsEnabled)
       || Boolean(window.TrapHouse?.config?.recovery?.emailProviderConfigured);
     return `
-      ${renderHero(page.hero)}
-      <section class="section compact">
-        <div class="container panel">
-          ${sectionHeader(page.whatIs)}
-        </div>
-      </section>
-      <section class="section compact">
-        <div class="container two-column">
-          <article class="panel release-panel">
-            <span class="eyebrow">${esc(page.currentRelease?.eyebrow || "Current Release")}</span>
-            <h2>${esc(page.currentRelease?.displayTitle || "NO BRAKES")}</h2>
-            <p class="release-secondary">${esc(page.currentRelease?.smallNote || "Gen 2 Wave 1")}</p>
-            ${copyBlock(page.currentRelease?.body)}
-            <div class="tag-row"><span class="tag">Prefix: NB</span><span class="tag">${esc(claimsOpen ? "Claim window open" : "Secure claims opening soon")}</span></div>
-          </article>
-          <div class="pass-artwork-slot">
-            ${page.currentRelease?.imageSrc
-              ? `<img src="${attr(page.currentRelease.imageSrc)}" alt="${attr(page.currentRelease.imageAlt || "No Brakes Gen 2 Wave 1 Trap Pass")}" loading="lazy" />`
-              : `<div class="image-slot" role="img" aria-label="${attr(page.currentRelease?.placeholder || "Trap Pass artwork")}"><span>GEN 2 / WAVE 1</span><strong>${esc(page.currentRelease?.placeholder || "TRAP PASS ARTWORK")}</strong></div>`}
+      <section class="pass-drop" aria-labelledby="pass-drop-title">
+        <div class="container pass-drop-layout">
+          <div class="pass-drop-copy">
+            <span class="pass-drop-stamp">${esc(wave.eyebrow)}</span>
+            <p class="eyebrow">THE NEXT CHAPTER / TRAP PASS</p>
+            <h1 id="pass-drop-title">UNPLUG <span>&amp; BECOME</span> <em>SLUG.</em></h1>
+            <p class="pass-drop-intro">${esc(wave.body)}</p>
+            <div class="cta-row">${button("Explore the passes", "#pass-editions", true)}${button("Open my wallet", "/my-pass/")}</div>
+            <blockquote>${esc(wave.quote)}</blockquote>
+            <a class="pass-archive-link" href="#pass-history">Every wave leaves a mark. Explore the archive ↗</a>
+          </div>
+          <div class="pass-drop-art" aria-label="Gen 2 Wave 2 Trap Pass artwork">
+            ${(wave.editions || []).map((edition, index) => `<a class="pass-drop-card pass-drop-card-${index + 1}" href="${attr(edition.imageSrc)}" target="_blank" rel="noopener" aria-label="View full ${attr(edition.label)} artwork"><img src="${attr(edition.imageSrc)}" alt="${attr(edition.imageAlt)}" ${index === 0 ? 'fetchpriority="high"' : 'loading="eager"'} /><span>${esc(edition.label)} ↗</span></a>`).join("")}
           </div>
         </div>
       </section>
-      <section class="section">
+      <div class="pass-drop-ticker" aria-label="Welcome to the dirt show"><span>GEN 2 / WAVE 2</span><span>WELCOME TO THE DIRT SHOW</span><span>UNPLUG & BECOME SLUG</span></div>
+      <section class="section pass-editions" id="pass-editions">
+        <div class="container">
+          <div class="pass-section-heading"><div><span class="eyebrow">THE WAVE 2 COLLECTION</span><h2>TWO FACES.<br />SAME DIRT SHOW.</h2></div><p>Explore the new artwork in full. Your holder identity stays yours, whichever tier you choose.</p></div>
+          <div class="pass-edition-grid">
+            ${(wave.editions || []).map((edition, index) => `<article class="pass-edition"><a class="pass-edition-art" href="${attr(edition.imageSrc)}" target="_blank" rel="noopener" aria-label="View full ${attr(edition.label)} artwork"><img src="${attr(edition.imageSrc)}" alt="${attr(edition.imageAlt)}" loading="lazy" /></a><div class="pass-edition-caption"><span class="pass-edition-number">0${index + 1}</span><div><span class="eyebrow">GEN 2 / WAVE 2</span><h3>${esc(edition.label)}</h3></div><a href="${attr(edition.imageSrc)}" target="_blank" rel="noopener" aria-label="Enlarge ${attr(edition.label)}">↗</a></div></article>`).join("")}
+          </div>
+        </div>
+      </section>
+      <section class="section compact pass-identity">
+        <div class="container panel">${sectionHeader(page.whatIs)}</div>
+      </section>
+      <section class="section pass-tier-section" id="pass-tiers">
         <div class="container">
           ${sectionHeader(ui.sections?.trapPassTiers)}
           <div class="grid tier-grid">
             ${(page.tiers || []).map((tier) => `
               <article class="tier-card" id="${attr(tier.id)}">
-                ${tier.imageSrc ? `<div class="tier-media"><img src="${attr(tier.imageSrc)}" alt="${attr(tier.imageAlt || tier.label || "Trap Pass")}" loading="lazy" /></div>` : ""}
                 <span class="card-label">${esc(tier.label)}</span>
                 <strong class="price">${esc(tier.price || "")}</strong>
                 ${tier.annualPrice ? `<span class="tier-annual-price">${esc(tier.annualPrice)}</span>` : ""}
@@ -751,6 +757,7 @@
         <div class="container">
           ${sectionHeader(ui.sections?.passHistory)}
           <div class="grid card-grid pass-history-grid">
+            <article class="evidence-card pass-history-card"><div class="pass-history-media"><img src="${attr(page.currentRelease.imageSrc)}" alt="${attr(page.currentRelease.imageAlt)}" loading="lazy" /></div><span class="card-label">Generation 2</span><h3>Wave 1 — No Brakes</h3><div class="tag-row"><span class="tag">Prefix: NB</span><span class="tag">Existing holder identities preserved</span></div></article>
             ${(page.history || []).map((item) => `
               <article class="evidence-card pass-history-card">
                 ${item.imageSrc ? `<div class="pass-history-media"><img src="${attr(item.imageSrc)}" alt="${attr(item.imageAlt || item.title || "Prior Trap Pass release")}" loading="lazy" /></div>` : ""}

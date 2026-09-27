@@ -117,8 +117,8 @@ const siteContentSource = fs.readFileSync(siteContent, "utf8");
 if (!siteContentSource.includes('{ label: "Soundtrack", href: "/soundtrack/", page: "soundtrack" }')) {
   fail(siteContent, "main navigation is missing the soundtrack tab");
 }
-if (!siteContentSource.includes("https://instagram.com/ihocaihag2")) {
-  fail(siteContent, "public Instagram links must point to @ihocaihag2");
+if (!siteContentSource.includes("https://www.instagram.com/imhighoncrackandihaveagun2/")) {
+  fail(siteContent, "public Instagram links must point to @imhighoncrackandihaveagun2");
 }
 if (siteContentSource.includes('href: "https://instagram.com/ihocaihag"')) {
   fail(siteContent, "public footer still contains the retired Instagram profile");
