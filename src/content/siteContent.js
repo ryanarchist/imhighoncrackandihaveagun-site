@@ -858,7 +858,7 @@
         quote: "Sometimes you find a brief disconnect can reset the mind.",
         editions: [
           { label: "Regular pass", imageSrc: asset("trap-pass-gen2-wave2-photographic.png"), imageAlt: "Regular Gen 2 Wave 2 Unplug and Become Slug photographic Trap Pass with orange lettering and a holographic strip" },
-          { label: "Paid pass", imageSrc: asset("trap-pass-gen2-wave2-illustrated.png"), imageAlt: "Paid Gen 2 Wave 2 Unplug and Become Slug illustrated Trap Pass with a vintage paper finish and a cat on Ryan's shoulder" }
+          { label: "Paid pass", checkoutProduct: "cash_for_trash_monthly", price: "$4.99/month", imageSrc: asset("trap-pass-gen2-wave2-illustrated.png"), imageAlt: "Paid Gen 2 Wave 2 Unplug and Become Slug illustrated Trap Pass with a vintage paper finish and a cat on Ryan's shoulder" }
         ]
       },
       hero: {

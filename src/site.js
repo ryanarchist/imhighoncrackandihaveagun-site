@@ -677,6 +677,13 @@
     `;
   }
 
+  function passEditionAction(edition, className, children, label) {
+    if (edition.checkoutProduct) {
+      return `<button type="button" class="${attr(className)}" data-checkout-product="${attr(edition.checkoutProduct)}" data-checkout-quantity="1" aria-label="${attr(label)}" disabled aria-disabled="true">${children}</button>`;
+    }
+    return `<a class="${attr(className)}" href="${attr(edition.imageSrc)}" target="_blank" rel="noopener" aria-label="${attr(label)}">${children}</a>`;
+  }
+
   function renderTrapPass() {
     const page = content.trapPassContent || {};
     const wave = page.waveTwo || {};
@@ -697,7 +704,7 @@
             <a class="pass-archive-link" href="#pass-history">Every wave leaves a mark. Explore the archive ↗</a>
           </div>
           <div class="pass-drop-art" aria-label="Gen 2 Wave 2 Trap Pass artwork">
-            ${(wave.editions || []).map((edition, index) => `<a class="pass-drop-card pass-drop-card-${index + 1}" href="${attr(edition.imageSrc)}" target="_blank" rel="noopener" aria-label="View full ${attr(edition.label)} artwork"><img src="${attr(edition.imageSrc)}" alt="${attr(edition.imageAlt)}" ${index === 0 ? 'fetchpriority="high"' : 'loading="eager"'} /><span>${esc(edition.label)} ↗</span></a>`).join("")}
+            ${(wave.editions || []).map((edition, index) => passEditionAction(edition, `pass-drop-card pass-drop-card-${index + 1}`, `<img src="${attr(edition.imageSrc)}" alt="${attr(edition.imageAlt)}" ${index === 0 ? 'fetchpriority="high"' : 'loading="eager"'} /><span data-checkout-label>${esc(edition.label)}${edition.price ? ` · ${esc(edition.price)} · Checkout` : ' ↗'}</span>`, edition.checkoutProduct ? `Buy paid digital pass — ${edition.price}` : `View full ${edition.label} artwork`)).join("")}
           </div>
         </div>
       </section>
@@ -706,8 +713,9 @@
         <div class="container">
           <div class="pass-section-heading"><div><span class="eyebrow">THE WAVE 2 COLLECTION</span><h2>TWO FACES.<br />SAME DIRT SHOW.</h2></div><p>Explore the new artwork in full. Your holder identity stays yours, whichever tier you choose.</p></div>
           <div class="pass-edition-grid">
-            ${(wave.editions || []).map((edition, index) => `<article class="pass-edition"><a class="pass-edition-art" href="${attr(edition.imageSrc)}" target="_blank" rel="noopener" aria-label="View full ${attr(edition.label)} artwork"><img src="${attr(edition.imageSrc)}" alt="${attr(edition.imageAlt)}" loading="lazy" /></a><div class="pass-edition-caption"><span class="pass-edition-number">0${index + 1}</span><div><span class="eyebrow">GEN 2 / WAVE 2</span><h3>${esc(edition.label)}</h3></div><a href="${attr(edition.imageSrc)}" target="_blank" rel="noopener" aria-label="Enlarge ${attr(edition.label)}">↗</a></div></article>`).join("")}
+            ${(wave.editions || []).map((edition, index) => `<article class="pass-edition">${passEditionAction(edition, 'pass-edition-art', `<img src="${attr(edition.imageSrc)}" alt="${attr(edition.imageAlt)}" loading="lazy" />${edition.checkoutProduct ? `<span data-checkout-label>Continue to Stripe · ${esc(edition.price)}</span>` : ''}`, edition.checkoutProduct ? `Checkout paid digital pass — ${edition.price}` : `View full ${edition.label} artwork`)}<div class="pass-edition-caption"><span class="pass-edition-number">0${index + 1}</span><div><span class="eyebrow">GEN 2 / WAVE 2</span><h3>${esc(edition.label)}</h3>${edition.price ? `<p class="small-note">Cash For Trash · ${esc(edition.price)}</p>` : ''}</div>${passEditionAction(edition, 'pass-edition-arrow', '<span data-checkout-label>↗</span>', edition.checkoutProduct ? `Open Stripe checkout — ${edition.price}` : `Enlarge ${edition.label}`)}</div></article>`).join("")}
           </div>
+          <p class="checkout-status" data-checkout-status role="status"></p>
         </div>
       </section>
       <section class="section compact pass-identity">

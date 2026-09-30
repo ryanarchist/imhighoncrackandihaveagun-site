@@ -10,8 +10,16 @@
   const checkoutClosedButton = checkoutText.closedButton || "Checkout Opening Soon";
   const checkoutCheckingButton = checkoutText.checkingButton || "Checking Checkout...";
 
+  function labelNode(button) {
+    return button.querySelector('[data-checkout-label]') || button;
+  }
+
+  function setButtonLabel(button, text) {
+    labelNode(button).textContent = text;
+  }
+
   buttons.forEach((button) => {
-    button.dataset.checkoutLabel = button.textContent.trim();
+    button.dataset.checkoutLabel = labelNode(button).textContent.trim();
   });
 
   function setStatus(message, tone) {
@@ -49,7 +57,7 @@
       button.setAttribute("aria-disabled", "true");
       button.setAttribute("aria-busy", "false");
       if (available) {
-        button.textContent = tone === "working" ? checkoutCheckingButton : checkoutClosedButton;
+        setButtonLabel(button, tone === "working" ? checkoutCheckingButton : checkoutClosedButton);
         button.title = message || checkoutClosedMessage;
       }
     });
@@ -63,7 +71,7 @@
       if (available) {
         button.removeAttribute("aria-disabled");
         button.removeAttribute("title");
-        button.textContent = button.dataset.checkoutLabel || button.textContent;
+        setButtonLabel(button, button.dataset.checkoutLabel || labelNode(button).textContent);
       } else {
         button.setAttribute("aria-disabled", "true");
       }
@@ -100,12 +108,12 @@
   async function startCheckout(button) {
     const productKey = button.dataset.checkoutProduct;
     const quantity = Number.parseInt(button.dataset.checkoutQuantity || "1", 10);
-    const label = button.textContent;
+    const label = labelNode(button).textContent;
 
     if (!productKey) return;
 
     lockButtons(true);
-    button.textContent = checkoutText.openingButton || "Opening checkout...";
+    setButtonLabel(button, checkoutText.openingButton || "Opening checkout...");
     setStatus(checkoutText.opening || "Opening checkout.", "working");
 
     try {
@@ -127,7 +135,7 @@
       window.location.assign(data.url);
     } catch (error) {
       console.error("Checkout failed:", error);
-      button.textContent = label;
+      setButtonLabel(button, label);
       await refreshCheckoutReadiness();
     }
   }
