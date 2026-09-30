@@ -1,32 +1,50 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="robots" content="noindex, nofollow" />
-  <title>IHOCAIHAG Archive</title>
-  <meta name="description" content="A six-year documentary archive of addiction, grief, psychosis, survival, and the evidence left behind." />
-  <meta name="theme-color" content="#030303" />
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="IHOCAIHAG" />
-  <meta property="og:description" content="A six-year documentary archive of addiction, grief, psychosis, survival, and the evidence left behind." />
-  <meta property="og:url" content="https://imhighoncrackandihaveagun.com/" />
-  <meta property="og:image" content="https://imhighoncrackandihaveagun.com/assets/trap-house/ihocaihag-rectangle-logo.png" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="IHOCAIHAG" />
-  <meta name="twitter:description" content="A six-year documentary archive of addiction, grief, psychosis, survival, and the evidence left behind." />
-  <meta name="twitter:image" content="https://imhighoncrackandihaveagun.com/assets/trap-house/ihocaihag-rectangle-logo.png" />
-  <link rel="canonical" href="https://imhighoncrackandihaveagun.com/" />
-  <link rel="icon" href="/assets/trap-house/ihocaihag-rectangle-logo.png" />
-  <link rel="stylesheet" href="/src/site.css?v=20260719-10" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Room — IHOCAIHAG</title>
+  <meta name="description" content="Step inside the room. Choose a screen and watch the archive.">
+  <meta name="theme-color" content="#11100e">
+  <link rel="canonical" href="https://imhighoncrackandihaveagun.com/room/">
+  <link rel="icon" href="/assets/trap-house/ihocaihag-rectangle-logo.png">
+  <link rel="preload" as="image" href="/assets/trap-house/archive-room-v2.webp">
+  <link rel="stylesheet" href="/room/room.css?v=20260929-2">
 </head>
-<body data-page="room">
-  <div id="site-root"></div>
+<body>
+  <a class="skip-link" href="#room">Skip to the room</a>
+  <header class="room-header">
+    <a class="brand" href="/" aria-label="IHOCAIHAG home">IHOCAIHAG<span>THE LIVING ARCHIVE</span></a>
+    <nav aria-label="Room navigation"><a href="/map/">Thread map ↗</a><a href="/drops/">Official drops ↗</a></nav>
+    <button class="archive-open" type="button" data-browse>Browse archive <span aria-hidden="true">↗</span></button>
+  </header>
+  <main id="room" tabindex="-1">
+    <div class="room-intro"><div><p class="kicker"><span class="live-dot"></span> THE ROOM</p><h1>Pull up. Pick a screen.</h1><p class="mobile-hint">Swipe to look around. Tap a screen to watch.</p></div><p class="room-hint">Different screens. Same house.<br>Click one to settle in.</p></div>
+    <div class="scene-scroll" id="sceneScroll" aria-label="The attic room; scroll sideways on a phone">
+      <div class="scene" id="roomScene">
+        <img class="room-art" src="/assets/trap-house/archive-room-v2.webp" width="1451" height="1088" alt="The original attic with flags, bookshelves, eight collector figures and cats, now with a TV, tablet, laptop and phone." fetchpriority="high">
+        <div id="devices" class="devices"></div>
+        <div class="tv-neon" aria-label="MINI DOC 1 The Ride to Die"><span>MINI DOC 1</span><strong>The Ride to Die</strong></div>
+        <button class="archive-note" type="button" data-browse><span>pick a device<br>and go into<br>the archive</span></button>
+      </div>
+    </div>
+    <div class="room-controls"><p><span class="live-dot"></span><span id="roomStatus" role="status">Opening the room…</span></p><button id="motionToggle" type="button" aria-pressed="false">Pause screen previews</button></div>
+    <nav id="deviceShortcuts" class="device-shortcuts" aria-label="Choose a screen"></nav>
+    <footer class="room-footer"><p>The website is the archive.</p><p id="collectionNote">Room motion studies</p></footer>
+    <noscript><p>Enable JavaScript to explore the screens. Or visit <a href="/drops/">Official Drops</a>.</p></noscript>
+  </main>
+  <dialog id="watchDialog" aria-labelledby="watchTitle">
+    <div class="watch-shell">
+      <header class="watch-header"><div><p class="kicker" id="watchDevice">THE ROOM</p><h2 id="watchTitle">Choose something to watch.</h2></div><button id="closeWatch" type="button" class="back-button">← Back to room</button></header>
+      <div class="watch-layout">
+        <section class="viewing" aria-label="Video player"><div class="player-frame" id="playerFrame"><video id="archivePlayer" controls playsinline preload="none"></video><div class="player-empty" id="playerEmpty"><span aria-hidden="true">▷</span><p>Choose a video from the archive.</p></div></div><p id="playbackStatus" role="status"></p><button id="retryPlayback" type="button" hidden>Try playback again</button><div class="video-info"><p id="videoCollection" class="kicker"></p><h3 id="videoTitle"></h3><p id="videoDescription"></p></div></section>
+        <aside class="library" aria-label="Video archive"><div class="library-heading"><h3>On the shelves</h3><span id="videoCount"></span></div><label for="archiveSearch">Find a video</label><input id="archiveSearch" type="search" placeholder="Search the archive…" autocomplete="off"><label class="sr-only" for="collectionFilter">Filter by collection</label><select id="collectionFilter"><option value="all">All collections</option></select><div id="archiveList" class="archive-list"></div><p id="archiveEmpty" hidden>No videos match. Try another search.</p></aside>
+      </div>
+    </div>
+  </dialog>
   <script src="/config.js?v=20260815-1" defer></script>
   <script src="/src/content/trapPassConfig.js?v=20260719-10" defer></script>
   <script src="/trap-pass-system.js?v=20260719-10" defer></script>
-  <script src="/src/content/siteContent.js?v=20260815-1" defer></script>
-  <script src="/src/site.js?v=20260719-10" defer></script>
-
+  <script src="/room/room.js?v=20260929-2" defer></script>
 </body>
 </html>
