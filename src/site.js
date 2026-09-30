@@ -622,8 +622,8 @@
       mobileBackgroundPosition: thread.heroImage?.mobileHeroPosition || thread.heroImage?.mobileObjectPosition || "center top",
       ctaPrimaryLabel: "Back To Map",
       ctaPrimaryHref: "/map/",
-      ctaSecondaryLabel: "Watch Official Drops",
-      ctaSecondaryHref: "/drops/",
+      ctaSecondaryLabel: "Enter Ryans Room",
+      ctaSecondaryHref: "/room/",
       sequenceNavigation: renderThreadSequenceNav(thread)
     };
     return `

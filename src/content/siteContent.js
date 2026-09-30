@@ -357,7 +357,7 @@
     body: "A six-year archive of videos, photographs, notebooks, interviews, art, screenshots, artifacts, and evidence—turned into a book, documentary, and soundtrack tracing one person’s tailspin into collapse.",
     smallNote: projectOneLiner,
     actions: [
-      { label: "Watch Official Drops", href: "/drops/", primary: true },
+      { label: "Enter Ryans Room", href: "/room/", primary: true },
       { label: "Open The Map", href: "/map/" },
       { label: "Get Trap Pass", href: "/trap-pass/" },
       { label: "Enter Trap House", href: "/trap-house/" }
@@ -396,7 +396,7 @@
         { label: "Book", href: "/book/", page: "book" },
         { label: "Doc", href: "/documentary/", page: "documentary" },
         { label: "Soundtrack", href: "/soundtrack/", page: "soundtrack" },
-        { label: "Drops", href: "/drops/", page: "drops" },
+        { label: "Ryans Room", href: "/room/", page: "room" },
         { label: "Trap Pass", href: "/trap-pass/", page: "trap-pass" },
         { label: "Trap House", href: "/trap-house/", page: "trap-house" },
         { label: "Store", href: "/store/", page: "store" }
@@ -448,7 +448,7 @@
         },
         map: { title: `Thread Map | ${projectShortName}`, description: mapDescription, canonicalUrl: `${siteUrl}/map/`, ogImage: asset("thread-map-interactive-approved.png"), twitterImage: asset("thread-map-interactive-approved.png") },
         "january-22": { title: `January 22 | ${projectShortName}`, description: january22Description, canonicalUrl: `${siteUrl}/map/january-22/` },
-        drops: { title: `Official Drops | ${projectShortName}`, description: dropsDescription, canonicalUrl: `${siteUrl}/drops/`, ogImage: asset("official-drops-approved.png"), twitterImage: asset("official-drops-approved.png") },
+        drops: { title: `Ryans Room | ${projectShortName}`, description: dropsDescription, canonicalUrl: `${siteUrl}/room/`, ogImage: asset("official-drops-approved.png"), twitterImage: asset("official-drops-approved.png") },
         "trap-pass": { title: `Gen 2 Wave 2 — Unplug & Become Slug | Trap Pass`, description: "Discover the regular and paid Gen 2 Wave 2 Trap Pass editions, membership options, and the release archive.", canonicalUrl: `${siteUrl}/trap-pass/`, ogImage: asset("trap-pass-gen2-wave2-photographic.png") },
         "trap-house": { title: `Trap House | ${projectShortName}`, description: "Where WE come together, talk back, and build whatever we decide is worth building.", canonicalUrl: `${siteUrl}/trap-house/` },
         store: { title: `Store | ${projectShortName}`, description: storeDescription, canonicalUrl: `${siteUrl}/store/`, ogImage: asset("home-store-approved.png"), twitterImage: asset("home-store-approved.png") },
@@ -596,8 +596,8 @@
             label: "Soundtrack",
             headline: "The sounds of the collapse.",
             body: "Songs, noise, memory, and emotion pulled from the same years as the footage and writing. Not background music for the story—the part of it that had to be heard instead of explained.",
-            buttonLabel: "Watch Official Drops",
-            href: "/drops/"
+            buttonLabel: "Enter Ryans Room",
+            href: "/room/"
           },
           {
             label: "Trap Pass",
@@ -629,14 +629,14 @@
           mobileObjectPosition: "center 48%"
         },
         {
-          id: "official-drops",
-          eyebrow: "Official Drops",
-          headline: "Watch Official Drops",
+          id: "ryans-room",
+          eyebrow: "Ryans Room",
+          headline: "Enter Ryans Room",
           body: dropsDescription,
-          buttonLabel: "Watch Official Drops",
-          buttonHref: "/drops/",
-          imageSrc: asset("home-official-drops-approved.png"),
-          imageAlt: "Ryan seated in the project workspace",
+          buttonLabel: "Enter Ryans Room",
+          buttonHref: "/room/",
+          imageSrc: asset("archive-room-v2.webp"),
+          imageAlt: "Ryans attic room with the Mini Doc 1 TV and archive devices",
           imageFit: "cover",
           objectPosition: "center center"
         },
@@ -675,11 +675,11 @@
 
     dropsContent: {
       hero: {
-        eyebrow: "Official Drops",
-        headline: "Official Drops",
+        eyebrow: "Ryans Room",
+        headline: "Ryans Room",
         body: dropsDescription,
         smallNote: "Mini Doc 1: The Ride to Die is pinned below.",
-        ctaPrimaryLabel: "Watch Official Drops",
+        ctaPrimaryLabel: "Enter Ryans Room",
         ctaPrimaryHref: "https://youtube.com/@imhighoncrackandihaveagun",
         ctaSecondaryLabel: "Open The Map",
         ctaSecondaryHref: "/map/",
@@ -832,8 +832,8 @@
         body: "Each thread explains an invisible force running through the archive.",
         ctaPrimaryLabel: "Back To Map",
         ctaPrimaryHref: "/map/",
-        ctaSecondaryLabel: "Watch Official Drops",
-        ctaSecondaryHref: "/drops/",
+        ctaSecondaryLabel: "Enter Ryans Room",
+        ctaSecondaryHref: "/room/",
         imageSrc: "",
         imageAlt: "Thread hero image slot"
       },
@@ -1234,8 +1234,8 @@
         smallNote: projectOneLiner,
         ctaPrimaryLabel: "Open The Map",
         ctaPrimaryHref: "/map/",
-        ctaSecondaryLabel: "Watch Official Drops",
-        ctaSecondaryHref: "/drops/",
+        ctaSecondaryLabel: "Enter Ryans Room",
+        ctaSecondaryHref: "/room/",
         imageSrc: asset("author-main-portrait.png"),
         imageAlt: "Ryan image slot"
       },
@@ -1287,7 +1287,7 @@
         imageSrc: asset("author-bio-poster.png"),
         imageAlt: "Ryan Homanics image slot",
         buttons: [
-          { label: "Official Drops", href: "/drops/" },
+          { label: "Ryans Room", href: "/room/" },
           { label: "Open Store", href: "/store/" }
         ]
       },
@@ -1400,7 +1400,7 @@
         smallNote: "Six years of cameras already rolling inside active addiction.",
         actions: [
           { label: "Mini Doc 1: The Ride to Die", href: "#mini-doc-1", primary: true },
-          { label: "Watch Official Drops", href: "/drops/" },
+          { label: "Enter Ryans Room", href: "/room/" },
           { label: "Open The Book", href: "/book/" }
         ],
         imageSrc: asset("documentary-banner-gun-pipe-approved.png"),
