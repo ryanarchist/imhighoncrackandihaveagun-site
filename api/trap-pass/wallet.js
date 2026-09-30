@@ -172,7 +172,7 @@ async function supabaseFetch(route) {
 }
 
 async function findFreePass(query) {
-  const select = "trap_pass_id,wave_number,wave_name,serial_number,display_name,discord_role,status,missions_completed,unlock_level,thread_keys,created_at,updated_at,future_unlock_data";
+  const select = "trap_pass_id,wave_number,wave_name,serial_number,display_name,discord_role,status,missions_completed,unlock_level,thread_keys,created_at,updated_at,future_unlock_data,email_normalized";
   if (isEmail(query)) {
     const rows = await supabaseFetch(
       `/rest/v1/trap_passes?select=${encodeURIComponent(select)}&email_normalized=eq.${encodeURIComponent(normalizeEmail(query))}&limit=1`
@@ -321,10 +321,8 @@ module.exports = async function handler(req, res) {
     const query = String(body.query || body.email || body.serial || "").trim();
     if (!query) return sendJson(res, 400, { error: "query_required" });
 
-    let [freePass, entitlements] = await Promise.all([
-      findFreePass(query).catch(() => null),
-      findStripeEntitlements(query).catch(() => [])
-    ]);
+    let freePass = await findFreePass(query).catch(() => null);
+    const entitlements = await findStripeEntitlements(freePass?.email_normalized || query).catch(() => []);
     if (body.action === "claim-release") {
       if (req.method !== "POST" || body.releaseId !== NEW_RELEASE.id) return sendJson(res, 400, { error: "release_unavailable" });
       if (!freePass || freePass.status !== "active") return sendJson(res, 400, { error: "Claim your free holder pass first, then add this release." });

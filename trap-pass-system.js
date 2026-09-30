@@ -849,7 +849,7 @@
     if (!accessToken) {
       const saved = loadPublicWalletSession();
       if (!saved) return null;
-      return await lookupServerWalletAsync(saved.sourcePassId || saved.holderPublicId) || saved;
+      return await lookupServerWalletAsync(saved.sourcePassId || saved.featuredPass?.cardSerial || saved.holderPublicId) || saved;
     }
     return supabaseRpc("trap_pass_get_my_wallet", {}, { accessToken });
   }
