@@ -106,6 +106,8 @@
   }
   function unloadPlayer() {
     loadVersion++;
+    $('qualityControl').hidden=true;
+    $('playbackQuality').replaceChildren(new Option('Auto (recommended)','-1'));
     if(hls){hls.destroy();hls=null;}
     player.pause();player.removeAttribute('src');player.replaceChildren();player.load();
   }
@@ -149,13 +151,24 @@
           if(player.canPlayType('application/vnd.apple.mpegurl')){player.src=video.src;attemptPlay(version);return;}
           throw new Error('Streaming unavailable');
         }
-        hls=new Hls({maxBufferLength:20});
+        hls=new Hls({enableWorker:true,capLevelToPlayerSize:true,capLevelOnFPSDrop:true,maxBufferLength:45,backBufferLength:30});
         hls.on(Hls.Events.ERROR,(_,data)=>{if(data.fatal&&version===loadVersion)message('This video could not load. Check your connection and try again.',true);});
-        hls.on(Hls.Events.MANIFEST_PARSED,()=>attemptPlay(version));hls.loadSource(video.src);hls.attachMedia(player);
+        hls.on(Hls.Events.MANIFEST_PARSED,()=>{
+          if(version!==loadVersion)return;
+          hls.levels.forEach((level,index)=>$('playbackQuality').append(new Option(`${level.height}p`,String(index))));
+          $('qualityControl').hidden=false;
+          attemptPlay(version);
+        });hls.loadSource(video.src);hls.attachMedia(player);
       }else{player.src=video.src;attemptPlay(version);}
     }catch {if(version===loadVersion)message('This video could not load. Check your connection and try again.',true);}
   }
   player.addEventListener('playing',()=>message(''));
+  $('playbackQuality').addEventListener('change',()=>{
+    if(!hls)return;
+    const level=Number($('playbackQuality').value);
+    hls.capLevelToPlayerSize=level===-1;
+    hls.currentLevel=level;
+  });
   player.addEventListener('waiting',()=>{if(selected&&dialog.open)message('Buffering…');});
   player.addEventListener('error',()=>{if(selected&&dialog.open)message('This video could not load. Check your connection and try again.',true);});
   $('retryPlayback').addEventListener('click',()=>{if(selected)selectVideo(selected);});

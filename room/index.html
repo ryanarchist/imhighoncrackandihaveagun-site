@@ -9,7 +9,7 @@
   <link rel="canonical" href="https://imhighoncrackandihaveagun.com/room/">
   <link rel="icon" href="/assets/trap-house/ihocaihag-rectangle-logo.png">
   <link rel="preload" as="image" href="/assets/trap-house/archive-room-v2.webp">
-  <link rel="stylesheet" href="/room/room.css?v=20260929-3">
+  <link rel="stylesheet" href="/room/room.css?v=20260930-1">
 </head>
 <body>
   <a class="skip-link" href="#room">Skip to the room</a>
@@ -37,7 +37,7 @@
     <div class="watch-shell">
       <header class="watch-header"><div><p class="kicker" id="watchDevice">RYANS ROOM</p><h2 id="watchTitle">Choose something to watch.</h2></div><button id="closeWatch" type="button" class="back-button">← Back to room</button></header>
       <div class="watch-layout">
-        <section class="viewing" aria-label="Video player"><div class="player-frame" id="playerFrame"><video id="archivePlayer" controls playsinline preload="none"></video><div class="player-empty" id="playerEmpty"><span aria-hidden="true">▷</span><p>Choose a video from the archive.</p></div></div><p id="playbackStatus" role="status"></p><button id="retryPlayback" type="button" hidden>Try playback again</button><div class="video-info"><p id="videoCollection" class="kicker"></p><h3 id="videoTitle"></h3><p id="videoDescription"></p></div></section>
+        <section class="viewing" aria-label="Video player"><div class="player-frame" id="playerFrame"><video id="archivePlayer" controls playsinline preload="none"></video><div class="player-empty" id="playerEmpty"><span aria-hidden="true">▷</span><p>Choose a video from the archive.</p></div></div><div id="qualityControl" class="quality-control" hidden><label for="playbackQuality">Playback quality</label><select id="playbackQuality"><option value="-1">Auto (recommended)</option></select></div><p id="playbackStatus" role="status"></p><button id="retryPlayback" type="button" hidden>Try playback again</button><div class="video-info"><p id="videoCollection" class="kicker"></p><h3 id="videoTitle"></h3><p id="videoDescription"></p></div></section>
         <aside class="library" aria-label="Video archive"><div class="library-heading"><h3>On the shelves</h3><span id="videoCount"></span></div><label for="archiveSearch">Find a video</label><input id="archiveSearch" type="search" placeholder="Search the archive…" autocomplete="off"><label class="sr-only" for="collectionFilter">Filter by collection</label><select id="collectionFilter"><option value="all">All collections</option></select><div id="archiveList" class="archive-list"></div><p id="archiveEmpty" hidden>No videos match. Try another search.</p></aside>
       </div>
     </div>
@@ -45,6 +45,6 @@
   <script src="/config.js?v=20260815-1" defer></script>
   <script src="/src/content/trapPassConfig.js?v=20260719-10" defer></script>
   <script src="/trap-pass-system.js?v=20260719-10" defer></script>
-  <script src="/room/room.js?v=20260929-3" defer></script>
+  <script src="/room/room.js?v=20260930-1" defer></script>
 </body>
 </html>
