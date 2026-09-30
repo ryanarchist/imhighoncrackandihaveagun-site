@@ -1912,3 +1912,9 @@ body[data-page="trap-pass"] #pass-history .pass-history-grid { grid-template-col
 .selected-pass-controls { display:flex; flex-wrap:wrap; justify-content:center; gap:12px; margin-top:20px; }
 .wallet-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; }
 @media(max-width:600px) { .wallet-identity .meta-list,.wallet-grid { grid-template-columns:1fr; } .pass-collection { grid-template-columns:repeat(2,minmax(0,1fr)); } .pass-thumbnail-art { height:200px; } .pass-thumbnail { padding:10px; } }
+
+body[data-page="my-pass"] .hero { min-height:0; }
+body[data-page="my-pass"] .hero-inner { padding-top:48px; padding-bottom:36px; }
+body[data-page="my-pass"] .hero h1 { font-size:clamp(36px,5vw,64px); }
+.wallet-identity h2 { font-size:clamp(30px,4vw,48px); margin:10px 0 18px; }
+.pass-identity-banner { display:grid; gap:6px; padding:16px 0; }

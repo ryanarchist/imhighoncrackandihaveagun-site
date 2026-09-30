@@ -1229,13 +1229,13 @@
           </div>
         </section>
         ${renderWalletCollection(wallet, selectedCard?.cardSerial)}
-        ${renderSelectedPass(wallet, selectedCard, flipped)}
         ${available.length ? `
           <section class="wallet-section panel">
             <header class="section-header"><span class="eyebrow">Available Now</span><h2>Claim A New Pass</h2></header>
             <div class="cta-row">${available.map((release) => `<button class="button primary" type="button" data-claim-release="${attr(release.id)}">${esc(`${actions.claimNewPass || "Claim New Pass"}: ${release.name}`)}</button>`).join("")}</div>
           </section>
         ` : ""}
+        ${renderSelectedPass(wallet, selectedCard, flipped)}
         <section class="wallet-section wallet-grid">
           <article class="panel">
             <header class="section-header"><span class="eyebrow">Current Tier</span><h2>${esc(wallet.currentTierLabel)}</h2></header>
