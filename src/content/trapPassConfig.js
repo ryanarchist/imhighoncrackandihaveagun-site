@@ -97,7 +97,14 @@
       backPlaceholder: "IHOCAIHAG TRAP PASS / NO BRAKES",
       status: "current",
       displayOrder: 5
-    }
+    },
+    { id: "gen-2-wave-2-unplug-become-slug", slug: "unplug-become-slug",
+      generation: 2, waveNumber: 2, name: "Unplug & Become Slug", prefix: "SLUG",
+      claimEnabled: true, legacyManualVerificationRequired: false,
+      frontArtwork: "/assets/trap-house/trap-pass-gen2-wave2-photographic.png",
+      backArtwork: "", backPlaceholder: "UNPLUG & BECOME SLUG / GEN 2 WAVE 2",
+      status: "current", displayOrder: 6 }
+
   ];
 
   const tiers = [
@@ -199,7 +206,7 @@
     },
     cardSerial: {
       padding: 4,
-      pattern: /^(ROD|W3D|AHD|BTS|NB|HS|CFT)-\d{4,}(?:-R[2-9]\d*)?$/,
+      pattern: /^(ROD|W3D|AHD|BTS|NB|HS|CFT|SLUG)-\d{4,}(?:-R[2-9]\d*)?$/,
       legacyPattern: /^W[1-4]-\d{4,}$/
     },
     currentReleaseId: "gen-2-wave-1-no-brakes",

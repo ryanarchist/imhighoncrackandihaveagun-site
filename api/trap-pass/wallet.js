@@ -14,6 +14,31 @@ const CURRENT_RELEASE = {
   backPlaceholder: "IHOCAIHAG TRAP PASS / NO BRAKES"
 };
 
+const NEW_RELEASE = {
+  id: "gen-2-wave-2-unplug-become-slug", name: "Unplug & Become Slug",
+  generation: 2, waveNumber: 2, prefix: "SLUG",
+  frontArtwork: "/assets/trap-house/trap-pass-gen2-wave2-photographic.png"
+};
+
+async function addRelease(pass) {
+  const config = supabaseServerConfig();
+  for (let attempt = 0; attempt < 3; attempt++) {
+    const metadata = pass.future_unlock_data || {};
+    const claims = metadata.collectibleReleases || {};
+    if (claims[NEW_RELEASE.id]) return pass;
+    const response = await fetch(`${config.url}/rest/v1/trap_passes?trap_pass_id=eq.${encodeURIComponent(pass.trap_pass_id)}&updated_at=eq.${encodeURIComponent(pass.updated_at)}`, {
+      method: "PATCH", headers: { apikey: config.key, Authorization: `Bearer ${config.key}`, "Content-Type": "application/json", Prefer: "return=representation" },
+      body: JSON.stringify({ future_unlock_data: { ...metadata, collectibleReleases: { ...claims, [NEW_RELEASE.id]: { claimedAt: new Date().toISOString() } } }, updated_at: new Date().toISOString() })
+    });
+    if (!response.ok) throw new Error("release_save_failed");
+    const rows = await response.json();
+    if (rows[0]) return rows[0];
+    pass = await findFreePass(pass.trap_pass_id);
+    if (!pass) throw new Error("holder_not_found");
+  }
+  throw new Error("wallet_changed_try_again");
+}
+
 const HOLDER_FIRST_NUMBER = 100;
 const PAID_PREFIX_OFFSETS = {
   HS: 700000,
@@ -83,7 +108,7 @@ function legacyLiveLookupQuery(value) {
   const clean = normalizeSerial(value);
   const holderMatch = clean.match(/^TP-(\d{4,})$/);
   if (holderMatch) return holderNumberToLegacyLivePassId(Number(holderMatch[1]));
-  const cardMatch = clean.match(/^NB-(\d{4,})(?:-R[2-9]\d*)?$/);
+  const cardMatch = clean.match(/^(?:NB|SLUG)-(\d{4,})(?:-R[2-9]\d*)?$/);
   if (cardMatch) return holderNumberToLegacyLivePassId(Number(cardMatch[1]));
   return clean;
 }
@@ -147,7 +172,7 @@ async function supabaseFetch(route) {
 }
 
 async function findFreePass(query) {
-  const select = "trap_pass_id,wave_number,wave_name,serial_number,display_name,discord_role,status,missions_completed,unlock_level,thread_keys,created_at";
+  const select = "trap_pass_id,wave_number,wave_name,serial_number,display_name,discord_role,status,missions_completed,unlock_level,thread_keys,created_at,updated_at,future_unlock_data";
   if (isEmail(query)) {
     const rows = await supabaseFetch(
       `/rest/v1/trap_passes?select=${encodeURIComponent(select)}&email_normalized=eq.${encodeURIComponent(normalizeEmail(query))}&limit=1`
@@ -244,7 +269,14 @@ async function walletFromRecords(freePass, entitlements) {
   const tier = tierFromEntitlements(cleanEntitlements);
   const freeCard = freePass ? freeCardFromPass(freePass) : null;
   const paidCards = cleanEntitlements.map((item) => stripeCardFromEntitlement(catalog, item));
-  const cards = dedupeCards([...paidCards, freeCard].filter(Boolean));
+  const claimed = Boolean(freePass?.future_unlock_data?.collectibleReleases?.[NEW_RELEASE.id]);
+  const newCard = claimed ? {
+    ...NEW_RELEASE, waveId: NEW_RELEASE.id, waveName: NEW_RELEASE.name,
+    cardSerial: `${NEW_RELEASE.prefix}-${String(holderNumber).padStart(4, "0")}`,
+    status: freePass.status || "active", backArtwork: "",
+    backPlaceholder: "UNPLUG & BECOME SLUG / GEN 2 WAVE 2"
+  } : null;
+  const cards = dedupeCards([newCard, ...paidCards, freeCard].filter(Boolean));
   const timestamp = freePass?.created_at || cleanEntitlements[0]?.created_at || new Date().toISOString();
   const trapIdentity = String(freePass?.display_name || "").trim();
 
@@ -263,6 +295,7 @@ async function walletFromRecords(freePass, entitlements) {
     publicProfileEnabled: false,
     publicProfileUrl: "",
     selectedPublicThreadSlugs: Array.isArray(freePass?.thread_keys) ? freePass.thread_keys : [],
+    availableReleases: freePass && freePass.status === "active" && !claimed ? [NEW_RELEASE] : [],
     cards,
     featuredPass: cards[0] || null,
     fullWalletAvailable: false,
@@ -288,12 +321,18 @@ module.exports = async function handler(req, res) {
     const query = String(body.query || body.email || body.serial || "").trim();
     if (!query) return sendJson(res, 400, { error: "query_required" });
 
-    const [freePass, entitlements] = await Promise.all([
+    let [freePass, entitlements] = await Promise.all([
       findFreePass(query).catch(() => null),
       findStripeEntitlements(query).catch(() => [])
     ]);
+    if (body.action === "claim-release") {
+      if (req.method !== "POST" || body.releaseId !== NEW_RELEASE.id) return sendJson(res, 400, { error: "release_unavailable" });
+      if (!freePass || freePass.status !== "active") return sendJson(res, 400, { error: "Claim your free holder pass first, then add this release." });
+      freePass = await addRelease(freePass);
+    }
     const wallet = await walletFromRecords(freePass, entitlements);
-    return sendJson(res, 200, { ok: true, found: Boolean(wallet), wallet });
+    const matchedWallet = /^SLUG-/i.test(query) && !wallet?.cards?.some((card) => card.cardSerial === normalizeSerial(query)) ? null : wallet;
+    return sendJson(res, 200, { ok: true, found: Boolean(matchedWallet), wallet: matchedWallet });
   } catch (error) {
     const status = error.message === "request_body_too_large" ? 413 : 500;
     return sendJson(res, status, {

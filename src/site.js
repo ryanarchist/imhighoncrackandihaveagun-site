@@ -681,7 +681,7 @@
     if (edition.checkoutProduct) {
       return `<button type="button" class="${attr(className)}" data-checkout-product="${attr(edition.checkoutProduct)}" data-checkout-quantity="1" aria-label="${attr(label)}" disabled aria-disabled="true">${children}</button>`;
     }
-    return `<a class="${attr(className)}" href="${attr(edition.imageSrc)}" target="_blank" rel="noopener" aria-label="${attr(label)}">${children}</a>`;
+    return `<a class="${attr(className)}" href="#claim" aria-label="${attr(label)}">${children}</a>`;
   }
 
   function renderTrapPass() {
@@ -704,16 +704,16 @@
             <a class="pass-archive-link" href="#pass-history">Every wave leaves a mark. Explore the archive ↗</a>
           </div>
           <div class="pass-drop-art" aria-label="Gen 2 Wave 2 Trap Pass artwork">
-            ${(wave.editions || []).map((edition, index) => passEditionAction(edition, `pass-drop-card pass-drop-card-${index + 1}`, `<img src="${attr(edition.imageSrc)}" alt="${attr(edition.imageAlt)}" ${index === 0 ? 'fetchpriority="high"' : 'loading="eager"'} /><span data-checkout-label>${esc(edition.label)}${edition.price ? ` · ${esc(edition.price)} · Checkout` : ' ↗'}</span>`, edition.checkoutProduct ? `Buy paid digital pass — ${edition.price}` : `View full ${edition.label} artwork`)).join("")}
+            ${(wave.editions || []).map((edition, index) => passEditionAction(edition, `pass-drop-card pass-drop-card-${index + 1}`, `<img src="${attr(edition.imageSrc)}" alt="${attr(edition.imageAlt)}" ${index === 0 ? 'fetchpriority="high"' : 'loading="eager"'} /><span data-checkout-label>${esc(edition.label)}${edition.price ? ` · ${esc(edition.price)} · Checkout` : ' ↗'}</span>`, edition.checkoutProduct ? `Buy paid digital pass — ${edition.price}` : `Add ${edition.label} to my wallet`)).join("")}
           </div>
         </div>
       </section>
       <div class="pass-drop-ticker" aria-label="Welcome to the dirt show"><span>GEN 2 / WAVE 2</span><span>WELCOME TO THE DIRT SHOW</span><span>UNPLUG & BECOME SLUG</span></div>
       <section class="section pass-editions" id="pass-editions">
         <div class="container">
-          <div class="pass-section-heading"><div><span class="eyebrow">THE WAVE 2 COLLECTION</span><h2>TWO FACES.<br />SAME DIRT SHOW.</h2></div><p>Explore the new artwork in full. Your holder identity stays yours, whichever tier you choose.</p></div>
+          <div class="pass-section-heading"><div><span class="eyebrow">THE WAVE 2 COLLECTION</span><h2>TWO FACES.<br />SAME DIRT SHOW.</h2></div><p>Claim the regular pass for free or choose the paid membership. Your holder identity stays yours, whichever tier you choose.</p></div>
           <div class="pass-edition-grid">
-            ${(wave.editions || []).map((edition, index) => `<article class="pass-edition">${passEditionAction(edition, 'pass-edition-art', `<img src="${attr(edition.imageSrc)}" alt="${attr(edition.imageAlt)}" loading="lazy" />${edition.checkoutProduct ? `<span data-checkout-label>Continue to Stripe · ${esc(edition.price)}</span>` : ''}`, edition.checkoutProduct ? `Checkout paid digital pass — ${edition.price}` : `View full ${edition.label} artwork`)}<div class="pass-edition-caption"><span class="pass-edition-number">0${index + 1}</span><div><span class="eyebrow">GEN 2 / WAVE 2</span><h3>${esc(edition.label)}</h3>${edition.price ? `<p class="small-note">Cash For Trash · ${esc(edition.price)}</p>` : ''}</div>${passEditionAction(edition, 'pass-edition-arrow', '<span data-checkout-label>↗</span>', edition.checkoutProduct ? `Open Stripe checkout — ${edition.price}` : `Enlarge ${edition.label}`)}</div></article>`).join("")}
+            ${(wave.editions || []).map((edition, index) => `<article class="pass-edition">${passEditionAction(edition, 'pass-edition-art', `<img src="${attr(edition.imageSrc)}" alt="${attr(edition.imageAlt)}" loading="lazy" />${edition.checkoutProduct ? `<span data-checkout-label>Continue to Stripe · ${esc(edition.price)}</span>` : ''}`, edition.checkoutProduct ? `Checkout paid digital pass — ${edition.price}` : `Add ${edition.label} to my wallet`)}<div class="pass-edition-caption"><span class="pass-edition-number">0${index + 1}</span><div><span class="eyebrow">GEN 2 / WAVE 2</span><h3>${esc(edition.label)}</h3>${edition.price ? `<p class="small-note">Cash For Trash · ${esc(edition.price)}</p>` : ''}</div>${passEditionAction(edition, 'pass-edition-arrow', '<span data-checkout-label>↗</span>', edition.checkoutProduct ? `Open Stripe checkout — ${edition.price}` : `Add new pass to my wallet`)}</div></article>`).join("")}
           </div>
           <p class="checkout-status" data-checkout-status role="status"></p>
         </div>
@@ -753,7 +753,7 @@
                 <input type="checkbox" name="publicProfileEnabled" value="1" />
                 <span><strong>Enable my public holder profile</strong><small>Shows only your Trap identity, holder ID, entry wave, tier, member-since date, featured pass, and selected public Threads.</small></span>
               </label>` : ""}
-              <button class="button primary" type="submit">${esc(forms.claimFreePass || "Claim Free Pass")}</button>
+              <button class="button primary" type="submit">Add Wave 2 to my wallet</button>
               <p class="small-note">${esc(page.claimForm?.privacyNote || "")}</p>
             </form>` : `<div class="notice active">Free Trap Pass claims are opening soon.</div>`}
             <div class="notice" data-claim-output></div>
@@ -1188,7 +1188,7 @@
   function renderWalletCollection(wallet, selectedSerial) {
     return `
       <section class="wallet-section">
-        <header class="section-header"><span class="eyebrow">Collection</span><h2>Your Passes</h2></header>
+        <header class="section-header"><span class="eyebrow">Collection</span><h2>Your Passes <small>${(wallet.cards || []).length} collected</small></h2><p>Choose a pass below to view or download it. Your original holder number stays yours.</p></header>
         <div class="pass-collection">
           ${(wallet.cards || []).map((card) => `
             <button class="pass-thumbnail${card.cardSerial === selectedSerial ? " is-selected" : ""}" type="button" data-select-pass="${attr(card.cardSerial)}" ${card.status !== "active" ? "disabled" : ""}>
@@ -1223,14 +1223,14 @@
           <h2>${esc(wallet.displayIdentity || wallet.holderPublicId)}</h2>
           <div class="meta-list">
             ${metaRow(labels.passId || "Permanent Holder ID", wallet.holderPublicId)}
-            ${metaRow("Original Entry Wave", `${wallet.originalEntryWaveLabel} / ${wallet.originalEntryWave}`)}
+            ${metaRow("Original Entry Wave", wallet.originalEntryWaveLabel || wallet.originalEntryWave)}
             ${metaRow(labels.tier || "Current Tier", wallet.currentTierLabel)}
             ${metaRow(labels.memberSince || "Member Since", formatDate(wallet.memberSince))}
           </div>
         </section>
-        ${renderSelectedPass(wallet, selectedCard, flipped)}
         ${renderWalletCollection(wallet, selectedCard?.cardSerial)}
-        ${!publicOnly && available.length ? `
+        ${renderSelectedPass(wallet, selectedCard, flipped)}
+        ${available.length ? `
           <section class="wallet-section panel">
             <header class="section-header"><span class="eyebrow">Available Now</span><h2>Claim A New Pass</h2></header>
             <div class="cta-row">${available.map((release) => `<button class="button primary" type="button" data-claim-release="${attr(release.id)}">${esc(`${actions.claimNewPass || "Claim New Pass"}: ${release.name}`)}</button>`).join("")}</div>
@@ -1247,7 +1247,7 @@
               </div>
             ` : ""}
             ${publicOnly ? `
-              <p class="section-copy">Your free pass is live on this device. This view shows your holder ID, card serial, release, tier, and pass art. Your claim email stays private.</p>
+              <p class="section-copy">Your collection is saved to your holder record. This view shows your holder ID, card serial, release, tier, and pass art. Your claim email stays private.</p>
               <div class="cta-row">
                 ${button(actions.verifyPass || "Check This Pass", passCheckUrl, true)}
                 <button class="button" type="button" data-copy-value="${attr(wallet.holderPublicId)}">Copy Holder ID</button>
@@ -1411,7 +1411,7 @@
           const copyButton = `<button class="button" type="button" data-copy-value="${attr(passId)}">${esc(actions.copyPassId || "Copy Holder ID")}</button>`;
           const validationButton = button(forms.verifyPass || "Check Your Pass", `/check-pass/?serial=${encodeURIComponent(cardSerial)}`, true);
           output.className = "notice active";
-          output.innerHTML = `<strong>${esc(result.existed ? "Trap Pass already claimed." : "Trap Pass claimed.")}</strong><p>${esc(`${passId} / ${cardSerial}`)}</p><div class="cta-row">${validationButton}${copyButton}</div>`;
+          output.innerHTML = `<strong>${esc(result.existed ? "Wave 2 saved in your wallet." : "Wave 2 added to your wallet.")}</strong><p>${esc(`${passId} / ${cardSerial}`)}</p><div class="cta-row">${button("Open my wallet", "/my-pass/", true)}${validationButton}${copyButton}</div>`;
           wireCopyButtons();
           refreshNav();
         } else {
@@ -1485,9 +1485,14 @@
       }));
       shell?.querySelectorAll("[data-claim-release]").forEach((node) => node.addEventListener("click", async () => {
         try {
+          node.disabled = true;
+          node.textContent = "Adding to wallet…";
           const updated = await window.TrapHouse.claimNewReleaseAsync(node.dataset.claimRelease);
+          selectedSerial = updated.cards?.find((card) => card.waveId === node.dataset.claimRelease)?.cardSerial || "";
           showWallet(updated);
         } catch (error) {
+          node.disabled = false;
+          node.textContent = "Retry adding pass";
           if (notice) {
             notice.className = "notice error active";
             notice.textContent = error.message || states.error || "Something went wrong.";

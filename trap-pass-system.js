@@ -702,7 +702,8 @@
 
     const pass = data?.pass || data?.[0]?.pass || null;
     if (!pass) throw new Error("Trap Pass claim did not return a pass.");
-    const wallet = publicClaimWalletFromLegacyPass(pass);
+    const wallet = await lookupServerWalletAsync(pass.trap_pass_id, { action: "claim-release", releaseId: "gen-2-wave-2-unplug-become-slug" });
+    if (!wallet) throw new Error("Your holder pass is saved. Open your wallet to retry adding Wave 2.");
     savePublicWalletSession(wallet);
     return {
       ...data,
@@ -722,7 +723,7 @@
     const response = await fetch(endpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json", Accept: "application/json" },
-      body: JSON.stringify({ query: raw })
+      body: JSON.stringify({ query: raw, action: options.action, releaseId: options.releaseId })
     });
     const data = await response.json().catch(() => ({}));
     if (!response.ok) throw new Error(data.error || "wallet_lookup_failed");
@@ -791,7 +792,14 @@
   }
 
   async function claimHolderAsync(input = {}) {
-    if (isLocalReviewHost()) return claimHolderLocal(input);
+    if (isLocalReviewHost()) {
+      const result = claimHolderLocal(input);
+      result.wallet = await claimNewReleaseAsync("gen-2-wave-2-unplug-become-slug").catch((error) => {
+        if (error.message === "This release is already in your wallet.") return result.wallet;
+        throw error;
+      });
+      return result;
+    }
     const accessToken = getAuthAccessToken();
     if (!accessToken) {
       if (passConfig.claims?.publicFreeClaimsEnabled && passConfig.claims?.publicFreeClaimRpc) {
@@ -838,7 +846,11 @@
       return walletBundle(state, getSessionHolder(state));
     }
     const accessToken = getAuthAccessToken();
-    if (!accessToken) return loadPublicWalletSession();
+    if (!accessToken) {
+      const saved = loadPublicWalletSession();
+      if (!saved) return null;
+      return await lookupServerWalletAsync(saved.sourcePassId || saved.holderPublicId) || saved;
+    }
     return supabaseRpc("trap_pass_get_my_wallet", {}, { accessToken });
   }
 
@@ -885,7 +897,11 @@
       return walletBundle(state, holder);
     }
     const accessToken = getAuthAccessToken();
-    if (!accessToken) throw new Error("Use your secure email link to open My Pass.");
+    if (!accessToken) {
+      const wallet = loadPublicWalletSession();
+      if (!wallet) throw new Error("Open your wallet first.");
+      return lookupServerWalletAsync(wallet.sourcePassId || wallet.holderPublicId, { action: "claim-release", releaseId: release.id });
+    }
     return supabaseRpc("trap_pass_claim_release", { p_release_id: release.id }, { accessToken });
   }
 

@@ -939,8 +939,8 @@
       ],
       claimForm: {
         eyebrow: "Claim",
-        headline: "Claim Free Pass",
-        body: "One email, one free holder identity. Already have a pass? Keep your original number. The live registry currently issues No Brakes / Gen 2 Wave 1 passes; the Wave 2 artwork above does not replace an existing pass or confirm a Wave 2 claim.",
+        headline: "Add Wave 2 to My Wallet",
+        body: "Add Unplug & Become Slug (Gen 2 Wave 2) to your wallet for free. Use the same email as your existing pass to keep your holder number and earlier passes. New here? We’ll create your holder wallet and add the new pass.",
         privacyNote: "Your email and optional Discord username stay private. Public validation only confirms whether the holder ID or card serial is valid."
       },
       sampleWallet: {
@@ -1519,7 +1519,7 @@
       },
       recovery: {
         eyebrow: "Open My Pass",
-        headline: "Open Your Pass",
+        headline: "Open Your Wallet",
         body: "Enter the email you used to claim your Trap Pass. This opens your holder and card view on this device. Your claim email stays private."
       },
       explainer: {
