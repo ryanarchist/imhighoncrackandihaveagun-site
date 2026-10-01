@@ -204,6 +204,7 @@
     let readyAt = performance.now() + 5000;
     viewport.setAttribute('inert', '');
     viewport.setAttribute('aria-hidden', 'true');
+    begin.setAttribute('aria-description', 'Play the lighter and smoke animation, then start scrolling the statement.');
 
     function updateControls() {
       pause.textContent = paused ? 'Resume scrolling' : 'Pause scrolling';
@@ -219,7 +220,7 @@
       viewport.removeAttribute('inert');
       viewport.setAttribute('aria-hidden', 'false');
       // The opening has settled. Let the remaining prose fade in before moving.
-      readyAt = performance.now() + (reducedMotion.matches ? 0 : 2000);
+      readyAt = performance.now() + (section.classList.contains('smoke-motion-enabled') ? 2000 : 0);
       updateControls();
       start();
     }
@@ -229,10 +230,12 @@
       begin.disabled = true;
       section.querySelector('.smoke-entry').hidden = true;
       const lighter = section.querySelector('.smoke-lighter');
-      const duration = reducedMotion.matches ? 300 : 2400;
+      // Nothing plays on page load. Ring the bell explicitly requests this
+      // sequence even when the browser defaults to reducing automatic motion.
+      const duration = 2400;
       // The lighter rests facing the tip; percentage translation scales with it.
       const move = 'translate(35.3%, -8%)';
-      section.classList.add('is-igniting');
+      section.classList.add('is-igniting', 'smoke-motion-requested');
       try {
         await lighter.animate([
           {transform:'translate(0,0)'},
@@ -243,7 +246,7 @@
           {transform:`${move} rotate(-1.8deg)`,offset:.4},
           {transform:`${move} rotate(.8deg)`,offset:.7},
           {transform:move}
-        ],{duration:reducedMotion.matches?0:220,fill:'forwards'}).finished;
+        ],{duration:220,fill:'forwards'}).finished;
         section.classList.add('is-flame-lit');
         // A short ignition flicker precedes the first vapor at the tip.
         await section.querySelector('.smoke-flame').animate([
@@ -254,10 +257,10 @@
       } catch (error) {
         // The statement still starts if the browser cancels an animation.
       }
-      paused = reducedMotion.matches;
+      paused = false;
       section.classList.add('is-tip-hot');
       section.classList.add('is-started');
-      section.classList.toggle('smoke-motion-enabled', !reducedMotion.matches);
+      section.classList.toggle('smoke-motion-enabled', section.classList.contains('has-smoke-formation'));
       section.querySelector('.smoke-entry').hidden = true;
       manuscript.removeAttribute('inert');
       manuscript.setAttribute('aria-hidden', 'false');
@@ -265,7 +268,7 @@
       position = 0;
       readyAt = Infinity;
       section.dispatchEvent(new Event('smoke:begin'));
-      if (reducedMotion.matches || !section.classList.contains('has-smoke-formation')) revealStory();
+      if (!section.classList.contains('has-smoke-formation')) revealStory();
       updateControls();
       updateVisibility();
       manuscript.tabIndex = -1;
@@ -276,7 +279,7 @@
       await extinguish.finished.catch(()=>{});
       section.classList.remove('is-flame-lit');
       await lighter.animate([{transform:move},{transform:'translate(0,0)'}],
-        {duration:reducedMotion.matches?300:2000,easing:'cubic-bezier(.4,0,.2,1)',fill:'forwards'}).finished.catch(()=>{});
+        {duration:2000,easing:'cubic-bezier(.4,0,.2,1)',fill:'forwards'}).finished.catch(()=>{});
       section.classList.remove('is-igniting');
       section.classList.remove('is-tip-hot');
     });

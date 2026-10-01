@@ -1968,9 +1968,11 @@ body[data-page="my-pass"] .hero h1 { font-size:clamp(36px,5vw,64px); }
 .smoke-formation { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:2; }
 .smoke-word { display:inline-block; }
 .smoke-letter { display:inline-block; }
-.has-smoke-formation.smoke-motion-enabled .smoke-letter { opacity:0; filter:blur(8px); transition:opacity 2s ease,filter 2s ease; }
+.has-smoke-formation .smoke-letter { opacity:0; filter:blur(8px); }
+.has-smoke-formation.smoke-motion-enabled .smoke-letter { transition:opacity 2s ease,filter 2s ease; }
 .has-smoke-formation.smoke-motion-enabled .smoke-letter.is-condensing { opacity:.24; filter:blur(3px); }
 .has-smoke-formation.smoke-motion-enabled .smoke-letter.is-ink { opacity:1; filter:blur(0); }
+.has-smoke-formation.is-started:not(.smoke-motion-enabled) .smoke-letter { opacity:1; filter:none; transition:none; }
 .smoke-text-window,.smoke-reading-controls { opacity:0; visibility:hidden; }
 .is-reading-ready .smoke-text-window,.is-reading-ready .smoke-reading-controls { opacity:1; visibility:visible; transition:opacity 1.8s ease; }
 .smoke-story:not(.is-reading-ready) .smoke-text-window { pointer-events:none; }
@@ -2007,6 +2009,6 @@ body[data-page="my-pass"] .hero h1 { font-size:clamp(36px,5vw,64px); }
 .is-tip-hot .smoke-tip {background:#eeb76866;box-shadow:0 0 12px 5px #f29b3a66;}
 .is-flame-lit .smoke-flame {animation:lighter-flame-flicker .13s ease-in-out infinite alternate;}
 @keyframes lighter-flame-flicker {from{filter:drop-shadow(0 0 5px #f58729);border-radius:75% 25% 45% 45%;}to{filter:drop-shadow(0 0 13px #f58729);border-radius:35% 65% 45% 45%;}}
-@media(prefers-reduced-motion:reduce){.is-flame-lit .smoke-flame{animation:none;}}
+@media(prefers-reduced-motion:reduce){.is-flame-lit:not(.smoke-motion-requested) .smoke-flame{animation:none;}}
 .smoke-portrait {position:absolute;left:0;bottom:0;width:min(40%,390px);height:108%;object-fit:contain;object-position:center bottom;opacity:.67;filter:brightness(.68) saturate(.6) blur(.25px);pointer-events:none;z-index:-2;mask-image:linear-gradient(to bottom,#000 0%,#000 65%,transparent 100%),radial-gradient(ellipse at 47% 45%,#000 34%,#000c 59%,transparent 85%);mask-composite:intersect;}
 @media(max-width:700px){.smoke-portrait {left:-22%;width:80%;height:100%;max-width:none;object-position:left bottom;opacity:.26;filter:brightness(.55) saturate(.6);}}
