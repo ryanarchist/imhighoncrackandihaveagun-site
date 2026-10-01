@@ -371,10 +371,34 @@
     const page = content.homeContent || {};
     return `
       ${renderHero(page.hero)}
-      <section class="section">
+      <section class="smoke-story section" aria-label="Ryan’s words" data-smoke-story>
         <div class="container">
-          ${sectionHeader(page.fiveWays)}
-          <div class="grid five-grid">${(page.fiveWays?.cards || []).map(evidenceCard).join("")}</div>
+          <header class="smoke-story-header"><span class="eyebrow">THE STORY IS STILL HAPPENING</span><span class="smoke-reading-hint">Smoke into words. The record, in my own words.</span></header>
+          <div class="smoke-story-scene">
+            <figure class="smoke-pipe" aria-hidden="true">
+              <img src="/assets/trap-house/story-pipe.png" alt="" width="2172" height="724" loading="lazy" />
+              <svg class="smoke-drift" viewBox="0 0 500 340" fill="none">
+                <defs><linearGradient id="story-smoke-fade"><stop stop-color="#d9c9b6" stop-opacity=".45"/><stop offset="1" stop-color="#e9e0d3" stop-opacity="0"/></linearGradient></defs>
+                <g stroke="url(#story-smoke-fade)" stroke-linecap="round">
+                  <path class="smoke-wisp" stroke-width="12" d="M0 170 C70 180 25 70 125 88 S165 210 230 120 S350 28 480 70"/>
+                  <path class="smoke-wisp" stroke-width="22" d="M0 170 C80 150 80 200 150 140 S160 35 250 65 S310 110 490 24"/>
+                  <path class="smoke-wisp" stroke-width="7" d="M0 170 C50 130 20 220 105 200 S180 120 230 165 S350 190 490 115"/>
+                  <path class="smoke-wisp" stroke-width="35" d="M0 170 C70 170 110 85 170 140 S260 220 335 140 S420 40 490 65"/>
+                </g>
+              </svg>
+            </figure>
+            <div class="smoke-manuscript">
+              <div class="smoke-text-window" id="smoke-manuscript" tabindex="0" role="region" aria-label="Ryan’s scrolling statement. Scroll to read at your own pace." data-smoke-window>
+                <div class="smoke-prose" data-smoke-prose><p>Loading Ryan’s words…</p></div>
+              </div>
+              <div class="smoke-reading-controls">
+                <button class="button" type="button" data-smoke-pause aria-pressed="false">Pause scrolling</button>
+                <button class="button" type="button" data-smoke-expand aria-expanded="false" aria-controls="smoke-manuscript">Read all</button>
+                <span data-smoke-progress aria-hidden="true">01 / THE RECORD</span>
+              </div>
+              <noscript><a href="/data/ryan-smoke-statement.txt">Read Ryan’s full statement</a></noscript>
+            </div>
+          </div>
         </div>
       </section>
       ${(page.previews || []).map(renderPreview).join("")}
