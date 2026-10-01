@@ -34,6 +34,7 @@
     vaporContext.fillStyle = gradient;
     vaporContext.fillRect(0,0,96,96);
     let width = 0, height = 0, clock = 0, last = 0, animation = 0;
+    let formationSent = false;
     let onscreen = false;
     const mobile = matchMedia('(max-width:700px)');
     const trails = Array.from({length: mobile.matches ? 54 : 90}, (_, i) => ({
@@ -85,9 +86,9 @@
       if (last) clock += Math.min(time-last,60)/1000;
       last = time;
       const bounds = scene.getBoundingClientRect();
-      const pipe = section.querySelector('.smoke-pipe').getBoundingClientRect();
+      const tip = section.querySelector('.smoke-tip').getBoundingClientRect();
       const clip = window.getBoundingClientRect();
-      const source = {x:pipe.right-bounds.left-pipe.width*.047,y:pipe.top-bounds.top+pipe.height*.51};
+      const source = {x:tip.left+tip.width/2-bounds.left,y:tip.top+tip.height/2-bounds.top};
       context.clearRect(0,0,width,height);
       // Broad, continuously rising vapor under the more precise glyph particles.
       context.globalCompositeOperation = 'screen';
@@ -117,14 +118,17 @@
         return rect.bottom>clip.top+8 && rect.top<clip.bottom-30;
       }));
       words.forEach(word => {
-        if (word.birth !== null && clock-word.birth>6) return;
+        if (word.birth !== null && clock-word.birth>6) {
+          if (!word.element.classList.contains('is-ink')) word.element.classList.add('is-ink');
+          return;
+        }
         if (!word.inIntro && !visibleParagraphs.has(word.paragraph)) return;
         const rect = word.element.getBoundingClientRect();
         const inView = word.inIntro || (rect.bottom > clip.top+8 && rect.top < clip.bottom-30);
         if (!inView) return;
         if (word.birth === null) word.birth = clock + Math.min(active++*.018,1.1);
         const age = clock-word.birth;
-        if (age>4.3) word.element.classList.add('is-ink');
+        if (age>4.3 && !word.element.classList.contains('is-ink')) word.element.classList.add('is-ink');
         if (age<0 || age>6) return;
         if (!word.points) word.points=sample(word,rect);
         const t = Math.min(age/4.3,1);
@@ -145,6 +149,10 @@
         });
       });
       context.globalAlpha=1; context.globalCompositeOperation='source-over';
+      if (!formationSent && clock >= 6.5) {
+        formationSent = true;
+        section.dispatchEvent(new Event('smoke:formed'));
+      }
       animation=requestAnimationFrame(render);
     }
     function wake() {
@@ -160,6 +168,7 @@
     reducedMotion.addEventListener('change',wake);
     section.addEventListener('smoke:begin',()=>{
       clock=0; last=0;
+      formationSent=false;
       words.forEach(word=>{word.birth=null;word.element.classList.remove('is-ink');});
       wake();
     });
@@ -199,16 +208,21 @@
       begin.disabled = true;
       section.querySelector('.smoke-entry').hidden = true;
       const lighter = section.querySelector('.smoke-lighter');
-      const pipe = section.querySelector('.smoke-pipe');
-      const duration = reducedMotion.matches ? 250 : 1650;
-      const move = `translate(${pipe.clientWidth*.38}px, ${-pipe.clientHeight*.065}px) rotate(-170deg)`;
+      const duration = reducedMotion.matches ? 300 : 2400;
+      // The lighter rests facing the tip; percentage translation scales with it.
+      const move = 'translate(35.3%, -8%)';
       section.classList.add('is-igniting');
       try {
         await lighter.animate([
-          {transform:'translate(0,0) rotate(0deg)',offset:0},
-          {transform:`translate(${pipe.clientWidth*.10}px, ${-pipe.clientHeight*.23}px) rotate(-35deg)`,offset:.38},
-          {transform:move,offset:1}
-        ],{duration,easing:'cubic-bezier(.4,0,.2,1)',fill:'forwards'}).finished;
+          {transform:'translate(0,0)'},
+          {transform:move}
+        ],{duration,easing:'cubic-bezier(.22,.61,.36,1)',fill:'forwards'}).finished;
+        await lighter.animate([
+          {transform:move},
+          {transform:`${move} rotate(-1.8deg)`,offset:.4},
+          {transform:`${move} rotate(.8deg)`,offset:.7},
+          {transform:move}
+        ],{duration:reducedMotion.matches?0:220,fill:'forwards'}).finished;
         section.classList.add('is-flame-lit');
         // A short ignition flicker precedes the first vapor at the tip.
         await section.querySelector('.smoke-flame').animate([
@@ -220,6 +234,7 @@
         // The statement still starts if the browser cancels an animation.
       }
       paused = false;
+      section.classList.add('is-tip-hot');
       section.classList.add('is-started');
       section.classList.toggle('smoke-motion-enabled', !reducedMotion.matches);
       section.querySelector('.smoke-entry').hidden = true;
@@ -227,7 +242,7 @@
       manuscript.setAttribute('aria-hidden', 'false');
       viewport.scrollTop = 0;
       position = 0;
-      readyAt = performance.now() + (reducedMotion.matches ? 0 : 6500);
+      readyAt = reducedMotion.matches || !section.classList.contains('has-smoke-formation') ? performance.now()+500 : Infinity;
       section.dispatchEvent(new Event('smoke:begin'));
       updateControls();
       updateVisibility();
@@ -237,9 +252,14 @@
       ],{duration:1100,fill:'forwards'});
       await extinguish.finished.catch(()=>{});
       section.classList.remove('is-flame-lit');
-      await lighter.animate([{transform:move},{transform:'translate(0,0) rotate(0deg)'}],
-        {duration:reducedMotion.matches?250:1400,easing:'cubic-bezier(.4,0,.2,1)',fill:'forwards'}).finished.catch(()=>{});
+      await lighter.animate([{transform:move},{transform:'translate(0,0)'}],
+        {duration:reducedMotion.matches?300:2000,easing:'cubic-bezier(.4,0,.2,1)',fill:'forwards'}).finished.catch(()=>{});
       section.classList.remove('is-igniting');
+      section.classList.remove('is-tip-hot');
+    });
+    section.addEventListener('smoke:formed', () => {
+      readyAt = performance.now() + 1000;
+      start();
     });
     function stop() {
       cancelAnimationFrame(frame);
@@ -271,7 +291,7 @@
     pause.addEventListener('click', () => {
       paused = !paused;
       if (!paused && viewport.scrollTop >= viewport.scrollHeight - viewport.clientHeight - 1) viewport.scrollTop = 0;
-      readyAt = performance.now();
+      readyAt = Math.max(readyAt, performance.now());
       updateControls();
       paused ? stop() : start();
     });
@@ -285,7 +305,11 @@
       progress.textContent = end > 0 ? `${Math.round(viewport.scrollTop / end * 100)}% / THE RECORD` : 'THE COMPLETE RECORD';
     }, { passive: true });
     reducedMotion.addEventListener('change', () => {
-      if (reducedMotion.matches) { manualPause(); section.classList.remove('smoke-motion-enabled'); }
+      if (reducedMotion.matches) {
+        manualPause();
+        section.classList.remove('smoke-motion-enabled');
+        readyAt = performance.now();
+      }
     });
     document.addEventListener('visibilitychange', () => document.hidden ? stop() : start());
     function updateVisibility() {

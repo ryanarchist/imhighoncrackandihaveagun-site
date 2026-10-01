@@ -381,6 +381,7 @@
               <img class="smoke-pipe-glass" src="/assets/trap-house/story-pipe-bell.png" alt="" width="2172" height="724" loading="lazy" />
               <div class="smoke-lighter"><img src="/assets/trap-house/story-pipe-bell.png" alt="" width="2172" height="724" loading="lazy" /></div>
               <span class="smoke-flame"><span></span></span>
+              <span class="smoke-tip" aria-hidden="true"></span>
             </figure>
             <div class="smoke-entry"><button class="button button-primary" type="button" data-smoke-begin disabled aria-busy="true">Ring the bell</button></div>
             <div class="smoke-manuscript" aria-hidden="true" inert>
