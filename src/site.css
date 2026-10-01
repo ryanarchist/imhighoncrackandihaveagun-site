@@ -1991,3 +1991,14 @@ body[data-page="my-pass"] .hero h1 { font-size:clamp(36px,5vw,64px); }
 .smoke-story.is-started.smoke-motion-enabled .smoke-cloud {animation:story-cloud-lift 18s linear infinite,bell-cloud-reveal 5s ease-out both;}
 @keyframes bell-cloud-reveal {from {clip-path:circle(0% at 74% 100%);} to {clip-path:circle(150% at 74% 100%);}}
 @media(max-width:700px) {.smoke-story .smoke-pipe {bottom:8px;} .smoke-story .smoke-story-scene {padding-bottom:170px;} .smoke-reading-controls .button {flex:0 1 auto;min-width:180px;}}
+/* Separate layers from the original artwork let the lighter move independently. */
+.smoke-pipe-glass {clip-path:inset(0 0 39% 0);}
+.smoke-story .smoke-pipe {height:auto;aspect-ratio:3 / 1;}
+.smoke-lighter {position:absolute;inset:0;transform-origin:55% 75%;will-change:transform;z-index:3;}
+.smoke-lighter img {clip-path:inset(61% 0 0 0);}
+.smoke-flame {position:absolute;left:calc(93% - 8px);top:54%;width:16px;height:30px;opacity:0;transform-origin:50% 100%;z-index:4;background:radial-gradient(ellipse at 50% 80%,#fff8ce 0 16%,#ffc04e 35%,#f4620c 61%,transparent 75%);border-radius:65% 35% 45% 45%;filter:drop-shadow(0 0 9px #f58729);}
+.smoke-flame span {position:absolute;bottom:0;left:5px;width:7px;height:12px;border-radius:70% 40% 40% 40%;background:linear-gradient(#fffbe4,#71baff);}
+.is-flame-lit .smoke-flame {animation:lighter-flame-flicker .13s ease-in-out infinite alternate;}
+@keyframes lighter-flame-flicker {from{filter:drop-shadow(0 0 5px #f58729);border-radius:75% 25% 45% 45%;}to{filter:drop-shadow(0 0 13px #f58729);border-radius:35% 65% 45% 45%;}}
+@media(max-width:700px){.smoke-flame{width:11px;height:20px;left:calc(93% - 5px);} .smoke-flame span{width:5px;height:8px;left:3px;}}
+@media(prefers-reduced-motion:reduce){.is-flame-lit .smoke-flame{animation:none;}}

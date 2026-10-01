@@ -193,9 +193,32 @@
       pause.hidden = !begun;
       section.classList.toggle('is-paused', paused);
     }
-    begin.addEventListener('click', () => {
+    begin.addEventListener('click', async () => {
       if (!loaded || begun) return;
       begun = true;
+      begin.disabled = true;
+      section.querySelector('.smoke-entry').hidden = true;
+      const lighter = section.querySelector('.smoke-lighter');
+      const pipe = section.querySelector('.smoke-pipe');
+      const duration = reducedMotion.matches ? 250 : 1650;
+      const move = `translate(${pipe.clientWidth*.38}px, ${-pipe.clientHeight*.065}px) rotate(-170deg)`;
+      section.classList.add('is-igniting');
+      try {
+        await lighter.animate([
+          {transform:'translate(0,0) rotate(0deg)',offset:0},
+          {transform:`translate(${pipe.clientWidth*.10}px, ${-pipe.clientHeight*.23}px) rotate(-35deg)`,offset:.38},
+          {transform:move,offset:1}
+        ],{duration,easing:'cubic-bezier(.4,0,.2,1)',fill:'forwards'}).finished;
+        section.classList.add('is-flame-lit');
+        // A short ignition flicker precedes the first vapor at the tip.
+        await section.querySelector('.smoke-flame').animate([
+          {opacity:0,transform:'scale(.25)'},
+          {opacity:1,transform:'scale(1.2)',offset:.35},
+          {opacity:1,transform:'scale(.9)'}
+        ],{duration:650,fill:'forwards'}).finished;
+      } catch (error) {
+        // The statement still starts if the browser cancels an animation.
+      }
       paused = false;
       section.classList.add('is-started');
       section.classList.toggle('smoke-motion-enabled', !reducedMotion.matches);
@@ -209,6 +232,14 @@
       updateControls();
       updateVisibility();
       pause.focus({ preventScroll: true });
+      const extinguish = section.querySelector('.smoke-flame').animate([
+        {opacity:1},{opacity:.8,offset:.5},{opacity:0}
+      ],{duration:1100,fill:'forwards'});
+      await extinguish.finished.catch(()=>{});
+      section.classList.remove('is-flame-lit');
+      await lighter.animate([{transform:move},{transform:'translate(0,0) rotate(0deg)'}],
+        {duration:reducedMotion.matches?250:1400,easing:'cubic-bezier(.4,0,.2,1)',fill:'forwards'}).finished.catch(()=>{});
+      section.classList.remove('is-igniting');
     });
     function stop() {
       cancelAnimationFrame(frame);

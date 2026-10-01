@@ -377,7 +377,9 @@
             <canvas class="smoke-formation" data-smoke-canvas aria-hidden="true"></canvas>
             <img class="smoke-cloud" src="/assets/trap-house/story-smoke-cloud.png" alt="" aria-hidden="true" loading="lazy" />
             <figure class="smoke-pipe" aria-hidden="true">
-              <img src="/assets/trap-house/story-pipe-bell.png" alt="" width="2172" height="724" loading="lazy" />
+              <img class="smoke-pipe-glass" src="/assets/trap-house/story-pipe-bell.png" alt="" width="2172" height="724" loading="lazy" />
+              <div class="smoke-lighter"><img src="/assets/trap-house/story-pipe-bell.png" alt="" width="2172" height="724" loading="lazy" /></div>
+              <span class="smoke-flame"><span></span></span>
             </figure>
             <div class="smoke-entry"><button class="button button-primary" type="button" data-smoke-begin disabled aria-busy="true">Ring the bell</button></div>
             <div class="smoke-manuscript" aria-hidden="true" inert>
