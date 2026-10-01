@@ -374,6 +374,7 @@
       <section class="smoke-story section" aria-label="Ryan’s words" data-smoke-story>
         <div class="container">
           <div class="smoke-story-scene">
+            <img class="smoke-portrait" src="/assets/trap-house/ryan-smoke-portrait.png" alt="" aria-hidden="true" loading="lazy" />
             <canvas class="smoke-formation" data-smoke-canvas aria-hidden="true"></canvas>
             <img class="smoke-cloud" src="/assets/trap-house/story-smoke-cloud.png" alt="" aria-hidden="true" loading="lazy" />
             <figure class="smoke-pipe" aria-hidden="true">
