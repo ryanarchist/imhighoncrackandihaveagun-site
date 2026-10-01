@@ -1934,9 +1934,8 @@ body[data-page="my-pass"] .hero h1 { font-size:clamp(36px,5vw,64px); }
 .smoke-text-window:focus-visible { outline:1px solid #8c7660; outline-offset:4px; }
 .smoke-prose { font-family:var(--typewriter); font-size:18px; line-height:1.6; color:#dfd2ba; text-shadow:0 2px 8px #000,0 0 16px #000; }
 .smoke-prose p { margin:0 0 1.5em; }
-.smoke-paragraph { opacity:.25; filter:blur(5px); transform:translateY(12px); transition:opacity 1.8s ease,filter 1.8s ease,transform 1.8s ease; }
-.smoke-paragraph.is-formed { opacity:1; filter:blur(0); transform:translateY(0); }
-.smoke-reading-controls { display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:10px; margin:12px auto 0; }
+.smoke-paragraph { opacity:1; }
+.smoke-reading-controls { display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:10px; min-height:34px; margin:12px auto 0; }
 .smoke-reading-controls .button { min-height:30px; padding:7px 12px; font-size:13px; box-shadow:none; background:#080604aa; border-color:#4a3a2c; }
 .smoke-reading-controls [data-smoke-progress] { color:#9a8c77; font-size:9px; letter-spacing:.12em; }
 .smoke-story:not(.is-visible) .smoke-cloud,.smoke-story.is-paused .smoke-cloud { animation-play-state:paused; }
@@ -1968,15 +1967,21 @@ body[data-page="my-pass"] .hero h1 { font-size:clamp(36px,5vw,64px); }
 /* Smoke becomes glyphs; real HTML remains selectable and available to readers. */
 .smoke-formation { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:2; }
 .smoke-word { display:inline-block; }
-.has-smoke-formation.smoke-motion-enabled .smoke-word { opacity:.04; filter:blur(5px); transform:translateY(9px); transition:opacity 1.4s ease,filter 1.7s ease,transform 1.7s ease; }
-.has-smoke-formation.smoke-motion-enabled .smoke-word.is-ink { opacity:1; filter:blur(0); transform:translateY(0); }
+.smoke-letter { display:inline-block; }
+.has-smoke-formation.smoke-motion-enabled .smoke-letter { opacity:0; filter:blur(8px); transition:opacity 2s ease,filter 2s ease; }
+.has-smoke-formation.smoke-motion-enabled .smoke-letter.is-condensing { opacity:.24; filter:blur(3px); }
+.has-smoke-formation.smoke-motion-enabled .smoke-letter.is-ink { opacity:1; filter:blur(0); }
+.smoke-text-window,.smoke-reading-controls { opacity:0; visibility:hidden; }
+.is-reading-ready .smoke-text-window,.is-reading-ready .smoke-reading-controls { opacity:1; visibility:visible; transition:opacity 1.8s ease; }
+.smoke-story:not(.is-reading-ready) .smoke-text-window { pointer-events:none; }
 .has-smoke-formation .smoke-paragraph { opacity:1; filter:none; transform:none; transition:none; }
-.smoke-story .smoke-cloud { opacity:.28; animation:story-cloud-lift 18s linear infinite; }
+.smoke-story .smoke-cloud { opacity:.28; animation:story-cloud-lift 26s ease-in-out infinite alternate; }
+.smoke-story.smoke-motion-enabled .smoke-cloud { opacity:var(--smoke-density,0); mask-image:linear-gradient(to bottom,transparent calc(var(--smoke-front,100%) - 12%),#000 calc(var(--smoke-front,100%) + 10%)),linear-gradient(to bottom,#000 85%,transparent); mask-composite:intersect; }
 .smoke-story.smoke-motion-enabled.is-visible .smoke-cloud { animation-play-state:running; }
 .smoke-story:not(.smoke-motion-enabled) .smoke-cloud { animation-play-state:paused; }
 .smoke-story.is-expanded .smoke-word { opacity:1!important; filter:none!important; transform:none!important; }
 .smoke-story.is-expanded .smoke-formation { display:none; }
-@keyframes story-cloud-lift { 0% {transform:translate(8px,24px) scale(.97);opacity:.18;} 45% {transform:translate(-5px,-5px) scale(1.03);opacity:.36;} 100% {transform:translate(-20px,-38px) scale(1.08);opacity:.18;} }
+@keyframes story-cloud-lift { from {transform:translate(5px,12px) scale(.98);} to {transform:translate(-14px,-20px) scale(1.04);} }
 @media(prefers-reduced-motion:reduce) { .smoke-story:not(.smoke-motion-enabled) .smoke-cloud {animation:none;} }
 @media(max-width:700px) { .smoke-reading-controls {gap:7px;} .smoke-reading-controls .button {width:auto;flex:1 1 calc(50% - 7px);font-size:12px;} }
 .smoke-story:not(.is-started) .smoke-manuscript {visibility:hidden;pointer-events:none;}
@@ -1988,8 +1993,8 @@ body[data-page="my-pass"] .hero h1 { font-size:clamp(36px,5vw,64px); }
 .smoke-story .smoke-pipe {bottom:12px;}
 .smoke-story .smoke-story-scene {padding-bottom:210px;}
 .smoke-story .smoke-cloud {height:calc(100% - 70px);}
-.smoke-story.is-started.smoke-motion-enabled .smoke-cloud {animation:story-cloud-lift 18s linear infinite,bell-cloud-reveal 5s ease-out both;}
-@keyframes bell-cloud-reveal {from {clip-path:circle(0% at 74% 100%);} to {clip-path:circle(150% at 74% 100%);}}
+.smoke-story.is-started.smoke-motion-enabled .smoke-cloud {animation:story-cloud-lift 26s ease-in-out infinite alternate;}
+@media(prefers-reduced-motion:reduce) {.smoke-story:not(.smoke-motion-enabled) .smoke-text-window,.smoke-story:not(.smoke-motion-enabled) .smoke-reading-controls {transition:none;}}
 @media(max-width:700px) {.smoke-story .smoke-pipe {bottom:8px;} .smoke-story .smoke-story-scene {padding-bottom:170px;} .smoke-reading-controls .button {flex:0 1 auto;min-width:180px;}}
 /* Separate layers from the original artwork let the lighter move independently. */
 .smoke-pipe-glass {clip-path:inset(0 0 39% 0);}

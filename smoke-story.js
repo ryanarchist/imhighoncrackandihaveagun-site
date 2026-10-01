@@ -1,23 +1,27 @@
 (() => {
-  // Each word supplies real glyph coordinates. Smoke travels from the pipe to
-  // those coordinates before the accessible HTML word takes over rendering.
+  // Smoke rises first, gathers into the two opening sentences, then releases
+  // the rest of the statement. HTML keeps the complete writing accessible.
   function createSmokeFormation(section, reducedMotion) {
     const scene = section.querySelector('.smoke-story-scene');
     const canvas = section.querySelector('[data-smoke-canvas]');
     const context = canvas?.getContext('2d');
     if (!context) return;
-    const window = section.querySelector('[data-smoke-window]');
-    const paragraphs = Array.from(section.querySelectorAll('[data-smoke-prose] p'));
-    const words = [];
-    section.querySelectorAll('[data-smoke-intro] p, [data-smoke-prose] p').forEach(paragraph => {
+    const letters = [];
+    const timing = { rise: 6.5, gather: 6, settle: 2, hold: 2.2 };
+    section.querySelectorAll('[data-smoke-intro] p').forEach((paragraph, sentence) => {
       const fragment = document.createDocumentFragment();
       paragraph.textContent.split(/(\s+)/).forEach(token => {
         if (!token.trim()) { fragment.append(document.createTextNode(token)); return; }
         const word = document.createElement('span');
         word.className = 'smoke-word';
-        word.textContent = token;
+        Array.from(token).forEach(character => {
+          const letter = document.createElement('span');
+          letter.className = 'smoke-letter';
+          letter.textContent = character;
+          word.append(letter);
+          letters.push({element:letter, birth:timing.rise + letters.length*.045 + sentence*.8, points:null});
+        });
         fragment.append(word);
-        words.push({ element: word, paragraph, inIntro: !!paragraph.closest('[data-smoke-intro]'), birth: null, points: null });
       });
       paragraph.replaceChildren(fragment);
     });
@@ -34,11 +38,12 @@
     vaporContext.fillStyle = gradient;
     vaporContext.fillRect(0,0,96,96);
     let width = 0, height = 0, clock = 0, last = 0, animation = 0;
-    let formationSent = false;
+    const formedAt = (letters.at(-1)?.birth || timing.rise) + timing.gather + timing.settle + timing.hold;
+    let formationSent = false, cloudFrame = -1;
     let onscreen = false;
     const mobile = matchMedia('(max-width:700px)');
-    const trails = Array.from({length: mobile.matches ? 54 : 90}, (_, i) => ({
-      phase: i / 90, seed: i * 2.399963, speed: .045 + (i % 7) * .004
+    const trails = Array.from({length: mobile.matches ? 75 : 120}, (_, i) => ({
+      birth: i * .105, seed: i * 2.399963, life: 10.5 + (i % 7) * .65
     }));
     function resize() {
       const bounds = scene.getBoundingClientRect();
@@ -48,7 +53,7 @@
       canvas.height = Math.round(height * ratio);
       context.setTransform(ratio,0,0,ratio,0,0);
       // Font sizes and wrapping can change when the viewport changes.
-      words.forEach(word => { word.points = null; });
+      letters.forEach(letter => { letter.points = null; });
     }
     function sample(word, bounds) {
       const style = getComputedStyle(word.element);
@@ -60,21 +65,28 @@
       ink.fillText(word.element.textContent,2,2);
       const data = ink.getImageData(0,0,stencil.width,stencil.height).data;
       const points = [];
-      for (let y = 0; y < stencil.height; y += 3) {
-        for (let x = 0; x < stencil.width; x += 3) {
-          if (data[(y * stencil.width + x) * 4 + 3] > 90) points.push({x:x-2,y:y-2,seed:Math.random()*Math.PI*2});
+      for (let y = 0; y < stencil.height; y += 2) {
+        for (let x = 0; x < stencil.width; x += 2) {
+          if (data[(y * stencil.width + x) * 4 + 3] > 90) points.push({x:x-2,y:y-2,seed:Math.random()*Math.PI*2,cloudX:(Math.random()+Math.random()-1),cloudY:Math.random()});
         }
       }
-      const budget = mobile.matches ? 22 : 38;
+      const budget = mobile.matches ? 20 : 36;
       const stride = Math.max(1, Math.ceil(points.length / budget));
       return points.filter((_,i) => i % stride === 0);
     }
-    function flow(source, target, t, seed) {
+    function gather(source, target, t, seed) {
       const gather = t*t*(3-2*t);
       const curl = Math.sin(t*Math.PI*3 + seed) * Math.sin(t*Math.PI);
       return {
-        x:source.x+(target.x-source.x)*gather + curl*(48+Math.sin(seed)*30)*(1-t),
-        y:source.y+(target.y-source.y)*t - Math.sin(t*Math.PI)*65 + Math.cos(t*9+seed)*15*Math.sin(t*Math.PI)
+        x:source.x+(target.x-source.x)*gather + curl*22*(1-t),
+        y:source.y+(target.y-source.y)*t + Math.cos(t*7+seed)*12*Math.sin(t*Math.PI)
+      };
+    }
+    function plume(source, t, seed) {
+      const spread = t*t*(3-2*t);
+      return {
+        x:source.x-width*(.19+.095*Math.sin(seed))*spread + Math.sin(t*10+seed*.15+clock*.17)*(5+30*t)*Math.sin(t*Math.PI),
+        y:source.y-(source.y-height*.025)*t + Math.sin(t*11+seed)*9*t
       };
     }
     function render(time) {
@@ -87,69 +99,62 @@
       last = time;
       const bounds = scene.getBoundingClientRect();
       const tip = section.querySelector('.smoke-tip').getBoundingClientRect();
-      const clip = window.getBoundingClientRect();
       const source = {x:tip.left+tip.width/2-bounds.left,y:tip.top+tip.height/2-bounds.top};
       context.clearRect(0,0,width,height);
-      // Broad, continuously rising vapor under the more precise glyph particles.
+      // New wisps are born at the tip, rather than filling the plume on frame one.
       context.globalCompositeOperation = 'screen';
       trails.forEach(trail => {
-        const t = (clock*trail.speed + trail.phase) % 1;
-        const target = {x:width*(.3+.38*(Math.sin(trail.seed)*.5+.5)),y:height*.10};
-        const p = flow(source,target,t,trail.seed+clock*.22);
-        const radius = 15 + Math.sin(t*Math.PI)*42;
-        context.globalAlpha = Math.sin(t*Math.PI)*.65*Math.min(clock/3,1);
+        if (clock < trail.birth) return;
+        const t = ((clock-trail.birth) % trail.life) / trail.life;
+        const p = plume(source,t,trail.seed);
+        const radius = 7 + Math.sin(t*Math.PI*.8)*58;
+        context.globalAlpha = Math.pow(Math.sin(t*Math.PI),.8)*.26;
         context.drawImage(vapor,p.x-radius,p.y-radius,radius*2,radius*2);
       });
-      // Fine ribbons trace the upward current, with slightly different vortices.
-      for (let ribbon=0;ribbon<9;ribbon++) {
+      // Feathered filaments follow only the part of the plume that has risen.
+      for (let ribbon=0;ribbon<7;ribbon++) {
         context.beginPath();
-        const target = {x:width*(.35+ribbon*.035),y:height*.12};
-        for (let step=0;step<=40;step++) {
-          const t=step/40, p=flow(source,target,t,ribbon*.8+clock*.38);
+        const front = Math.min(Math.max(clock-ribbon*.18,0)/11,1);
+        for (let step=0;step<=48;step++) {
+          const t=step/48*front, p=plume(source,t,ribbon*.9);
           step ? context.lineTo(p.x,p.y) : context.moveTo(p.x,p.y);
         }
-        context.globalAlpha=.055*Math.min(clock/4,1);
-        context.strokeStyle='#ddceb6'; context.lineWidth=1.1;
+        context.globalAlpha=.023*Math.min(clock/5,1);
+        context.strokeStyle='#ddceb6'; context.lineWidth=1.4;
         context.stroke();
       }
-      let active = 0;
-      const visibleParagraphs = new Set(paragraphs.filter(paragraph => {
-        const rect=paragraph.getBoundingClientRect();
-        return rect.bottom>clip.top+8 && rect.top<clip.bottom-30;
-      }));
-      words.forEach(word => {
-        if (word.birth !== null && clock-word.birth>6) {
-          if (!word.element.classList.contains('is-ink')) word.element.classList.add('is-ink');
-          return;
+      if (Math.floor(clock*10) !== cloudFrame) {
+        cloudFrame = Math.floor(clock*10);
+        section.style.setProperty('--smoke-front', `${Math.max(0,100-clock/12*100)}%`);
+        section.style.setProperty('--smoke-density', String(Math.min(Math.max(clock-2,0)/12,1)*.30));
+      }
+      letters.forEach(letter => {
+        const age = clock-letter.birth;
+        if (age >= timing.gather*.55 && !letter.element.classList.contains('is-condensing')) {
+          letter.element.classList.add('is-condensing');
         }
-        if (!word.inIntro && !visibleParagraphs.has(word.paragraph)) return;
-        const rect = word.element.getBoundingClientRect();
-        const inView = word.inIntro || (rect.bottom > clip.top+8 && rect.top < clip.bottom-30);
-        if (!inView) return;
-        if (word.birth === null) word.birth = clock + Math.min(active++*.018,1.1);
-        const age = clock-word.birth;
-        if (age>4.3 && !word.element.classList.contains('is-ink')) word.element.classList.add('is-ink');
-        if (age<0 || age>6) return;
-        if (!word.points) word.points=sample(word,rect);
-        const t = Math.min(age/4.3,1);
-        const dissolve = Math.max(0,1-(age-4.3)/1.7);
+        if (age >= timing.gather && !letter.element.classList.contains('is-ink')) {
+          letter.element.classList.add('is-ink');
+        }
+        if (age<0 || age>timing.gather+timing.settle) return;
+        const rect = letter.element.getBoundingClientRect();
+        if (!letter.points) letter.points=sample(letter,rect);
+        const t = Math.min(age/timing.gather,1);
+        const dissolve = Math.max(0,1-(age-timing.gather)/timing.settle);
         const destination = {x:rect.left-bounds.left,y:rect.top-bounds.top};
-        word.points.forEach(point => {
+        letter.points.forEach(point => {
           const target={x:destination.x+point.x,y:destination.y+point.y};
-          const p=flow(source,target,t,point.seed);
-          const turbulence=(1-t)*Math.sin(age*3+point.seed)*8;
-          const radius=1.1+(1-t)*6;
-          context.globalAlpha=Math.min(age*.6,1)*dissolve*(t>.8?.75:.28);
+          // Condense from the risen cloud, with small eddies that settle into ink.
+          const origin={x:width*.61+point.cloudX*width*.26,y:destination.y+70+point.cloudY*130};
+          const p=gather(origin,target,t,point.seed);
+          const turbulence=(1-t)*Math.sin(age*1.5+point.seed)*10;
+          const radius=2.6+(1-t)*14;
+          context.globalAlpha=Math.min(age*.4,1)*dissolve*(.06+t*.26);
           context.drawImage(vapor,p.x-radius+turbulence,p.y-radius,radius*2,radius*2);
-          if(t>.68) {
-            context.globalAlpha=(t-.68)*2.2*dissolve;
-            context.fillStyle='#e9dcc5';
-            context.fillRect(p.x+turbulence,p.y,1.25,1.25);
-          }
         });
       });
       context.globalAlpha=1; context.globalCompositeOperation='source-over';
-      if (!formationSent && clock >= 6.5) {
+      if (!formationSent && clock >= formedAt) {
         formationSent = true;
         section.dispatchEvent(new Event('smoke:formed'));
       }
@@ -168,8 +173,8 @@
     reducedMotion.addEventListener('change',wake);
     section.addEventListener('smoke:begin',()=>{
       clock=0; last=0;
-      formationSent=false;
-      words.forEach(word=>{word.birth=null;word.element.classList.remove('is-ink');});
+      formationSent=false; cloudFrame=-1;
+      letters.forEach(letter=>letter.element.classList.remove('is-ink','is-condensing'));
       wake();
     });
     document.fonts.ready.then(()=>{resize();wake();});
@@ -187,7 +192,9 @@
     const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
     const begin = section.querySelector('[data-smoke-begin]');
     const manuscript = section.querySelector('.smoke-manuscript');
+    const controls = section.querySelector('.smoke-reading-controls');
     let begun = false;
+    let readingReady = false;
     let paused = true;
     let visible = false;
     let loaded = false;
@@ -195,12 +202,26 @@
     let previousTime = 0;
     let position = 0;
     let readyAt = performance.now() + 5000;
+    viewport.setAttribute('inert', '');
+    viewport.setAttribute('aria-hidden', 'true');
 
     function updateControls() {
       pause.textContent = paused ? 'Resume scrolling' : 'Pause scrolling';
       pause.setAttribute('aria-pressed', String(paused));
-      pause.hidden = !begun;
+      pause.hidden = !readingReady;
+      controls.setAttribute('aria-hidden', String(!readingReady));
       section.classList.toggle('is-paused', paused);
+    }
+    function revealStory() {
+      if (readingReady) return;
+      readingReady = true;
+      section.classList.add('is-reading-ready');
+      viewport.removeAttribute('inert');
+      viewport.setAttribute('aria-hidden', 'false');
+      // The opening has settled. Let the remaining prose fade in before moving.
+      readyAt = performance.now() + (reducedMotion.matches ? 0 : 2000);
+      updateControls();
+      start();
     }
     begin.addEventListener('click', async () => {
       if (!loaded || begun) return;
@@ -233,7 +254,7 @@
       } catch (error) {
         // The statement still starts if the browser cancels an animation.
       }
-      paused = false;
+      paused = reducedMotion.matches;
       section.classList.add('is-tip-hot');
       section.classList.add('is-started');
       section.classList.toggle('smoke-motion-enabled', !reducedMotion.matches);
@@ -242,11 +263,13 @@
       manuscript.setAttribute('aria-hidden', 'false');
       viewport.scrollTop = 0;
       position = 0;
-      readyAt = reducedMotion.matches || !section.classList.contains('has-smoke-formation') ? performance.now()+500 : Infinity;
+      readyAt = Infinity;
       section.dispatchEvent(new Event('smoke:begin'));
+      if (reducedMotion.matches || !section.classList.contains('has-smoke-formation')) revealStory();
       updateControls();
       updateVisibility();
-      pause.focus({ preventScroll: true });
+      manuscript.tabIndex = -1;
+      manuscript.focus({ preventScroll: true });
       const extinguish = section.querySelector('.smoke-flame').animate([
         {opacity:1},{opacity:.8,offset:.5},{opacity:0}
       ],{duration:1100,fill:'forwards'});
@@ -257,10 +280,7 @@
       section.classList.remove('is-igniting');
       section.classList.remove('is-tip-hot');
     });
-    section.addEventListener('smoke:formed', () => {
-      readyAt = performance.now() + 1000;
-      start();
-    });
+    section.addEventListener('smoke:formed', revealStory);
     function stop() {
       cancelAnimationFrame(frame);
       frame = 0;
@@ -278,7 +298,7 @@
       frame = requestAnimationFrame(tick);
     }
     function start() {
-      if (loaded && !frame && visible && !document.hidden && !paused) {
+      if (loaded && readingReady && !frame && visible && !document.hidden && !paused) {
         position = viewport.scrollTop;
         frame = requestAnimationFrame(tick);
       }
@@ -308,6 +328,7 @@
       if (reducedMotion.matches) {
         manualPause();
         section.classList.remove('smoke-motion-enabled');
+        if (begun && section.classList.contains('is-started')) revealStory();
         readyAt = performance.now();
       }
     });
@@ -343,15 +364,6 @@
       loaded = true;
       begin.disabled = false;
       begin.removeAttribute('aria-busy');
-      const formation = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-formed');
-            formation.unobserve(entry.target);
-          }
-        });
-      }, { root: viewport, threshold: 0.01 });
-      prose.querySelectorAll('p').forEach(paragraph => formation.observe(paragraph));
       readyAt = Infinity;
       updateVisibility();
     } catch (error) {
