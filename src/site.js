@@ -377,18 +377,16 @@
             <canvas class="smoke-formation" data-smoke-canvas aria-hidden="true"></canvas>
             <img class="smoke-cloud" src="/assets/trap-house/story-smoke-cloud.png" alt="" aria-hidden="true" loading="lazy" />
             <figure class="smoke-pipe" aria-hidden="true">
-              <img src="/assets/trap-house/story-pipe.png" alt="" width="2172" height="724" loading="lazy" />
+              <img src="/assets/trap-house/story-pipe-bell.png" alt="" width="2172" height="724" loading="lazy" />
             </figure>
-            <div class="smoke-manuscript">
+            <div class="smoke-entry"><button class="button button-primary" type="button" data-smoke-begin disabled aria-busy="true">Ring the bell</button></div>
+            <div class="smoke-manuscript" aria-hidden="true" inert>
               <div class="smoke-intro" data-smoke-intro></div>
               <div class="smoke-text-window" id="smoke-manuscript" tabindex="0" role="region" aria-label="Ryan’s scrolling statement. Scroll to read at your own pace." data-smoke-window>
                 <div class="smoke-prose" data-smoke-prose><p>Loading Ryan’s words…</p></div>
               </div>
               <div class="smoke-reading-controls">
-                <button class="button" type="button" data-smoke-motion aria-pressed="true">Pause smoke</button>
-                <button class="button" type="button" data-smoke-replay>Replay formation</button>
-                <button class="button" type="button" data-smoke-pause aria-pressed="false">Pause scrolling</button>
-                <button class="button" type="button" data-smoke-expand aria-expanded="false" aria-controls="smoke-manuscript">Read all</button>
+                <button class="button" type="button" data-smoke-pause aria-pressed="false" hidden>Pause scrolling</button>
                 <span data-smoke-progress aria-hidden="true">01 / THE RECORD</span>
               </div>
               <noscript><a href="/data/ryan-smoke-statement.txt">Read Ryan’s full statement</a></noscript>

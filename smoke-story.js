@@ -96,7 +96,7 @@
         const target = {x:width*(.3+.38*(Math.sin(trail.seed)*.5+.5)),y:height*.10};
         const p = flow(source,target,t,trail.seed+clock*.22);
         const radius = 15 + Math.sin(t*Math.PI)*42;
-        context.globalAlpha = Math.sin(t*Math.PI)*.65;
+        context.globalAlpha = Math.sin(t*Math.PI)*.65*Math.min(clock/3,1);
         context.drawImage(vapor,p.x-radius,p.y-radius,radius*2,radius*2);
       });
       // Fine ribbons trace the upward current, with slightly different vortices.
@@ -107,7 +107,7 @@
           const t=step/40, p=flow(source,target,t,ribbon*.8+clock*.38);
           step ? context.lineTo(p.x,p.y) : context.moveTo(p.x,p.y);
         }
-        context.globalAlpha=.055;
+        context.globalAlpha=.055*Math.min(clock/4,1);
         context.strokeStyle='#ddceb6'; context.lineWidth=1.1;
         context.stroke();
       }
@@ -158,7 +158,7 @@
     document.addEventListener('visibilitychange',wake);
     addEventListener('scroll',wake,{passive:true});
     reducedMotion.addEventListener('change',wake);
-    section.querySelector('[data-smoke-replay]').addEventListener('click',()=>{
+    section.addEventListener('smoke:begin',()=>{
       clock=0; last=0;
       words.forEach(word=>{word.birth=null;word.element.classList.remove('is-ink');});
       wake();
@@ -174,21 +174,12 @@
     const prose = section.querySelector('[data-smoke-prose]');
     const intro = section.querySelector('[data-smoke-intro]');
     const pause = section.querySelector('[data-smoke-pause]');
-    const expand = section.querySelector('[data-smoke-expand]');
     const progress = section.querySelector('[data-smoke-progress]');
     const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-    const motion = section.querySelector('[data-smoke-motion]');
-    let smokeMoving = !reducedMotion.matches;
-    function updateSmokeMotion() {
-      section.classList.toggle('smoke-motion-enabled', smokeMoving);
-      motion.textContent = smokeMoving ? 'Pause smoke' : 'Animate smoke';
-      motion.setAttribute('aria-pressed', String(smokeMoving));
-    }
-    motion.addEventListener('click', () => { smokeMoving = !smokeMoving; updateSmokeMotion(); });
-    section.querySelector('[data-smoke-replay]').addEventListener('click',()=>{smokeMoving=true;updateSmokeMotion();});
-    updateSmokeMotion();
-    let paused = reducedMotion.matches;
-    let expanded = false;
+    const begin = section.querySelector('[data-smoke-begin]');
+    const manuscript = section.querySelector('.smoke-manuscript');
+    let begun = false;
+    let paused = true;
     let visible = false;
     let loaded = false;
     let frame = 0;
@@ -199,20 +190,33 @@
     function updateControls() {
       pause.textContent = paused ? 'Resume scrolling' : 'Pause scrolling';
       pause.setAttribute('aria-pressed', String(paused));
-      pause.disabled = expanded;
-      section.querySelector('[data-smoke-replay]').disabled = expanded;
-      expand.textContent = expanded ? 'Back to scrolling' : 'Read all';
-      expand.setAttribute('aria-expanded', String(expanded));
-      section.classList.toggle('is-paused', paused || expanded);
-      section.classList.toggle('is-expanded', expanded);
+      pause.hidden = !begun;
+      section.classList.toggle('is-paused', paused);
     }
+    begin.addEventListener('click', () => {
+      if (!loaded || begun) return;
+      begun = true;
+      paused = false;
+      section.classList.add('is-started');
+      section.classList.toggle('smoke-motion-enabled', !reducedMotion.matches);
+      section.querySelector('.smoke-entry').hidden = true;
+      manuscript.removeAttribute('inert');
+      manuscript.setAttribute('aria-hidden', 'false');
+      viewport.scrollTop = 0;
+      position = 0;
+      readyAt = performance.now() + (reducedMotion.matches ? 0 : 6500);
+      section.dispatchEvent(new Event('smoke:begin'));
+      updateControls();
+      updateVisibility();
+      pause.focus({ preventScroll: true });
+    });
     function stop() {
       cancelAnimationFrame(frame);
       frame = 0;
       previousTime = 0;
     }
     function tick(time) {
-      if (!visible || document.hidden || paused || expanded) { stop(); return; }
+      if (!visible || document.hidden || paused) { stop(); return; }
       if (previousTime && time >= readyAt) {
         position += Math.min(time - previousTime, 100) * 0.012;
         const end = viewport.scrollHeight - viewport.clientHeight;
@@ -223,7 +227,7 @@
       frame = requestAnimationFrame(tick);
     }
     function start() {
-      if (loaded && !frame && visible && !document.hidden && !paused && !expanded) {
+      if (loaded && !frame && visible && !document.hidden && !paused) {
         position = viewport.scrollTop;
         frame = requestAnimationFrame(tick);
       }
@@ -240,12 +244,6 @@
       updateControls();
       paused ? stop() : start();
     });
-    expand.addEventListener('click', () => {
-      expanded = !expanded;
-      stop();
-      updateControls();
-      if (!expanded) { position = viewport.scrollTop; start(); }
-    });
     viewport.addEventListener('wheel', manualPause, { passive: true });
     viewport.addEventListener('touchstart', manualPause, { passive: true });
     viewport.addEventListener('keydown', (event) => {
@@ -256,7 +254,7 @@
       progress.textContent = end > 0 ? `${Math.round(viewport.scrollTop / end * 100)}% / THE RECORD` : 'THE COMPLETE RECORD';
     }, { passive: true });
     reducedMotion.addEventListener('change', () => {
-      if (reducedMotion.matches) { manualPause(); smokeMoving = false; updateSmokeMotion(); }
+      if (reducedMotion.matches) { manualPause(); section.classList.remove('smoke-motion-enabled'); }
     });
     document.addEventListener('visibilitychange', () => document.hidden ? stop() : start());
     function updateVisibility() {
@@ -288,6 +286,8 @@
       prose.replaceChildren(fragment);
       createSmokeFormation(section, reducedMotion);
       loaded = true;
+      begin.disabled = false;
+      begin.removeAttribute('aria-busy');
       const formation = new IntersectionObserver(entries => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
@@ -297,7 +297,7 @@
         });
       }, { root: viewport, threshold: 0.01 });
       prose.querySelectorAll('p').forEach(paragraph => formation.observe(paragraph));
-      readyAt = performance.now() + 8500;
+      readyAt = Infinity;
       updateVisibility();
     } catch (error) {
       prose.textContent = 'The statement could not load. Open the full text below.';
@@ -305,6 +305,9 @@
       link.href = '/data/ryan-smoke-statement.txt';
       link.textContent = 'Read Ryan’s full statement';
       prose.append(link);
+      loaded = true;
+      begin.disabled = false;
+      begin.removeAttribute('aria-busy');
       manualPause();
     }
   }

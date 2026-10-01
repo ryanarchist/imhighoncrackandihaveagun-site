@@ -1979,3 +1979,15 @@ body[data-page="my-pass"] .hero h1 { font-size:clamp(36px,5vw,64px); }
 @keyframes story-cloud-lift { 0% {transform:translate(8px,24px) scale(.97);opacity:.18;} 45% {transform:translate(-5px,-5px) scale(1.03);opacity:.36;} 100% {transform:translate(-20px,-38px) scale(1.08);opacity:.18;} }
 @media(prefers-reduced-motion:reduce) { .smoke-story:not(.smoke-motion-enabled) .smoke-cloud {animation:none;} }
 @media(max-width:700px) { .smoke-reading-controls {gap:7px;} .smoke-reading-controls .button {width:auto;flex:1 1 calc(50% - 7px);font-size:12px;} }
+.smoke-story:not(.is-started) .smoke-manuscript {visibility:hidden;pointer-events:none;}
+.smoke-story:not(.is-started) .smoke-cloud,.smoke-story:not(.is-started) .smoke-formation {visibility:hidden;}
+.smoke-entry {position:absolute;inset:0;display:grid;place-items:center;padding-bottom:95px;z-index:4;}
+.smoke-entry[hidden] {display:none;}
+.smoke-entry .button {width:auto;min-width:190px;min-height:52px;font-size:22px;letter-spacing:.08em;}
+.smoke-reading-controls .button[hidden] {display:none;}
+.smoke-story .smoke-pipe {bottom:12px;}
+.smoke-story .smoke-story-scene {padding-bottom:210px;}
+.smoke-story .smoke-cloud {height:calc(100% - 70px);}
+.smoke-story.is-started.smoke-motion-enabled .smoke-cloud {animation:story-cloud-lift 18s linear infinite,bell-cloud-reveal 5s ease-out both;}
+@keyframes bell-cloud-reveal {from {clip-path:circle(0% at 74% 100%);} to {clip-path:circle(150% at 74% 100%);}}
+@media(max-width:700px) {.smoke-story .smoke-pipe {bottom:8px;} .smoke-story .smoke-story-scene {padding-bottom:170px;} .smoke-reading-controls .button {flex:0 1 auto;min-width:180px;}}
