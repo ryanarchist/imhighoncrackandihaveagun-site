@@ -259,11 +259,14 @@
       if (reducedMotion.matches) { manualPause(); smokeMoving = false; updateSmokeMotion(); }
     });
     document.addEventListener('visibilitychange', () => document.hidden ? stop() : start());
-    new IntersectionObserver(([entry]) => {
-      visible = entry.isIntersecting;
+    function updateVisibility() {
+      const bounds = section.getBoundingClientRect();
+      visible = bounds.bottom > 0 && bounds.top < innerHeight;
       section.classList.toggle('is-visible', visible);
       visible ? start() : stop();
-    }, { threshold: 0.1 }).observe(section);
+    }
+    new IntersectionObserver(updateVisibility, { threshold: 0.1 }).observe(section);
+    addEventListener('scroll', updateVisibility, { passive: true });
     updateControls();
     try {
       const response = await fetch('/data/ryan-smoke-statement.txt?v=20261001', { cache: 'no-cache' });
@@ -295,7 +298,7 @@
       }, { root: viewport, threshold: 0.01 });
       prose.querySelectorAll('p').forEach(paragraph => formation.observe(paragraph));
       readyAt = performance.now() + 8500;
-      start();
+      updateVisibility();
     } catch (error) {
       prose.textContent = 'The statement could not load. Open the full text below.';
       const link = document.createElement('a');
