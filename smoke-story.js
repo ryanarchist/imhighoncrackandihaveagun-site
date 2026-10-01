@@ -4,6 +4,7 @@
     if (!section) return;
     const viewport = section.querySelector('[data-smoke-window]');
     const prose = section.querySelector('[data-smoke-prose]');
+    const intro = section.querySelector('[data-smoke-intro]');
     const pause = section.querySelector('[data-smoke-pause]');
     const expand = section.querySelector('[data-smoke-expand]');
     const progress = section.querySelector('[data-smoke-progress]');
@@ -90,7 +91,13 @@
       if (!response.ok) throw new Error('statement_unavailable');
       const text = await response.text();
       const fragment = document.createDocumentFragment();
-      text.split(/\r?\n/).map(line => line.trim()).filter(Boolean).forEach((line) => {
+      const lines = text.split(/\r?\n/).map(line => line.trim()).filter(Boolean);
+      lines.slice(0, 2).forEach(line => {
+        const opening = document.createElement('p');
+        opening.textContent = line;
+        intro.append(opening);
+      });
+      lines.slice(2).forEach((line) => {
         const paragraph = document.createElement('p');
         paragraph.textContent = line;
         paragraph.className = 'smoke-paragraph';

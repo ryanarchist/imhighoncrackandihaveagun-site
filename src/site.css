@@ -1918,46 +1918,50 @@ body[data-page="my-pass"] .hero-inner { padding-top:48px; padding-bottom:36px; }
 body[data-page="my-pass"] .hero h1 { font-size:clamp(36px,5vw,64px); }
 .wallet-identity h2 { font-size:clamp(30px,4vw,48px); margin:10px 0 18px; }
 .pass-identity-banner { display:grid; gap:6px; padding:16px 0; }
-/* Smoke becomes the author's record. Decorative movement stays behind the type. */
-.smoke-story { background:radial-gradient(ellipse at 23% 50%,#21150d55,transparent 48%),#030303; overflow:hidden; border-bottom:1px solid var(--line); }
-.smoke-story-header { display:flex; align-items:center; justify-content:space-between; gap:24px; margin-bottom:28px; }
-.smoke-story-header .eyebrow { margin:0; }
-.smoke-reading-hint { color:#82796c; font-size:12px; letter-spacing:.04em; }
-.smoke-story-scene { display:grid; grid-template-columns:minmax(220px,.85fr) minmax(0,1.65fr); align-items:center; gap:10px; }
-.smoke-pipe { position:relative; height:340px; margin:0; pointer-events:none; }
-.smoke-pipe img { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; filter:drop-shadow(0 14px 20px #000); }
-.smoke-drift { position:absolute; left:95%; top:0; width:500px; height:340px; overflow:visible; filter:blur(8px); }
-.smoke-wisp { transform-origin:0 50%; animation:story-smoke-breathe 9s ease-in-out infinite alternate; }
-.smoke-wisp:nth-child(2) { animation-delay:-4s; animation-duration:13s; opacity:.65; }
-.smoke-wisp:nth-child(3) { animation-delay:-7s; animation-duration:11s; }
-.smoke-wisp:nth-child(4) { animation-delay:-2s; opacity:.3; }
-.smoke-manuscript { position:relative; z-index:1; min-width:0; }
-.smoke-text-window { height:470px; overflow-y:auto; padding:35px 20px 50px 32px; scrollbar-width:thin; scrollbar-color:#544331 transparent; overscroll-behavior:contain; mask-image:linear-gradient(to bottom,transparent,#000 7%,#000 89%,transparent); }
+
+/* Ryan's concept: a low centered pipe feeds a cloud around the manuscript. */
+.smoke-story { position:relative; padding:0; background:#030303; overflow:hidden; }
+.smoke-story > .container { max-width:1440px; }
+.smoke-story-scene { position:relative; min-height:530px; padding:55px 0 130px; isolation:isolate; }
+.smoke-story-scene::after { content:""; position:absolute; bottom:11px; left:-10%; width:120%; height:32px; background:radial-gradient(ellipse,#c2a37535 0%,#68523912 42%,transparent 72%); border-bottom:1px solid #6e574333; z-index:-1; }
+.smoke-cloud { position:absolute; inset:0; width:100%; height:100%; object-fit:fill; opacity:.7; z-index:-1; pointer-events:none; transform-origin:74% 96%; animation:story-cloud-drift 14s ease-in-out infinite alternate; }
+.smoke-pipe { position:absolute; width:min(620px,72%); height:207px; bottom:-67px; left:50%; transform:translateX(-50%); margin:0; pointer-events:none; }
+.smoke-pipe img { width:100%; height:100%; object-fit:contain; filter:drop-shadow(0 7px 4px #c9aa6033); }
+.smoke-manuscript { position:relative; z-index:1; width:min(700px,82%); margin:0 auto; text-align:center; }
+.smoke-intro { font-family:var(--typewriter); font-size:clamp(23px,2.25vw,32px); color:#eadfcb; line-height:1.35; text-shadow:0 2px 12px #000,0 0 25px #000; }
+.smoke-intro p { margin:0 0 8px; }
+.smoke-text-window { width:min(530px,100%); height:220px; margin:22px auto 0; overflow-y:auto; padding:9px 12px 38px; scrollbar-width:thin; scrollbar-color:#544331 transparent; overscroll-behavior:contain; mask-image:linear-gradient(to bottom,transparent,#000 6%,#000 76%,transparent); }
 .smoke-text-window:focus-visible { outline:1px solid #8c7660; outline-offset:4px; }
-.smoke-prose { font-family:var(--typewriter); font-size:clamp(18px,1.5vw,22px); line-height:1.85; color:#e5ddd0; }
-.smoke-prose p { margin:0 0 1.6em; }
-.smoke-prose p:first-child { color:#fff3de; font-size:1.3em; }
-.smoke-paragraph { opacity:.25; filter:blur(5px); transform:translateX(-14px); transition:opacity 1.8s ease,filter 1.8s ease,transform 1.8s ease; }
-.smoke-paragraph.is-formed { opacity:1; filter:blur(0); transform:translateX(0); }
-.smoke-reading-controls { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:20px 20px 0 32px; }
-.smoke-reading-controls .button { font-size:16px; box-shadow:none; background:#0c0906; border-color:#4a3a2c; }
-.smoke-reading-controls [data-smoke-progress] { margin-left:auto; color:#a89983; font-size:10px; letter-spacing:.12em; }
-.smoke-story:not(.is-visible) .smoke-wisp,.smoke-story.is-paused .smoke-wisp { animation-play-state:paused; }
-.smoke-story.is-expanded .smoke-story-scene { align-items:start; }
-.smoke-story.is-expanded .smoke-pipe { position:sticky; top:100px; }
+.smoke-prose { font-family:var(--typewriter); font-size:18px; line-height:1.6; color:#dfd2ba; text-shadow:0 2px 8px #000,0 0 16px #000; }
+.smoke-prose p { margin:0 0 1.5em; }
+.smoke-paragraph { opacity:.25; filter:blur(5px); transform:translateY(12px); transition:opacity 1.8s ease,filter 1.8s ease,transform 1.8s ease; }
+.smoke-paragraph.is-formed { opacity:1; filter:blur(0); transform:translateY(0); }
+.smoke-reading-controls { display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:10px; margin:12px auto 0; }
+.smoke-reading-controls .button { min-height:30px; padding:7px 12px; font-size:13px; box-shadow:none; background:#080604aa; border-color:#4a3a2c; }
+.smoke-reading-controls [data-smoke-progress] { color:#9a8c77; font-size:9px; letter-spacing:.12em; }
+.smoke-story:not(.is-visible) .smoke-cloud,.smoke-story.is-paused .smoke-cloud { animation-play-state:paused; }
+.smoke-story.is-expanded .smoke-story-scene { padding-bottom:170px; }
 .smoke-story.is-expanded .smoke-text-window { height:auto; overflow:visible; mask-image:none; }
 .smoke-story.is-expanded .smoke-paragraph { opacity:1; filter:none; transform:none; }
-@keyframes story-smoke-breathe { from { transform:translateY(4px) scaleY(.94); opacity:.45; } to { transform:translateY(-12px) scaleY(1.1); opacity:.85; } }
+.smoke-pathways { padding-top:20px; }
+.smoke-story-cards { grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; }
+@keyframes story-cloud-drift { from { transform:translate(0,4px) scale(1); opacity:.64; } to { transform:translate(-6px,-5px) scale(1.018); opacity:.78; } }
 @media(max-width:700px) {
- .smoke-story-header { display:block; } .smoke-reading-hint { display:block; margin-top:10px; }
- .smoke-story-scene { grid-template-columns:90px minmax(0,1fr); gap:0; }
- .smoke-pipe { height:200px; }
- .smoke-pipe img { width:100%; left:0; }
- .smoke-drift { left:88%; top:-40px; width:260px; height:280px; filter:blur(6px); }
- .smoke-text-window { height:490px; padding:30px 4px 35px 15px; }
- .smoke-prose { font-size:16px; line-height:1.8; }
- .smoke-reading-controls { margin:18px 0 0 15px; }
- .smoke-reading-controls [data-smoke-progress] { width:100%; margin-left:0; }
- .smoke-reading-controls .button { padding:10px; font-size:14px; }
+ .smoke-story-scene { min-height:500px; padding-top:45px; padding-bottom:120px; }
+ .smoke-manuscript { width:100%; }
+ .smoke-intro { font-size:22px; }
+ .smoke-text-window { height:225px; width:95%; margin-top:20px; }
+ .smoke-prose { font-size:15px; line-height:1.7; }
+ .smoke-pipe { width:92%; height:135px; bottom:-38px; }
+ .smoke-cloud { width:130%; left:12%; opacity:.6; }
+ .smoke-reading-controls [data-smoke-progress] { display:none; }
+ .smoke-story-cards { grid-template-columns:1fr; }
 }
-@media(prefers-reduced-motion:reduce) { .smoke-wisp { animation:none; } .smoke-paragraph { opacity:1; filter:none; transform:none; transition:none; } }
+@media(prefers-reduced-motion:reduce) { .smoke-cloud { animation:none; } .smoke-paragraph { opacity:1; filter:none; transform:none; transition:none; } }
+.smoke-cloud { mask-image:linear-gradient(to bottom,#000 0%,#000 90%,transparent 100%); }
+.smoke-pathways > .container { max-width:1080px; }
+.smoke-story-cards .entry-card { padding:22px; }
+.smoke-story-cards h3 { font-size:clamp(23px,2.25vw,30px); line-height:1.12; }
+.smoke-story-cards .entry-card p { font-size:14px; line-height:1.55; }
+.smoke-story-cards .button { min-height:32px; font-size:14px; }
+@media(max-width:700px) { .smoke-story-cards .entry-card p { font-size:16px; } }
