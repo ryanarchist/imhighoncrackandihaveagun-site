@@ -1,4 +1,61 @@
 (() => {
+  // One media element owns both picture and audio; buffering cannot split them.
+  function createStatementVideo(section) {
+    const video = section.querySelector('[data-smoke-video]');
+    if (!video) return null;
+    let prepared = null, hls = null, scriptPromise = null;
+    function loadHls() {
+      if (window.Hls) return Promise.resolve(window.Hls);
+      if (!scriptPromise) scriptPromise = new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/hls.js@1.7.3/dist/hls.min.js';
+        script.onload = () => window.Hls ? resolve(window.Hls) : reject(new Error('stream_unavailable'));
+        script.onerror = () => { script.remove(); scriptPromise = null; reject(new Error('stream_unavailable')); };
+        document.head.append(script);
+      });
+      return scriptPromise;
+    }
+    function prepare(retry = false) {
+      if (retry) {
+        hls?.destroy(); hls = null; prepared = null;
+        video.pause(); video.removeAttribute('src'); video.load();
+      }
+      if (prepared) return prepared;
+      prepared = new Promise((resolve, reject) => {
+        let settled = false;
+        const timeout = setTimeout(() => finish(new Error('stream_unavailable')), 18000);
+        const ready = () => finish();
+        const failed = () => finish(new Error('stream_unavailable'));
+        function finish(error) {
+          if (settled) return;
+          settled = true; clearTimeout(timeout);
+          video.removeEventListener('canplay', ready);
+          video.removeEventListener('error', failed);
+          if (error) reject(error); else resolve();
+        }
+        video.addEventListener('canplay', ready);
+        video.addEventListener('error', failed);
+        const source = video.dataset.source;
+        if (video.canPlayType('application/vnd.apple.mpegurl')) {
+          video.src = source; video.load();
+        } else {
+          loadHls().then(Hls => {
+            if (settled) return;
+            if (!Hls.isSupported()) { failed(); return; }
+            hls = new Hls({enableWorker:true,capLevelToPlayerSize:true,capLevelOnFPSDrop:true,maxBufferLength:20,backBufferLength:15});
+            hls.on(Hls.Events.ERROR, (_, data) => {
+              if (!data.fatal) return;
+              failed();
+              section.dispatchEvent(new Event('smoke:video-error'));
+            });
+            hls.loadSource(source); hls.attachMedia(video);
+          }).catch(failed);
+        }
+      });
+      return prepared;
+    }
+    return {video, prepare, async play(retry = false) { await prepare(retry); await video.play(); }};
+  }
   // Smoke rises first, gathers into the two opening sentences, then releases
   // the rest of the statement. HTML keeps the complete writing accessible.
   function createSmokeFormation(section, reducedMotion) {
@@ -193,6 +250,13 @@
     const begin = section.querySelector('[data-smoke-begin]');
     const manuscript = section.querySelector('.smoke-manuscript');
     const controls = section.querySelector('.smoke-reading-controls');
+    const soundtrack = createStatementVideo(section);
+    const mute = section.querySelector('[data-smoke-mute]');
+    const retryVideo = section.querySelector('[data-smoke-video-retry]');
+    const videoStatus = section.querySelector('[data-smoke-video-status]');
+    const seek = section.querySelector('[data-smoke-seek]');
+    let syncVideo = false, videoPending = false;
+    let narrationCues = [], narrationPositions = [], narrationDuration = 0;
     let begun = false;
     let readingReady = false;
     let paused = true;
@@ -204,14 +268,86 @@
     let readyAt = performance.now() + 5000;
     viewport.setAttribute('inert', '');
     viewport.setAttribute('aria-hidden', 'true');
-    begin.setAttribute('aria-description', 'Play the lighter and smoke animation, then start scrolling the statement.');
+    begin.setAttribute('aria-description', 'Play the lighter and smoke animation, then the statement video with sound.');
 
     function updateControls() {
       pause.textContent = paused ? 'Resume scrolling' : 'Pause scrolling';
+      if (syncVideo) pause.textContent = soundtrack.video.ended ? 'Replay video & text' : paused ? 'Resume video & text' : 'Pause video & text';
       pause.setAttribute('aria-pressed', String(paused));
-      pause.hidden = !readingReady;
+      pause.hidden = !readingReady || videoPending;
+      mute.hidden = !readingReady || !syncVideo;
+      seek.hidden = !readingReady || !syncVideo;
+      mute.textContent = soundtrack?.video.muted ? 'Unmute audio' : 'Mute audio';
+      mute.setAttribute('aria-pressed', String(!!soundtrack?.video.muted));
       controls.setAttribute('aria-hidden', String(!readingReady));
       section.classList.toggle('is-paused', paused);
+    }
+    function videoMessage(message, retry = false) {
+      videoStatus.textContent = message;
+      videoStatus.hidden = !readingReady || !message;
+      retryVideo.hidden = !readingReady || !retry;
+    }
+    function measureNarration() {
+      if (!narrationCues.length) return;
+      const paragraphs = Array.from(prose.querySelectorAll('p'));
+      const origin = prose.getBoundingClientRect().top;
+      const end = Math.max(0, viewport.scrollHeight-viewport.clientHeight);
+      const range = document.createRange();
+      narrationPositions = [[0,0]];
+      for (const [time, paragraph, offset] of narrationCues) {
+        const node = paragraphs[paragraph]?.firstChild;
+        if (!node || node.nodeType !== Node.TEXT_NODE || offset >= node.length) continue;
+        range.setStart(node, offset); range.setEnd(node, Math.min(offset+1,node.length));
+        const y = range.getBoundingClientRect().top-origin-viewport.clientHeight*.25;
+        narrationPositions.push([time, Math.max(0, Math.min(end,y))]);
+      }
+      const duration = Number.isFinite(soundtrack?.video.duration) ? soundtrack.video.duration : narrationDuration;
+      narrationPositions.push([duration,end]);
+      if (syncVideo) {
+        position = positionForNarration(soundtrack.video.currentTime,duration,end);
+        viewport.scrollTop = position;
+      }
+    }
+    function positionForNarration(time, duration, end) {
+      if (narrationPositions.length < 2) return Math.min(time/duration,1)*end;
+      let low = 0, high = narrationPositions.length-1;
+      while (low+1 < high) {
+        const mid = (low+high)>>1;
+        if (narrationPositions[mid][0] <= time) low = mid; else high = mid;
+      }
+      const [fromTime,fromY] = narrationPositions[low], [toTime,toY] = narrationPositions[high];
+      const blend = Math.max(0, Math.min(1,(time-fromTime)/Math.max(.001,toTime-fromTime)));
+      return fromY+(toY-fromY)*blend;
+    }
+    function playbackFailed(error) {
+      videoPending = false;
+      if (error?.name === 'AbortError') {
+        // Leaving the scene or pressing pause can cancel a pending play request.
+        syncVideo = true;
+        if (!visible || document.hidden) paused = false;
+        videoMessage(''); updateControls();
+        return;
+      }
+      const needsTap = error?.name === 'NotAllowedError';
+      paused = needsTap;
+      syncVideo = false;
+      videoMessage(needsTap ? 'Press play to start the video with sound.' : 'The video is not ready to play yet. You can still read the statement.', true);
+      retryVideo.textContent = needsTap ? 'Play video & audio' : 'Retry video & audio';
+      updateControls();
+      if (!paused) start();
+    }
+    async function playStatement(retry = false) {
+      if (!soundtrack || videoPending) return;
+      videoPending = true; paused = true; stop();
+      videoMessage('Loading the video and narration…'); updateControls();
+      try {
+        await soundtrack.play(retry);
+        videoPending = false; syncVideo = true; paused = false;
+        section.classList.add('has-video-picture');
+        videoMessage(''); updateControls();
+        if (!visible || document.hidden) soundtrack.video.pause();
+        start();
+      } catch (error) { playbackFailed(error); }
     }
     function revealStory() {
       if (readingReady) return;
@@ -222,12 +358,13 @@
       // The opening has settled. Let the remaining prose fade in before moving.
       readyAt = performance.now() + (section.classList.contains('smoke-motion-enabled') ? 2000 : 0);
       updateControls();
-      start();
+      if (soundtrack) playStatement(); else start();
     }
     begin.addEventListener('click', async () => {
       if (!loaded || begun) return;
       begun = true;
       begin.disabled = true;
+      soundtrack?.prepare().catch(() => {});
       section.querySelector('.smoke-entry').hidden = true;
       const lighter = section.querySelector('.smoke-lighter');
       // Nothing plays on page load. Ring the bell explicitly requests this
@@ -292,27 +429,35 @@
     function tick(time) {
       if (!visible || document.hidden || paused) { stop(); return; }
       if (previousTime && time >= readyAt) {
-        position += Math.min(time - previousTime, 100) * 0.012;
         const end = viewport.scrollHeight - viewport.clientHeight;
+        if (syncVideo) {
+          // The playback clock owns scrolling, including buffering and seeking.
+          const duration = soundtrack.video.duration;
+          if (Number.isFinite(duration) && duration > 0) position = positionForNarration(soundtrack.video.currentTime,duration,end);
+        } else position += Math.min(time - previousTime, 100) * 0.012;
         viewport.scrollTop = Math.min(position, end);
-        if (position >= end) { paused = true; updateControls(); stop(); return; }
+        if (!syncVideo && position >= end) { paused = true; updateControls(); stop(); return; }
       }
       previousTime = time;
       frame = requestAnimationFrame(tick);
     }
     function start() {
       if (loaded && readingReady && !frame && visible && !document.hidden && !paused) {
+        if (syncVideo && soundtrack.video.paused && !soundtrack.video.ended) soundtrack.video.play().catch(playbackFailed);
         position = viewport.scrollTop;
         frame = requestAnimationFrame(tick);
       }
     }
     function manualPause() {
       paused = true;
+      soundtrack?.video.pause();
       stop();
       updateControls();
     }
     pause.addEventListener('click', () => {
       paused = !paused;
+      if (syncVideo && !paused && soundtrack.video.ended) soundtrack.video.currentTime = 0;
+      if (paused) soundtrack?.video.pause();
       if (!paused && viewport.scrollTop >= viewport.scrollHeight - viewport.clientHeight - 1) viewport.scrollTop = 0;
       readyAt = Math.max(readyAt, performance.now());
       updateControls();
@@ -324,9 +469,38 @@
       if (['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' '].includes(event.key)) manualPause();
     });
     viewport.addEventListener('scroll', () => {
+      if (syncVideo) return;
       const end = viewport.scrollHeight - viewport.clientHeight;
       progress.textContent = end > 0 ? `${Math.round(viewport.scrollTop / end * 100)}% / THE RECORD` : 'THE COMPLETE RECORD';
     }, { passive: true });
+    mute.addEventListener('click', () => { if (soundtrack) { soundtrack.video.muted = !soundtrack.video.muted; updateControls(); } });
+    retryVideo.addEventListener('click', () => playStatement(retryVideo.textContent.startsWith('Retry')));
+    seek.addEventListener('input', () => {
+      if (syncVideo && Number.isFinite(soundtrack.video.duration)) {
+        soundtrack.video.currentTime = Number(seek.value)/1000*soundtrack.video.duration;
+        position = positionForNarration(soundtrack.video.currentTime,soundtrack.video.duration,viewport.scrollHeight-viewport.clientHeight);
+        viewport.scrollTop = position;
+        updateVideoClock();
+      }
+    });
+    function updateVideoClock() {
+      if (!syncVideo) return;
+      const video = soundtrack.video;
+      if (!Number.isFinite(video.duration)) return;
+      seek.value = String(Math.round(video.currentTime/video.duration*1000));
+      const stamp = seconds => `${Math.floor(seconds/60)}:${String(Math.floor(seconds%60)).padStart(2,'0')}`;
+      progress.textContent = `${stamp(video.currentTime)} / ${stamp(video.duration)}`;
+      seek.setAttribute('aria-valuetext', progress.textContent);
+    }
+    soundtrack?.video.addEventListener('timeupdate', updateVideoClock);
+    soundtrack?.video.addEventListener('waiting', () => { if (syncVideo) videoMessage('Buffering…'); });
+    soundtrack?.video.addEventListener('playing', () => {
+      if (syncVideo) { section.classList.add('has-video-picture'); videoMessage(''); }
+    });
+    soundtrack?.video.addEventListener('error', () => { if (syncVideo) playbackFailed(); });
+    soundtrack?.video.addEventListener('ended', () => { paused = true; updateControls(); stop(); });
+    soundtrack?.video.addEventListener('loadedmetadata', measureNarration);
+    section.addEventListener('smoke:video-error', () => { if (syncVideo) { soundtrack.video.pause(); playbackFailed(); } });
     reducedMotion.addEventListener('change', () => {
       if (reducedMotion.matches) {
         manualPause();
@@ -335,12 +509,14 @@
         readyAt = performance.now();
       }
     });
-    document.addEventListener('visibilitychange', () => document.hidden ? stop() : start());
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) { stop(); soundtrack?.video.pause(); } else start();
+    });
     function updateVisibility() {
       const bounds = section.getBoundingClientRect();
       visible = bounds.bottom > 0 && bounds.top < innerHeight;
       section.classList.toggle('is-visible', visible);
-      visible ? start() : stop();
+      if (visible) start(); else { stop(); soundtrack?.video.pause(); }
     }
     new IntersectionObserver(updateVisibility, { threshold: 0.1 }).observe(section);
     addEventListener('scroll', updateVisibility, { passive: true });
@@ -363,6 +539,22 @@
         fragment.append(paragraph);
       });
       prose.replaceChildren(fragment);
+      // Timestamp anchors come from this recording, while the supplied prose
+      // stays intact. Measure word positions again when phone/desktop wrapping changes.
+      try {
+        const cuesResponse = await fetch('/data/ryan-smoke-cues.json?v=20261001-video');
+        if (!cuesResponse.ok) throw new Error('cues_unavailable');
+        const cues = await cuesResponse.json();
+        const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text.replace(/\r\n/g,'\n')));
+        const hash = Array.from(new Uint8Array(digest), value => value.toString(16).padStart(2,'0')).join('');
+        if (cues.sourceSha256 === hash && soundtrack?.video.dataset.source.includes(cues.videoId)) {
+          narrationCues = cues.cues;
+          narrationDuration = cues.duration;
+          new ResizeObserver(measureNarration).observe(viewport);
+          document.fonts.ready.then(measureNarration);
+          measureNarration();
+        }
+      } catch (error) { /* Playback can still use the media clock if cue loading fails. */ }
       createSmokeFormation(section, reducedMotion);
       loaded = true;
       begin.disabled = false;

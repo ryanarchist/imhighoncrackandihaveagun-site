@@ -374,6 +374,7 @@
       <section class="smoke-story section" aria-label="Ryan’s words" data-smoke-story>
         <div class="container">
           <div class="smoke-story-scene">
+            <video class="smoke-background-video" data-smoke-video data-source="https://vz-538bd59b-9c9.b-cdn.net/25e8428a-3543-49a4-9f4f-c0c1cf11a947/playlist.m3u8" playsinline preload="none" aria-label="Ryan reads his statement" tabindex="-1"></video>
             <img class="smoke-portrait" src="/assets/trap-house/ryan-smoke-portrait.png" alt="" aria-hidden="true" loading="lazy" />
             <canvas class="smoke-formation" data-smoke-canvas aria-hidden="true"></canvas>
             <img class="smoke-cloud" src="/assets/trap-house/story-smoke-cloud.png" alt="" aria-hidden="true" loading="lazy" />
@@ -391,8 +392,12 @@
               </div>
               <div class="smoke-reading-controls">
                 <button class="button" type="button" data-smoke-pause aria-pressed="false" hidden>Pause scrolling</button>
+                <button class="button" type="button" data-smoke-mute hidden>Mute audio</button>
+                <button class="button" type="button" data-smoke-video-retry hidden>Play video & audio</button>
                 <span data-smoke-progress aria-hidden="true">01 / THE RECORD</span>
+                <input class="smoke-video-seek" data-smoke-seek type="range" min="0" max="1000" step="1" value="0" aria-label="Video position" hidden />
               </div>
+              <p class="smoke-video-status" data-smoke-video-status role="status" hidden></p>
               <noscript><a href="/data/ryan-smoke-statement.txt">Read Ryan’s full statement</a></noscript>
             </div>
           </div>
