@@ -1,4 +1,172 @@
 (() => {
+  // Each word supplies real glyph coordinates. Smoke travels from the pipe to
+  // those coordinates before the accessible HTML word takes over rendering.
+  function createSmokeFormation(section, reducedMotion) {
+    const scene = section.querySelector('.smoke-story-scene');
+    const canvas = section.querySelector('[data-smoke-canvas]');
+    const context = canvas?.getContext('2d');
+    if (!context) return;
+    const window = section.querySelector('[data-smoke-window]');
+    const paragraphs = Array.from(section.querySelectorAll('[data-smoke-prose] p'));
+    const words = [];
+    section.querySelectorAll('[data-smoke-intro] p, [data-smoke-prose] p').forEach(paragraph => {
+      const fragment = document.createDocumentFragment();
+      paragraph.textContent.split(/(\s+)/).forEach(token => {
+        if (!token.trim()) { fragment.append(document.createTextNode(token)); return; }
+        const word = document.createElement('span');
+        word.className = 'smoke-word';
+        word.textContent = token;
+        fragment.append(word);
+        words.push({ element: word, paragraph, inIntro: !!paragraph.closest('[data-smoke-intro]'), birth: null, points: null });
+      });
+      paragraph.replaceChildren(fragment);
+    });
+    const stencil = document.createElement('canvas');
+    const ink = stencil.getContext('2d', { willReadFrequently: true });
+    if (!ink) return;
+    const vapor = document.createElement('canvas');
+    vapor.width = vapor.height = 96;
+    const vaporContext = vapor.getContext('2d');
+    const gradient = vaporContext.createRadialGradient(48,48,0,48,48,48);
+    gradient.addColorStop(0,'rgba(232,218,195,.30)');
+    gradient.addColorStop(.35,'rgba(202,188,165,.13)');
+    gradient.addColorStop(1,'rgba(190,180,164,0)');
+    vaporContext.fillStyle = gradient;
+    vaporContext.fillRect(0,0,96,96);
+    let width = 0, height = 0, clock = 0, last = 0, animation = 0;
+    let onscreen = false;
+    const mobile = matchMedia('(max-width:700px)');
+    const trails = Array.from({length: mobile.matches ? 54 : 90}, (_, i) => ({
+      phase: i / 90, seed: i * 2.399963, speed: .045 + (i % 7) * .004
+    }));
+    function resize() {
+      const bounds = scene.getBoundingClientRect();
+      width = bounds.width; height = bounds.height;
+      const ratio = Math.min(devicePixelRatio || 1, 1.5);
+      canvas.width = Math.round(width * ratio);
+      canvas.height = Math.round(height * ratio);
+      context.setTransform(ratio,0,0,ratio,0,0);
+      // Font sizes and wrapping can change when the viewport changes.
+      words.forEach(word => { word.points = null; });
+    }
+    function sample(word, bounds) {
+      const style = getComputedStyle(word.element);
+      stencil.width = Math.ceil(bounds.width + 4);
+      stencil.height = Math.ceil(bounds.height + 8);
+      ink.font = `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
+      ink.textBaseline = 'top';
+      ink.fillStyle = '#fff';
+      ink.fillText(word.element.textContent,2,2);
+      const data = ink.getImageData(0,0,stencil.width,stencil.height).data;
+      const points = [];
+      for (let y = 0; y < stencil.height; y += 3) {
+        for (let x = 0; x < stencil.width; x += 3) {
+          if (data[(y * stencil.width + x) * 4 + 3] > 90) points.push({x:x-2,y:y-2,seed:Math.random()*Math.PI*2});
+        }
+      }
+      const budget = mobile.matches ? 22 : 38;
+      const stride = Math.max(1, Math.ceil(points.length / budget));
+      return points.filter((_,i) => i % stride === 0);
+    }
+    function flow(source, target, t, seed) {
+      const gather = t*t*(3-2*t);
+      const curl = Math.sin(t*Math.PI*3 + seed) * Math.sin(t*Math.PI);
+      return {
+        x:source.x+(target.x-source.x)*gather + curl*(48+Math.sin(seed)*30)*(1-t),
+        y:source.y+(target.y-source.y)*t - Math.sin(t*Math.PI)*65 + Math.cos(t*9+seed)*15*Math.sin(t*Math.PI)
+      };
+    }
+    function render(time) {
+      animation = 0;
+      if (!onscreen || document.hidden) { last = 0; return; }
+      const stopped = !section.classList.contains('smoke-motion-enabled') || section.classList.contains('is-expanded');
+      if (stopped) { last = 0; context.clearRect(0,0,width,height); return; }
+      if (last && time-last < 32) { animation=requestAnimationFrame(render); return; }
+      if (last) clock += Math.min(time-last,60)/1000;
+      last = time;
+      const bounds = scene.getBoundingClientRect();
+      const pipe = section.querySelector('.smoke-pipe').getBoundingClientRect();
+      const clip = window.getBoundingClientRect();
+      const source = {x:pipe.right-bounds.left-pipe.width*.047,y:pipe.top-bounds.top+pipe.height*.51};
+      context.clearRect(0,0,width,height);
+      // Broad, continuously rising vapor under the more precise glyph particles.
+      context.globalCompositeOperation = 'screen';
+      trails.forEach(trail => {
+        const t = (clock*trail.speed + trail.phase) % 1;
+        const target = {x:width*(.3+.38*(Math.sin(trail.seed)*.5+.5)),y:height*.10};
+        const p = flow(source,target,t,trail.seed+clock*.22);
+        const radius = 15 + Math.sin(t*Math.PI)*42;
+        context.globalAlpha = Math.sin(t*Math.PI)*.65;
+        context.drawImage(vapor,p.x-radius,p.y-radius,radius*2,radius*2);
+      });
+      // Fine ribbons trace the upward current, with slightly different vortices.
+      for (let ribbon=0;ribbon<9;ribbon++) {
+        context.beginPath();
+        const target = {x:width*(.35+ribbon*.035),y:height*.12};
+        for (let step=0;step<=40;step++) {
+          const t=step/40, p=flow(source,target,t,ribbon*.8+clock*.38);
+          step ? context.lineTo(p.x,p.y) : context.moveTo(p.x,p.y);
+        }
+        context.globalAlpha=.055;
+        context.strokeStyle='#ddceb6'; context.lineWidth=1.1;
+        context.stroke();
+      }
+      let active = 0;
+      const visibleParagraphs = new Set(paragraphs.filter(paragraph => {
+        const rect=paragraph.getBoundingClientRect();
+        return rect.bottom>clip.top+8 && rect.top<clip.bottom-30;
+      }));
+      words.forEach(word => {
+        if (word.birth !== null && clock-word.birth>6) return;
+        if (!word.inIntro && !visibleParagraphs.has(word.paragraph)) return;
+        const rect = word.element.getBoundingClientRect();
+        const inView = word.inIntro || (rect.bottom > clip.top+8 && rect.top < clip.bottom-30);
+        if (!inView) return;
+        if (word.birth === null) word.birth = clock + Math.min(active++*.018,1.1);
+        const age = clock-word.birth;
+        if (age>4.3) word.element.classList.add('is-ink');
+        if (age<0 || age>6) return;
+        if (!word.points) word.points=sample(word,rect);
+        const t = Math.min(age/4.3,1);
+        const dissolve = Math.max(0,1-(age-4.3)/1.7);
+        const destination = {x:rect.left-bounds.left,y:rect.top-bounds.top};
+        word.points.forEach(point => {
+          const target={x:destination.x+point.x,y:destination.y+point.y};
+          const p=flow(source,target,t,point.seed);
+          const turbulence=(1-t)*Math.sin(age*3+point.seed)*8;
+          const radius=1.1+(1-t)*6;
+          context.globalAlpha=Math.min(age*.6,1)*dissolve*(t>.8?.75:.28);
+          context.drawImage(vapor,p.x-radius+turbulence,p.y-radius,radius*2,radius*2);
+          if(t>.68) {
+            context.globalAlpha=(t-.68)*2.2*dissolve;
+            context.fillStyle='#e9dcc5';
+            context.fillRect(p.x+turbulence,p.y,1.25,1.25);
+          }
+        });
+      });
+      context.globalAlpha=1; context.globalCompositeOperation='source-over';
+      animation=requestAnimationFrame(render);
+    }
+    function wake() {
+      const bounds = section.getBoundingClientRect();
+      onscreen = bounds.bottom > 0 && bounds.top < innerHeight;
+      if (!animation && onscreen && !document.hidden) animation=requestAnimationFrame(render);
+    }
+    new ResizeObserver(()=>{resize();wake();}).observe(scene);
+    new IntersectionObserver(([entry])=>{onscreen=entry.isIntersecting;wake();},{threshold:.05}).observe(section);
+    new MutationObserver(wake).observe(section,{attributes:true,attributeFilter:['class']});
+    document.addEventListener('visibilitychange',wake);
+    addEventListener('scroll',wake,{passive:true});
+    reducedMotion.addEventListener('change',wake);
+    section.querySelector('[data-smoke-replay]').addEventListener('click',()=>{
+      clock=0; last=0;
+      words.forEach(word=>{word.birth=null;word.element.classList.remove('is-ink');});
+      wake();
+    });
+    document.fonts.ready.then(()=>{resize();wake();});
+    section.classList.add('has-smoke-formation');
+    resize(); wake();
+  }
   async function initSmokeStory() {
     const section = document.querySelector('[data-smoke-story]');
     if (!section) return;
@@ -9,6 +177,16 @@
     const expand = section.querySelector('[data-smoke-expand]');
     const progress = section.querySelector('[data-smoke-progress]');
     const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+    const motion = section.querySelector('[data-smoke-motion]');
+    let smokeMoving = !reducedMotion.matches;
+    function updateSmokeMotion() {
+      section.classList.toggle('smoke-motion-enabled', smokeMoving);
+      motion.textContent = smokeMoving ? 'Pause smoke' : 'Animate smoke';
+      motion.setAttribute('aria-pressed', String(smokeMoving));
+    }
+    motion.addEventListener('click', () => { smokeMoving = !smokeMoving; updateSmokeMotion(); });
+    section.querySelector('[data-smoke-replay]').addEventListener('click',()=>{smokeMoving=true;updateSmokeMotion();});
+    updateSmokeMotion();
     let paused = reducedMotion.matches;
     let expanded = false;
     let visible = false;
@@ -22,6 +200,7 @@
       pause.textContent = paused ? 'Resume scrolling' : 'Pause scrolling';
       pause.setAttribute('aria-pressed', String(paused));
       pause.disabled = expanded;
+      section.querySelector('[data-smoke-replay]').disabled = expanded;
       expand.textContent = expanded ? 'Back to scrolling' : 'Read all';
       expand.setAttribute('aria-expanded', String(expanded));
       section.classList.toggle('is-paused', paused || expanded);
@@ -77,7 +256,7 @@
       progress.textContent = end > 0 ? `${Math.round(viewport.scrollTop / end * 100)}% / THE RECORD` : 'THE COMPLETE RECORD';
     }, { passive: true });
     reducedMotion.addEventListener('change', () => {
-      if (reducedMotion.matches) manualPause();
+      if (reducedMotion.matches) { manualPause(); smokeMoving = false; updateSmokeMotion(); }
     });
     document.addEventListener('visibilitychange', () => document.hidden ? stop() : start());
     new IntersectionObserver(([entry]) => {
@@ -104,6 +283,7 @@
         fragment.append(paragraph);
       });
       prose.replaceChildren(fragment);
+      createSmokeFormation(section, reducedMotion);
       loaded = true;
       const formation = new IntersectionObserver(entries => {
         entries.forEach(entry => {
@@ -114,7 +294,7 @@
         });
       }, { root: viewport, threshold: 0.01 });
       prose.querySelectorAll('p').forEach(paragraph => formation.observe(paragraph));
-      readyAt = performance.now() + 5000;
+      readyAt = performance.now() + 8500;
       start();
     } catch (error) {
       prose.textContent = 'The statement could not load. Open the full text below.';

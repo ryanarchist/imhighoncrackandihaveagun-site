@@ -374,6 +374,7 @@
       <section class="smoke-story section" aria-label="Ryan’s words" data-smoke-story>
         <div class="container">
           <div class="smoke-story-scene">
+            <canvas class="smoke-formation" data-smoke-canvas aria-hidden="true"></canvas>
             <img class="smoke-cloud" src="/assets/trap-house/story-smoke-cloud.png" alt="" aria-hidden="true" loading="lazy" />
             <figure class="smoke-pipe" aria-hidden="true">
               <img src="/assets/trap-house/story-pipe.png" alt="" width="2172" height="724" loading="lazy" />
@@ -384,6 +385,8 @@
                 <div class="smoke-prose" data-smoke-prose><p>Loading Ryan’s words…</p></div>
               </div>
               <div class="smoke-reading-controls">
+                <button class="button" type="button" data-smoke-motion aria-pressed="true">Pause smoke</button>
+                <button class="button" type="button" data-smoke-replay>Replay formation</button>
                 <button class="button" type="button" data-smoke-pause aria-pressed="false">Pause scrolling</button>
                 <button class="button" type="button" data-smoke-expand aria-expanded="false" aria-controls="smoke-manuscript">Read all</button>
                 <span data-smoke-progress aria-hidden="true">01 / THE RECORD</span>
