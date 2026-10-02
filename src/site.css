@@ -1891,6 +1891,19 @@ body[data-page="trap-pass"] #pass-history .pass-history-grid { grid-template-col
   }
 }
 
+/* Keep the complete homepage cover and its lettering inside the layout. */
+.hero.hero-full-artwork { background:#030303; }
+.hero.hero-full-artwork::after { display:none; }
+.hero-full-artwork .hero-inner { display:grid; grid-template-columns:minmax(0,1.2fr) minmax(0,1fr); align-items:center; gap:clamp(28px,5vw,80px); padding:38px 0; }
+.hero-full-artwork .hero-copy { width:100%; }
+.hero-full-artwork h1 { font-size:clamp(44px,5.4vw,76px); }
+.hero-artwork { display:block; width:100%; height:auto; max-height:700px; object-fit:contain; }
+@media(max-width:900px) {
+  .hero-full-artwork .hero-inner { grid-template-columns:1fr; gap:28px; padding:24px 0 42px; }
+  .hero-artwork { grid-row:1; width:min(100%,420px); max-height:none; justify-self:center; }
+  .hero-full-artwork h1 { font-size:clamp(42px,8vw,64px); }
+}
+
 /* Holder wallet: collection first. */
 .wallet-shell { display:grid; gap:28px; }
 .wallet-identity { padding:24px; border:1px solid #55402f; background:#15100c; }
@@ -1926,6 +1939,8 @@ body[data-page="my-pass"] .hero h1 { font-size:clamp(36px,5vw,64px); }
 .smoke-background-video {position:absolute;inset:0 12% 0 auto;width:auto;height:100%;aspect-ratio:9 / 16;object-fit:cover;object-position:center;opacity:0;z-index:-3;pointer-events:none;filter:brightness(.62) saturate(.68);mask-image:radial-gradient(ellipse 50% 50% at 50% 50%,#000 35%,#000c 65%,transparent 100%);transition:opacity 2.4s ease;}
 .smoke-story.has-video-picture .smoke-background-video {opacity:.85;}
 .smoke-story.has-video-picture .smoke-portrait {opacity:.16;transition:opacity 2.4s ease;}
+.smoke-story.has-video-picture .smoke-intro,
+.smoke-story.has-video-picture .smoke-prose {opacity:.22;text-shadow:none;transition:opacity 2.4s ease;}
 .smoke-video-status {max-width:530px;margin:10px auto 0;text-align:center;font-size:13px;color:#cdbb9e;}
 .smoke-video-status[hidden] {display:none;}
 .smoke-video-seek {flex:0 0 min(340px,90%);width:min(340px,90%);height:14px;appearance:none;background:transparent;border:0;padding:0;box-shadow:none;accent-color:#be5431;cursor:pointer;}

@@ -146,7 +146,7 @@
     ].filter(Boolean).join("; ");
 
     return `
-      <section class="hero${hero.editorial ? " editorial-hero" : ""}${hero.imageFit === "contain" ? " hero-contain" : ""}" style="${styles}">
+      <section class="hero${hero.editorial ? " editorial-hero" : ""}${hero.imageFit === "contain" ? " hero-contain" : ""}${hero.fullArtwork ? " hero-full-artwork" : ""}" style="${styles}">
         <div class="hero-inner">
           <div class="hero-copy">
             ${eyebrowMarkup(hero.eyebrow, hero.headline || "IHOCAIHAG")}
@@ -166,6 +166,7 @@
             ${hero.sequenceNavigation || ""}
             ${socialButtons(hero.socialLinks, "hero-social-links")}
           </div>
+          ${hero.fullArtwork ? `<img class="hero-artwork" src="${attr(hero.imageSrc)}" alt="${attr(hero.imageAlt || hero.headline)}" fetchpriority="high" />` : ""}
         </div>
       </section>
     `;
@@ -370,7 +371,7 @@
   function renderHome() {
     const page = content.homeContent || {};
     return `
-      ${renderHero(page.hero)}
+      ${renderHero({ ...page.hero, fullArtwork: true })}
       <section class="smoke-story section" aria-label="Ryan’s words" data-smoke-story>
         <div class="container">
           <div class="smoke-story-scene">
