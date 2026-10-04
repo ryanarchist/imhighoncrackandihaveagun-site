@@ -199,7 +199,7 @@
   document.querySelectorAll('[data-browse]').forEach((button)=>button.addEventListener('click',()=>openRoom(null,button)));
   $('archiveSearch').addEventListener('input',renderLibrary);$('collectionFilter').addEventListener('change',renderLibrary);
   new ResizeObserver(placeDevices).observe(scene);
-  fetch('/room/videos.json?v=20261004-og-baby-scum').then((response)=>{if(!response.ok)throw new Error('Archive unavailable');return response.json();}).then((data)=>{
+  fetch('/room/videos.json?v=20261004-music-library').then((response)=>{if(!response.ok)throw new Error('Archive unavailable');return response.json();}).then((data)=>{
     const ids=new Set();
     videos=(Array.isArray(data.videos)?data.videos:[]).filter((v)=>v.id&&v.title&&mediaURL(v.src)&&!ids.has(v.id)&&ids.add(v.id)).map((v)=>({...v,src:mediaURL(v.src),poster:mediaURL(v.poster),preview:mediaURL(v.preview),collection:v.collection||'Archive',description:v.description||''}));
     $('collectionNote').textContent=data.collectionNote||`${videos.length} videos in the archive`;

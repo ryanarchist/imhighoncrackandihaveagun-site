@@ -1,5 +1,5 @@
 {
-  "collectionNote": "27 archive videos · 4 room motion studies",
+  "collectionNote": "30 archive videos · 4 room motion studies",
   "videos": [
     {
       "id": "og-baby-scum-track",
@@ -11,6 +11,83 @@
       "poster": "/assets/trap-house/og-baby-scum-track.png"
     },
     {
+      "id": "bunny-1c6605bb-0632-42bf-8e91-3af29c09ea56",
+      "title": "Trash Over Class",
+      "collection": "Music videos",
+      "description": "",
+      "src": "https://vz-538bd59b-9c9.b-cdn.net/1c6605bb-0632-42bf-8e91-3af29c09ea56/playlist.m3u8",
+      "type": "application/x-mpegURL",
+      "poster": "https://vz-538bd59b-9c9.b-cdn.net/1c6605bb-0632-42bf-8e91-3af29c09ea56/thumbnail.jpg",
+      "duration": "0:37"
+    },
+    {
+      "id": "bunny-26108e5e-325d-4e31-aad3-4e5f81b1031e",
+      "title": "Psychosis Loops",
+      "collection": "Music videos",
+      "description": "",
+      "src": "https://vz-538bd59b-9c9.b-cdn.net/26108e5e-325d-4e31-aad3-4e5f81b1031e/playlist.m3u8",
+      "type": "application/x-mpegURL",
+      "poster": "https://vz-538bd59b-9c9.b-cdn.net/26108e5e-325d-4e31-aad3-4e5f81b1031e/thumbnail.jpg",
+      "duration": "1:16"
+    },
+    {
+      "id": "bunny-b42a547b-59e7-4f81-82d7-c32a27d5fe7e",
+      "title": "OG Scum Track",
+      "collection": "Music videos",
+      "description": "",
+      "src": "https://vz-538bd59b-9c9.b-cdn.net/b42a547b-59e7-4f81-82d7-c32a27d5fe7e/playlist.m3u8",
+      "type": "application/x-mpegURL",
+      "poster": "https://vz-538bd59b-9c9.b-cdn.net/b42a547b-59e7-4f81-82d7-c32a27d5fe7e/thumbnail.jpg",
+      "duration": "1:08"
+    },
+    {
+      "id": "bunny-5b29f096-9a1f-407d-90bb-50c8528547f2",
+      "title": "HOCAT",
+      "collection": "Music videos",
+      "description": "",
+      "src": "https://vz-538bd59b-9c9.b-cdn.net/5b29f096-9a1f-407d-90bb-50c8528547f2/playlist.m3u8",
+      "type": "application/x-mpegURL",
+      "poster": "https://vz-538bd59b-9c9.b-cdn.net/5b29f096-9a1f-407d-90bb-50c8528547f2/thumbnail.jpg",
+      "duration": "0:59"
+    },
+    {
+      "id": "bunny-9163795f-96fc-43f1-8a42-17c134140565",
+      "title": "Chlorine Fog Medicine",
+      "collection": "Music videos",
+      "description": "",
+      "src": "https://vz-538bd59b-9c9.b-cdn.net/9163795f-96fc-43f1-8a42-17c134140565/playlist.m3u8",
+      "type": "application/x-mpegURL",
+      "poster": "https://vz-538bd59b-9c9.b-cdn.net/9163795f-96fc-43f1-8a42-17c134140565/thumbnail.jpg",
+      "duration": "1:32"
+    },
+    {
+      "id": "bunny-33ecec3a-cec4-4445-a810-69924eed996a",
+      "src": "https://vz-538bd59b-9c9.b-cdn.net/33ecec3a-cec4-4445-a810-69924eed996a/playlist.m3u8",
+      "type": "application/x-mpegURL",
+      "poster": "https://vz-538bd59b-9c9.b-cdn.net/33ecec3a-cec4-4445-a810-69924eed996a/thumbnail.jpg",
+      "title": "Hearse in Reverse",
+      "collection": "Music videos",
+      "description": ""
+    },
+    {
+      "id": "bunny-acd44cd2-33f6-4273-9a36-dd4142ddcc07",
+      "src": "https://vz-538bd59b-9c9.b-cdn.net/acd44cd2-33f6-4273-9a36-dd4142ddcc07/playlist.m3u8",
+      "type": "application/x-mpegURL",
+      "poster": "https://vz-538bd59b-9c9.b-cdn.net/acd44cd2-33f6-4273-9a36-dd4142ddcc07/thumbnail.jpg",
+      "title": "OG Zap Track",
+      "collection": "Music videos",
+      "description": ""
+    },
+    {
+      "id": "bunny-87a71da7-5082-4c52-995f-47d3abb5c4f9",
+      "src": "https://vz-538bd59b-9c9.b-cdn.net/87a71da7-5082-4c52-995f-47d3abb5c4f9/playlist.m3u8",
+      "type": "application/x-mpegURL",
+      "poster": "https://vz-538bd59b-9c9.b-cdn.net/87a71da7-5082-4c52-995f-47d3abb5c4f9/thumbnail.jpg",
+      "title": "Original OG Crack Track",
+      "collection": "Music videos",
+      "description": ""
+    },
+    {
       "id": "bunny-c472e350-95c4-4137-be1e-0bba37cf5ead",
       "title": "MINI DOC 1 The Ride to Die",
       "collection": "Video archive",
@@ -19,16 +96,6 @@
       "type": "application/x-mpegURL",
       "poster": "https://vz-538bd59b-9c9.b-cdn.net/c472e350-95c4-4137-be1e-0bba37cf5ead/thumbnail.jpg",
       "duration": "27:00"
-    },
-    {
-      "id": "bunny-1c6605bb-0632-42bf-8e91-3af29c09ea56",
-      "title": "v2rocketttttt",
-      "collection": "Video archive",
-      "description": "",
-      "src": "https://vz-538bd59b-9c9.b-cdn.net/1c6605bb-0632-42bf-8e91-3af29c09ea56/playlist.m3u8",
-      "type": "application/x-mpegURL",
-      "poster": "https://vz-538bd59b-9c9.b-cdn.net/1c6605bb-0632-42bf-8e91-3af29c09ea56/thumbnail.jpg",
-      "duration": "0:37"
     },
     {
       "id": "bunny-860061ab-927f-46a7-8d89-b1b10c66383b",
@@ -61,26 +128,6 @@
       "duration": "0:52"
     },
     {
-      "id": "bunny-26108e5e-325d-4e31-aad3-4e5f81b1031e",
-      "title": "psychosislolololopsmusicvid",
-      "collection": "Video archive",
-      "description": "",
-      "src": "https://vz-538bd59b-9c9.b-cdn.net/26108e5e-325d-4e31-aad3-4e5f81b1031e/playlist.m3u8",
-      "type": "application/x-mpegURL",
-      "poster": "https://vz-538bd59b-9c9.b-cdn.net/26108e5e-325d-4e31-aad3-4e5f81b1031e/thumbnail.jpg",
-      "duration": "1:16"
-    },
-    {
-      "id": "bunny-b42a547b-59e7-4f81-82d7-c32a27d5fe7e",
-      "title": "ogscumSEPTPOST",
-      "collection": "Video archive",
-      "description": "",
-      "src": "https://vz-538bd59b-9c9.b-cdn.net/b42a547b-59e7-4f81-82d7-c32a27d5fe7e/playlist.m3u8",
-      "type": "application/x-mpegURL",
-      "poster": "https://vz-538bd59b-9c9.b-cdn.net/b42a547b-59e7-4f81-82d7-c32a27d5fe7e/thumbnail.jpg",
-      "duration": "1:08"
-    },
-    {
       "id": "bunny-1e178a1c-ae2f-4b75-a14b-7730d39268cb",
       "title": "looperooov2",
       "collection": "Video archive",
@@ -109,16 +156,6 @@
       "type": "application/x-mpegURL",
       "poster": "https://vz-538bd59b-9c9.b-cdn.net/54599b96-4662-4418-b55d-74e972df49bc/thumbnail.jpg",
       "duration": "1:03"
-    },
-    {
-      "id": "bunny-5b29f096-9a1f-407d-90bb-50c8528547f2",
-      "title": "hocatv2EDI2ndbackupac",
-      "collection": "Video archive",
-      "description": "",
-      "src": "https://vz-538bd59b-9c9.b-cdn.net/5b29f096-9a1f-407d-90bb-50c8528547f2/playlist.m3u8",
-      "type": "application/x-mpegURL",
-      "poster": "https://vz-538bd59b-9c9.b-cdn.net/5b29f096-9a1f-407d-90bb-50c8528547f2/thumbnail.jpg",
-      "duration": "0:59"
     },
     {
       "id": "bunny-6baaf327-fa3c-419a-812a-6db9b694b3de",
@@ -169,16 +206,6 @@
       "type": "application/x-mpegURL",
       "poster": "https://vz-538bd59b-9c9.b-cdn.net/c509c307-7756-4ddc-9a80-ffc8443ba67b/thumbnail.jpg",
       "duration": "1:21"
-    },
-    {
-      "id": "bunny-9163795f-96fc-43f1-8a42-17c134140565",
-      "title": "chlorinev2",
-      "collection": "Video archive",
-      "description": "",
-      "src": "https://vz-538bd59b-9c9.b-cdn.net/9163795f-96fc-43f1-8a42-17c134140565/playlist.m3u8",
-      "type": "application/x-mpegURL",
-      "poster": "https://vz-538bd59b-9c9.b-cdn.net/9163795f-96fc-43f1-8a42-17c134140565/thumbnail.jpg",
-      "duration": "1:32"
     },
     {
       "id": "bunny-44636d53-2589-4f00-8fea-62d4d6f113c1",
@@ -252,8 +279,8 @@
     },
     {
       "id": "psychosisloop2",
-      "title": "Psychosis Loops",
-      "collection": "Music videos",
+      "title": "Psychosis Loops (earlier cut)",
+      "collection": "Video archive",
       "description": "",
       "src": "https://vz-538bd59b-9c9.b-cdn.net/b945b0c9-dc44-4407-a5e9-b6b19b292e77/playlist.m3u8",
       "type": "application/x-mpegURL",
