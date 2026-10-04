@@ -1,6 +1,15 @@
 {
-  "collectionNote": "26 archive videos · 4 room motion studies",
+  "collectionNote": "27 archive videos · 4 room motion studies",
   "videos": [
+    {
+      "id": "og-baby-scum-track",
+      "title": "OG Baby Scum Track",
+      "collection": "Music videos",
+      "description": "A song written by Ryan. Watch its music video on the iPad.",
+      "src": "https://vz-538bd59b-9c9.b-cdn.net/376ca589-644d-42a2-aecb-0d8d8b9e2a00/playlist.m3u8",
+      "type": "application/x-mpegURL",
+      "poster": "/assets/trap-house/og-baby-scum-track.png"
+    },
     {
       "id": "bunny-c472e350-95c4-4137-be1e-0bba37cf5ead",
       "title": "MINI DOC 1 The Ride to Die",
@@ -234,7 +243,7 @@
     {
       "id": "psychosislolololopsmusicvid",
       "title": "mini doc 2 theme song",
-      "collection": "Video archive",
+      "collection": "Music videos",
       "description": "",
       "src": "https://vz-538bd59b-9c9.b-cdn.net/f21c2728-a3ad-4285-b8ca-c2704554fa23/playlist.m3u8",
       "type": "application/x-mpegURL",
@@ -244,7 +253,7 @@
     {
       "id": "psychosisloop2",
       "title": "Psychosis Loops",
-      "collection": "Video archive",
+      "collection": "Music videos",
       "description": "",
       "src": "https://vz-538bd59b-9c9.b-cdn.net/b945b0c9-dc44-4407-a5e9-b6b19b292e77/playlist.m3u8",
       "type": "application/x-mpegURL",

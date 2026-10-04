@@ -335,7 +335,7 @@
   function evidenceCard(card = {}, index = 0) {
     return `
       <article class="evidence-card entry-card${card.featured ? " featured-card" : ""}">
-        ${card.imageSrc ? `<div class="community-card-media"><img src="${attr(card.imageSrc)}" alt="${attr(card.imageAlt || card.label || "Community channel")}" loading="lazy" /></div>` : ""}
+        ${card.imageSrc ? `<div class="community-card-media">${card.imageHref ? `<a href="${attr(card.imageHref)}" aria-label="${attr(card.headline || card.imageAlt)}">` : ""}<img src="${attr(card.imageSrc)}" alt="${attr(card.imageAlt || card.label || "Community channel")}" loading="lazy" />${card.imageHref ? "</a>" : ""}</div>` : ""}
         ${renderMediaEmbed(card.embed)}
         <div>
           <span class="card-label">${esc(card.label || card.title || `Item ${index + 1}`)}</span>

@@ -594,10 +594,13 @@
           },
           {
             label: "Soundtrack",
-            headline: "The sounds of the collapse.",
-            body: "Songs, noise, memory, and emotion pulled from the same years as the footage and writing. Not background music for the story—the part of it that had to be heard instead of explained.",
-            buttonLabel: "Enter Ryans Room",
-            href: "/room/"
+            imageSrc: asset("og-baby-scum-track.png"),
+            imageAlt: "OG Baby Scum Track artwork",
+            imageHref: "/room/?device=tablet",
+            headline: "Listen to OG Baby Scum Track",
+            body: "Listen to OG Baby Scum Track and the rest of the songs I wrote on the iPad in my room.",
+            buttonLabel: "Listen on the iPad",
+            href: "/room/?device=tablet"
           },
           {
             label: "Trap Pass",

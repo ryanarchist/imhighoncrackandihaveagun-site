@@ -6,7 +6,7 @@
   // Corners are clockwise from top left, measured on archive-room-v2.webp.
   const devices = [
     { id: 'tv', name: 'The TV', size: [360,180], points: [[42.4,12.4],[66.7,12.4],[66.7,28.3],[42.4,28.3]], initial: 'bunny-c472e350-95c4-4137-be1e-0bba37cf5ead', locked: true },
-    { id: 'tablet', name: 'The tablet', size: [320,220], points: [[32.2,72.8],[49.6,72.0],[51.2,87.4],[33.3,89.0]], initial: 'psychosisloop2' },
+    { id: 'tablet', name: 'The iPad', size: [320,220], points: [[32.2,72.8],[49.6,72.0],[51.2,87.4],[33.3,89.0]], initial: 'og-baby-scum-track', music: true },
     { id: 'laptop', name: 'The laptop', size: [320,180], points: [[55.0,69.0],[75.6,68.9],[76.3,86.0],[54.9,86.1]], initial: 'psychosislolololopsmusicvid' },
     { id: 'phone', name: 'The phone', size: [120,240], points: [[85.5,75.2],[90.6,75.7],[89.9,90.6],[84.7,89.9]], initial: 'bunny-c472e350-95c4-4137-be1e-0bba37cf5ead' }
   ];
@@ -88,8 +88,9 @@
   }
   function renderLibrary() {
     const query=$('archiveSearch').value.trim().toLowerCase(), collection=$('collectionFilter').value;
-    const matches=videos.filter((v)=>(collection==='all'||v.collection===collection)&&`${v.title} ${v.collection} ${v.description}`.toLowerCase().includes(query));
-    $('videoCount').textContent=`${matches.length} / ${videos.length}`;
+    const library=activeDevice?.music?videos.filter((v)=>v.collection==='Music videos'):videos;
+    const matches=library.filter((v)=>(collection==='all'||v.collection===collection)&&`${v.title} ${v.collection} ${v.description}`.toLowerCase().includes(query));
+    $('videoCount').textContent=`${matches.length} / ${library.length}`;
     $('archiveEmpty').hidden=matches.length>0;
     const fragment=document.createDocumentFragment();
     matches.forEach((video)=>{
@@ -178,6 +179,8 @@
     document.querySelector('.library').hidden=!!device?.locked;
     $('watchDevice').textContent=device?device.name:'THE ARCHIVE';
     $('archiveSearch').value='';$('collectionFilter').value='all';
+    $('collectionFilter').hidden=!!device?.music;
+    document.querySelector('.library-heading h3').textContent=device?.music?'Music videos':'On the shelves';
     dialog.showModal();document.body.classList.add('is-watching');updatePreviews();
     if(device?.element&&!reducedMotion.matches) {
       const origin=device.element.getBoundingClientRect(),target=$('playerFrame').getBoundingClientRect();
@@ -196,12 +199,14 @@
   document.querySelectorAll('[data-browse]').forEach((button)=>button.addEventListener('click',()=>openRoom(null,button)));
   $('archiveSearch').addEventListener('input',renderLibrary);$('collectionFilter').addEventListener('change',renderLibrary);
   new ResizeObserver(placeDevices).observe(scene);
-  fetch('/room/videos.json').then((response)=>{if(!response.ok)throw new Error('Archive unavailable');return response.json();}).then((data)=>{
+  fetch('/room/videos.json?v=20261004-og-baby-scum').then((response)=>{if(!response.ok)throw new Error('Archive unavailable');return response.json();}).then((data)=>{
     const ids=new Set();
     videos=(Array.isArray(data.videos)?data.videos:[]).filter((v)=>v.id&&v.title&&mediaURL(v.src)&&!ids.has(v.id)&&ids.add(v.id)).map((v)=>({...v,src:mediaURL(v.src),poster:mediaURL(v.poster),preview:mediaURL(v.preview),collection:v.collection||'Archive',description:v.description||''}));
     $('collectionNote').textContent=data.collectionNote||`${videos.length} videos in the archive`;
     [...new Set(videos.map((v)=>v.collection))].forEach((collection)=>{const option=document.createElement('option');option.value=collection;option.textContent=collection;$('collectionFilter').append(option);});
     buildDevices();renderLibrary();$('roomStatus').textContent=videos.length?'Four screens. Your choice.':'The shelves are waiting for their first film.';
+    document.querySelector('[data-open-ipad]').addEventListener('click',(event)=>openRoom(devices.find((device)=>device.id==='tablet'),event.currentTarget));
     if(innerWidth<=700)$('sceneScroll').scrollLeft=(scene.clientWidth-$('sceneScroll').clientWidth)/2;
+    if(new URLSearchParams(location.search).get('device')==='tablet')openRoom(devices.find((device)=>device.id==='tablet'),document.querySelector('[data-open-ipad]'));
   }).catch(()=>{$('roomStatus').textContent='The archive could not load. Refresh to try again.';$('archiveEmpty').hidden=false;$('archiveEmpty').textContent='The archive could not load. Refresh to try again.';});
 })();
