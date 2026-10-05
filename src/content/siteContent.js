@@ -397,6 +397,7 @@
         { label: "Doc", href: "/documentary/", page: "documentary" },
         { label: "Soundtrack", href: "/soundtrack/", page: "soundtrack" },
         { label: "Ryans Room", href: "/room/", page: "room" },
+        { label: "The Archive", href: "/archive/", page: "archive" },
         { label: "Trap Pass", href: "/trap-pass/", page: "trap-pass" },
         { label: "Trap House", href: "/trap-house/", page: "trap-house" },
         { label: "Store", href: "/store/", page: "store" }

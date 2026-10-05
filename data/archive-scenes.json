@@ -1,0 +1,7 @@
+{
+  "awaitingNewRoom": true,
+  "views": [
+    {"id":"shelves","title":"THE SHELVES","image":"/assets/trap-house/real-room-bookshelf-author.png","original":"/assets/trap-house/real-room-bookshelf-author.png","alt":"Ryan in the room with bookshelves and ceiling flags","labels":[{"label":"Handwritten pages","type":"handwritten","x":10,"y":72},{"label":"Manuscripts & writings","type":"records","x":45,"y":60},{"label":"Photographs","type":"photos","x":73,"y":55},{"label":"Objects & evidence","type":"objects","x":67,"y":78}]},
+    {"id":"desk","title":"THE WRITING DESK","image":"/assets/trap-house/pink-notebook-desk.png","original":"/assets/trap-house/pink-notebook-desk.png","alt":"A photograph already in the project showing Ryan writing at his desk","labels":[{"label":"Digital records & screenshots","type":"records","x":52,"y":72},{"label":"Handwritten pages","type":"handwritten","x":12,"y":25}]}
+  ]
+}

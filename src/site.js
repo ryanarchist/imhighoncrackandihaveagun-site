@@ -937,7 +937,7 @@
           <div class="grid card-grid">${(page.whatIs?.cards || []).map(evidenceCard).join("")}</div>
         </div>
       </section>
-      <section class="section compact">
+      <section class="section compact" id="author-bio">
         <div class="container two-column">
           ${imagePanel(page.creator)}
           <article class="panel">
@@ -1393,6 +1393,7 @@
 
   function renderPage(page) {
     if (page === "home") return renderHome();
+    if (page === "archive") return '<div id="archive-root" aria-live="polite"><p class="container">Opening the archive…</p></div>';
     if (page === "map") return renderMap();
     if (page === "january-22") return renderJanuary22();
     if (page === "drops") return renderDrops();

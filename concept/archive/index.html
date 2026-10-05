@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>THE ARCHIVE — IHOCAIHAG</title>
+  <meta name="description" content="Step inside the room. Choose a screen and watch the archive.">
+  <meta name="theme-color" content="#11100e">
+
+  <link rel="icon" href="/assets/trap-house/ihocaihag-rectangle-logo.png">
+  <link rel="preload" as="image" href="/assets/site-foundation/masters/archive-room-200740.png">
+  <link rel="stylesheet" href="/src/site.css"><link rel="stylesheet" href="/room/room.css?v=20261004-music-library"><link rel="stylesheet" href="/src/archive-room.css">
+</head>
+<body class="archive-room">
+  <a class="skip-link" href="#room">Skip to the room</a>
+  <header class="room-header">
+    <a class="brand" href="/" aria-label="Return to the desk">IHOCAIHAG<span>THE ARCHIVE</span></a>
+    <nav aria-label="Room navigation"><a href="/">The Desk</a><a href="/concept/behind-chair/">Behind the Chair</a><a href="/concept/boards/">Thread Map</a><a href="/archive/">Open the artifacts ↗</a></nav>
+    <button class="archive-open" type="button" data-browse>Browse videos <span aria-hidden="true">↗</span></button>
+  </header>
+  <main id="room" tabindex="-1">
+    <div class="room-intro"><div><p class="kicker">THE ARCHIVE</p><h1>Pick a screen. Open the record.</h1><p class="mobile-hint">Tap the iPad for music videos. Tap the laptop for films.</p></div><p class="room-hint">Music on the iPad.<br>The Ride to Die starts on the laptop.</p></div>
+    <div class="scene-scroll" id="sceneScroll" aria-label="Archive room with two clickable screens">
+      <div class="scene" id="roomScene">
+        <img class="room-art" src="/assets/site-foundation/masters/archive-room-200740.png" width="2294" height="1453" alt="The supplied Archive artwork with handwritten notebooks, loose pages, an iPad resting against a bag, and a laptop on the right." fetchpriority="high">
+        <div id="devices" class="devices"></div>
+        <div id="artifactObjects" class="artifact-objects" aria-label="Notebooks, papers and photo folders"></div>
+      </div>
+    </div>
+    <div class="room-controls"><p><span class="live-dot"></span><span id="roomStatus" role="status">Opening the room…</span></p><button id="motionToggle" type="button" aria-pressed="false">Pause screen previews</button></div>
+    <nav id="deviceShortcuts" class="device-shortcuts" aria-label="Choose a screen"></nav>
+    <section class="object-index" aria-labelledby="objectIndexTitle"><h2 id="objectIndexTitle">THE PAPER TRAIL</h2><p>Notebooks and papers hold individual records. The folders open pictures.</p><nav id="artifactShortcuts" aria-label="Choose a notebook, paper stack or photo folder"></nav></section>
+    <footer class="room-footer"><p><a href="/archive/">OPEN THE ARTIFACTS ↗</a> · <a href="/">BACK TO THE DESK ↖</a></p><p id="collectionNote">Room motion studies</p></footer>
+    <noscript><p>Enable JavaScript to explore the screens. Or visit <a href="/documentary/">the documentary page</a>.</p></noscript>
+  </main>
+  <dialog id="watchDialog" aria-labelledby="watchTitle">
+    <div class="watch-shell">
+      <header class="watch-header"><div><p class="kicker" id="watchDevice">RYANS ROOM</p><h2 id="watchTitle">Choose something to watch.</h2></div><button id="closeWatch" type="button" class="back-button">← Back to room</button></header>
+      <div class="watch-layout">
+        <section class="viewing" aria-label="Video player"><div class="player-frame" id="playerFrame"><video id="archivePlayer" controls playsinline preload="none"></video><div class="player-empty" id="playerEmpty"><span aria-hidden="true">▷</span><p>Choose a video from the archive.</p></div></div><div id="qualityControl" class="quality-control" hidden><label for="playbackQuality">Playback quality</label><select id="playbackQuality"><option value="-1">Auto (recommended)</option></select></div><p id="playbackStatus" role="status"></p><button id="retryPlayback" type="button" hidden>Try playback again</button><div class="video-info"><p id="videoCollection" class="kicker"></p><h3 id="videoTitle"></h3><p id="videoDescription"></p></div></section>
+        <aside class="library" aria-label="Video archive"><div class="library-heading"><h3>On the shelves</h3><span id="videoCount"></span></div><label for="archiveSearch">Find a video</label><input id="archiveSearch" type="search" placeholder="Search the archive…" autocomplete="off"><label class="sr-only" for="collectionFilter">Filter by collection</label><select id="collectionFilter"><option value="all">All collections</option></select><div id="archiveList" class="archive-list"></div><p id="archiveEmpty" hidden>No videos match. Try another search.</p></aside>
+      </div>
+    </div>
+  </dialog>
+  <dialog id="artifactSlotDialog" aria-labelledby="artifactSlotTitle"><div class="artifact-slot-shell"><p class="kicker">THE PAPER TRAIL</p><h2 id="artifactSlotTitle"></h2><p>This object is reserved for its own archive item. Its original pages and record have not been assigned yet.</p><div class="artifact-slot-actions"><a href="/archive/?type=handwritten#archive-browser">Browse handwritten records ↗</a><button type="button" id="closeArtifactSlot">← Back to the room</button></div></div></dialog>
+  <script src="/config.js?v=20260815-1" defer></script>
+  <script src="/src/content/trapPassConfig.js?v=20260719-10" defer></script>
+  <script src="/trap-pass-system.js?v=20260719-10" defer></script>
+  <script src="/src/archive-room-config.js" defer></script>
+  <script src="/src/archive-room-objects.js" defer></script>
+  <script src="/room/room.js?v=20261004-music-library" defer></script>
+</body>
+</html>

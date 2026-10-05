@@ -5,10 +5,11 @@
   "scripts": {
     "site:verify": "node scripts/verify-site.mjs",
     "store:verify": "node scripts/verify-store.mjs",
-    "verify": "pnpm run site:verify && pnpm run store:verify",
+    "verify": "pnpm run site:verify && pnpm run store:verify && pnpm run archive:verify",
     "supabase:verify": "node scripts/supabase/verify-live.mjs",
     "stripe:list-prices": "node scripts/stripe/list-prices.mjs",
-    "stripe:sync-products": "node scripts/stripe/sync-products.mjs"
+    "stripe:sync-products": "node scripts/stripe/sync-products.mjs",
+    "archive:verify": "node scripts/verify-archive.cjs"
   },
   "dependencies": {
     "stripe": "^17.7.0"

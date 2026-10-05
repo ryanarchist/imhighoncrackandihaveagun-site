@@ -1,0 +1,492 @@
+{
+  "version": 1,
+  "stage": "live",
+  "navigation": [
+    {
+      "id": "desk",
+      "label": "THE DESK",
+      "href": "/"
+    },
+    {
+      "id": "boards",
+      "label": "THREAD MAP",
+      "href": "/concept/boards/"
+    },
+    {
+      "id": "archive",
+      "label": "THE ARCHIVE",
+      "href": "/concept/archive/"
+    },
+    {
+      "id": "passes",
+      "label": "TRAP PASSES",
+      "href": "/concept/passes/"
+    },
+    {
+      "id": "author",
+      "label": "AUTHOR",
+      "href": "/about/#author-bio"
+    },
+    {
+      "id": "store",
+      "label": "STORE",
+      "href": "/store/"
+    }
+  ],
+  "destinations": {
+    "films": {
+      "label": "Films",
+      "href": "/documentary/",
+      "source": "room/videos.json",
+      "description": "Documentaries and films from the record."
+    },
+    "threads": {
+      "label": "Thread Map",
+      "href": "/concept/boards/",
+      "source": "src/content/siteContent.js:mapContent.threads",
+      "description": "Nine threads through the same story."
+    },
+    "writing": {
+      "label": "The writing table",
+      "href": "/book/",
+      "description": "Writing and the book. Enter through the typewriter."
+    },
+    "soundtrack": {
+      "label": "Soundtrack",
+      "href": "/room/?device=tablet",
+      "source": "room/videos.json",
+      "description": "The existing iPad music videos, with OG Baby Scum first."
+    },
+    "archive": {
+      "label": "The Archive",
+      "href": "/concept/archive/",
+      "source": "data/archive-items.json + api/archive",
+      "description": "Original artifacts, transcriptions, and reflections."
+    },
+    "passes": {
+      "label": "Trap Passes",
+      "href": "/concept/passes/",
+      "source": "src/content/trapPassConfig.js + trap-pass-system.js",
+      "description": "Find your pass and your place in the collection."
+    },
+    "collection": {
+      "label": "Open the collection",
+      "href": "/trap-pass/#pass-editions",
+      "source": "src/content/siteContent.js:trapPassContent",
+      "description": "Explore the regular and paid pass editions."
+    },
+    "wallet": {
+      "label": "Open my wallet",
+      "href": "/my-pass/",
+      "source": "trap-pass-system.js",
+      "description": "Your identity, cards, and collection."
+    },
+    "claim": {
+      "label": "Add the new pass",
+      "href": "/trap-pass/#claim",
+      "source": "trap-pass-system.js",
+      "description": "Claim your Wave 2 pass."
+    },
+    "waves": {
+      "label": "View the waves",
+      "href": "/trap-pass/#pass-history",
+      "source": "src/content/siteContent.js:trapPassContent",
+      "description": "The history of each wave."
+    },
+    "about": {
+      "label": "Enter the project",
+      "href": "/about/",
+      "description": "Book, documentary, and soundtrack: the project overview."
+    },
+    "author": {
+      "label": "Author bio",
+      "href": "/about/#author-bio",
+      "description": "Ryan Homanics, in his own words."
+    },
+    "trapHouse": {
+      "label": "Trap House",
+      "href": "/trap-house/",
+      "description": "Enter the community."
+    },
+    "behindChair": {
+      "label": "Behind the chair",
+      "href": "/concept/behind-chair/",
+      "description": "Swivel toward the shelves, baby portrait, and typewriter."
+    },
+    "book": {
+      "label": "Book",
+      "href": "/book/",
+      "description": "The existing book and preorder page."
+    },
+    "music": {
+      "label": "Soundtrack",
+      "href": "/room/?device=tablet",
+      "description": "Your music videos on the existing iPad."
+    },
+    "shelfDetail": {
+      "label": "Inspect the shelves",
+      "href": "/concept/behind-chair/",
+      "description": "Look closer at the supplied room artwork."
+    },
+    "bell": {
+      "label": "Ring the bell",
+      "href": "/concept/bell/",
+      "description": "Ryan’s words, smoke, and statement video."
+    },
+    "boards": {
+      "label": "Whiteboard & corkboard",
+      "href": "/concept/boards/",
+      "description": "Look left. Follow a thread on the corkboard."
+    },
+    "turnChairLeft": {
+      "label": "Turn chair left",
+      "href": "/concept/boards/",
+      "description": "Turn toward the whiteboard and corkboard."
+    },
+    "threadDefinitions": {
+      "label": "Explore all nine threads",
+      "href": "/map/",
+      "description": "The threads and their full definitions."
+    },
+    "figure-shelf": {
+      "label": "The figure shelf",
+      "href": "/concept/figure-shelf/",
+      "description": "Another corner of the room."
+    },
+    "artifacts": {
+      "label": "Open the artifacts",
+      "href": "/archive/",
+      "description": "Original records, transcriptions, and reflections."
+    },
+    "store": {
+      "label": "Store",
+      "href": "/store/",
+      "description": "Merch, book and documentary preorders, and paid Trap Passes."
+    }
+  },
+  "scenes": {
+    "desk": {
+      "title": "THE DESK",
+      "tagline": "Everything here leads somewhere.",
+      "image": "/assets/site-foundation/masters/desk-updated-190624.png",
+      "imageRole": "artwork",
+      "alt": "Ryan’s desk with the interactive Ring the Bell experience on the left monitor, supplied warning artwork on the curved monitor, notebook, tablet, stickered laptop, and open drawers.",
+      "hotspots": [
+        {
+          "destination": "author",
+          "x": 18,
+          "y": 42,
+          "width": 14,
+          "height": 17
+        },
+        {
+          "destination": "archive",
+          "x": 23,
+          "y": 58,
+          "width": 16,
+          "height": 17
+        },
+        {
+          "destination": "trapHouse",
+          "x": 67,
+          "y": 65,
+          "width": 21,
+          "height": 24
+        },
+        {
+          "destination": "behindChair",
+          "x": 39.5,
+          "y": 58,
+          "width": 6,
+          "height": 15
+        },
+        {
+          "destination": "turnChairLeft",
+          "x": 27,
+          "y": 48,
+          "width": 23,
+          "height": 16
+        },
+        {
+          "destination": "passes",
+          "x": 1,
+          "y": 72,
+          "width": 22,
+          "height": 25
+        }
+      ],
+      "width": 2582,
+      "height": 1444,
+      "actions": [
+        "bell",
+        "about",
+        "author",
+        "threads",
+        "archive",
+        "passes",
+        "trapHouse",
+        "behindChair",
+        "turnChairLeft",
+        "store"
+      ],
+      "labels": [
+        {
+          "destination": "author",
+          "x": 20,
+          "y": 49
+        },
+        {
+          "destination": "archive",
+          "x": 24,
+          "y": 72
+        },
+        {
+          "destination": "trapHouse",
+          "x": 73,
+          "y": 83
+        },
+        {
+          "destination": "behindChair",
+          "x": 40,
+          "y": 73
+        },
+        {
+          "destination": "turnChairLeft",
+          "x": 31,
+          "y": 56
+        },
+        {
+          "destination": "passes",
+          "x": 6,
+          "y": 83
+        }
+      ],
+      "monitor": {
+        "href": "/concept/bell/",
+        "width": 1000,
+        "height": 620,
+        "quad": [
+          [
+            0.07,
+            0.07
+          ],
+          [
+            0.555,
+            0.105
+          ],
+          [
+            0.547,
+            0.427
+          ],
+          [
+            0.116,
+            0.374
+          ]
+        ]
+      }
+    },
+    "passes": {
+      "title": "TRAP PASSES",
+      "tagline": "Open the drawer. Find your place.",
+      "image": "/assets/site-foundation/masters/pass-drawer-approved-150308.jpg",
+      "imageRole": "artwork",
+      "alt": "Ryan’s selected Trap Pass drawer artwork, viewed from above with the notebook and desk along the top edge.",
+      "hotspots": [
+        {
+          "destination": "collection",
+          "x": 18,
+          "y": 25,
+          "width": 38,
+          "height": 68
+        }
+      ],
+      "actions": [
+        "collection",
+        "wallet",
+        "claim",
+        "waves"
+      ],
+      "width": 1080,
+      "height": 619
+    },
+    "behind-chair": {
+      "title": "BEHIND THE CHAIR",
+      "tagline": "The room behind the record.",
+      "image": "/assets/site-foundation/masters/shelves-updated-192451.png",
+      "imageRole": "artwork",
+      "width": 2592,
+      "height": 1457,
+      "alt": "Supplied updated wide shelf view with ceiling fabrics, a typewriter, books, a framed childhood photograph, painting and collected objects.",
+      "hotspots": [
+        {
+          "destination": "writing",
+          "x": 44,
+          "y": 48,
+          "width": 14,
+          "height": 12
+        }
+      ],
+      "actions": [
+        "writing",
+        "archive",
+        "shelfDetail",
+        "figure-shelf"
+      ],
+      "inspect": true,
+      "inspectLabel": "INSPECT THE SHELVES",
+      "inspectTitle": "THE SHELVES",
+      "labels": [
+        {
+          "destination": "writing",
+          "x": 45,
+          "y": 57
+        }
+      ]
+    },
+    "boards": {
+      "title": "THE BOARDS",
+      "tagline": "Follow a thread. See where it leads.",
+      "image": "/assets/site-foundation/masters/board-corner-205119.png",
+      "imageRole": "artwork",
+      "alt": "Supplied whiteboard and corkboard corner to the left of Ryan’s computer. The interactive Thread Map is mounted on the lower corkboard.",
+      "width": 2577,
+      "height": 1448,
+      "hotspots": [],
+      "actions": [
+        "threadDefinitions",
+        "behindChair",
+        "archive"
+      ],
+      "monitor": {
+        "type": "threads",
+        "label": "Thread Map on the corkboard",
+        "openLabel": "OPEN THE CORKBOARD",
+        "closeLabel": "BACK TO THE BOARDS",
+        "width": 2588,
+        "height": 1446,
+        "quad": [
+          [
+            0.269,
+            0.675
+          ],
+          [
+            0.482,
+            0.646
+          ],
+          [
+            0.486,
+            0.84
+          ],
+          [
+            0.276,
+            0.902
+          ]
+        ],
+        "image": "/assets/site-foundation/masters/thread-board-close-201831.png",
+        "imageAlt": "The supplied close-up corkboard with nine thread cards, photographs, and red string connecting each thread to the centre.",
+        "regions": [
+          {
+            "y": 8,
+            "x": 20,
+            "number": 1,
+            "height": 20,
+            "width": 20
+          },
+          {
+            "y": 6,
+            "x": 40,
+            "number": 2,
+            "height": 19,
+            "width": 20
+          },
+          {
+            "y": 10,
+            "x": 61,
+            "number": 3,
+            "height": 18,
+            "width": 18
+          },
+          {
+            "y": 31,
+            "x": 60,
+            "number": 4,
+            "height": 19,
+            "width": 20
+          },
+          {
+            "y": 52,
+            "x": 61,
+            "number": 5,
+            "height": 18,
+            "width": 19
+          },
+          {
+            "y": 70,
+            "x": 56,
+            "number": 6,
+            "height": 19,
+            "width": 17
+          },
+          {
+            "y": 69,
+            "x": 38,
+            "number": 7,
+            "height": 20,
+            "width": 17
+          },
+          {
+            "y": 58,
+            "x": 21,
+            "number": 8,
+            "height": 19,
+            "width": 19
+          },
+          {
+            "y": 33,
+            "x": 20,
+            "number": 9,
+            "height": 20,
+            "width": 20
+          }
+        ]
+      }
+    },
+    "figure-shelf": {
+      "title": "THE FIGURE SHELF",
+      "tagline": "Another corner of the room.",
+      "image": "/assets/site-foundation/masters/figure-shelf-194746.png",
+      "imageRole": "artwork",
+      "alt": "Supplied room artwork showing a row of eight figures on a bookshelf, ceiling fabrics and a resting cat.",
+      "width": 2584,
+      "height": 1443,
+      "hotspots": [],
+      "actions": [
+        "behindChair",
+        "shelfDetail"
+      ],
+      "inspect": true,
+      "inspectLabel": "INSPECT THE FIGURE SHELF",
+      "inspectTitle": "THE FIGURE SHELF",
+      "parent": "behindChair"
+    }
+  },
+  "retainedRoutes": [
+    "/",
+    "/room/",
+    "/documentary/",
+    "/map/",
+    "/archive/",
+    "/archive/manage/",
+    "/book/",
+    "/soundtrack/",
+    "/trap-pass/",
+    "/my-pass/",
+    "/wallet/",
+    "/store/",
+    "/trap-house/",
+    "/about/"
+  ],
+  "pendingArtwork": [
+    "Assign content to objects in the figure shelf view with Ryan."
+  ]
+}
