@@ -173,13 +173,6 @@
       "alt": "Ryan’s desk with the interactive Ring the Bell experience on the left monitor, supplied warning artwork on the curved monitor, notebook, tablet, stickered laptop, and open drawers.",
       "hotspots": [
         {
-          "destination": "author",
-          "x": 18,
-          "y": 42,
-          "width": 14,
-          "height": 17
-        },
-        {
           "destination": "archive",
           "x": 23,
           "y": 58,
@@ -230,11 +223,6 @@
         "store"
       ],
       "labels": [
-        {
-          "destination": "author",
-          "x": 20,
-          "y": 49
-        },
         {
           "destination": "archive",
           "x": 24,
