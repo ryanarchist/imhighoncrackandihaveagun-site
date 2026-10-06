@@ -1,0 +1,28 @@
+/* Shared typography for every public room, legacy route and store surface. */
+@font-face{font-family:"Wrong Time Wrong Place";src:url("/assets/fonts/WrongTimeWrongPlace.ttf") format("truetype");font-style:normal;font-weight:400;font-display:swap;size-adjust:140%}
+@font-face{font-family:"Punk Typewriter";src:url("/assets/fonts/PunkTypewriter.otf") format("opentype");font-style:normal;font-weight:400;font-display:swap;size-adjust:135%}
+@font-face{font-family:"Orange Typewriter";src:url("/assets/fonts/OrangeTypewriter.ttf") format("truetype");font-style:normal;font-weight:400;font-display:swap}
+:root{--display:"Wrong Time Wrong Place",Impact,sans-serif;--condensed:"Punk Typewriter","Courier New",monospace;--typewriter:"Orange Typewriter","Courier New",monospace;--body:var(--typewriter)}
+body,p,li,blockquote,figcaption,label,input,select,textarea,small,table,pre,code{font-family:var(--typewriter)!important}
+h1,h2,.concept-brand,.brand,.brand strong,.site-brand,.site-logo,.logo{font-family:var(--display)!important;font-weight:400!important;letter-spacing:.025em;overflow-wrap:anywhere;line-height:1.15!important}
+h3,h4,h5,h6,button,.button,.concept-button,.scene-object-label,.scene-correction,.scene-archive-label,nav a,.nav a,.archive-button,.archive-hotspot,.archive-drawer span,.artifact-shortcut,.back-button,.device-label,.device-shortcuts button,.archive-card strong,.concept-connections article a{font-family:var(--condensed)!important;font-weight:400!important;letter-spacing:.025em}
+.kicker,.concept-kicker,.brand span,.archive-open,.tag,.pill{font-family:var(--condensed)!important;font-weight:400!important}
+.metadata,.room-controls,.room-footer,.room-hint,.library-heading span,.archive-card small,.player-empty p,#playbackStatus{font-family:var(--typewriter)!important}
+p,blockquote{line-height:1.75}button,input,select,textarea{font-synthesis:none}
+button,.button,.concept-button{white-space:normal;overflow-wrap:anywhere}
+.scene-object-label{font-size:clamp(12px,1.2vw,20px);max-width:30%;white-space:normal}
+.concept-nav nav{gap:20px;line-height:1.4}.concept-nav nav a{font-size:18px}
+.concept-button{font-size:19px;line-height:1.4}.concept-heading h1{font-size:clamp(40px,5vw,70px)}
+.concept-connections article a{font-size:23px;line-height:1.4}.concept-connections article p{font-size:16px;line-height:1.75}
+.archive-room .watch-header h2,.watch-header h2{line-height:1.3}
+.archive-room .archive-card strong{font-size:19px;line-height:1.45}
+.archive-room .artifact-shortcut,.archive-room .device-shortcuts button,.archive-room .back-button{font-size:18px;line-height:1.45}
+.room-header nav,.brand{white-space:normal}.room-header nav{flex-wrap:wrap}
+.nav-links{flex-wrap:wrap;overflow-x:visible;gap:6px}.nav-links a,.utility-link{font-size:15px;line-height:1.4;white-space:normal;padding:10px}.brand span{line-height:1.6}
+.archive-button,.archive-hotspot,.archive-drawer span{font-size:15px;line-height:1.5}
+.archive-card h2{font-family:var(--condensed)!important;font-size:24px;line-height:1.4}
+.archive-field input,.archive-field select,.archive-field textarea{font-size:16px}
+.archive-filters{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr) minmax(0,1fr) auto}
+.archive-card-copy p{font-size:16px}.days-player h2{line-height:1.3}
+@media(max-width:800px){.concept-nav nav{gap:12px}.concept-nav nav a{font-size:16px}.concept-button{font-size:17px;line-height:1.5;padding:12px}.room-header{height:auto;min-height:66px;flex-wrap:wrap}.room-header nav{flex-wrap:wrap}}
+@media(max-width:600px){.archive-filters{grid-template-columns:minmax(0,1fr)}.archive-drawers{gap:6px}.archive-drawer span{font-size:12px}.days-player header{flex-direction:column;align-items:start}.concept-heading h1{font-size:40px}}
