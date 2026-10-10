@@ -1,0 +1,8 @@
+/* Match the photographed tablet's inner screen without covering its bezel. */
+.days-ipad.has-natural-glass{width:768px;height:1024px;overflow:hidden;background:#0d1118;border-radius:13px;isolation:isolate}
+.days-ipad-screen{display:block;position:relative;width:100%;height:100%;background:#0d1118;pointer-events:none}
+.days-ipad.has-natural-glass .days-ipad-backdrop,.days-ipad.has-natural-glass .days-ipad-poster{position:absolute;inset:0;width:100%;height:100%;user-select:none;pointer-events:none}
+.days-ipad.has-natural-glass .days-ipad-backdrop{object-fit:cover;filter:blur(38px) brightness(.20) saturate(.42);transform:scale(1.1)}
+.days-ipad.has-natural-glass .days-ipad-poster{object-fit:contain;filter:brightness(.68) saturate(.77) contrast(.92)}
+.days-ipad-glass{position:absolute;inset:0;pointer-events:none;background:linear-gradient(132deg,rgba(127,150,183,.13),rgba(22,30,49,.08) 42%,transparent 65%,rgba(9,11,18,.13)),linear-gradient(180deg,rgba(5,8,13,.12),transparent 25%,transparent 73%,rgba(3,5,10,.24));box-shadow:inset 0 0 24px 10px rgba(0,0,0,.24)}
+.days-ipad.has-natural-glass:hover,.days-ipad.has-natural-glass:focus-visible{outline:5px solid #bda468;outline-offset:-5px}

@@ -1,0 +1,23 @@
+@font-face{font-family:"Plane Crash";src:url("/assets/fonts/PlaneCrash.ttf") format("truetype");font-weight:400;font-style:normal;font-display:swap}
+.drawer-bell-art{position:absolute;left:0;top:0;width:1000px;height:333.333px;transform-origin:0 0;pointer-events:none;z-index:6;filter:brightness(.74) contrast(.94) saturate(.86) drop-shadow(0 5px 6px #000c)}
+.drawer-bell-art img{position:absolute;inset:0;display:block;width:100%;height:100%;pointer-events:none;user-select:none}
+.drawer-pipe-glass{clip-path:inset(0 0 39% 0)}
+.drawer-lighter{position:absolute;inset:0;transform-origin:60% 76%;z-index:2}
+.drawer-lighter img{clip-path:inset(61% 0 0 0);transform:rotate(180deg);transform-origin:55% 75%}
+.drawer-flame{position:absolute;left:93.2%;top:42%;width:4.2%;height:26%;opacity:0;transform-origin:50% 100%;z-index:3;background:radial-gradient(ellipse at 50% 80%,#fff8ce 0 16%,#ffc04e 35%,#f4620c 61%,transparent 75%);border-radius:65% 35% 45% 45%;filter:drop-shadow(0 0 9px #f58729)}
+.drawer-flame span{position:absolute;bottom:0;left:31%;width:38%;height:42%;border-radius:70% 40% 40% 40%;background:linear-gradient(#fffbe4,#71baff)}
+.drawer-pipe-tip{position:absolute;left:95.3%;top:51%;width:8px;height:8px;transform:translate(-50%,-50%);border-radius:50%;z-index:2}
+.drawer-bell-art.is-lit .drawer-flame{opacity:1;animation:drawer-flame-flicker .13s ease-in-out infinite alternate}
+.drawer-bell-art.is-hot .drawer-pipe-tip{background:#eeb76866;box-shadow:0 0 12px 5px #f29b3a88}
+@keyframes drawer-flame-flicker{from{filter:drop-shadow(0 0 5px #f58729);transform:scale(.95,1)}to{filter:drop-shadow(0 0 13px #f58729);transform:scale(1.08,.9)}}
+.drawer-bell-hit{position:absolute;left:1%;top:72%;width:22%;height:25%;padding:0;border:0;border-radius:0;background:transparent;cursor:pointer;z-index:5}
+.drawer-bell-label{position:absolute;left:3.5%;top:71.5%;width:17.5%;padding:5px 7px;border:1px solid #b99c5a;border-radius:0;background:#100b07d9;color:#ecd7a7;box-shadow:0 2px 5px #0009;font-family:"Plane Crash",Impact,sans-serif!important;font-size:clamp(9px,1.35vw,22px);font-weight:400;line-height:1.15!important;letter-spacing:.035em;text-transform:none;text-align:center;text-shadow:0 1px 2px #000;cursor:pointer;z-index:7}
+.drawer-bell-label:hover,.drawer-bell-label:focus-visible{color:#fff1cf;border-color:#f5d493;background:#352215}
+.drawer-bell-label:disabled{cursor:wait;color:#cdb584}
+.drawer-bell-shortcut{font-family:"Plane Crash",Impact,sans-serif!important;text-transform:none}
+.drawer-bell-shortcut:disabled{cursor:wait;opacity:.7}
+.drawer-bell-skip[hidden]{display:none}
+.drawer-smoke-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:9;mix-blend-mode:screen}
+body[data-room-scene="figure-shelf"] .scene-object-label[href="/concept/passes/"]{font-family:"Plane Crash",Impact,sans-serif!important;font-size:clamp(11px,1.35vw,23px);line-height:1.1!important;color:#ead2a0;background:#1b100979;border:0;box-shadow:none;padding:4px 8px;transform:rotate(9deg);transform-origin:left center;text-shadow:0 2px 3px #000;max-width:28%;text-transform:none}
+body[data-room-scene="figure-shelf"] .scene-object-label[href="/concept/passes/"]:hover{color:#fff1c9;background:#21170ddd}
+@media(max-width:800px){.drawer-bell-shortcut,.drawer-bell-skip{grid-column:1/-1}}

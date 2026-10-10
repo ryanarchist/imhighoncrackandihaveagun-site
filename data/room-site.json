@@ -170,7 +170,7 @@
       "tagline": "Everything here leads somewhere.",
       "image": "/assets/site-foundation/masters/desk-updated-190624.png",
       "imageRole": "artwork",
-      "alt": "Ryan’s desk with the interactive Ring the Bell experience on the left monitor, supplied warning artwork on the curved monitor, notebook, tablet, stickered laptop, and open drawers.",
+      "alt": "Ryan’s desk with Waves on the left monitor and National Trash Class League Commercial on the curved right monitor, notebook, DAYS iPad, stickered laptop, and a pipe and lighter lying in the open left drawer.",
       "hotspots": [
         {
           "destination": "archive",
@@ -199,28 +199,20 @@
           "y": 48,
           "width": 23,
           "height": 16
-        },
-        {
-          "destination": "passes",
-          "x": 1,
-          "y": 72,
-          "width": 22,
-          "height": 25
         }
       ],
       "width": 2582,
       "height": 1444,
       "actions": [
-        "bell",
         "about",
         "author",
         "threads",
         "archive",
-        "passes",
         "trapHouse",
         "behindChair",
         "turnChairLeft",
-        "store"
+        "store",
+        "figure-shelf"
       ],
       "labels": [
         {
@@ -242,36 +234,94 @@
           "destination": "turnChairLeft",
           "x": 31,
           "y": 56
-        },
-        {
-          "destination": "passes",
-          "x": 6,
-          "y": 83
         }
       ],
-      "monitor": {
-        "href": "/concept/bell/",
-        "width": 1000,
-        "height": 620,
-        "quad": [
-          [
-            0.07,
-            0.07
-          ],
-          [
-            0.555,
-            0.105
-          ],
-          [
-            0.547,
-            0.427
-          ],
-          [
-            0.116,
-            0.374
+      "featuredVideos": [
+        {
+          "id": "waves",
+          "side": "left",
+          "title": "Waves",
+          "poster": "/assets/site-foundation/monitor-waves-thumbnail.png",
+          "library": "766115",
+          "video": "a9ef1ff7-37a7-4fa5-aa88-1a40bf579267",
+          "width": 1920,
+          "height": 800,
+          "aspectRatio": 0.5625,
+          "quad": [
+            [
+              0.07,
+              0.07
+            ],
+            [
+              0.555,
+              0.105
+            ],
+            [
+              0.547,
+              0.427
+            ],
+            [
+              0.116,
+              0.374
+            ]
           ]
-        ]
-      }
+        },
+        {
+          "id": "national-trash-class-league",
+          "side": "right",
+          "title": "National Trash Class League Commercial",
+          "poster": "/assets/site-foundation/monitor-national-trash-thumbnail.png",
+          "library": "766115",
+          "video": "fa975008-f045-4107-b0d1-910e5a144731",
+          "width": 1920,
+          "height": 800,
+          "aspectRatio": 0.5625,
+          "top": [
+            [
+              0.59334,
+              0.08033
+            ],
+            [
+              0.69132,
+              0.10803
+            ],
+            [
+              0.78854,
+              0.14612
+            ],
+            [
+              0.8842,
+              0.19114
+            ],
+            [
+              1.00697,
+              0.31648
+            ]
+          ],
+          "bottom": [
+            [
+              0.59256,
+              0.31994
+            ],
+            [
+              0.68706,
+              0.36496
+            ],
+            [
+              0.78156,
+              0.44183
+            ],
+            [
+              0.87529,
+              0.52701
+            ],
+            [
+              0.96979,
+              0.6018
+            ]
+          ]
+        }
+      ]
     },
     "passes": {
       "title": "TRAP PASSES",
@@ -447,15 +497,32 @@
       "alt": "Supplied room artwork showing a row of eight figures on a bookshelf, ceiling fabrics and a resting cat.",
       "width": 2584,
       "height": 1443,
-      "hotspots": [],
+      "hotspots": [
+        {
+          "destination": "passes",
+          "x": 18,
+          "y": 7,
+          "width": 75,
+          "height": 61
+        }
+      ],
       "actions": [
         "behindChair",
-        "shelfDetail"
+        "shelfDetail",
+        "passes"
       ],
       "inspect": true,
       "inspectLabel": "INSPECT THE FIGURE SHELF",
       "inspectTitle": "THE FIGURE SHELF",
-      "parent": "behindChair"
+      "parent": "behindChair",
+      "labels": [
+        {
+          "destination": "passes",
+          "label": "trap passes",
+          "x": 58,
+          "y": 59.5
+        }
+      ]
     }
   },
   "retainedRoutes": [

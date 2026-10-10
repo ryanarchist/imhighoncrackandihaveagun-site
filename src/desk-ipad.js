@@ -5,9 +5,9 @@
     const stage = host.querySelector('.concept-image-stage');
     if (!stage || stage.querySelector('.days-ipad')) return;
     const button = document.createElement('button');
-    button.type = 'button'; button.className = 'days-ipad';
+    button.type = 'button'; button.className = 'days-ipad has-natural-glass';
     button.setAttribute('aria-label', 'Play DAYS — poem on the iPad');
-    button.innerHTML = '<img src="/assets/site-foundation/days-poem-poster.png" alt="DAYS — Now I just bleed through this pen.">';
+    button.innerHTML = '<span class="days-ipad-screen"><img class="days-ipad-backdrop" src="/assets/site-foundation/days-poem-poster.png" alt="" aria-hidden="true"><img class="days-ipad-poster" src="/assets/site-foundation/days-poem-poster.png" alt="DAYS — Now I just bleed through this pen."><span class="days-ipad-glass" aria-hidden="true"></span></span>';
     stage.append(button);
     const foreground = document.createElement('img');
     foreground.src = stage.querySelector('img').src;
@@ -22,6 +22,8 @@
     host.querySelector('.concept-object-links').prepend(shortcut);
     let opener;
     function open(event) {
+      document.dispatchEvent(new CustomEvent('desk:stop-inline-video'));
+      document.dispatchEvent(new CustomEvent('desk:cancel-bell'));
       opener = event.currentTarget;
       host.querySelector('.concept-monitor iframe')?.contentDocument?.querySelector('video')?.pause();
       const frame = document.createElement('iframe');
@@ -38,11 +40,11 @@
       dialog.querySelector('.days-player-screen').replaceChildren();
       opener?.focus();
     });
-    // Project the complete poster into the photographed iPad screen.
+    // Fit the full portrait artwork to the tablet's 3:4 display, then project only its inner glass.
     function fit() {
       const w = stage.clientWidth, h = stage.clientHeight;
-      const source = [[0,0],[519,0],[519,935],[0,935]];
-      const quad = [[.239,.433],[.301,.455],[.257,.567],[.192,.526]];
+      const source = [[0,0],[768,0],[768,1024],[0,1024]];
+      const quad = [[614/2582,627/1444],[754/2582,664/1444],[631/2582,802/1444],[494/2582,738/1444]];
       const rows = [];
       source.forEach(([x,y],i) => {
         const u = quad[i][0]*w, v = quad[i][1]*h;
