@@ -156,6 +156,51 @@
           "alt": "Original photograph 3"
         }
       ]
+    },
+    {
+      "id": "LP-002",
+      "title": "Ellie’s card the day I penned my first ever word as an author",
+      "type": "records",
+      "status": "published",
+      "version": 0,
+      "originalDate": {
+        "certainty": "exact",
+        "value": "2017-06-01",
+        "label": "June 1, 2017"
+      },
+      "addedAt": "2026-10-13T15:00:00-04:00",
+      "description": "Archive Evidence Entry #2 · Big El and Lil El’s Cozy Corner.",
+      "context": "Date confirmed by Ryan: June 1, 2017. Archive presentation and original card photograph preserved separately.",
+      "transcription": "",
+      "threads": [],
+      "related": [],
+      "reflections": [],
+      "contentLinks": [
+        {
+          "label": "Open Entry #2",
+          "href": "/archive/entry-002/"
+        },
+        {
+          "label": "Visit the Cozy Corner",
+          "href": "/concept/els-corner/"
+        }
+      ],
+      "media": [
+        {
+          "id": "graphic",
+          "src": "/assets/archive/entry-002/entry-graphic.png",
+          "mime": "image/png",
+          "name": "entry-graphic.png",
+          "alt": "Archive Evidence Entry 2 — Ellie’s card"
+        },
+        {
+          "id": "original",
+          "src": "/assets/archive/entry-002/original-card.jpg",
+          "mime": "image/jpeg",
+          "name": "original-card.jpg",
+          "alt": "Original card photograph"
+        }
+      ]
     }
   ]
 }
