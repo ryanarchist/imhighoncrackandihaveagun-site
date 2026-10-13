@@ -101,6 +101,61 @@
           "alt": "Original supplied statement"
         }
       ]
+    },
+    {
+      "id": "LP-001",
+      "title": "Entry #1 — Infinity and timelines",
+      "type": "records",
+      "status": "published",
+      "version": 0,
+      "originalDate": {
+        "certainty": "exact",
+        "value": "2025-11-12",
+        "label": "November 12, 2025"
+      },
+      "addedAt": "2026-10-13T12:00:00-04:00",
+      "description": "A loose handwritten page with a readable graphic and three original photographs.",
+      "context": "Writing date supplied by Ryan: November 12, 2025. Enhanced graphic is a reading aid; original photographs are preserved separately.",
+      "transcription": "",
+      "threads": [],
+      "related": [],
+      "reflections": [],
+      "contentLinks": [
+        {
+          "label": "Open Entry #1",
+          "href": "/archive/entry-001/"
+        }
+      ],
+      "media": [
+        {
+          "id": "0",
+          "src": "/assets/archive/entry-001/readable-graphic.png",
+          "mime": "image/png",
+          "name": "readable-graphic.png",
+          "alt": "Enhanced graphic"
+        },
+        {
+          "id": "1",
+          "src": "/assets/archive/entry-001/original-1.jpg",
+          "mime": "image/jpeg",
+          "name": "original-1.jpg",
+          "alt": "Original photograph 1"
+        },
+        {
+          "id": "2",
+          "src": "/assets/archive/entry-001/original-2.jpg",
+          "mime": "image/jpeg",
+          "name": "original-2.jpg",
+          "alt": "Original photograph 2"
+        },
+        {
+          "id": "3",
+          "src": "/assets/archive/entry-001/original-3.jpg",
+          "mime": "image/jpeg",
+          "name": "original-3.jpg",
+          "alt": "Original photograph 3"
+        }
+      ]
     }
   ]
 }
