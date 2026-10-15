@@ -63,7 +63,8 @@ for (const file of htmlFiles) {
   if (html.includes("Ryan copy needed.")) fail(file, "contains unfinished placeholder copy");
   const configIndex = html.indexOf("/src/content/trapPassConfig.js");
   const runtimeIndex = html.indexOf("/trap-pass-system.js");
-  if (configIndex < 0 || runtimeIndex < 0 || configIndex > runtimeIndex) {
+  // Standalone scene/entrance pages do not use the pass runtime.
+  if (runtimeIndex >= 0 && (configIndex < 0 || configIndex > runtimeIndex)) {
     fail(file, "Trap Pass configuration must load before trap-pass-system.js");
   }
   for (const match of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
@@ -93,7 +94,7 @@ if (!siteRuntimeSource.includes("renderSoundtrack")) {
 if (!siteRuntimeSource.includes("sold-out-stamp") || !siteRuntimeSource.includes("is-sold-out")) {
   fail(siteRuntime, "sold-out Store products must render a visible image stamp");
 }
-if (!siteRuntimeSource.includes('id="mini-doc-1"') || !siteRuntimeSource.includes("renderMediaEmbed(miniDoc.embed)")) {
+if (!siteRuntimeSource.includes('id="mini-doc-1"') || !siteRuntimeSource.includes('data-documentary-player') || !siteRuntimeSource.includes('<video controls playsinline')) {
   fail(siteRuntime, "documentary page must render the dedicated Mini Doc 1 video section");
 }
 if (!siteRuntimeSource.includes('featured.buttonLabel || "Watch Official Drops"')) {
@@ -123,8 +124,9 @@ if (!siteContentSource.includes("https://www.instagram.com/imhighoncrackandihave
 if (siteContentSource.includes('href: "https://instagram.com/ihocaihag"')) {
   fail(siteContent, "public footer still contains the retired Instagram profile");
 }
-if (!siteContentSource.includes('label: "Mini Doc 1: The Ride to Die"') || !siteContentSource.includes("https://www.youtube.com/embed/h3twQL94YiQ")) {
-  fail(siteContent, "documentary page is missing the Mini Doc 1 button or YouTube embed");
+const filmCatalog = JSON.parse(fs.readFileSync(path.join(root, 'room/videos.json'), 'utf8'));
+if (!siteContentSource.includes('label: "Mini Doc 1: The Ride to Die"') || !filmCatalog.videos.some(video => video.id === 'bunny-c472e350-95c4-4137-be1e-0bba37cf5ead' && video.type === 'application/x-mpegURL')) {
+  fail(siteContent, "documentary page is missing the Mini Doc 1 button or existing Bunny catalog entry");
 }
 if (!siteContentSource.includes('status: "Pinned"') || !siteContentSource.includes("https://www.instagram.com/reel/DbfDVnqBAoW/")) {
   fail(siteContent, "Official Drops must pin Mini Doc 1 and use the current soundtrack reel");

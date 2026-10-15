@@ -1022,7 +1022,17 @@
       ${miniDoc.embed ? `
         <section class="section compact" id="mini-doc-1" aria-label="${attr(miniDoc.title || "Mini Doc 1")}">
           <div class="container">
-            ${renderMediaEmbed(miniDoc.embed)}
+            <div data-documentary-player aria-label="Mini Doc 1: The Ride to Die">
+              <style>[data-documentary-player] [hidden]{display:none!important}[data-documentary-player] select{min-height:44px;padding:8px;background:#18110e;color:#f4eadc;border:1px solid #775342;border-radius:4px;font:inherit}[data-documentary-player] :focus-visible{outline:3px solid #f4d58c;outline-offset:3px}</style>
+              <video controls playsinline preload="metadata" crossorigin="anonymous" aria-label="Mini Doc 1: The Ride to Die" style="display:block;width:100%;aspect-ratio:16/9;background:#000;border:1px solid #44352b;border-radius:8px"></video>
+              <div style="display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin:16px 0">
+                <button class="button primary" type="button" data-film-play disabled>PLAY MINI DOC 1</button>
+                <label hidden data-film-quality>Quality <select aria-label="Video quality"><option value="-1">Auto (recommended)</option></select></label>
+                <button class="button" type="button" data-film-fullscreen>FULLSCREEN</button>
+                <button class="button" type="button" data-film-retry hidden>RETRY VIDEO</button>
+              </div>
+              <p class="section-copy" role="status" aria-live="polite" data-film-status>Loading Mini Doc 1…</p>
+            </div>
           </div>
         </section>
       ` : ""}
