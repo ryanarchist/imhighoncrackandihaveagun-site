@@ -1,0 +1,3 @@
+# Preserve the source artwork while keeping this poster out of the public site.
+exclude:
+  - assets/site-foundation/entrance-disclaimer-3.png
