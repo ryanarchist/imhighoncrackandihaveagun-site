@@ -170,7 +170,7 @@
       "tagline": "Everything here leads somewhere.",
       "image": "/assets/site-foundation/masters/desk-updated-190624.png",
       "imageRole": "artwork",
-      "alt": "Ryan's desk with Waves on the left monitor and the supplied author-bio artwork on the curved right monitor, notebook, DAYS iPad, stickered laptop, and a pipe and lighter lying in the open left drawer.",
+      "alt": "Ryan's desk with OG Scum Track on the left monitor and the supplied author-bio artwork on the curved right monitor, notebook, DAYS iPad, stickered laptop, and a pipe and lighter lying in the open left drawer.",
       "hotspots": [
         {
           "destination": "archive",
@@ -240,13 +240,13 @@
         {
           "id": "waves",
           "side": "left",
-          "title": "Waves",
-          "poster": "/assets/site-foundation/monitor-waves-thumbnail.png",
+          "title": "OG Scum Track",
+          "poster": "/assets/site-foundation/monitor-og-scum-20261017.png",
           "library": "766115",
-          "video": "a9ef1ff7-37a7-4fa5-aa88-1a40bf579267",
+          "video": "21fca147-8d7b-464e-bcf5-9c50df3783f2",
           "width": 1920,
           "height": 800,
-          "aspectRatio": 0.5625,
+          "aspectRatio": 1.7777777777777777,
           "quad": [
             [
               0.07,
@@ -270,7 +270,7 @@
           "id": "author-bio",
           "side": "right",
           "title": "Author bio",
-          "poster": "/assets/site-foundation/author-bio-monitor-20261017.png",
+          "poster": "/assets/site-foundation/author-bio-monitor-recovery-20261017.png",
           "href": "/about/#author-bio",
           "width": 1920,
           "height": 800,

@@ -43,3 +43,6 @@
 
 .desk-monitor-hint{position:absolute;display:block;margin:0;padding:0;z-index:6;pointer-events:none;font-family:"Plane Crash",Impact,sans-serif!important;font-weight:400;font-synthesis:none;line-height:1.08!important;letter-spacing:.02em;text-transform:none!important;text-align:center;color:#f0ddbb;background:transparent;text-shadow:0 1px 2px #000}
 .desk-monitor-hint.is-room{left:52%;top:3.5%;width:92%;transform:translateX(-50%);font-size:var(--desk-room-hint-size,1.55vw);white-space:normal;text-wrap:balance}
+
+/* Preserve the entire supplied OG Scum artwork on the perspective-mapped screen. */
+.desk-monitor-art.is-left .desk-monitor-image{object-fit:contain;object-position:center;filter:none}

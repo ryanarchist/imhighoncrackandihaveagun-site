@@ -48,7 +48,7 @@
       if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)dialog.close();
     });
     const monitors=[];let inlineVideo=null;
-    const inlineStop=document.createElement('button');inlineStop.type='button';inlineStop.className='concept-button desk-inline-stop';inlineStop.textContent='STOP WAVES / BACK TO THE POSTER ×';inlineStop.hidden=true;links.append(inlineStop);
+    const inlineStop=document.createElement('button');inlineStop.type='button';inlineStop.className='concept-button desk-inline-stop';inlineStop.textContent='STOP OG SCUM TRACK / BACK TO THE POSTER ×';inlineStop.hidden=true;links.append(inlineStop);
     function stopInline(){
       if(!inlineVideo)return;
       inlineVideo.container.remove();inlineVideo.monitor.button.classList.remove('is-playing');inlineVideo=null;inlineStop.hidden=true;
@@ -59,7 +59,7 @@
       container.className='desk-monitor-inline-video';container.dataset.inlineVideo=id;container.style.width=video.width+'px';container.style.height=video.height+'px';container.style.setProperty('--inline-video-width',(video.height*(video.aspectRatio||16/9))+'px');
       frame.title=video.title+' — playing on the left monitor';frame.allow='autoplay; fullscreen; picture-in-picture; encrypted-media';frame.allowFullscreen=true;
       frame.src='https://iframe.mediadelivery.net/embed/'+encodeURIComponent(video.library)+'/'+encodeURIComponent(video.video)+'?autoplay=true&preload=true&responsive=true';
-      glass.className='desk-monitor-glass desk-inline-glass';stop.type='button';stop.className='desk-inline-close';stop.textContent='×';stop.setAttribute('aria-label','Stop Waves and restore the thumbnail');stop.addEventListener('click',stopInline);
+      glass.className='desk-monitor-glass desk-inline-glass';stop.type='button';stop.className='desk-inline-close';stop.textContent='×';stop.setAttribute('aria-label','Stop OG Scum Track and restore the thumbnail');stop.addEventListener('click',stopInline);
       container.append(frame,glass,stop);stage.append(container);monitor.button.classList.add('is-playing');inlineVideo={container,monitor};inlineStop.hidden=false;fit();
     }
     inlineStop.addEventListener('click',stopInline);

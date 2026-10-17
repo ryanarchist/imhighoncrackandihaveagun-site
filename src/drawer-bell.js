@@ -6,11 +6,11 @@
     const pipe=document.createElement('div');pipe.className='drawer-bell-art';pipe.setAttribute('aria-hidden','true');
     pipe.innerHTML='<img class="drawer-pipe-glass" src="'+asset+'" alt=""><span class="drawer-lighter"><img src="'+asset+'" alt=""></span><span class="drawer-flame"><span></span></span><span class="drawer-pipe-tip"></span>';
     const label=document.createElement('button');label.type='button';label.className='drawer-bell-label';label.dataset.drawerBell='';
-    label.innerHTML='click to ring<br>your bell';label.setAttribute('aria-label','Click to ring your bell — light the pipe and play Waves');
-    const hit=document.createElement('button');hit.type='button';hit.className='drawer-bell-hit';hit.setAttribute('aria-label','Light the pipe in the drawer and play Waves');hit.tabIndex=-1;
+    label.innerHTML='click to ring<br>your bell';label.setAttribute('aria-label','Click to ring your bell — light the pipe and play OG Scum Track');
+    const hit=document.createElement('button');hit.type='button';hit.className='drawer-bell-hit';hit.setAttribute('aria-label','Light the pipe in the drawer and play OG Scum Track');hit.tabIndex=-1;
     const canvas=document.createElement('canvas');canvas.className='drawer-smoke-canvas';canvas.setAttribute('aria-hidden','true');
     const shortcut=document.createElement('button');shortcut.type='button';shortcut.className='concept-button drawer-bell-shortcut';shortcut.textContent='click to ring your bell';shortcut.dataset.drawerBellShortcut='';
-    const skip=document.createElement('button');skip.type='button';skip.className='concept-button drawer-bell-skip';skip.textContent='SKIP TO WAVES ↗';skip.hidden=true;
+    const skip=document.createElement('button');skip.type='button';skip.className='concept-button drawer-bell-skip';skip.textContent='SKIP TO OG SCUM TRACK ↗';skip.hidden=true;
     const status=document.createElement('span');status.className='sr-only';status.setAttribute('role','status');status.setAttribute('aria-live','polite');
     stage.append(hit,pipe,label,canvas);links.prepend(shortcut,skip);host.append(status);
     const lighter=pipe.querySelector('.drawer-lighter'),tip=pipe.querySelector('.drawer-pipe-tip'),cloud=new Image();
@@ -63,7 +63,7 @@
             else{const g=ctx.createRadialGradient(0,0,0,0,0,size*.5);g.addColorStop(0,'#d5c9b299');g.addColorStop(1,'#d5c9b200');ctx.fillStyle=g;ctx.fillRect(-size*.5,-size*.5,size,size);}
             ctx.restore();
           }
-          if(time>=2140&&!started){started=true;videos.playInline('waves');stage.dataset.bellPhase='playing';status.textContent='Waves is opening on the left monitor.';}
+          if(time>=2140&&!started){started=true;videos.playInline('waves');stage.dataset.bellPhase='playing';status.textContent='OG Scum Track is opening on the left monitor.';}
           if(time<2900)smokeFrame=requestAnimationFrame(draw);
           else{signal.removeEventListener('abort',aborted);ctx.clearRect(0,0,w,h);resolve();}
         };
@@ -73,7 +73,7 @@
     async function begin(){
       if(controller)return;
       videos.stopInline();controller=new AbortController();const signal=controller.signal;
-      // This sequence starts only on a deliberate click; Skip to Waves is the explicit bypass.
+      // This sequence starts only on a deliberate click; Skip to OG Scum Track is the explicit bypass.
       label.disabled=shortcut.disabled=hit.disabled=true;skip.hidden=false;stage.dataset.bellPhase='igniting';status.textContent='Lighting the pipe.';
       try{
         await move([{transform:'translate(0,0)'},{transform:'translate(35.3%,-8%)'}],720,signal);
@@ -83,12 +83,12 @@
         await smoke(signal);
         clear();stage.dataset.bellPhase='playing';controller=null;
       }catch(error){
-        if(error.name!=='AbortError')status.textContent='Use the Waves screen to play the video.';
+        if(error.name!=='AbortError')status.textContent='Use the OG Scum Track screen to play the video.';
         clear();controller=null;
       }
     }
     for(const trigger of [label,hit,shortcut])trigger.addEventListener('click',begin);
-    skip.addEventListener('click',()=>{cancel();videos.playInline('waves');stage.dataset.bellPhase='playing';status.textContent='Waves is opening on the left monitor.';shortcut.focus();});
+    skip.addEventListener('click',()=>{cancel();videos.playInline('waves');stage.dataset.bellPhase='playing';status.textContent='OG Scum Track is opening on the left monitor.';shortcut.focus();});
     document.addEventListener('desk:cancel-bell',cancel);
     document.addEventListener('keydown',event=>{if(event.key==='Escape'&&controller)cancel();});
     window.addEventListener('pagehide',cancel);
