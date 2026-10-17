@@ -39,7 +39,7 @@
       close.hidden=!value;
       open.setAttribute('aria-expanded',String(value));
       document.body.classList.toggle('monitor-is-open',value);
-      host.querySelectorAll('.concept-nav,.concept-heading,.concept-hotspots,.concept-object-links,.concept-connections,.concept-footer,.concept-scene figcaption').forEach(element=>element.inert=value);
+      host.querySelectorAll('.concept-nav,.concept-heading,.concept-hotspots,.concept-object-links,.concept-connections,.concept-footer,.concept-scene figcaption,.room-direction-arrows').forEach(element=>element.inert=value);
       if(value){monitor.setAttribute('role','dialog');monitor.setAttribute('aria-modal','true');monitor.setAttribute('aria-label',config.label||'Ring the Bell monitor');}else{monitor.removeAttribute('role');monitor.removeAttribute('aria-modal');monitor.removeAttribute('aria-label');}
       if(value) close.focus(); else {fit();open.focus();}
     }
