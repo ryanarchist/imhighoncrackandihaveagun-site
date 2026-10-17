@@ -54,7 +54,7 @@
       inlineVideo.container.remove();inlineVideo.monitor.button.classList.remove('is-playing');inlineVideo=null;inlineStop.hidden=true;
     }
     function playInline(id){
-      stopInline();const monitor=monitors.find(m=>m.video.id===id);if(!monitor)return;
+      stopInline();const monitor=monitors.find(m=>m.video.id===id&&!m.video.href);if(!monitor)return;
       const {video}=monitor,container=document.createElement('div'),frame=document.createElement('iframe'),glass=document.createElement('span'),stop=document.createElement('button');
       container.className='desk-monitor-inline-video';container.dataset.inlineVideo=id;container.style.width=video.width+'px';container.style.height=video.height+'px';container.style.setProperty('--inline-video-width',(video.height*(video.aspectRatio||16/9))+'px');
       frame.title=video.title+' — playing on the left monitor';frame.allow='autoplay; fullscreen; picture-in-picture; encrypted-media';frame.allowFullscreen=true;
@@ -68,8 +68,11 @@
     window.addEventListener('pagehide',stopInline);
     host.deskVideoControls={playInline,stopInline,project};
     for(const video of scene.featuredVideos){
-      const button=document.createElement('button');button.type='button';button.className='desk-video-monitor is-'+video.side;
-      button.dataset.deskVideo=video.id;button.setAttribute('aria-label','Play '+video.title+' — '+video.side+' monitor');button.title='Play '+video.title;
+      const linked=Boolean(video.href),button=document.createElement(linked?'a':'button');
+      button.className='desk-video-monitor is-'+video.side;
+      if(linked){button.href=video.href;button.dataset.deskLink=video.id;}
+      else{button.type='button';button.dataset.deskVideo=video.id;}
+      button.setAttribute('aria-label',(linked?'Open ':'Play ')+video.title+' - '+video.side+' monitor');button.title=(linked?'Open ':'Play ')+video.title;
       const top=video.top||[video.quad[0],video.quad[1]],bottom=video.bottom||[video.quad[3],video.quad[2]];
       const samples=video.top?16:1;
       const outline=[];
@@ -80,14 +83,15 @@
       for(let i=0;i<samples;i++){
         const t0=Math.max(0,i/samples-.0013),t1=Math.min(1,(i+1)/samples+.0013);
         const strip=document.createElement('span'),art=document.createElement('span');
-        strip.className='desk-monitor-strip';art.className='desk-monitor-art is-'+video.side;art.setAttribute('aria-hidden','true');
+        strip.className='desk-monitor-strip';art.className='desk-monitor-art is-'+video.side+(linked?' is-linked-art':'');art.setAttribute('aria-hidden','true');
         strip.style.width=((t1-t0)*video.width)+'px';strip.style.height=video.height+'px';
         art.style.width=video.width+'px';art.style.height=video.height+'px';art.style.left=(-t0*video.width)+'px';
         const back=document.createElement('img'),image=document.createElement('img'),glass=document.createElement('span'),cue=document.createElement('span');
         back.src=video.poster;back.alt='';back.className='desk-monitor-backdrop';back.draggable=false;
         image.src=video.poster;image.alt='';image.className='desk-monitor-image';image.draggable=false;
         glass.className='desk-monitor-glass';cue.className='desk-monitor-cue';cue.textContent='▶';
-        if(video.side==='right'){
+        if(linked) art.append(image,glass);
+        else if(video.side==='right'){
           // Adapt the supplied portrait artwork to the ultrawide screen without stretching its lettering.
           const headline=document.createElement('span'),products=document.createElement('span');
           headline.className='desk-monitor-headline';products.className='desk-monitor-products';
@@ -95,10 +99,13 @@
         }else art.append(back,image,glass,cue);
         strip.append(art);button.append(strip);strips.push({element:strip,t0,t1});
       }
-      button.addEventListener('click',()=>open(video,button));stage.append(button);
+      if(!linked){
+      button.addEventListener('click',()=>open(video,button));
       const shortcut=document.createElement('button');shortcut.type='button';shortcut.className='concept-button desk-featured-link';
       shortcut.textContent='PLAY '+video.title.toUpperCase()+' ↗';shortcut.dataset.deskVideoShortcut=video.id;
       shortcut.addEventListener('click',()=>open(video,shortcut));links.append(shortcut);
+      }
+      stage.append(button);
       monitors.push({video,button,top,bottom,strips});
     }
     const hint=document.createElement('span');hint.className='desk-monitor-hint is-room';

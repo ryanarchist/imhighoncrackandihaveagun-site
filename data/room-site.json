@@ -170,7 +170,7 @@
       "tagline": "Everything here leads somewhere.",
       "image": "/assets/site-foundation/masters/desk-updated-190624.png",
       "imageRole": "artwork",
-      "alt": "Ryan’s desk with Waves on the left monitor and National Trash Class League Commercial on the curved right monitor, notebook, DAYS iPad, stickered laptop, and a pipe and lighter lying in the open left drawer.",
+      "alt": "Ryan's desk with Waves on the left monitor and the supplied author-bio artwork on the curved right monitor, notebook, DAYS iPad, stickered laptop, and a pipe and lighter lying in the open left drawer.",
       "hotspots": [
         {
           "destination": "archive",
@@ -267,15 +267,13 @@
           ]
         },
         {
-          "id": "national-trash-class-league",
+          "id": "author-bio",
           "side": "right",
-          "title": "National Trash Class League Commercial",
-          "poster": "/assets/site-foundation/monitor-national-trash-thumbnail.png",
-          "library": "766115",
-          "video": "fa975008-f045-4107-b0d1-910e5a144731",
+          "title": "Author bio",
+          "poster": "/assets/site-foundation/author-bio-monitor-20261017.png",
+          "href": "/about/#author-bio",
           "width": 1920,
           "height": 800,
-          "aspectRatio": 0.5625,
           "top": [
             [
               0.59334,
