@@ -13,3 +13,10 @@
 @media(max-width:650px){.eyes-scene-toolbar{scroll-margin-top:65px;font-size:12px;gap:8px}.eyes-scene-toolbar button{font-size:13px!important}#eyes-inline-tools:has(>section:not([hidden])){padding:14px}.eyes-room[data-scene-mode=write]{transition:none}.eyes-room[data-scene-mode=write] .eyes-scene-canvas{transition:none}#eyes-inline-tools .eyes-actions button{flex:1 1 45%}#eyes-inline-tools h3{font-size:28px}}
 
 @media(min-width:851px){section[data-tool=record]{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);align-items:stretch}section[data-tool=record] .eyes-scene-toolbar,section[data-tool=record] .eyes-instruction,section[data-tool=record]>.eyes-actions{grid-column:1/-1}section[data-tool=record] #eyes-inline-tools{border-top:1px solid #62442c;border-left:0;display:flex;align-items:center}section[data-tool=record] .eyes-room{grid-column:1}section[data-tool=record] .eyes-actions{gap:8px}section[data-tool=record] #eyes-inline-tools .eyes-actions button{font-size:15px!important;padding:10px}}
+
+/* Exact user-selected close-up; retain its original pixels and EXIF orientation. */
+.eyes-scene-canvas.eyes-exact-photo,.eyes-scene-canvas.eyes-exact-photo>img{width:1153px;height:2048px}
+.eyes-scene-canvas.eyes-exact-photo>img{image-orientation:from-image;filter:none}
+.eyes-exact-photo .eyes-night{display:none}
+.eyes-exact-photo .eyes-live-paper{left:350px;top:930px;width:470px;height:190px;transform:rotate(-2deg)}
+.eyes-exact-photo .eyes-mic-light{left:80px;top:875px;width:160px;height:180px}

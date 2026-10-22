@@ -10,8 +10,13 @@
   async function health(){try{const h=await api('health');available=h.accepting===true;}catch{available=false;}text('#eyes-service',available?'Private submissions are open. Nothing is sent until you review and choose Send.':'Sending is not open yet: private submission storage is being connected. You can try the editor, recorder and attachments; nothing will be sent. Keep your own copy before leaving.');text('#editor-service',available?'Your entry is private until you deliberately send it.':'Sending is not open yet. You can try the tools; keep your own copy before leaving.');$('#eyes-send').disabled=!available;status(available?'Ready when you are.':'Sending is disabled until private storage and owner review are ready. Your entry has not been sent.');}
   function layout(){
     const room=$('.eyes-room'),canvas=$('.eyes-scene-canvas'),small=innerWidth<651;
-    const camera=mode==='write'?(small?[1060,408,280,310]:[910,365,650,440]):mode==='record'?(small?[850,305,260,365]:[855,315,235,310]):mode==='upload'?[350,530,590,360]:[0,0,2048,1152];
-    const [x,y,w,h]=camera,width=room.clientWidth,limit=mode==='overview'?width*1152/2048:Math.max(300,Math.min(760,innerHeight-170));
+    const detail=mode==='write'||mode==='record',photo=canvas.querySelector('img');
+    const source=detail?'/assets/my-eyes-your-eyes/20261022_034027.jpg':'/assets/my-eyes-your-eyes/20261022_033704.jpg';
+    if(photo.getAttribute('src')!==source)photo.src=source;
+    canvas.classList.toggle('eyes-exact-photo',detail);
+    photo.alt=detail?'The original close-up: glowing red microphone beside the burned paper in Ryan’s black typewriter.':'Ryan’s nighttime desk: notebook, red microphone and black typewriter beneath the monitors.';
+    const camera=mode==='write'?(small?[270,760,650,670]:[0,680,1153,760]):mode==='record'?[0,650,390,570]:mode==='upload'?[350,530,590,360]:[0,0,2048,1152];
+    const [x,y,w,h]=camera,width=room.clientWidth,limit=mode==='overview'?width*1152/2048:Math.max(300,Math.min(mode==='write'&&!small?1100:760,innerHeight-130));
     const scale=Math.min(width/w,limit/h),height=h*scale;
     room.style.height=height+'px';canvas.style.transform=`translate(${(width-w*scale)/2-x*scale}px,${-y*scale}px) scale(${scale})`;
     $('#eyes-writing').style.fontSize=Math.max(9,16/scale)+'px';
