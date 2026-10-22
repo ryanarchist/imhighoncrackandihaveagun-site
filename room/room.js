@@ -130,6 +130,7 @@
     if(activeDevice?.locked && video.id!==activeDevice.initial)return;
     if(activeDevice?.collection && video.collection!==activeDevice.collection)return;
     const focusedCard=document.activeElement?.dataset.video;
+    dialog.classList.remove('is-browsing');
     unloadPlayer();selected=video;const version=loadVersion;
     if(activeDevice){
       selections.set(activeDevice.id,video.id);
@@ -176,14 +177,14 @@
   player.addEventListener('error',()=>{if(selected&&dialog.open)message('This video could not load. Check your connection and try again.',true);});
   $('retryPlayback').addEventListener('click',()=>{if(selected)selectVideo(selected);});
   function openRoom(device,trigger) {
-    opener=trigger;activeDevice=device;
+    opener=trigger;activeDevice=device;dialog.classList.toggle('is-browsing',!device);
     dialog.classList.toggle('dedicated-film',!!device?.locked);
     document.querySelector('.library').hidden=!!device?.locked;
     $('watchDevice').textContent=device?device.name:'THE ARCHIVE';
     $('archiveSearch').value='';$('collectionFilter').value='all';
     $('collectionFilter').hidden=!!device?.music||!!device?.collection;
     document.querySelector('.library-heading h3').textContent=device?.music?'Music videos':'On the shelves';
-    dialog.showModal();document.body.classList.add('is-watching');updatePreviews();
+    if(!dialog.open)dialog.showModal();document.body.classList.add('is-watching');updatePreviews();
     if(device?.element&&!reducedMotion.matches) {
       const origin=device.element.getBoundingClientRect(),target=$('playerFrame').getBoundingClientRect();
       const ghost=document.createElement('img');ghost.src=device.element.querySelector('video').poster;ghost.alt='';
@@ -192,16 +193,17 @@
       ghost.animate([{left:`${origin.left}px`,top:`${origin.top}px`,width:`${origin.width}px`,height:`${origin.height}px`,opacity:1},{left:`${target.left}px`,top:`${target.top}px`,width:`${target.width}px`,height:`${target.height}px`,opacity:0}],{duration:420,easing:'cubic-bezier(.2,.7,.2,1)'}).finished.finally(()=>ghost.remove());
     }
     if(device){const video=videos.find((v)=>v.id===(device.locked?device.initial:selections.get(device.id)))||(!device.locked&&videos[0]);if(video)selectVideo(video);}
-    else{selected=null;unloadPlayer();player.hidden=true;document.querySelector('.video-info').hidden=true;$('playerEmpty').hidden=false;$('watchTitle').textContent='Choose something to watch.';$('videoTitle').textContent='';$('videoCollection').textContent='';$('videoDescription').textContent='';message('');renderLibrary();}
+    else{selected=null;unloadPlayer();player.hidden=true;document.querySelector('.video-info').hidden=true;$('playerEmpty').hidden=false;$('watchTitle').textContent='The video archive.';$('videoTitle').textContent='';$('videoCollection').textContent='';$('videoDescription').textContent='';message('');renderLibrary();}
     $('closeWatch').focus();
   }
+  const browseAgain=document.createElement('button');browseAgain.type='button';browseAgain.className='browse-again';browseAgain.textContent='← All videos';document.querySelector('.library').prepend(browseAgain);browseAgain.addEventListener('click',()=>openRoom(null,document.querySelector('[data-browse]')));
   $('closeWatch').addEventListener('click',()=>dialog.close());
   dialog.addEventListener('click',(event)=>{if(event.target===dialog){const r=dialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)dialog.close();}});
   dialog.addEventListener('close',()=>{selected=null;unloadPlayer();document.body.classList.remove('is-watching');updatePreviews();opener?.focus({preventScroll:true});});
   document.querySelectorAll('[data-browse]').forEach((button)=>button.addEventListener('click',()=>openRoom(null,button)));
   $('archiveSearch').addEventListener('input',renderLibrary);$('collectionFilter').addEventListener('change',renderLibrary);
   new ResizeObserver(placeDevices).observe(scene);
-  fetch('/room/videos.json?v=20261004-music-library').then((response)=>{if(!response.ok)throw new Error('Archive unavailable');return response.json();}).then((data)=>{
+  fetch('/room/videos.json?v=20261022-archive-fix').then((response)=>{if(!response.ok)throw new Error('Archive unavailable');return response.json();}).then((data)=>{
     const ids=new Set();
     videos=(Array.isArray(data.videos)?data.videos:[]).filter((v)=>(!layout?.collections||layout.collections.includes(v.collection))&&v.id&&v.title&&mediaURL(v.src)&&!ids.has(v.id)&&ids.add(v.id)).map((v)=>({...v,src:mediaURL(v.src),poster:mediaURL(v.poster),preview:mediaURL(v.preview),collection:v.collection||'Archive',description:v.description||''}));
     $('collectionNote').textContent=layout?`${videos.length} videos · music on the iPad · films on the laptop`:data.collectionNote||`${videos.length} videos in the archive`;
@@ -209,6 +211,6 @@
     buildDevices();renderLibrary();$('roomStatus').textContent=videos.length?(layout?.status||'Four screens. Your choice.'):'The shelves are waiting for their first film.';
     document.querySelector('[data-open-ipad]')?.addEventListener('click',(event)=>openRoom(devices.find((device)=>device.id==='tablet'),event.currentTarget));
     if(innerWidth<=700)$('sceneScroll').scrollLeft=(scene.clientWidth-$('sceneScroll').clientWidth)/2;
-    const requestedVideo=videos.find(v=>v.id===new URLSearchParams(location.search).get('video'));if(requestedVideo){openRoom(null,document.querySelector('[data-browse]'));selectVideo(requestedVideo);}else if(new URLSearchParams(location.search).get('device')==='tablet')openRoom(devices.find((device)=>device.id==='tablet'),document.querySelector('[data-open-ipad]'));
+    const requestedVideo=videos.find(v=>v.id===new URLSearchParams(location.search).get('video'));if(requestedVideo){openRoom(null,document.querySelector('[data-browse]'));selectVideo(requestedVideo);}else if(new URLSearchParams(location.search).get('browse')==='videos')openRoom(null,document.querySelector('[data-browse]'));else if(new URLSearchParams(location.search).get('device')==='tablet')openRoom(devices.find((device)=>device.id==='tablet'),document.querySelector('[data-open-ipad]'));
   }).catch(()=>{$('roomStatus').textContent='The archive could not load. Refresh to try again.';$('archiveEmpty').hidden=false;$('archiveEmpty').textContent='The archive could not load. Refresh to try again.';});
 })();

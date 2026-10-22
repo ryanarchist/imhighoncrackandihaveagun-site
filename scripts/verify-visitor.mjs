@@ -28,3 +28,15 @@ assert.match(read('src/book-reader.css'),/prefers-reduced-motion/);
 assert.match(read('src/visitor-nav.js'),/showModal/);
 assert.match(read('src/visitor.css'),/safe-area-inset-bottom/);
 console.log('Visitor regression checks passed: confirmed benefits, product identifiers, all video sources, titles, handwritten entries, navigation, reader assets and accessibility hooks.');
+// Guard the October 22 visual/routing repair without touching reader behavior.
+assert.equal(JSON.parse(read('data/room-site.json')).destinations.archive.href,'/concept/archive/?browse=videos');
+assert.match(read('archive/archive.js'),/action\('Videos','\/concept\/archive\/\?browse=videos'\)/);
+assert.match(read('src/visitor-nav.js'),/Video collection','\/concept\/archive\/\?browse=videos/);
+assert.match(read('index.html'),/src\/typography.css/);
+assert(!read('src/visitor.css').includes('system-ui'));
+assert.match(read('room/room.js'),/browse.*videos/);
+assert.match(read('room/room.js'),/if\(!dialog.open\)dialog.showModal/);
+assert(!read('room/room.js').includes("dialog.close();openRoom(null"));
+const archivePage=read('concept/archive/index.html');
+assert(archivePage.indexOf('class="entry-one-feature"')>archivePage.indexOf('id="roomScene"'));
+console.log('Style/routing checks passed: direct video entrance, original fonts, room before paper feature, and modal return lifecycle.');

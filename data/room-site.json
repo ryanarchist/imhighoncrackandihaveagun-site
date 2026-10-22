@@ -59,9 +59,9 @@
     },
     "archive": {
       "label": "Browse the video archive",
-      "href": "/concept/archive/",
+      "href": "/concept/archive/?browse=videos",
       "source": "data/archive-items.json + api/archive",
-      "description": "Original artifacts, transcriptions, and reflections."
+      "description": "Open the public video collection: films, music videos and archive clips."
     },
     "passes": {
       "label": "Trap Passes",
