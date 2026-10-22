@@ -1577,4 +1577,21 @@
       discord: { eyebrow: "Trap House", headline: "Trap House", body: trapHouseGeneralCopy, ctaPrimaryLabel: "Enter Trap House", ctaPrimaryHref: "https://discord.gg/64MKTrGGsD" }
     }
   };
+  const c=window.IHOCAIHAGSiteContent;
+  Object.assign(c.aboutContent.hero,{body:"A book, documentary and soundtrack built from six years inside addiction, grief and survival. The archive holds the experiences behind them. Start with a film, then follow what catches you.",ctaPrimaryLabel:"Start watching",ctaPrimaryHref:"/watch/#mini-doc-1",ctaSecondaryLabel:"Explore the room",ctaSecondaryHref:"/desk/"});
+  Object.assign(c.bookContent.hero,{body:"A documentary memoir still being written. Ryan is in the final quarter of the writing process; no release date is announced.",smallNote:"Preorder: the first 50 hardcover copies are signed and numbered.",ctaPrimaryLabel:"Read the draft sample",ctaPrimaryHref:"#read-sample",ctaSecondaryLabel:"Preorder details",ctaSecondaryHref:"/store/#hardcover"});
+  Object.assign(c.documentaryContent.hero,{body:"Watch Mini Doc 1: The Ride to Die now. It is a standalone film, separate from the full documentary currently in production.",smallNote:"Full documentary: release date not yet announced."});
+  Object.assign(c.soundtrackContent.hero,{body:"Start with three tracks chosen by Ryan, then explore how the soundtrack grew from the project.",ctaPrimaryLabel:"Choose a track",ctaPrimaryHref:"#listen-now",ctaSecondaryLabel:"Apple Music",ctaSecondaryHref:"https://music.apple.com/search?term=IHOCAIHAG"});
+  c.trapPassContent.tiers.find(t=>t.id==='cash-for-trash').description="Monthly digital membership with unique video clips delivered each month from Ryan’s video archive.";
+  c.trapPassContent.tiers.find(t=>t.id==='cash-for-trash').benefits=["Paid digital Trap Pass","Monthly archive video clips","Keep your existing holder identity"];
+  c.trapPassContent.tiers.find(t=>t.id==='handy-sass').description="A physical Trap Pass, lifetime paid Trap Pass status, and monthly archive video clips. Keep your original holder identity.";
+  c.trapPassContent.tiers.find(t=>t.id==='handy-sass').benefits=["Physical Trap Pass","Lifetime paid Trap Pass status","Monthly archive video clips"];
+  const products=c.storeContent.products;
+  Object.assign(products.find(p=>p.id==='og-crack-pack'),{status:"Physical preorder bundle",description:"Delivered in a custom-designed Crack Pack box. No delivery date has been announced.",benefits:["Signed hardcover book","First-day documentary access and DVD","Individual handwritten thank-you","T-shirt","Physical soundtrack CD","Digital documentary download","Physical OG Crack Pack coupon","Physical Handy Sass Trap Pass"]});
+  Object.assign(products.find(p=>p.id==='raw-doc'),{status:"Preorder · no release date",description:"The first 50 first-day-access buyers receive a code to watch the complete, uncensored and uncut full documentary on its first night, before public release. The public version goes on sale the next day; a social-media-safe version is planned for YouTube two weeks later. Mini Doc 1 is a separate film.",benefits:["Digital access by code","Full documentary still in production","Release date not announced"]});
+  Object.assign(products.find(p=>p.id==='hardcover'),{status:"Preorder · writing in progress",description:"The book is in the final quarter of writing. The first 50 hardcover copies are signed and chronologically numbered. No release or shipping date is announced."});
+  products.find(p=>p.id==='cash-for-trash').description=c.trapPassContent.tiers.find(t=>t.id==='cash-for-trash').description;
+  products.find(p=>p.id==='handy-sass').description=c.trapPassContent.tiers.find(t=>t.id==='handy-sass').description;
+  c.aboutContent.creator.imageAlt="Ryan Homanics, creator of IHOCAIHAG";
+
 })();

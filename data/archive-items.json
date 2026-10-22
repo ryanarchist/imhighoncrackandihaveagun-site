@@ -18,8 +18,8 @@
       "id": "PH-001",
       "title": "The shelves",
       "type": "photos",
-      "description": "A room photograph already held in this project.",
-      "context": "Original date and contemporary context have not been supplied. This photograph is a temporary reference while the new room render is being prepared.",
+      "description": "A photograph of the books and objects on Ryan’s shelves.",
+      "context": "Original date not recorded.",
       "transcription": "",
       "media": [
         {
@@ -50,8 +50,8 @@
       "id": "PH-002",
       "title": "At the writing desk",
       "type": "photos",
-      "description": "The writing desk and notebook, photographed together.",
-      "context": "Original date and contemporary context have not been supplied. This photograph is a temporary reference while the new room render is being prepared.",
+      "description": "A photograph of Ryan’s writing desk.",
+      "context": "Original date not recorded.",
       "transcription": "",
       "media": [
         {
@@ -105,7 +105,7 @@
     {
       "id": "LP-001",
       "title": "Entry #1 — Infinity and timelines",
-      "type": "records",
+      "type": "handwritten",
       "status": "published",
       "version": 0,
       "originalDate": {
@@ -160,7 +160,7 @@
     {
       "id": "LP-002",
       "title": "Ellie’s card the day I penned my first ever word as an author",
-      "type": "records",
+      "type": "handwritten",
       "status": "published",
       "version": 0,
       "originalDate": {
@@ -170,19 +170,22 @@
       },
       "addedAt": "2026-10-13T15:00:00-04:00",
       "description": "Archive Evidence Entry #2 · Big El and Lil El’s Cozy Corner.",
-      "context": "Date confirmed by Ryan: June 1, 2017. Archive presentation and original card photograph preserved separately.",
-      "transcription": "",
-      "threads": [],
+      "context": "June 1, 2017: Ellie’s card marked the day Ryan says he penned his first word as an author. Transcribed from the original photograph; original spelling and wording retained. This is a historical message, separate from later reflection.",
+      "transcription": "Dear future best selling author,\n\nHere’s a lil something to help you get all those brilliant thoughts down on paper! The support & encouragement you constantly give me has saved me more than once, it’s my turn to show you how much I believe in you as a writer. If you’re ever feeling stuck or discouraged remind yourself of these three things; you are capable, you are brilliant and you are amazing in bed (: \n\nYour dearest comrade, Ellie X",
+      "threads": [
+        "love-lost",
+        "love-found"
+      ],
       "related": [],
       "reflections": [],
       "contentLinks": [
         {
-          "label": "Open Entry #2",
-          "href": "/archive/entry-002/"
+          "label": "Big El and Lil El’s Cozy Corner",
+          "href": "/concept/els-corner/"
         },
         {
-          "label": "Visit the Cozy Corner",
-          "href": "/concept/els-corner/"
+          "label": "The book this card encouraged",
+          "href": "/book/"
         }
       ],
       "media": [

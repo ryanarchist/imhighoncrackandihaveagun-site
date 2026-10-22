@@ -209,6 +209,6 @@
     buildDevices();renderLibrary();$('roomStatus').textContent=videos.length?(layout?.status||'Four screens. Your choice.'):'The shelves are waiting for their first film.';
     document.querySelector('[data-open-ipad]')?.addEventListener('click',(event)=>openRoom(devices.find((device)=>device.id==='tablet'),event.currentTarget));
     if(innerWidth<=700)$('sceneScroll').scrollLeft=(scene.clientWidth-$('sceneScroll').clientWidth)/2;
-    if(new URLSearchParams(location.search).get('device')==='tablet')openRoom(devices.find((device)=>device.id==='tablet'),document.querySelector('[data-open-ipad]'));
+    const requestedVideo=videos.find(v=>v.id===new URLSearchParams(location.search).get('video'));if(requestedVideo){openRoom(null,document.querySelector('[data-browse]'));selectVideo(requestedVideo);}else if(new URLSearchParams(location.search).get('device')==='tablet')openRoom(devices.find((device)=>device.id==='tablet'),document.querySelector('[data-open-ipad]'));
   }).catch(()=>{$('roomStatus').textContent='The archive could not load. Refresh to try again.';$('archiveEmpty').hidden=false;$('archiveEmpty').textContent='The archive could not load. Refresh to try again.';});
 })();

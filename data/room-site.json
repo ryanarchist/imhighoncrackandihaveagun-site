@@ -58,7 +58,7 @@
       "description": "The existing iPad music videos, with OG Baby Scum first."
     },
     "archive": {
-      "label": "The Archive",
+      "label": "Browse the video archive",
       "href": "/concept/archive/",
       "source": "data/archive-items.json + api/archive",
       "description": "Original artifacts, transcriptions, and reflections."
@@ -99,7 +99,7 @@
       "description": "Book, documentary, and soundtrack: the project overview."
     },
     "author": {
-      "label": "Author bio",
+      "label": "About Ryan",
       "href": "/about/#author-bio",
       "description": "Ryan Homanics, in his own words."
     },

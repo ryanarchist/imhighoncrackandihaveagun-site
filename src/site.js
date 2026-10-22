@@ -564,7 +564,7 @@
   function renderJanuary22() {
     const page = content.january22Content || {};
     return `
-      ${renderHero(page.hero)}
+      ${renderHero(page.hero)}<section class="visitor-intro"><h2>Why January 22 matters</h2><p>January 22 is the crisis and explosion event Ryan returns to throughout this project. The material below connects his account with the threads he uses to understand it. These are recorded experiences and interpretations, not independent proof of every belief held at the time.</p></section>
       <section class="section compact">
         <div class="container grid thread-grid">
           ${(page.manifestations || []).map(renderManifestationCard).join("")}
@@ -647,7 +647,7 @@
       headline: thread.title,
       body: thread.shortExcerpt || thread.description,
       imageSrc: thread.heroImage?.imageSrc || "",
-      imageAlt: thread.heroImage?.imageAlt || `${thread.title} hero image slot`,
+      imageAlt: thread.heroImage?.imageAlt || `${thread.title} artwork`,
       backgroundPosition: thread.heroImage?.heroPosition || thread.heroImage?.objectPosition || "center center",
       mobileBackgroundPosition: thread.heroImage?.mobileHeroPosition || thread.heroImage?.mobileObjectPosition || "center top",
       ctaPrimaryLabel: "Back To Map",
@@ -660,11 +660,11 @@
       ${renderHero(hero)}
       <section class="section compact">
         <div class="container two-column">
-          ${imagePanel(thread.heroImage || { imageAlt: `${thread.title} hero image slot` })}
+          ${imagePanel(thread.heroImage || { imageAlt: `${thread.title} artwork` })}
           <article class="panel">
             ${eyebrowMarkup(labels.principle || "The Principle", thread.title)}
             <h2>${esc(thread.title)}</h2>
-            ${copyBlock(thread.definition || thread.description, "section-copy")}
+            <div id="thread-definition">${copyBlock(thread.definition || thread.description, "section-copy")}</div><button class="button" type="button" data-read-prose="thread-definition" data-read-title="${attr(thread.title)}">Read in the book</button>${thread.slug==='love-lost'?'<div class="visitor-actions"><a href="/archive/item/?id=LP-002">Ellie’s card · June 1, 2017</a><a href="/concept/els-corner/">Visit Cozy Corner</a></div>':''}
           </article>
         </div>
       </section>
@@ -672,7 +672,7 @@
         <div class="container two-column">
           <article class="panel">
             ${eyebrowMarkup(labels.january22 || "January 22", "January 22")}
-            <h2>January 22</h2>
+            <h2>January 22</h2><p class="section-copy">January 22, 2026 sits within the late-January crisis documented in this project. The thread readings connect that recorded period to grief, addiction and altered perception. They describe experience and interpretation, not independent proof of beliefs held at the time.</p>
             ${copyBlock(thread.january22, "section-copy")}
           </article>
           <article class="panel">
@@ -722,7 +722,7 @@
       || Boolean(window.TrapHouse?.config?.claims?.publicFreeClaimsEnabled)
       || Boolean(window.TrapHouse?.config?.recovery?.emailProviderConfigured);
     return `
-      <section class="pass-drop" aria-labelledby="pass-drop-title">
+      <section class="visitor-intro"><h2>Your pass. Your place in the story.</h2><p>A Trap Pass gives you a permanent holder identity and a wallet of collectible releases. Claim the current free release, or open your existing wallet. Use the same email to keep your number and earlier passes.</p><p>Free: holder identity and collectible. Cash For Trash: monthly paid archive clips. Handy Sass: physical pass, lifetime paid status and monthly clips.</p><div class="visitor-actions"><a href="#claim">Claim a free pass</a><a href="/my-pass/">Open my wallet</a><a href="#pass-tiers">Compare tiers</a></div></section><section class="pass-drop" aria-labelledby="pass-drop-title">
         <div class="container pass-drop-layout">
           <div class="pass-drop-copy">
             <span class="pass-drop-stamp">${esc(wave.eyebrow)}</span>
@@ -880,22 +880,22 @@
   function renderStore() {
     const page = content.storeContent || {};
     const products = page.products || [];
-    const featuredProducts = products.filter((product) => product.featured === true);
-    const catalogProducts = products.filter((product) => product.featured !== true);
+    const featuredProducts = products.filter((product) => !product.soldOut);
+    const catalogProducts = products.filter((product) => product.soldOut);
     return `
       ${renderHero(page.hero)}
       <section class="section compact" id="drop-table">
         <div class="container">
-          ${sectionHeader(page.featuredDrop || ui.sections?.dropTable)}
+          <h2>Available products & preorders</h2>
           <div class="checkout-status" data-checkout-status></div>
           <div class="grid product-grid product-grid-featured">
             ${featuredProducts.map(renderProductCard).join("")}
           </div>
-          ${catalogProducts.length ? `<div class="store-catalog-header">${sectionHeader(page.catalogHeader || ui.sections?.dropTable)}</div><div class="grid product-grid">${catalogProducts.map(renderProductCard).join("")}</div>` : ""}
+          ${catalogProducts.length ? `<div class="store-catalog-header"><h2>Past Drops · sold out</h2></div><div class="grid product-grid">${catalogProducts.map(renderProductCard).join("")}</div>` : ""}
         </div>
       </section>
       <section class="section compact">
-        <div class="container panel">${sectionHeader(page.disclaimer)}</div>
+        <div class="container panel">${page===content.aboutContent?button("Read the content warning", "/#full-warning"):sectionHeader(page.disclaimer)}</div>
       </section>
     `;
   }
@@ -967,7 +967,7 @@
       </section>
       <section class="section compact">
         <div class="container panel">
-          ${sectionHeader(page.disclaimer)}
+          ${page===content.aboutContent?button("Read the content warning", "/#full-warning"):sectionHeader(page.disclaimer)}
         </div>
       </section>
     `;
@@ -976,7 +976,7 @@
   function renderBook() {
     const page = content.bookContent || {};
     return `
-      ${renderHero(page.hero)}
+      ${renderHero(page.hero)}<section class="visitor-intro" id="read-sample"><span class="visitor-status">Draft writing · supplied by Ryan</span><h2>Read a sample</h2><p>“Ever seen what addiction actually looks like? I mean ACTUALLY looks like.”</p><p>This public synopsis is a writing sample, not a finished chapter.</p><div class="visitor-actions"><button type="button" data-read-synopsis>Open the book reader</button><a href="/store/#hardcover">Signed hardcover preorder</a></div></section>
       <section class="section compact">
         <div class="container two-column book-overview-layout">
           ${imagePanel(page.imagePanel)}
@@ -984,7 +984,7 @@
             ${eyebrowMarkup(page.overview?.eyebrow || "Overview", page.overview?.headline || "Overview")}
             <h2>${esc(page.overview?.headline || "Overview")}</h2>
             <p class="section-copy"><strong><em>${esc(page.overview?.introTitle || "")}</em></strong> ${esc(page.overview?.introText || "")}</p>
-            ${copyBlock(page.overview?.body, "section-copy")}
+            <details class="visitor-essay"><summary>Read the full book introduction</summary>${copyBlock(page.overview?.body, "section-copy")}</details>
             ${page.overview?.closingStatement ? `<p class="section-copy book-closing-statement"><strong>${esc(page.overview.closingStatement)}</strong></p>` : ""}
           </article>
         </div>
@@ -1043,7 +1043,7 @@
             ${eyebrowMarkup(page.synopsis?.eyebrow || "Documentary", page.synopsis?.headline || "Synopsis")}
             <h2>${esc(page.synopsis?.headline || "Synopsis")}</h2>
             <p class="section-copy"><strong><em>${esc(page.synopsis?.introTitle || "")}</em></strong> ${esc(page.synopsis?.introText || "")}</p>
-            ${copyBlock(page.synopsis?.body, "section-copy")}
+            <details class="visitor-essay"><summary>Read the full documentary synopsis</summary>${copyBlock(page.synopsis?.body, "section-copy")}</details>
             ${page.synopsis?.closingStatement ? `<p class="section-copy documentary-closing-statement"><strong>${esc(page.synopsis.closingStatement)}</strong></p>` : ""}
           </article>
         </div>
@@ -1058,7 +1058,7 @@
     const join = page.join || {};
     const spotify = page.spotify || {};
     return `
-      ${renderHero(page.hero)}
+      ${renderHero(page.hero)}<section class="visitor-intro" id="listen-now"><h2>Start with these three</h2><span class="visitor-status">Released music</span><div class="visitor-tracks"><article><h3>OG Scum Track</h3><p>The release Ryan describes as the point he decided the project would have a soundtrack.</p><div class="visitor-actions"><a href="/concept/archive/?video=bunny-b42a547b-59e7-4f81-82d7-c32a27d5fe7e">Play OG Scum Track</a></div></article><article><h3>Trash Over Class</h3><p>One of Ryan’s three recommended starting tracks.</p><div class="visitor-actions"><a href="/concept/archive/?video=bunny-1c6605bb-0632-42bf-8e91-3af29c09ea56">Play Trash Over Class</a></div></article><article><h3>Chlorine Fog Medicine</h3><p>One of Ryan’s three recommended starting tracks.</p><div class="visitor-actions"><a href="/concept/archive/?video=bunny-9163795f-96fc-43f1-8a42-17c134140565">Play Chlorine Fog Medicine</a></div></article></div><div class="visitor-actions"><a href="https://open.spotify.com/artist/7GUAmAkkpLLESm0Fig1NWZ" target="_blank" rel="noopener noreferrer">Spotify artist page</a><a href="https://music.apple.com/search?term=IHOCAIHAG" target="_blank" rel="noopener noreferrer">Find IHOCAIHAG on Apple Music</a></div></section>
       <section class="section soundtrack-origin-section">
         <div class="container soundtrack-origin-layout">
           <figure class="soundtrack-cover">
@@ -1410,7 +1410,7 @@
     if (page === "trap-pass") return renderTrapPass();
     if (page === "trap-house") return renderTrapHouse();
     if (page === "store") return renderStore();
-    if (page === "about") return renderAbout();
+    if (page === "about" || page === "start-here") return renderAbout();
     if (page === "book") return renderBook();
     if (page === "documentary") return renderDocumentary();
     if (page === "soundtrack") return renderSoundtrack();

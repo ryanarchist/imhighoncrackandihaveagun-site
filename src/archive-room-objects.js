@@ -27,8 +27,8 @@
     });}
     node.className=scene?'artifact-object':'artifact-shortcut';
     node.dataset.object=object.id;
-    node.setAttribute('aria-label',object.label+(object.kind==='photos'?' — open pictures':object.href?' — open archive entry':' — archive item slot'));
-    const label=document.createElement('span');label.textContent=object.label+' ↗';node.append(label);
+    node.setAttribute('aria-label',object.label+(object.kind==='photos'?' — open pictures':object.href?' — open archive entry':' — not yet available'));
+    const label=document.createElement('span');label.textContent=object.label+(object.href?' ↗':' · not yet available');node.append(label);
     if(scene){const [x,y,w,h]=object.box;Object.assign(node.style,{left:x+'%',top:y+'%',width:w+'%',height:h+'%'});}
     return node;
   }
