@@ -12,6 +12,9 @@ const threads=context.window.IHOCAIHAGSiteContent.mapContent.threads.map(t=>t.sl
 const seeds=JSON.parse(fs.readFileSync(path.join(root,'data/archive-items.json'),'utf8')).items;
 assert.equal(threads.length,9);assert.equal(new Set(seeds.map(i=>i.id)).size,seeds.length);
 for(const item of seeds){core.validate(item,threads);for(const file of item.media||[]){assert(fs.existsSync(path.join(root,file.src)));if(file.thumbnail)assert(fs.existsSync(path.join(root,file.thumbnail)));}}
+assert.deepEqual(core.filter(seeds,{type:'loose-papers'}).map(i=>i.id),['LP-003','LP-001']);
+assert.equal(core.filter(seeds,{type:'all'}).filter(i=>i.id==='LP-003').length,1);
+assert.equal(seeds.find(i=>i.id==='LP-003').media.length,3);
 const sample=[{...seeds[0],id:'TEST-001',threads:[threads[0]],transcription:'Verbatim pineapple [unclear]',originalDate:{certainty:'exact',value:'2024-01-01'}},{...seeds[1],id:'TEST-002',status:'draft',transcription:'pineapple'}];
 assert.equal(core.filter(sample,{q:'pineapple',type:'photos',thread:threads[0]}).length,1);
 assert.equal(core.filter(sample,{q:'pineapple',thread:threads[1]}).length,0);

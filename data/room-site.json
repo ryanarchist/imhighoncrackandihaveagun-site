@@ -58,10 +58,10 @@
       "description": "The existing iPad music videos, with OG Baby Scum first."
     },
     "archive": {
-      "label": "Browse the video archive",
-      "href": "/concept/archive/?browse=videos",
+      "label": "The Archive",
+      "href": "/concept/archive/",
       "source": "data/archive-items.json + api/archive",
-      "description": "Open the public video collection: films, music videos and archive clips."
+      "description": "Enter the archive room for videos, notebooks, loose papers and photographs."
     },
     "passes": {
       "label": "Trap Passes",

@@ -155,7 +155,8 @@
           "name": "original-3.jpg",
           "alt": "Original photograph 3"
         }
-      ]
+      ],
+      "collection": "loose-papers"
     },
     {
       "id": "LP-002",
@@ -202,6 +203,50 @@
           "mime": "image/jpeg",
           "name": "original-card.jpg",
           "alt": "Original card photograph"
+        }
+      ]
+    },
+    {
+      "id": "LP-003",
+      "title": "The Note on the Shelf",
+      "type": "handwritten",
+      "collection": "loose-papers",
+      "status": "published",
+      "version": 0,
+      "originalDate": {
+        "certainty": "unknown",
+        "value": "",
+        "label": ""
+      },
+      "addedAt": "2026-10-23T01:34:38.195898-04:00",
+      "description": "A red handwritten note displayed on the shelf beneath an olive helmet and green cap.",
+      "context": "Original writing date and further context have not been established. The styled archive graphic is a presentation of the note; the following two images are original photographs of the same artifact.",
+      "transcription": "Lol\nThe Feds really\n[unclear]\n[unclear] next\ndoor to spy",
+      "threads": [],
+      "related": [],
+      "reflections": [],
+      "contentLinks": [],
+      "media": [
+        {
+          "id": "graphic",
+          "src": "/assets/archive/entry-003/featured-graphic.png",
+          "mime": "image/png",
+          "name": "Styled archive graphic",
+          "alt": "Styled archive presentation of the red handwritten note, fully visible beneath a shelf photograph"
+        },
+        {
+          "id": "photo-0384",
+          "src": "/assets/archive/entry-003/IMG_0384.JPG",
+          "mime": "image/jpeg",
+          "name": "Original photograph IMG_0384.JPG",
+          "alt": "Original shelf photograph with the red handwritten note below an olive helmet and green cap"
+        },
+        {
+          "id": "photo-0379",
+          "src": "/assets/archive/entry-003/IMG_0379.JPG",
+          "mime": "image/jpeg",
+          "name": "Original photograph IMG_0379.JPG",
+          "alt": "Second original shelf photograph showing the same handwritten note"
         }
       ]
     }

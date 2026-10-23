@@ -7,7 +7,7 @@
     {id:'purple-notebook',label:'03 / The purple notebook',kind:'record',box:[38,43,19,19]},
     {id:'open-notebook',label:'04 / The open notebook',kind:'record',box:[27,75,24,18]},
     {id:'orange-notebook',label:'05 / The orange notebook',kind:'record',box:[56,67,11,23]},
-    {id:'loose-pages',label:'06 / The loose papers',kind:'record',box:[72,47,19,20],href:'/archive/entry-001/'},
+    {id:'loose-pages',label:'06 / The loose papers',kind:'record',box:[72,47,19,20],href:'/archive/?type=loose-papers#archive-browser'},
     {id:'rear-pages',label:'07 / The papers by the bag',kind:'record',box:[33,16,9,24]},
     {id:'blue-folder',label:'08 / The blue photo folder',kind:'photos',box:[68,85,12,10],href:'/archive/?type=photos#archive-browser'},
     {id:'yellow-folder',label:'09 / The yellow photo folder',kind:'photos',box:[88,76,10,15],href:'/archive/?type=photos#archive-browser'}
@@ -28,7 +28,7 @@
     node.className=scene?'artifact-object':'artifact-shortcut';
     node.dataset.object=object.id;
     node.setAttribute('aria-label',object.label+(object.kind==='photos'?' — open pictures':object.href?' — open archive entry':' — not yet available'));
-    const label=document.createElement('span');label.textContent=object.label+(object.href?' ↗':' · not yet available');node.append(label);
+    const label=document.createElement('span');label.textContent=object.id==='loose-pages'?'LOOSE PAPERS ↗':object.label+(object.href?' ↗':' · not yet available');node.append(label);
     if(scene){const [x,y,w,h]=object.box;Object.assign(node.style,{left:x+'%',top:y+'%',width:w+'%',height:h+'%'});}
     return node;
   }
