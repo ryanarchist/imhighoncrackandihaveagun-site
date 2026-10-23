@@ -17,7 +17,7 @@ const videos=JSON.parse(read('room/videos.json')).videos,prior=JSON.parse(baseli
 assert.deepEqual(videos.map(v=>[v.id,v.src,v.type,v.poster]),prior.map(v=>[v.id,v.src,v.type,v.poster]));
 for(const title of ['1st Hit of the Day','4th Instagram Account Reveal','Trash Over Class','Chlorine Fog Medicine'])assert(videos.some(v=>v.title===title),title);
 const items=JSON.parse(read('data/archive-items.json'));const list=Array.isArray(items)?items:items.items;
-assert.equal(list.filter(i=>i.type==='handwritten').length,2);
+assert.deepEqual(list.filter(i=>i.type==='handwritten').map(i=>i.id).sort(),['LP-001','LP-002','LP-003']);
 assert(list.find(i=>i.id==='LP-002').transcription.includes('Dear future best selling author'));
 assert.match(read('src/room-site.js'),/href:'\/desk\//);
 for(const route of ['index.html','desk/index.html','book/index.html','archive/index.html','watch/index.html','store/index.html'])for(const asset of ['visitor-nav.js','visitor.css','book-reader.js','book-reader.css'])assert(read(route).includes(asset),route+' '+asset);
@@ -29,7 +29,7 @@ assert.match(read('src/visitor-nav.js'),/showModal/);
 assert.match(read('src/visitor.css'),/safe-area-inset-bottom/);
 console.log('Visitor regression checks passed: confirmed benefits, product identifiers, all video sources, titles, handwritten entries, navigation, reader assets and accessibility hooks.');
 // Guard the October 22 visual/routing repair without touching reader behavior.
-assert.equal(JSON.parse(read('data/room-site.json')).destinations.archive.href,'/concept/archive/?browse=videos');
+assert.equal(JSON.parse(read('data/room-site.json')).destinations.archive.href,'/concept/archive/');
 assert.match(read('archive/archive.js'),/action\('Videos','\/concept\/archive\/\?browse=videos'\)/);
 assert.match(read('src/visitor-nav.js'),/Video collection','\/concept\/archive\/\?browse=videos/);
 assert.match(read('index.html'),/src\/typography.css/);

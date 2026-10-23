@@ -8,7 +8,7 @@
 
   const token=()=>sessionStorage.getItem('iho_trap_pass_v2:auth_access')||'';
 
-  let sandbox=local&&sessionStorage.getItem('iho_archive_sandbox')==='1',dbPromise;
+  let sandbox=local&&sessionStorage.getItem('iho_archive_sandbox')==='1',dbPromise,publicError=null;
 
   function db(){if(!dbPromise)dbPromise=new Promise((resolve,reject)=>{const request=indexedDB.open('iho_archive_local_review',1);request.onupgradeneeded=()=>{request.result.createObjectStore('items',{keyPath:'id'});request.result.createObjectStore('files');request.result.createObjectStore('history',{autoIncrement:true});};request.onsuccess=()=>resolve(request.result);request.onerror=()=>reject(request.error);});return dbPromise;}
 
@@ -18,9 +18,9 @@
 
   async function seeds(){return (await (await fetch('/data/archive-items.json')).json()).items.filter(i=>i.status==='published');}
 
-  async function list(owner=false){if(sandbox&&owner)return store('items','readonly',s=>s.getAll());const data=await api(owner?'manage':'list',null,owner);return data.items||[];}
+  async function list(owner=false){if(sandbox&&owner)return store('items','readonly',s=>s.getAll());const data=await api(owner?'manage':'list',null,owner);if(!Array.isArray(data.items))throw Error('Archive response was incomplete.');return data.items;}
 
-  async function publicItems(){const base=await seeds();try{const live=await list();const byId=new Map(base.map(i=>[i.id,i]));live.forEach(i=>byId.set(i.id,i));return [...byId.values()];}catch{return base;}}
+  async function publicItems(){const base=await seeds();try{const live=await list();publicError=null;const byId=new Map(base.map(i=>[i.id,i]));live.forEach(i=>byId.set(i.id,i));return [...byId.values()];}catch(cause){publicError=cause;return base;}}
 
   async function media(item,index,thumbnail=false){const file=item.media?.[index];if(!file)return '';if(file.localKey){if(!sandbox)throw Error('Private preview only.');const blob=await store('files','readonly',s=>s.get(thumbnail&&file.thumbnailKey?file.thumbnailKey:file.localKey));return blob?URL.createObjectURL(blob):'';}if(file.src)return file.src;return remoteMedia(item,index,thumbnail);}
 
@@ -48,6 +48,6 @@
 
   async function verify(email,code){const response=await fetch(`${config.supabaseUrl}/auth/v1/verify`,{method:'POST',headers:{apikey:config.supabasePublishableKey,'Content-Type':'application/json'},body:JSON.stringify({email,token:code,type:'email'})});const data=await response.json();if(!response.ok||!data.access_token)throw Error('Could not verify that code.');window.TrapHouse?.setAuthenticatedSession?.(data.access_token);sessionStorage.setItem('iho_trap_pass_v2:auth_access',data.access_token);return api('owner',null,true);}
 
-  window.ArchiveStore={local,publicItems,list,upload,save,getMedia,signIn,verify,owner:()=>api('owner',null,true),enableSandbox(){if(!local)throw Error('Local preview only.');sandbox=true;sessionStorage.setItem('iho_archive_sandbox','1');},get sandbox(){return sandbox;},async draft(id){if(sandbox)return store('items','readonly',s=>s.get(id));return window.ArchiveStore.remoteDraft(id);},async remoteDraft(id){const response=await fetch(`${endpoint}?action=draft&id=${encodeURIComponent(id)}`,{headers:{Authorization:`Bearer ${token()}`},cache:'no-store'});const data=await response.json();if(!response.ok)throw Error(data.message||'Draft unavailable.');return data.item;}};
+  window.ArchiveStore={local,publicItems,list,upload,save,getMedia,signIn,verify,owner:()=>api('owner',null,true),enableSandbox(){if(!local)throw Error('Local preview only.');sandbox=true;sessionStorage.setItem('iho_archive_sandbox','1');},get sandbox(){return sandbox;},get publicError(){return publicError;},async draft(id){if(sandbox)return store('items','readonly',s=>s.get(id));return window.ArchiveStore.remoteDraft(id);},async remoteDraft(id){const response=await fetch(`${endpoint}?action=draft&id=${encodeURIComponent(id)}`,{headers:{Authorization:`Bearer ${token()}`},cache:'no-store'});const data=await response.json();if(!response.ok)throw Error(data.message||'Draft unavailable.');return data.item;}};
 
 })();

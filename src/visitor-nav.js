@@ -1,6 +1,6 @@
 (() => {
   const links=[['Start Here','/about/'],['Watch','/watch/#mini-doc-1'],['Read','/book/'],['Listen','/soundtrack/'],['Explore','/desk/'],['Shop','/store/']];
-  const secondary=[['Thread definitions','/map/'],['Video collection','/concept/archive/?browse=videos'],['Documents & photographs','/archive/'],['Trap Passes','/trap-pass/'],['My wallet','/my-pass/'],['Modern Recovery Alliance','/mra/']];
+  const secondary=[['Thread definitions','/map/'],['Video collection','/concept/archive/?browse=videos'],['Documents & photographs','/archive/'],['Trap Passes','/trap-pass/'],['My wallet','/my-pass/'],['My Eyes Your Eyes','/my-eyes-your-eyes/'],['Modern Recovery Alliance','/mra/']];
   function active(href){const p=location.pathname;return href.startsWith('/watch/')?['/watch/','/documentary/'].includes(p):href==='/desk/'?p==='/desk/'||p.startsWith('/concept/'):p===href;}
   const anchor=([label,href])=>`<a href="${href}"${active(href)?' aria-current="page"':''}>${label}</a>`;
   function mount(){

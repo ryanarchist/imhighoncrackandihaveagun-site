@@ -137,6 +137,7 @@
         {
           "id": "1",
           "src": "/assets/archive/entry-001/original-1.jpg",
+          "displaySrc": "/assets/archive/entry-001/original-1-preview.webp",
           "mime": "image/jpeg",
           "name": "original-1.jpg",
           "alt": "Original photograph 1"
@@ -144,6 +145,7 @@
         {
           "id": "2",
           "src": "/assets/archive/entry-001/original-2.jpg",
+          "displaySrc": "/assets/archive/entry-001/original-2-preview.webp",
           "mime": "image/jpeg",
           "name": "original-2.jpg",
           "alt": "Original photograph 2"
@@ -151,6 +153,7 @@
         {
           "id": "3",
           "src": "/assets/archive/entry-001/original-3.jpg",
+          "displaySrc": "/assets/archive/entry-001/original-3-preview.webp",
           "mime": "image/jpeg",
           "name": "original-3.jpg",
           "alt": "Original photograph 3"
@@ -162,6 +165,7 @@
       "id": "LP-002",
       "title": "Ellie’s card the day I penned my first ever word as an author",
       "type": "handwritten",
+      "collection": "loose-papers",
       "status": "published",
       "version": 0,
       "originalDate": {
@@ -214,13 +218,13 @@
       "status": "published",
       "version": 0,
       "originalDate": {
-        "certainty": "unknown",
-        "value": "",
-        "label": ""
+        "certainty": "exact",
+        "value": "2025-01",
+        "label": "January 2025"
       },
       "addedAt": "2026-10-23T01:34:38.195898-04:00",
       "description": "A red handwritten note displayed on the shelf beneath an olive helmet and green cap.",
-      "context": "Original writing date and further context have not been established. The styled archive graphic is a presentation of the note; the following two images are original photographs of the same artifact.",
+      "context": "The note dates to January 2025. Further context has not been established. The styled archive graphic is a presentation of the note; the following two images are original photographs of the same artifact.",
       "transcription": "Lol\nThe Feds really\n[unclear]\n[unclear] next\ndoor to spy",
       "threads": [],
       "related": [],

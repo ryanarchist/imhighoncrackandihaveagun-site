@@ -1,5 +1,5 @@
 @font-face{font-family:"Bebas Neue";src:url("/assets/fonts/BebasNeue-Regular.ttf") format("truetype");font-display:swap;font-style:normal;font-weight:400}
-@font-face{font-family:"Rubik Dirt";src:url("/assets/fonts/RubikDirt-Regular.ttf") format("truetype");font-display:swap;font-style:normal;font-weight:400}
+@font-face{font-family:"Rubik Dirt";src:url("/assets/fonts/RubikDirt-Regular.woff2") format("woff2"),url("/assets/fonts/RubikDirt-Regular.ttf") format("truetype");font-display:swap;font-style:normal;font-weight:400}
 @font-face{font-family:"Special Elite";src:url("/assets/fonts/SpecialElite-Regular.ttf") format("truetype");font-display:swap;font-style:normal;font-weight:400}
 
 :root {
@@ -2043,3 +2043,22 @@ body[data-page="my-pass"] .hero h1 { font-size:clamp(36px,5vw,64px); }
 @media(max-width:700px){.smoke-portrait {left:-22%;width:80%;height:100%;max-width:none;object-position:left bottom;opacity:.26;filter:brightness(.55) saturate(.6);}}
 
 .smoke-story-cards .entry-card:nth-child(3) .community-card-media{aspect-ratio:1;height:auto}.smoke-story-cards .entry-card:nth-child(3) .community-card-media img{width:100%;height:auto;object-fit:contain}
+
+/* Keep the first useful action above the fixed navigation on short phones. */
+@media (max-width:430px) {
+  body[data-page="book"] .hero-inner { padding-top:105px; }
+  body[data-page="soundtrack"] .hero-inner { padding-top:170px; }
+  body[data-page="book"] .hero-copy,
+  body[data-page="soundtrack"] .hero-copy { display:flex;flex-direction:column; }
+  body[data-page="book"] .hero-copy .small-note,
+  body[data-page="soundtrack"] .hero-copy .small-note { order:2; }
+  body[data-page="book"] .hero-copy .cta-row,
+  body[data-page="soundtrack"] .hero-copy .cta-row { order:1; }
+}
+
+.site-fallback{max-width:850px;margin:6vh auto;padding:24px;color:#f3e6cf;background:#120d0b;border:1px solid #8c6545;font:18px/1.6 "Special Elite",Georgia,serif}
+.site-fallback-brand{font:34px/1 "Wrong Time Wrong Place",Impact,sans-serif;color:#fff0d6;text-decoration:none}
+.site-fallback h1{font:clamp(32px,5vw,64px)/1.12 "Wrong Time Wrong Place",Impact,sans-serif;overflow-wrap:anywhere}
+.site-fallback nav{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.site-fallback nav a{display:inline-flex;align-items:center;min-height:48px;padding:10px 15px;color:#fff0d6;background:#261510;border:1px solid #9d7548;text-decoration:none}
+@media(max-width:760px){.site-fallback{margin:12px;padding:18px 14px 96px}.site-fallback nav a{flex:1 1 42%}}

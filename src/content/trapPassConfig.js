@@ -262,7 +262,7 @@
       originalEntryWave: "No Brakes",
       currentTierLabel: "Free Pass",
       cardSerial: "NB-0100",
-      status: "Live Free Claim"
+      status: "Example free claim — not a live pass"
     }
   };
 })();

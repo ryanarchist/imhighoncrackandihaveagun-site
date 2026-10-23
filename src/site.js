@@ -1093,7 +1093,7 @@
             </div>
           </article>
           <article class="soundtrack-spotify">
-            <a class="soundtrack-promo-card" href="${attr(spotify.shareUrl || spotify.spotifyUrl || content.links?.spotify || "#")}" target="_blank" rel="noopener noreferrer" aria-label="Open the IHOCAIHAG Spotify artist page">
+            <a class="soundtrack-promo-card" href="${attr(spotify.spotifyUrl || content.links?.spotify || "#")}" target="_blank" rel="noopener noreferrer" aria-label="Open the IHOCAIHAG Spotify artist page">
               <img src="${attr(spotify.imageSrc)}" alt="${attr(spotify.imageAlt || "IHOCAIHAG Spotify promo card")}" loading="lazy" />
             </a>
             <div class="soundtrack-spotify-copy">

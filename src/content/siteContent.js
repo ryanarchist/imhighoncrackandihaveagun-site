@@ -1122,7 +1122,7 @@
           status: "Store Item",
           description: "Physical preorder bundle / OG Crack Pack.",
           benefits: [],
-          buttonLabel: "Buy Through Stripe",
+          buttonLabel: "Preorder the OG Crack Pack",
           buttonHref: "#",
           stripePriceId: "",
           imageSrc: asset("store-og-crack-pack-approved.png"),
@@ -1140,7 +1140,7 @@
           status: "Store Item",
           description: "Digital first-day access to selected raw documentary material.",
           benefits: [],
-          buttonLabel: "Buy Through Stripe",
+          buttonLabel: "Preorder documentary first-day access",
           buttonHref: "#",
           stripePriceId: "",
           imageSrc: asset("documentary-dvd-cover.png"),
@@ -1158,7 +1158,7 @@
           status: "Store Item",
           description: "Official black IHOCAIHAG project shirt.",
           benefits: [],
-          buttonLabel: "Buy Through Stripe",
+          buttonLabel: "Buy the black tee",
           buttonHref: "#",
           stripePriceId: "",
           imageSrc: "/store-shirt-black.webp",
@@ -1175,7 +1175,7 @@
           status: "Store Item",
           description: "Hardcover preorder for the IHOCAIHAG book.",
           benefits: [],
-          buttonLabel: "Buy Through Stripe",
+          buttonLabel: "Preorder the hardcover",
           buttonHref: "#",
           stripePriceId: "",
           imageSrc: asset("store-hardcover-book-approved.png"),
@@ -1193,7 +1193,7 @@
           status: "Trap Pass",
           description: "Physical lifetime Trap Pass with a mailed collectible card.",
           benefits: [],
-          buttonLabel: "Buy Through Stripe",
+          buttonLabel: "Get the Handy Sass pass",
           buttonHref: "#",
           stripePriceId: "",
           imageSrc: asset("store-handy-sass-approved.png"),
@@ -1211,7 +1211,7 @@
           status: "Trap Pass",
           description: "Monthly digital Trap Pass membership.",
           benefits: [],
-          buttonLabel: "Buy Through Stripe",
+          buttonLabel: "Join Cash For Trash monthly",
           buttonHref: "#",
           stripePriceId: "",
           imageSrc: asset("trap-pass-cash-for-trash-approved.png"),
@@ -1581,7 +1581,7 @@
   Object.assign(c.aboutContent.hero,{body:"A book, documentary and soundtrack built from six years inside addiction, grief and survival. The archive holds the experiences behind them. Start with a film, then follow what catches you.",ctaPrimaryLabel:"Start watching",ctaPrimaryHref:"/watch/#mini-doc-1",ctaSecondaryLabel:"Explore the room",ctaSecondaryHref:"/desk/"});
   Object.assign(c.bookContent.hero,{body:"A documentary memoir still being written. Ryan is in the final quarter of the writing process; no release date is announced.",smallNote:"Preorder: the first 50 hardcover copies are signed and numbered.",ctaPrimaryLabel:"Read the draft sample",ctaPrimaryHref:"#read-sample",ctaSecondaryLabel:"Preorder details",ctaSecondaryHref:"/store/#hardcover"});
   Object.assign(c.documentaryContent.hero,{body:"Watch Mini Doc 1: The Ride to Die now. It is a standalone film, separate from the full documentary currently in production.",smallNote:"Full documentary: release date not yet announced."});
-  Object.assign(c.soundtrackContent.hero,{body:"Start with three tracks chosen by Ryan, then explore how the soundtrack grew from the project.",ctaPrimaryLabel:"Choose a track",ctaPrimaryHref:"#listen-now",ctaSecondaryLabel:"Apple Music",ctaSecondaryHref:"https://music.apple.com/search?term=IHOCAIHAG"});
+  Object.assign(c.soundtrackContent.hero,{body:"Start with three tracks chosen by Ryan, then explore how the soundtrack grew from the project.",ctaPrimaryLabel:"Choose a track",ctaPrimaryHref:"#listen-now",ctaSecondaryLabel:"Search Apple Music",ctaSecondaryHref:"https://music.apple.com/search?term=IHOCAIHAG"});
   c.trapPassContent.tiers.find(t=>t.id==='cash-for-trash').description="Monthly digital membership with unique video clips delivered each month from Ryan’s video archive.";
   c.trapPassContent.tiers.find(t=>t.id==='cash-for-trash').benefits=["Paid digital Trap Pass","Monthly archive video clips","Keep your existing holder identity"];
   c.trapPassContent.tiers.find(t=>t.id==='handy-sass').description="A physical Trap Pass, lifetime paid Trap Pass status, and monthly archive video clips. Keep your original holder identity.";

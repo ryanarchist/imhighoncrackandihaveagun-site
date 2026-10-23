@@ -20,3 +20,6 @@
 .eyes-exact-photo .eyes-night{display:none}
 .eyes-exact-photo .eyes-live-paper{left:350px;top:930px;width:470px;height:190px;transform:rotate(-2deg)}
 .eyes-exact-photo .eyes-mic-light{left:80px;top:875px;width:160px;height:180px}
+
+.eyes-scene-options{display:flex;align-items:center;justify-content:flex-end;gap:10px;flex-wrap:wrap}.eyes-scene-options a{display:inline-flex;align-items:center;min-height:46px;padding:10px 12px;color:#e5c89c;font:15px/1.3 var(--condensed);border:1px solid #765333;text-decoration:none}.eyes-intro .eyes-service{margin:16px 0 0;max-width:75ch;background:#1d140d;border-left-width:4px}.eyes-room{aspect-ratio:16/9}#eyes-inline-tools button[hidden]{display:none!important}
+@media(max-width:650px){.eyes-scene-options{justify-content:flex-start}.eyes-scene-options a{font-size:13px;padding:8px}.eyes-intro .eyes-service{font-size:15px!important}.eyes-room{aspect-ratio:auto}}
